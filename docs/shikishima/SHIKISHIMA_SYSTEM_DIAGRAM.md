@@ -111,4 +111,25 @@ Updating matrices, templates, and runbooks is documentation-only. It does not
 approve WSL, Hermes, wrapper, RunPod, StackChan, git push, GO, or production
 readiness.
 
+## Documentation Review / Approval Separation Flow
+
+```mermaid
+flowchart TD
+  Docs["Docs created"]
+  Review["Human documentation review"]
+  Decision["approved_for_documentation / needs_revision / rejected"]
+  Reference["If approved_for_documentation: docs can be treated as reference"]
+  Hold["Execution still remains HOLD"]
+  GO["Separate scoped GO required for execution"]
+
+  Docs --> Review --> Decision --> Reference --> Hold --> GO
+```
+
+```mermaid
+flowchart LR
+  Commit["Commit approval"] --> Local["local commit only"]
+  Push["Push approval"] --> Remote["remote push only"]
+  Exec["Execution approval"] --> ScopedGO["separate scoped GO only"]
+```
+
 この範囲では問題を検出していません。

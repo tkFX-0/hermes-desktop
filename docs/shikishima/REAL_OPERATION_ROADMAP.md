@@ -2,12 +2,13 @@
 
 ## Update Status
 
-- roadmapVersion: v0.3.1
+- roadmapVersion: v0.4.0
 - lastUpdated: 2026-05-10
-- latestUpdate: Status label consistency and しるべ raw-value boundary hardened
+- latestUpdate: Human documentation review package added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - changelog: `ROADMAP_CHANGELOG.md`
 - phase review: `PHASE_REVIEW_MATRIX.md`
+- human review guide: `HUMAN_DOCUMENTATION_REVIEW_GUIDE.md`
 
 Every future roadmap-affecting change must visibly update
 `REAL_OPERATION_ROADMAP.html`, `ROADMAP_CHANGELOG.md`, `roadmapVersion`,
@@ -27,8 +28,22 @@ Every future roadmap-affecting change must visibly update
 
 This roadmap is static documentation only. It is not execution approval.
 
-v0.3.1 aligns visible phase status labels with canonical status names and
-hardens the しるべ raw-value boundary. It does not approve execution.
+v0.4.0 adds human documentation review checklists and approval separation
+policy. Documentation approval is not execution approval.
+
+Execution approval requires a separate scoped GO decision.
+
+## Human Review Package
+
+v0.4.0 adds:
+
+- `HUMAN_DOCUMENTATION_REVIEW_GUIDE.md`
+- `PHASE_3_APPROVAL_CHECKLIST.md`
+- `PHASE_4_APPROVAL_CHECKLIST.md`
+- `PHASE_5_APPROVAL_CHECKLIST.md`
+- `PHASE_6_TO_10_PRE_EXECUTION_REVIEW_CHECKLIST.md`
+- `DOCUMENTATION_APPROVAL_RECORD_TEMPLATE.md`
+- `EXECUTION_APPROVAL_SEPARATION_POLICY.md`
 
 ## Phase 0 — Current HOLD Baseline
 
@@ -87,6 +102,7 @@ Review support added in v0.3.0:
 - `PHASE_REVIEW_MATRIX.md`
 - `AGENT_NAMES_ROLES_AND_PERMISSIONS.md` approval matrix
 - `PHASE_3_AGENT_PERMISSION_REVIEW.md`
+- `PHASE_3_APPROVAL_CHECKLIST.md`
 
 ## Phase 4 — Model Router Policy
 
@@ -97,6 +113,7 @@ Review support added in v0.3.0:
 - `MODEL_ROUTER_REVIEW_MATRIX.md`
 - explicit rule that model selection is not execution approval
 - `PHASE_4_MODEL_ROUTER_REVIEW.md`
+- `PHASE_4_APPROVAL_CHECKLIST.md`
 
 Default:
 
@@ -116,6 +133,7 @@ Review support added in v0.3.0:
 - `SHIZUME_DECISION_MATRIX.md`
 - explicit default HOLD and scoped human approval rules
 - `PHASE_5_SHIZUME_POLICY_REVIEW.md`
+- `PHASE_5_APPROVAL_CHECKLIST.md`
 
 ## Phase 6 — つむぎ Implementation Workflow
 
@@ -185,6 +203,7 @@ Draft docs added in v0.3.0:
 - `HUMAN_GO_APPROVAL_CHECKLIST.md`
 - `NO_GO_CHECKLIST.md`
 - `FIRST_SUPERVISED_OPERATION_LOG_TEMPLATE.md`
+- `PHASE_6_TO_10_PRE_EXECUTION_REVIEW_CHECKLIST.md`
 
 Phase 10 remains not approved for execution and requires separate explicit
 human GO approval.

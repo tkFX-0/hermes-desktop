@@ -37,4 +37,20 @@ If a phase is approved for documentation, it still does not approve execution,
 external network, WSL, Hermes, wrapper/dummy, RunPod, StackChan, git push, or
 production readiness.
 
+## Documentation / Execution Approval Separation
+
+| Phase | documentationReviewStatus | executionApprovalStatus | nextHumanAction |
+|---:|---|---|---|
+| 3 | review_ready_for_human_approval | not_approved_for_execution | review `PHASE_3_APPROVAL_CHECKLIST.md` |
+| 4 | review_ready_for_human_approval | not_approved_for_execution | review `PHASE_4_APPROVAL_CHECKLIST.md` |
+| 5 | review_ready_for_human_approval | not_approved_for_execution | review `PHASE_5_APPROVAL_CHECKLIST.md` |
+| 6 | draft_created | not_approved_for_execution | review つむぎ workflow docs |
+| 7 | draft_created | not_approved_for_execution | review しるべ logging docs |
+| 8 | draft_created | not_approved_for_execution | review device boundary docs |
+| 9 | draft_created | not_approved_for_execution | review StackChan expression-only docs |
+| 10 | draft_created | not_approved_for_execution | review minimum operation runbook draft |
+
+Documentation review may result in reviewed, approved_for_documentation,
+needs_revision, or rejected. None of those states enable execution.
+
 この範囲では問題を検出していません。

@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v0.3.1
+- roadmapVersion: v0.4.0
 - lastUpdated: 2026-05-10
-- latestUpdate: Status label consistency and しるべ raw-value boundary hardened
+- latestUpdate: Human documentation review package added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,17 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v0.4.0 — Human Documentation Review Package
+
+- Added human documentation review guide.
+- Added Phase 3, Phase 4, and Phase 5 approval checklists.
+- Added Phase 6-10 pre-execution review checklist.
+- Added documentation approval record template.
+- Added execution approval separation policy.
+- HOLD remains current.
+- execution remains disabled.
+- no GO approval.
 
 ## v0.3.1 — Status Label Consistency Hardening
 

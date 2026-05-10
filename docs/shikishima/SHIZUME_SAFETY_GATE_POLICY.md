@@ -77,4 +77,7 @@ Approval for docs is not approval for execution. Approval for commit is not
 approval for push. Slot confirmation and packaging readiness are not execution
 approval.
 
+See `EXECUTION_APPROVAL_SEPARATION_POLICY.md` for the v0.4.0 approval
+separation package. A documentation approval record cannot change HOLD to GO.
+
 この範囲では問題を検出していません。

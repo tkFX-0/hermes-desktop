@@ -96,6 +96,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
     <nav class="nav" aria-label="sections">
       <button class="active" data-section="roadmap">フェーズ一覧</button>
       <button data-section="changelog">更新履歴</button>
+      <button data-section="human-review">Human Review Package</button>
       <button data-section="agents">5エージェント</button>
       <button data-section="router">Model Router</button>
       <button data-section="devices">デバイス役割</button>
@@ -112,7 +113,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">roadmapVersion: v0.3.1</span>
+        <span class="chip ok">roadmapVersion: v0.4.0</span>
         <span class="chip ok">lastUpdated: 2026-05-10</span>
       </div>
     </header>
@@ -121,12 +122,12 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div class="card status-card">
           <h2>更新ステータス</h2>
           <div class="kv">
-            <div>roadmapVersion</div><div><code>v0.3.1</code></div>
+            <div>roadmapVersion</div><div><code>v0.4.0</code></div>
             <div>lastUpdated</div><div><code>2026-05-10</code></div>
-            <div>latestUpdate</div><div>Status label consistency and しるべ raw-value boundary hardened</div>
+            <div>latestUpdate</div><div>Human documentation review package added</div>
             <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
             <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
-            <div>v0.3.1 note</div><div>v0.3.1 aligns visible phase labels with canonical status names. It does not approve execution.</div>
+            <div>v0.4.0 note</div><div>v0.4.0 adds human documentation review checklists. Documentation approval is not execution approval.</div>
           </div>
         </div>
         <h2>フェーズ一覧</h2>
@@ -144,6 +145,19 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       </section>
       <section id="changelog">
         <h2>更新履歴 / Changelog</h2>
+        <div class="card">
+          <h3>v0.4.0 — Human documentation review package</h3>
+          <ul>
+            <li>Added Human Review Package section.</li>
+            <li>Added Phase 3, Phase 4, and Phase 5 approval checklists.</li>
+            <li>Added Phase 6-10 pre-execution review checklist.</li>
+            <li>Added documentation approval record template.</li>
+            <li>Added execution approval separation policy.</li>
+            <li>Documentation approval is not execution approval.</li>
+            <li>Execution approval requires a separate scoped GO decision.</li>
+            <li>HOLD remains current; execution remains disabled; no GO approval.</li>
+          </ul>
+        </div>
         <div class="card">
           <h3>v0.3.1 — Status label consistency hardening</h3>
           <ul>
@@ -190,6 +204,37 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
             <li>Added forbidden actions.</li>
             <li>HOLD remains current.</li>
           </ul>
+        </div>
+      </section>
+      <section id="human-review">
+        <h2>Human Review Package</h2>
+        <div class="card status-card">
+          <h3>Documentation review only</h3>
+          <p>Documentation approval is not execution approval.</p>
+          <p>Execution approval requires a separate scoped GO decision.</p>
+          <p>Current status remains: decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false.</p>
+        </div>
+        <div class="card">
+          <h3>Review package docs</h3>
+          <ul>
+            <li>HUMAN_DOCUMENTATION_REVIEW_GUIDE.md</li>
+            <li>PHASE_3_APPROVAL_CHECKLIST.md</li>
+            <li>PHASE_4_APPROVAL_CHECKLIST.md</li>
+            <li>PHASE_5_APPROVAL_CHECKLIST.md</li>
+            <li>PHASE_6_TO_10_PRE_EXECUTION_REVIEW_CHECKLIST.md</li>
+            <li>DOCUMENTATION_APPROVAL_RECORD_TEMPLATE.md</li>
+            <li>EXECUTION_APPROVAL_SEPARATION_POLICY.md</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Phase review status</h3>
+          <table>
+            <tr><th>Phase</th><th>Documentation status</th><th>Execution status</th></tr>
+            <tr><td>Phase 3</td><td>review_ready_for_human_approval</td><td>not_approved_for_execution</td></tr>
+            <tr><td>Phase 4</td><td>review_ready_for_human_approval</td><td>not_approved_for_execution</td></tr>
+            <tr><td>Phase 5</td><td>review_ready_for_human_approval</td><td>not_approved_for_execution</td></tr>
+            <tr><td>Phase 6-10</td><td>draft_created / documentation_only</td><td>not_approved_for_execution</td></tr>
+          </table>
         </div>
       </section>
       <section id="agents">
@@ -288,7 +333,7 @@ const phases = [
 const grid = document.getElementById("phaseGrid");
 grid.innerHTML = phases.map((phase) => {
   const badgeClass = phase.status === "HOLD" ? "hold" : phase.status === "current" ? "current" : "pending";
-  const updateBadge = phase.updated ? '<span class="update-badge">updated in v0.3.1</span>' : "";
+  const updateBadge = phase.updated ? '<span class="update-badge">updated in v0.4.0</span>' : "";
   const canonical = phase.canonical ? `<li>canonical status: ${phase.canonical}</li>` : "";
   return `<article class="phase ${phase.updated ? "updated" : ""}"><div><span class="phase-num">Phase ${phase.num}</span><span class="badge ${badgeClass}">${phase.status}</span>${updateBadge}</div><div class="phase-title">${phase.title}</div><p class="role">${phase.goal}</p><ul>${canonical}<li>decision remains HOLD</li><li>execution remains disabled</li><li>documentation approval is not execution approval</li></ul></article>`;
 }).join("");

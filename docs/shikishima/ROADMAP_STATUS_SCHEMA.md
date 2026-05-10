@@ -16,6 +16,11 @@ and does not require tooling.
 | rawValuesReported | raw-value reporting status | false |
 | updatedPhases | phases changed in latest update | Phase 3, Phase 4, Phase 5, Phase 6, Phase 7, Phase 8, Phase 9, Phase 10 |
 | reviewStatuses | human review state by phase | see `PHASE_REVIEW_MATRIX.md` |
+| documentationReviewStatus | docs review state | review_ready_for_human_approval or draft_created |
+| executionApprovalStatus | execution approval state | not_approved_for_execution |
+| approvalScope | scope of approval | documentation_only unless separately approved |
+| nextHumanReviewPackage | next review bundle | Human Documentation Review Package |
+| separateGoRequired | whether execution requires scoped GO | true |
 
 ## Status Values
 
@@ -27,6 +32,11 @@ and does not require tooling.
 | not_approved_for_execution | execution remains disabled |
 | blocked_by_execution_gate | cannot proceed without separate scoped approval |
 | human_go_required | explicit human GO is required before any future execution |
+
+## Approval Separation Fields
+
+These fields are human-readable documentation status only. They do not create
+runtime behavior, execution permission, or production readiness.
 
 ## Rule
 

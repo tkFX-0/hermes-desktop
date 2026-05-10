@@ -42,7 +42,7 @@
 
 ## Notes
 
-Do not include raw local-only values, secrets, raw command output, or screenshots
+Do not include raw local-only values, credentials, raw command output, or screenshots
 with private values.
 
 この範囲では問題を検出していません。

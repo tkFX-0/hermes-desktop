@@ -48,6 +48,13 @@ network flow.
 - `HUMAN_GO_APPROVAL_CHECKLIST.md` - future scoped GO checklist.
 - `NO_GO_CHECKLIST.md` - stop/no-go checklist.
 - `FIRST_SUPERVISED_OPERATION_LOG_TEMPLATE.md` - first supervised operation log template.
+- `HUMAN_DOCUMENTATION_REVIEW_GUIDE.md` - safe human documentation review guide.
+- `PHASE_3_APPROVAL_CHECKLIST.md` - Phase 3 documentation approval checklist.
+- `PHASE_4_APPROVAL_CHECKLIST.md` - Phase 4 documentation approval checklist.
+- `PHASE_5_APPROVAL_CHECKLIST.md` - Phase 5 documentation approval checklist.
+- `PHASE_6_TO_10_PRE_EXECUTION_REVIEW_CHECKLIST.md` - pre-execution review checklist.
+- `DOCUMENTATION_APPROVAL_RECORD_TEMPLATE.md` - manual documentation approval record.
+- `EXECUTION_APPROVAL_SEPARATION_POLICY.md` - approval separation policy.
 
 ## How To Review
 
@@ -58,14 +65,17 @@ network flow.
 5. Review `SHIZUME_DECISION_MATRIX.md`.
 6. Review `MODEL_ROUTER_REVIEW_MATRIX.md`.
 7. Review the Phase 3-10 packages added in v0.3.0.
+8. Review `HUMAN_DOCUMENTATION_REVIEW_GUIDE.md`.
+9. Use the Phase 3/4/5 approval checklists.
+10. Use `EXECUTION_APPROVAL_SEPARATION_POLICY.md` to avoid scope confusion.
 
 If the roadmap is updated, the HTML must visibly show that it was updated.
 Every roadmap-affecting change must update the visible HTML changelog and
 `ROADMAP_CHANGELOG.md`.
 
-v0.3.1 aligns visible phase status labels with canonical status names and
-hardens the しるべ raw-value boundary. It is not GO and does not approve
-execution.
+v0.4.0 adds the human documentation review package. Documentation approval is
+not execution approval, and execution approval requires a separate scoped GO
+decision.
 
 ## Naming Rules
 
