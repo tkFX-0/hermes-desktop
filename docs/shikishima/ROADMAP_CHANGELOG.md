@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v0.4.0
+- roadmapVersion: v0.5.0
 - lastUpdated: 2026-05-10
-- latestUpdate: Human documentation review package added
+- latestUpdate: Explorer-style static dashboard added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,19 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v0.5.0 — Explorer-Style Static Dashboard
+
+- Added Explorer-style Dashboard.
+- Added Agent Directory dashboard design.
+- Added Human Review Queue design.
+- Added しるべ Knowledge Index design.
+- Added Development Tempo dashboard design.
+- Added Safe Progress Views.
+- HOLD remains current.
+- execution remains disabled.
+- no external API.
+- no autonomous execution.
 
 ## v0.4.0 — Human Documentation Review Package
 

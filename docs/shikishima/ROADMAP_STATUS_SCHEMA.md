@@ -21,6 +21,12 @@ and does not require tooling.
 | approvalScope | scope of approval | documentation_only unless separately approved |
 | nextHumanReviewPackage | next review bundle | Human Documentation Review Package |
 | separateGoRequired | whether execution requires scoped GO | true |
+| protocolStatus | dashboard protocol status | HOLD / disabled / false flags |
+| agentDirectoryStatus | agent directory dashboard state | static_display_only |
+| humanReviewQueueStatus | human review queue state | pending_review |
+| knowledgeIndexStatus | しるべ index state | redacted_static_index |
+| developmentTempoStatus | tempo dashboard state | docs_only_summary |
+| safeProgressViewStatus | progress view state | non_competitive_static |
 
 ## Status Values
 

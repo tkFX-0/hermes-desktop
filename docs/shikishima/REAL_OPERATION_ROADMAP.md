@@ -2,9 +2,9 @@
 
 ## Update Status
 
-- roadmapVersion: v0.4.0
+- roadmapVersion: v0.5.0
 - lastUpdated: 2026-05-10
-- latestUpdate: Human documentation review package added
+- latestUpdate: Explorer-style static dashboard added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - changelog: `ROADMAP_CHANGELOG.md`
 - phase review: `PHASE_REVIEW_MATRIX.md`
@@ -32,6 +32,22 @@ v0.4.0 adds human documentation review checklists and approval separation
 policy. Documentation approval is not execution approval.
 
 Execution approval requires a separate scoped GO decision.
+
+## Explorer-Style Dashboard
+
+v0.5.0 adds a static dashboard section inspired only by high-level information
+architecture patterns. It includes:
+
+- Protocol Status.
+- Agent Directory.
+- Human Review Queue.
+- しるべ Knowledge Index.
+- Current Tempo.
+- Safe Progress Views.
+
+It adds no wallet, no token system, no marketplace mechanics, no reward
+mechanics, no earning mechanics, no autonomous task execution, and no external
+API integration.
 
 ## Human Review Package
 

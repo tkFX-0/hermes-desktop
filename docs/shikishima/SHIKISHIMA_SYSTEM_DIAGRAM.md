@@ -132,4 +132,25 @@ flowchart LR
   Exec["Execution approval"] --> ScopedGO["separate scoped GO only"]
 ```
 
+## Explorer-Style Dashboard Information Flow
+
+```mermaid
+flowchart TD
+  Docs["Docs / review matrices / templates"]
+  Dashboard["Explorer-style Dashboard"]
+  Queue["Human review queue"]
+  Decision["Documentation decision"]
+  Hold["Execution remains HOLD unless separate scoped GO is granted"]
+
+  Docs --> Dashboard --> Queue --> Decision --> Hold
+```
+
+Dashboard non-goals:
+
+- no wallet.
+- no token system.
+- no marketplace.
+- no autonomous reward flow.
+- no external API.
+
 この範囲では問題を検出していません。

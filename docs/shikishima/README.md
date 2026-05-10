@@ -55,6 +55,12 @@ network flow.
 - `PHASE_6_TO_10_PRE_EXECUTION_REVIEW_CHECKLIST.md` - pre-execution review checklist.
 - `DOCUMENTATION_APPROVAL_RECORD_TEMPLATE.md` - manual documentation approval record.
 - `EXECUTION_APPROVAL_SEPARATION_POLICY.md` - approval separation policy.
+- `EXPLORER_DASHBOARD_DESIGN.md` - Explorer-style static dashboard design.
+- `AGENT_DIRECTORY_DASHBOARD.md` - Agent Directory dashboard design.
+- `HUMAN_REVIEW_QUEUE_DESIGN.md` - Human Review Queue design.
+- `SHIRUBE_KNOWLEDGE_INDEX_DESIGN.md` - しるべ Knowledge Index design.
+- `DEVELOPMENT_TEMPO_DASHBOARD.md` - Development Tempo dashboard design.
+- `SAFE_PROGRESS_VIEWS.md` - safe non-competitive progress views.
 
 ## How To Review
 
@@ -69,13 +75,23 @@ network flow.
 9. Use the Phase 3/4/5 approval checklists.
 10. Use `EXECUTION_APPROVAL_SEPARATION_POLICY.md` to avoid scope confusion.
 
+Explorer dashboard review order:
+
+1. Open `REAL_OPERATION_ROADMAP.html`.
+2. Check v0.5.0 Explorer-style Dashboard.
+3. Review `EXPLORER_DASHBOARD_DESIGN.md`.
+4. Review `AGENT_DIRECTORY_DASHBOARD.md`.
+5. Review `HUMAN_REVIEW_QUEUE_DESIGN.md`.
+6. Review `SHIRUBE_KNOWLEDGE_INDEX_DESIGN.md`.
+7. Review `DEVELOPMENT_TEMPO_DASHBOARD.md`.
+8. Review `SAFE_PROGRESS_VIEWS.md`.
+
 If the roadmap is updated, the HTML must visibly show that it was updated.
 Every roadmap-affecting change must update the visible HTML changelog and
 `ROADMAP_CHANGELOG.md`.
 
-v0.4.0 adds the human documentation review package. Documentation approval is
-not execution approval, and execution approval requires a separate scoped GO
-decision.
+v0.5.0 adds the Explorer-style static dashboard. It is design/reference only,
+not GO, not execution approval, and not external integration.
 
 ## Naming Rules
 
