@@ -5,6 +5,11 @@
 This plan keeps StackChan as a future expression-only device. It is not the
 brain of the system and it is not approved for motion or control.
 
+v0.6.0 aligns the future visual direction with the minimal dot-line face system.
+StackChan adaptation is display-only planning: eyes, mouth, and tiny symbols are
+prioritized, while face outline, torso, costume, bust-up avatar, physical
+motion, servo control, and robot control remain outside approval.
+
 Current state:
 
 - decision: HOLD
@@ -34,8 +39,20 @@ Current state:
 
 - neutral expression display.
 - status-only mouth/eye state.
+- minimal dot-line face parts.
+- simplified mouth states for a small display.
+- simplified eye states for center/closed/side.
 - no identity.
 - no autonomous motion.
 - no cloud by default.
+- no physical motion approval.
+- no servo control approval.
+
+## Current Preferred Face Direction
+
+`AGENT_DOT_LINE_FACE_SYSTEM.md` is the current preferred face design direction.
+`STACKCHAN_FACE_DISPLAY_ADAPTATION.md` describes the future display-only
+adaptation boundary. Neither document approves StackChan control or robot
+motion.
 
 この範囲では問題を検出していません。

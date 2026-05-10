@@ -2,9 +2,9 @@
 
 ## Update Status
 
-- roadmapVersion: v0.5.0
-- lastUpdated: 2026-05-10
-- latestUpdate: Explorer-style static dashboard added
+- roadmapVersion: v0.6.0
+- lastUpdated: 2026-05-11
+- latestUpdate: Minimal dot-line face expression system added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - changelog: `ROADMAP_CHANGELOG.md`
 - phase review: `PHASE_REVIEW_MATRIX.md`
@@ -48,6 +48,29 @@ architecture patterns. It includes:
 It adds no wallet, no token system, no marketplace mechanics, no reward
 mechanics, no earning mechanics, no autonomous task execution, and no external
 API integration.
+
+## Minimal Dot-Line Face System
+
+v0.6.0 adds the current preferred face expression direction for the Shikishima
+agents.
+
+The current direction is:
+
+- dot-and-line based.
+- face-parts only.
+- no face outline.
+- no torso.
+- no costume.
+- no full body or bust-up avatar.
+- lots of whitespace.
+- tiny optional color accents only.
+- smartphone display-only for future UI planning.
+- future StackChan display-only adaptation only.
+
+v0.6.0 supersedes the costume-heavy bust-up avatar direction for current face
+design. Mouth-flap and eye-gaze concepts are design-only and are not runtime
+implementation. This update does not approve StackChan control, robot motion,
+GO, or production readiness.
 
 ## Human Review Package
 

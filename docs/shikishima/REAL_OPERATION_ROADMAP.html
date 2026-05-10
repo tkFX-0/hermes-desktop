@@ -97,6 +97,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       <button class="active" data-section="roadmap">フェーズ一覧</button>
       <button data-section="changelog">更新履歴</button>
       <button data-section="explorer-dashboard">Explorer Dashboard</button>
+      <button data-section="minimal-face">Dot-Line Face</button>
       <button data-section="human-review">Human Review Package</button>
       <button data-section="agents">5エージェント</button>
       <button data-section="router">Model Router</button>
@@ -114,8 +115,8 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">roadmapVersion: v0.5.0</span>
-        <span class="chip ok">lastUpdated: 2026-05-10</span>
+        <span class="chip ok">roadmapVersion: v0.6.0</span>
+        <span class="chip ok">lastUpdated: 2026-05-11</span>
       </div>
     </header>
     <div class="content">
@@ -123,12 +124,12 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div class="card status-card">
           <h2>更新ステータス</h2>
           <div class="kv">
-            <div>roadmapVersion</div><div><code>v0.5.0</code></div>
-            <div>lastUpdated</div><div><code>2026-05-10</code></div>
-            <div>latestUpdate</div><div>Explorer-style static dashboard added</div>
+            <div>roadmapVersion</div><div><code>v0.6.0</code></div>
+            <div>lastUpdated</div><div><code>2026-05-11</code></div>
+            <div>latestUpdate</div><div>Minimal dot-line face expression system added</div>
             <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
             <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
-            <div>v0.5.0 note</div><div>v0.5.0 adds a static Explorer-style dashboard. It does not approve execution.</div>
+            <div>v0.6.0 note</div><div>v0.6.0 adds a minimal dot-line face expression system. It does not approve runtime implementation, StackChan control, robot motion, or execution.</div>
           </div>
         </div>
         <h2>フェーズ一覧</h2>
@@ -146,6 +147,19 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       </section>
       <section id="changelog">
         <h2>更新履歴 / Changelog</h2>
+        <div class="card">
+          <h3>v0.6.0 — Minimal dot-line face expression system</h3>
+          <ul>
+            <li>Added minimal dot-line face system.</li>
+            <li>Replaced the current preferred direction away from costume-heavy bust-up avatar design.</li>
+            <li>Added mouth-flap animation concept.</li>
+            <li>Added eye gaze / blink animation concept.</li>
+            <li>Added tiny symbol system.</li>
+            <li>Added smartphone face display plan.</li>
+            <li>Added future StackChan display adaptation notes.</li>
+            <li>HOLD remains current; execution remains disabled; no StackChan control approval; no robot motion approval.</li>
+          </ul>
+        </div>
         <div class="card">
           <h3>v0.5.0 — Explorer-style static dashboard</h3>
           <ul>
@@ -275,8 +289,8 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
           <div class="card">
             <h3>Current Tempo</h3>
             <div class="kv">
-              <div>roadmapVersion</div><div><code>v0.5.0</code></div>
-              <div>latestUpdate</div><div>Explorer-style static dashboard added</div>
+              <div>roadmapVersion</div><div><code>v0.6.0</code></div>
+              <div>latestUpdate</div><div>Minimal dot-line face expression system added</div>
               <div>docs-only commits</div><div>completed locally</div>
               <div>current next human action</div><div>review Explorer-style dashboard design</div>
               <div>HOLD reason</div><div>documentation approval and execution approval remain separate</div>
@@ -296,6 +310,66 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div class="card">
           <h3>Explicit non-goals</h3>
           <p>No wallet, no token system, no price section, no reward mechanics, no earning mechanics, no marketplace mechanics, no autonomous task execution, and no external API.</p>
+        </div>
+      </section>
+      <section id="minimal-face">
+        <h2>Minimal Dot-Line Face System</h2>
+        <div class="card status-card">
+          <h3>Current preferred face direction</h3>
+          <p>v0.6.0 supersedes the costume-heavy bust-up avatar direction for current face design. The preferred direction is face-parts only: no face outline, no torso, no costume, no full body, lots of whitespace, small black or near-black strokes, and tiny optional color accents.</p>
+          <p>This face design does not approve StackChan control or robot motion.</p>
+          <p>Mouth and eye animation concepts are design-only and not runtime implementation.</p>
+        </div>
+        <div class="card">
+          <h3>Design rules</h3>
+          <ul>
+            <li>no face outline</li>
+            <li>no torso</li>
+            <li>no costume</li>
+            <li>face-parts only</li>
+            <li>tiny symbols per agent</li>
+            <li>future mouth-flap design only</li>
+            <li>future gaze/blink design only</li>
+            <li>smartphone display-only</li>
+            <li>future StackChan display adaptation only</li>
+            <li>robot motion remains HOLD</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Agent face identities</h3>
+          <table>
+            <tr><th>Agent</th><th>Role</th><th>Tiny symbol</th><th>Default expression</th><th>Accent</th></tr>
+            <tr><td>しきしま / しき</td><td>orchestrator</td><td>center node / orbit dot</td><td>calm dot eyes, tiny soft smile</td><td>blue</td></tr>
+            <tr><td>しずめ</td><td>safety gate</td><td>HOLD bar / gate line</td><td>thin horizontal eyes, flat calm mouth</td><td>blue-green</td></tr>
+            <tr><td>つむぎ / つむ</td><td>implementation</td><td>thread curve</td><td>slightly larger dot eyes, focused mouth</td><td>amber/orange</td></tr>
+            <tr><td>はじめ</td><td>planning</td><td>tiny arrow / first-step mark</td><td>upward-looking dot eyes, small bright smile</td><td>green</td></tr>
+            <tr><td>しるべ</td><td>records and navigation</td><td>bookmark / star-dot</td><td>half-moon eyes, tiny calm smile</td><td>violet</td></tr>
+          </table>
+        </div>
+        <div class="grid">
+          <div class="card">
+            <h3>Mouth concept</h3>
+            <ul>
+              <li>mouth_closed</li>
+              <li>mouth_small</li>
+              <li>mouth_mid</li>
+              <li>mouth_open</li>
+              <li>mouth_round_o</li>
+              <li>mouth_smile_talk</li>
+              <li>mouth_flat</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Eye concept</h3>
+            <ul>
+              <li>eyes_center</li>
+              <li>eyes_left / eyes_right</li>
+              <li>eyes_up / eyes_down</li>
+              <li>eyes_closed / eyes_half_closed</li>
+              <li>eyes_look_away</li>
+              <li>eyes_focus</li>
+            </ul>
+          </div>
         </div>
       </section>
       <section id="human-review">
@@ -425,7 +499,7 @@ const phases = [
 const grid = document.getElementById("phaseGrid");
 grid.innerHTML = phases.map((phase) => {
   const badgeClass = phase.status === "HOLD" ? "hold" : phase.status === "current" ? "current" : "pending";
-  const updateBadge = phase.updated ? '<span class="update-badge">updated in v0.5.0</span>' : "";
+  const updateBadge = phase.updated ? '<span class="update-badge">updated in v0.6.0</span>' : "";
   const canonical = phase.canonical ? `<li>canonical status: ${phase.canonical}</li>` : "";
   return `<article class="phase ${phase.updated ? "updated" : ""}"><div><span class="phase-num">Phase ${phase.num}</span><span class="badge ${badgeClass}">${phase.status}</span>${updateBadge}</div><div class="phase-title">${phase.title}</div><p class="role">${phase.goal}</p><ul>${canonical}<li>decision remains HOLD</li><li>execution remains disabled</li><li>documentation approval is not execution approval</li></ul></article>`;
 }).join("");

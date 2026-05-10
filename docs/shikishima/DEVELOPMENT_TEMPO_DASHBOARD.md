@@ -20,8 +20,8 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v0.5.0
-- latestUpdate: Explorer-style static dashboard added
+- roadmapVersion: v0.6.0
+- latestUpdate: Minimal dot-line face expression system added
 - docs-only commits completed: local docs commits exist
 - current next human action: review Explorer-style dashboard design
 - HOLD reason: documentation approval and execution approval remain separate

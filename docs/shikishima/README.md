@@ -44,6 +44,14 @@ network flow.
 - `STACKCHAN_EXPRESSION_ONLY_PLAN.md` - StackChan expression-only plan.
 - `STACKCHAN_SAFETY_BOUNDARY.md` - robot safety boundary.
 - `FACE_TERMINAL_EXPRESSION_PROTOCOL_DRAFT.md` - non-executable expression protocol draft.
+- `AGENT_DOT_LINE_FACE_SYSTEM.md` - current minimal dot-line face system.
+- `MINIMAL_FACE_EXPRESSION_STATES.md` - design-only expression states.
+- `MOUTH_FLAP_ANIMATION_CONCEPT.md` - future mouth-flap concept.
+- `EYE_GAZE_ANIMATION_CONCEPT.md` - future gaze and blink concept.
+- `AGENT_TINY_SYMBOLS.md` - tiny symbol identity system.
+- `SMARTPHONE_FACE_DISPLAY_PLAN.md` - smartphone display-only face plan.
+- `STACKCHAN_FACE_DISPLAY_ADAPTATION.md` - future StackChan display-only adaptation.
+- `FACE_DESIGN_SAFETY_BOUNDARY.md` - face design approval boundary.
 - `MINIMUM_OPERATION_RUNBOOK_DRAFT.md` - Phase 10 runbook draft.
 - `HUMAN_GO_APPROVAL_CHECKLIST.md` - future scoped GO checklist.
 - `NO_GO_CHECKLIST.md` - stop/no-go checklist.
@@ -86,12 +94,25 @@ Explorer dashboard review order:
 7. Review `DEVELOPMENT_TEMPO_DASHBOARD.md`.
 8. Review `SAFE_PROGRESS_VIEWS.md`.
 
+Minimal dot-line face system review order:
+
+1. Review `AGENT_DOT_LINE_FACE_SYSTEM.md`.
+2. Review `MINIMAL_FACE_EXPRESSION_STATES.md`.
+3. Review `MOUTH_FLAP_ANIMATION_CONCEPT.md`.
+4. Review `EYE_GAZE_ANIMATION_CONCEPT.md`.
+5. Review `AGENT_TINY_SYMBOLS.md`.
+6. Review `SMARTPHONE_FACE_DISPLAY_PLAN.md`.
+7. Review `STACKCHAN_FACE_DISPLAY_ADAPTATION.md`.
+8. Review `FACE_DESIGN_SAFETY_BOUNDARY.md`.
+
 If the roadmap is updated, the HTML must visibly show that it was updated.
 Every roadmap-affecting change must update the visible HTML changelog and
 `ROADMAP_CHANGELOG.md`.
 
-v0.5.0 adds the Explorer-style static dashboard. It is design/reference only,
-not GO, not execution approval, and not external integration.
+v0.6.0 adds the minimal dot-line face expression system. It supersedes the
+costume-heavy bust-up avatar direction for current face design. It is
+documentation/design only, not runtime implementation, not StackChan control,
+not robot motion approval, not GO, and not production readiness.
 
 ## Naming Rules
 

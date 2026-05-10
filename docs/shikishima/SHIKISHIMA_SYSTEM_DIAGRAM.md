@@ -153,4 +153,27 @@ Dashboard non-goals:
 - no autonomous reward flow.
 - no external API.
 
+## Minimal Dot-Line Face Display Flow
+
+```mermaid
+flowchart TD
+  State["Agent state / expression state"]
+  Face["Dot-line face design"]
+  Phone["Smartphone display-only UI"]
+  StackChanDisplay["Future StackChan display-only adaptation"]
+  Hold["Robot motion remains HOLD"]
+
+  State --> Face --> Phone --> StackChanDisplay --> Hold
+```
+
+Face display safety notes:
+
+- no camera upload.
+- no face recognition.
+- no user emotion inference.
+- no autonomous motion.
+- no robot control approval.
+- no microphone automation.
+- mouth and eye animation concepts are design-only.
+
 この範囲では問題を検出していません。

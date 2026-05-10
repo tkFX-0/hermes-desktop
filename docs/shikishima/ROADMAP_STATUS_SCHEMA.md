@@ -7,9 +7,9 @@ and does not require tooling.
 
 | Field | Meaning | Current value |
 |---|---|---|
-| roadmapVersion | visible roadmap version | v0.3.0 |
-| lastUpdated | visible update date | 2026-05-10 |
-| latestUpdate | short update summary | HOLD-safe full phase implementation loop added |
+| roadmapVersion | visible roadmap version | v0.6.0 |
+| lastUpdated | visible update date | 2026-05-11 |
+| latestUpdate | short update summary | Minimal dot-line face expression system added |
 | currentDecision | current project decision | HOLD |
 | executionStatus | execution gate state | disabled |
 | productionReady | production readiness flag | false |
@@ -27,6 +27,13 @@ and does not require tooling.
 | knowledgeIndexStatus | しるべ index state | redacted_static_index |
 | developmentTempoStatus | tempo dashboard state | docs_only_summary |
 | safeProgressViewStatus | progress view state | non_competitive_static |
+| faceDesignStatus | face design state | current_preferred_direction_documented |
+| currentFaceDesignDirection | current face design direction | minimal_dot_line_face_parts_only |
+| mouthAnimationConceptStatus | mouth animation concept state | design_only |
+| eyeGazeAnimationConceptStatus | eye gaze concept state | design_only |
+| smartphoneFaceDisplayStatus | smartphone face display state | design_only_display_plan |
+| stackchanFaceDisplayStatus | StackChan face display state | future_display_only_plan |
+| robotMotionApprovalStatus | robot motion approval state | not_approved |
 
 ## Status Values
 

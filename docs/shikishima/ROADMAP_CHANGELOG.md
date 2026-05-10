@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v0.5.0
-- lastUpdated: 2026-05-10
-- latestUpdate: Explorer-style static dashboard added
+- roadmapVersion: v0.6.0
+- lastUpdated: 2026-05-11
+- latestUpdate: Minimal dot-line face expression system added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,20 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v0.6.0 — Minimal Dot-Line Face Expression System
+
+- Added minimal dot-line face system.
+- Replaced current preferred direction away from costume-heavy bust-up avatar design.
+- Added mouth-flap animation concept.
+- Added eye gaze / blink animation concept.
+- Added tiny symbol system.
+- Added smartphone face display plan.
+- Added future StackChan display adaptation notes.
+- HOLD remains current.
+- execution remains disabled.
+- no StackChan control approval.
+- no robot motion approval.
 
 ## v0.5.0 — Explorer-Style Static Dashboard
 

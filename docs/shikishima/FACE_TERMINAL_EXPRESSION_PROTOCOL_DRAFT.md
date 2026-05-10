@@ -2,37 +2,38 @@
 
 ## Purpose
 
-This is a non-executable draft for a future expression protocol. It is not a
-runtime schema, implementation approval, or robot control approval.
+This is a non-executable design draft for future face-display planning. It is
+not a runtime contract, implementation approval, device command format, or robot
+control approval.
 
-## Draft Message Shape
+v0.6.0 aligns this draft with the minimal dot-line face direction: face parts
+only, no face outline, no torso, no costume, and no bust-up avatar requirement.
 
-```json
-{
-  "type": "expression",
-  "face": "neutral",
-  "mouth": "idle",
-  "eyes": "center",
-  "message": "HOLD"
-}
-```
+## Design-Only Sample Fields
 
-## Allowed Values Draft
+These fields are examples for review language only. They are not implementation
+ready and must not be sent to a device.
 
-| Field | Draft examples | Notes |
+| Field | Design-only examples | Notes |
 |---|---|---|
-| type | expression | expression-only |
-| face | neutral, listening, thinking | no identity |
-| mouth | idle, small_smile | no speech synthesis implied |
-| eyes | center, blink | no camera tracking implied |
-| message | HOLD, review, idle | status text only |
+| agentId | shikishima, shizume, tsumugi, hajime, shirube | ASCII ID only |
+| expressionState | idle, thinking, speaking, listening, hold | visual state |
+| mouthState | mouth_closed, mouth_small, mouth_mid, mouth_round_o, mouth_flat | no speech synthesis implied |
+| eyeState | eyes_center, eyes_closed, eyes_half_closed, eyes_focus | no camera tracking implied |
+| gazeDirection | center, left, right, up, down, look_away | design-only movement label |
+| blinkState | open, half_closed, closed | future display concept only |
+| tinySymbol | orbit_dot, gate_line, thread_curve, arrow_mark, bookmark_dot | tiny identity mark |
+| accentColor | blue, blue_green, amber_orange, green, violet | subtle color accent |
+| safetyNote | display_only_hold | execution remains disabled |
 
 ## Boundary
 
 - Documentation only.
-- Not runtime schema.
-- Not implementation approval.
+- Not runtime implementation.
+- Not a device command.
 - Not StackChan firmware approval.
 - Not robot motion approval.
+- Not camera, microphone, or identity recognition approval.
+- Not production readiness.
 
 この範囲では問題を検出していません。
