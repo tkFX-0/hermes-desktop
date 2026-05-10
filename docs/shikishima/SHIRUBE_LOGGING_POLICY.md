@@ -42,4 +42,7 @@ Current state:
 しるべ is a guide and record keeper, not an execution agent. It must not run
 commands, enable execution, or approve GO.
 
+しるべ cannot store raw values.
+しるべはraw値を保存してはいけない。
+
 この範囲では問題を検出していません。

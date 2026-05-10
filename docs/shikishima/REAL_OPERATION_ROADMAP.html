@@ -112,7 +112,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">roadmapVersion: v0.3.0</span>
+        <span class="chip ok">roadmapVersion: v0.3.1</span>
         <span class="chip ok">lastUpdated: 2026-05-10</span>
       </div>
     </header>
@@ -121,19 +121,38 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div class="card status-card">
           <h2>更新ステータス</h2>
           <div class="kv">
-            <div>roadmapVersion</div><div><code>v0.3.0</code></div>
+            <div>roadmapVersion</div><div><code>v0.3.1</code></div>
             <div>lastUpdated</div><div><code>2026-05-10</code></div>
-            <div>latestUpdate</div><div>HOLD-safe full phase implementation loop added</div>
+            <div>latestUpdate</div><div>Status label consistency and しるべ raw-value boundary hardened</div>
             <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
             <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
-            <div>v0.3.0 note</div><div>v0.3.0 advances review/runbook/template readiness only. It does not approve execution.</div>
+            <div>v0.3.1 note</div><div>v0.3.1 aligns visible phase labels with canonical status names. It does not approve execution.</div>
           </div>
         </div>
         <h2>フェーズ一覧</h2>
+        <div class="card">
+          <h3>Phase status legend</h3>
+          <table>
+            <tr><th>UI label</th><th>Canonical status</th><th>Execution implication</th></tr>
+            <tr><td>review_ready</td><td>review_ready_for_human_approval</td><td>not_approved_for_execution</td></tr>
+            <tr><td>draft_created</td><td>draft_created / documentation_only</td><td>not_approved_for_execution</td></tr>
+            <tr><td>robot_execution_HOLD</td><td>draft_created / documentation_only / robot_execution_HOLD</td><td>not_approved_for_execution</td></tr>
+            <tr><td>runbook_draft_created</td><td>requires_separate_GO / not_approved_for_execution</td><td>execution remains disabled</td></tr>
+          </table>
+        </div>
         <div id="phaseGrid" class="grid"></div>
       </section>
       <section id="changelog">
         <h2>更新履歴 / Changelog</h2>
+        <div class="card">
+          <h3>v0.3.1 — Status label consistency hardening</h3>
+          <ul>
+            <li>Added visible status legend mapping UI labels to canonical phase statuses.</li>
+            <li>Added canonical phase status text to Phase 3-10 cards.</li>
+            <li>Hardened しるべ raw-value storage boundary wording.</li>
+            <li>HOLD remains current; execution remains disabled; no GO approval.</li>
+          </ul>
+        </div>
         <div class="card">
           <h3>v0.3.0 — HOLD-safe full phase implementation loop</h3>
           <ul>
@@ -257,20 +276,21 @@ const phases = [
   { num:"0", status:"HOLD", title:"現在の HOLD ベースライン", goal:"HOLDを明確化し、何が整っていないかをドキュメント化する。" },
   { num:"1", status:"current", title:"命名と最終ビジョン文書", goal:"全エージェント名・役割・ニックネームルールを最終確定する。" },
   { num:"2", status:"current", title:"静的HTML ロードマップ", goal:"静的HTMLでロードマップとタスクを可視化する。実行機能なし。" },
-  { num:"3", status:"review_ready", title:"エージェント役割とパーミッション", goal:"各エージェントの権限・制限・通信ルールを設計する。", updated:true },
-  { num:"4", status:"review_ready", title:"Model Router ポリシー", goal:"Model Router のルーティングポリシーを文書化・確定する。", updated:true },
-  { num:"5", status:"review_ready", title:"しずめ Safety Gate ポリシー", goal:"GO / HOLD / REJECT 判定ルールを完全定義する。", updated:true },
-  { num:"6", status:"draft_created", title:"つむぎ 実装ワークフロー", goal:"安全に実装タスクを処理するワークフローを設計する。", updated:true },
-  { num:"7", status:"draft_created", title:"しるべ ログテンプレート", goal:"ログ形式・ハンドオフ・サマリーテンプレートを整備する。", updated:true },
-  { num:"8", status:"draft_created", title:"デバイス役割計画", goal:"全デバイスの役割・接続ルール・使用条件を最終確定する。", updated:true },
-  { num:"9", status:"robot_execution_HOLD", title:"StackChan 表情専用計画", goal:"表情・表現のみに限定した安全な接続計画を作成する。", updated:true },
-  { num:"10", status:"runbook_draft_created", title:"人間監督下の最低限実運用", goal:"全フェーズ完了後、人間監督のもとで最小限の実運用を開始する。", updated:true }
+  { num:"3", status:"review_ready", canonical:"review_ready_for_human_approval", title:"エージェント役割とパーミッション", goal:"各エージェントの権限・制限・通信ルールを設計する。", updated:true },
+  { num:"4", status:"review_ready", canonical:"review_ready_for_human_approval", title:"Model Router ポリシー", goal:"Model Router のルーティングポリシーを文書化・確定する。", updated:true },
+  { num:"5", status:"review_ready", canonical:"review_ready_for_human_approval", title:"しずめ Safety Gate ポリシー", goal:"GO / HOLD / REJECT 判定ルールを完全定義する。", updated:true },
+  { num:"6", status:"draft_created", canonical:"draft_created / documentation_only", title:"つむぎ 実装ワークフロー", goal:"安全に実装タスクを処理するワークフローを設計する。", updated:true },
+  { num:"7", status:"draft_created", canonical:"draft_created / documentation_only", title:"しるべ ログテンプレート", goal:"ログ形式・ハンドオフ・サマリーテンプレートを整備する。", updated:true },
+  { num:"8", status:"draft_created", canonical:"draft_created / documentation_only", title:"デバイス役割計画", goal:"全デバイスの役割・接続ルール・使用条件を最終確定する。", updated:true },
+  { num:"9", status:"robot_execution_HOLD", canonical:"draft_created / documentation_only / robot_execution_HOLD", title:"StackChan 表情専用計画", goal:"表情・表現のみに限定した安全な接続計画を作成する。", updated:true },
+  { num:"10", status:"runbook_draft_created", canonical:"requires_separate_GO / not_approved_for_execution", title:"人間監督下の最低限実運用", goal:"全フェーズ完了後、人間監督のもとで最小限の実運用を開始する。", updated:true }
 ];
 const grid = document.getElementById("phaseGrid");
 grid.innerHTML = phases.map((phase) => {
   const badgeClass = phase.status === "HOLD" ? "hold" : phase.status === "current" ? "current" : "pending";
-  const updateBadge = phase.updated ? '<span class="update-badge">updated in v0.3.0</span>' : "";
-  return `<article class="phase ${phase.updated ? "updated" : ""}"><div><span class="phase-num">Phase ${phase.num}</span><span class="badge ${badgeClass}">${phase.status}</span>${updateBadge}</div><div class="phase-title">${phase.title}</div><p class="role">${phase.goal}</p><ul><li>decision remains HOLD</li><li>execution remains disabled</li><li>documentation approval is not execution approval</li></ul></article>`;
+  const updateBadge = phase.updated ? '<span class="update-badge">updated in v0.3.1</span>' : "";
+  const canonical = phase.canonical ? `<li>canonical status: ${phase.canonical}</li>` : "";
+  return `<article class="phase ${phase.updated ? "updated" : ""}"><div><span class="phase-num">Phase ${phase.num}</span><span class="badge ${badgeClass}">${phase.status}</span>${updateBadge}</div><div class="phase-title">${phase.title}</div><p class="role">${phase.goal}</p><ul>${canonical}<li>decision remains HOLD</li><li>execution remains disabled</li><li>documentation approval is not execution approval</li></ul></article>`;
 }).join("");
 document.querySelectorAll(".nav button").forEach((button) => {
   button.addEventListener("click", () => {

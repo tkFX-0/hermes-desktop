@@ -63,8 +63,9 @@ If the roadmap is updated, the HTML must visibly show that it was updated.
 Every roadmap-affecting change must update the visible HTML changelog and
 `ROADMAP_CHANGELOG.md`.
 
-v0.3.0 advances review, runbook, and template readiness only. It is not GO and
-does not approve execution.
+v0.3.1 aligns visible phase status labels with canonical status names and
+hardens the しるべ raw-value boundary. It is not GO and does not approve
+execution.
 
 ## Naming Rules
 

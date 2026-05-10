@@ -2,9 +2,9 @@
 
 ## Update Status
 
-- roadmapVersion: v0.3.0
+- roadmapVersion: v0.3.1
 - lastUpdated: 2026-05-10
-- latestUpdate: HOLD-safe full phase implementation loop added
+- latestUpdate: Status label consistency and しるべ raw-value boundary hardened
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - changelog: `ROADMAP_CHANGELOG.md`
 - phase review: `PHASE_REVIEW_MATRIX.md`
@@ -27,8 +27,8 @@ Every future roadmap-affecting change must visibly update
 
 This roadmap is static documentation only. It is not execution approval.
 
-v0.3.0 advances review, runbook, and template readiness only. It does not
-approve execution.
+v0.3.1 aligns visible phase status labels with canonical status names and
+hardens the しるべ raw-value boundary. It does not approve execution.
 
 ## Phase 0 — Current HOLD Baseline
 
