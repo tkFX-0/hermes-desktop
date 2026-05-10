@@ -104,4 +104,10 @@ Forbidden:
   separate approval.
 - Approval for docs is not approval for execution.
 
+## Phase 3 Review Package
+
+See `PHASE_3_AGENT_PERMISSION_REVIEW.md` for the human review package added in
+v0.3.0. Phase 3 is review_ready_for_human_approval, but it is not approved for
+execution.
+
 この範囲では問題を検出していません。

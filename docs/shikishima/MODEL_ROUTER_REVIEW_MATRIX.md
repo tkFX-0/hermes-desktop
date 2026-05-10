@@ -39,3 +39,9 @@ selection is not execution approval and cannot override しずめ.
 - しずめ is required for risk escalation.
 
 この範囲では問題を検出していません。
+
+## v0.3.0 Review Readiness
+
+Phase 4 is review_ready_for_human_approval. This matrix is still a policy
+document only. It does not implement runtime routing, connect cloud models, or
+approve execution.

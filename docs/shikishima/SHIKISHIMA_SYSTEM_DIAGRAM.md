@@ -88,4 +88,27 @@ flowchart TD
 Safety gate flow remains unchanged. Updating the roadmap does not open the
 execution gate.
 
+## v0.3.0 Phase Package Flow
+
+```mermaid
+flowchart TD
+  P3["Phase 3 permission review package"]
+  P4["Phase 4 Model Router review package"]
+  P5["Phase 5 しずめ decision package"]
+  P6["Phase 6-10 templates and runbooks"]
+  Human["Human review"]
+  Gate["しずめ scoped safety review"]
+  Hold["HOLD remains until explicit future GO"]
+
+  P3 --> Human
+  P4 --> Human
+  P5 --> Human
+  P6 --> Human
+  Human --> Gate --> Hold
+```
+
+Updating matrices, templates, and runbooks is documentation-only. It does not
+approve WSL, Hermes, wrapper, RunPod, StackChan, git push, GO, or production
+readiness.
+
 この範囲では問題を検出していません。

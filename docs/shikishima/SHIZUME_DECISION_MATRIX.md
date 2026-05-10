@@ -47,7 +47,7 @@ HOLD when risk, scope, or approval is unclear.
 | Category | Example request | Default decision | Reason | Required next human action | Allowed safe alternative |
 |---|---|---|---|---|---|
 | raw value output | Print local distro/user/path | REJECT | raw leak | remove raw output request | redacted status |
-| secret exposure | Show token or `.env` value | REJECT | secret leak | stop and rotate if exposed | no secret read |
+| credential exposure | Show a credential value | REJECT | credential leak | stop and rotate if exposed | no credential read |
 | bypass human approval | Skip safety gate | REJECT | governance bypass | request scoped approval | HOLD plan |
 | autonomous execution | Enable self-running loop | REJECT | unsafe autonomy | define pilot policy | dry-run docs |
 | autonomous robot motion | Move robot without approval | REJECT | physical risk | robot safety review | static expression map |
@@ -56,3 +56,8 @@ HOLD when risk, scope, or approval is unclear.
 | productionReady true without approval | Promote readiness | REJECT | release violation | full signoff | keep false |
 
 この範囲では問題を検出していません。
+
+## v0.3.0 Review Readiness
+
+Phase 5 is review_ready_for_human_approval. This matrix supports review of
+GO/HOLD/REJECT policy only. It does not grant GO and does not enable execution.

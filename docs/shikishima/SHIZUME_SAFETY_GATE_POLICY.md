@@ -67,4 +67,14 @@ REJECT applies when:
 - GO transition.
 - `productionReady: true`.
 
+## Phase 5 Review Package
+
+See `PHASE_5_SHIZUME_POLICY_REVIEW.md` for the v0.3.0 review package. しずめ can
+block and classify, but cannot grant high-risk GO alone. The default remains
+HOLD.
+
+Approval for docs is not approval for execution. Approval for commit is not
+approval for push. Slot confirmation and packaging readiness are not execution
+approval.
+
 この範囲では問題を検出していません。

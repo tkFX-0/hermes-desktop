@@ -48,4 +48,13 @@ RunPod is not a default tier; it is an explicitly approved external GPU room.
 - productionReady: false
 - rawValuesReported: false
 
+## Phase 4 Review Package
+
+See `PHASE_4_MODEL_ROUTER_REVIEW.md` for the v0.3.0 review package. The package
+is documentation-only and does not implement a runtime router, connect models,
+or approve execution.
+
+RunPod is not a default tier. It is an explicitly approved external GPU room.
+Model Router cannot override しずめ.
+
 この範囲では問題を検出していません。

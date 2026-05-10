@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v0.2.0
+- roadmapVersion: v0.3.0
 - lastUpdated: 2026-05-10
-- latestUpdate: Phase 2.5-5 review matrices and update visibility added
+- latestUpdate: HOLD-safe full phase implementation loop added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,20 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v0.3.0 — HOLD-Safe Full Phase Implementation Loop
+
+- Added Phase 3 permission review package.
+- Added Phase 4 Model Router review package.
+- Added Phase 5 しずめ review package.
+- Added Phase 6 つむぎ workflow docs.
+- Added Phase 7 しるべ logging templates.
+- Added Phase 8 device boundary docs.
+- Added Phase 9 StackChan expression-only plan.
+- Added Phase 10 minimum operation runbook draft.
+- HOLD remains current.
+- execution remains disabled.
+- no GO approval.
 
 ## v0.2.0 — Phase 2.5-5 Review Support
 

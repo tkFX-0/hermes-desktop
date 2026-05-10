@@ -27,6 +27,27 @@ network flow.
 - `SHIZUME_DECISION_MATRIX.md` - GO / HOLD / REJECT decision matrix.
 - `SHIKISHIMA_SYSTEM_DIAGRAM.md` - system diagrams in Mermaid and ASCII.
 - `ROADMAP_STATUS_SCHEMA.md` - human-readable status schema.
+- `PHASE_3_AGENT_PERMISSION_REVIEW.md` - Phase 3 human review package.
+- `PHASE_4_MODEL_ROUTER_REVIEW.md` - Phase 4 Model Router review package.
+- `PHASE_5_SHIZUME_POLICY_REVIEW.md` - Phase 5 しずめ policy review package.
+- `TSUMUGI_IMPLEMENTATION_WORKFLOW.md` - Phase 6 non-execution workflow.
+- `TSUMUGI_TASK_TEMPLATE.md` - つむぎ task intake template.
+- `TSUMUGI_SAFE_PATCH_CHECKLIST.md` - safe patch checklist.
+- `SHIRUBE_LOGGING_POLICY.md` - redacted logging policy.
+- `SHIRUBE_HANDOFF_TEMPLATE.md` - handoff template.
+- `DAILY_WORKLOG_TEMPLATE.md` - daily worklog template.
+- `OBSIDIAN_READY_NOTE_TEMPLATE.md` - manual Obsidian-ready note template.
+- `DEVICE_ROLES_AND_BOUNDARIES.md` - device role policy.
+- `DEDICATED_DEVICE_PLAN.md` - optional dedicated device plan.
+- `IPHONE_REVIEW_DEVICE_POLICY.md` - iPhone review-only policy.
+- `ANDROID_FACE_TERMINAL_PLAN.md` - Android face terminal plan.
+- `STACKCHAN_EXPRESSION_ONLY_PLAN.md` - StackChan expression-only plan.
+- `STACKCHAN_SAFETY_BOUNDARY.md` - robot safety boundary.
+- `FACE_TERMINAL_EXPRESSION_PROTOCOL_DRAFT.md` - non-executable expression protocol draft.
+- `MINIMUM_OPERATION_RUNBOOK_DRAFT.md` - Phase 10 runbook draft.
+- `HUMAN_GO_APPROVAL_CHECKLIST.md` - future scoped GO checklist.
+- `NO_GO_CHECKLIST.md` - stop/no-go checklist.
+- `FIRST_SUPERVISED_OPERATION_LOG_TEMPLATE.md` - first supervised operation log template.
 
 ## How To Review
 
@@ -36,10 +57,14 @@ network flow.
 4. Review `PHASE_REVIEW_MATRIX.md`.
 5. Review `SHIZUME_DECISION_MATRIX.md`.
 6. Review `MODEL_ROUTER_REVIEW_MATRIX.md`.
+7. Review the Phase 3-10 packages added in v0.3.0.
 
 If the roadmap is updated, the HTML must visibly show that it was updated.
 Every roadmap-affecting change must update the visible HTML changelog and
 `ROADMAP_CHANGELOG.md`.
+
+v0.3.0 advances review, runbook, and template readiness only. It is not GO and
+does not approve execution.
 
 ## Naming Rules
 

@@ -112,7 +112,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">roadmapVersion: v0.2.0</span>
+        <span class="chip ok">roadmapVersion: v0.3.0</span>
         <span class="chip ok">lastUpdated: 2026-05-10</span>
       </div>
     </header>
@@ -121,11 +121,12 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div class="card status-card">
           <h2>更新ステータス</h2>
           <div class="kv">
-            <div>roadmapVersion</div><div><code>v0.2.0</code></div>
+            <div>roadmapVersion</div><div><code>v0.3.0</code></div>
             <div>lastUpdated</div><div><code>2026-05-10</code></div>
-            <div>latestUpdate</div><div>Phase 2.5-5 review matrices and update visibility added</div>
+            <div>latestUpdate</div><div>HOLD-safe full phase implementation loop added</div>
             <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
             <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
+            <div>v0.3.0 note</div><div>v0.3.0 advances review/runbook/template readiness only. It does not approve execution.</div>
           </div>
         </div>
         <h2>フェーズ一覧</h2>
@@ -133,6 +134,20 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       </section>
       <section id="changelog">
         <h2>更新履歴 / Changelog</h2>
+        <div class="card">
+          <h3>v0.3.0 — HOLD-safe full phase implementation loop</h3>
+          <ul>
+            <li>Added Phase 3 permission review package.</li>
+            <li>Added Phase 4 Model Router review package.</li>
+            <li>Added Phase 5 しずめ review package.</li>
+            <li>Added Phase 6 つむぎ workflow docs.</li>
+            <li>Added Phase 7 しるべ logging templates.</li>
+            <li>Added Phase 8 device boundary docs.</li>
+            <li>Added Phase 9 StackChan expression-only plan.</li>
+            <li>Added Phase 10 minimum operation runbook draft.</li>
+            <li>HOLD remains current; execution remains disabled; no GO approval.</li>
+          </ul>
+        </div>
         <div class="card">
           <h3>v0.2.0 — Phase 2.5-5 review support</h3>
           <ul>
@@ -242,19 +257,19 @@ const phases = [
   { num:"0", status:"HOLD", title:"現在の HOLD ベースライン", goal:"HOLDを明確化し、何が整っていないかをドキュメント化する。" },
   { num:"1", status:"current", title:"命名と最終ビジョン文書", goal:"全エージェント名・役割・ニックネームルールを最終確定する。" },
   { num:"2", status:"current", title:"静的HTML ロードマップ", goal:"静的HTMLでロードマップとタスクを可視化する。実行機能なし。" },
-  { num:"3", status:"pending", title:"エージェント役割とパーミッション", goal:"各エージェントの権限・制限・通信ルールを設計する。", updated:true },
-  { num:"4", status:"pending", title:"Model Router ポリシー", goal:"Model Router のルーティングポリシーを文書化・確定する。", updated:true },
-  { num:"5", status:"pending", title:"しずめ Safety Gate ポリシー", goal:"GO / HOLD / REJECT 判定ルールを完全定義する。", updated:true },
-  { num:"6", status:"pending", title:"つむぎ 実装ワークフロー", goal:"安全に実装タスクを処理するワークフローを設計する。" },
-  { num:"7", status:"pending", title:"しるべ ログテンプレート", goal:"ログ形式・ハンドオフ・サマリーテンプレートを整備する。" },
-  { num:"8", status:"pending", title:"デバイス役割計画", goal:"全デバイスの役割・接続ルール・使用条件を最終確定する。" },
-  { num:"9", status:"pending", title:"StackChan 表情専用計画", goal:"表情・表現のみに限定した安全な接続計画を作成する。" },
-  { num:"10", status:"pending", title:"人間監督下の最低限実運用", goal:"全フェーズ完了後、人間監督のもとで最小限の実運用を開始する。" }
+  { num:"3", status:"review_ready", title:"エージェント役割とパーミッション", goal:"各エージェントの権限・制限・通信ルールを設計する。", updated:true },
+  { num:"4", status:"review_ready", title:"Model Router ポリシー", goal:"Model Router のルーティングポリシーを文書化・確定する。", updated:true },
+  { num:"5", status:"review_ready", title:"しずめ Safety Gate ポリシー", goal:"GO / HOLD / REJECT 判定ルールを完全定義する。", updated:true },
+  { num:"6", status:"draft_created", title:"つむぎ 実装ワークフロー", goal:"安全に実装タスクを処理するワークフローを設計する。", updated:true },
+  { num:"7", status:"draft_created", title:"しるべ ログテンプレート", goal:"ログ形式・ハンドオフ・サマリーテンプレートを整備する。", updated:true },
+  { num:"8", status:"draft_created", title:"デバイス役割計画", goal:"全デバイスの役割・接続ルール・使用条件を最終確定する。", updated:true },
+  { num:"9", status:"robot_execution_HOLD", title:"StackChan 表情専用計画", goal:"表情・表現のみに限定した安全な接続計画を作成する。", updated:true },
+  { num:"10", status:"runbook_draft_created", title:"人間監督下の最低限実運用", goal:"全フェーズ完了後、人間監督のもとで最小限の実運用を開始する。", updated:true }
 ];
 const grid = document.getElementById("phaseGrid");
 grid.innerHTML = phases.map((phase) => {
   const badgeClass = phase.status === "HOLD" ? "hold" : phase.status === "current" ? "current" : "pending";
-  const updateBadge = phase.updated ? '<span class="update-badge">updated in v0.2.0</span>' : "";
+  const updateBadge = phase.updated ? '<span class="update-badge">updated in v0.3.0</span>' : "";
   return `<article class="phase ${phase.updated ? "updated" : ""}"><div><span class="phase-num">Phase ${phase.num}</span><span class="badge ${badgeClass}">${phase.status}</span>${updateBadge}</div><div class="phase-title">${phase.title}</div><p class="role">${phase.goal}</p><ul><li>decision remains HOLD</li><li>execution remains disabled</li><li>documentation approval is not execution approval</li></ul></article>`;
 }).join("");
 document.querySelectorAll(".nav button").forEach((button) => {
