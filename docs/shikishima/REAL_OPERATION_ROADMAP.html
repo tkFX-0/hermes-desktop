@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>しきしま計画 — 実運用ロードマップ</title>
+<style>
+:root {
+  --bg0:#09090d;
+  --bg1:#111118;
+  --bg2:#17171f;
+  --bg3:#1e1e28;
+  --border:rgba(255,255,255,.08);
+  --text:#e4e4ef;
+  --sub:#9a9aae;
+  --dim:#55556a;
+  --accent:#7c6dfa;
+  --green:#34d399;
+  --amber:#fbbf24;
+  --red:#f87171;
+  --hold:#fb923c;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Sans","Yu Gothic",Meiryo,sans-serif;
+  --mono:"SF Mono","Cascadia Code",Consolas,monospace;
+}
+* { box-sizing:border-box; }
+body { margin:0; min-height:100vh; background:var(--bg0); color:var(--text); font-family:var(--font); line-height:1.65; }
+.app { display:grid; grid-template-columns:240px 1fr; min-height:100vh; }
+aside { position:sticky; top:0; height:100vh; background:var(--bg1); border-right:1px solid var(--border); padding:24px 16px; overflow:auto; }
+.logo { font-size:11px; letter-spacing:.2em; color:var(--sub); font-weight:800; text-transform:uppercase; }
+.side-title { font-size:18px; font-weight:850; margin-top:5px; }
+.hold { margin:18px 0; border:1px solid rgba(251,146,60,.35); color:var(--hold); background:rgba(251,146,60,.1); border-radius:10px; padding:9px 12px; text-align:center; font-size:12px; font-weight:800; letter-spacing:.08em; }
+.nav { display:flex; flex-direction:column; gap:5px; }
+.nav button { width:100%; border:0; border-radius:8px; background:transparent; color:var(--sub); padding:9px 10px; text-align:left; font:600 13px var(--font); cursor:pointer; }
+.nav button:hover,.nav button.active { background:var(--bg3); color:var(--text); }
+main { min-width:0; }
+header { padding:30px 42px 22px; border-bottom:1px solid var(--border); }
+h1 { margin:0 0 4px; font-size:25px; }
+.sub { color:var(--sub); font-size:13px; }
+.chips { display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
+.chip { border-radius:999px; padding:4px 11px; font-size:11px; font-weight:800; border:1px solid var(--border); }
+.chip.hold { margin:0; background:rgba(251,146,60,.1); color:var(--hold); border-color:rgba(251,146,60,.35); }
+.chip.off { background:rgba(248,113,113,.1); color:var(--red); border-color:rgba(248,113,113,.28); }
+.chip.ok { background:rgba(52,211,153,.1); color:var(--green); border-color:rgba(52,211,153,.28); }
+.chip.false { background:rgba(100,116,139,.12); color:#94a3b8; }
+.content { padding:34px 42px 80px; }
+section { display:none; }
+section.active { display:block; }
+.card { background:var(--bg1); border:1px solid var(--border); border-radius:14px; padding:20px 22px; margin:0 0 16px; }
+h2 { margin:0 0 16px; font-size:20px; }
+h3 { margin:18px 0 10px; font-size:15px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; }
+.agent,.device,.phase { background:var(--bg2); border:1px solid var(--border); border-radius:14px; padding:16px; }
+.name { font-weight:850; font-size:17px; }
+.nick { color:var(--dim); font-size:12px; margin-bottom:8px; }
+.role { color:var(--sub); font-size:13px; }
+.tag { display:inline-block; margin-top:10px; border:1px solid var(--border); border-radius:999px; padding:2px 8px; font:800 11px var(--mono); color:var(--accent); }
+.phase { position:relative; }
+.phase-num { color:var(--dim); font:800 11px var(--mono); letter-spacing:.08em; }
+.phase-title { font-size:15px; font-weight:850; margin:5px 0; }
+.badge { display:inline-block; border-radius:999px; padding:2px 8px; font-size:10px; font-weight:850; letter-spacing:.08em; margin-left:8px; }
+.badge.hold { color:var(--hold); background:rgba(251,146,60,.1); border:1px solid rgba(251,146,60,.28); }
+.badge.current { color:var(--accent); background:rgba(124,109,250,.12); border:1px solid rgba(124,109,250,.28); }
+.badge.plan { color:#94a3b8; background:rgba(100,116,139,.1); border:1px solid rgba(100,116,139,.24); }
+ul { margin:8px 0 0 18px; color:var(--sub); }
+li { margin:3px 0; }
+table { width:100%; border-collapse:collapse; font-size:13px; }
+th,td { text-align:left; padding:9px 10px; border-bottom:1px solid var(--border); vertical-align:top; }
+th { color:var(--sub); font-size:11px; text-transform:uppercase; letter-spacing:.1em; }
+pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid var(--border); border-radius:14px; padding:18px; color:var(--sub); font:12px/1.8 var(--mono); }
+.bad-list { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:10px; }
+.bad { border:1px solid rgba(248,113,113,.25); background:rgba(248,113,113,.1); color:var(--red); border-radius:10px; padding:10px 12px; font-weight:800; font-size:13px; }
+.verify { border-color:rgba(52,211,153,.25); }
+.verify strong { color:var(--green); }
+@media (max-width:760px) {
+  .app { display:block; }
+  aside { position:static; height:auto; border-right:0; border-bottom:1px solid var(--border); }
+  .nav { flex-direction:row; overflow:auto; }
+  .nav button { min-width:max-content; }
+  header,.content { padding-left:18px; padding-right:18px; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside>
+    <div class="logo">しきしま計画</div>
+    <div class="side-title">実運用ロードマップ</div>
+    <div class="hold">HOLD — 実行無効</div>
+    <nav class="nav" aria-label="sections">
+      <button class="active" data-section="roadmap">フェーズ一覧</button>
+      <button data-section="agents">5エージェント</button>
+      <button data-section="router">Model Router</button>
+      <button data-section="devices">デバイス役割</button>
+      <button data-section="diagram">システム図</button>
+      <button data-section="forbidden">禁止アクション</button>
+    </nav>
+  </aside>
+  <main>
+    <header>
+      <h1>しきしま計画 — 実運用ロードマップ</h1>
+      <div class="sub">静的ドキュメント / 実行機能なし / raw values hidden</div>
+      <div class="chips">
+        <span class="chip hold">decision: HOLD</span>
+        <span class="chip off">execution: disabled</span>
+        <span class="chip false">productionReady: false</span>
+        <span class="chip false">rawValuesReported: false</span>
+        <span class="chip ok">base: RTX 4070 12GB PC</span>
+        <span class="chip false">miniPC: deferred</span>
+        <span class="chip ok">model: local-first</span>
+        <span class="chip false">RunPod: on-demand only</span>
+      </div>
+    </header>
+    <div class="content">
+      <section id="roadmap" class="active">
+        <h2>フェーズ一覧</h2>
+        <div id="phaseGrid" class="grid"></div>
+      </section>
+      <section id="agents">
+        <h2>5エージェント</h2>
+        <div class="grid">
+          <div class="agent"><div class="name">しきしま</div><div class="nick">ニックネーム: しき</div><div class="role">メインオーケストレーター。ユーザーとの対話窓口。</div><span class="tag">orchestrator</span></div>
+          <div class="agent"><div class="name">しずめ</div><div class="nick">ニックネームなし</div><div class="role">Safety Gate。GO / HOLD / REJECT を判定。</div><span class="tag">safety</span></div>
+          <div class="agent"><div class="name">つむぎ</div><div class="nick">ニックネーム: つむ</div><div class="role">開発・実装エージェント。コード・仕様・テスト・ドキュメントを織る。</div><span class="tag">implementation</span></div>
+          <div class="agent"><div class="name">はじめ</div><div class="nick">ニックネームなし</div><div class="role">計画・起点エージェント。ロードマップと次の一手を整理。</div><span class="tag">planning</span></div>
+          <div class="agent"><div class="name">しるべ</div><div class="nick">ニックネームなし</div><div class="role">記録・知識・ナビゲーション。ハンドオフとサマリーを管理。</div><span class="tag">record</span></div>
+        </div>
+      </section>
+      <section id="router">
+        <h2>Model Router</h2>
+        <div class="card">
+          <p>エージェントはモデルを自由に選択しない。Model Router が taskType / riskLevel / privacyLevel / latencyBudget / qualityNeed / monthlyCostBudget / localOnlyDataIncluded / humanApprovalRequired に基づいて選ぶ。</p>
+        </div>
+        <table>
+          <tr><th>Tier</th><th>Use</th><th>Condition</th></tr>
+          <tr><td>rules_only</td><td>決定的チェック</td><td>高リスク / しずめ判定</td></tr>
+          <tr><td>local_light</td><td>低レイテンシ</td><td>軽量ローカル応答</td></tr>
+          <tr><td>local_medium</td><td>プライベート作業</td><td>local-only data included</td></tr>
+          <tr><td>cloud_mini</td><td>低コストクラウド</td><td>非機密 / 承認済み</td></tr>
+          <tr><td>cloud_reasoner</td><td>複雑推論</td><td>非機密 / 明示承認</td></tr>
+          <tr><td>Codex/GPT</td><td>コード作業</td><td>明示タスクのみ</td></tr>
+          <tr><td>RunPod</td><td>大型GPU実験</td><td>明示承認 / on-demand only</td></tr>
+        </table>
+      </section>
+      <section id="devices">
+        <h2>デバイス役割</h2>
+        <div class="grid">
+          <div class="device"><div class="name">RTX 4070 12GB PC</div><div class="role">メイン開発・ランタイムベース。</div></div>
+          <div class="device"><div class="name">Mini PC</div><div class="role">常時稼働が本当に必要な場合のみ検討。現時点では deferred。</div></div>
+          <div class="device"><div class="name">Lenovo TAB6</div><div class="role">表示モニター。</div></div>
+          <div class="device"><div class="name">Redmi 12</div><div class="role">顔・表情プロトタイプ端末。</div></div>
+          <div class="device"><div class="name">StackChan</div><div class="role">将来の物理表情ロボット。安全ゲートなしの自動動作は禁止。</div></div>
+          <div class="device"><div class="name">iPhone 15 Pro</div><div class="role">プライベート / 読み取り専用 / 承認メモ端末。</div></div>
+        </div>
+      </section>
+      <section id="diagram">
+        <h2>システム図</h2>
+        <pre>User
+  ↓
+しきしま / しき
+  ↓
+しずめ Safety Gate
+  ↓
+はじめ / つむぎ / しるべ
+  ↓
+Model Router
+  ↓
+rules_only / local_light / local_medium / cloud_mini / cloud_reasoner / Codex / RunPod</pre>
+        <pre>HOLD reasons:
+  - しずめ Safety Gate policy is not fully approved.
+  - agent permissions are not fully approved.
+  - Model Router policy is not fully approved.
+  - StackChan safety gate is not implemented.
+  - minimum human-supervised operation line is not approved.</pre>
+      </section>
+      <section id="forbidden">
+        <h2>禁止アクション</h2>
+        <div class="bad-list">
+          <div class="bad">WSL 実行</div><div class="bad">Hermes 実行</div><div class="bad">wrapper / dummy 実行</div><div class="bad">packaged smoke</div>
+          <div class="bad">RunPod 起動</div><div class="bad">StackChan / ロボット制御</div><div class="bad">install</div><div class="bad">external network</div>
+          <div class="bad">git push</div><div class="bad">GO 遷移</div><div class="bad">productionReady = true</div><div class="bad">raw value output</div>
+        </div>
+        <div class="card verify" style="margin-top:16px;">
+          <strong>検証方針:</strong> 外部URL/CDNなし、fetch/APIなし、コマンド入力なし、実行ボタンなし、生値なし。しき・つむのみニックネーム。
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+<script>
+const phases = [
+  ["0","HOLD","現在の HOLD ベースライン","HOLDを明確化し、何が整っていないかをドキュメント化する。"],
+  ["1","進行中","命名と最終ビジョン文書","全エージェント名・役割・ニックネームルールを最終確定する。"],
+  ["2","進行中","静的HTML ロードマップ","静的HTMLでロードマップとタスクを可視化する。実行機能なし。"],
+  ["3","予定","エージェント役割とパーミッション","各エージェントの権限・制限・通信ルールを設計する。"],
+  ["4","予定","Model Router ポリシー","Model Router のルーティングポリシーを文書化・確定する。"],
+  ["5","予定","しずめ Safety Gate ポリシー","GO / HOLD / REJECT 判定ルールを完全定義する。"],
+  ["6","予定","つむぎ 実装ワークフロー","安全に実装タスクを処理するワークフローを設計する。"],
+  ["7","予定","しるべ ログテンプレート","ログ形式・ハンドオフ・サマリーテンプレートを整備する。"],
+  ["8","予定","デバイス役割計画","全デバイスの役割・接続ルール・使用条件を最終確定する。"],
+  ["9","予定","StackChan 表情専用計画","表情・表現のみに限定した安全な接続計画を作成する。"],
+  ["10","予定","人間監督下の最低限実運用","全フェーズ完了後、人間監督のもとで最小限の実運用を開始する。"]
+];
+const grid = document.getElementById("phaseGrid");
+grid.innerHTML = phases.map(([num,status,title,goal]) => {
+  const badge = status === "HOLD" ? "hold" : status === "進行中" ? "current" : "plan";
+  return `<article class="phase"><div><span class="phase-num">Phase ${num}</span><span class="badge ${badge}">${status}</span></div><div class="phase-title">${title}</div><p class="role">${goal}</p><ul><li>decision remains HOLD</li><li>execution remains disabled</li><li>documentation only</li></ul></article>`;
+}).join("");
+document.querySelectorAll(".nav button").forEach((button) => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll(".nav button").forEach((x) => x.classList.remove("active"));
+    document.querySelectorAll("section").forEach((x) => x.classList.remove("active"));
+    button.classList.add("active");
+    document.getElementById(button.dataset.section).classList.add("active");
+  });
+});
+</script>
+</body>
+</html>
