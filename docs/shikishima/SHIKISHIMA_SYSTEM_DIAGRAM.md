@@ -70,4 +70,22 @@ Current HOLD reasons:
   - minimum human-supervised operation line is not approved.
 ```
 
+## Roadmap Update Flow
+
+```mermaid
+flowchart TD
+  Change["Roadmap/doc change"]
+  Docs["Update docs"]
+  Badge["Update REAL_OPERATION_ROADMAP.html version badge"]
+  Changelog["Update ROADMAP_CHANGELOG.md"]
+  Verify["Run static verification"]
+  Commit["Local commit only if approved"]
+  Push["Push only if separately approved"]
+
+  Change --> Docs --> Badge --> Changelog --> Verify --> Commit --> Push
+```
+
+Safety gate flow remains unchanged. Updating the roadmap does not open the
+execution gate.
+
 この範囲では問題を検出していません。

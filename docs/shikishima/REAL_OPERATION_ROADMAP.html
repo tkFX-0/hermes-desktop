@@ -9,11 +9,12 @@
   --bg0:#09090d;
   --bg1:#111118;
   --bg2:#17171f;
-  --bg3:#1e1e28;
+  --bg3:#1f1f2b;
   --border:rgba(255,255,255,.08);
-  --text:#e4e4ef;
+  --border2:rgba(255,255,255,.14);
+  --text:#e8e8f2;
   --sub:#9a9aae;
-  --dim:#55556a;
+  --dim:#5f6075;
   --accent:#7c6dfa;
   --green:#34d399;
   --amber:#fbbf24;
@@ -26,9 +27,9 @@
 body { margin:0; min-height:100vh; background:var(--bg0); color:var(--text); font-family:var(--font); line-height:1.65; }
 .app { display:grid; grid-template-columns:240px 1fr; min-height:100vh; }
 aside { position:sticky; top:0; height:100vh; background:var(--bg1); border-right:1px solid var(--border); padding:24px 16px; overflow:auto; }
-.logo { font-size:11px; letter-spacing:.2em; color:var(--sub); font-weight:800; text-transform:uppercase; }
+.logo { font-size:11px; letter-spacing:.18em; color:var(--sub); font-weight:800; text-transform:uppercase; }
 .side-title { font-size:18px; font-weight:850; margin-top:5px; }
-.hold { margin:18px 0; border:1px solid rgba(251,146,60,.35); color:var(--hold); background:rgba(251,146,60,.1); border-radius:10px; padding:9px 12px; text-align:center; font-size:12px; font-weight:800; letter-spacing:.08em; }
+.hold-pill { margin:18px 0; border:1px solid rgba(251,146,60,.35); color:var(--hold); background:rgba(251,146,60,.1); border-radius:10px; padding:9px 12px; text-align:center; font-size:12px; font-weight:800; letter-spacing:.08em; }
 .nav { display:flex; flex-direction:column; gap:5px; }
 .nav button { width:100%; border:0; border-radius:8px; background:transparent; color:var(--sub); padding:9px 10px; text-align:left; font:600 13px var(--font); cursor:pointer; }
 .nav button:hover,.nav button.active { background:var(--bg3); color:var(--text); }
@@ -38,7 +39,7 @@ h1 { margin:0 0 4px; font-size:25px; }
 .sub { color:var(--sub); font-size:13px; }
 .chips { display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
 .chip { border-radius:999px; padding:4px 11px; font-size:11px; font-weight:800; border:1px solid var(--border); }
-.chip.hold { margin:0; background:rgba(251,146,60,.1); color:var(--hold); border-color:rgba(251,146,60,.35); }
+.chip.hold { background:rgba(251,146,60,.1); color:var(--hold); border-color:rgba(251,146,60,.35); }
 .chip.off { background:rgba(248,113,113,.1); color:var(--red); border-color:rgba(248,113,113,.28); }
 .chip.ok { background:rgba(52,211,153,.1); color:var(--green); border-color:rgba(52,211,153,.28); }
 .chip.false { background:rgba(100,116,139,.12); color:#94a3b8; }
@@ -46,21 +47,23 @@ h1 { margin:0 0 4px; font-size:25px; }
 section { display:none; }
 section.active { display:block; }
 .card { background:var(--bg1); border:1px solid var(--border); border-radius:14px; padding:20px 22px; margin:0 0 16px; }
+.status-card { border-color:rgba(124,109,250,.32); background:linear-gradient(180deg,rgba(124,109,250,.09),rgba(17,17,24,.98)); }
 h2 { margin:0 0 16px; font-size:20px; }
 h3 { margin:18px 0 10px; font-size:15px; }
-.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:12px; }
 .agent,.device,.phase { background:var(--bg2); border:1px solid var(--border); border-radius:14px; padding:16px; }
+.phase.updated { border-color:rgba(124,109,250,.35); }
 .name { font-weight:850; font-size:17px; }
 .nick { color:var(--dim); font-size:12px; margin-bottom:8px; }
 .role { color:var(--sub); font-size:13px; }
-.tag { display:inline-block; margin-top:10px; border:1px solid var(--border); border-radius:999px; padding:2px 8px; font:800 11px var(--mono); color:var(--accent); }
-.phase { position:relative; }
+.tag,.update-badge { display:inline-block; margin-top:10px; border:1px solid var(--border); border-radius:999px; padding:2px 8px; font:800 11px var(--mono); color:var(--accent); }
+.update-badge { margin:0 0 0 8px; color:var(--amber); border-color:rgba(251,191,36,.35); background:rgba(251,191,36,.08); }
 .phase-num { color:var(--dim); font:800 11px var(--mono); letter-spacing:.08em; }
 .phase-title { font-size:15px; font-weight:850; margin:5px 0; }
 .badge { display:inline-block; border-radius:999px; padding:2px 8px; font-size:10px; font-weight:850; letter-spacing:.08em; margin-left:8px; }
 .badge.hold { color:var(--hold); background:rgba(251,146,60,.1); border:1px solid rgba(251,146,60,.28); }
 .badge.current { color:var(--accent); background:rgba(124,109,250,.12); border:1px solid rgba(124,109,250,.28); }
-.badge.plan { color:#94a3b8; background:rgba(100,116,139,.1); border:1px solid rgba(100,116,139,.24); }
+.badge.pending { color:#94a3b8; background:rgba(100,116,139,.1); border:1px solid rgba(100,116,139,.24); }
 ul { margin:8px 0 0 18px; color:var(--sub); }
 li { margin:3px 0; }
 table { width:100%; border-collapse:collapse; font-size:13px; }
@@ -71,12 +74,16 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
 .bad { border:1px solid rgba(248,113,113,.25); background:rgba(248,113,113,.1); color:var(--red); border-radius:10px; padding:10px 12px; font-weight:800; font-size:13px; }
 .verify { border-color:rgba(52,211,153,.25); }
 .verify strong { color:var(--green); }
+.kv { display:grid; grid-template-columns:190px 1fr; gap:8px 14px; font-size:13px; }
+.kv div:nth-child(odd) { color:var(--sub); font-weight:700; }
+.kv code { font-family:var(--mono); color:var(--text); }
 @media (max-width:760px) {
   .app { display:block; }
   aside { position:static; height:auto; border-right:0; border-bottom:1px solid var(--border); }
   .nav { flex-direction:row; overflow:auto; }
   .nav button { min-width:max-content; }
   header,.content { padding-left:18px; padding-right:18px; }
+  .kv { grid-template-columns:1fr; }
 }
 </style>
 </head>
@@ -85,9 +92,10 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
   <aside>
     <div class="logo">しきしま計画</div>
     <div class="side-title">実運用ロードマップ</div>
-    <div class="hold">HOLD — 実行無効</div>
+    <div class="hold-pill">HOLD — 実行無効</div>
     <nav class="nav" aria-label="sections">
       <button class="active" data-section="roadmap">フェーズ一覧</button>
+      <button data-section="changelog">更新履歴</button>
       <button data-section="agents">5エージェント</button>
       <button data-section="router">Model Router</button>
       <button data-section="devices">デバイス役割</button>
@@ -104,16 +112,51 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">base: RTX 4070 12GB PC</span>
-        <span class="chip false">miniPC: deferred</span>
-        <span class="chip ok">model: local-first</span>
-        <span class="chip false">RunPod: on-demand only</span>
+        <span class="chip ok">roadmapVersion: v0.2.0</span>
+        <span class="chip ok">lastUpdated: 2026-05-10</span>
       </div>
     </header>
     <div class="content">
       <section id="roadmap" class="active">
+        <div class="card status-card">
+          <h2>更新ステータス</h2>
+          <div class="kv">
+            <div>roadmapVersion</div><div><code>v0.2.0</code></div>
+            <div>lastUpdated</div><div><code>2026-05-10</code></div>
+            <div>latestUpdate</div><div>Phase 2.5-5 review matrices and update visibility added</div>
+            <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
+            <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
+          </div>
+        </div>
         <h2>フェーズ一覧</h2>
         <div id="phaseGrid" class="grid"></div>
+      </section>
+      <section id="changelog">
+        <h2>更新履歴 / Changelog</h2>
+        <div class="card">
+          <h3>v0.2.0 — Phase 2.5-5 review support</h3>
+          <ul>
+            <li>Added roadmap update visibility.</li>
+            <li>Added update/changelog section.</li>
+            <li>Added Phase Review Matrix references.</li>
+            <li>Added しずめ decision matrix references.</li>
+            <li>Added Model Router review matrix references.</li>
+            <li>HOLD remains current.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>v0.1.0 — Initial Shikishima roadmap docs</h3>
+          <ul>
+            <li>Added static roadmap HTML.</li>
+            <li>Added iPhone/mobile review view.</li>
+            <li>Added Phase 0-10 roadmap.</li>
+            <li>Added 5-agent map.</li>
+            <li>Added Model Router overview.</li>
+            <li>Added device role overview.</li>
+            <li>Added forbidden actions.</li>
+            <li>HOLD remains current.</li>
+          </ul>
+        </div>
       </section>
       <section id="agents">
         <h2>5エージェント</h2>
@@ -128,7 +171,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       <section id="router">
         <h2>Model Router</h2>
         <div class="card">
-          <p>エージェントはモデルを自由に選択しない。Model Router が taskType / riskLevel / privacyLevel / latencyBudget / qualityNeed / monthlyCostBudget / localOnlyDataIncluded / humanApprovalRequired に基づいて選ぶ。</p>
+          <p>エージェントはモデルを自由に選択しない。Model Router は `MODEL_ROUTER_REVIEW_MATRIX.md` のレビュー結果に従う。モデル選択は実行承認ではなく、しずめ Safety Gate を上書きできない。</p>
         </div>
         <table>
           <tr><th>Tier</th><th>Use</th><th>Condition</th></tr>
@@ -138,7 +181,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
           <tr><td>cloud_mini</td><td>低コストクラウド</td><td>非機密 / 承認済み</td></tr>
           <tr><td>cloud_reasoner</td><td>複雑推論</td><td>非機密 / 明示承認</td></tr>
           <tr><td>Codex/GPT</td><td>コード作業</td><td>明示タスクのみ</td></tr>
-          <tr><td>RunPod</td><td>大型GPU実験</td><td>明示承認 / on-demand only</td></tr>
+          <tr><td>External GPU room</td><td>大型GPU実験</td><td>明示承認 / on-demand only</td></tr>
         </table>
       </section>
       <section id="devices">
@@ -164,19 +207,27 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
   ↓
 Model Router
   ↓
-rules_only / local_light / local_medium / cloud_mini / cloud_reasoner / Codex / RunPod</pre>
-        <pre>HOLD reasons:
-  - しずめ Safety Gate policy is not fully approved.
-  - agent permissions are not fully approved.
-  - Model Router policy is not fully approved.
-  - StackChan safety gate is not implemented.
-  - minimum human-supervised operation line is not approved.</pre>
+rules_only / local_light / local_medium / cloud_mini / cloud_reasoner / Codex / External GPU room</pre>
+        <pre>Roadmap update flow:
+  Roadmap/doc change
+    ↓
+  Update docs
+    ↓
+  Update HTML version badge
+    ↓
+  Update ROADMAP_CHANGELOG.md
+    ↓
+  Run static verification
+    ↓
+  Local commit only if approved
+    ↓
+  Push only if separately approved</pre>
       </section>
       <section id="forbidden">
         <h2>禁止アクション</h2>
         <div class="bad-list">
           <div class="bad">WSL 実行</div><div class="bad">Hermes 実行</div><div class="bad">wrapper / dummy 実行</div><div class="bad">packaged smoke</div>
-          <div class="bad">RunPod 起動</div><div class="bad">StackChan / ロボット制御</div><div class="bad">install</div><div class="bad">external network</div>
+          <div class="bad">External GPU startup</div><div class="bad">StackChan / ロボット制御</div><div class="bad">install</div><div class="bad">external network</div>
           <div class="bad">git push</div><div class="bad">GO 遷移</div><div class="bad">productionReady = true</div><div class="bad">raw value output</div>
         </div>
         <div class="card verify" style="margin-top:16px;">
@@ -188,27 +239,28 @@ rules_only / local_light / local_medium / cloud_mini / cloud_reasoner / Codex / 
 </div>
 <script>
 const phases = [
-  ["0","HOLD","現在の HOLD ベースライン","HOLDを明確化し、何が整っていないかをドキュメント化する。"],
-  ["1","進行中","命名と最終ビジョン文書","全エージェント名・役割・ニックネームルールを最終確定する。"],
-  ["2","進行中","静的HTML ロードマップ","静的HTMLでロードマップとタスクを可視化する。実行機能なし。"],
-  ["3","予定","エージェント役割とパーミッション","各エージェントの権限・制限・通信ルールを設計する。"],
-  ["4","予定","Model Router ポリシー","Model Router のルーティングポリシーを文書化・確定する。"],
-  ["5","予定","しずめ Safety Gate ポリシー","GO / HOLD / REJECT 判定ルールを完全定義する。"],
-  ["6","予定","つむぎ 実装ワークフロー","安全に実装タスクを処理するワークフローを設計する。"],
-  ["7","予定","しるべ ログテンプレート","ログ形式・ハンドオフ・サマリーテンプレートを整備する。"],
-  ["8","予定","デバイス役割計画","全デバイスの役割・接続ルール・使用条件を最終確定する。"],
-  ["9","予定","StackChan 表情専用計画","表情・表現のみに限定した安全な接続計画を作成する。"],
-  ["10","予定","人間監督下の最低限実運用","全フェーズ完了後、人間監督のもとで最小限の実運用を開始する。"]
+  { num:"0", status:"HOLD", title:"現在の HOLD ベースライン", goal:"HOLDを明確化し、何が整っていないかをドキュメント化する。" },
+  { num:"1", status:"current", title:"命名と最終ビジョン文書", goal:"全エージェント名・役割・ニックネームルールを最終確定する。" },
+  { num:"2", status:"current", title:"静的HTML ロードマップ", goal:"静的HTMLでロードマップとタスクを可視化する。実行機能なし。" },
+  { num:"3", status:"pending", title:"エージェント役割とパーミッション", goal:"各エージェントの権限・制限・通信ルールを設計する。", updated:true },
+  { num:"4", status:"pending", title:"Model Router ポリシー", goal:"Model Router のルーティングポリシーを文書化・確定する。", updated:true },
+  { num:"5", status:"pending", title:"しずめ Safety Gate ポリシー", goal:"GO / HOLD / REJECT 判定ルールを完全定義する。", updated:true },
+  { num:"6", status:"pending", title:"つむぎ 実装ワークフロー", goal:"安全に実装タスクを処理するワークフローを設計する。" },
+  { num:"7", status:"pending", title:"しるべ ログテンプレート", goal:"ログ形式・ハンドオフ・サマリーテンプレートを整備する。" },
+  { num:"8", status:"pending", title:"デバイス役割計画", goal:"全デバイスの役割・接続ルール・使用条件を最終確定する。" },
+  { num:"9", status:"pending", title:"StackChan 表情専用計画", goal:"表情・表現のみに限定した安全な接続計画を作成する。" },
+  { num:"10", status:"pending", title:"人間監督下の最低限実運用", goal:"全フェーズ完了後、人間監督のもとで最小限の実運用を開始する。" }
 ];
 const grid = document.getElementById("phaseGrid");
-grid.innerHTML = phases.map(([num,status,title,goal]) => {
-  const badge = status === "HOLD" ? "hold" : status === "進行中" ? "current" : "plan";
-  return `<article class="phase"><div><span class="phase-num">Phase ${num}</span><span class="badge ${badge}">${status}</span></div><div class="phase-title">${title}</div><p class="role">${goal}</p><ul><li>decision remains HOLD</li><li>execution remains disabled</li><li>documentation only</li></ul></article>`;
+grid.innerHTML = phases.map((phase) => {
+  const badgeClass = phase.status === "HOLD" ? "hold" : phase.status === "current" ? "current" : "pending";
+  const updateBadge = phase.updated ? '<span class="update-badge">updated in v0.2.0</span>' : "";
+  return `<article class="phase ${phase.updated ? "updated" : ""}"><div><span class="phase-num">Phase ${phase.num}</span><span class="badge ${badgeClass}">${phase.status}</span>${updateBadge}</div><div class="phase-title">${phase.title}</div><p class="role">${phase.goal}</p><ul><li>decision remains HOLD</li><li>execution remains disabled</li><li>documentation approval is not execution approval</li></ul></article>`;
 }).join("");
 document.querySelectorAll(".nav button").forEach((button) => {
   button.addEventListener("click", () => {
-    document.querySelectorAll(".nav button").forEach((x) => x.classList.remove("active"));
-    document.querySelectorAll("section").forEach((x) => x.classList.remove("active"));
+    document.querySelectorAll(".nav button").forEach((item) => item.classList.remove("active"));
+    document.querySelectorAll("section").forEach((section) => section.classList.remove("active"));
     button.classList.add("active");
     document.getElementById(button.dataset.section).classList.add("active");
   });

@@ -1,5 +1,18 @@
 # しきしま計画 — 実運用ロードマップ
 
+## Update Status
+
+- roadmapVersion: v0.2.0
+- lastUpdated: 2026-05-10
+- latestUpdate: Phase 2.5-5 review matrices and update visibility added
+- baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
+- changelog: `ROADMAP_CHANGELOG.md`
+- phase review: `PHASE_REVIEW_MATRIX.md`
+
+Every future roadmap-affecting change must visibly update
+`REAL_OPERATION_ROADMAP.html`, `ROADMAP_CHANGELOG.md`, `roadmapVersion`,
+`lastUpdated`, and `latestUpdate`.
+
 ## Current State
 
 - decision: HOLD
@@ -66,9 +79,19 @@ Goal: define agent permissions, communication routes, and safety boundaries.
 
 Completion condition: permission matrix is human approved.
 
+Review support added in v0.2.0:
+
+- `PHASE_REVIEW_MATRIX.md`
+- `AGENT_NAMES_ROLES_AND_PERMISSIONS.md` approval matrix
+
 ## Phase 4 — Model Router Policy
 
 Goal: define which model tier may be used for each class of task.
+
+Review support added in v0.2.0:
+
+- `MODEL_ROUTER_REVIEW_MATRIX.md`
+- explicit rule that model selection is not execution approval
 
 Default:
 
@@ -82,6 +105,11 @@ Default:
 Goal: define GO / HOLD / REJECT behavior.
 
 This is a core blocker before any real operation.
+
+Review support added in v0.2.0:
+
+- `SHIZUME_DECISION_MATRIX.md`
+- explicit default HOLD and scoped human approval rules
 
 ## Phase 6 — つむぎ Implementation Workflow
 

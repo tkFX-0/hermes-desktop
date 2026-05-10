@@ -84,4 +84,24 @@ Forbidden:
 - productionReady: false
 - rawValuesReported: false
 
+## Approval Matrix
+
+| Agent | Can plan? | Can write docs? | Can edit code? | Can run tests? | Can run WSL? | Can run Hermes? | Can run wrapper? | Can start RunPod? | Can control StackChan/robot? | Can approve GO? | Can write raw values? | Can push git? |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| しきしま / しき | yes | prepare only / via approved task | no by default | no by default | no | no | no | no | no | no | no | no |
+| しずめ | risk classification only | policy docs only | no | no | no | no | no | no | no | cannot approve GO alone | no | no |
+| つむぎ / つむ | yes for implementation planning | yes when approved | yes when approved | yes when approved | no without separate approval | no | no | no | no | no | no | no without explicit approval |
+| はじめ | yes | planning docs only | no | no | no | no | no | no | no | no | no | no |
+| しるべ | yes for navigation | redacted logs only | no | no | no | no | no | no | no | no | no | no |
+
+## Additional Permission Notes
+
+- しきしま / しき can coordinate, but cannot grant GO.
+- しずめ can classify risk and block work, but cannot grant high-risk GO alone.
+- つむぎ / つむ cannot bypass しずめ.
+- はじめ cannot trigger implementation automatically.
+- しるべ cannot store raw values and cannot write directly to Obsidian without
+  separate approval.
+- Approval for docs is not approval for execution.
+
 この範囲では問題を検出していません。

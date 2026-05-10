@@ -2,6 +2,13 @@
 
 `しずめ` is the safety gate. It classifies work as GO, HOLD, or REJECT.
 
+Decision matrix: `SHIZUME_DECISION_MATRIX.md`.
+
+Default decision is HOLD. しずめ can block work, but cannot grant high-risk GO
+alone. Human approval must be scoped. Approval for docs is not approval for
+execution. Approval for commit is not approval for push. Approval for slot or
+packaging readiness is not execution approval.
+
 ## GO
 
 GO means the task may proceed only within the approved scope. GO does not imply

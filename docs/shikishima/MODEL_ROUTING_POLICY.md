@@ -3,6 +3,12 @@
 The model router decides model tier. Individual agents do not freely choose
 models.
 
+Review matrix: `MODEL_ROUTER_REVIEW_MATRIX.md`.
+
+Model selection is not execution approval. The model router cannot override
+しずめ. Cloud model use is forbidden when local-only/private data is included.
+RunPod is not a default tier; it is an explicitly approved external GPU room.
+
 ## Inputs
 
 - taskType
