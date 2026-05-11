@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v1.2.10
+- roadmapVersion: v1.2.11
 - lastUpdated: 2026-05-11
-- latestUpdate: Group B pre-feature cleanup added
+- latestUpdate: Group B feature commit added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,24 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v1.2.11 - Group B Feature Commit
+
+- Committed Group B feature (commit `1f168b9`):
+  - Subject: `feat(cc): add ControlCenter IPC bridge and Research screen navigation`
+  - 92 files changed: 6 tracked modifications + 86 new source files
+  - src/main/ichikishima/ (82 files): full ichikishima agent system
+  - src/preload/ichikishima-control-center.ts: read-only IPC bridge (1 method)
+  - src/renderer/src/screens/Research/Research.tsx: local dashboard iframe screen
+  - src/shared/ichikishima/ (2 files): IPC channel constant + UI contract
+  - Tracked modified: index.ts (main+preload), index.d.ts, Layout.tsx, i18n/index.ts, en/navigation.ts
+- ControlCenter IPC: read-only only; no execution channels; secrets excluded from snapshot payload.
+- tests/ichikishima/ (69 files): excluded — separate commit candidate.
+- Remaining dirty (post-commit): `package-lock.json` version stamp only (non-blocker for v1.3.0).
+- Remaining untracked: tests/ichikishima/, tests/hermes/, docs/ichikishima/, sandbox/, .claude/, .cursor/.
+- v1.3.0 Package Name Migration: tracked working tree is now clean (package-lock auto-resolves).
+- v1.3.0 GO: NOT YET approved. Requires separate human GO decision.
+- HOLD remains current. execution remains disabled. No git push.
 
 ## v1.2.10 - Group B Pre-Feature Cleanup
 

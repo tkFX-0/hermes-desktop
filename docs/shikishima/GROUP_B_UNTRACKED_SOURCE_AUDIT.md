@@ -199,24 +199,22 @@ The label `"リサーチ"` was Japanese katakana and did not follow this pattern
 
 ## Commit Feasibility Assessment
 
-### Option 1: Single Feature Commit (all Group B + untracked)
+### Option 1: Single Feature Commit — **DONE in v1.2.11 (commit 1f168b9)**
 
-**Scope:**
-- 7 tracked Group B files
-- ~72 ichikishima files
-- 1 preload bridge file
-- 1 Research screen file
+**Committed scope:**
+- 6 tracked Group B files (zh-CN committed separately in v1.2.10)
+- 82 ichikishima files (src/main/ichikishima/)
+- 1 preload bridge file (ichikishima-control-center.ts)
+- 1 Research screen file (Research.tsx)
 - 2 shared ichikishima files
-- **Total: ~83 files**
+- **Total: 92 files committed**
 
-**Feasibility: YES — with preconditions**
+**Preconditions met:**
+1. ~~Fix zh-CN `research` label~~ **DONE in v1.2.10**
+2. Source designed with redaction policy — no raw secrets in payload
+3. ~~tests/ichikishima/~~ excluded — separate commit
 
-Preconditions:
-1. Fix zh-CN `research` label before staging (low-risk 1-line change in zh-CN/navigation.ts)
-2. Verify no raw values / secrets in ichikishima source (redacted audit of ichikishima/hermes/)
-3. No test files (tests/ichikishima/) needed for compilation — can be committed separately
-
-**Risk: MEDIUM** (large commit, but well-scoped feature)
+**Risk: resolved** — commit created successfully
 
 ### Option 2: Split into B-1 (ControlCenter) and B-2 (Research)
 

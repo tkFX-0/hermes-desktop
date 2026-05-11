@@ -270,13 +270,13 @@ Already tracked (no staging needed):
 | `.gitignore` | safety hardening | small | LOW | none | **DONE v1.2.8** |
 | `claw3d.ts` | safety hardening | small | LOW | none | **DONE v1.2.8** |
 | `installer.ts` | safety hardening | small | LOW | none | **DONE v1.2.8** (BOM removed) |
-| `index.ts` (main) | feature work | medium | MEDIUM | `ichikishima/` | commit with B |
-| `index.d.ts` (preload) | feature work | small | LOW | `ichikishima/` | commit with B |
-| `index.ts` (preload) | feature work | small | MEDIUM | `ichikishima-control-center.ts` | commit with B |
-| `Layout.tsx` | feature work | large | MEDIUM | `Research/` | commit with B |
-| `i18n/index.ts` | feature work | small | LOW | `controlCenter.ts` | commit with B |
-| `en/navigation.ts` | feature work | minimal | LOW | none | commit with B |
-| `zh-CN/navigation.ts` | feature work | minimal | LOW | none | commit with B |
+| `index.ts` (main) | feature work | medium | MEDIUM | `ichikishima/` | **DONE v1.2.11** |
+| `index.d.ts` (preload) | feature work | small | LOW | `ichikishima/` | **DONE v1.2.11** |
+| `index.ts` (preload) | feature work | small | MEDIUM | `ichikishima-control-center.ts` | **DONE v1.2.11** |
+| `Layout.tsx` | feature work | large | MEDIUM | `Research/` | **DONE v1.2.11** |
+| `i18n/index.ts` | feature work | small | LOW | `controlCenter.ts` | **DONE v1.2.11** |
+| `en/navigation.ts` | feature work | minimal | LOW | none | **DONE v1.2.11** |
+| `zh-CN/navigation.ts` | feature work | minimal | LOW | none | **DONE v1.2.10+v1.2.11** |
 
 ---
 
@@ -287,11 +287,12 @@ All of the following must be met before v1.3.0 package name migration:
 | Condition | Current State | Status |
 |---|---|---|
 | Group A files committed or reverted | **committed in v1.2.8** | **PASS** |
-| Group B tracked files committed or reverted | not yet | BLOCK |
-| Group B untracked source committed or reverted | not yet | BLOCK |
+| Group B tracked files committed or reverted | **committed in v1.2.11** | **PASS** |
+| Group B untracked source committed or reverted | **committed in v1.2.11** | **PASS** |
 | installer.ts BOM character resolved | **removed in v1.2.8** | **PASS** |
 | zh-CN `research` label placeholder resolved | **fixed in v1.2.10** | **PASS** |
-| Working tree clean | not clean (Group B remains) | BLOCK |
+| Working tree clean (tracked) | clean — only package-lock dirty | **PASS** (package-lock non-blocker) |
+| tests/ichikishima/ and other untracked resolved | untracked remain (separate commit) | CAUTION |
 | package-lock version stamp (auto-resolves) | known | PASS (non-blocker) |
 
 ---

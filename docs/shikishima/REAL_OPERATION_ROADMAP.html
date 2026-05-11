@@ -119,7 +119,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">roadmapVersion: v1.2.10</span>
+        <span class="chip ok">roadmapVersion: v1.2.11</span>
         <span class="chip ok">lastUpdated: 2026-05-11</span>
       </div>
     </header>
@@ -128,12 +128,13 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div class="card status-card">
           <h2>譖ｴ譁ｰ繧ｹ繝・・繧ｿ繧ｹ</h2>
           <div class="kv">
-            <div>roadmapVersion</div><div><code>v1.2.10</code></div>
+            <div>roadmapVersion</div><div><code>v1.2.11</code></div>
             <div>lastUpdated</div><div><code>2026-05-11</code></div>
-            <div>latestUpdate</div><div>Group B pre-feature cleanup added</div>
+            <div>latestUpdate</div><div>Group B feature commit added</div>
             <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
             <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
-            <div>v1.2.10 note</div><div>v1.2.10: zh-CN research label fixed ("リサーチ" → "Research"). tests/ichikishima/ confirmed (69 files, untracked) — separate commit. Group B feature commit proceeds in v1.2.11. HOLD remains current.</div>
+            <div>v1.2.11 note</div><div>v1.2.11: Group B committed (1f168b9): 92 files (82 ichikishima + 6 tracked + preload bridge + Research.tsx + shared/ichikishima). ControlCenter IPC read-only. tests/ichikishima/ excluded (separate). Tracked working tree now clean. v1.3.0 GO not yet approved.</div>
+            <div>v1.2.10 note</div><div>v1.2.10: zh-CN research label fixed ("リサーチ" → "Research"). tests/ichikishima/ confirmed (69 files, untracked) — separate commit. HOLD remains current.</div>
             <div>v1.2.9 note</div><div>v1.2.9: GROUP_B_UNTRACKED_SOURCE_AUDIT.md added. Untracked: ichikishima (~72), preload bridge (20L), Research.tsx (47L), shared/ichikishima (2). ControlCenter IPC confirmed read-only. HOLD remains current.</div>
             <div>v1.2.8 note</div><div>v1.2.8: Group A committed (0b5e3fa): .gitignore + claw3d.ts + installer.ts. windowsHide added; BOM removed from installer.ts. Group B (7 files + untracked) remains BLOCK. HOLD remains current.</div>
             <div>v1.2.7 note</div><div>v1.2.7: SRC_DIRTY_FILES_CLASSIFICATION.md added (audit-only). Group A = safety hardening (commit separately). Group B = feature work (needs untracked ichikishima/Research). installer.ts BOM caveat noted.</div>
@@ -165,7 +166,22 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       <section id="changelog">
         <h2>譖ｴ譁ｰ螻･豁ｴ / Changelog</h2>
         <div class="card">
-          <h3>v1.2.10 - Group B pre-feature cleanup <span class="update-badge">latest</span></h3>
+          <h3>v1.2.11 - Group B feature commit <span class="update-badge">latest</span></h3>
+          <ul>
+            <li>Committed Group B (commit 1f168b9): 92 files total.</li>
+            <li>src/main/ichikishima/ (82 files): agent-team, approval, audit, autonomy-zone, control-center, core, hermes, memory, orchestrator, pilot, review, visualization.</li>
+            <li>src/preload/ichikishima-control-center.ts: read-only IPC bridge (getAppSnapshot only).</li>
+            <li>src/renderer/src/screens/Research/Research.tsx: local dashboard iframe.</li>
+            <li>src/shared/ichikishima/ (2 files): IPC channel constant + UI contract.</li>
+            <li>ControlCenter IPC: read-only only; no execution channels; no raw secrets in payload.</li>
+            <li>tests/ichikishima/ (69 files): excluded from this commit — separate commit candidate.</li>
+            <li>Remaining dirty: package-lock.json version stamp only (non-blocker for v1.3.0).</li>
+            <li>Tracked working tree: now clean. v1.3.0 GO not yet approved.</li>
+            <li>HOLD remains current; execution remains disabled; No git push.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>v1.2.10 - Group B pre-feature cleanup</h3>
           <ul>
             <li>Fixed zh-CN navigation.ts: research "リサーチ" → "Research" (consistent with controlCenter pattern).</li>
             <li>Confirmed tests/ichikishima/ exists: 69 test files (untracked). Separate commit from Group B.</li>
@@ -535,10 +551,10 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
           <div class="card">
             <h3>Current Tempo</h3>
             <div class="kv">
-              <div>roadmapVersion</div><div><code>v1.2.10</code></div>
-              <div>latestUpdate</div><div>Group B pre-feature cleanup added</div>
+              <div>roadmapVersion</div><div><code>v1.2.11</code></div>
+              <div>latestUpdate</div><div>Group B feature commit added</div>
               <div>docs-only commits</div><div>completed locally</div>
-              <div>current next human action</div><div>approve v1.2.11 Group B Feature Commit (7 tracked + ~76 untracked); tests/ichikishima/ separate after</div>
+              <div>current next human action</div><div>approve v1.3.0 GO (tracked working tree clean; package-lock auto-resolves); tests/ichikishima/ separate</div>
               <div>HOLD reason</div><div>documentation approval and execution approval remain separate; no renames or deletions approved yet</div>
             </div>
           </div>
