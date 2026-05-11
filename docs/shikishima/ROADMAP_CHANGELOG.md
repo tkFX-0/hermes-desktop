@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v1.2.0
+- roadmapVersion: v1.2.1
 - lastUpdated: 2026-05-11
-- latestUpdate: Low-risk instruction naming migration added
+- latestUpdate: Low-risk UI wording migration added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,14 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v1.2.1 - Low-Risk UI Wording Migration
+
+- `src/renderer/index.html` title: `Hermes Agent` → `しきしま`.
+- `src/renderer/src/components/common/HermesLogo.tsx` alt: `Hermes` → `しきしま`.
+- File name, component name, and import path unchanged.
+- NAMING_MIGRATION_CANDIDATES.md Phase B items 1 and 2 marked DONE.
+- HOLD remains current. execution remains disabled. No src rename, no deletion, no GO.
 
 ## v1.2.0 - Low-Risk Instruction Naming Migration
 

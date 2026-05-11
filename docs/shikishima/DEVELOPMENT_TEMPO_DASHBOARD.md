@@ -20,10 +20,10 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v1.2.0
-- latestUpdate: Low-risk instruction naming migration added
+- roadmapVersion: v1.2.1
+- latestUpdate: Low-risk UI wording migration added
 - docs-only commits completed: local docs commits exist
-- current next human action: review Phase B (index.html title / HermesLogo alt rename)
+- current next human action: review Phase C (package.json name/description update)
 - HOLD reason: documentation approval and execution approval remain separate; src path rename not yet approved
 
 ## Boundaries

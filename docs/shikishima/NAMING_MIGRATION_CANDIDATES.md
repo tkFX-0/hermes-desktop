@@ -127,9 +127,9 @@ Can proceed without code changes:
 
 Low-risk, isolated UI text changes:
 
-1. Update `index.html` title
-2. Update `HermesLogo.tsx` alt text
-3. Rename `hermes.png` asset
+1. ~~Update `index.html` title~~ **DONE in v1.2.1** (`Hermes Agent` → `しきしま`)
+2. ~~Update `HermesLogo.tsx` alt text~~ **DONE in v1.2.1** (`Hermes` → `しきしま`)
+3. Rename `hermes.png` asset — HOLD (asset rename + import path update required)
 
 ### Phase C — Package Metadata (Low Risk)
 
