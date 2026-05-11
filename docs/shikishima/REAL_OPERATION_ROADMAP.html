@@ -119,7 +119,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">roadmapVersion: v1.7.0</span>
+        <span class="chip ok">roadmapVersion: v1.9.0</span>
         <span class="chip ok">lastUpdated: 2026-05-11</span>
       </div>
     </header>
@@ -128,12 +128,13 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div class="card status-card">
           <h2>譖ｴ譁ｰ繧ｹ繝・・繧ｿ繧ｹ</h2>
           <div class="kv">
-            <div>roadmapVersion</div><div><code>v1.6.0</code></div>
+            <div>roadmapVersion</div><div><code>v1.9.0</code></div>
             <div>lastUpdated</div><div><code>2026-05-12</code></div>
-            <div>latestUpdate</div><div>Phase D src rename plan added</div>
+            <div>latestUpdate</div><div>Phase E repo rename plan added</div>
             <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
             <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
-            <div>v1.7.0 note</div><div>v1.7.0: PHASE_D_SRC_RENAME_PLAN.md + IMPACT_MATRIX.md. Targets: ichikishima/(82+2+1). ~304 import paths. ichikishimaControlCenter window key unchanged in D-1. Execution HOLD.</div>
+            <div>v1.9.0 note</div><div>v1.9.0: PHASE_E_REPO_RENAME_PLAN.md + EXTERNAL_REFERENCE_MATRIX.md. Targets: publish.repo + dev-app-update.yml repo. External GitHub rename required. appId unchanged. Execution HOLD.</div>
+            <div>v1.7.0 note</div><div>v1.7.0: PHASE_D_SRC_RENAME_PLAN.md + IMPACT_MATRIX.md. Targets: ichikishima/(82+2+1). ~304 import paths. D-1 scope only. Execution HOLD.</div>
             <div>v1.6.0 note</div><div>v1.6.0: DOCS_ICHIKISHIMA_MIGRATION_PLAN.md. 127 legacy docs classified. Option 1 (archive) recommended. HOLD pending scope decision.</div>
             <div>v1.5.1 note</div><div>v1.5.1: TESTS_HERMES_REVIEW_PACKAGE.md. 12 zone tests. Commit-ready pending GO.</div>
             <div>v1.5.0 note</div><div>v1.5.0: TESTS_ICHIKISHIMA_REVIEW_PACKAGE.md. 66 test files. dummy files safe. process-local CI-guarded. Commit-ready pending GO.</div>
@@ -173,12 +174,19 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       <section id="changelog">
         <h2>譖ｴ譁ｰ螻･豁ｴ / Changelog</h2>
         <div class="card">
-          <h3>v1.7.0 - Phase D src rename plan <span class="update-badge">latest</span></h3>
+          <h3>v1.9.0 - Phase E repo rename plan <span class="update-badge">latest</span></h3>
+          <ul>
+            <li>PHASE_E_REPO_RENAME_PLAN.md + PHASE_E_EXTERNAL_REFERENCE_MATRIX.md added — plan-only.</li>
+            <li>Targets: electron-builder.yml publish.repo + dev-app-update.yml repo.</li>
+            <li>External GitHub rename required first. appId unchanged. v1.7.1 + v1.8.0: deferred.</li>
+            <li>Phase E execution (v1.9.1) HOLD — explicit human GO + external action required.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>v1.7.0 - Phase D src rename plan</h3>
           <ul>
             <li>PHASE_D_SRC_RENAME_PLAN.md + PHASE_D_RENAME_IMPACT_MATRIX.md added — plan-only.</li>
-            <li>Targets: src/main/ichikishima/(82), src/shared/ichikishima/(2), preload/ichikishima-control-center.ts.</li>
-            <li>~304 import paths to update. ichikishimaControlCenter window key: unchanged in D-1.</li>
-            <li>Typecheck exception: allowed only for v1.7.1 pre-flight + post-rename verification.</li>
+            <li>Targets: src/main/ichikishima/(82+2+1). ~304 import paths. D-1 scope only.</li>
             <li>Phase D execution (v1.7.1) HOLD — explicit human GO required. No rename executed.</li>
           </ul>
         </div>
@@ -628,7 +636,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
             <h3>Current Tempo</h3>
             <div class="kv">
               <div>roadmapVersion</div><div><code>v1.7.0</code></div>
-              <div>latestUpdate</div><div>Phase D src rename plan added</div>
+              <div>latestUpdate</div><div>Phase E repo rename plan added</div>
               <div>docs-only commits</div><div>completed locally</div>
               <div>current next human action</div><div>approve tests commit GO / approve Phase D execution GO (v1.7.1) / proceed to Phase E plan (v1.9.0)</div>
               <div>HOLD reason</div><div>documentation approval and execution approval remain separate; no renames or deletions approved yet</div>

@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v1.7.0
+- roadmapVersion: v1.9.0
 - lastUpdated: 2026-05-12
-- latestUpdate: Phase D src rename plan added
+- latestUpdate: Phase E repo rename plan added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -29,6 +29,18 @@ Every future roadmap-affecting change must update:
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
 
+## v1.9.0 - Phase E repo Rename Plan
+
+- Added `PHASE_E_REPO_RENAME_PLAN.md` — plan-only / no-external-action.
+  - Targets: `electron-builder.yml publish.repo`, `dev-app-update.yml repo`.
+  - External action required: GitHub repo rename (must happen first).
+  - `appId` must remain unchanged — changing breaks existing OS installations.
+  - Recommended order: Phase D first, then Phase E.
+- Added `PHASE_E_EXTERNAL_REFERENCE_MATRIX.md` — all hermes-desktop external refs classified.
+- v1.7.1 (Phase D execution): HOLD / deferred — not executed in this session.
+- v1.8.0 (post Phase D audit): deferred until Phase D executes.
+- Phase E execution (v1.9.1) remains HOLD — explicit human GO + external GitHub action required.
+
 ## v1.7.0 - Phase D src Rename Plan
 
 - Added `PHASE_D_SRC_RENAME_PLAN.md` — plan-only / no-rename-executed.
@@ -37,7 +49,6 @@ Roadmap updates are not execution approval. Changelog updates are not GO.
   - `ichikishimaControlCenter` window key: UNCHANGED in Phase D-1 (breaking change deferred to D-2).
   - Typecheck exception: allowed specifically for v1.7.1 pre-flight and post-rename verification.
 - Added `PHASE_D_RENAME_IMPACT_MATRIX.md` — import path matrix + identifiers KEEP/RENAME.
-- NAMING_MIGRATION_CANDIDATES.md Phase D updated with plan reference.
 - Phase D execution (v1.7.1) remains HOLD — explicit human GO required. No rename executed.
 
 ## v1.6.0 - docs/ichikishima Migration Plan

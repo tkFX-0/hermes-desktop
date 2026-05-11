@@ -103,6 +103,8 @@ network flow.
 - `DOCS_ICHIKISHIMA_MIGRATION_PLAN.md` - v1.6.0 docs/ichikishima migration plan (127 files classified).
 - `PHASE_D_SRC_RENAME_PLAN.md` - v1.7.0 Phase D src rename plan (execution HOLD).
 - `PHASE_D_RENAME_IMPACT_MATRIX.md` - v1.7.0 Phase D import path impact matrix.
+- `PHASE_E_REPO_RENAME_PLAN.md` - v1.9.0 Phase E GitHub repo rename plan (execution HOLD).
+- `PHASE_E_EXTERNAL_REFERENCE_MATRIX.md` - v1.9.0 Phase E external reference matrix.
 
 ## How To Review
 
