@@ -2,9 +2,9 @@
 
 ## Update Status
 
-- roadmapVersion: v1.0.0
+- roadmapVersion: v1.0.1
 - lastUpdated: 2026-05-11
-- latestUpdate: Static design review package added
+- latestUpdate: Human static review record template added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - changelog: `ROADMAP_CHANGELOG.md`
 - phase review: `PHASE_REVIEW_MATRIX.md`
@@ -182,6 +182,28 @@ v1.0.0 does not approve:
 Next allowed work remains documentation/static-only: review notes, wording
 cleanup, static HTML readability review, checklist refinement, and
 documentation approval record preparation.
+
+## Human Static Review Record
+
+v1.0.1 adds `V1_HUMAN_STATIC_REVIEW_RECORD.md` for recording the human review
+result for v1.0.0.
+
+The record is docs/static-only. It can record:
+
+- reviewTargetVersion: v1.0.0.
+- reviewDecision: approved_for_static_design_review / needs_revision /
+  rejected.
+- reviewer: human.
+- reviewDate.
+- scope: docs/static-only.
+- notes.
+- requiredRevisions.
+- nextAllowedAction.
+- stillForbiddenActions.
+
+The record explicitly does not approve GO, execution, productionReady,
+connection, voice I/O, camera, microphone, StackChan control, robot motion,
+WSL/Hermes/wrapper/dummy/RunPod, or git push.
 
 ## Human Review Package
 

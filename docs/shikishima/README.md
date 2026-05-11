@@ -64,6 +64,7 @@ network flow.
 - `STATIC_DESIGN_REVIEW_PACKAGE.md` - v1.0.0 static design review package.
 - `V1_STATIC_REVIEW_CHECKLIST.md` - v1 static review checklist.
 - `V1_NOT_PRODUCTION_READY_NOTICE.md` - v1 not-production-ready notice.
+- `V1_HUMAN_STATIC_REVIEW_RECORD.md` - human static review record template.
 - `MINIMUM_OPERATION_RUNBOOK_DRAFT.md` - Phase 10 runbook draft.
 - `HUMAN_GO_APPROVAL_CHECKLIST.md` - future scoped GO checklist.
 - `NO_GO_CHECKLIST.md` - stop/no-go checklist.
@@ -157,6 +158,16 @@ v1.0.0 static design review order:
 8. Confirm Static Face Preview, Expression Variation, and Voice-Mouth-Eye
    Concept remain display-only.
 
+v1.0.1 human static review record order:
+
+1. Review `V1_HUMAN_STATIC_REVIEW_RECORD.md`.
+2. Fill only docs/static-only review results.
+3. Use `approved_for_static_design_review`, `needs_revision`, or `rejected`.
+4. Confirm the record explicitly does not approve GO.
+5. Confirm the record explicitly does not approve execution, connection,
+   productionReady, voice I/O, camera, microphone, StackChan control, robot
+   motion, WSL/Hermes/wrapper/dummy/RunPod, or git push.
+
 If the roadmap is updated, the HTML must visibly show that it was updated.
 Every roadmap-affecting change must update the visible HTML changelog and
 `ROADMAP_CHANGELOG.md`.
@@ -204,6 +215,12 @@ v1.0.0 adds the Static Design Review Package. It packages v0.1.0 through
 v0.9.1 for human static design review only. It is not productionReady, not GO
 approval, not execution approval, not device connection approval, not robot
 motion approval, and not runtime readiness.
+
+v1.0.1 adds `V1_HUMAN_STATIC_REVIEW_RECORD.md` so the human review result for
+v1.0.0 can be recorded without changing scope. The record is docs/static-only
+and remains separate from GO, execution approval, connection approval,
+productionReady, voice I/O, camera, microphone, StackChan control, robot
+motion, WSL/Hermes/wrapper/dummy/RunPod, and git push.
 
 Next work that may proceed remains documentation/static-only: review notes,
 wording cleanup, static HTML readability review, checklist refinement, and

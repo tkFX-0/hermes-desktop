@@ -7,9 +7,9 @@ and does not require tooling.
 
 | Field | Meaning | Current value |
 |---|---|---|
-| roadmapVersion | visible roadmap version | v1.0.0 |
+| roadmapVersion | visible roadmap version | v1.0.1 |
 | lastUpdated | visible update date | 2026-05-11 |
-| latestUpdate | short update summary | Static design review package added |
+| latestUpdate | short update summary | Human static review record template added |
 | currentDecision | current project decision | HOLD |
 | executionStatus | execution gate state | disabled |
 | productionReady | production readiness flag | false |
@@ -63,6 +63,11 @@ and does not require tooling.
 | v1ExecutionInterpretation | v1 execution interpretation | not_execution_approval |
 | v1ConnectionInterpretation | v1 connection interpretation | not_connection_approval |
 | nextAllowedStaticWork | next safe work category | documentation_static_only |
+| humanStaticReviewRecordStatus | v1 human static review record | template_created |
+| reviewTargetVersion | target version for review record | v1.0.0 |
+| reviewDecisionScope | review decision scope | docs_static_only |
+| reviewDecisionValues | allowed review values | approved_for_static_design_review / needs_revision / rejected |
+| reviewExplicitlyNotApproved | excluded approval scope | GO / execution / productionReady / connection / voice I/O / camera / microphone / StackChan control / robot motion / WSL-Hermes-wrapper-dummy-RunPod / git push |
 
 ## Status Values
 

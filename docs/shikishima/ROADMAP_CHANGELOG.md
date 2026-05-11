@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v1.0.0
+- roadmapVersion: v1.0.1
 - lastUpdated: 2026-05-11
-- latestUpdate: Static design review package added
+- latestUpdate: Human static review record template added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,19 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v1.0.1 - Human Static Review Record Template
+
+- Added `V1_HUMAN_STATIC_REVIEW_RECORD.md`.
+- Added a docs/static-only template for recording human review of v1.0.0.
+- Added `reviewDecision` values: `approved_for_static_design_review`,
+  `needs_revision`, and `rejected`.
+- Explicitly separated the record from GO, execution approval, connection
+  approval, productionReady, voice I/O, camera, microphone, StackChan control,
+  robot motion, WSL/Hermes/wrapper/dummy/RunPod, and git push.
+- HOLD remains current.
+- execution remains disabled.
+- no production readiness approval.
 
 ## v1.0.0 - Static Design Review Package
 
