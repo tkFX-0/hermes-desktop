@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v1.9.0
+- roadmapVersion: v2.0
 - lastUpdated: 2026-05-12
-- latestUpdate: Phase E repo rename plan added
+- latestUpdate: Shikishima v2 readiness package added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,20 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v2.0 - Shikishima v2 Readiness Package
+
+- Added `V2_READINESS_PACKAGE.md` — v2.0 goal completion assessment. All v2.0 tasks DONE.
+  - Naming: package.json name, productName, description, HTML title, instruction files, zh-CN label — all complete.
+  - ControlCenter + Research: committed in v1.2.11. IPC read-only confirmed.
+  - Test candidates: review packages created (v1.5.0–v1.5.1). Commit HOLD — human GO required.
+  - Untracked files: classified + mitigated (v1.3.1–v1.4.0). sandbox/ gitignored.
+  - Migration plans: Phase D (v1.7.0) + Phase E (v1.9.0) plans created. Execution HOLD.
+- Added `V2_REMAINING_HOLD_ITEMS.md` — all HOLD items classified (H-1 through H-5).
+- Added `V3_EXECUTION_VALIDATION_PRECONDITIONS.md` — 4 minimum preconditions for v3.x.
+- v2.0 is NOT productionReady. NOT GO approval. NOT execution approval.
+- v2.0 closes the v2.0 goal: v3.x execution validation prerequisites documented.
+- Remaining HOLD: tests commit (H-1), Phase D (H-2), Phase E (H-3), docs archive (H-4), appId (H-5).
 
 ## v1.9.0 - Phase E repo Rename Plan
 

@@ -20,11 +20,11 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v1.9.0
-- latestUpdate: Phase E repo rename plan added
+- roadmapVersion: v2.0
+- latestUpdate: Shikishima v2 readiness package added
 - docs-only commits completed: local docs commits exist
-- current next human action: tests/ichikishima review (v1.5.0 HOLD) or Phase D plan (v1.9.0 safe)
-- HOLD reason: execution disabled; productionReady: false; Phase D/E HOLD; tests commit requires human review
+- current next human action: tests/ichikishima commit GO (H-1) or Phase D execution GO (H-2)
+- HOLD reason: execution disabled; productionReady: false; tests commit requires human GO; Phase D/E HOLD
 
 ## Boundaries
 

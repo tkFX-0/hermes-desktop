@@ -7,9 +7,9 @@ and does not require tooling.
 
 | Field | Meaning | Current value |
 |---|---|---|
-| roadmapVersion | visible roadmap version | v1.9.0 |
+| roadmapVersion | visible roadmap version | v2.0 |
 | lastUpdated | visible update date | 2026-05-12 |
-| latestUpdate | short update summary | Phase E repo rename plan added |
+| latestUpdate | short update summary | Shikishima v2 readiness package added |
 | currentDecision | current project decision | HOLD |
 | executionStatus | execution gate state | disabled |
 | productionReady | production readiness flag | false |

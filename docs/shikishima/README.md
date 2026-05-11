@@ -105,6 +105,9 @@ network flow.
 - `PHASE_D_RENAME_IMPACT_MATRIX.md` - v1.7.0 Phase D import path impact matrix.
 - `PHASE_E_REPO_RENAME_PLAN.md` - v1.9.0 Phase E GitHub repo rename plan (execution HOLD).
 - `PHASE_E_EXTERNAL_REFERENCE_MATRIX.md` - v1.9.0 Phase E external reference matrix.
+- `V2_READINESS_PACKAGE.md` - v2.0 Shikishima v2 readiness assessment (all v2.0 tasks done).
+- `V2_REMAINING_HOLD_ITEMS.md` - v2.0 remaining HOLD items classified (H-1 through H-5).
+- `V3_EXECUTION_VALIDATION_PRECONDITIONS.md` - v2.0 minimum preconditions for v3.x execution validation.
 
 ## How To Review
 
