@@ -108,6 +108,10 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       <a href="#devices" data-section="devices">繝・ヰ繧､繧ｹ蠖ｹ蜑ｲ</a>
       <a href="#diagram" data-section="diagram">繧ｷ繧ｹ繝・Β蝗ｳ</a>
       <a href="#forbidden" data-section="forbidden">遖∵ｭ｢繧｢繧ｯ繧ｷ繝ｧ繝ｳ</a>
+      <a href="#operation-path" data-section="operation-path">Operation Path v3→v10</a>
+      <a href="#hold-gates" data-section="hold-gates">HOLD Gates</a>
+      <a href="#autonomy-ladder" data-section="autonomy-ladder">Autonomy Ladder</a>
+      <a href="#human-review-checklist" data-section="human-review-checklist">Human Review Checklist</a>
     </nav>
   </aside>
   <main>
@@ -119,7 +123,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">roadmapVersion: v2.2.0</span>
+        <span class="chip ok">roadmapVersion: v2.4.0</span>
         <span class="chip ok">lastUpdated: 2026-05-12</span>
       </div>
     </header>
@@ -128,9 +132,9 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div class="card status-card">
           <h2>譖ｴ譁ｰ繧ｹ繝・・繧ｿ繧ｹ</h2>
           <div class="kv">
-            <div>roadmapVersion</div><div><code>v2.2.0</code></div>
+            <div>roadmapVersion</div><div><code>v2.4.0</code></div>
             <div>lastUpdated</div><div><code>2026-05-12</code></div>
-            <div>latestUpdate</div><div>Real operation path fully defined</div>
+            <div>latestUpdate</div><div>Static real operation dashboard added</div>
             <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
             <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
             <div>v2.2.0 note</div><div>v2.2.0: REAL_OPERATION_MASTER_ROADMAP.md + V3_TO_V10_TASK_TREE.md + REAL_OPERATION_HOLD_GATE_MATRIX.md (G-01–G-24) + HUMAN_REVIEW_DAY_RUNBOOK.md + PRODUCTION_READY_DEFINITION.md + CONTROLLED_PILOT_DEFINITION.md + SAFE_AUTONOMY_LADDER.md (Level 0–9) + DEVICE_AND_ROBOT_INTEGRATION_GATE.md + V3_IMPLEMENTATION_BACKLOG.md + REAL_OPERATION_ROLLBACK_AND_INCIDENT_PLAN.md. Full v3–v10 path defined. Current level: 0. HOLD.</div>
@@ -1097,6 +1101,147 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         </div>
         <div class="card verify" style="margin-top:16px;">
           <strong>讀懆ｨｼ譁ｹ驥・</strong> 螟夜ΚURL/CDN縺ｪ縺励’etch/API縺ｪ縺励√さ繝槭Φ繝牙・蜉帙↑縺励∝ｮ溯｡後・繧ｿ繝ｳ縺ｪ縺励∫函蛟､縺ｪ縺励ゅ＠縺阪・縺､繧縺ｮ縺ｿ繝九ャ繧ｯ繝阪・繝縲・        </div>
+      </section>
+      <section id="operation-path">
+        <h2>Real Operation Path — v3 → v10</h2>
+        <div class="card status-card">
+          <div class="kv">
+            <div>currentStage</div><div><code>v3 — Execution Validation Readiness</code></div>
+            <div>productionReady</div><div><code class="chip false">false — all stages</code></div>
+            <div>execution</div><div><code class="chip off">disabled</code></div>
+            <div>robotMotion</div><div><code class="chip hold">HOLD</code></div>
+            <div>StackChan</div><div><code>purchased — NOT connected</code></div>
+            <div>currentLevel</div><div><code>Level 0 (docs-only)</code></div>
+          </div>
+        </div>
+        <div class="grid">
+          <div class="phase updated"><div><span class="phase-num">v3</span><span class="badge current">IN PROGRESS</span></div><div class="phase-title">Execution Validation Readiness</div><p class="role">tests commit; typecheck plan; local-only boundary. All execution disabled.</p><ul><li>Entry: v2.0 DONE</li><li>Exit: tests committed; typecheck PASS; v4 GO</li><li>productionReady: false</li></ul></div>
+          <div class="phase"><div><span class="phase-num">v4</span><span class="badge hold">HOLD</span></div><div class="phase-title">Local Test / Static Validation</div><p class="role">typecheck/eslint/vitest/build run locally; redacted results reviewed.</p><ul><li>Entry: v3 complete + human GO</li><li>Exit: all static PASS; v5 GO</li><li>productionReady: false</li></ul></div>
+          <div class="phase"><div><span class="phase-num">v5</span><span class="badge hold">HOLD</span></div><div class="phase-title">Controlled Local-only Dry-run</div><p class="role">Electron app runs locally; screens verified; all values local-only.</p><ul><li>Entry: v4 complete + human GO</li><li>Exit: app stable; v6 GO</li><li>productionReady: false</li></ul></div>
+          <div class="phase"><div><span class="phase-num">v6</span><span class="badge hold">HOLD</span></div><div class="phase-title">WSL / Hermes / Wrapper Validation</div><p class="role">Hermes via WSL; dummy/wrapper; IPC bridge test. Local-only.</p><ul><li>Entry: v5 complete + G-11/G-12</li><li>Exit: Hermes stable; v7 GO</li><li>productionReady: false</li></ul></div>
+          <div class="phase"><div><span class="phase-num">v7</span><span class="badge hold">HOLD</span></div><div class="phase-title">StackChan Display-only</div><p class="role">Face terminal; StackChan display-only (G-14). robotMotion HOLD.</p><ul><li>Entry: v6 complete + G-14</li><li>Exit: display safe; v8 GO</li><li>productionReady: false</li></ul></div>
+          <div class="phase"><div><span class="phase-num">v8</span><span class="badge hold">HOLD</span></div><div class="phase-title">Voice / Mouth / Eye Concept</div><p class="role">Animation display; voice concept plan. Audio I/O requires G-15/G-16.</p><ul><li>Entry: v7 complete + human GO</li><li>Exit: concept validated; v9 GO</li><li>productionReady: false</li></ul></div>
+          <div class="phase"><div><span class="phase-num">v9</span><span class="badge hold">HOLD</span></div><div class="phase-title">Controlled Pilot Readiness</div><p class="role">Single-run supervised pilot; human-in-loop; stop conditions defined.</p><ul><li>Entry: v8 complete + G-23</li><li>Exit: pilot runbook complete; v10 GO</li><li>productionReady: false</li></ul></div>
+          <div class="phase"><div><span class="phase-num">v10</span><span class="badge hold">HOLD</span></div><div class="phase-title">Production Readiness Review</div><p class="role">Final audit; G-18 (productionReady) + G-19 (execution) — final human approval only.</p><ul><li>Entry: v9 complete + human GO</li><li>Exit: G-18 + G-19 issued</li><li>productionReady: true ONLY via G-18</li></ul></div>
+        </div>
+      </section>
+      <section id="hold-gates">
+        <h2>HOLD Gates — G-01 to G-24</h2>
+        <div class="card status-card">
+          <p style="color:var(--hold);font-weight:800;">All 24 gates: HOLD. No gate is approved. Each gate requires independent human GO. No agent can issue GO.</p>
+        </div>
+        <table>
+          <tr><th>Gate</th><th>Action</th><th>Stage</th><th>State</th></tr>
+          <tr><td>G-01</td><td>tests/ichikishima commit</td><td>v3</td><td><span class="badge hold">HOLD</span></td></tr>
+          <tr><td>G-02</td><td>tests/hermes commit</td><td>v3</td><td><span class="badge hold">HOLD</span></td></tr>
+          <tr><td>G-03</td><td>typecheck:node</td><td>v3–v4</td><td><span class="badge hold">HOLD</span></td></tr>
+          <tr><td>G-04</td><td>typecheck:web</td><td>v3–v4</td><td><span class="badge hold">HOLD</span></td></tr>
+          <tr><td>G-05</td><td>eslint</td><td>v3–v4</td><td><span class="badge hold">HOLD</span></td></tr>
+          <tr><td>G-06</td><td>vitest full run</td><td>v4</td><td><span class="badge hold">HOLD</span></td></tr>
+          <tr><td>G-07</td><td>build</td><td>v4</td><td><span class="badge hold">HOLD</span></td></tr>
+          <tr><td>G-08</td><td>local-only value check</td><td>v3</td><td><span class="badge hold">HOLD</span></td></tr>
+          <tr><td>G-09</td><td>dummy process execution</td><td>v6</td><td><span class="badge hold">HOLD</span></td></tr>
+          <tr><td>G-10</td><td>wrapper execution</td><td>v6</td><td><span class="badge hold">HOLD</span></td></tr>
+          <tr><td>G-11</td><td>WSL execution</td><td>v6</td><td><span class="badge hold">HOLD</span></td></tr>
+          <tr><td>G-12</td><td>Hermes execution</td><td>v6</td><td><span class="badge hold">HOLD</span></td></tr>
+          <tr><td>G-13</td><td>RunPod execution</td><td>v6–v9</td><td><span class="badge hold">HOLD</span></td></tr>
+          <tr><td>G-14</td><td>StackChan display-only</td><td>v7</td><td><span class="badge hold">HOLD</span></td></tr>
+          <tr><td>G-15</td><td>voice I/O</td><td>v8</td><td><span class="badge hold">HOLD</span></td></tr>
+          <tr><td>G-16</td><td>camera / microphone</td><td>v8</td><td><span class="badge hold">HOLD</span></td></tr>
+          <tr><td>G-17</td><td>git push (per push)</td><td>any</td><td><span class="badge hold">HOLD</span></td></tr>
+          <tr><td>G-18</td><td>productionReady = true</td><td>v10</td><td><span class="badge hold">HOLD</span></td></tr>
+          <tr><td>G-19</td><td>execution = enabled</td><td>v10</td><td><span class="badge hold">HOLD</span></td></tr>
+          <tr><td>G-20</td><td>local dev run</td><td>v5</td><td><span class="badge hold">HOLD</span></td></tr>
+          <tr><td>G-21</td><td>RunPod integration</td><td>v6</td><td><span class="badge hold">HOLD</span></td></tr>
+          <tr><td>G-22</td><td>StackChan motion/control</td><td>v9+</td><td><span class="badge hold">HOLD — robotMotion</span></td></tr>
+          <tr><td>G-23</td><td>controlled pilot execution</td><td>v9</td><td><span class="badge hold">HOLD</span></td></tr>
+          <tr><td>G-24</td><td>production deployment</td><td>v10</td><td><span class="badge hold">HOLD</span></td></tr>
+        </table>
+        <div class="card" style="margin-top:16px;"><p>See <code>V3_HOLD_GATE_MATRIX.md</code> and <code>REAL_OPERATION_HOLD_GATE_MATRIX.md</code> for full GO conditions and rollback procedures.</p><p>See <code>V3_HUMAN_GO_CHECKLIST.md</code> for human-facing GO checklists.</p></div>
+      </section>
+      <section id="autonomy-ladder">
+        <h2>Safe Autonomy Ladder — Level 0 to 9</h2>
+        <div class="card status-card">
+          <div class="kv">
+            <div>currentLevel</div><div><code>Level 0 — docs-only</code></div>
+            <div>downgrade</div><div><code>always allowed — no GO required</code></div>
+            <div>upgrade</div><div><code>requires independent human GO per level</code></div>
+          </div>
+        </div>
+        <div class="grid">
+          <div class="phase updated"><div><span class="phase-num">Level 0</span><span class="badge current">HERE</span></div><div class="phase-title">Docs-only</div><p class="role">All docs, planning, static review. No command execution.</p><ul><li>GO required: none</li><li>Forbidden: execution</li></ul></div>
+          <div class="phase"><div><span class="phase-num">Level 1</span><span class="badge hold">HOLD</span></div><div class="phase-title">Static UI (committed code)</div><p class="role">Source code changes; UI commits; i18n; layout.</p><ul><li>GO required: G-03/G-04/G-05 for validation</li></ul></div>
+          <div class="phase"><div><span class="phase-num">Level 2</span><span class="badge hold">HOLD</span></div><div class="phase-title">Local Tests (run)</div><p class="role">vitest execution; test review; fix failures.</p><ul><li>GO required: G-01 + G-02 + G-06</li></ul></div>
+          <div class="phase"><div><span class="phase-num">Level 3</span><span class="badge hold">HOLD</span></div><div class="phase-title">Redacted Validation</div><p class="role">Review output; classify errors; fix. No raw paths.</p><ul><li>GO required: G-08</li></ul></div>
+          <div class="phase"><div><span class="phase-num">Level 4</span><span class="badge hold">HOLD</span></div><div class="phase-title">Local-only Dry-run</div><p class="role">Electron dev run; screen navigation; IPC verify.</p><ul><li>GO required: G-20</li></ul></div>
+          <div class="phase"><div><span class="phase-num">Level 5</span><span class="badge hold">HOLD</span></div><div class="phase-title">Dummy / Wrapper Execution</div><p class="role">Dummy process; wrapper; local-only; no real Hermes.</p><ul><li>GO required: G-09 + G-10</li></ul></div>
+          <div class="phase"><div><span class="phase-num">Level 6</span><span class="badge hold">HOLD</span></div><div class="phase-title">WSL / Hermes Execution</div><p class="role">WSL command; Hermes local; IPC bridge test.</p><ul><li>GO required: G-11 + G-12</li></ul></div>
+          <div class="phase"><div><span class="phase-num">Level 7</span><span class="badge hold">HOLD</span></div><div class="phase-title">Display-only Device</div><p class="role">Face terminal; StackChan display. robotMotion HOLD.</p><ul><li>GO required: G-14 + hardware safety review</li></ul></div>
+          <div class="phase"><div><span class="phase-num">Level 8</span><span class="badge hold">HOLD</span></div><div class="phase-title">Controlled Pilot</div><p class="role">Single supervised run; human-in-loop; immediate stop.</p><ul><li>GO required: G-23 per run</li></ul></div>
+          <div class="phase"><div><span class="phase-num">Level 9</span><span class="badge hold">HOLD</span></div><div class="phase-title">Production Readiness</div><p class="role">Final review; G-18 + G-19 final human approval only.</p><ul><li>productionReady: true ONLY via G-18</li></ul></div>
+        </div>
+      </section>
+      <section id="human-review-checklist">
+        <h2>Human Review Checklist — Tomorrow Session</h2>
+        <div class="card status-card">
+          <p style="color:var(--amber);font-weight:800;">Read HUMAN_REVIEW_DAY_RUNBOOK.md and V3_TOMORROW_DEBUG_RUNBOOK.md for full guidance.</p>
+        </div>
+        <div class="card">
+          <h3>Step 1: Current State Confirmation</h3>
+          <ul>
+            <li>roadmapVersion = v2.7.0 (or latest)</li>
+            <li>decision = HOLD</li>
+            <li>execution = disabled</li>
+            <li>productionReady = false</li>
+            <li>rawValuesReported = false</li>
+            <li>StackChan: purchased — NOT connected</li>
+            <li>robotMotion: HOLD</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Step 2: tests/ichikishima Review → G-01 Decision</h3>
+          <ul>
+            <li>Read TESTS_ICHIKISHIMA_REVIEW_PACKAGE.md</li>
+            <li>Confirm dummy-hermes-path.ts: path constant only</li>
+            <li>Confirm process-local test CI guard: describe.skipIf(!allowDummyProcessEnv)</li>
+            <li>Confirm no absolute local paths in fixtures</li>
+            <li>Decision: issue G-01 or HOLD</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Step 3: tests/hermes Review → G-02 Decision</h3>
+          <ul>
+            <li>Read TESTS_HERMES_REVIEW_PACKAGE.md</li>
+            <li>Confirm smoke/pilot test CI guard</li>
+            <li>Confirm no raw paths</li>
+            <li>Decision: issue G-02 or HOLD</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Step 4: Validation Plan Review → G-03/G-04/G-05 Decision</h3>
+          <ul>
+            <li>Read V3_STATIC_VALIDATION_PLAN.md</li>
+            <li>Understand redacted output format</li>
+            <li>Understand STOP conditions</li>
+            <li>Decision: issue G-03, G-04, G-05 or HOLD</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Step 5: Confirm HOLD Items</h3>
+          <ul>
+            <li>StackChan NOT connected (confirm physically)</li>
+            <li>No WSL running</li>
+            <li>No external services</li>
+            <li>productionReady still false</li>
+            <li>No GO for G-06 through G-24 today (unless explicitly decided)</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>GO Statement Template</h3>
+          <pre>"GO G-[NN]: [Action]. [Date]. [Conditions confirmed]."</pre>
+          <p>Each GO is independent. Issuing G-01 does NOT issue G-02 or any other gate.</p>
+          <p>Record in V3_HUMAN_GO_CHECKLIST.md GO Statement Archive.</p>
+        </div>
       </section>
     </div>
   </main>
