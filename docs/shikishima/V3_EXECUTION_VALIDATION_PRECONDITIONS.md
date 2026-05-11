@@ -6,7 +6,7 @@ Defines the minimum preconditions that must be satisfied before v3.x
 execution validation can begin. This document is reference-only.
 It is not a GO approval and does not enable any execution.
 
-- documentVersion: v2.0
+- documentVersion: v2.0 (see also V3_HUMAN_GO_CHECKLIST.md for GO checklists)
 - documentDate: 2026-05-12
 - decision: HOLD
 - execution: disabled

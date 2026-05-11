@@ -4,7 +4,7 @@
 
 - packageVersion: v2.0
 - packageDate: 2026-05-12
-- roadmapVersion: v2.0
+- roadmapVersion: v2.0 (current roadmap: v2.1.0)
 - decision: HOLD
 - execution: disabled
 - productionReady: false

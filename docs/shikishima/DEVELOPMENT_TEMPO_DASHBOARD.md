@@ -20,11 +20,11 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v2.0
-- latestUpdate: Shikishima v2 readiness package added
+- roadmapVersion: v2.1.0
+- latestUpdate: V3 goal and real operation path added
 - docs-only commits completed: local docs commits exist
-- current next human action: tests/ichikishima commit GO (H-1) or Phase D execution GO (H-2)
-- HOLD reason: execution disabled; productionReady: false; tests commit requires human GO; Phase D/E HOLD
+- current next human action: issue GO G-01 (tests/ichikishima commit) or GO G-02 (tests/hermes commit)
+- HOLD reason: execution disabled; productionReady: false; v3.x tasks not started; tests commit requires human GO
 
 ## Boundaries
 

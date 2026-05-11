@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v2.0
+- roadmapVersion: v2.1.0
 - lastUpdated: 2026-05-12
-- latestUpdate: Shikishima v2 readiness package added
+- latestUpdate: V3 goal and real operation path added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,19 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v2.1.0 - V3 Goal and Real Operation Path
+
+- Added `V3_GOAL_AND_TASK_PACK.md` — v3.x goal statement + task list (v3.0–v3.9) with HOLD gates.
+  - v3.x is NOT productionReady, NOT GO approval, NOT execution approval.
+  - v3.x is "execution validation readiness stage."
+- Added `V3_EXECUTION_VALIDATION_ROADMAP.md` — staged execution path (S-0 to S-12) with GO/STOP conditions + redaction policy.
+- Added `V3_HOLD_GATE_MATRIX.md` — 19 HOLD gates (G-01 through G-19) with GO conditions and human confirmation items.
+- Added `V3_IMPLEMENTATION_SEQUENCE.md` — linear sequence v3.0–v3.9 with HOLD gates.
+- Added `REAL_OPERATION_PATH_TO_PRODUCTION.md` — v3 through v10 staged roadmap; productionReady false at every stage until final separate approval.
+- Added `V3_TEST_COMMIT_DECISION_MATRIX.md` — commit/HOLD/split decisions for tests/ichikishima/ + tests/hermes/; no staging performed.
+- Added `V3_HUMAN_GO_CHECKLIST.md` — 19 discrete GO checklists; each independent; no agent can issue GO.
+- v3.x tasks not started. tests not staged. validation not executed. HOLD maintained.
 
 ## v2.0 - Shikishima v2 Readiness Package
 

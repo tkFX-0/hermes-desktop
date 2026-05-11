@@ -119,7 +119,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">roadmapVersion: v2.0</span>
+        <span class="chip ok">roadmapVersion: v2.1.0</span>
         <span class="chip ok">lastUpdated: 2026-05-12</span>
       </div>
     </header>
@@ -128,11 +128,12 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div class="card status-card">
           <h2>譖ｴ譁ｰ繧ｹ繝・・繧ｿ繧ｹ</h2>
           <div class="kv">
-            <div>roadmapVersion</div><div><code>v2.0</code></div>
+            <div>roadmapVersion</div><div><code>v2.1.0</code></div>
             <div>lastUpdated</div><div><code>2026-05-12</code></div>
-            <div>latestUpdate</div><div>Shikishima v2 readiness package added</div>
+            <div>latestUpdate</div><div>V3 goal and real operation path added</div>
             <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
             <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
+            <div>v2.1.0 note</div><div>v2.1.0: V3_GOAL_AND_TASK_PACK.md + V3_EXECUTION_VALIDATION_ROADMAP.md + V3_HOLD_GATE_MATRIX.md (19 gates) + V3_IMPLEMENTATION_SEQUENCE.md + REAL_OPERATION_PATH_TO_PRODUCTION.md (v3–v10) + V3_TEST_COMMIT_DECISION_MATRIX.md + V3_HUMAN_GO_CHECKLIST.md. v3.x goal defined. No execution. HOLD.</div>
             <div>v2.0 note</div><div>v2.0: V2_READINESS_PACKAGE.md + V2_REMAINING_HOLD_ITEMS.md + V3_EXECUTION_VALIDATION_PRECONDITIONS.md. All v2.0 tasks done. v3.x preconditions documented. HOLD remains. productionReady: false.</div>
             <div>v1.9.0 note</div><div>v1.9.0: PHASE_E_REPO_RENAME_PLAN.md + EXTERNAL_REFERENCE_MATRIX.md. Targets: publish.repo + dev-app-update.yml repo. External GitHub rename required. appId unchanged. Execution HOLD.</div>
             <div>v1.7.0 note</div><div>v1.7.0: PHASE_D_SRC_RENAME_PLAN.md + IMPACT_MATRIX.md. Targets: ichikishima/(82+2+1). ~304 import paths. D-1 scope only. Execution HOLD.</div>
@@ -175,7 +176,20 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       <section id="changelog">
         <h2>譖ｴ譁ｰ螻･豁ｴ / Changelog</h2>
         <div class="card">
-          <h3>v2.0 - Shikishima v2 readiness package <span class="update-badge">latest</span></h3>
+          <h3>v2.1.0 - V3 goal and real operation path <span class="update-badge">latest</span></h3>
+          <ul>
+            <li>V3_GOAL_AND_TASK_PACK.md: v3.x goal + task list (v3.0–v3.9). NOT productionReady, NOT GO, NOT execution.</li>
+            <li>V3_EXECUTION_VALIDATION_ROADMAP.md: staged validation path S-0 to S-12; redaction policy defined.</li>
+            <li>V3_HOLD_GATE_MATRIX.md: 19 gates (G-01–G-19) with GO conditions + human confirmation items.</li>
+            <li>V3_IMPLEMENTATION_SEQUENCE.md: linear v3.0–v3.9 with HOLD gates; deferred items listed.</li>
+            <li>REAL_OPERATION_PATH_TO_PRODUCTION.md: v3–v10 staged roadmap; productionReady false at every stage.</li>
+            <li>V3_TEST_COMMIT_DECISION_MATRIX.md: tests/ichikishima + tests/hermes decisions; no staging performed.</li>
+            <li>V3_HUMAN_GO_CHECKLIST.md: 19 independent GO checklists; no agent can issue GO.</li>
+            <li>HOLD remains current; execution disabled; productionReady: false; No git push; tests not staged.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>v2.0 - Shikishima v2 readiness package</h3>
           <ul>
             <li>V2_READINESS_PACKAGE.md added — v2.0 goal completion assessment. All v2.0 tasks done.</li>
             <li>V2_REMAINING_HOLD_ITEMS.md added — HOLD items classified: H-1 tests, H-2 Phase D, H-3 Phase E, H-4 docs archive, H-5 appId.</li>

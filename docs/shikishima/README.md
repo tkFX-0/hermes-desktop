@@ -108,6 +108,13 @@ network flow.
 - `V2_READINESS_PACKAGE.md` - v2.0 Shikishima v2 readiness assessment (all v2.0 tasks done).
 - `V2_REMAINING_HOLD_ITEMS.md` - v2.0 remaining HOLD items classified (H-1 through H-5).
 - `V3_EXECUTION_VALIDATION_PRECONDITIONS.md` - v2.0 minimum preconditions for v3.x execution validation.
+- `V3_GOAL_AND_TASK_PACK.md` - v2.1.0 v3.x goal definition + task list v3.0–v3.9 (docs-only, no execution).
+- `V3_EXECUTION_VALIDATION_ROADMAP.md` - v2.1.0 staged execution validation path S-0 to S-12.
+- `V3_HOLD_GATE_MATRIX.md` - v2.1.0 19 HOLD gates G-01 through G-19 with GO conditions.
+- `V3_IMPLEMENTATION_SEQUENCE.md` - v2.1.0 linear v3.0–v3.9 sequence with HOLD gates.
+- `REAL_OPERATION_PATH_TO_PRODUCTION.md` - v2.1.0 real operation path v3 through v10.
+- `V3_TEST_COMMIT_DECISION_MATRIX.md` - v2.1.0 test commit decisions (no staging performed).
+- `V3_HUMAN_GO_CHECKLIST.md` - v2.1.0 19 independent GO checklists for human approval.
 
 ## How To Review
 

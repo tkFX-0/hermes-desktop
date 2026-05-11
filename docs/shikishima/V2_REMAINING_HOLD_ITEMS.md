@@ -5,7 +5,7 @@
 Records all items that remain in HOLD state at v2.0 completion.
 This document is reference-only. It does not create GO approval or execution permission.
 
-- documentVersion: v2.0
+- documentVersion: v2.0 (see also V3_HOLD_GATE_MATRIX.md for v3.x gate details)
 - documentDate: 2026-05-12
 - decision: HOLD
 - execution: disabled
