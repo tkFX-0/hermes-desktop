@@ -20,8 +20,8 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v1.6.0
-- latestUpdate: docs/ichikishima migration plan added
+- roadmapVersion: v1.7.0
+- latestUpdate: Phase D src rename plan added
 - docs-only commits completed: local docs commits exist
 - current next human action: tests/ichikishima review (v1.5.0 HOLD) or Phase D plan (v1.7.0 safe)
 - HOLD reason: execution disabled; productionReady: false; Phase D/E HOLD; tests commit requires human review

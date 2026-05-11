@@ -101,6 +101,8 @@ network flow.
 - `TESTS_ICHIKISHIMA_REVIEW_PACKAGE.md` - v1.5.0 tests/ichikishima review (66 files classified).
 - `TESTS_HERMES_REVIEW_PACKAGE.md` - v1.5.1 tests/hermes review (12 zone tests classified).
 - `DOCS_ICHIKISHIMA_MIGRATION_PLAN.md` - v1.6.0 docs/ichikishima migration plan (127 files classified).
+- `PHASE_D_SRC_RENAME_PLAN.md` - v1.7.0 Phase D src rename plan (execution HOLD).
+- `PHASE_D_RENAME_IMPACT_MATRIX.md` - v1.7.0 Phase D import path impact matrix.
 
 ## How To Review
 

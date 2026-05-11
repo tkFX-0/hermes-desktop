@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v1.6.0
+- roadmapVersion: v1.7.0
 - lastUpdated: 2026-05-12
-- latestUpdate: docs/ichikishima migration plan added
+- latestUpdate: Phase D src rename plan added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,17 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v1.7.0 - Phase D src Rename Plan
+
+- Added `PHASE_D_SRC_RENAME_PLAN.md` — plan-only / no-rename-executed.
+  - Targets: src/main/ichikishima/(82) → shikishima/, src/shared/ichikishima/(2), preload/ichikishima-control-center.ts.
+  - Import paths: ~304 updates across src/ and tests/.
+  - `ichikishimaControlCenter` window key: UNCHANGED in Phase D-1 (breaking change deferred to D-2).
+  - Typecheck exception: allowed specifically for v1.7.1 pre-flight and post-rename verification.
+- Added `PHASE_D_RENAME_IMPACT_MATRIX.md` — import path matrix + identifiers KEEP/RENAME.
+- NAMING_MIGRATION_CANDIDATES.md Phase D updated with plan reference.
+- Phase D execution (v1.7.1) remains HOLD — explicit human GO required. No rename executed.
 
 ## v1.6.0 - docs/ichikishima Migration Plan
 
