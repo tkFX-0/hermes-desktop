@@ -145,12 +145,15 @@ Phase C is split per v1.2.2 Package Metadata Audit findings.
    - productName is the user-visible app name; independent of package.json name
    - package.json name remains `hermes-desktop`; artifact filenames unchanged
 
-#### Phase C-3 — Package Name (Medium Risk, Needs Plan)
+#### Phase C-3 — Package Name (Medium Risk, Plan Created)
 
-3. Update `package.json name` — HOLD (pending plan v1.2.5 → execution v1.3.0)
+3. Update `package.json name` — HOLD (plan created in v1.2.5 → execution v1.3.0)
    - Current: `hermes-desktop`
    - Candidate: `shikishima-desktop`
-   - Impact: artifact filenames (${name}), lockfile root name, updaterCacheDirName
+   - Impact: artifact filenames (`${name}`), lockfile root name, `updaterCacheDirName`
+   - Plan: `docs/shikishima/PACKAGE_NAME_MIGRATION_PLAN.md`
+   - Pre-migration caveat: `package-lock.json` has existing unrelated dirty state; must resolve first
+   - `publish.repo` and `dev-app-update.yml repo`: KEEP (external GitHub URL)
 
 ### Phase D — Source Directories (High Risk, Requires Tooling)
 

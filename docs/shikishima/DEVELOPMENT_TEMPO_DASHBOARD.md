@@ -20,11 +20,11 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v1.2.4
-- latestUpdate: ProductName display migration added
+- roadmapVersion: v1.2.5
+- latestUpdate: Package name migration plan added
 - docs-only commits completed: local docs commits exist
-- current next human action: approve Task 4 (v1.2.5 package.json name migration plan) or v1.3.0 name execution
-- HOLD reason: package.json name remains "hermes-desktop"; artifact filenames, lockfile root name, updaterCacheDirName require coordinated plan before change
+- current next human action: review PACKAGE_NAME_MIGRATION_PLAN.md and approve v1.3.0 execution GO
+- HOLD reason: package.json name remains "hermes-desktop"; plan created (v1.2.5), execution requires separate GO (v1.3.0); pre-migration caveat: package-lock.json unrelated dirty state must be resolved before execution
 
 ## Boundaries
 

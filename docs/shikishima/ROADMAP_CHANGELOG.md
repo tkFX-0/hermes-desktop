@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v1.2.4
+- roadmapVersion: v1.2.5
 - lastUpdated: 2026-05-11
-- latestUpdate: ProductName display migration added
+- latestUpdate: Package name migration plan added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,19 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v1.2.5 - Package Name Migration Plan
+
+- Added `PACKAGE_NAME_MIGRATION_PLAN.md` — plan-only / docs-static-only / report-only.
+- Candidate: `package.json name` `hermes-desktop` → `shikishima-desktop`.
+- Impact analysis: artifact filenames, lockfile root name, updaterCacheDirName documented.
+- Pre-migration caveat: existing `package-lock.json` unrelated dirty state noted (redacted-only).
+- Safe migration steps, rollback plan, and verification checklist added.
+- Risk table: artifact filename change = MEDIUM; all other steps = LOW.
+- `publish.repo` and `dev-app-update.yml repo` confirmed KEEP (external GitHub URL).
+- Target execution version: v1.3.0.
+- No `package.json` was modified. No lockfile was modified. No npm install.
+- HOLD remains current. execution remains disabled. No git push.
 
 ## v1.2.4 - ProductName Display Migration
 
