@@ -20,11 +20,11 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v2.1.0
-- latestUpdate: V3 goal and real operation path added
+- roadmapVersion: v2.2.0
+- latestUpdate: Real operation path fully defined
 - docs-only commits completed: local docs commits exist
-- current next human action: issue GO G-01 (tests/ichikishima commit) or GO G-02 (tests/hermes commit)
-- HOLD reason: execution disabled; productionReady: false; v3.x tasks not started; tests commit requires human GO
+- current next human action: review HUMAN_REVIEW_DAY_RUNBOOK.md; issue GO G-01/G-02 for tests commit
+- HOLD reason: execution disabled; productionReady: false; all 24 HOLD gates unsatisfied; current level = 0
 
 ## Boundaries
 

@@ -7,9 +7,9 @@ and does not require tooling.
 
 | Field | Meaning | Current value |
 |---|---|---|
-| roadmapVersion | visible roadmap version | v2.1.0 |
+| roadmapVersion | visible roadmap version | v2.2.0 |
 | lastUpdated | visible update date | 2026-05-12 |
-| latestUpdate | short update summary | V3 goal and real operation path added |
+| latestUpdate | short update summary | Real operation path fully defined |
 | currentDecision | current project decision | HOLD |
 | executionStatus | execution gate state | disabled |
 | productionReady | production readiness flag | false |

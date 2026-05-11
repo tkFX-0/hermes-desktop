@@ -119,7 +119,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">roadmapVersion: v2.1.0</span>
+        <span class="chip ok">roadmapVersion: v2.2.0</span>
         <span class="chip ok">lastUpdated: 2026-05-12</span>
       </div>
     </header>
@@ -128,11 +128,12 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div class="card status-card">
           <h2>譖ｴ譁ｰ繧ｹ繝・・繧ｿ繧ｹ</h2>
           <div class="kv">
-            <div>roadmapVersion</div><div><code>v2.1.0</code></div>
+            <div>roadmapVersion</div><div><code>v2.2.0</code></div>
             <div>lastUpdated</div><div><code>2026-05-12</code></div>
-            <div>latestUpdate</div><div>V3 goal and real operation path added</div>
+            <div>latestUpdate</div><div>Real operation path fully defined</div>
             <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
             <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
+            <div>v2.2.0 note</div><div>v2.2.0: REAL_OPERATION_MASTER_ROADMAP.md + V3_TO_V10_TASK_TREE.md + REAL_OPERATION_HOLD_GATE_MATRIX.md (G-01–G-24) + HUMAN_REVIEW_DAY_RUNBOOK.md + PRODUCTION_READY_DEFINITION.md + CONTROLLED_PILOT_DEFINITION.md + SAFE_AUTONOMY_LADDER.md (Level 0–9) + DEVICE_AND_ROBOT_INTEGRATION_GATE.md + V3_IMPLEMENTATION_BACKLOG.md + REAL_OPERATION_ROLLBACK_AND_INCIDENT_PLAN.md. Full v3–v10 path defined. Current level: 0. HOLD.</div>
             <div>v2.1.0 note</div><div>v2.1.0: V3_GOAL_AND_TASK_PACK.md + V3_EXECUTION_VALIDATION_ROADMAP.md + V3_HOLD_GATE_MATRIX.md (19 gates) + V3_IMPLEMENTATION_SEQUENCE.md + REAL_OPERATION_PATH_TO_PRODUCTION.md (v3–v10) + V3_TEST_COMMIT_DECISION_MATRIX.md + V3_HUMAN_GO_CHECKLIST.md. v3.x goal defined. No execution. HOLD.</div>
             <div>v2.0 note</div><div>v2.0: V2_READINESS_PACKAGE.md + V2_REMAINING_HOLD_ITEMS.md + V3_EXECUTION_VALIDATION_PRECONDITIONS.md. All v2.0 tasks done. v3.x preconditions documented. HOLD remains. productionReady: false.</div>
             <div>v1.9.0 note</div><div>v1.9.0: PHASE_E_REPO_RENAME_PLAN.md + EXTERNAL_REFERENCE_MATRIX.md. Targets: publish.repo + dev-app-update.yml repo. External GitHub rename required. appId unchanged. Execution HOLD.</div>
@@ -176,7 +177,23 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       <section id="changelog">
         <h2>譖ｴ譁ｰ螻･豁ｴ / Changelog</h2>
         <div class="card">
-          <h3>v2.1.0 - V3 goal and real operation path <span class="update-badge">latest</span></h3>
+          <h3>v2.2.0 - Real operation path fully defined <span class="update-badge">latest</span></h3>
+          <ul>
+            <li>REAL_OPERATION_MASTER_ROADMAP.md: v3–v10 master roadmap; productionReady false at every stage; G-18 only path.</li>
+            <li>V3_TO_V10_TASK_TREE.md: hierarchical task breakdown; docs/code/cmd/hw classified per stage.</li>
+            <li>REAL_OPERATION_HOLD_GATE_MATRIX.md: G-01–G-24; GO/STOP/rollback for each gate.</li>
+            <li>HUMAN_REVIEW_DAY_RUNBOOK.md: step-by-step human review guide; G-01/G-02/G-03 decision order.</li>
+            <li>PRODUCTION_READY_DEFINITION.md: what productionReady true means; G-18 is only path; what does NOT set it.</li>
+            <li>CONTROLLED_PILOT_DEFINITION.md: single-run; human-in-loop; immediate stop; no auto-repeat.</li>
+            <li>SAFE_AUTONOMY_LADDER.md: Level 0–9; current level 0; downgrade always allowed.</li>
+            <li>DEVICE_AND_ROBOT_INTEGRATION_GATE.md: face terminal / StackChan / voice / camera / robotMotion as separate gates.</li>
+            <li>V3_IMPLEMENTATION_BACKLOG.md: READY tasks for next session; priority order defined.</li>
+            <li>REAL_OPERATION_ROLLBACK_AND_INCIDENT_PLAN.md: P0/P1/P2/P3 response; GO→HOLD revert; emergency stop concept.</li>
+            <li>v2.2.0 is NOT productionReady, NOT GO, NOT execution. HOLD maintained.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>v2.1.0 - V3 goal and real operation path</h3>
           <ul>
             <li>V3_GOAL_AND_TASK_PACK.md: v3.x goal + task list (v3.0–v3.9). NOT productionReady, NOT GO, NOT execution.</li>
             <li>V3_EXECUTION_VALIDATION_ROADMAP.md: staged validation path S-0 to S-12; redaction policy defined.</li>

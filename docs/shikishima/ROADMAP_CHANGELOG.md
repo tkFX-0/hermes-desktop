@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v2.1.0
+- roadmapVersion: v2.2.0
 - lastUpdated: 2026-05-12
-- latestUpdate: V3 goal and real operation path added
+- latestUpdate: Real operation path fully defined
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,20 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v2.2.0 - Real Operation Path Fully Defined
+
+- Added `REAL_OPERATION_MASTER_ROADMAP.md` — authoritative v3–v10 master roadmap; productionReady false at every stage; G-18 only path to true.
+- Added `V3_TO_V10_TASK_TREE.md` — hierarchical task breakdown v3–v10; docs/code/cmd/hw classified.
+- Added `REAL_OPERATION_HOLD_GATE_MATRIX.md` — comprehensive G-01–G-24 matrix; GO/STOP/rollback for each.
+- Added `HUMAN_REVIEW_DAY_RUNBOOK.md` — step-by-step runbook for human reviewer; G-01/G-02/G-03 decision guidance.
+- Added `PRODUCTION_READY_DEFINITION.md` — productionReady true definition; sole path = G-18; what does NOT set it.
+- Added `CONTROLLED_PILOT_DEFINITION.md` — controlled pilot vs real operation; single-run; immediate stop; no auto-repeat.
+- Added `SAFE_AUTONOMY_LADDER.md` — Level 0–9 with GO conditions; current level = 0; downgrade always allowed.
+- Added `DEVICE_AND_ROBOT_INTEGRATION_GATE.md` — face terminal / StackChan / voice / camera / robotMotion as separate gates.
+- Added `V3_IMPLEMENTATION_BACKLOG.md` — READY/AFTER-GO/AFTER-STAGE classified backlog; priority order for next session.
+- Added `REAL_OPERATION_ROLLBACK_AND_INCIDENT_PLAN.md` — P0/P1/P2/P3 incident response; GO→HOLD revert; emergency stop concept.
+- v2.2.0 is NOT productionReady, NOT GO approval, NOT execution approval.
 
 ## v2.1.0 - V3 Goal and Real Operation Path
 

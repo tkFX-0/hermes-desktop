@@ -115,6 +115,16 @@ network flow.
 - `REAL_OPERATION_PATH_TO_PRODUCTION.md` - v2.1.0 real operation path v3 through v10.
 - `V3_TEST_COMMIT_DECISION_MATRIX.md` - v2.1.0 test commit decisions (no staging performed).
 - `V3_HUMAN_GO_CHECKLIST.md` - v2.1.0 19 independent GO checklists for human approval.
+- `REAL_OPERATION_MASTER_ROADMAP.md` - v2.2.0 authoritative v3–v10 master roadmap with productionReady conditions.
+- `V3_TO_V10_TASK_TREE.md` - v2.2.0 hierarchical task breakdown v3–v10; docs/code/cmd/hw classification.
+- `REAL_OPERATION_HOLD_GATE_MATRIX.md` - v2.2.0 comprehensive G-01–G-24 gate matrix with rollback conditions.
+- `HUMAN_REVIEW_DAY_RUNBOOK.md` - v2.2.0 step-by-step human review runbook for GO decisions.
+- `PRODUCTION_READY_DEFINITION.md` - v2.2.0 productionReady true definition; G-18 only path; final checklist.
+- `CONTROLLED_PILOT_DEFINITION.md` - v2.2.0 controlled pilot definition; single-run; human-in-loop; stop conditions.
+- `SAFE_AUTONOMY_LADDER.md` - v2.2.0 Level 0–9 autonomy ladder; current level 0; downgrade policy.
+- `DEVICE_AND_ROBOT_INTEGRATION_GATE.md` - v2.2.0 device integration gates (StackChan/voice/camera/robotMotion).
+- `V3_IMPLEMENTATION_BACKLOG.md` - v2.2.0 READY/AFTER-GO/AFTER-STAGE classified backlog with priority order.
+- `REAL_OPERATION_ROLLBACK_AND_INCIDENT_PLAN.md` - v2.2.0 P0–P3 incident response; rollback; emergency stop concept.
 
 ## How To Review
 
