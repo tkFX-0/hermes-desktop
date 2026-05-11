@@ -329,6 +329,7 @@ export async function setupClaw3d(
           cwd: homedir(),
           env,
           stdio: ["ignore", "pipe", "pipe"],
+          windowsHide: true,
         },
       );
 
@@ -362,6 +363,7 @@ export async function setupClaw3d(
         cwd: HERMES_OFFICE_DIR,
         env,
         stdio: ["ignore", "pipe", "pipe"],
+        windowsHide: true,
       });
 
       proc.stdout?.on("data", (data: Buffer) => {
@@ -388,6 +390,7 @@ export async function setupClaw3d(
       cwd: HERMES_OFFICE_DIR,
       env,
       stdio: ["ignore", "pipe", "pipe"],
+      windowsHide: true,
     });
 
     proc.stdout?.on("data", (data: Buffer) => {
@@ -459,6 +462,7 @@ export function startDevServer(): boolean {
     },
     stdio: ["ignore", "pipe", "pipe"],
     detached: true,
+    windowsHide: true,
   });
 
   devServerProcess = proc;
@@ -533,6 +537,7 @@ export function startAdapter(): boolean {
     },
     stdio: ["ignore", "pipe", "pipe"],
     detached: true,
+    windowsHide: true,
   });
 
   adapterProcess = proc;

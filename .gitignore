@@ -22,6 +22,11 @@ pnpm-debug.log*
 .env.*
 !.env.example
 
+# WSL2 wrapper — local real values (never commit)
+sandbox/hermes-autonomy-zone/local-only/wsl-wrapper-values.local.json
+sandbox/hermes-autonomy-zone/local-only/wsl-distro-selection.local.json
+.task-start-time.local.txt
+
 # ESLint cache
 .eslintcache
 

@@ -209,6 +209,7 @@ export function runHermesDoctor(): string {
         HERMES_HOME,
       },
       stdio: ["ignore", "pipe", "pipe"],
+      windowsHide: true,
       timeout: 30000,
     });
     return stripAnsi(output.toString());
@@ -269,6 +270,7 @@ export async function runClawMigrate(
         TERM: "dumb",
       },
       stdio: ["ignore", "pipe", "pipe"],
+      windowsHide: true,
     });
 
     proc.stdout?.on("data", (data: Buffer) => {
@@ -326,6 +328,7 @@ export async function runHermesUpdate(
         TERM: "dumb",
       },
       stdio: ["ignore", "pipe", "pipe"],
+      windowsHide: true,
     });
 
     proc.stdout?.on("data", (data: Buffer) => {
@@ -456,6 +459,7 @@ export async function runInstall(
         TERM: "dumb",
       },
       stdio: ["ignore", "pipe", "pipe"],
+      windowsHide: true,
     });
 
     proc.stdout?.on("data", (data: Buffer) => {
