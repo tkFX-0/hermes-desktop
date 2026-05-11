@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v1.2.1
+- roadmapVersion: v1.2.2
 - lastUpdated: 2026-05-11
-- latestUpdate: Low-risk UI wording migration added
+- latestUpdate: Package metadata audit added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,18 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v1.2.2 - Package Metadata Audit
+
+- Added `PACKAGE_METADATA_AUDIT.md` — audit-only / report-only.
+- Key findings:
+  - `description` change: SAFE (no cascading effects).
+  - `name` change: MEDIUM — affects artifact filenames, lockfile root name, updaterCacheDirName.
+  - `productName` in electron-builder.yml is NOT derived from package.json name.
+  - External GitHub repo refs in electron-builder.yml and dev-app-update.yml: KEEP.
+- Recommended split: description (v1.2.3) / productName (v1.2.x) / name (v1.3.0).
+- No package.json changes made. HOLD remains current.
+- execution remains disabled.
 
 ## v1.2.1 - Low-Risk UI Wording Migration
 

@@ -7,9 +7,9 @@ and does not require tooling.
 
 | Field | Meaning | Current value |
 |---|---|---|
-| roadmapVersion | visible roadmap version | v1.2.1 |
+| roadmapVersion | visible roadmap version | v1.2.2 |
 | lastUpdated | visible update date | 2026-05-11 |
-| latestUpdate | short update summary | Low-risk UI wording migration added |
+| latestUpdate | short update summary | Package metadata audit added |
 | currentDecision | current project decision | HOLD |
 | executionStatus | execution gate state | disabled |
 | productionReady | production readiness flag | false |
