@@ -99,6 +99,7 @@ network flow.
 - `V2_IMPLEMENTATION_SEQUENCE.md` - linear task sequence v1.3.1→v2.0 with HOLD gates.
 - `SANDBOX_GITIGNORE_AUDIT.md` - v1.4.0 sandbox/.cursor/.claude gitignore audit.
 - `TESTS_ICHIKISHIMA_REVIEW_PACKAGE.md` - v1.5.0 tests/ichikishima review (66 files classified).
+- `TESTS_HERMES_REVIEW_PACKAGE.md` - v1.5.1 tests/hermes review (12 zone tests classified).
 
 ## How To Review
 

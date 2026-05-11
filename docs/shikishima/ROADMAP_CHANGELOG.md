@@ -1,4 +1,4 @@
-# Shikishima Roadmap Changelog
+﻿# Shikishima Roadmap Changelog
 
 ## Purpose
 
@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v1.5.0
+- roadmapVersion: v1.5.1
 - lastUpdated: 2026-05-12
-- latestUpdate: tests/ichikishima review package added
+- latestUpdate: tests/hermes review package added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -29,13 +29,22 @@ Every future roadmap-affecting change must update:
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
 
+## v1.5.1 - tests/hermes Review Package
+
+- Added `TESTS_HERMES_REVIEW_PACKAGE.md` — audit-only / no-test-execution.
+- 12 test files in `tests/hermes/zone/`: config, denylist, path-guard, read/write policy, wrappers, delete-wrapper, operation-blocks, approval-request, smoke, pilot.
+- Subsystem: autonomy-zone (hermes-zone) — separate from tests/ichikishima/.
+- All 12 tests: LOW to LOW-MEDIUM risk. Smoke and pilot tests: review CI guard before commit.
+- Can be committed independently of tests/ichikishima/ or in same session.
+- No tests executed. No test files staged. HOLD remains current.
+
 ## v1.5.0 - tests/ichikishima Review Package
 
-- Added `TESTS_ICHIKISHIMA_REVIEW_PACKAGE.md` — audit-only / no-test-execution.
+- Added `TESTS_ICHIKISHIMA_REVIEW_PACKAGE.md` 窶・audit-only / no-test-execution.
 - 66 test files classified by subsystem: agent-team(7), approval(5), audit(2), control-center(14), core(3), hermes(21), memory(1), orchestrator(1), pilot(1), review(2), sandbox(3), visualization(3).
-- `sandbox/dummy-hermes-path.ts`: fixture — SAFE to commit (path constant only).
-- `sandbox/dummy-hermes-stub-design.process-local.test.ts`: SAFE — always skipped in CI; `RUN_DUMMY_HERMES_LOCAL_PROCESS=1` required + `CI!=true`.
-- `hermes-real-pilot-minimal.test.ts` and `hermes-real-process-adapter.test.ts`: MEDIUM — brief review recommended before commit.
+- `sandbox/dummy-hermes-path.ts`: fixture 窶・SAFE to commit (path constant only).
+- `sandbox/dummy-hermes-stub-design.process-local.test.ts`: SAFE 窶・always skipped in CI; `RUN_DUMMY_HERMES_LOCAL_PROCESS=1` required + `CI!=true`.
+- `hermes-real-pilot-minimal.test.ts` and `hermes-real-process-adapter.test.ts`: MEDIUM 窶・brief review recommended before commit.
 - Overall verdict: tests/ichikishima/ is commit-ready as a unit pending human GO.
 - No tests executed. No test files staged. HOLD remains current.
 
@@ -43,22 +52,22 @@ Roadmap updates are not execution approval. Changelog updates are not GO.
 
 - Added `SANDBOX_GITIGNORE_AUDIT.md`.
 - Updated `.gitignore`: added `sandbox/`, `.cursor/`, `.claude/scripts/`, `.claude/settings.json`, `.claude/settings.local.json`.
-- `sandbox/` (~4,553 files) now fully ignored — prevents accidental stage.
+- `sandbox/` (~4,553 files) now fully ignored 窶・prevents accidental stage.
 - `.cursor/` and `.claude/` tool config dirs now ignored.
 - No sandbox or tool config files staged/committed.
 - HOLD remains current. No git push.
 
 ## v1.3.1 - V2 Goal and Task Pack
 
-- Added `POST_V1_3_0_REFERENCE_AUDIT.md` — post-migration reference audit.
+- Added `POST_V1_3_0_REFERENCE_AUDIT.md` 窶・post-migration reference audit.
   - hermes-desktop: DONE (package/lockfile/updater), KEEP (publish.repo/dev-app-update repo), HOLD (appId/executableName/Phase D-E).
-- Added `UNTRACKED_WORKTREE_INVENTORY.md` — untracked worktree classification.
+- Added `UNTRACKED_WORKTREE_INVENTORY.md` 窶・untracked worktree classification.
   - tests/ichikishima/ (69): HOLD (human review). tests/hermes/ (12): HOLD.
   - docs/ichikishima/ (127): legacy docs HOLD. sandbox/ (~4,553): local-only HOLD.
-  - .claude/, .cursor/: local tool config — never commit.
-- Added `V2_GOAL_AND_TASK_PACK.md` — v2.0 goal definition + task list v1.3.1→v2.0.
-- Added `V2_HOLD_GATE_MATRIX.md` — all HOLD gates with GO conditions.
-- Added `V2_IMPLEMENTATION_SEQUENCE.md` — linear task sequence with HOLD gates.
+  - .claude/, .cursor/: local tool config 窶・never commit.
+- Added `V2_GOAL_AND_TASK_PACK.md` 窶・v2.0 goal definition + task list v1.3.1竊致2.0.
+- Added `V2_HOLD_GATE_MATRIX.md` 窶・all HOLD gates with GO conditions.
+- Added `V2_IMPLEMENTATION_SEQUENCE.md` 窶・linear task sequence with HOLD gates.
 - v2.0 goal: naming/ControlCenter/Research/tests/untracked organized; v3.x-ready.
 - v2.0 is NOT productionReady, NOT GO approval, NOT execution approval.
 - Phase D (src rename) and Phase E (repo rename) remain HOLD.
@@ -66,13 +75,13 @@ Roadmap updates are not execution approval. Changelog updates are not GO.
 
 ## v1.3.0 - Package Name Migration
 
-- `package.json` name: `hermes-desktop` → `shikishima-desktop`.
+- `package.json` name: `hermes-desktop` 竊・`shikishima-desktop`.
 - `package-lock.json` root name: synced via `npm install --package-lock-only`.
-  - Also resolved pre-existing version stamp drift (`0.2.2` → `0.2.3`).
+  - Also resolved pre-existing version stamp drift (`0.2.2` 竊・`0.2.3`).
   - 6 `inBundle+dev+optional` sub-entries added (reconciliation, no new deps).
-- `dev-app-update.yml` updaterCacheDirName: `hermes-desktop-updater` → `shikishima-desktop-updater`.
-- `publish.repo` and `dev-app-update.yml repo`: UNCHANGED (`hermes-desktop` — external GitHub URL).
-- `electron-builder.yml productName`: UNCHANGED (`しきしま`).
+- `dev-app-update.yml` updaterCacheDirName: `hermes-desktop-updater` 竊・`shikishima-desktop-updater`.
+- `publish.repo` and `dev-app-update.yml repo`: UNCHANGED (`hermes-desktop` 窶・external GitHub URL).
+- `electron-builder.yml productName`: UNCHANGED (`縺励″縺励∪`).
 - `appId`: UNCHANGED (`com.nousresearch.hermes`).
 - `dependencies`, `scripts`, `build config`: UNCHANGED.
 - Artifact filenames (`${name}`): now resolve to `shikishima-desktop-*`.
@@ -92,7 +101,7 @@ Roadmap updates are not execution approval. Changelog updates are not GO.
   - src/shared/ichikishima/ (2 files): IPC channel constant + UI contract
   - Tracked modified: index.ts (main+preload), index.d.ts, Layout.tsx, i18n/index.ts, en/navigation.ts
 - ControlCenter IPC: read-only only; no execution channels; secrets excluded from snapshot payload.
-- tests/ichikishima/ (69 files): excluded — separate commit candidate.
+- tests/ichikishima/ (69 files): excluded 窶・separate commit candidate.
 - Remaining dirty (post-commit): `package-lock.json` version stamp only (non-blocker for v1.3.0).
 - Remaining untracked: tests/ichikishima/, tests/hermes/, docs/ichikishima/, sandbox/, .claude/, .cursor/.
 - v1.3.0 Package Name Migration: tracked working tree is now clean (package-lock auto-resolves).
@@ -101,32 +110,32 @@ Roadmap updates are not execution approval. Changelog updates are not GO.
 
 ## v1.2.10 - Group B Pre-Feature Cleanup
 
-- Fixed zh-CN `navigation.ts` `research` label: `"リサーチ"` → `"Research"`.
+- Fixed zh-CN `navigation.ts` `research` label: `"繝ｪ繧ｵ繝ｼ繝・` 竊・`"Research"`.
   Consistent with `controlCenter: "Control Center"` pattern.
 - Confirmed `tests/ichikishima/` exists with 69 test files (all untracked).
   Decision: commit tests separately from Group B feature commit (v1.2.11).
   Note: `dummy-hermes-path.ts` and `dummy-hermes-stub-design.process-local.test.ts`
-  contain "process-local" in names — review before committing tests.
+  contain "process-local" in names 窶・review before committing tests.
 - `GROUP_B_UNTRACKED_SOURCE_AUDIT.md` updated: zh-CN finding PASS; tests caveat added.
-- `SRC_DIRTY_FILES_CLASSIFICATION.md` updated: zh-CN CAUTION → PASS.
+- `SRC_DIRTY_FILES_CLASSIFICATION.md` updated: zh-CN CAUTION 竊・PASS.
 - Group B feature commit itself: NOT performed. Proceeds in v1.2.11.
 - Untracked source not staged. tests/ichikishima/ not staged.
 - HOLD remains current. execution remains disabled. No git push.
 
 ## v1.2.9 - Group B Untracked Source Audit
 
-- Added `GROUP_B_UNTRACKED_SOURCE_AUDIT.md` — audit-only / report-only / redacted-only.
+- Added `GROUP_B_UNTRACKED_SOURCE_AUDIT.md` 窶・audit-only / report-only / redacted-only.
 - Confirmed already-tracked (no staging needed): `ControlCenterAppShell.tsx`,
   `controlCenter.ts` i18n locale files (en + zh-CN).
 - Untracked source required for Group B commit:
-  - `src/main/ichikishima/` (~72 files) — core agent system
-  - `src/preload/ichikishima-control-center.ts` (20 lines) — read-only IPC bridge
-  - `src/renderer/src/screens/Research/Research.tsx` (47 lines) — local dashboard screen
-  - `src/shared/ichikishima/` (2 files) — IPC channel + type contract
+  - `src/main/ichikishima/` (~72 files) 窶・core agent system
+  - `src/preload/ichikishima-control-center.ts` (20 lines) 窶・read-only IPC bridge
+  - `src/renderer/src/screens/Research/Research.tsx` (47 lines) 窶・local dashboard screen
+  - `src/shared/ichikishima/` (2 files) 窶・IPC channel + type contract
 - control-center-readonly-ipc.ts confirmed: read-only only, no execution channels.
 - control-center-app-snapshot.ts confirmed: excludes raw keys/secrets/paths.
 - Research.tsx: standalone, depends on local web server, graceful degradation.
-- **zh-CN `research: "リサーチ"` confirmed placeholder** — fix to `"Research"` before commit.
+- **zh-CN `research: "繝ｪ繧ｵ繝ｼ繝・` confirmed placeholder** 窶・fix to `"Research"` before commit.
 - Recommended: single feature commit after zh-CN fix; tests/ichikishima/ separate.
 - `SRC_DIRTY_FILES_CLASSIFICATION.md` Group B section updated with v1.2.9 findings.
 - No source files modified. No commit/revert. No build/test. No git push.
@@ -147,14 +156,14 @@ Roadmap updates are not execution approval. Changelog updates are not GO.
 
 ## v1.2.7 - Src Dirty Files Classification
 
-- Added `SRC_DIRTY_FILES_CLASSIFICATION.md` — audit-only / report-only / redacted-only.
+- Added `SRC_DIRTY_FILES_CLASSIFICATION.md` 窶・audit-only / report-only / redacted-only.
 - 11 dirty tracked files classified into two groups:
   - Group A (safety hardening, no untracked deps): `.gitignore`, `claw3d.ts`, `installer.ts`
-    — recommended: commit separately. Caveat: BOM character on `installer.ts` line 1.
+    窶・recommended: commit separately. Caveat: BOM character on `installer.ts` line 1.
   - Group B (ControlCenter + Research feature, has untracked deps): 7 files
-    — recommended: commit together with untracked `ichikishima/`, `Research/`, etc.
+    窶・recommended: commit together with untracked `ichikishima/`, `Research/`, etc.
 - `Layout.tsx` adds `research` and `controlCenter` navigation. zh-CN `research` label is
-  a Japanese-language placeholder — may need correction before commit.
+  a Japanese-language placeholder 窶・may need correction before commit.
 - Untracked source directories noted (not audited in this task):
   `src/main/ichikishima/`, `src/preload/ichikishima-control-center.ts`,
   `src/renderer/src/screens/Research/`, `src/shared/ichikishima/`.
@@ -164,12 +173,12 @@ Roadmap updates are not execution approval. Changelog updates are not GO.
 
 ## v1.2.6 - Package-lock Dirty State Classification
 
-- Added `PACKAGE_LOCK_DIRTY_STATE_CLASSIFICATION.md` — audit-only / report-only / redacted-only.
-- Classification: package-lock dirty is version stamp drift only (2 lines × 2 locations).
-  - Root `name` field: unchanged (remains `hermes-desktop`) — no pre-existing drift.
-  - Root `version` field: stale by one minor version — auto-corrects in v1.3.0.
+- Added `PACKAGE_LOCK_DIRTY_STATE_CLASSIFICATION.md` 窶・audit-only / report-only / redacted-only.
+- Classification: package-lock dirty is version stamp drift only (2 lines ﾃ・2 locations).
+  - Root `name` field: unchanged (remains `hermes-desktop`) 窶・no pre-existing drift.
+  - Root `version` field: stale by one minor version 窶・auto-corrects in v1.3.0.
   - No dependency, integrity, or lockfileVersion changes.
-- Recommended handling: Keep HOLD — version stamp auto-resolves in v1.3.0 migration step.
+- Recommended handling: Keep HOLD 窶・version stamp auto-resolves in v1.3.0 migration step.
 - v1.3.0 blocker clarified: src/ dirty files (10 files) and `.gitignore` dirty state
   are the actual blockers; package-lock version stamp is NOT a blocker.
 - `PACKAGE_NAME_MIGRATION_PLAN.md` Step 0 caveat updated to reflect reclassification.
@@ -178,8 +187,8 @@ Roadmap updates are not execution approval. Changelog updates are not GO.
 
 ## v1.2.5 - Package Name Migration Plan
 
-- Added `PACKAGE_NAME_MIGRATION_PLAN.md` — plan-only / docs-static-only / report-only.
-- Candidate: `package.json name` `hermes-desktop` → `shikishima-desktop`.
+- Added `PACKAGE_NAME_MIGRATION_PLAN.md` 窶・plan-only / docs-static-only / report-only.
+- Candidate: `package.json name` `hermes-desktop` 竊・`shikishima-desktop`.
 - Impact analysis: artifact filenames, lockfile root name, updaterCacheDirName documented.
 - Pre-migration caveat: existing `package-lock.json` unrelated dirty state noted (redacted-only).
 - Safe migration steps, rollback plan, and verification checklist added.
@@ -191,7 +200,7 @@ Roadmap updates are not execution approval. Changelog updates are not GO.
 
 ## v1.2.4 - ProductName Display Migration
 
-- `electron-builder.yml` productName: `Hermes Agent` → `しきしま`.
+- `electron-builder.yml` productName: `Hermes Agent` 竊・`縺励″縺励∪`.
 - `package.json` name: unchanged (`hermes-desktop`).
 - `package.json` description: unchanged (v1.2.3 content preserved).
 - artifactName `${name}` references: unchanged.
@@ -204,8 +213,8 @@ Roadmap updates are not execution approval. Changelog updates are not GO.
 
 ## v1.2.3 - Package Description Migration
 
-- `package.json` description: `Hermes Agent Desktop — self-improving AI assistant`
-  → `Shikishima — desktop application for Hermes Agent`.
+- `package.json` description: `Hermes Agent Desktop 窶・self-improving AI assistant`
+  竊・`Shikishima 窶・desktop application for Hermes Agent`.
 - `package.json` name: unchanged (`hermes-desktop`).
 - `electron-builder.yml` productName: unchanged (`Hermes Agent`).
 - Lockfile, dependencies, scripts, build config: unchanged.
@@ -214,10 +223,10 @@ Roadmap updates are not execution approval. Changelog updates are not GO.
 
 ## v1.2.2 - Package Metadata Audit
 
-- Added `PACKAGE_METADATA_AUDIT.md` — audit-only / report-only.
+- Added `PACKAGE_METADATA_AUDIT.md` 窶・audit-only / report-only.
 - Key findings:
   - `description` change: SAFE (no cascading effects).
-  - `name` change: MEDIUM — affects artifact filenames, lockfile root name, updaterCacheDirName.
+  - `name` change: MEDIUM 窶・affects artifact filenames, lockfile root name, updaterCacheDirName.
   - `productName` in electron-builder.yml is NOT derived from package.json name.
   - External GitHub repo refs in electron-builder.yml and dev-app-update.yml: KEEP.
 - Recommended split: description (v1.2.3) / productName (v1.2.x) / name (v1.3.0).
@@ -226,20 +235,20 @@ Roadmap updates are not execution approval. Changelog updates are not GO.
 
 ## v1.2.1 - Low-Risk UI Wording Migration
 
-- `src/renderer/index.html` title: `Hermes Agent` → `しきしま`.
-- `src/renderer/src/components/common/HermesLogo.tsx` alt: `Hermes` → `しきしま`.
+- `src/renderer/index.html` title: `Hermes Agent` 竊・`縺励″縺励∪`.
+- `src/renderer/src/components/common/HermesLogo.tsx` alt: `Hermes` 竊・`縺励″縺励∪`.
 - File name, component name, and import path unchanged.
 - NAMING_MIGRATION_CANDIDATES.md Phase B items 1 and 2 marked DONE.
 - HOLD remains current. execution remains disabled. No src rename, no deletion, no GO.
 
 ## v1.2.0 - Low-Risk Instruction Naming Migration
 
-- Updated `AGENTS.md` Scope: "Ichikishima / Hermes" → "しきしま (旧名/internal: Ichikishima / Hermes Control Center)".
+- Updated `AGENTS.md` Scope: "Ichikishima / Hermes" 竊・"縺励″縺励∪ (譌ｧ蜷・internal: Ichikishima / Hermes Control Center)".
 - Updated `AGENTS.md` Normal Low-Risk Work: added `docs/shikishima/` as current area; retained `docs/ichikishima/` as legacy.
-- Updated `AGENTS.md` section heading: "Ichikishima Required Completion Report" → "しきしま Required Completion Report".
+- Updated `AGENTS.md` section heading: "Ichikishima Required Completion Report" 竊・"縺励″縺励∪ Required Completion Report".
 - Updated `CLAUDE.md` Scope: same as AGENTS.md.
-- Updated `CLAUDE.md` heading: "Ichikishima Required Completion Report" → "しきしま Required Completion Report".
-- Updated `CLAUDE.md` heading: "Ichikishima Safety Invariants" → "しきしま Safety Invariants".
+- Updated `CLAUDE.md` heading: "Ichikishima Required Completion Report" 竊・"縺励″縺励∪ Required Completion Report".
+- Updated `CLAUDE.md` heading: "Ichikishima Safety Invariants" 竊・"縺励″縺励∪ Safety Invariants".
 - Safety invariant content unchanged: HOLD / disabled / false / humanGoApprovalRequired=true all preserved.
 - All filesystem paths kept as-is (directories not yet renamed).
 - NAMING_MIGRATION_CANDIDATES.md Phase A items 1 and 2 marked DONE.
@@ -252,12 +261,12 @@ Roadmap updates are not execution approval. Changelog updates are not GO.
   READY_* values do not approve execution, GO, or productionReady.
 - Added "(non-execution design label)" inline note after `bridgeReadinessLabel`.
 - Added "(non-execution label)" inline note after `scenarioSuiteLabel`.
-- Added "not execution approval — HOLD remains current" note after
+- Added "not execution approval 窶・HOLD remains current" note after
   `controlledPilotCanRunOnceMeta`.
-- Strengthened `controlledPilotHint` i18n: added "— not execution approval".
+- Strengthened `controlledPilotHint` i18n: added "窶・not execution approval".
 - Added `readinessSafetyBanner`, `bridgeReadinessHint`, `scenarioSuiteHint`,
   `pilotMetaHint` keys to both en and zh-CN i18n files.
-- Updated SECURITY_AND_SAFETY_AUDIT_NOTES.md: ControlCenter readiness risk → LOW (mitigated).
+- Updated SECURITY_AND_SAFETY_AUDIT_NOTES.md: ControlCenter readiness risk 竊・LOW (mitigated).
 - HOLD remains current.
 - execution remains disabled.
 - no rename approval.
@@ -266,11 +275,11 @@ Roadmap updates are not execution approval. Changelog updates are not GO.
 
 ## v1.1.0 - Repository Hygiene Audit
 
-- Added `REPOSITORY_HYGIENE_AUDIT.md` — overall audit report with PASS/HOLD/NG table.
-- Added `NAMING_MIGRATION_CANDIDATES.md` — phased naming migration candidate list.
-- Added `OBSOLETE_FILE_CANDIDATES.md` — files and directories for future cleanup.
-- Added `SECURITY_AND_SAFETY_AUDIT_NOTES.md` — redacted security and safety findings.
-- Added `PROJECT_ALIGNMENT_REVIEW.md` — 5-agent and plan alignment review.
+- Added `REPOSITORY_HYGIENE_AUDIT.md` 窶・overall audit report with PASS/HOLD/NG table.
+- Added `NAMING_MIGRATION_CANDIDATES.md` 窶・phased naming migration candidate list.
+- Added `OBSOLETE_FILE_CANDIDATES.md` 窶・files and directories for future cleanup.
+- Added `SECURITY_AND_SAFETY_AUDIT_NOTES.md` 窶・redacted security and safety findings.
+- Added `PROJECT_ALIGNMENT_REVIEW.md` 窶・5-agent and plan alignment review.
 - This version is audit-only / report-only.
 - No files were renamed, deleted, or modified in src/.
 - No execution was approved.
@@ -335,7 +344,7 @@ Roadmap updates are not execution approval. Changelog updates are not GO.
 - no device connection approval.
 - no robot motion approval.
 
-## v0.9.0 — Expression Variation Set
+## v0.9.0 窶・Expression Variation Set
 
 - Added common static expression variation set.
 - Added agent expression state matrix.
@@ -347,7 +356,7 @@ Roadmap updates are not execution approval. Changelog updates are not GO.
 - no device connection approval.
 - no robot motion approval.
 
-## v0.8.1 — Static Face Preview Review Hardening
+## v0.8.1 窶・Static Face Preview Review Hardening
 
 - Added display-only / no execution / no device connection boundary text to each face preview card.
 - Added PC-width review guidance.
@@ -361,7 +370,7 @@ Roadmap updates are not execution approval. Changelog updates are not GO.
 - no device connection approval.
 - no robot motion approval.
 
-## v0.8.0 — Static Face Preview Board
+## v0.8.0 窶・Static Face Preview Board
 
 - Added static face preview board for five agents.
 - Added PC-width and smartphone-width visual review guidance.
@@ -377,7 +386,7 @@ Roadmap updates are not execution approval. Changelog updates are not GO.
 - no StackChan connection approval.
 - no robot motion approval.
 
-## v0.7.0 — Voice / Mouth-Flap / Eye-Gaze Concept
+## v0.7.0 窶・Voice / Mouth-Flap / Eye-Gaze Concept
 
 - Added voice concept as non-audio display intent.
 - Added agent-specific face and voice pattern guidance.
@@ -394,7 +403,7 @@ Roadmap updates are not execution approval. Changelog updates are not GO.
 - no StackChan control approval.
 - no robot motion approval.
 
-## v0.6.0 — Minimal Dot-Line Face Expression System
+## v0.6.0 窶・Minimal Dot-Line Face Expression System
 
 - Added minimal dot-line face system.
 - Replaced current preferred direction away from costume-heavy bust-up avatar design.
@@ -408,12 +417,12 @@ Roadmap updates are not execution approval. Changelog updates are not GO.
 - no StackChan control approval.
 - no robot motion approval.
 
-## v0.5.0 — Explorer-Style Static Dashboard
+## v0.5.0 窶・Explorer-Style Static Dashboard
 
 - Added Explorer-style Dashboard.
 - Added Agent Directory dashboard design.
 - Added Human Review Queue design.
-- Added しるべ Knowledge Index design.
+- Added 縺励ｋ縺ｹ Knowledge Index design.
 - Added Development Tempo dashboard design.
 - Added Safe Progress Views.
 - HOLD remains current.
@@ -421,7 +430,7 @@ Roadmap updates are not execution approval. Changelog updates are not GO.
 - no external API.
 - no autonomous execution.
 
-## v0.4.0 — Human Documentation Review Package
+## v0.4.0 窶・Human Documentation Review Package
 
 - Added human documentation review guide.
 - Added Phase 3, Phase 4, and Phase 5 approval checklists.
@@ -432,22 +441,22 @@ Roadmap updates are not execution approval. Changelog updates are not GO.
 - execution remains disabled.
 - no GO approval.
 
-## v0.3.1 — Status Label Consistency Hardening
+## v0.3.1 窶・Status Label Consistency Hardening
 
 - Added visible status legend mapping concise UI labels to canonical phase statuses.
 - Added canonical status text for Phase 3-10 in the HTML roadmap.
-- Hardened しるべ raw-value storage boundary wording.
+- Hardened 縺励ｋ縺ｹ raw-value storage boundary wording.
 - HOLD remains current.
 - execution remains disabled.
 - no GO approval.
 
-## v0.3.0 — HOLD-Safe Full Phase Implementation Loop
+## v0.3.0 窶・HOLD-Safe Full Phase Implementation Loop
 
 - Added Phase 3 permission review package.
 - Added Phase 4 Model Router review package.
-- Added Phase 5 しずめ review package.
-- Added Phase 6 つむぎ workflow docs.
-- Added Phase 7 しるべ logging templates.
+- Added Phase 5 縺励★繧・review package.
+- Added Phase 6 縺､繧縺・workflow docs.
+- Added Phase 7 縺励ｋ縺ｹ logging templates.
 - Added Phase 8 device boundary docs.
 - Added Phase 9 StackChan expression-only plan.
 - Added Phase 10 minimum operation runbook draft.
@@ -455,17 +464,17 @@ Roadmap updates are not execution approval. Changelog updates are not GO.
 - execution remains disabled.
 - no GO approval.
 
-## v0.2.0 — Phase 2.5-5 Review Support
+## v0.2.0 窶・Phase 2.5-5 Review Support
 
 - Added roadmap update visibility.
 - Added update/changelog section.
 - Added Phase Review Matrix references.
-- Added しずめ decision matrix references.
+- Added 縺励★繧・decision matrix references.
 - Added Model Router review matrix references.
 - Added visible update markers for Phase 3, Phase 4, and Phase 5.
 - HOLD remains current.
 
-## v0.1.0 — Initial Shikishima Roadmap Docs
+## v0.1.0 窶・Initial Shikishima Roadmap Docs
 
 - Added static roadmap HTML.
 - Added iPhone/mobile review view.
@@ -476,4 +485,4 @@ Roadmap updates are not execution approval. Changelog updates are not GO.
 - Added forbidden actions.
 - HOLD remains current.
 
-この範囲では問題を検出していません。
+縺薙・遽・峇縺ｧ縺ｯ蝠城｡後ｒ讀懷・縺励※縺・∪縺帙ｓ縲・

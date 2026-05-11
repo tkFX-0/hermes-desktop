@@ -1,10 +1,10 @@
-# しきしま計画 — 実運用ロードマップ
+﻿# 縺励″縺励∪險育判 窶・螳滄°逕ｨ繝ｭ繝ｼ繝峨・繝・・
 
 ## Update Status
 
-- roadmapVersion: v1.5.0
+- roadmapVersion: v1.5.1
 - lastUpdated: 2026-05-12
-- latestUpdate: tests/ichikishima review package added
+- latestUpdate: tests/hermes review package added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - changelog: `ROADMAP_CHANGELOG.md`
 - phase review: `PHASE_REVIEW_MATRIX.md`
@@ -45,7 +45,7 @@ architecture patterns. It includes:
 - Protocol Status.
 - Agent Directory.
 - Human Review Queue.
-- しるべ Knowledge Index.
+- 縺励ｋ縺ｹ Knowledge Index.
 - Current Tempo.
 - Safe Progress Views.
 
@@ -217,7 +217,7 @@ v0.4.0 adds:
 - `DOCUMENTATION_APPROVAL_RECORD_TEMPLATE.md`
 - `EXECUTION_APPROVAL_SEPARATION_POLICY.md`
 
-## Phase 0 — Current HOLD Baseline
+## Phase 0 窶・Current HOLD Baseline
 
 Goal: clarify the HOLD baseline and document what is not ready.
 
@@ -234,7 +234,7 @@ Forbidden:
 - Hermes.
 - GO transition.
 
-## Phase 1 — Naming and Final Vision
+## Phase 1 窶・Naming and Final Vision
 
 Goal: finalize agent names, roles, and nickname rules.
 
@@ -245,7 +245,7 @@ Outputs:
 
 Completion condition: names and roles are human approved.
 
-## Phase 2 — Static HTML Roadmap
+## Phase 2 窶・Static HTML Roadmap
 
 Goal: provide a static HTML roadmap with no execution features.
 
@@ -263,7 +263,7 @@ Rules:
 - no command input.
 - no execution buttons.
 
-## Phase 3 — Agent Roles and Permissions
+## Phase 3 窶・Agent Roles and Permissions
 
 Goal: define agent permissions, communication routes, and safety boundaries.
 
@@ -276,7 +276,7 @@ Review support added in v0.3.0:
 - `PHASE_3_AGENT_PERMISSION_REVIEW.md`
 - `PHASE_3_APPROVAL_CHECKLIST.md`
 
-## Phase 4 — Model Router Policy
+## Phase 4 窶・Model Router Policy
 
 Goal: define which model tier may be used for each class of task.
 
@@ -291,10 +291,10 @@ Default:
 
 - local-first.
 - private/local-only data does not go to cloud.
-- high-risk tasks go through `しずめ`.
+- high-risk tasks go through `縺励★繧～.
 - RunPod requires explicit approval.
 
-## Phase 5 — しずめ Safety Gate Policy
+## Phase 5 窶・縺励★繧・Safety Gate Policy
 
 Goal: define GO / HOLD / REJECT behavior.
 
@@ -307,7 +307,7 @@ Review support added in v0.3.0:
 - `PHASE_5_SHIZUME_POLICY_REVIEW.md`
 - `PHASE_5_APPROVAL_CHECKLIST.md`
 
-## Phase 6 — つむぎ Implementation Workflow
+## Phase 6 窶・縺､繧縺・Implementation Workflow
 
 Goal: define how implementation work is accepted, checked, tested, and handed off.
 
@@ -319,7 +319,7 @@ Draft docs added in v0.3.0:
 
 Result: documentation_only / not_approved_for_execution.
 
-## Phase 7 — しるべ Logs and Obsidian-Compatible Templates
+## Phase 7 窶・縺励ｋ縺ｹ Logs and Obsidian-Compatible Templates
 
 Goal: prevent context loss by standardizing handoff and summary logs.
 
@@ -332,7 +332,7 @@ Draft docs added in v0.3.0:
 
 Direct Obsidian automation remains HOLD.
 
-## Phase 8 — Device Role Plan
+## Phase 8 窶・Device Role Plan
 
 Goal: finalize roles for RTX 4070 PC, Lenovo TAB6, Redmi 12, StackChan, iPhone,
 and optional mini PC.
@@ -346,7 +346,7 @@ Draft docs added in v0.3.0:
 
 No device settings or connections are changed.
 
-## Phase 9 — StackChan Expression-Only Plan
+## Phase 9 窶・StackChan Expression-Only Plan
 
 Goal: keep StackChan limited to expression/face output with safety gate approval.
 
@@ -362,7 +362,7 @@ Forbidden:
 - safety-gate-free control.
 - robot control without separate approval.
 
-## Phase 10 — Minimum Human-Supervised Operation
+## Phase 10 窶・Minimum Human-Supervised Operation
 
 Goal: start the smallest possible real operation only after all prior phases are
 approved.
@@ -380,4 +380,4 @@ Draft docs added in v0.3.0:
 Phase 10 remains not approved for execution and requires separate explicit
 human GO approval.
 
-この範囲では問題を検出していません。
+縺薙・遽・峇縺ｧ縺ｯ蝠城｡後ｒ讀懷・縺励※縺・∪縺帙ｓ縲・
