@@ -231,29 +231,35 @@ src/main/installer.ts
 
 ### Group B — Commit Together with Untracked Source (7 files + untracked)
 
-```text
-src/main/index.ts
-src/preload/index.d.ts
-src/preload/index.ts
-src/renderer/src/screens/Layout/Layout.tsx
-src/shared/i18n/index.ts
-src/shared/i18n/locales/en/navigation.ts
-src/shared/i18n/locales/zh-CN/navigation.ts
+**Updated by v1.2.9 audit — see `GROUP_B_UNTRACKED_SOURCE_AUDIT.md`**
 
-+ Must include untracked:
-  src/main/ichikishima/
-  src/preload/ichikishima-control-center.ts
-  src/renderer/src/screens/Research/
-  src/shared/i18n/locales/en/controlCenter.ts
-  src/shared/i18n/locales/zh-CN/controlCenter.ts
-  (plus any other ichikishima/* files referenced)
+```text
+Tracked (7 files):
+  src/main/index.ts
+  src/preload/index.d.ts
+  src/preload/index.ts
+  src/renderer/src/screens/Layout/Layout.tsx
+  src/shared/i18n/index.ts
+  src/shared/i18n/locales/en/navigation.ts
+  src/shared/i18n/locales/zh-CN/navigation.ts
+
++ Must include untracked (~76 files):
+  src/main/ichikishima/           (~72 files) — core agent system
+  src/preload/ichikishima-control-center.ts  (1 file, 20 lines)
+  src/renderer/src/screens/Research/Research.tsx  (1 file, 47 lines)
+  src/shared/ichikishima/         (2 files) — IPC channel + type contract
+
+Already tracked (no staging needed):
+  src/renderer/src/screens/ControlCenterAppShell/  ← COMMITTED ✓
+  src/shared/i18n/locales/en/controlCenter.ts      ← COMMITTED ✓
+  src/shared/i18n/locales/zh-CN/controlCenter.ts   ← COMMITTED ✓
 ```
 
 - Risk: MEDIUM
-- Cannot commit tracked files alone; untracked source must also be staged
-- This is a significant feature commit (ControlCenter IPC bridge + Research/ControlCenter navigation)
-- **Caveat**: zh-CN `research` label `"リサーチ"` may be a placeholder needing correction
-- Suggested approach: audit untracked source first (separate classification task), then commit Group B together
+- **Confirmed: zh-CN `research: "リサーチ"` is a placeholder — fix before commit**
+- Recommended correction: `"Research"` (consistent with controlCenter en/zh-CN pattern)
+- Research.tsx depends on local web server (graceful degradation if unavailable)
+- Single commit feasible after zh-CN fix; tests/ichikishima/ can be committed separately
 
 ---
 

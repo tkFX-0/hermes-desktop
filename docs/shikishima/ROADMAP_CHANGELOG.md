@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v1.2.8
+- roadmapVersion: v1.2.9
 - lastUpdated: 2026-05-11
-- latestUpdate: Group A safety hardening committed
+- latestUpdate: Group B untracked source audit added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,25 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v1.2.9 - Group B Untracked Source Audit
+
+- Added `GROUP_B_UNTRACKED_SOURCE_AUDIT.md` — audit-only / report-only / redacted-only.
+- Confirmed already-tracked (no staging needed): `ControlCenterAppShell.tsx`,
+  `controlCenter.ts` i18n locale files (en + zh-CN).
+- Untracked source required for Group B commit:
+  - `src/main/ichikishima/` (~72 files) — core agent system
+  - `src/preload/ichikishima-control-center.ts` (20 lines) — read-only IPC bridge
+  - `src/renderer/src/screens/Research/Research.tsx` (47 lines) — local dashboard screen
+  - `src/shared/ichikishima/` (2 files) — IPC channel + type contract
+- control-center-readonly-ipc.ts confirmed: read-only only, no execution channels.
+- control-center-app-snapshot.ts confirmed: excludes raw keys/secrets/paths.
+- Research.tsx: standalone, depends on local web server, graceful degradation.
+- **zh-CN `research: "リサーチ"` confirmed placeholder** — fix to `"Research"` before commit.
+- Recommended: single feature commit after zh-CN fix; tests/ichikishima/ separate.
+- `SRC_DIRTY_FILES_CLASSIFICATION.md` Group B section updated with v1.2.9 findings.
+- No source files modified. No commit/revert. No build/test. No git push.
+- HOLD remains current. execution remains disabled.
 
 ## v1.2.8 - Group A Safety Hardening Committed
 

@@ -20,11 +20,11 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v1.2.8
-- latestUpdate: Group A safety hardening committed
+- roadmapVersion: v1.2.9
+- latestUpdate: Group B untracked source audit added
 - docs-only commits completed: local docs commits exist
-- current next human action: decide Group B feature commit scope — audit untracked ichikishima/Research source first, or commit Group B together with untracked source
-- HOLD reason: package.json name remains "hermes-desktop"; Group B (7 tracked files + untracked ichikishima/Research) must be resolved before v1.3.0; zh-CN research label placeholder noted
+- current next human action: (1) fix zh-CN research label "リサーチ" → "Research"; (2) commit Group B single feature commit (~83 files total); or (3) revert Group B and proceed to v1.3.0
+- HOLD reason: package.json name remains "hermes-desktop"; Group B (~83 files) must be committed or reverted before v1.3.0; zh-CN research label confirmed placeholder
 
 ## Boundaries
 
