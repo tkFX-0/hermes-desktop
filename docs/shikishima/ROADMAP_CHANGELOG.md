@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v1.1.1
+- roadmapVersion: v1.2.0
 - lastUpdated: 2026-05-11
-- latestUpdate: Readiness safety labels hardened
+- latestUpdate: Low-risk instruction naming migration added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,20 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v1.2.0 - Low-Risk Instruction Naming Migration
+
+- Updated `AGENTS.md` Scope: "Ichikishima / Hermes" → "しきしま (旧名/internal: Ichikishima / Hermes Control Center)".
+- Updated `AGENTS.md` Normal Low-Risk Work: added `docs/shikishima/` as current area; retained `docs/ichikishima/` as legacy.
+- Updated `AGENTS.md` section heading: "Ichikishima Required Completion Report" → "しきしま Required Completion Report".
+- Updated `CLAUDE.md` Scope: same as AGENTS.md.
+- Updated `CLAUDE.md` heading: "Ichikishima Required Completion Report" → "しきしま Required Completion Report".
+- Updated `CLAUDE.md` heading: "Ichikishima Safety Invariants" → "しきしま Safety Invariants".
+- Safety invariant content unchanged: HOLD / disabled / false / humanGoApprovalRequired=true all preserved.
+- All filesystem paths kept as-is (directories not yet renamed).
+- NAMING_MIGRATION_CANDIDATES.md Phase A items 1 and 2 marked DONE.
+- No src renames. No deletions. No GO. HOLD remains current.
+- execution remains disabled.
 
 ## v1.1.1 - Readiness Safety Labels Hardened
 

@@ -2,9 +2,9 @@
 
 ## Update Status
 
-- roadmapVersion: v1.1.1
+- roadmapVersion: v1.2.0
 - lastUpdated: 2026-05-11
-- latestUpdate: Readiness safety labels hardened
+- latestUpdate: Low-risk instruction naming migration added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - changelog: `ROADMAP_CHANGELOG.md`
 - phase review: `PHASE_REVIEW_MATRIX.md`

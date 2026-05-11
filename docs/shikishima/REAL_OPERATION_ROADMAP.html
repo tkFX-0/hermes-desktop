@@ -119,7 +119,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">roadmapVersion: v1.1.1</span>
+        <span class="chip ok">roadmapVersion: v1.2.0</span>
         <span class="chip ok">lastUpdated: 2026-05-11</span>
       </div>
     </header>
@@ -128,11 +128,12 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div class="card status-card">
           <h2>譖ｴ譁ｰ繧ｹ繝・・繧ｿ繧ｹ</h2>
           <div class="kv">
-            <div>roadmapVersion</div><div><code>v1.1.1</code></div>
+            <div>roadmapVersion</div><div><code>v1.2.0</code></div>
             <div>lastUpdated</div><div><code>2026-05-11</code></div>
-            <div>latestUpdate</div><div>Readiness safety labels hardened</div>
+            <div>latestUpdate</div><div>Low-risk instruction naming migration added</div>
             <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
             <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
+            <div>v1.2.0 note</div><div>v1.2.0 migrates instruction file display names. AGENTS.md and CLAUDE.md updated: "Ichikishima" → "しきしま". Safety invariants and filesystem paths preserved. No src rename. HOLD remains current.</div>
             <div>v1.1.1 note</div><div>v1.1.1 hardens ControlCenter readiness safety labels. Adds safety banner, inline non-execution disclaimers for READY_* adjacent fields, and strengthened i18n hints. No GO, no execution, no rename, no deletion.</div>
             <div>v1.1.0 note</div><div>v1.1.0 is audit-only / report-only. It adds repository hygiene audit docs (naming, obsolete files, security, alignment). No renames, deletions, or execution approved. HOLD remains current.</div>
             <div>v1.0.1 note</div><div>v1.0.1 adds a human static review record template for v1.0.0. It records docs/static-only review results and does not approve GO, execution, connection, productionReady, robot control, or runtime readiness.</div>
@@ -154,7 +155,20 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       <section id="changelog">
         <h2>譖ｴ譁ｰ螻･豁ｴ / Changelog</h2>
         <div class="card">
-          <h3>v1.1.1 - Readiness safety labels hardened <span class="update-badge">latest</span></h3>
+          <h3>v1.2.0 - Low-risk instruction naming migration <span class="update-badge">latest</span></h3>
+          <ul>
+            <li>AGENTS.md: "Ichikishima" → "しきしま (旧名/internal: Ichikishima / Hermes Control Center)".</li>
+            <li>AGENTS.md: Added docs/shikishima/ to low-risk work list; retained docs/ichikishima/ as legacy.</li>
+            <li>AGENTS.md heading: "Ichikishima Required Completion Report" → "しきしま Required Completion Report".</li>
+            <li>CLAUDE.md: Same scope and heading updates.</li>
+            <li>CLAUDE.md: "Ichikishima Safety Invariants" → "しきしま Safety Invariants" (content unchanged).</li>
+            <li>All filesystem paths kept as-is; no src rename.</li>
+            <li>Safety invariants: HOLD / disabled / false / humanGoApprovalRequired=true all preserved.</li>
+            <li>HOLD remains current; execution remains disabled.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>v1.1.1 - Readiness safety labels hardened</h3>
           <ul>
             <li>Added orange safety banner to Control Center: READY_* do not approve execution, GO, or productionReady.</li>
             <li>Added inline non-execution disclaimers to bridgeReadinessLabel, scenarioSuiteLabel, controlledPilotCanRunOnceMeta.</li>
@@ -389,10 +403,10 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
           <div class="card">
             <h3>Current Tempo</h3>
             <div class="kv">
-              <div>roadmapVersion</div><div><code>v1.1.1</code></div>
-              <div>latestUpdate</div><div>Readiness safety labels hardened</div>
+              <div>roadmapVersion</div><div><code>v1.2.0</code></div>
+              <div>latestUpdate</div><div>Low-risk instruction naming migration added</div>
               <div>docs-only commits</div><div>completed locally</div>
-              <div>current next human action</div><div>review rename/delete candidates from v1.1.0 hygiene audit</div>
+              <div>current next human action</div><div>review Phase B (index.html title / HermesLogo alt rename)</div>
               <div>HOLD reason</div><div>documentation approval and execution approval remain separate; no renames or deletions approved yet</div>
             </div>
           </div>

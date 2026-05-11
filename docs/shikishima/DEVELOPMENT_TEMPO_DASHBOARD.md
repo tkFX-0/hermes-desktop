@@ -20,11 +20,11 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v1.1.1
-- latestUpdate: Readiness safety labels hardened
+- roadmapVersion: v1.2.0
+- latestUpdate: Low-risk instruction naming migration added
 - docs-only commits completed: local docs commits exist
-- current next human action: review rename/delete candidates from v1.1.0 hygiene audit
-- HOLD reason: documentation approval and execution approval remain separate; no renames or deletions approved yet
+- current next human action: review Phase B (index.html title / HermesLogo alt rename)
+- HOLD reason: documentation approval and execution approval remain separate; src path rename not yet approved
 
 ## Boundaries
 

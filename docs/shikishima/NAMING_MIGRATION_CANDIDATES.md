@@ -118,10 +118,10 @@ break app functionality or misrepresent upstream attribution.
 
 Can proceed without code changes:
 
-1. Update `AGENTS.md` "Ichikishima" references → "しきしま"
-2. Update `CLAUDE.md` "Ichikishima" references → "しきしま"
-3. Plan `docs/ichikishima/` merge into `docs/shikishima/`
-4. Rename `.cursor/rules/ichikishima-*.mdc` files
+1. ~~Update `AGENTS.md` "Ichikishima" references → "しきしま"~~ **DONE in v1.2.0**
+2. ~~Update `CLAUDE.md` "Ichikishima" references → "しきしま"~~ **DONE in v1.2.0**
+3. Plan `docs/ichikishima/` merge into `docs/shikishima/` — HOLD
+4. Rename `.cursor/rules/ichikishima-*.mdc` files — HOLD
 
 ### Phase B — Cosmetic UI (Low Risk)
 
