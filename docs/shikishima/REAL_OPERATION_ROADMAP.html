@@ -31,8 +31,8 @@ aside { position:sticky; top:0; height:100vh; background:var(--bg1); border-righ
 .side-title { font-size:18px; font-weight:850; margin-top:5px; }
 .hold-pill { margin:18px 0; border:1px solid rgba(251,146,60,.35); color:var(--hold); background:rgba(251,146,60,.1); border-radius:10px; padding:9px 12px; text-align:center; font-size:12px; font-weight:800; letter-spacing:.08em; }
 .nav { display:flex; flex-direction:column; gap:5px; }
-.nav button { width:100%; border:0; border-radius:8px; background:transparent; color:var(--sub); padding:9px 10px; text-align:left; font:600 13px var(--font); cursor:pointer; }
-.nav button:hover,.nav button.active { background:var(--bg3); color:var(--text); }
+.nav a { width:100%; border:0; border-radius:8px; background:transparent; color:var(--sub); padding:9px 10px; text-align:left; font:600 13px var(--font); cursor:pointer; }
+.nav a:hover,.nav a.active { background:var(--bg3); color:var(--text); }
 main { min-width:0; }
 header { padding:30px 42px 22px; border-bottom:1px solid var(--border); }
 h1 { margin:0 0 4px; font-size:25px; }
@@ -81,7 +81,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
   .app { display:block; }
   aside { position:static; height:auto; border-right:0; border-bottom:1px solid var(--border); }
   .nav { flex-direction:row; overflow:auto; }
-  .nav button { min-width:max-content; }
+  .nav a { min-width:max-content; }
   header,.content { padding-left:18px; padding-right:18px; }
   .kv { grid-template-columns:1fr; }
 }
@@ -94,17 +94,18 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
     <div class="side-title">実運用ロードマップ</div>
     <div class="hold-pill">HOLD — 実行無効</div>
     <nav class="nav" aria-label="sections">
-      <button class="active" data-section="roadmap">フェーズ一覧</button>
-      <button data-section="changelog">更新履歴</button>
-      <button data-section="explorer-dashboard">Explorer Dashboard</button>
-      <button data-section="minimal-face">Dot-Line Face</button>
-      <button data-section="voice-face">Voice / Mouth / Eye</button>
-      <button data-section="human-review">Human Review Package</button>
-      <button data-section="agents">5エージェント</button>
-      <button data-section="router">Model Router</button>
-      <button data-section="devices">デバイス役割</button>
-      <button data-section="diagram">システム図</button>
-      <button data-section="forbidden">禁止アクション</button>
+      <a class="active" href="#roadmap" data-section="roadmap">フェーズ一覧</a>
+      <a href="#changelog" data-section="changelog">更新履歴</a>
+      <a href="#explorer-dashboard" data-section="explorer-dashboard">Explorer Dashboard</a>
+      <a href="#minimal-face" data-section="minimal-face">Dot-Line Face</a>
+      <a href="#voice-face" data-section="voice-face">Voice / Mouth / Eye</a>
+      <a href="#face-preview" data-section="face-preview">Face Preview</a>
+      <a href="#human-review" data-section="human-review">Human Review Package</a>
+      <a href="#agents" data-section="agents">5エージェント</a>
+      <a href="#router" data-section="router">Model Router</a>
+      <a href="#devices" data-section="devices">デバイス役割</a>
+      <a href="#diagram" data-section="diagram">システム図</a>
+      <a href="#forbidden" data-section="forbidden">禁止アクション</a>
     </nav>
   </aside>
   <main>
@@ -116,7 +117,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">roadmapVersion: v0.7.0</span>
+        <span class="chip ok">roadmapVersion: v0.8.0</span>
         <span class="chip ok">lastUpdated: 2026-05-11</span>
       </div>
     </header>
@@ -125,12 +126,12 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div class="card status-card">
           <h2>更新ステータス</h2>
           <div class="kv">
-            <div>roadmapVersion</div><div><code>v0.7.0</code></div>
+            <div>roadmapVersion</div><div><code>v0.8.0</code></div>
             <div>lastUpdated</div><div><code>2026-05-11</code></div>
-            <div>latestUpdate</div><div>Voice / mouth-flap / eye-gaze concept added</div>
+            <div>latestUpdate</div><div>Static face preview board added</div>
             <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
             <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
-            <div>v0.7.0 note</div><div>v0.7.0 adds voice, mouth-flap, and eye-gaze concepts. It does not approve audio playback, recording, microphone use, external API use, StackChan control, robot motion, or execution.</div>
+            <div>v0.8.0 note</div><div>v0.8.0 adds a static face preview board for visual review only. It does not approve audio playback, recording, microphone use, external API use, StackChan connection, robot motion, or execution.</div>
           </div>
         </div>
         <h2>フェーズ一覧</h2>
@@ -148,6 +149,16 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       </section>
       <section id="changelog">
         <h2>更新履歴 / Changelog</h2>
+        <div class="card">
+          <h3>v0.8.0 — Static face preview board</h3>
+          <ul>
+            <li>Added static face preview board for five agents.</li>
+            <li>Added PC-width and smartphone-width visual review guidance.</li>
+            <li>Added face preview review checklist.</li>
+            <li>Added static visual state mapping.</li>
+            <li>HOLD remains current; execution remains disabled; no audio, camera, external API, StackChan connection, robot motion, or GO approval.</li>
+          </ul>
+        </div>
         <div class="card">
           <h3>v0.7.0 — Voice / mouth-flap / eye-gaze concept</h3>
           <ul>
@@ -301,8 +312,8 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
           <div class="card">
             <h3>Current Tempo</h3>
             <div class="kv">
-              <div>roadmapVersion</div><div><code>v0.7.0</code></div>
-              <div>latestUpdate</div><div>Voice / mouth-flap / eye-gaze concept added</div>
+              <div>roadmapVersion</div><div><code>v0.8.0</code></div>
+              <div>latestUpdate</div><div>Static face preview board added</div>
               <div>docs-only commits</div><div>completed locally</div>
               <div>current next human action</div><div>review Explorer-style dashboard design</div>
               <div>HOLD reason</div><div>documentation approval and execution approval remain separate</div>
@@ -438,6 +449,90 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
           </div>
         </div>
       </section>
+      <section id="face-preview">
+        <h2>Static Face Preview Board</h2>
+        <div class="card status-card">
+          <h3>Display-only visual review</h3>
+          <p>v0.8.0 adds static face previews for PC-width and smartphone-width review. These previews are made from dots, lines, tiny symbols, and display labels only.</p>
+          <p>No buttons, inputs, forms, audio, video, microphone, camera, external API, StackChan connection, robot control, GO approval, or production readiness are included.</p>
+        </div>
+        <div class="grid">
+          <div class="card">
+            <h3>しきしま / しき</h3>
+            <pre>  •     •
+     ⌣
+    ·</pre>
+            <div class="kv">
+              <div>asciiId</div><div>shikishima</div>
+              <div>voiceIntent</div><div>calm</div>
+              <div>mouthPattern</div><div>calm_loop</div>
+              <div>gazePattern</div><div>steady_center</div>
+              <div>tinySymbol</div><div>orbit_dot</div>
+            </div>
+          </div>
+          <div class="card">
+            <h3>しずめ</h3>
+            <pre>  ─     ─
+     ─
+   ―――</pre>
+            <div class="kv">
+              <div>asciiId</div><div>shizume</div>
+              <div>voiceIntent</div><div>protective</div>
+              <div>mouthPattern</div><div>minimal_gate_loop</div>
+              <div>gazePattern</div><div>steady_center</div>
+              <div>tinySymbol</div><div>gate_line</div>
+            </div>
+          </div>
+          <div class="card">
+            <h3>つむぎ / つむ</h3>
+            <pre>  ●     ●
+     o
+   ︶</pre>
+            <div class="kv">
+              <div>asciiId</div><div>tsumugi</div>
+              <div>voiceIntent</div><div>focused</div>
+              <div>mouthPattern</div><div>explain_loop</div>
+              <div>gazePattern</div><div>work_down</div>
+              <div>tinySymbol</div><div>thread_curve</div>
+            </div>
+          </div>
+          <div class="card">
+            <h3>はじめ</h3>
+            <pre>  ˙     ˙
+     ⌣
+     ↑</pre>
+            <div class="kv">
+              <div>asciiId</div><div>hajime</div>
+              <div>voiceIntent</div><div>proposing</div>
+              <div>mouthPattern</div><div>smile_talk_loop</div>
+              <div>gazePattern</div><div>thinking_up</div>
+              <div>tinySymbol</div><div>arrow_mark</div>
+            </div>
+          </div>
+          <div class="card">
+            <h3>しるべ</h3>
+            <pre>  ◡     ◡
+     ⌣
+     ✦</pre>
+            <div class="kv">
+              <div>asciiId</div><div>shirube</div>
+              <div>voiceIntent</div><div>archival</div>
+              <div>mouthPattern</div><div>quiet_loop</div>
+              <div>gazePattern</div><div>search_side</div>
+              <div>tinySymbol</div><div>bookmark_dot</div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Preview boundary</h3>
+          <ul>
+            <li>voiceIntent, mouthPattern, gazePattern, and blinkState are display labels only.</li>
+            <li>PC-width and smartphone-width review is visual review only.</li>
+            <li>robotMotion remains HOLD.</li>
+            <li>GO is not approved.</li>
+          </ul>
+        </div>
+      </section>
       <section id="human-review">
         <h2>Human Review Package</h2>
         <div class="card status-card">
@@ -565,13 +660,14 @@ const phases = [
 const grid = document.getElementById("phaseGrid");
 grid.innerHTML = phases.map((phase) => {
   const badgeClass = phase.status === "HOLD" ? "hold" : phase.status === "current" ? "current" : "pending";
-  const updateBadge = phase.updated ? '<span class="update-badge">updated in v0.7.0</span>' : "";
+  const updateBadge = phase.updated ? '<span class="update-badge">updated in v0.8.0</span>' : "";
   const canonical = phase.canonical ? `<li>canonical status: ${phase.canonical}</li>` : "";
   return `<article class="phase ${phase.updated ? "updated" : ""}"><div><span class="phase-num">Phase ${phase.num}</span><span class="badge ${badgeClass}">${phase.status}</span>${updateBadge}</div><div class="phase-title">${phase.title}</div><p class="role">${phase.goal}</p><ul>${canonical}<li>decision remains HOLD</li><li>execution remains disabled</li><li>documentation approval is not execution approval</li></ul></article>`;
 }).join("");
-document.querySelectorAll(".nav button").forEach((button) => {
-  button.addEventListener("click", () => {
-    document.querySelectorAll(".nav button").forEach((item) => item.classList.remove("active"));
+document.querySelectorAll(".nav a").forEach((button) => {
+  button.addEventListener("click", (event) => {
+    event.preventDefault();
+    document.querySelectorAll(".nav a").forEach((item) => item.classList.remove("active"));
     document.querySelectorAll("section").forEach((section) => section.classList.remove("active"));
     button.classList.add("active");
     document.getElementById(button.dataset.section).classList.add("active");

@@ -7,9 +7,9 @@ and does not require tooling.
 
 | Field | Meaning | Current value |
 |---|---|---|
-| roadmapVersion | visible roadmap version | v0.7.0 |
+| roadmapVersion | visible roadmap version | v0.8.0 |
 | lastUpdated | visible update date | 2026-05-11 |
-| latestUpdate | short update summary | Voice / mouth-flap / eye-gaze concept added |
+| latestUpdate | short update summary | Static face preview board added |
 | currentDecision | current project decision | HOLD |
 | executionStatus | execution gate state | disabled |
 | productionReady | production readiness flag | false |
@@ -41,6 +41,11 @@ and does not require tooling.
 | audioPlaybackApprovalStatus | audio playback approval state | not_approved |
 | microphoneApprovalStatus | microphone approval state | not_approved |
 | recordingApprovalStatus | recording approval state | not_approved |
+| staticFacePreviewBoardStatus | static face preview state | visual_review_only |
+| pcWidthPreviewStatus | PC-width preview state | review_ready |
+| smartphoneWidthPreviewStatus | smartphone-width preview state | review_ready |
+| facePreviewInteractionStatus | preview interaction state | no_input_no_button |
+| facePreviewConnectionStatus | preview connection state | no_connection |
 
 ## Status Values
 

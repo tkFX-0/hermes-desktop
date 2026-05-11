@@ -20,8 +20,8 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v0.7.0
-- latestUpdate: Voice / mouth-flap / eye-gaze concept added
+- roadmapVersion: v0.8.0
+- latestUpdate: Static face preview board added
 - docs-only commits completed: local docs commits exist
 - current next human action: review Explorer-style dashboard design
 - HOLD reason: documentation approval and execution approval remain separate

@@ -56,6 +56,9 @@ network flow.
 - `AGENT_FACE_VOICE_PATTERN_GUIDE.md` - agent-specific voice/face pattern guide.
 - `NON_EXECUTION_FACE_SIGNAL_PROTOCOL.md` - non-execution face signal vocabulary.
 - `FACE_TERMINAL_CONNECTION_CONCEPT.md` - future display terminal connection concept.
+- `STATIC_FACE_PREVIEW_BOARD.md` - static five-agent face preview board.
+- `FACE_PREVIEW_REVIEW_CHECKLIST.md` - visual and safety checklist for face preview.
+- `FACE_PREVIEW_VISUAL_STATES.md` - static visual state mapping for face preview.
 - `MINIMUM_OPERATION_RUNBOOK_DRAFT.md` - Phase 10 runbook draft.
 - `HUMAN_GO_APPROVAL_CHECKLIST.md` - future scoped GO checklist.
 - `NO_GO_CHECKLIST.md` - stop/no-go checklist.
@@ -119,6 +122,16 @@ Voice / mouth / eye concept review order:
 6. Re-check `EYE_GAZE_ANIMATION_CONCEPT.md`.
 7. Re-check `FACE_TERMINAL_EXPRESSION_PROTOCOL_DRAFT.md`.
 
+Static face preview review order:
+
+1. Open `REAL_OPERATION_ROADMAP.html`.
+2. Check the v0.8.0 Static Face Preview Board.
+3. Review `STATIC_FACE_PREVIEW_BOARD.md`.
+4. Review `FACE_PREVIEW_REVIEW_CHECKLIST.md`.
+5. Review `FACE_PREVIEW_VISUAL_STATES.md`.
+6. Check PC-width readability.
+7. Check smartphone-width readability.
+
 If the roadmap is updated, the HTML must visibly show that it was updated.
 Every roadmap-affecting change must update the visible HTML changelog and
 `ROADMAP_CHANGELOG.md`.
@@ -132,6 +145,10 @@ v0.7.0 adds voice intent, mouth-flap pattern, and eye-gaze pattern concepts.
 They are display labels and review vocabulary only. They do not approve audio
 playback, recording, microphone use, camera tracking, external API use,
 StackChan control, robot motion, GO, or production readiness.
+
+v0.8.0 adds a static face preview board. It is visual review only. It does not
+add buttons, inputs, audio, video, microphone, camera, external API, StackChan
+connection, robot control, GO, or production readiness.
 
 ## Naming Rules
 

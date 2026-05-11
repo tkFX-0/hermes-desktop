@@ -208,4 +208,33 @@ v0.7.0 concept non-goals:
 - no StackChan control.
 - no robot motion.
 
+## Static Face Preview Board Flow
+
+```mermaid
+flowchart TD
+  FaceDocs["Dot-line face docs"]
+  Labels["voiceIntent / mouthPattern / gazePattern labels"]
+  Board["Static Face Preview Board"]
+  PC["PC-width visual review"]
+  Phone["smartphone-width visual review"]
+  Hold["Execution remains HOLD"]
+
+  FaceDocs --> Labels --> Board
+  Board --> PC --> Hold
+  Board --> Phone --> Hold
+```
+
+v0.8.0 preview non-goals:
+
+- no button.
+- no input.
+- no form.
+- no audio.
+- no video.
+- no microphone.
+- no camera.
+- no external API.
+- no StackChan connection.
+- no robot control.
+
 この範囲では問題を検出していません。

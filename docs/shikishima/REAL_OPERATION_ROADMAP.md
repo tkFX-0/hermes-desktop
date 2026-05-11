@@ -2,9 +2,9 @@
 
 ## Update Status
 
-- roadmapVersion: v0.7.0
+- roadmapVersion: v0.8.0
 - lastUpdated: 2026-05-11
-- latestUpdate: Voice / mouth-flap / eye-gaze concept added
+- latestUpdate: Static face preview board added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - changelog: `ROADMAP_CHANGELOG.md`
 - phase review: `PHASE_REVIEW_MATRIX.md`
@@ -87,6 +87,22 @@ This includes:
 Voice intent is a display label only. It does not approve audio playback,
 recording, microphone use, speech synthesis, external API use, camera tracking,
 StackChan control, robot motion, GO, or production readiness.
+
+## Static Face Preview Board
+
+v0.8.0 adds a static face preview board for visual review.
+
+It includes:
+
+- five agent face previews.
+- PC-width and smartphone-width visual review guidance.
+- display-only labels for voiceIntent, mouthPattern, gazePattern, and blinkState.
+- `STATIC_FACE_PREVIEW_BOARD.md`
+- `FACE_PREVIEW_REVIEW_CHECKLIST.md`
+- `FACE_PREVIEW_VISUAL_STATES.md`
+
+It does not add buttons, inputs, forms, audio, video, microphone, camera,
+external API, StackChan connection, robot control, GO, or production readiness.
 
 ## Human Review Package
 
