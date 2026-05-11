@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v0.8.0
+- roadmapVersion: v0.8.1
 - lastUpdated: 2026-05-11
-- latestUpdate: Static face preview board added
+- latestUpdate: Static face preview review hardening added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,20 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v0.8.1 — Static Face Preview Review Hardening
+
+- Added display-only / no execution / no device connection boundary text to each face preview card.
+- Added PC-width review guidance.
+- Added smartphone-width review guidance.
+- Reconfirmed voiceIntent, mouthPattern, gazePattern, and blinkState are display labels only.
+- HOLD remains current.
+- execution remains disabled.
+- no audio playback approval.
+- no microphone approval.
+- no camera approval.
+- no device connection approval.
+- no robot motion approval.
 
 ## v0.8.0 — Static Face Preview Board
 

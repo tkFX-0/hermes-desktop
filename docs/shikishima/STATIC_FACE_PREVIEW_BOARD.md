@@ -21,13 +21,13 @@ readiness.
 
 ## Agents
 
-| Agent | ASCII ID | Static face summary | Tiny symbol | Display labels |
-| --- | --- | --- | --- | --- |
-| しきしま / しき | shikishima | calm dot eyes, tiny soft smile | orbit_dot | calm / calm_loop / steady_center |
-| しずめ | shizume | thin horizontal eyes, flat mouth | gate_line | protective / minimal_gate_loop / steady_center |
-| つむぎ / つむ | tsumugi | larger dot eyes, focused mouth | thread_curve | focused / explain_loop / work_down |
-| はじめ | hajime | upward dot eyes, bright small smile | arrow_mark | proposing / smile_talk_loop / thinking_up |
-| しるべ | shirube | half-moon eyes, quiet smile | bookmark_dot | archival / quiet_loop / search_side |
+| Agent | ASCII ID | Static face summary | Tiny symbol | Display labels | Boundary |
+| --- | --- | --- | --- | --- | --- |
+| しきしま / しき | shikishima | calm dot eyes, tiny soft smile | orbit_dot | calm / calm_loop / steady_center | display-only / no execution / no device connection |
+| しずめ | shizume | thin horizontal eyes, flat mouth | gate_line | protective / minimal_gate_loop / steady_center | display-only / no execution / no device connection |
+| つむぎ / つむ | tsumugi | larger dot eyes, focused mouth | thread_curve | focused / explain_loop / work_down | display-only / no execution / no device connection |
+| はじめ | hajime | upward dot eyes, bright small smile | arrow_mark | proposing / smile_talk_loop / thinking_up | display-only / no execution / no device connection |
+| しるべ | shirube | half-moon eyes, quiet smile | bookmark_dot | archival / quiet_loop / search_side | display-only / no execution / no device connection |
 
 Only しき and つむ are nicknames. しずめ, はじめ, and しるべ have no nicknames.
 
@@ -43,6 +43,17 @@ Only しき and つむ are nicknames. しずめ, はじめ, and しるべ have n
 - no test controls.
 - no StackChan preview wording.
 - no robot motion wording beyond HOLD.
+
+## v0.8.1 Review Hardening
+
+- Every face preview card must visibly state display-only.
+- Every face preview card must visibly state no execution.
+- Every face preview card must visibly state no device connection.
+- PC-width review checks spacing, readability, and label clarity only.
+- smartphone-width review checks wrap, vertical rhythm, and accidental
+  execution-looking affordances only.
+- voiceIntent, mouthPattern, gazePattern, and blinkState remain display labels
+  only.
 
 ## Current Status
 

@@ -237,4 +237,12 @@ v0.8.0 preview non-goals:
 - no StackChan connection.
 - no robot control.
 
+v0.8.1 preview hardening:
+
+- every preview card states display-only.
+- every preview card states no execution.
+- every preview card states no device connection.
+- PC-width review is visual review only.
+- smartphone-width review is visual review only.
+
 この範囲では問題を検出していません。

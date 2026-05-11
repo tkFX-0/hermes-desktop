@@ -2,9 +2,9 @@
 
 ## Update Status
 
-- roadmapVersion: v0.8.0
+- roadmapVersion: v0.8.1
 - lastUpdated: 2026-05-11
-- latestUpdate: Static face preview board added
+- latestUpdate: Static face preview review hardening added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - changelog: `ROADMAP_CHANGELOG.md`
 - phase review: `PHASE_REVIEW_MATRIX.md`
@@ -103,6 +103,15 @@ It includes:
 
 It does not add buttons, inputs, forms, audio, video, microphone, camera,
 external API, StackChan connection, robot control, GO, or production readiness.
+
+v0.8.1 hardens the review boundary by requiring each face preview card to show:
+
+- display-only.
+- no execution.
+- no device connection.
+
+It also adds PC-width and smartphone-width review checks to prevent the preview
+from reading like an operational control surface.
 
 ## Human Review Package
 

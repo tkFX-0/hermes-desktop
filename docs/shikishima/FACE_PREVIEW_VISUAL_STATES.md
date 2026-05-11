@@ -35,3 +35,27 @@ audio runtime, gaze tracking, device commands, or robot control.
 The preview board may show labels, dots, lines, symbols, and static layout only.
 It must not run animation, play audio, record audio, use camera input, connect to
 external services, or control devices.
+
+## v0.8.1 Review Hardening
+
+The visual states must not be worded as operational states. Avoid labels that
+sound like active execution, device readiness, or connection status.
+
+Preferred wording:
+
+- display label.
+- visual review.
+- static preview.
+- display-only.
+- no execution.
+- no device connection.
+
+Avoid wording:
+
+- connected.
+- ready to run.
+- running.
+- playing.
+- recording.
+- testing.
+- speaker test.

@@ -117,7 +117,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">roadmapVersion: v0.8.0</span>
+        <span class="chip ok">roadmapVersion: v0.8.1</span>
         <span class="chip ok">lastUpdated: 2026-05-11</span>
       </div>
     </header>
@@ -126,12 +126,12 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div class="card status-card">
           <h2>更新ステータス</h2>
           <div class="kv">
-            <div>roadmapVersion</div><div><code>v0.8.0</code></div>
+            <div>roadmapVersion</div><div><code>v0.8.1</code></div>
             <div>lastUpdated</div><div><code>2026-05-11</code></div>
-            <div>latestUpdate</div><div>Static face preview board added</div>
+            <div>latestUpdate</div><div>Static face preview review hardening added</div>
             <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
             <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
-            <div>v0.8.0 note</div><div>v0.8.0 adds a static face preview board for visual review only. It does not approve audio playback, recording, microphone use, external API use, StackChan connection, robot motion, or execution.</div>
+            <div>v0.8.1 note</div><div>v0.8.1 hardens the static face preview board review boundary. It does not approve audio playback, recording, microphone use, external API use, device connection, robot motion, or execution.</div>
           </div>
         </div>
         <h2>フェーズ一覧</h2>
@@ -149,6 +149,15 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       </section>
       <section id="changelog">
         <h2>更新履歴 / Changelog</h2>
+        <div class="card">
+          <h3>v0.8.1 — Static face preview review hardening</h3>
+          <ul>
+            <li>Added display-only / no execution / no device connection boundary to each face preview card.</li>
+            <li>Strengthened PC-width and smartphone-width review guidance.</li>
+            <li>Reconfirmed voiceIntent, mouthPattern, gazePattern, and blinkState are display labels only.</li>
+            <li>HOLD remains current; execution remains disabled; no audio, camera, external API, device connection, robot motion, or GO approval.</li>
+          </ul>
+        </div>
         <div class="card">
           <h3>v0.8.0 — Static face preview board</h3>
           <ul>
@@ -312,8 +321,8 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
           <div class="card">
             <h3>Current Tempo</h3>
             <div class="kv">
-              <div>roadmapVersion</div><div><code>v0.8.0</code></div>
-              <div>latestUpdate</div><div>Static face preview board added</div>
+              <div>roadmapVersion</div><div><code>v0.8.1</code></div>
+              <div>latestUpdate</div><div>Static face preview review hardening added</div>
               <div>docs-only commits</div><div>completed locally</div>
               <div>current next human action</div><div>review Explorer-style dashboard design</div>
               <div>HOLD reason</div><div>documentation approval and execution approval remain separate</div>
@@ -468,6 +477,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
               <div>mouthPattern</div><div>calm_loop</div>
               <div>gazePattern</div><div>steady_center</div>
               <div>tinySymbol</div><div>orbit_dot</div>
+              <div>boundary</div><div>display-only / no execution / no device connection</div>
             </div>
           </div>
           <div class="card">
@@ -481,6 +491,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
               <div>mouthPattern</div><div>minimal_gate_loop</div>
               <div>gazePattern</div><div>steady_center</div>
               <div>tinySymbol</div><div>gate_line</div>
+              <div>boundary</div><div>display-only / no execution / no device connection</div>
             </div>
           </div>
           <div class="card">
@@ -494,6 +505,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
               <div>mouthPattern</div><div>explain_loop</div>
               <div>gazePattern</div><div>work_down</div>
               <div>tinySymbol</div><div>thread_curve</div>
+              <div>boundary</div><div>display-only / no execution / no device connection</div>
             </div>
           </div>
           <div class="card">
@@ -507,6 +519,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
               <div>mouthPattern</div><div>smile_talk_loop</div>
               <div>gazePattern</div><div>thinking_up</div>
               <div>tinySymbol</div><div>arrow_mark</div>
+              <div>boundary</div><div>display-only / no execution / no device connection</div>
             </div>
           </div>
           <div class="card">
@@ -520,6 +533,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
               <div>mouthPattern</div><div>quiet_loop</div>
               <div>gazePattern</div><div>search_side</div>
               <div>tinySymbol</div><div>bookmark_dot</div>
+              <div>boundary</div><div>display-only / no execution / no device connection</div>
             </div>
           </div>
         </div>
@@ -660,7 +674,7 @@ const phases = [
 const grid = document.getElementById("phaseGrid");
 grid.innerHTML = phases.map((phase) => {
   const badgeClass = phase.status === "HOLD" ? "hold" : phase.status === "current" ? "current" : "pending";
-  const updateBadge = phase.updated ? '<span class="update-badge">updated in v0.8.0</span>' : "";
+  const updateBadge = phase.updated ? '<span class="update-badge">updated in v0.8.1</span>' : "";
   const canonical = phase.canonical ? `<li>canonical status: ${phase.canonical}</li>` : "";
   return `<article class="phase ${phase.updated ? "updated" : ""}"><div><span class="phase-num">Phase ${phase.num}</span><span class="badge ${badgeClass}">${phase.status}</span>${updateBadge}</div><div class="phase-title">${phase.title}</div><p class="role">${phase.goal}</p><ul>${canonical}<li>decision remains HOLD</li><li>execution remains disabled</li><li>documentation approval is not execution approval</li></ul></article>`;
 }).join("");

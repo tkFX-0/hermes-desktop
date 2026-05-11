@@ -150,6 +150,10 @@ v0.8.0 adds a static face preview board. It is visual review only. It does not
 add buttons, inputs, audio, video, microphone, camera, external API, StackChan
 connection, robot control, GO, or production readiness.
 
+v0.8.1 hardens the visual review boundary. Each preview card must remain
+display-only, no execution, and no device connection. PC-width and
+smartphone-width review are visual checks only.
+
 ## Naming Rules
 
 - `しきしま` may use nickname `しき`.

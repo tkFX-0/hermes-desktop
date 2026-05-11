@@ -20,8 +20,8 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v0.8.0
-- latestUpdate: Static face preview board added
+- roadmapVersion: v0.8.1
+- latestUpdate: Static face preview review hardening added
 - docs-only commits completed: local docs commits exist
 - current next human action: review Explorer-style dashboard design
 - HOLD reason: documentation approval and execution approval remain separate

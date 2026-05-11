@@ -7,9 +7,9 @@ and does not require tooling.
 
 | Field | Meaning | Current value |
 |---|---|---|
-| roadmapVersion | visible roadmap version | v0.8.0 |
+| roadmapVersion | visible roadmap version | v0.8.1 |
 | lastUpdated | visible update date | 2026-05-11 |
-| latestUpdate | short update summary | Static face preview board added |
+| latestUpdate | short update summary | Static face preview review hardening added |
 | currentDecision | current project decision | HOLD |
 | executionStatus | execution gate state | disabled |
 | productionReady | production readiness flag | false |
@@ -46,6 +46,7 @@ and does not require tooling.
 | smartphoneWidthPreviewStatus | smartphone-width preview state | review_ready |
 | facePreviewInteractionStatus | preview interaction state | no_input_no_button |
 | facePreviewConnectionStatus | preview connection state | no_connection |
+| facePreviewBoundaryStatus | preview boundary state | display_only_no_execution_no_device_connection |
 
 ## Status Values
 
