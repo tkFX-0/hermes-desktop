@@ -7,9 +7,9 @@ and does not require tooling.
 
 | Field | Meaning | Current value |
 |---|---|---|
-| roadmapVersion | visible roadmap version | v1.2.6 |
+| roadmapVersion | visible roadmap version | v1.2.7 |
 | lastUpdated | visible update date | 2026-05-11 |
-| latestUpdate | short update summary | Package-lock dirty state classification added |
+| latestUpdate | short update summary | Src dirty files classification added |
 | currentDecision | current project decision | HOLD |
 | executionStatus | execution gate state | disabled |
 | productionReady | production readiness flag | false |

@@ -119,7 +119,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">roadmapVersion: v1.2.6</span>
+        <span class="chip ok">roadmapVersion: v1.2.7</span>
         <span class="chip ok">lastUpdated: 2026-05-11</span>
       </div>
     </header>
@@ -128,11 +128,12 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div class="card status-card">
           <h2>譖ｴ譁ｰ繧ｹ繝・・繧ｿ繧ｹ</h2>
           <div class="kv">
-            <div>roadmapVersion</div><div><code>v1.2.6</code></div>
+            <div>roadmapVersion</div><div><code>v1.2.7</code></div>
             <div>lastUpdated</div><div><code>2026-05-11</code></div>
-            <div>latestUpdate</div><div>Package-lock dirty state classification added</div>
+            <div>latestUpdate</div><div>Src dirty files classification added</div>
             <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
             <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
+            <div>v1.2.7 note</div><div>v1.2.7: SRC_DIRTY_FILES_CLASSIFICATION.md added (audit-only). Group A (safety: .gitignore/claw3d/installer) = commit separately. Group B (feature: index/preload/Layout/i18n + untracked ichikishima/Research) = commit together. installer.ts BOM caveat. HOLD remains current.</div>
             <div>v1.2.6 note</div><div>v1.2.6: PACKAGE_LOCK_DIRTY_STATE_CLASSIFICATION.md added (audit-only). package-lock dirty = version stamp only (not a v1.3.0 blocker). Actual blockers: src/ dirty files (10 files) and .gitignore. HOLD remains current.</div>
             <div>v1.2.5 note</div><div>v1.2.5: PACKAGE_NAME_MIGRATION_PLAN.md added (plan-only). Candidate: name "hermes-desktop" → "shikishima-desktop". No package.json changed. package-lock.json dirty caveat noted. Target execution: v1.3.0. HOLD remains current.</div>
             <div>v1.2.4 note</div><div>v1.2.4: electron-builder.yml productName updated to "しきしま". package.json name remains "hermes-desktop"; artifact filenames unchanged. Lockfile/deps/scripts unchanged. HOLD remains current.</div>
@@ -161,7 +162,19 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       <section id="changelog">
         <h2>譖ｴ譁ｰ螻･豁ｴ / Changelog</h2>
         <div class="card">
-          <h3>v1.2.6 - Package-lock dirty state classification <span class="update-badge">latest</span></h3>
+          <h3>v1.2.7 - Src dirty files classification <span class="update-badge">latest</span></h3>
+          <ul>
+            <li>Added SRC_DIRTY_FILES_CLASSIFICATION.md — audit-only / report-only / redacted-only.</li>
+            <li>Group A (safety hardening, no untracked deps): .gitignore, claw3d.ts, installer.ts — commit separately. Caveat: installer.ts BOM character.</li>
+            <li>Group B (feature work, has untracked deps): 7 files — commit together with untracked ichikishima/ and Research/.</li>
+            <li>Layout.tsx: adds research + controlCenter navigation. zh-CN research label is Japanese placeholder.</li>
+            <li>Untracked: src/main/ichikishima/, src/preload/ichikishima-control-center.ts, src/renderer/src/screens/Research/.</li>
+            <li>v1.3.0 blockers: Group A + Group B + untracked source must all be resolved.</li>
+            <li>No source files modified. No commit/revert. No build/test. No git push.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>v1.2.6 - Package-lock dirty state classification</h3>
           <ul>
             <li>Added PACKAGE_LOCK_DIRTY_STATE_CLASSIFICATION.md — audit-only / report-only / redacted-only.</li>
             <li>Classification: package-lock dirty is version stamp drift only (4 lines changed).</li>
@@ -481,10 +494,10 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
           <div class="card">
             <h3>Current Tempo</h3>
             <div class="kv">
-              <div>roadmapVersion</div><div><code>v1.2.6</code></div>
-              <div>latestUpdate</div><div>Package-lock dirty state classification added</div>
+              <div>roadmapVersion</div><div><code>v1.2.7</code></div>
+              <div>latestUpdate</div><div>Src dirty files classification added</div>
               <div>docs-only commits</div><div>completed locally</div>
-              <div>current next human action</div><div>resolve src/ and .gitignore dirty files (commit or revert), then approve v1.3.0 GO</div>
+              <div>current next human action</div><div>commit Group A safety files; decide Group B feature scope; then approve v1.3.0 GO</div>
               <div>HOLD reason</div><div>documentation approval and execution approval remain separate; no renames or deletions approved yet</div>
             </div>
           </div>

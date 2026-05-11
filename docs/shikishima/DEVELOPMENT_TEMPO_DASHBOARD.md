@@ -20,11 +20,11 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v1.2.6
-- latestUpdate: Package-lock dirty state classification added
+- roadmapVersion: v1.2.7
+- latestUpdate: Src dirty files classification added
 - docs-only commits completed: local docs commits exist
-- current next human action: resolve src/ and .gitignore dirty files (commit as feature work or revert), then approve v1.3.0 GO
-- HOLD reason: package.json name remains "hermes-desktop"; src/ dirty files (10 files) and .gitignore are v1.3.0 blockers; package-lock version stamp drift is NOT a blocker (auto-resolves in v1.3.0)
+- current next human action: (A) commit Group A safety files; (B) decide Group B feature commit scope (audit untracked source first or commit all together)
+- HOLD reason: package.json name remains "hermes-desktop"; Group A (3 files) and Group B (7 files + untracked ichikishima/Research) must be resolved before v1.3.0; installer.ts BOM caveat noted
 
 ## Boundaries
 

@@ -2,9 +2,9 @@
 
 ## Update Status
 
-- roadmapVersion: v1.2.6
+- roadmapVersion: v1.2.7
 - lastUpdated: 2026-05-11
-- latestUpdate: Package-lock dirty state classification added
+- latestUpdate: Src dirty files classification added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - changelog: `ROADMAP_CHANGELOG.md`
 - phase review: `PHASE_REVIEW_MATRIX.md`

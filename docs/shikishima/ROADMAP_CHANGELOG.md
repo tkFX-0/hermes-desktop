@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v1.2.6
+- roadmapVersion: v1.2.7
 - lastUpdated: 2026-05-11
-- latestUpdate: Package-lock dirty state classification added
+- latestUpdate: Src dirty files classification added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,23 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v1.2.7 - Src Dirty Files Classification
+
+- Added `SRC_DIRTY_FILES_CLASSIFICATION.md` — audit-only / report-only / redacted-only.
+- 11 dirty tracked files classified into two groups:
+  - Group A (safety hardening, no untracked deps): `.gitignore`, `claw3d.ts`, `installer.ts`
+    — recommended: commit separately. Caveat: BOM character on `installer.ts` line 1.
+  - Group B (ControlCenter + Research feature, has untracked deps): 7 files
+    — recommended: commit together with untracked `ichikishima/`, `Research/`, etc.
+- `Layout.tsx` adds `research` and `controlCenter` navigation. zh-CN `research` label is
+  a Japanese-language placeholder — may need correction before commit.
+- Untracked source directories noted (not audited in this task):
+  `src/main/ichikishima/`, `src/preload/ichikishima-control-center.ts`,
+  `src/renderer/src/screens/Research/`, `src/shared/ichikishima/`.
+- v1.3.0 blockers: Group A + Group B + untracked source must all be resolved.
+- No source files modified. No commit/revert. No build/test. No git push.
+- HOLD remains current. execution remains disabled.
 
 ## v1.2.6 - Package-lock Dirty State Classification
 
