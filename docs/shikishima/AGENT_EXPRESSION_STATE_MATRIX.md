@@ -2,12 +2,18 @@
 
 ## Purpose
 
-This document applies the v0.9.0 expression variation set to the five
+This document applies the v0.9.1 expression variation set to the five
 Shikishima agents.
 
 The matrix is static documentation only. It does not implement live status,
 device connection, animation runtime, robot control, GO approval, or production
 readiness.
+
+v0.9.1 clarification: every matrix entry is a display label for review. It is
+not a runtime status, not a device signal, not a GO indicator, and not
+production readiness.
+
+Static verification phrase: not production readiness.
 
 ## Agents
 
@@ -53,6 +59,15 @@ Use `tsumugi` as the only ASCII ID for つむぎ / つむ.
 - not productionReady indicator.
 - not execution readiness.
 - not audio, camera, or microphone state.
+- `listening` is not microphone input, recording, or audio standby.
+- `thinking` is not live reasoning, active processing, or streaming inference.
+- `holding` is not a pause button, stop control, or execution gate operation.
+- `rejected` is not a crash, test failure, runtime failure, or automated
+  rejection engine.
+- `review_ready` is documentation review ready only, not GO-ready or
+  execution-ready.
+- `completed_static_only` is docs/static-only completion only, not
+  productionReady.
 
 ## Safety Boundary
 

@@ -71,6 +71,24 @@ The preview board may reference these static expression labels:
 These labels are not real-time status, connection status, robot control preview,
 GO approval indicators, productionReady indicators, or execution readiness.
 
+## v0.9.1 Expression Safety Review Hardening
+
+Expression labels must not be read as runtime status, device signals, GO
+indicators, or production readiness.
+
+- `listening` is conversational posture only, not microphone input, recording,
+  or audio standby.
+- `thinking` is a static thinking expression only, not live reasoning or active
+  processing.
+- `holding` is a safety HOLD display concept only, not a pause button or stop
+  control.
+- `rejected` is a safety decision label only, not a crash, test failure, or
+  runtime failure.
+- `review_ready` is documentation review ready only, not GO-ready or
+  execution-ready.
+- `completed_static_only` is docs/static-only completion only, not
+  productionReady.
+
 ## Current Status
 
 - decision: HOLD

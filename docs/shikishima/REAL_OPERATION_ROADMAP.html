@@ -118,7 +118,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">roadmapVersion: v0.9.0</span>
+        <span class="chip ok">roadmapVersion: v0.9.1</span>
         <span class="chip ok">lastUpdated: 2026-05-11</span>
       </div>
     </header>
@@ -127,12 +127,12 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div class="card status-card">
           <h2>更新ステータス</h2>
           <div class="kv">
-            <div>roadmapVersion</div><div><code>v0.9.0</code></div>
+            <div>roadmapVersion</div><div><code>v0.9.1</code></div>
             <div>lastUpdated</div><div><code>2026-05-11</code></div>
-            <div>latestUpdate</div><div>Expression variation set added</div>
+            <div>latestUpdate</div><div>Expression safety review hardening added</div>
             <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
             <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
-            <div>v0.9.0 note</div><div>v0.9.0 adds static expression variations. They are display labels only, not real-time status, device connection status, GO approval, production readiness, robot control, or execution.</div>
+            <div>v0.9.1 note</div><div>v0.9.1 hardens expression wording. Expression labels are not runtime status, device signals, GO indicators, production readiness, robot control, or execution.</div>
           </div>
         </div>
         <h2>フェーズ一覧</h2>
@@ -150,6 +150,18 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       </section>
       <section id="changelog">
         <h2>更新履歴 / Changelog</h2>
+        <div class="card">
+          <h3>v0.9.1 — Expression safety review hardening</h3>
+          <ul>
+            <li>Clarified expression labels are not runtime status, device signals, GO indicators, or production readiness.</li>
+            <li>Clarified listening is not microphone input, recording, or audio standby.</li>
+            <li>Clarified thinking is not live reasoning or active processing.</li>
+            <li>Clarified holding is not a pause control or execution gate operation.</li>
+            <li>Clarified review_ready is documentation review ready only, not GO-ready.</li>
+            <li>Clarified completed_static_only is docs/static-only completion only, not productionReady.</li>
+            <li>HOLD remains current; execution remains disabled.</li>
+          </ul>
+        </div>
         <div class="card">
           <h3>v0.9.0 — Expression variation set</h3>
           <ul>
@@ -332,8 +344,8 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
           <div class="card">
             <h3>Current Tempo</h3>
             <div class="kv">
-              <div>roadmapVersion</div><div><code>v0.9.0</code></div>
-              <div>latestUpdate</div><div>Expression variation set added</div>
+              <div>roadmapVersion</div><div><code>v0.9.1</code></div>
+              <div>latestUpdate</div><div>Expression safety review hardening added</div>
               <div>docs-only commits</div><div>completed locally</div>
               <div>current next human action</div><div>review Explorer-style dashboard design</div>
               <div>HOLD reason</div><div>documentation approval and execution approval remain separate</div>
@@ -562,8 +574,9 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <h2>Expression Variation Set</h2>
         <div class="card status-card">
           <h3>Static labels only</h3>
-          <p>v0.9.0 adds common expression variations for the five Shikishima agents. These are display labels and visual concepts only.</p>
+          <p>v0.9.1 hardens the common expression variations for the five Shikishima agents. These are display labels and visual concepts only.</p>
           <p>They are not real-time status, connection status, robot control preview, GO approval indicators, productionReady indicators, audio states, camera states, or execution states.</p>
+          <p>They are also not runtime status, device signals, GO indicators, production readiness, microphone input, recording, audio standby, live reasoning, pause controls, crash reports, or runtime failure displays.</p>
         </div>
         <div class="card">
           <h3>Common expression states</h3>
@@ -578,6 +591,17 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
             <tr><td>review_ready</td><td>レビュー待ち</td><td>human review readiness concept</td><td>proposing</td><td>smile_talk_loop</td><td>thinking_up</td><td>open</td></tr>
             <tr><td>completed_static_only</td><td>静的完了</td><td>docs/static completion concept</td><td>archival</td><td>quiet_loop</td><td>steady_center</td><td>half_closed</td></tr>
           </table>
+        </div>
+        <div class="card">
+          <h3>v0.9.1 misread guard</h3>
+          <ul>
+            <li><code>listening</code>: conversational posture only; not microphone input, recording, or audio standby.</li>
+            <li><code>thinking</code>: static thinking expression only; not live reasoning, active processing, or streaming inference.</li>
+            <li><code>holding</code>: safety HOLD display concept only; not a pause control or execution gate operation.</li>
+            <li><code>rejected</code>: safety decision label only; not a crash, test failure, runtime failure, or automated rejection engine.</li>
+            <li><code>review_ready</code>: documentation review ready only; not GO-ready, execution-ready, device-ready, or production-ready.</li>
+            <li><code>completed_static_only</code>: docs/static-only completion only; not productionReady, runtime completion, deployment completion, or operation approval.</li>
+          </ul>
         </div>
         <div class="card">
           <h3>Agent application</h3>
@@ -728,7 +752,7 @@ const phases = [
 const grid = document.getElementById("phaseGrid");
 grid.innerHTML = phases.map((phase) => {
   const badgeClass = phase.status === "HOLD" ? "hold" : phase.status === "current" ? "current" : "pending";
-  const updateBadge = phase.updated ? '<span class="update-badge">updated in v0.9.0</span>' : "";
+  const updateBadge = phase.updated ? '<span class="update-badge">updated in v0.9.1</span>' : "";
   const canonical = phase.canonical ? `<li>canonical status: ${phase.canonical}</li>` : "";
   return `<article class="phase ${phase.updated ? "updated" : ""}"><div><span class="phase-num">Phase ${phase.num}</span><span class="badge ${badgeClass}">${phase.status}</span>${updateBadge}</div><div class="phase-title">${phase.title}</div><p class="role">${phase.goal}</p><ul>${canonical}<li>decision remains HOLD</li><li>execution remains disabled</li><li>documentation approval is not execution approval</li></ul></article>`;
 }).join("");

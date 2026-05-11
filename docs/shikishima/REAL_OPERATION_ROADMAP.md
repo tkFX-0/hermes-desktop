@@ -2,9 +2,9 @@
 
 ## Update Status
 
-- roadmapVersion: v0.9.0
+- roadmapVersion: v0.9.1
 - lastUpdated: 2026-05-11
-- latestUpdate: Expression variation set added
+- latestUpdate: Expression safety review hardening added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - changelog: `ROADMAP_CHANGELOG.md`
 - phase review: `PHASE_REVIEW_MATRIX.md`
@@ -133,6 +133,22 @@ gazePattern display label, blinkState display label, and safety note.
 The expressions are static display labels only. They are not real-time status,
 connection status, robot control preview, GO approval indicator, productionReady
 indicator, or execution readiness.
+
+v0.9.1 hardens the expression safety review wording:
+
+- `listening` is conversational posture only, not microphone input, recording,
+  or audio standby.
+- `thinking` is a static thinking expression only, not live reasoning or active
+  processing.
+- `holding` is a safety HOLD display concept only, not a pause button or stop
+  control.
+- `rejected` is a safety decision label only, not a crash or runtime failure.
+- `review_ready` is documentation review ready only, not GO-ready or
+  execution-ready.
+- `completed_static_only` is docs/static-only completion only, not
+  productionReady.
+- Every expression remains not a runtime status, not a device signal, not a GO
+  indicator, and not production readiness.
 
 ## Human Review Package
 

@@ -62,6 +62,28 @@ confusing visual review with execution readiness.
 - [ ] productionReady remains false.
 - [ ] rawValuesReported remains false.
 
+## Misread Review
+
+- [ ] `listening` reads as conversational posture only, not microphone input.
+- [ ] `listening` does not imply recording, speech detection, or audio standby.
+- [ ] `thinking` reads as a static thinking expression only, not live reasoning.
+- [ ] `thinking` does not imply active processing, streaming inference, or
+      runtime state.
+- [ ] `holding` reads as a safety HOLD display concept only, not a pause button.
+- [ ] `holding` does not imply stop control or execution gate operation.
+- [ ] `rejected` reads as a safety decision label only, not a crash or failure.
+- [ ] `rejected` does not imply an automated rejection engine.
+- [ ] `review_ready` reads as documentation review ready only.
+- [ ] `review_ready` does not imply GO-ready, execution-ready, device-ready, or
+      production-ready.
+- [ ] `completed_static_only` reads as docs/static-only completion only.
+- [ ] `completed_static_only` does not imply productionReady, runtime
+      completion, deployment completion, or operation approval.
+- [ ] Every expression still reads as not a runtime status.
+- [ ] Every expression still reads as not a device signal.
+- [ ] Every expression still reads as not a GO indicator.
+- [ ] Every expression still reads as not production readiness.
+
 ## Human Review Result
 
 - reviewed_by: `<manual placeholder>`

@@ -75,4 +75,22 @@ The static preview board can use the following expression labels:
 | review_ready | review concept, not GO-ready |
 | completed_static_only | docs/static completion concept, not productionReady |
 
+## v0.9.1 Misread Guard
+
+- `listening` is a conversational posture display, not microphone input,
+  recording, speech detection, or audio standby.
+- `thinking` is a static expression, not live reasoning, active processing,
+  streaming inference, or runtime status.
+- `holding` is a safety HOLD visual concept, not a pause button, stop control,
+  or execution gate operation.
+- `rejected` is a safety decision label, not a crash, test failure, runtime
+  failure, or automated rejection engine.
+- `review_ready` is documentation review ready only, not GO-ready,
+  execution-ready, device-ready, or production-ready.
+- `completed_static_only` is docs/static-only completion only, not
+  productionReady, runtime completion, deployment completion, or operation
+  approval.
+- Every expression remains not a runtime status, not a device signal, not a GO
+  indicator, and not production readiness.
+
 All expression labels remain display-only / no execution / no device connection.

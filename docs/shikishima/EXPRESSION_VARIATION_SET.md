@@ -2,12 +2,46 @@
 
 ## Purpose
 
-This document defines the v0.9.0 common expression variation set for the
+This document defines the v0.9.1 common expression variation set for the
 Shikishima static face preview board.
 
 Expressions are display labels and visual concepts only. They are not real-time
 status, connection status, robot control preview, GO approval indicators, or
 production readiness indicators.
+
+v0.9.1 hardens the review language so that expression labels cannot be read as
+runtime status, device signal, GO indicator, or production readiness.
+
+## v0.9.1 Safety Review Rule
+
+Every expression state must carry the same non-execution interpretation:
+
+- not a runtime status.
+- not a device signal.
+- not a GO indicator.
+- not production readiness.
+- not a connection state.
+- not an audio, microphone, camera, or robot state.
+
+Specific high-risk labels:
+
+- `listening` means a conversational posture display. It is not microphone
+  input, recording, speech detection, or audio standby.
+- `thinking` means a static thinking expression. It is not live reasoning,
+  active processing, streaming inference, or runtime task state.
+- `holding` means a safety HOLD display concept. It is not a pause button,
+  stop control, or execution gate operation.
+- `rejected` means a safety decision label. It is not a crash, test failure,
+  runtime failure, or automated rejection engine.
+- `review_ready` means documentation review ready. It is not GO-ready,
+  execution-ready, device-ready, or production-ready.
+- `completed_static_only` means docs/static-only completion. It is not
+  productionReady, runtime completion, deployment completion, or operation
+  approval.
+
+Review keywords for static verification: not microphone input; not live
+reasoning; not a pause button; not a crash; documentation review ready only;
+docs/static-only completion only.
 
 ## Common Expression States
 

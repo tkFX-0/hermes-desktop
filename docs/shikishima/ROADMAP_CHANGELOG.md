@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v0.9.0
+- roadmapVersion: v0.9.1
 - lastUpdated: 2026-05-11
-- latestUpdate: Expression variation set added
+- latestUpdate: Expression safety review hardening added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,26 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v0.9.1 - Expression Safety Review Hardening
+
+- Hardened expression wording so labels cannot be read as runtime status,
+  device signals, GO indicators, or production readiness.
+- Clarified `listening` is not microphone input, recording, or audio standby.
+- Clarified `thinking` is not live reasoning, active processing, or streaming
+  inference.
+- Clarified `holding` is not a pause button, stop control, or execution gate
+  operation.
+- Clarified `rejected` is not a crash, test failure, or runtime failure.
+- Clarified `review_ready` is documentation review ready only, not GO-ready or
+  execution-ready.
+- Clarified `completed_static_only` is docs/static-only completion only, not
+  productionReady.
+- Added expression misread review checklist items.
+- HOLD remains current.
+- execution remains disabled.
+- no device connection approval.
+- no robot motion approval.
 
 ## v0.9.0 — Expression Variation Set
 
