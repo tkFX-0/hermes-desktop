@@ -125,6 +125,26 @@ network flow.
 - `DEVICE_AND_ROBOT_INTEGRATION_GATE.md` - v2.2.0 device integration gates (StackChan/voice/camera/robotMotion).
 - `V3_IMPLEMENTATION_BACKLOG.md` - v2.2.0 READY/AFTER-GO/AFTER-STAGE classified backlog with priority order.
 - `REAL_OPERATION_ROLLBACK_AND_INCIDENT_PLAN.md` - v2.2.0 P0–P3 incident response; rollback; emergency stop concept.
+- `V3_STATIC_VALIDATION_PLAN.md` - v2.3.0 typecheck/eslint/vitest/build plan; GO/STOP conditions; redacted output format.
+- `V3_DUMMY_WRAPPER_EXECUTION_PLAN.md` - v2.3.0 dummy process and wrapper plan; G-09/G-10 conditions.
+- `V3_WSL_HERMES_EXECUTION_PLAN.md` - v2.3.0 WSL/Hermes execution plan; G-11/G-12; emergency stop.
+- `V3_REDACTED_RESULT_REVIEW_TEMPLATE.md` - v2.3.0 fill-in result templates; incident report format.
+- `V3_TOMORROW_DEBUG_RUNBOOK.md` - v2.3.0 tomorrow debug session step-by-step; GO/HOLD decision tree.
+- `V7_FACE_TERMINAL_DISPLAY_ONLY_SPEC.md` - v2.5.0 face terminal state model; expression/mouth/gaze sets; safety labels.
+- `V7_STACKCHAN_DISPLAY_ONLY_PLAN.md` - v2.5.0 G-14 preconditions; display-only definition; robotMotion HOLD boundary.
+- `V7_FACE_TERMINAL_STATIC_PREVIEW.md` - v2.5.0 ASCII previews of all expressions; mouth/gaze patterns.
+- `V8_MOUTH_EYE_ANIMATION_SPEC.md` - v2.5.0 mouth frame animation; gaze transitions; display-only notes.
+- `V8_VOICE_MOUTH_EYE_NON_IO_PLAN.md` - v2.5.0 TTS/STT concept plans (no execution); G-15/G-16 boundaries.
+- `V9_CONTROLLED_PILOT_RUNBOOK.md` - v2.6.0 G-23 runbook; pre-flight; scenario; stop conditions; post-run record.
+- `V9_SINGLE_RUN_APPROVAL_TEMPLATE.md` - v2.6.0 G-23 template; one-run-only policy.
+- `V10_PRODUCTION_READINESS_REVIEW_PACKAGE.md` - v2.6.0 sections A–H review package; all HOLD until v10.
+- `V10_FINAL_HUMAN_APPROVAL_TEMPLATE.md` - v2.6.0 G-18 + G-19 templates; human-only.
+- `PRODUCTION_READY_FALSE_GUARD.md` - v2.6.0 productionReady guard; sole path to true = G-18.
+- `TOMORROW_DEBUG_AND_REVIEW_PACKAGE.md` - v2.7.0 tomorrow session entry point; quick status; review order.
+- `TOMORROW_GO_HOLD_DECISION_SHEET.md` - v2.7.0 G-01 through G-07 decision questions.
+- `TOMORROW_COMMAND_EXECUTION_BOUNDARY.md` - v2.7.0 allowed/GO-required/forbidden command reference.
+- `TOMORROW_STACKCHAN_BOUNDARY_CHECK.md` - v2.7.0 StackChan physical status; daily boundary confirmation.
+- `TOMORROW_TEST_COMMIT_REVIEW_SHEET.md` - v2.7.0 test file review checklist; pre-stage final check.
 
 ## How To Review
 

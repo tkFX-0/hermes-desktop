@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v2.2.0
+- roadmapVersion: v2.7.0
 - lastUpdated: 2026-05-12
-- latestUpdate: Real operation path fully defined
+- latestUpdate: Non-execution implementation package completed
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,16 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v2.7.0 - Non-Execution Implementation Package Completed
+
+- Task A (v2.3.0): V3_STATIC_VALIDATION_PLAN.md + V3_DUMMY_WRAPPER_EXECUTION_PLAN.md + V3_WSL_HERMES_EXECUTION_PLAN.md + V3_REDACTED_RESULT_REVIEW_TEMPLATE.md + V3_TOMORROW_DEBUG_RUNBOOK.md
+- Task B (v2.4.0): REAL_OPERATION_ROADMAP.html: 4 new sections (Operation Path v3→v10, HOLD Gate Board G-01–G-24, Autonomy Ladder Level 0–9, Human Review Checklist)
+- Task C (v2.5.0): V7_FACE_TERMINAL_DISPLAY_ONLY_SPEC.md + V7_STACKCHAN_DISPLAY_ONLY_PLAN.md + V7_FACE_TERMINAL_STATIC_PREVIEW.md + V8_MOUTH_EYE_ANIMATION_SPEC.md + V8_VOICE_MOUTH_EYE_NON_IO_PLAN.md
+- Task D (v2.6.0): V9_CONTROLLED_PILOT_RUNBOOK.md + V9_SINGLE_RUN_APPROVAL_TEMPLATE.md + V10_PRODUCTION_READINESS_REVIEW_PACKAGE.md + V10_FINAL_HUMAN_APPROVAL_TEMPLATE.md + PRODUCTION_READY_FALSE_GUARD.md
+- Task E (v2.7.0): TOMORROW_DEBUG_AND_REVIEW_PACKAGE.md + TOMORROW_GO_HOLD_DECISION_SHEET.md + TOMORROW_COMMAND_EXECUTION_BOUNDARY.md + TOMORROW_STACKCHAN_BOUNDARY_CHECK.md + TOMORROW_TEST_COMMIT_REVIEW_SHEET.md
+- Renderer src: HOLD — not modified (display-only addition deferred; no main/preload/IPC changes)
+- No commands executed; no tests staged; HOLD maintained throughout
 
 ## v2.2.0 - Real Operation Path Fully Defined
 
