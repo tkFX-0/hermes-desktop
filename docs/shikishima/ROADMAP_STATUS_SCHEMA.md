@@ -7,9 +7,9 @@ and does not require tooling.
 
 | Field | Meaning | Current value |
 |---|---|---|
-| roadmapVersion | visible roadmap version | v1.4.0 |
+| roadmapVersion | visible roadmap version | v1.5.0 |
 | lastUpdated | visible update date | 2026-05-12 |
-| latestUpdate | short update summary | Sandbox gitignore audit added |
+| latestUpdate | short update summary | tests/ichikishima review package added |
 | currentDecision | current project decision | HOLD |
 | executionStatus | execution gate state | disabled |
 | productionReady | production readiness flag | false |

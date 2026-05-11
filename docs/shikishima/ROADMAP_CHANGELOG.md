@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v1.4.0
+- roadmapVersion: v1.5.0
 - lastUpdated: 2026-05-12
-- latestUpdate: Sandbox gitignore audit added
+- latestUpdate: tests/ichikishima review package added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,16 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v1.5.0 - tests/ichikishima Review Package
+
+- Added `TESTS_ICHIKISHIMA_REVIEW_PACKAGE.md` — audit-only / no-test-execution.
+- 66 test files classified by subsystem: agent-team(7), approval(5), audit(2), control-center(14), core(3), hermes(21), memory(1), orchestrator(1), pilot(1), review(2), sandbox(3), visualization(3).
+- `sandbox/dummy-hermes-path.ts`: fixture — SAFE to commit (path constant only).
+- `sandbox/dummy-hermes-stub-design.process-local.test.ts`: SAFE — always skipped in CI; `RUN_DUMMY_HERMES_LOCAL_PROCESS=1` required + `CI!=true`.
+- `hermes-real-pilot-minimal.test.ts` and `hermes-real-process-adapter.test.ts`: MEDIUM — brief review recommended before commit.
+- Overall verdict: tests/ichikishima/ is commit-ready as a unit pending human GO.
+- No tests executed. No test files staged. HOLD remains current.
 
 ## v1.4.0 - Sandbox .gitignore Audit
 

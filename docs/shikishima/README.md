@@ -98,6 +98,7 @@ network flow.
 - `V2_HOLD_GATE_MATRIX.md` - all HOLD gates with GO conditions.
 - `V2_IMPLEMENTATION_SEQUENCE.md` - linear task sequence v1.3.1→v2.0 with HOLD gates.
 - `SANDBOX_GITIGNORE_AUDIT.md` - v1.4.0 sandbox/.cursor/.claude gitignore audit.
+- `TESTS_ICHIKISHIMA_REVIEW_PACKAGE.md` - v1.5.0 tests/ichikishima review (66 files classified).
 
 ## How To Review
 

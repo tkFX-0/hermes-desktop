@@ -119,7 +119,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">roadmapVersion: v1.4.0</span>
+        <span class="chip ok">roadmapVersion: v1.5.0</span>
         <span class="chip ok">lastUpdated: 2026-05-11</span>
       </div>
     </header>
@@ -128,12 +128,13 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div class="card status-card">
           <h2>譖ｴ譁ｰ繧ｹ繝・・繧ｿ繧ｹ</h2>
           <div class="kv">
-            <div>roadmapVersion</div><div><code>v1.4.0</code></div>
+            <div>roadmapVersion</div><div><code>v1.5.0</code></div>
             <div>lastUpdated</div><div><code>2026-05-12</code></div>
-            <div>latestUpdate</div><div>Sandbox gitignore audit added</div>
+            <div>latestUpdate</div><div>tests/ichikishima review package added</div>
             <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
             <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
-            <div>v1.4.0 note</div><div>v1.4.0: .gitignore updated: sandbox/, .cursor/, .claude/ tool config now ignored. SANDBOX_GITIGNORE_AUDIT.md added. No sandbox files committed.</div>
+            <div>v1.5.0 note</div><div>v1.5.0: TESTS_ICHIKISHIMA_REVIEW_PACKAGE.md added. 66 test files classified. dummy-hermes-path.ts safe; process-local test CI-guarded. Overall commit-ready pending human GO. No tests executed.</div>
+            <div>v1.4.0 note</div><div>v1.4.0: .gitignore: sandbox/, .cursor/, .claude/ tool config ignored. SANDBOX_GITIGNORE_AUDIT.md added.</div>
             <div>v1.3.1 note</div><div>v1.3.1: V2 goal pack. POST_V1_3_0_REFERENCE_AUDIT.md + UNTRACKED_WORKTREE_INVENTORY.md + V2_GOAL_AND_TASK_PACK.md + V2_HOLD_GATE_MATRIX.md + V2_IMPLEMENTATION_SEQUENCE.md.</div>
             <div>v1.3.0 note</div><div>v1.3.0: package.json name → shikishima-desktop. package-lock synced. updaterCacheDirName → shikishima-desktop-updater. productName/appId/publish.repo unchanged. HOLD remains current.</div>
             <div>v1.2.11 note</div><div>v1.2.11: Group B committed (1f168b9): 92 files (ichikishima + preload bridge + Research.tsx + shared). ControlCenter IPC read-only. tests/ichikishima/ separate.</div>
@@ -169,7 +170,16 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       <section id="changelog">
         <h2>譖ｴ譁ｰ螻･豁ｴ / Changelog</h2>
         <div class="card">
-          <h3>v1.4.0 - Sandbox .gitignore audit <span class="update-badge">latest</span></h3>
+          <h3>v1.5.0 - tests/ichikishima review package <span class="update-badge">latest</span></h3>
+          <ul>
+            <li>TESTS_ICHIKISHIMA_REVIEW_PACKAGE.md added — audit-only.</li>
+            <li>66 test files in 12 subdirectories. Standard tests: LOW risk.</li>
+            <li>sandbox/dummy-hermes-path.ts: fixture, SAFE. process-local test: CI-guarded, SAFE.</li>
+            <li>Overall: commit-ready pending human GO. No tests executed. HOLD maintained.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>v1.4.0 - Sandbox .gitignore audit</h3>
           <ul>
             <li>.gitignore: added sandbox/, .cursor/, .claude/scripts/, .claude/settings.json.</li>
             <li>sandbox/ (~4,553 files) now fully ignored — no accidental stage risk.</li>
