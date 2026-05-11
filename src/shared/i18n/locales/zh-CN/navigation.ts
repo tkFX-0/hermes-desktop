@@ -11,4 +11,6 @@ export default {
   schedules: "计划任务",
   gateway: "网关",
   settings: "设置",
+  research: "Research",
+  controlCenter: "Control Center",
 } as const;

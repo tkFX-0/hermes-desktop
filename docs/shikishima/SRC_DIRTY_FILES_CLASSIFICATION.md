@@ -290,7 +290,7 @@ All of the following must be met before v1.3.0 package name migration:
 | Group B tracked files committed or reverted | not yet | BLOCK |
 | Group B untracked source committed or reverted | not yet | BLOCK |
 | installer.ts BOM character resolved | **removed in v1.2.8** | **PASS** |
-| zh-CN `research` label placeholder resolved | not yet | CAUTION |
+| zh-CN `research` label placeholder resolved | **fixed in v1.2.10** | **PASS** |
 | Working tree clean | not clean (Group B remains) | BLOCK |
 | package-lock version stamp (auto-resolves) | known | PASS (non-blocker) |
 

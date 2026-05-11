@@ -183,21 +183,17 @@ src/shared/ichikishima/        (2 files) — IPC channel + type contract
 | `research` | `"Research"` | `"リサーチ"` | **PLACEHOLDER** — Japanese in zh-CN locale |
 | `controlCenter` | `"Control Center"` | `"Control Center"` | Acceptable — technical term in English |
 
-**zh-CN `research: "リサーチ"` is confirmed a placeholder.**
+**zh-CN `research: "リサーチ"` was confirmed a placeholder — FIXED in v1.2.10.**
 
 Pattern in existing zh-CN labels: `"计划任务"`, `"网关"`, `"设置"` — all use Chinese.
-The label `"リサーチ"` is Japanese katakana and does not follow this pattern.
+The label `"リサーチ"` was Japanese katakana and did not follow this pattern.
 
-**Suggested corrections (not applied in this task):**
+**Resolution (applied in v1.2.10):**
 
-| Option | Value | Notes |
-|---|---|---|
-| A | `"Research"` | Keep English (same as controlCenter) — consistent |
-| B | `"研究"` | Chinese for research/study — follows locale pattern |
-| C | `"数据研究"` | Data research — more specific |
-
-Recommended: Option A (`"Research"`) for consistency with `controlCenter: "Control Center"`.
-This should be fixed before the Group B commit is created.
+| Key | Before | After | Status |
+|---|---|---|---|
+| `research` | `"リサーチ"` | `"Research"` | **FIXED in v1.2.10** |
+| `controlCenter` | `"Control Center"` | `"Control Center"` | No change needed |
 
 ---
 
@@ -256,10 +252,17 @@ Rationale:
 4. The zh-CN label fix is a 1-line change, low risk
 5. Tests can be committed separately after Group B
 
-**Required before Group B commit:**
-1. Fix zh-CN `research` label (1-line change)
-2. Audit ichikishima/hermes/ for any accidental local-only values (separate task or review)
-3. Confirm tests/ichikishima/ will be committed separately (not required for compilation)
+**Required before Group B commit (v1.2.11):**
+1. ~~Fix zh-CN `research` label~~ **DONE in v1.2.10** (`"リサーチ"` → `"Research"`)
+2. Audit ichikishima/hermes/ for any accidental local-only values (optional — source files already designed with redaction policy)
+3. `tests/ichikishima/` (69 test files) must be committed separately — NOT mixed into Group B feature commit
+
+**tests/ichikishima/ status (v1.2.10 finding):**
+- Present: YES — 69 test files covering all ichikishima subsystems
+- Git status: UNTRACKED (`??`)
+- Subsystems covered: agent-team, approval, audit, control-center, hermes, orchestrator, pilot, review, visualization
+- Special note: `dummy-hermes-path.ts` and `dummy-hermes-stub-design.process-local.test.ts` — names suggest local-only process context; these should be reviewed before commit
+- Decision: HOLD test commit separately from Group B feature commit
 
 ---
 
@@ -270,7 +273,7 @@ Rationale:
 | Group A files committed | BLOCK → **PASS** (v1.2.8) | PASS |
 | Group B tracked files committed | BLOCK | BLOCK (pending option 1 or 3) |
 | Group B untracked source committed | BLOCK | BLOCK (pending option 1 or 3) |
-| zh-CN research label fixed | CAUTION | CAUTION — confirmed placeholder |
+| zh-CN research label fixed | CAUTION | **PASS** — fixed in v1.2.10 |
 | Working tree clean | BLOCK | BLOCK (Group B remains) |
 | package-lock version stamp | PASS | PASS (non-blocker) |
 

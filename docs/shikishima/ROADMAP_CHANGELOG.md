@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v1.2.9
+- roadmapVersion: v1.2.10
 - lastUpdated: 2026-05-11
-- latestUpdate: Group B untracked source audit added
+- latestUpdate: Group B pre-feature cleanup added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,20 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v1.2.10 - Group B Pre-Feature Cleanup
+
+- Fixed zh-CN `navigation.ts` `research` label: `"リサーチ"` → `"Research"`.
+  Consistent with `controlCenter: "Control Center"` pattern.
+- Confirmed `tests/ichikishima/` exists with 69 test files (all untracked).
+  Decision: commit tests separately from Group B feature commit (v1.2.11).
+  Note: `dummy-hermes-path.ts` and `dummy-hermes-stub-design.process-local.test.ts`
+  contain "process-local" in names — review before committing tests.
+- `GROUP_B_UNTRACKED_SOURCE_AUDIT.md` updated: zh-CN finding PASS; tests caveat added.
+- `SRC_DIRTY_FILES_CLASSIFICATION.md` updated: zh-CN CAUTION → PASS.
+- Group B feature commit itself: NOT performed. Proceeds in v1.2.11.
+- Untracked source not staged. tests/ichikishima/ not staged.
+- HOLD remains current. execution remains disabled. No git push.
 
 ## v1.2.9 - Group B Untracked Source Audit
 

@@ -20,11 +20,11 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v1.2.9
-- latestUpdate: Group B untracked source audit added
+- roadmapVersion: v1.2.10
+- latestUpdate: Group B pre-feature cleanup added
 - docs-only commits completed: local docs commits exist
-- current next human action: (1) fix zh-CN research label "リサーチ" → "Research"; (2) commit Group B single feature commit (~83 files total); or (3) revert Group B and proceed to v1.3.0
-- HOLD reason: package.json name remains "hermes-desktop"; Group B (~83 files) must be committed or reverted before v1.3.0; zh-CN research label confirmed placeholder
+- current next human action: approve v1.2.11 Group B Feature Commit (7 tracked + ~76 untracked source files); tests/ichikishima/ commits separately after v1.2.11
+- HOLD reason: package.json name remains "hermes-desktop"; Group B (~83 files) must be committed or reverted before v1.3.0 package name migration
 
 ## Boundaries
 
