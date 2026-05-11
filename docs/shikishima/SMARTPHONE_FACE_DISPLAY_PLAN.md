@@ -32,6 +32,18 @@ implementation. Examples:
 
 This plan does not include autonomous behavior.
 
+## v0.7.0 Voice / Mouth / Eye Concept
+
+Future smartphone display planning may show:
+
+- voiceIntent as a non-audio display label.
+- mouthPattern as a small mouth-state sequence.
+- gazePattern as a small eye-state sequence.
+- blinkState as a display-only state.
+
+This is not audio playback, recording, microphone use, camera use, face
+recognition, external API use, or runtime implementation.
+
 ## Forbidden Until Separate Approval
 
 - microphone automation.

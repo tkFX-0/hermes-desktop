@@ -64,6 +64,9 @@ This design is documentation and static display planning only. It does not
 approve StackChan control, robot motion, camera use, microphone automation,
 runtime implementation, GO, or production readiness.
 
+v0.7.0 adds voiceIntent, mouthPattern, and gazePattern as concept labels for this
+face system. Those labels remain display-only and non-execution.
+
 Current status:
 
 - decision: HOLD

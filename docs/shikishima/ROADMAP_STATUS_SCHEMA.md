@@ -7,9 +7,9 @@ and does not require tooling.
 
 | Field | Meaning | Current value |
 |---|---|---|
-| roadmapVersion | visible roadmap version | v0.6.0 |
+| roadmapVersion | visible roadmap version | v0.7.0 |
 | lastUpdated | visible update date | 2026-05-11 |
-| latestUpdate | short update summary | Minimal dot-line face expression system added |
+| latestUpdate | short update summary | Voice / mouth-flap / eye-gaze concept added |
 | currentDecision | current project decision | HOLD |
 | executionStatus | execution gate state | disabled |
 | productionReady | production readiness flag | false |
@@ -34,6 +34,13 @@ and does not require tooling.
 | smartphoneFaceDisplayStatus | smartphone face display state | design_only_display_plan |
 | stackchanFaceDisplayStatus | StackChan face display state | future_display_only_plan |
 | robotMotionApprovalStatus | robot motion approval state | not_approved |
+| voiceConceptStatus | voice concept state | design_only_non_audio |
+| agentVoicePatternStatus | agent voice/face pattern state | design_only |
+| faceSignalProtocolStatus | non-execution signal protocol state | concept_only_not_device_command |
+| faceTerminalConnectionConceptStatus | future terminal connection concept | not_approved_for_execution |
+| audioPlaybackApprovalStatus | audio playback approval state | not_approved |
+| microphoneApprovalStatus | microphone approval state | not_approved |
+| recordingApprovalStatus | recording approval state | not_approved |
 
 ## Status Values
 

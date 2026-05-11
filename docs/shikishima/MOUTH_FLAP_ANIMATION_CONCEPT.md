@@ -50,3 +50,19 @@ Explaining loop:
 
 This concept is not runtime lip sync. It does not create code, wire audio, use a
 microphone, infer emotion, or send commands to a device.
+
+## v0.7.0 Voice Coupling Notes
+
+Voice intent is a display label only. It can guide how the future face might
+choose mouth states, but it does not play audio, synthesize speech, record
+voice, use a microphone, or call an external API.
+
+| Voice intent | Suggested mouth pattern | Boundary |
+| --- | --- | --- |
+| calm | calm_loop | display-only |
+| protective | minimal_gate_loop | display-only |
+| focused | calm_loop with smaller changes | display-only |
+| proposing | smile_talk_loop | display-only |
+| archival | quiet_loop | display-only |
+
+These labels are review vocabulary, not runtime implementation.

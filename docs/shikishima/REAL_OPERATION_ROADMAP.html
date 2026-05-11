@@ -98,6 +98,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       <button data-section="changelog">更新履歴</button>
       <button data-section="explorer-dashboard">Explorer Dashboard</button>
       <button data-section="minimal-face">Dot-Line Face</button>
+      <button data-section="voice-face">Voice / Mouth / Eye</button>
       <button data-section="human-review">Human Review Package</button>
       <button data-section="agents">5エージェント</button>
       <button data-section="router">Model Router</button>
@@ -115,7 +116,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">roadmapVersion: v0.6.0</span>
+        <span class="chip ok">roadmapVersion: v0.7.0</span>
         <span class="chip ok">lastUpdated: 2026-05-11</span>
       </div>
     </header>
@@ -124,12 +125,12 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div class="card status-card">
           <h2>更新ステータス</h2>
           <div class="kv">
-            <div>roadmapVersion</div><div><code>v0.6.0</code></div>
+            <div>roadmapVersion</div><div><code>v0.7.0</code></div>
             <div>lastUpdated</div><div><code>2026-05-11</code></div>
-            <div>latestUpdate</div><div>Minimal dot-line face expression system added</div>
+            <div>latestUpdate</div><div>Voice / mouth-flap / eye-gaze concept added</div>
             <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
             <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
-            <div>v0.6.0 note</div><div>v0.6.0 adds a minimal dot-line face expression system. It does not approve runtime implementation, StackChan control, robot motion, or execution.</div>
+            <div>v0.7.0 note</div><div>v0.7.0 adds voice, mouth-flap, and eye-gaze concepts. It does not approve audio playback, recording, microphone use, external API use, StackChan control, robot motion, or execution.</div>
           </div>
         </div>
         <h2>フェーズ一覧</h2>
@@ -147,6 +148,17 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       </section>
       <section id="changelog">
         <h2>更新履歴 / Changelog</h2>
+        <div class="card">
+          <h3>v0.7.0 — Voice / mouth-flap / eye-gaze concept</h3>
+          <ul>
+            <li>Added voice concept as non-audio display intent.</li>
+            <li>Added agent-specific mouth and gaze pattern guidance.</li>
+            <li>Added non-execution face signal protocol vocabulary.</li>
+            <li>Added future face terminal connection concept.</li>
+            <li>Updated Android, smartphone, and StackChan display-only planning notes.</li>
+            <li>HOLD remains current; execution remains disabled; no audio playback, recording, microphone, external API, StackChan control, or robot motion approval.</li>
+          </ul>
+        </div>
         <div class="card">
           <h3>v0.6.0 — Minimal dot-line face expression system</h3>
           <ul>
@@ -289,8 +301,8 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
           <div class="card">
             <h3>Current Tempo</h3>
             <div class="kv">
-              <div>roadmapVersion</div><div><code>v0.6.0</code></div>
-              <div>latestUpdate</div><div>Minimal dot-line face expression system added</div>
+              <div>roadmapVersion</div><div><code>v0.7.0</code></div>
+              <div>latestUpdate</div><div>Voice / mouth-flap / eye-gaze concept added</div>
               <div>docs-only commits</div><div>completed locally</div>
               <div>current next human action</div><div>review Explorer-style dashboard design</div>
               <div>HOLD reason</div><div>documentation approval and execution approval remain separate</div>
@@ -368,6 +380,60 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
               <li>eyes_closed / eyes_half_closed</li>
               <li>eyes_look_away</li>
               <li>eyes_focus</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+      <section id="voice-face">
+        <h2>Voice / Mouth-Flap / Eye-Gaze Concept</h2>
+        <div class="card status-card">
+          <h3>Non-execution concept only</h3>
+          <p>v0.7.0 adds voice intent, mouth-flap pattern, and eye-gaze pattern guidance for the minimal dot-line face system.</p>
+          <p>Voice intent is a display label only. It does not approve audio playback, recording, microphone use, speech synthesis, external API use, StackChan control, robot motion, or execution.</p>
+        </div>
+        <div class="card">
+          <h3>Concept layers</h3>
+          <table>
+            <tr><th>Layer</th><th>Status</th><th>Boundary</th></tr>
+            <tr><td>voice concept</td><td>design_only</td><td>no audio playback or recording</td></tr>
+            <tr><td>mouth-flap concept</td><td>design_only</td><td>no lip sync implementation</td></tr>
+            <tr><td>eye-gaze concept</td><td>design_only</td><td>no camera or tracking</td></tr>
+            <tr><td>face signal protocol</td><td>concept_only</td><td>not a device command</td></tr>
+            <tr><td>future terminal connection</td><td>not_approved_for_execution</td><td>display planning only</td></tr>
+          </table>
+        </div>
+        <div class="card">
+          <h3>Agent pattern summary</h3>
+          <table>
+            <tr><th>Agent</th><th>Voice intent</th><th>Mouth pattern</th><th>Gaze pattern</th></tr>
+            <tr><td>しきしま / しき</td><td>calm organizer</td><td>calm_loop</td><td>center with small organizing glance</td></tr>
+            <tr><td>しずめ</td><td>quiet protective gate</td><td>minimal_gate_loop</td><td>steady_center</td></tr>
+            <tr><td>つむぎ / つむ</td><td>focused maker</td><td>explain_loop</td><td>work_down or side scanning</td></tr>
+            <tr><td>はじめ</td><td>bright next-step guide</td><td>smile_talk_loop</td><td>thinking_up then center</td></tr>
+            <tr><td>しるべ</td><td>gentle record keeper</td><td>quiet_loop</td><td>search_side or lower-side gaze</td></tr>
+          </table>
+        </div>
+        <div class="grid">
+          <div class="card">
+            <h3>Allowed as labels</h3>
+            <ul>
+              <li>voiceIntent</li>
+              <li>mouthPattern</li>
+              <li>gazePattern</li>
+              <li>blinkState</li>
+              <li>approvalBoundary: display_only_hold</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Still forbidden</h3>
+            <ul>
+              <li>audio playback</li>
+              <li>recording</li>
+              <li>microphone</li>
+              <li>camera tracking</li>
+              <li>external API</li>
+              <li>robot control</li>
+              <li>execution buttons</li>
             </ul>
           </div>
         </div>
@@ -499,7 +565,7 @@ const phases = [
 const grid = document.getElementById("phaseGrid");
 grid.innerHTML = phases.map((phase) => {
   const badgeClass = phase.status === "HOLD" ? "hold" : phase.status === "current" ? "current" : "pending";
-  const updateBadge = phase.updated ? '<span class="update-badge">updated in v0.6.0</span>' : "";
+  const updateBadge = phase.updated ? '<span class="update-badge">updated in v0.7.0</span>' : "";
   const canonical = phase.canonical ? `<li>canonical status: ${phase.canonical}</li>` : "";
   return `<article class="phase ${phase.updated ? "updated" : ""}"><div><span class="phase-num">Phase ${phase.num}</span><span class="badge ${badgeClass}">${phase.status}</span>${updateBadge}</div><div class="phase-title">${phase.title}</div><p class="role">${phase.goal}</p><ul>${canonical}<li>decision remains HOLD</li><li>execution remains disabled</li><li>documentation approval is not execution approval</li></ul></article>`;
 }).join("");

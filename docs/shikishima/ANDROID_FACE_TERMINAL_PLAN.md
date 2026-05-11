@@ -22,6 +22,7 @@ whitespace.
 - one active agent at a time.
 - optional five-agent mini strip.
 - tiny symbols and subtle accents.
+- voiceIntent / mouthPattern / gazePattern labels for display planning.
 - local-only expression state.
 - no autonomous motion.
 - no cloud upload by default.
@@ -37,6 +38,9 @@ whitespace.
 - camera upload.
 - face recognition.
 - autonomous expression control.
+- audio playback.
+- recording.
+- external voice API.
 
 ## Current Design References
 
@@ -44,6 +48,8 @@ whitespace.
 - `MINIMAL_FACE_EXPRESSION_STATES.md`
 - `MOUTH_FLAP_ANIMATION_CONCEPT.md`
 - `EYE_GAZE_ANIMATION_CONCEPT.md`
+- `VOICE_MOUTH_EYE_CONCEPT.md`
+- `NON_EXECUTION_FACE_SIGNAL_PROTOCOL.md`
 - `SMARTPHONE_FACE_DISPLAY_PLAN.md`
 - `FACE_DESIGN_SAFETY_BOUNDARY.md`
 

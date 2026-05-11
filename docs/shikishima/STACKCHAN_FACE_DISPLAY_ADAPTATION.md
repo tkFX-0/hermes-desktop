@@ -32,6 +32,17 @@ Eye movement can be reduced to:
 - eyes_closed
 - eyes_side
 
+## v0.7.0 Voice / Mouth / Eye Adaptation
+
+A future StackChan-like display may use only simplified display labels:
+
+- voiceIntent: calm, protective, focused, proposing, archival.
+- mouthPattern: calm_loop or minimal_gate_loop.
+- gazePattern: steady_center, side, or closed.
+
+These labels are not device commands. They do not approve audio output, robot
+motion, servo control, firmware work, or StackChan control.
+
 ## Not Approved
 
 - no physical motion.

@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v0.6.0
+- roadmapVersion: v0.7.0
 - lastUpdated: 2026-05-11
-- latestUpdate: Minimal dot-line face expression system added
+- latestUpdate: Voice / mouth-flap / eye-gaze concept added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,23 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v0.7.0 — Voice / Mouth-Flap / Eye-Gaze Concept
+
+- Added voice concept as non-audio display intent.
+- Added agent-specific face and voice pattern guidance.
+- Added non-execution face signal protocol vocabulary.
+- Added future face terminal connection concept.
+- Updated mouth-flap and eye-gaze concept docs.
+- Updated Android, smartphone, and StackChan display-only planning notes.
+- HOLD remains current.
+- execution remains disabled.
+- no audio playback approval.
+- no recording approval.
+- no microphone approval.
+- no external API approval.
+- no StackChan control approval.
+- no robot motion approval.
 
 ## v0.6.0 — Minimal Dot-Line Face Expression System
 

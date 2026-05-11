@@ -48,3 +48,18 @@ emotion inference, or runtime animation wiring.
 
 No camera-based eye tracking is part of this concept. No user emotion is inferred
 from camera or sensor data.
+
+## v0.7.0 Voice Coupling Notes
+
+Voice intent may be paired with gaze labels for future display planning:
+
+| Voice intent | Suggested gaze pattern | Boundary |
+| --- | --- | --- |
+| calm | steady_center | display-only |
+| protective | steady_center with minimal blink | display-only |
+| focused | work_down or eyes_focus | display-only |
+| proposing | thinking_up then center | display-only |
+| archival | search_side or lower-side gaze | display-only |
+
+This does not use camera, eye tracking, face recognition, user emotion inference,
+or runtime animation wiring.

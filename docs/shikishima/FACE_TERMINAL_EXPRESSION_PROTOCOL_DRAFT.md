@@ -26,6 +26,17 @@ ready and must not be sent to a device.
 | accentColor | blue, blue_green, amber_orange, green, violet | subtle color accent |
 | safetyNote | display_only_hold | execution remains disabled |
 
+## v0.7.0 Non-Execution Voice / Mouth / Eye Fields
+
+These extra labels are concept-only vocabulary:
+
+| Field | Design-only examples | Notes |
+|---|---|---|
+| voiceIntent | calm, protective, focused, proposing, archival | no audio playback |
+| mouthPattern | calm_loop, explain_loop, minimal_gate_loop, quiet_loop | no lip sync implementation |
+| gazePattern | steady_center, thinking_up, search_side, work_down | no camera tracking |
+| approvalBoundary | display_only_hold | not approved for execution |
+
 ## Boundary
 
 - Documentation only.
@@ -34,6 +45,9 @@ ready and must not be sent to a device.
 - Not StackChan firmware approval.
 - Not robot motion approval.
 - Not camera, microphone, or identity recognition approval.
+- Not audio playback approval.
+- Not recording approval.
+- Not external API approval.
 - Not production readiness.
 
 この範囲では問題を検出していません。

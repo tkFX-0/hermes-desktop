@@ -2,9 +2,9 @@
 
 ## Update Status
 
-- roadmapVersion: v0.6.0
+- roadmapVersion: v0.7.0
 - lastUpdated: 2026-05-11
-- latestUpdate: Minimal dot-line face expression system added
+- latestUpdate: Voice / mouth-flap / eye-gaze concept added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - changelog: `ROADMAP_CHANGELOG.md`
 - phase review: `PHASE_REVIEW_MATRIX.md`
@@ -71,6 +71,22 @@ v0.6.0 supersedes the costume-heavy bust-up avatar direction for current face
 design. Mouth-flap and eye-gaze concepts are design-only and are not runtime
 implementation. This update does not approve StackChan control, robot motion,
 GO, or production readiness.
+
+## Voice / Mouth-Flap / Eye-Gaze Concept
+
+v0.7.0 adds a non-execution concept layer for voice intent, mouth patterns, eye
+gaze patterns, and future display terminal connection planning.
+
+This includes:
+
+- `VOICE_MOUTH_EYE_CONCEPT.md`
+- `AGENT_FACE_VOICE_PATTERN_GUIDE.md`
+- `NON_EXECUTION_FACE_SIGNAL_PROTOCOL.md`
+- `FACE_TERMINAL_CONNECTION_CONCEPT.md`
+
+Voice intent is a display label only. It does not approve audio playback,
+recording, microphone use, speech synthesis, external API use, camera tracking,
+StackChan control, robot motion, GO, or production readiness.
 
 ## Human Review Package
 

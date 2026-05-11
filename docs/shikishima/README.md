@@ -52,6 +52,10 @@ network flow.
 - `SMARTPHONE_FACE_DISPLAY_PLAN.md` - smartphone display-only face plan.
 - `STACKCHAN_FACE_DISPLAY_ADAPTATION.md` - future StackChan display-only adaptation.
 - `FACE_DESIGN_SAFETY_BOUNDARY.md` - face design approval boundary.
+- `VOICE_MOUTH_EYE_CONCEPT.md` - voice, mouth, and gaze concept.
+- `AGENT_FACE_VOICE_PATTERN_GUIDE.md` - agent-specific voice/face pattern guide.
+- `NON_EXECUTION_FACE_SIGNAL_PROTOCOL.md` - non-execution face signal vocabulary.
+- `FACE_TERMINAL_CONNECTION_CONCEPT.md` - future display terminal connection concept.
 - `MINIMUM_OPERATION_RUNBOOK_DRAFT.md` - Phase 10 runbook draft.
 - `HUMAN_GO_APPROVAL_CHECKLIST.md` - future scoped GO checklist.
 - `NO_GO_CHECKLIST.md` - stop/no-go checklist.
@@ -105,6 +109,16 @@ Minimal dot-line face system review order:
 7. Review `STACKCHAN_FACE_DISPLAY_ADAPTATION.md`.
 8. Review `FACE_DESIGN_SAFETY_BOUNDARY.md`.
 
+Voice / mouth / eye concept review order:
+
+1. Review `VOICE_MOUTH_EYE_CONCEPT.md`.
+2. Review `AGENT_FACE_VOICE_PATTERN_GUIDE.md`.
+3. Review `NON_EXECUTION_FACE_SIGNAL_PROTOCOL.md`.
+4. Review `FACE_TERMINAL_CONNECTION_CONCEPT.md`.
+5. Re-check `MOUTH_FLAP_ANIMATION_CONCEPT.md`.
+6. Re-check `EYE_GAZE_ANIMATION_CONCEPT.md`.
+7. Re-check `FACE_TERMINAL_EXPRESSION_PROTOCOL_DRAFT.md`.
+
 If the roadmap is updated, the HTML must visibly show that it was updated.
 Every roadmap-affecting change must update the visible HTML changelog and
 `ROADMAP_CHANGELOG.md`.
@@ -113,6 +127,11 @@ v0.6.0 adds the minimal dot-line face expression system. It supersedes the
 costume-heavy bust-up avatar direction for current face design. It is
 documentation/design only, not runtime implementation, not StackChan control,
 not robot motion approval, not GO, and not production readiness.
+
+v0.7.0 adds voice intent, mouth-flap pattern, and eye-gaze pattern concepts.
+They are display labels and review vocabulary only. They do not approve audio
+playback, recording, microphone use, camera tracking, external API use,
+StackChan control, robot motion, GO, or production readiness.
 
 ## Naming Rules
 

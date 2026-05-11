@@ -176,4 +176,36 @@ Face display safety notes:
 - no microphone automation.
 - mouth and eye animation concepts are design-only.
 
+## Voice / Mouth / Eye Concept Flow
+
+```mermaid
+flowchart TD
+  Agent["Agent display state"]
+  VoiceIntent["voiceIntent label\nnon-audio"]
+  Mouth["mouthPattern label"]
+  Gaze["gazePattern label"]
+  Protocol["Non-execution face signal vocabulary"]
+  Terminal["Future display terminal concept"]
+  Hold["Execution remains HOLD"]
+
+  Agent --> VoiceIntent
+  Agent --> Mouth
+  Agent --> Gaze
+  VoiceIntent --> Protocol
+  Mouth --> Protocol
+  Gaze --> Protocol
+  Protocol --> Terminal --> Hold
+```
+
+v0.7.0 concept non-goals:
+
+- no audio playback.
+- no recording.
+- no microphone.
+- no speech synthesis wiring.
+- no external API.
+- no camera tracking.
+- no StackChan control.
+- no robot motion.
+
 この範囲では問題を検出していません。

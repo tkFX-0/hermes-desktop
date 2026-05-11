@@ -55,4 +55,8 @@ Current state:
 adaptation boundary. Neither document approves StackChan control or robot
 motion.
 
+v0.7.0 adds voiceIntent, mouthPattern, and gazePattern as future display labels
+only. They are not audio output, recording, microphone use, external API use,
+servo control, firmware work, StackChan control, or robot motion approval.
+
 この範囲では問題を検出していません。
