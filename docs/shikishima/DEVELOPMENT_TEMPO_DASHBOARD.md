@@ -20,11 +20,11 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v1.2.5
-- latestUpdate: Package name migration plan added
+- roadmapVersion: v1.2.6
+- latestUpdate: Package-lock dirty state classification added
 - docs-only commits completed: local docs commits exist
-- current next human action: review PACKAGE_NAME_MIGRATION_PLAN.md and approve v1.3.0 execution GO
-- HOLD reason: package.json name remains "hermes-desktop"; plan created (v1.2.5), execution requires separate GO (v1.3.0); pre-migration caveat: package-lock.json unrelated dirty state must be resolved before execution
+- current next human action: resolve src/ and .gitignore dirty files (commit as feature work or revert), then approve v1.3.0 GO
+- HOLD reason: package.json name remains "hermes-desktop"; src/ dirty files (10 files) and .gitignore are v1.3.0 blockers; package-lock version stamp drift is NOT a blocker (auto-resolves in v1.3.0)
 
 ## Boundaries
 

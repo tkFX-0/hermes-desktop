@@ -119,7 +119,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">roadmapVersion: v1.2.5</span>
+        <span class="chip ok">roadmapVersion: v1.2.6</span>
         <span class="chip ok">lastUpdated: 2026-05-11</span>
       </div>
     </header>
@@ -128,11 +128,12 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div class="card status-card">
           <h2>譖ｴ譁ｰ繧ｹ繝・・繧ｿ繧ｹ</h2>
           <div class="kv">
-            <div>roadmapVersion</div><div><code>v1.2.5</code></div>
+            <div>roadmapVersion</div><div><code>v1.2.6</code></div>
             <div>lastUpdated</div><div><code>2026-05-11</code></div>
-            <div>latestUpdate</div><div>Package name migration plan added</div>
+            <div>latestUpdate</div><div>Package-lock dirty state classification added</div>
             <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
             <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
+            <div>v1.2.6 note</div><div>v1.2.6: PACKAGE_LOCK_DIRTY_STATE_CLASSIFICATION.md added (audit-only). package-lock dirty = version stamp only (not a v1.3.0 blocker). Actual blockers: src/ dirty files (10 files) and .gitignore. HOLD remains current.</div>
             <div>v1.2.5 note</div><div>v1.2.5: PACKAGE_NAME_MIGRATION_PLAN.md added (plan-only). Candidate: name "hermes-desktop" → "shikishima-desktop". No package.json changed. package-lock.json dirty caveat noted. Target execution: v1.3.0. HOLD remains current.</div>
             <div>v1.2.4 note</div><div>v1.2.4: electron-builder.yml productName updated to "しきしま". package.json name remains "hermes-desktop"; artifact filenames unchanged. Lockfile/deps/scripts unchanged. HOLD remains current.</div>
             <div>v1.2.3 note</div><div>v1.2.3: package.json description only updated. name remains "hermes-desktop"; productName was "Hermes Agent" (updated in v1.2.4). Lockfile/deps/scripts unchanged. HOLD remains current.</div>
@@ -160,7 +161,22 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       <section id="changelog">
         <h2>譖ｴ譁ｰ螻･豁ｴ / Changelog</h2>
         <div class="card">
-          <h3>v1.2.5 - Package name migration plan <span class="update-badge">latest</span></h3>
+          <h3>v1.2.6 - Package-lock dirty state classification <span class="update-badge">latest</span></h3>
+          <ul>
+            <li>Added PACKAGE_LOCK_DIRTY_STATE_CLASSIFICATION.md — audit-only / report-only / redacted-only.</li>
+            <li>Classification: package-lock dirty is version stamp drift only (4 lines changed).</li>
+            <li>Root name field: unchanged ("hermes-desktop") — no pre-existing drift.</li>
+            <li>No dependency, integrity, or lockfileVersion changes.</li>
+            <li>Recommended: Keep HOLD — version stamp auto-resolves in v1.3.0 migration.</li>
+            <li>v1.3.0 blockers: src/ dirty files (10 files) and .gitignore must be resolved first.</li>
+            <li>package-lock version stamp is NOT a v1.3.0 blocker.</li>
+            <li>PACKAGE_NAME_MIGRATION_PLAN.md Step 0 caveat updated.</li>
+            <li>No package-lock.json modified. No npm install. No commit/revert.</li>
+            <li>HOLD remains current; execution remains disabled.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>v1.2.5 - Package name migration plan</h3>
           <ul>
             <li>Added PACKAGE_NAME_MIGRATION_PLAN.md — plan-only / docs-static-only / report-only.</li>
             <li>Candidate: package.json name "hermes-desktop" → "shikishima-desktop".</li>
@@ -465,10 +481,10 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
           <div class="card">
             <h3>Current Tempo</h3>
             <div class="kv">
-              <div>roadmapVersion</div><div><code>v1.2.5</code></div>
-              <div>latestUpdate</div><div>Package name migration plan added</div>
+              <div>roadmapVersion</div><div><code>v1.2.6</code></div>
+              <div>latestUpdate</div><div>Package-lock dirty state classification added</div>
               <div>docs-only commits</div><div>completed locally</div>
-              <div>current next human action</div><div>review PACKAGE_NAME_MIGRATION_PLAN.md and approve v1.3.0 execution GO</div>
+              <div>current next human action</div><div>resolve src/ and .gitignore dirty files (commit or revert), then approve v1.3.0 GO</div>
               <div>HOLD reason</div><div>documentation approval and execution approval remain separate; no renames or deletions approved yet</div>
             </div>
           </div>

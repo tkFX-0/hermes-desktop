@@ -152,7 +152,7 @@ Phase C is split per v1.2.2 Package Metadata Audit findings.
    - Candidate: `shikishima-desktop`
    - Impact: artifact filenames (`${name}`), lockfile root name, `updaterCacheDirName`
    - Plan: `docs/shikishima/PACKAGE_NAME_MIGRATION_PLAN.md`
-   - Pre-migration caveat: `package-lock.json` has existing unrelated dirty state; must resolve first
+   - Pre-migration caveat (v1.2.6 classification): package-lock dirty = version stamp only (NOT a v1.3.0 blocker; auto-resolves in migration). Actual blockers: src/ and .gitignore dirty files must be resolved first.
    - `publish.repo` and `dev-app-update.yml repo`: KEEP (external GitHub URL)
 
 ### Phase D — Source Directories (High Risk, Requires Tooling)

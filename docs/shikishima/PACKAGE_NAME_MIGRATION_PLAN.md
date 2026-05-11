@@ -123,7 +123,7 @@ Each step requires explicit human GO approval before execution.
 
 | Step | Action | File(s) | Risk | Notes |
 |---|---|---|---|---|
-| 0 | Resolve package-lock.json dirty state | `package-lock.json` | LOW | Must be clean before step 1 |
+| 0 | Ensure working tree clean (commit or revert src/ and .gitignore dirty files) | multiple | LOW | package-lock version stamp will auto-resolve in step 2; src/ and .gitignore must be resolved first (see v1.2.6 classification) |
 | 1 | Update `package.json` name | `package.json` | LOW | `hermes-desktop` → `shikishima-desktop` |
 | 2 | Sync lockfile root name | `package-lock.json` | LOW | Run `npm install --package-lock-only` (no dependency install) |
 | 3 | Update `updaterCacheDirName` | `dev-app-update.yml` | LOW | `hermes-desktop-updater` → `shikishima-desktop-updater` |

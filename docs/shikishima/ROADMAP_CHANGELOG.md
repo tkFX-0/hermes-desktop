@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v1.2.5
+- roadmapVersion: v1.2.6
 - lastUpdated: 2026-05-11
-- latestUpdate: Package name migration plan added
+- latestUpdate: Package-lock dirty state classification added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,20 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v1.2.6 - Package-lock Dirty State Classification
+
+- Added `PACKAGE_LOCK_DIRTY_STATE_CLASSIFICATION.md` — audit-only / report-only / redacted-only.
+- Classification: package-lock dirty is version stamp drift only (2 lines × 2 locations).
+  - Root `name` field: unchanged (remains `hermes-desktop`) — no pre-existing drift.
+  - Root `version` field: stale by one minor version — auto-corrects in v1.3.0.
+  - No dependency, integrity, or lockfileVersion changes.
+- Recommended handling: Keep HOLD — version stamp auto-resolves in v1.3.0 migration step.
+- v1.3.0 blocker clarified: src/ dirty files (10 files) and `.gitignore` dirty state
+  are the actual blockers; package-lock version stamp is NOT a blocker.
+- `PACKAGE_NAME_MIGRATION_PLAN.md` Step 0 caveat updated to reflect reclassification.
+- No `package-lock.json` was modified. No npm install. No commit/revert.
+- HOLD remains current. execution remains disabled. No git push.
 
 ## v1.2.5 - Package Name Migration Plan
 

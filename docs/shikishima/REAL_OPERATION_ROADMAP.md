@@ -2,9 +2,9 @@
 
 ## Update Status
 
-- roadmapVersion: v1.2.5
+- roadmapVersion: v1.2.6
 - lastUpdated: 2026-05-11
-- latestUpdate: Package name migration plan added
+- latestUpdate: Package-lock dirty state classification added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - changelog: `ROADMAP_CHANGELOG.md`
 - phase review: `PHASE_REVIEW_MATRIX.md`
