@@ -1,3 +1,4 @@
+import type { ControlCenterAppSnapshot } from "../main/ichikishima/control-center/control-center-app-snapshot";
 import { ElectronAPI } from "@electron-toolkit/preload";
 
 interface InstallStatus {
@@ -430,9 +431,15 @@ interface HermesAPI {
   ) => Promise<{ content: string; path: string }>;
 }
 
+interface IchikishimaControlCenterAPI {
+  /** Control Center read-only 統合スナップショット（実行系 IPC なし） */
+  getAppSnapshot: () => Promise<ControlCenterAppSnapshot>;
+}
+
 declare global {
   interface Window {
     electron: ElectronAPI;
     hermesAPI: HermesAPI;
+    ichikishimaControlCenter: IchikishimaControlCenterAPI;
   }
 }

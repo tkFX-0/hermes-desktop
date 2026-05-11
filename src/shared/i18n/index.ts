@@ -25,6 +25,7 @@ import soulEn from "./locales/en/soul";
 import memoryEn from "./locales/en/memory";
 import installEn from "./locales/en/install";
 import constantsEn from "./locales/en/constants";
+import controlCenterEn from "./locales/en/controlCenter";
 import commonZh from "./locales/zh-CN/common";
 import navigationZh from "./locales/zh-CN/navigation";
 import welcomeZh from "./locales/zh-CN/welcome";
@@ -44,6 +45,7 @@ import soulZh from "./locales/zh-CN/soul";
 import memoryZh from "./locales/zh-CN/memory";
 import installZh from "./locales/zh-CN/install";
 import constantsZh from "./locales/zh-CN/constants";
+import controlCenterZh from "./locales/zh-CN/controlCenter";
 
 export const resources = {
   en: {
@@ -67,6 +69,7 @@ export const resources = {
       memory: memoryEn,
       install: installEn,
       constants: constantsEn,
+      controlCenter: controlCenterEn,
     },
   },
   "zh-CN": {
@@ -90,6 +93,7 @@ export const resources = {
       memory: memoryZh,
       install: installZh,
       constants: constantsZh,
+      controlCenter: controlCenterZh,
     },
   },
 } satisfies Resource;

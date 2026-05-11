@@ -7,6 +7,12 @@ import {
   Notification,
 } from "electron";
 import { join } from "path";
+import { registerControlCenterReadonlyIpcHandlers } from "./ichikishima/control-center/control-center-readonly-ipc";
+import {
+  controlCenterElectronHintsFromApp,
+  resolveControlCenterPathResolution,
+} from "./ichikishima/control-center/control-center-project-root-resolution";
+import type { ControlCenterDataProviderParams } from "./ichikishima/control-center/control-center-data-provider";
 import { electronApp, optimizer, is } from "@electron-toolkit/utils";
 import type { AppUpdater } from "electron-updater";
 import icon from "../../resources/icon.png?asset";
@@ -118,6 +124,21 @@ process.on("unhandledRejection", (reason) => {
 let mainWindow: BrowserWindow | null = null;
 let currentChatAbort: (() => void) | null = null;
 
+function getIchikishimaControlCenterReadonlyParams(): ControlCenterDataProviderParams {
+  const resolved = resolveControlCenterPathResolution({
+    mainProcessDirname: __dirname,
+    sandboxSegments: ["sandbox", "hermes-autonomy-zone"],
+    electron: controlCenterElectronHintsFromApp(app),
+  });
+  return {
+    projectRoot: resolved.projectRootForProviders,
+    zoneRoot: resolved.zoneRootForProviders,
+    dateUtc: new Date().toISOString().slice(0, 10),
+    pilotLoop: null,
+    pathResolutionRendererSafe: resolved.rendererSafe,
+  };
+}
+
 function createWindow(): void {
   mainWindow = new BrowserWindow({
     width: 1100,
@@ -125,6 +146,7 @@ function createWindow(): void {
     minWidth: 800,
     minHeight: 600,
     show: false,
+    backgroundColor: "#0d1117",
     autoHideMenuBar: true,
     titleBarStyle: process.platform === "darwin" ? "hiddenInset" : undefined,
     ...(process.platform === "darwin"
@@ -179,6 +201,10 @@ function createWindow(): void {
 }
 
 function setupIPC(): void {
+  registerControlCenterReadonlyIpcHandlers(ipcMain, {
+    getParams: getIchikishimaControlCenterReadonlyParams,
+  });
+
   // Installation
   ipcMain.handle("check-install", () => {
     return checkInstallStatus();
@@ -302,12 +328,7 @@ function setupIPC(): void {
 
   ipcMain.handle(
     "set-connection-config",
-    (
-      _event,
-      mode: "local" | "remote",
-      remoteUrl: string,
-      apiKey?: string,
-    ) => {
+    (_event, mode: "local" | "remote", remoteUrl: string, apiKey?: string) => {
       setConnectionConfig({ mode, remoteUrl, apiKey: apiKey || "" });
       return true;
     },
@@ -315,8 +336,7 @@ function setupIPC(): void {
 
   ipcMain.handle(
     "test-remote-connection",
-    (_event, url: string, apiKey?: string) =>
-      testRemoteConnection(url, apiKey),
+    (_event, url: string, apiKey?: string) => testRemoteConnection(url, apiKey),
   );
 
   // Chat — lazy-start gateway on first message

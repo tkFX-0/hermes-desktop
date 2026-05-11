@@ -11,6 +11,8 @@ import Gateway from "../Gateway/Gateway";
 import Office from "../Office/Office";
 import Models from "../Models/Models";
 import Schedules from "../Schedules/Schedules";
+import Research from "../Research/Research";
+import ControlCenterAppShell from "../ControlCenterAppShell/ControlCenterAppShell";
 import RemoteNotice from "../../components/RemoteNotice";
 import hermeslogo from "../../assets/hermes.png";
 import {
@@ -28,6 +30,7 @@ import {
   Timer,
   Download,
 } from "../../assets/icons";
+import { BarChart2, LayoutDashboard } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useI18n } from "../../components/useI18n";
 
@@ -43,7 +46,9 @@ type View =
   | "tools"
   | "schedules"
   | "gateway"
-  | "settings";
+  | "settings"
+  | "research"
+  | "controlCenter";
 
 const NAV_ITEMS: { view: View; icon: LucideIcon; labelKey: string }[] = [
   { view: "chat", icon: ChatBubble, labelKey: "navigation.chat" },
@@ -58,6 +63,16 @@ const NAV_ITEMS: { view: View; icon: LucideIcon; labelKey: string }[] = [
   { view: "schedules", icon: Timer, labelKey: "navigation.schedules" },
   { view: "gateway", icon: Signal, labelKey: "navigation.gateway" },
   { view: "settings", icon: SettingsIcon, labelKey: "navigation.settings" },
+  {
+    view: "research",
+    icon: BarChart2 as LucideIcon,
+    labelKey: "navigation.research",
+  },
+  {
+    view: "controlCenter",
+    icon: LayoutDashboard as LucideIcon,
+    labelKey: "navigation.controlCenter",
+  },
 ];
 
 function Layout(): React.JSX.Element {
@@ -299,6 +314,30 @@ function Layout(): React.JSX.Element {
         >
           <Settings profile={activeProfile} visible={view === "settings"} />
         </div>
+        {view === "research" && (
+          <div
+            style={{
+              display: "flex",
+              flex: 1,
+              flexDirection: "column",
+              overflow: "hidden",
+            }}
+          >
+            <Research />
+          </div>
+        )}
+        {view === "controlCenter" && (
+          <div
+            style={{
+              display: "flex",
+              flex: 1,
+              flexDirection: "column",
+              overflow: "hidden",
+            }}
+          >
+            <ControlCenterAppShell />
+          </div>
+        )}
       </main>
     </div>
   );

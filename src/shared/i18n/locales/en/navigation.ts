@@ -11,4 +11,6 @@ export default {
   schedules: "Schedules",
   gateway: "Gateway",
   settings: "Settings",
+  research: "Research",
+  controlCenter: "Control Center",
 } as const;
