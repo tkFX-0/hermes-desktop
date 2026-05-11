@@ -100,6 +100,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       <a href="#minimal-face" data-section="minimal-face">Dot-Line Face</a>
       <a href="#voice-face" data-section="voice-face">Voice / Mouth / Eye</a>
       <a href="#face-preview" data-section="face-preview">Face Preview</a>
+      <a href="#expression-set" data-section="expression-set">Expression Set</a>
       <a href="#human-review" data-section="human-review">Human Review Package</a>
       <a href="#agents" data-section="agents">5エージェント</a>
       <a href="#router" data-section="router">Model Router</a>
@@ -117,7 +118,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">roadmapVersion: v0.8.1</span>
+        <span class="chip ok">roadmapVersion: v0.9.0</span>
         <span class="chip ok">lastUpdated: 2026-05-11</span>
       </div>
     </header>
@@ -126,12 +127,12 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div class="card status-card">
           <h2>更新ステータス</h2>
           <div class="kv">
-            <div>roadmapVersion</div><div><code>v0.8.1</code></div>
+            <div>roadmapVersion</div><div><code>v0.9.0</code></div>
             <div>lastUpdated</div><div><code>2026-05-11</code></div>
-            <div>latestUpdate</div><div>Static face preview review hardening added</div>
+            <div>latestUpdate</div><div>Expression variation set added</div>
             <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
             <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
-            <div>v0.8.1 note</div><div>v0.8.1 hardens the static face preview board review boundary. It does not approve audio playback, recording, microphone use, external API use, device connection, robot motion, or execution.</div>
+            <div>v0.9.0 note</div><div>v0.9.0 adds static expression variations. They are display labels only, not real-time status, device connection status, GO approval, production readiness, robot control, or execution.</div>
           </div>
         </div>
         <h2>フェーズ一覧</h2>
@@ -149,6 +150,16 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       </section>
       <section id="changelog">
         <h2>更新履歴 / Changelog</h2>
+        <div class="card">
+          <h3>v0.9.0 — Expression variation set</h3>
+          <ul>
+            <li>Added common static expression variation set.</li>
+            <li>Added agent expression state matrix.</li>
+            <li>Added neutral, listening, thinking, holding, caution, rejected, review_ready, and completed_static_only labels.</li>
+            <li>Reconfirmed expression states are display labels only, not real-time status, connection status, GO approval, production readiness, robot control, or execution.</li>
+            <li>HOLD remains current; execution remains disabled.</li>
+          </ul>
+        </div>
         <div class="card">
           <h3>v0.8.1 — Static face preview review hardening</h3>
           <ul>
@@ -321,8 +332,8 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
           <div class="card">
             <h3>Current Tempo</h3>
             <div class="kv">
-              <div>roadmapVersion</div><div><code>v0.8.1</code></div>
-              <div>latestUpdate</div><div>Static face preview review hardening added</div>
+              <div>roadmapVersion</div><div><code>v0.9.0</code></div>
+              <div>latestUpdate</div><div>Expression variation set added</div>
               <div>docs-only commits</div><div>completed locally</div>
               <div>current next human action</div><div>review Explorer-style dashboard design</div>
               <div>HOLD reason</div><div>documentation approval and execution approval remain separate</div>
@@ -547,6 +558,49 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
           </ul>
         </div>
       </section>
+      <section id="expression-set">
+        <h2>Expression Variation Set</h2>
+        <div class="card status-card">
+          <h3>Static labels only</h3>
+          <p>v0.9.0 adds common expression variations for the five Shikishima agents. These are display labels and visual concepts only.</p>
+          <p>They are not real-time status, connection status, robot control preview, GO approval indicators, productionReady indicators, audio states, camera states, or execution states.</p>
+        </div>
+        <div class="card">
+          <h3>Common expression states</h3>
+          <table>
+            <tr><th>expressionId</th><th>Japanese label</th><th>purpose</th><th>voiceIntent</th><th>mouthPattern</th><th>gazePattern</th><th>blinkState</th></tr>
+            <tr><td>neutral</td><td>ニュートラル</td><td>default calm presence</td><td>calm</td><td>calm_loop</td><td>steady_center</td><td>open</td></tr>
+            <tr><td>listening</td><td>聞いている</td><td>user-facing attention concept</td><td>calm</td><td>quiet_loop</td><td>steady_center</td><td>open</td></tr>
+            <tr><td>thinking</td><td>考え中</td><td>planning or analysis concept</td><td>focused</td><td>calm_loop</td><td>thinking_up</td><td>half_closed</td></tr>
+            <tr><td>holding</td><td>HOLD中</td><td>safety hold concept</td><td>protective</td><td>minimal_gate_loop</td><td>steady_center</td><td>open</td></tr>
+            <tr><td>caution</td><td>注意</td><td>gentle caution concept</td><td>protective</td><td>mouth_flat</td><td>eyes_focus</td><td>open</td></tr>
+            <tr><td>rejected</td><td>REJECT</td><td>rejection concept</td><td>protective</td><td>mouth_flat</td><td>steady_center</td><td>half_closed</td></tr>
+            <tr><td>review_ready</td><td>レビュー待ち</td><td>human review readiness concept</td><td>proposing</td><td>smile_talk_loop</td><td>thinking_up</td><td>open</td></tr>
+            <tr><td>completed_static_only</td><td>静的完了</td><td>docs/static completion concept</td><td>archival</td><td>quiet_loop</td><td>steady_center</td><td>half_closed</td></tr>
+          </table>
+        </div>
+        <div class="card">
+          <h3>Agent application</h3>
+          <table>
+            <tr><th>Agent</th><th>ASCII ID</th><th>variation use</th><th>boundary</th></tr>
+            <tr><td>しきしま / しき</td><td>shikishima</td><td>organizing, summarizing, review-ready concepts</td><td>display-only / no execution / no device connection</td></tr>
+            <tr><td>しずめ</td><td>shizume</td><td>holding, caution, rejected concepts</td><td>display-only / no execution / no device connection</td></tr>
+            <tr><td>つむぎ / つむ</td><td>tsumugi</td><td>thinking, review-ready, completed-static-only concepts</td><td>display-only / no execution / no device connection</td></tr>
+            <tr><td>はじめ</td><td>hajime</td><td>thinking, review-ready, next-step concepts</td><td>display-only / no execution / no device connection</td></tr>
+            <tr><td>しるべ</td><td>shirube</td><td>listening, archival, completed-static-only concepts</td><td>display-only / no execution / no device connection</td></tr>
+          </table>
+        </div>
+        <div class="card">
+          <h3>Forbidden interpretation</h3>
+          <ul>
+            <li>not real-time status</li>
+            <li>not connection status</li>
+            <li>not robot control preview</li>
+            <li>not GO approval indicator</li>
+            <li>not productionReady indicator</li>
+          </ul>
+        </div>
+      </section>
       <section id="human-review">
         <h2>Human Review Package</h2>
         <div class="card status-card">
@@ -674,7 +728,7 @@ const phases = [
 const grid = document.getElementById("phaseGrid");
 grid.innerHTML = phases.map((phase) => {
   const badgeClass = phase.status === "HOLD" ? "hold" : phase.status === "current" ? "current" : "pending";
-  const updateBadge = phase.updated ? '<span class="update-badge">updated in v0.8.1</span>' : "";
+  const updateBadge = phase.updated ? '<span class="update-badge">updated in v0.9.0</span>' : "";
   const canonical = phase.canonical ? `<li>canonical status: ${phase.canonical}</li>` : "";
   return `<article class="phase ${phase.updated ? "updated" : ""}"><div><span class="phase-num">Phase ${phase.num}</span><span class="badge ${badgeClass}">${phase.status}</span>${updateBadge}</div><div class="phase-title">${phase.title}</div><p class="role">${phase.goal}</p><ul>${canonical}<li>decision remains HOLD</li><li>execution remains disabled</li><li>documentation approval is not execution approval</li></ul></article>`;
 }).join("");

@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v0.8.1
+- roadmapVersion: v0.9.0
 - lastUpdated: 2026-05-11
-- latestUpdate: Static face preview review hardening added
+- latestUpdate: Expression variation set added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,18 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v0.9.0 — Expression Variation Set
+
+- Added common static expression variation set.
+- Added agent expression state matrix.
+- Added neutral, listening, thinking, holding, caution, rejected, review_ready, and completed_static_only display labels.
+- Reconfirmed expressions are display labels and visual concepts only.
+- Reconfirmed expressions are not real-time status, connection status, robot control preview, GO approval indicators, productionReady indicators, or execution states.
+- HOLD remains current.
+- execution remains disabled.
+- no device connection approval.
+- no robot motion approval.
 
 ## v0.8.1 — Static Face Preview Review Hardening
 

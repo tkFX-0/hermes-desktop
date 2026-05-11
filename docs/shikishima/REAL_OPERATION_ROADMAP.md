@@ -2,9 +2,9 @@
 
 ## Update Status
 
-- roadmapVersion: v0.8.1
+- roadmapVersion: v0.9.0
 - lastUpdated: 2026-05-11
-- latestUpdate: Static face preview review hardening added
+- latestUpdate: Expression variation set added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - changelog: `ROADMAP_CHANGELOG.md`
 - phase review: `PHASE_REVIEW_MATRIX.md`
@@ -112,6 +112,27 @@ v0.8.1 hardens the review boundary by requiring each face preview card to show:
 
 It also adds PC-width and smartphone-width review checks to prevent the preview
 from reading like an operational control surface.
+
+## Expression Variation Set
+
+v0.9.0 adds a common static expression variation set:
+
+- neutral.
+- listening.
+- thinking.
+- holding.
+- caution.
+- rejected.
+- review_ready.
+- completed_static_only.
+
+Each expression defines an expressionId, Japanese label, purpose, allowed use,
+forbidden interpretation, voiceIntent display label, mouthPattern display label,
+gazePattern display label, blinkState display label, and safety note.
+
+The expressions are static display labels only. They are not real-time status,
+connection status, robot control preview, GO approval indicator, productionReady
+indicator, or execution readiness.
 
 ## Human Review Package
 

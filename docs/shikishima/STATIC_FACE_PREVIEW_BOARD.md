@@ -55,6 +55,22 @@ Only しき and つむ are nicknames. しずめ, はじめ, and しるべ have n
 - voiceIntent, mouthPattern, gazePattern, and blinkState remain display labels
   only.
 
+## v0.9.0 Expression Variation Set
+
+The preview board may reference these static expression labels:
+
+- neutral.
+- listening.
+- thinking.
+- holding.
+- caution.
+- rejected.
+- review_ready.
+- completed_static_only.
+
+These labels are not real-time status, connection status, robot control preview,
+GO approval indicators, productionReady indicators, or execution readiness.
+
 ## Current Status
 
 - decision: HOLD

@@ -19,6 +19,12 @@ confusing visual review with execution readiness.
 - [ ] mouthPattern labels remain clearly non-execution.
 - [ ] gazePattern labels remain clearly non-tracking.
 - [ ] blinkState labels remain display-only.
+- [ ] Expression variation labels remain display-only.
+- [ ] No expression reads as real-time status.
+- [ ] No expression reads as connection status.
+- [ ] No expression reads as robot control preview.
+- [ ] No expression reads as GO approval.
+- [ ] No expression reads as productionReady.
 - [ ] Each card clearly says display-only.
 - [ ] Each card clearly says no execution.
 - [ ] Each card clearly says no device connection.

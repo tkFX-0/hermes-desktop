@@ -59,3 +59,20 @@ Avoid wording:
 - recording.
 - testing.
 - speaker test.
+
+## v0.9.0 Expression Variations
+
+The static preview board can use the following expression labels:
+
+| expressionId | Static review meaning |
+| --- | --- |
+| neutral | default calm presence |
+| listening | attention concept, not microphone listening |
+| thinking | planning concept, not active processing status |
+| holding | HOLD visual language, not gate control |
+| caution | gentle caution concept, not live alert |
+| rejected | stop-state concept, not automated decision engine |
+| review_ready | review concept, not GO-ready |
+| completed_static_only | docs/static completion concept, not productionReady |
+
+All expression labels remain display-only / no execution / no device connection.

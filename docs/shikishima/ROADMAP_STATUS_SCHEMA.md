@@ -7,9 +7,9 @@ and does not require tooling.
 
 | Field | Meaning | Current value |
 |---|---|---|
-| roadmapVersion | visible roadmap version | v0.8.1 |
+| roadmapVersion | visible roadmap version | v0.9.0 |
 | lastUpdated | visible update date | 2026-05-11 |
-| latestUpdate | short update summary | Static face preview review hardening added |
+| latestUpdate | short update summary | Expression variation set added |
 | currentDecision | current project decision | HOLD |
 | executionStatus | execution gate state | disabled |
 | productionReady | production readiness flag | false |
@@ -47,6 +47,11 @@ and does not require tooling.
 | facePreviewInteractionStatus | preview interaction state | no_input_no_button |
 | facePreviewConnectionStatus | preview connection state | no_connection |
 | facePreviewBoundaryStatus | preview boundary state | display_only_no_execution_no_device_connection |
+| expressionVariationSetStatus | expression variation set state | static_display_labels_only |
+| expressionRealtimeStatus | real-time expression status | not_realtime_status |
+| expressionConnectionStatus | expression connection status | not_connection_status |
+| expressionGoApprovalStatus | GO approval indicator status | not_go_approval_indicator |
+| expressionProductionReadyStatus | production readiness indicator status | not_production_ready_indicator |
 
 ## Status Values
 

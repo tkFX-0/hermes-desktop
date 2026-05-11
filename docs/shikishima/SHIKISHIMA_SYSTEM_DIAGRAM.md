@@ -245,4 +245,25 @@ v0.8.1 preview hardening:
 - PC-width review is visual review only.
 - smartphone-width review is visual review only.
 
+## Expression Variation Set Flow
+
+```mermaid
+flowchart TD
+  Set["Expression variation set"]
+  Matrix["Agent expression matrix"]
+  Board["Static preview board"]
+  Review["Human visual review"]
+  Hold["Execution remains HOLD"]
+
+  Set --> Matrix --> Board --> Review --> Hold
+```
+
+v0.9.0 expression non-goals:
+
+- not real-time status.
+- not connection status.
+- not robot control preview.
+- not GO approval indicator.
+- not productionReady indicator.
+
 この範囲では問題を検出していません。

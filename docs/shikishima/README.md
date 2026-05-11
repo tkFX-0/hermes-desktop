@@ -59,6 +59,8 @@ network flow.
 - `STATIC_FACE_PREVIEW_BOARD.md` - static five-agent face preview board.
 - `FACE_PREVIEW_REVIEW_CHECKLIST.md` - visual and safety checklist for face preview.
 - `FACE_PREVIEW_VISUAL_STATES.md` - static visual state mapping for face preview.
+- `EXPRESSION_VARIATION_SET.md` - common static expression variation set.
+- `AGENT_EXPRESSION_STATE_MATRIX.md` - expression application matrix by agent.
 - `MINIMUM_OPERATION_RUNBOOK_DRAFT.md` - Phase 10 runbook draft.
 - `HUMAN_GO_APPROVAL_CHECKLIST.md` - future scoped GO checklist.
 - `NO_GO_CHECKLIST.md` - stop/no-go checklist.
@@ -132,6 +134,14 @@ Static face preview review order:
 6. Check PC-width readability.
 7. Check smartphone-width readability.
 
+Expression variation review order:
+
+1. Review `EXPRESSION_VARIATION_SET.md`.
+2. Review `AGENT_EXPRESSION_STATE_MATRIX.md`.
+3. Check the Expression Set section in `REAL_OPERATION_ROADMAP.html`.
+4. Confirm each expression is display-only.
+5. Confirm no expression reads as real-time status, connection status, GO approval, production readiness, or robot control.
+
 If the roadmap is updated, the HTML must visibly show that it was updated.
 Every roadmap-affecting change must update the visible HTML changelog and
 `ROADMAP_CHANGELOG.md`.
@@ -153,6 +163,11 @@ connection, robot control, GO, or production readiness.
 v0.8.1 hardens the visual review boundary. Each preview card must remain
 display-only, no execution, and no device connection. PC-width and
 smartphone-width review are visual checks only.
+
+v0.9.0 adds static expression variations for visual review. Expression states
+are display labels only. They are not real-time status, connection status, robot
+control preview, GO approval indicators, productionReady indicators, or
+execution states.
 
 ## Naming Rules
 
