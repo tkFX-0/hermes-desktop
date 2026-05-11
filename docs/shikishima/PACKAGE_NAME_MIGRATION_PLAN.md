@@ -123,7 +123,7 @@ Each step requires explicit human GO approval before execution.
 
 | Step | Action | File(s) | Risk | Notes |
 |---|---|---|---|---|
-| 0 | Resolve dirty working tree: commit Group A safety files (.gitignore, claw3d.ts, installer.ts); commit Group B feature files (index.ts, preload, Layout, i18n + untracked ichikishima/Research source) | multiple | MEDIUM | See v1.2.7 classification: Group A is low-risk standalone; Group B requires untracked source; installer.ts BOM caveat; package-lock version stamp auto-resolves in step 2 |
+| 0 | Resolve dirty working tree: ~~Group A (DONE v1.2.8)~~; commit Group B feature files (index.ts, preload, Layout, i18n + untracked ichikishima/Research source) | multiple | MEDIUM | Group A committed in v1.2.8 (0b5e3fa). Group B + untracked source still BLOCK. package-lock version stamp auto-resolves in step 2. |
 | 1 | Update `package.json` name | `package.json` | LOW | `hermes-desktop` → `shikishima-desktop` |
 | 2 | Sync lockfile root name | `package-lock.json` | LOW | Run `npm install --package-lock-only` (no dependency install) |
 | 3 | Update `updaterCacheDirName` | `dev-app-update.yml` | LOW | `hermes-desktop-updater` → `shikishima-desktop-updater` |

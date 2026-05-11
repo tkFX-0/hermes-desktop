@@ -49,7 +49,7 @@ Total: 11 tracked dirty files (including `.gitignore`), 111 insertions / 13 dele
 
 ## File-by-File Classification
 
-### `.gitignore` — small (+7/-1)
+### `.gitignore` — small (+7/-1) — **DONE in v1.2.8**
 
 | Field | Value |
 |---|---|
@@ -57,12 +57,12 @@ Total: 11 tracked dirty files (including `.gitignore`), 111 insertions / 13 dele
 | Content summary | Adds gitignore rules for local-only WSL wrapper config files; adds `.task-start-time.local.txt`; fixes missing newline at end of Tauri entry |
 | Untracked dependencies | none |
 | Risk | LOW |
-| Recommendation | **commit separately** (Group A) |
+| Recommendation | ~~commit separately (Group A)~~ **COMMITTED in v1.2.8 (commit 0b5e3fa)** |
 | Notes | Clean, isolated safety change; prevents accidental commit of local-only config files |
 
 ---
 
-### `src/main/claw3d.ts` — small (+5/0)
+### `src/main/claw3d.ts` — small (+5/0) — **DONE in v1.2.8**
 
 | Field | Value |
 |---|---|
@@ -70,21 +70,21 @@ Total: 11 tracked dirty files (including `.gitignore`), 111 insertions / 13 dele
 | Content summary | Adds `windowsHide: true` to 5 child process spawn/execFile calls |
 | Untracked dependencies | none |
 | Risk | LOW |
-| Recommendation | **commit separately** (Group A) |
+| Recommendation | ~~commit separately (Group A)~~ **COMMITTED in v1.2.8 (commit 0b5e3fa)** |
 | Notes | Prevents terminal windows from appearing on Windows; isolated, non-breaking change |
 
 ---
 
-### `src/main/installer.ts` — small (+5/-1)
+### `src/main/installer.ts` — small (+4/0) — **DONE in v1.2.8**
 
 | Field | Value |
 |---|---|
-| Classification | safety hardening + generated noise |
-| Content summary | Adds `windowsHide: true` to 4 spawn/execFile calls; BOM character (UTF-8 BOM) added to first import line |
+| Classification | safety hardening |
+| Content summary | Adds `windowsHide: true` to 4 spawn/execFile calls; BOM character removed before commit |
 | Untracked dependencies | none |
-| Risk | LOW-MEDIUM |
-| Recommendation | **commit separately** (Group A) — but investigate BOM character |
-| Notes | The `windowsHide` changes are clean. The BOM character at the top of the file is likely editor-generated on Windows. It is functionally harmless in most cases but is non-standard for TypeScript source and should ideally be removed before commit. |
+| Risk | LOW (after BOM removal) |
+| Recommendation | ~~commit separately (Group A) — but investigate BOM~~ **COMMITTED in v1.2.8 (commit 0b5e3fa)** |
+| Notes | BOM (EF BB BF) confirmed present, removed via raw-byte operation before staging. Final diff: +4/0 (windowsHide only). |
 
 ---
 
@@ -261,9 +261,9 @@ src/shared/i18n/locales/zh-CN/navigation.ts
 
 | File | Classification | Size | Risk | Untracked deps | Recommendation |
 |---|---|---|---|---|---|
-| `.gitignore` | safety hardening | small | LOW | none | commit separately (A) |
-| `claw3d.ts` | safety hardening | small | LOW | none | commit separately (A) |
-| `installer.ts` | safety hardening + noise | small | LOW-MED | none | commit separately (A) — fix BOM first |
+| `.gitignore` | safety hardening | small | LOW | none | **DONE v1.2.8** |
+| `claw3d.ts` | safety hardening | small | LOW | none | **DONE v1.2.8** |
+| `installer.ts` | safety hardening | small | LOW | none | **DONE v1.2.8** (BOM removed) |
 | `index.ts` (main) | feature work | medium | MEDIUM | `ichikishima/` | commit with B |
 | `index.d.ts` (preload) | feature work | small | LOW | `ichikishima/` | commit with B |
 | `index.ts` (preload) | feature work | small | MEDIUM | `ichikishima-control-center.ts` | commit with B |
@@ -280,12 +280,12 @@ All of the following must be met before v1.3.0 package name migration:
 
 | Condition | Current State | Status |
 |---|---|---|
-| Group A files committed or reverted | not yet | BLOCK |
+| Group A files committed or reverted | **committed in v1.2.8** | **PASS** |
 | Group B tracked files committed or reverted | not yet | BLOCK |
 | Group B untracked source committed or reverted | not yet | BLOCK |
-| installer.ts BOM character resolved | not yet | CAUTION |
+| installer.ts BOM character resolved | **removed in v1.2.8** | **PASS** |
 | zh-CN `research` label placeholder resolved | not yet | CAUTION |
-| Working tree clean | not clean | BLOCK |
+| Working tree clean | not clean (Group B remains) | BLOCK |
 | package-lock version stamp (auto-resolves) | known | PASS (non-blocker) |
 
 ---

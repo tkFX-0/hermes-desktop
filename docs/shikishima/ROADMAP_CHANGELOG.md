@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v1.2.7
+- roadmapVersion: v1.2.8
 - lastUpdated: 2026-05-11
-- latestUpdate: Src dirty files classification added
+- latestUpdate: Group A safety hardening committed
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,19 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v1.2.8 - Group A Safety Hardening Committed
+
+- Committed Group A safety hardening files (commit `0b5e3fa`):
+  - `.gitignore`: add local-only WSL wrapper config paths, add `.task-start-time.local.txt`, fix missing newline.
+  - `src/main/claw3d.ts`: add `windowsHide: true` to 5 spawn/execFile calls.
+  - `src/main/installer.ts`: add `windowsHide: true` to 4 spawn/execFile calls; BOM (EF BB BF) removed before commit.
+- Commit subject: `chore: harden local safety process spawning`.
+- `SRC_DIRTY_FILES_CLASSIFICATION.md` Group A entries updated to DONE.
+- `PACKAGE_NAME_MIGRATION_PLAN.md` Step 0 updated: Group A DONE; Group B remains BLOCK.
+- v1.3.0 blocker status: Group A PASS; Group B (7 files + untracked) remains BLOCK.
+- Group B files not staged/committed. Untracked source not staged/committed.
+- HOLD remains current. execution remains disabled. No git push.
 
 ## v1.2.7 - Src Dirty Files Classification
 

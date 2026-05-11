@@ -119,7 +119,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">roadmapVersion: v1.2.7</span>
+        <span class="chip ok">roadmapVersion: v1.2.8</span>
         <span class="chip ok">lastUpdated: 2026-05-11</span>
       </div>
     </header>
@@ -128,12 +128,13 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div class="card status-card">
           <h2>譖ｴ譁ｰ繧ｹ繝・・繧ｿ繧ｹ</h2>
           <div class="kv">
-            <div>roadmapVersion</div><div><code>v1.2.7</code></div>
+            <div>roadmapVersion</div><div><code>v1.2.8</code></div>
             <div>lastUpdated</div><div><code>2026-05-11</code></div>
-            <div>latestUpdate</div><div>Src dirty files classification added</div>
+            <div>latestUpdate</div><div>Group A safety hardening committed</div>
             <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
             <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
-            <div>v1.2.7 note</div><div>v1.2.7: SRC_DIRTY_FILES_CLASSIFICATION.md added (audit-only). Group A (safety: .gitignore/claw3d/installer) = commit separately. Group B (feature: index/preload/Layout/i18n + untracked ichikishima/Research) = commit together. installer.ts BOM caveat. HOLD remains current.</div>
+            <div>v1.2.8 note</div><div>v1.2.8: Group A committed (0b5e3fa): .gitignore + claw3d.ts + installer.ts. windowsHide added; BOM removed from installer.ts. Group B (7 files + untracked) remains BLOCK. HOLD remains current.</div>
+            <div>v1.2.7 note</div><div>v1.2.7: SRC_DIRTY_FILES_CLASSIFICATION.md added (audit-only). Group A = safety hardening (commit separately). Group B = feature work (needs untracked ichikishima/Research). installer.ts BOM caveat noted.</div>
             <div>v1.2.6 note</div><div>v1.2.6: PACKAGE_LOCK_DIRTY_STATE_CLASSIFICATION.md added (audit-only). package-lock dirty = version stamp only (not a v1.3.0 blocker). Actual blockers: src/ dirty files (10 files) and .gitignore. HOLD remains current.</div>
             <div>v1.2.5 note</div><div>v1.2.5: PACKAGE_NAME_MIGRATION_PLAN.md added (plan-only). Candidate: name "hermes-desktop" → "shikishima-desktop". No package.json changed. package-lock.json dirty caveat noted. Target execution: v1.3.0. HOLD remains current.</div>
             <div>v1.2.4 note</div><div>v1.2.4: electron-builder.yml productName updated to "しきしま". package.json name remains "hermes-desktop"; artifact filenames unchanged. Lockfile/deps/scripts unchanged. HOLD remains current.</div>
@@ -162,7 +163,20 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       <section id="changelog">
         <h2>譖ｴ譁ｰ螻･豁ｴ / Changelog</h2>
         <div class="card">
-          <h3>v1.2.7 - Src dirty files classification <span class="update-badge">latest</span></h3>
+          <h3>v1.2.8 - Group A safety hardening committed <span class="update-badge">latest</span></h3>
+          <ul>
+            <li>Group A committed (commit 0b5e3fa): .gitignore, claw3d.ts, installer.ts.</li>
+            <li>windowsHide: true added to 9 spawn/execFile calls (claw3d: 5, installer: 4).</li>
+            <li>.gitignore: local-only WSL wrapper paths added; missing newline fixed.</li>
+            <li>installer.ts: UTF-8 BOM (EF BB BF) detected and removed before staging.</li>
+            <li>Group B (7 tracked files + untracked ichikishima/Research) remains HOLD.</li>
+            <li>v1.3.0 blocker status: Group A PASS; Group B still BLOCK.</li>
+            <li>No Group B files staged/committed. No untracked source staged/committed.</li>
+            <li>HOLD remains current; execution remains disabled; No git push.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>v1.2.7 - Src dirty files classification</h3>
           <ul>
             <li>Added SRC_DIRTY_FILES_CLASSIFICATION.md — audit-only / report-only / redacted-only.</li>
             <li>Group A (safety hardening, no untracked deps): .gitignore, claw3d.ts, installer.ts — commit separately. Caveat: installer.ts BOM character.</li>
@@ -494,10 +508,10 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
           <div class="card">
             <h3>Current Tempo</h3>
             <div class="kv">
-              <div>roadmapVersion</div><div><code>v1.2.7</code></div>
-              <div>latestUpdate</div><div>Src dirty files classification added</div>
+              <div>roadmapVersion</div><div><code>v1.2.8</code></div>
+              <div>latestUpdate</div><div>Group A safety hardening committed</div>
               <div>docs-only commits</div><div>completed locally</div>
-              <div>current next human action</div><div>commit Group A safety files; decide Group B feature scope; then approve v1.3.0 GO</div>
+              <div>current next human action</div><div>decide Group B feature commit scope (audit untracked source or commit all together)</div>
               <div>HOLD reason</div><div>documentation approval and execution approval remain separate; no renames or deletions approved yet</div>
             </div>
           </div>

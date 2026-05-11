@@ -20,11 +20,11 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v1.2.7
-- latestUpdate: Src dirty files classification added
+- roadmapVersion: v1.2.8
+- latestUpdate: Group A safety hardening committed
 - docs-only commits completed: local docs commits exist
-- current next human action: (A) commit Group A safety files; (B) decide Group B feature commit scope (audit untracked source first or commit all together)
-- HOLD reason: package.json name remains "hermes-desktop"; Group A (3 files) and Group B (7 files + untracked ichikishima/Research) must be resolved before v1.3.0; installer.ts BOM caveat noted
+- current next human action: decide Group B feature commit scope — audit untracked ichikishima/Research source first, or commit Group B together with untracked source
+- HOLD reason: package.json name remains "hermes-desktop"; Group B (7 tracked files + untracked ichikishima/Research) must be resolved before v1.3.0; zh-CN research label placeholder noted
 
 ## Boundaries
 
