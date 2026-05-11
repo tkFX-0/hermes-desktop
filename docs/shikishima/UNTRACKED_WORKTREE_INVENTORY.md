@@ -23,10 +23,10 @@ No files were staged, committed, or modified during this audit.
 | `tests/ichikishima/` | 69 | commit candidate | HOLD — needs human review |
 | `tests/hermes/` | 12 | commit candidate | HOLD — needs human review |
 | `docs/ichikishima/` | 127 | legacy docs candidate | HOLD — merge or archive decision |
-| `sandbox/` | ~4,553 | local-only | HOLD — likely gitignored; verify before staging |
-| `.claude/scripts/` | multiple | tool config | local-only — do not commit |
-| `.claude/settings.json` | 1 | tool config | local-only — do not commit |
-| `.cursor/` | multiple | tool config (IDE) | local-only — do not commit |
+| `sandbox/` | ~4,553 | local-only | **IGNORED in v1.4.0** — never commit |
+| `.claude/scripts/` | multiple | tool config | **IGNORED in v1.4.0** — never commit |
+| `.claude/settings.json` | 1 | tool config | **IGNORED in v1.4.0** — never commit |
+| `.cursor/` | multiple | tool config (IDE) | **IGNORED in v1.4.0** — never commit |
 | ChatGPT image (PNG) | 1 | local asset | local-only — do not commit |
 
 ---

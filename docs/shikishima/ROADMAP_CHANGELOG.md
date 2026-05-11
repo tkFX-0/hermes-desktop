@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v1.3.1
+- roadmapVersion: v1.4.0
 - lastUpdated: 2026-05-12
-- latestUpdate: V2 goal and task pack added
+- latestUpdate: Sandbox gitignore audit added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,15 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v1.4.0 - Sandbox .gitignore Audit
+
+- Added `SANDBOX_GITIGNORE_AUDIT.md`.
+- Updated `.gitignore`: added `sandbox/`, `.cursor/`, `.claude/scripts/`, `.claude/settings.json`, `.claude/settings.local.json`.
+- `sandbox/` (~4,553 files) now fully ignored — prevents accidental stage.
+- `.cursor/` and `.claude/` tool config dirs now ignored.
+- No sandbox or tool config files staged/committed.
+- HOLD remains current. No git push.
 
 ## v1.3.1 - V2 Goal and Task Pack
 
