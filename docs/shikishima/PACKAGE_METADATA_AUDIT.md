@@ -150,18 +150,18 @@ This means a full display name migration would require:
 
 ---
 
-## Recommended Migration Order (for reference only — not yet approved)
+## Recommended Migration Order (for reference only)
 
-| Step | Target | File | Risk | Version |
-|---|---|---|---|---|
-| 1 | description | package.json | VERY LOW | v1.2.3 |
-| 2 | productName | electron-builder.yml | LOW | v1.2.x |
-| 3 | name | package.json + lockfile sync | MEDIUM | v1.3.0 |
-| 4 | win.executableName | electron-builder.yml | LOW | optional |
-| 5 | updaterCacheDirName | dev-app-update.yml | LOW | alongside step 3 |
-| 6 | publish.repo + dev-app-update.yml repo | both | KEEP | when GitHub repo renamed |
+| Step | Target | File | Risk | Version | Status |
+|---|---|---|---|---|---|
+| 1 | description | package.json | VERY LOW | v1.2.3 | DONE |
+| 2 | productName | electron-builder.yml | LOW | v1.2.4 | DONE |
+| 3 | name | package.json + lockfile sync | MEDIUM | v1.3.0 | HOLD |
+| 4 | win.executableName | electron-builder.yml | LOW | optional | HOLD |
+| 5 | updaterCacheDirName | dev-app-update.yml | LOW | alongside step 3 | HOLD |
+| 6 | publish.repo + dev-app-update.yml repo | both | KEEP | when GitHub repo renamed | KEEP |
 
-Steps 1 and 2 are independent. Step 3 is the main risk point.
+Steps 1 and 2 are complete. Step 3 is the main risk point and remains HOLD.
 
 ---
 

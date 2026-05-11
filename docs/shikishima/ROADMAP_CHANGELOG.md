@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v1.2.3
+- roadmapVersion: v1.2.4
 - lastUpdated: 2026-05-11
-- latestUpdate: Package description migration added
+- latestUpdate: ProductName display migration added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,19 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v1.2.4 - ProductName Display Migration
+
+- `electron-builder.yml` productName: `Hermes Agent` → `しきしま`.
+- `package.json` name: unchanged (`hermes-desktop`).
+- `package.json` description: unchanged (v1.2.3 content preserved).
+- artifactName `${name}` references: unchanged.
+- `dev-app-update.yml` updaterCacheDirName: unchanged.
+- `publish.repo` / GitHub repo references: unchanged.
+- Lockfile, dependencies, scripts, build config: unchanged.
+- NAMING_MIGRATION_CANDIDATES.md Phase C-2 productName item marked DONE.
+- PACKAGE_METADATA_AUDIT.md migration order table updated to reflect steps 1 and 2 DONE.
+- HOLD remains current. execution remains disabled. No git push.
 
 ## v1.2.3 - Package Description Migration
 

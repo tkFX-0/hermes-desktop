@@ -20,11 +20,11 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v1.2.3
-- latestUpdate: Package description migration added
+- roadmapVersion: v1.2.4
+- latestUpdate: ProductName display migration added
 - docs-only commits completed: local docs commits exist
-- current next human action: approve Task 3 (v1.2.4 productName display migration)
-- HOLD reason: productName and package.json name remain unchanged; each requires separate task
+- current next human action: approve Task 4 (v1.2.5 package.json name migration plan) or v1.3.0 name execution
+- HOLD reason: package.json name remains "hermes-desktop"; artifact filenames, lockfile root name, updaterCacheDirName require coordinated plan before change
 
 ## Boundaries
 

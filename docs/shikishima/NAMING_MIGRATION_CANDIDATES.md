@@ -141,10 +141,9 @@ Phase C is split per v1.2.2 Package Metadata Audit findings.
 
 #### Phase C-2 — Product Display Name (Low Risk)
 
-2. Update `electron-builder.yml productName` — HOLD (pending Task 3 / v1.2.4)
-   - Current: `Hermes Agent`
-   - Candidate: `しきしま`
-   - Note: productName is the user-visible app name; independent of package.json name
+2. ~~Update `electron-builder.yml productName`~~ **DONE in v1.2.4** (`Hermes Agent` → `しきしま`)
+   - productName is the user-visible app name; independent of package.json name
+   - package.json name remains `hermes-desktop`; artifact filenames unchanged
 
 #### Phase C-3 — Package Name (Medium Risk, Needs Plan)
 
