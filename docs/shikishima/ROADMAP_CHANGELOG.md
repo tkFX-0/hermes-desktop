@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v1.1.0
+- roadmapVersion: v1.1.1
 - lastUpdated: 2026-05-11
-- latestUpdate: Repository hygiene audit added
+- latestUpdate: Readiness safety labels hardened
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,24 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v1.1.1 - Readiness Safety Labels Hardened
+
+- Added orange safety banner to ControlCenterAppShell header: explicitly states
+  READY_* values do not approve execution, GO, or productionReady.
+- Added "(non-execution design label)" inline note after `bridgeReadinessLabel`.
+- Added "(non-execution label)" inline note after `scenarioSuiteLabel`.
+- Added "not execution approval — HOLD remains current" note after
+  `controlledPilotCanRunOnceMeta`.
+- Strengthened `controlledPilotHint` i18n: added "— not execution approval".
+- Added `readinessSafetyBanner`, `bridgeReadinessHint`, `scenarioSuiteHint`,
+  `pilotMetaHint` keys to both en and zh-CN i18n files.
+- Updated SECURITY_AND_SAFETY_AUDIT_NOTES.md: ControlCenter readiness risk → LOW (mitigated).
+- HOLD remains current.
+- execution remains disabled.
+- no rename approval.
+- no deletion approval.
+- no GO issued.
 
 ## v1.1.0 - Repository Hygiene Audit
 

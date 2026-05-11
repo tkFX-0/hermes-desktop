@@ -178,7 +178,7 @@ All sensitive local files have confirmed .gitignore protection.
 |---|---|---|
 | API key leakage via git | LOW | .gitignore protects .env; no raw keys in src |
 | Unintended WSL execution | LOW | willInvokeWsl: false hardcoded |
-| ControlCenter readiness cards misread as GO approval | MEDIUM | UI labeling needed |
+| ControlCenter readiness cards misread as GO approval | LOW | Mitigated in v1.1.1 — safety banner + inline labels added |
 | docs/ichikishima/ path references in src becoming stale | LOW | After rename, ICHIKISHIMA_READONLY_DOC_PATHS must update |
 | External network from installer | INFO | Upstream feature; expected behavior |
 
