@@ -1,5 +1,5 @@
 {
-  "name": "hermes-desktop",
+  "name": "shikishima-desktop",
   "version": "0.2.3",
   "description": "Shikishima — desktop application for Hermes Agent",
   "main": "./out/main/index.js",

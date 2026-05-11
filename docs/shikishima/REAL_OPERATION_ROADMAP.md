@@ -2,9 +2,9 @@
 
 ## Update Status
 
-- roadmapVersion: v1.2.11
-- lastUpdated: 2026-05-11
-- latestUpdate: Group B feature commit added
+- roadmapVersion: v1.3.0
+- lastUpdated: 2026-05-12
+- latestUpdate: Package name migration completed
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - changelog: `ROADMAP_CHANGELOG.md`
 - phase review: `PHASE_REVIEW_MATRIX.md`

@@ -20,9 +20,9 @@ and impact analysis only.
 
 | Field | Value |
 |---|---|
-| name | `hermes-desktop` |
+| name | ~~`hermes-desktop`~~ → **`shikishima-desktop`** (v1.3.0) |
 | version | `0.2.3` |
-| description | `Hermes Agent Desktop — self-improving AI assistant` |
+| description | `Shikishima — desktop application for Hermes Agent` (v1.2.3) |
 | author | `fathah` (upstream author) |
 | homepage | upstream GitHub URL |
 

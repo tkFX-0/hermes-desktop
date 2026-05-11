@@ -119,7 +119,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">roadmapVersion: v1.2.11</span>
+        <span class="chip ok">roadmapVersion: v1.3.0</span>
         <span class="chip ok">lastUpdated: 2026-05-11</span>
       </div>
     </header>
@@ -128,12 +128,13 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div class="card status-card">
           <h2>譖ｴ譁ｰ繧ｹ繝・・繧ｿ繧ｹ</h2>
           <div class="kv">
-            <div>roadmapVersion</div><div><code>v1.2.11</code></div>
-            <div>lastUpdated</div><div><code>2026-05-11</code></div>
-            <div>latestUpdate</div><div>Group B feature commit added</div>
+            <div>roadmapVersion</div><div><code>v1.3.0</code></div>
+            <div>lastUpdated</div><div><code>2026-05-12</code></div>
+            <div>latestUpdate</div><div>Package name migration completed</div>
             <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
             <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
-            <div>v1.2.11 note</div><div>v1.2.11: Group B committed (1f168b9): 92 files (82 ichikishima + 6 tracked + preload bridge + Research.tsx + shared/ichikishima). ControlCenter IPC read-only. tests/ichikishima/ excluded (separate). Tracked working tree now clean. v1.3.0 GO not yet approved.</div>
+            <div>v1.3.0 note</div><div>v1.3.0: package.json name → shikishima-desktop. package-lock synced. dev-app-update.yml updaterCacheDirName → shikishima-desktop-updater. productName/appId/publish.repo unchanged. HOLD remains current. No git push.</div>
+            <div>v1.2.11 note</div><div>v1.2.11: Group B committed (1f168b9): 92 files (ichikishima + preload bridge + Research.tsx + shared). ControlCenter IPC read-only. tests/ichikishima/ separate.</div>
             <div>v1.2.10 note</div><div>v1.2.10: zh-CN research label fixed ("リサーチ" → "Research"). tests/ichikishima/ confirmed (69 files, untracked) — separate commit. HOLD remains current.</div>
             <div>v1.2.9 note</div><div>v1.2.9: GROUP_B_UNTRACKED_SOURCE_AUDIT.md added. Untracked: ichikishima (~72), preload bridge (20L), Research.tsx (47L), shared/ichikishima (2). ControlCenter IPC confirmed read-only. HOLD remains current.</div>
             <div>v1.2.8 note</div><div>v1.2.8: Group A committed (0b5e3fa): .gitignore + claw3d.ts + installer.ts. windowsHide added; BOM removed from installer.ts. Group B (7 files + untracked) remains BLOCK. HOLD remains current.</div>
@@ -166,7 +167,21 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       <section id="changelog">
         <h2>譖ｴ譁ｰ螻･豁ｴ / Changelog</h2>
         <div class="card">
-          <h3>v1.2.11 - Group B feature commit <span class="update-badge">latest</span></h3>
+          <h3>v1.3.0 - Package name migration <span class="update-badge">latest</span></h3>
+          <ul>
+            <li>package.json name: "hermes-desktop" → "shikishima-desktop".</li>
+            <li>package-lock.json: synced via npm install --package-lock-only. Root name updated; version stamp drift resolved. 6 inBundle+dev+optional entries added (reconciliation only).</li>
+            <li>dev-app-update.yml updaterCacheDirName: "hermes-desktop-updater" → "shikishima-desktop-updater".</li>
+            <li>productName: "しきしま" — unchanged.</li>
+            <li>appId: com.nousresearch.hermes — unchanged.</li>
+            <li>publish.repo and dev-app-update.yml repo: "hermes-desktop" — unchanged (external GitHub URL).</li>
+            <li>Artifact filenames: now resolve to shikishima-desktop-* prefix.</li>
+            <li>NAMING_MIGRATION_CANDIDATES.md Phase C-3 marked DONE.</li>
+            <li>HOLD remains current; execution disabled; productionReady: false; No git push.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>v1.2.11 - Group B feature commit</h3>
           <ul>
             <li>Committed Group B (commit 1f168b9): 92 files total.</li>
             <li>src/main/ichikishima/ (82 files): agent-team, approval, audit, autonomy-zone, control-center, core, hermes, memory, orchestrator, pilot, review, visualization.</li>
@@ -551,10 +566,10 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
           <div class="card">
             <h3>Current Tempo</h3>
             <div class="kv">
-              <div>roadmapVersion</div><div><code>v1.2.11</code></div>
-              <div>latestUpdate</div><div>Group B feature commit added</div>
+              <div>roadmapVersion</div><div><code>v1.3.0</code></div>
+              <div>latestUpdate</div><div>Package name migration completed</div>
               <div>docs-only commits</div><div>completed locally</div>
-              <div>current next human action</div><div>approve v1.3.0 GO (tracked working tree clean; package-lock auto-resolves); tests/ichikishima/ separate</div>
+              <div>current next human action</div><div>decide tests/ichikishima/ handling; decide next phase (Phase D src rename or Phase E repo rename)</div>
               <div>HOLD reason</div><div>documentation approval and execution approval remain separate; no renames or deletions approved yet</div>
             </div>
           </div>

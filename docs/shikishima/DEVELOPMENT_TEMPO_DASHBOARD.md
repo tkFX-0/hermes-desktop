@@ -20,11 +20,11 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v1.2.11
-- latestUpdate: Group B feature commit added
+- roadmapVersion: v1.3.0
+- latestUpdate: Package name migration completed
 - docs-only commits completed: local docs commits exist
-- current next human action: approve v1.3.0 GO (tracked working tree is now clean; package-lock auto-resolves); tests/ichikishima/ can be committed separately before or after v1.3.0
-- HOLD reason: package.json name remains "hermes-desktop"; v1.3.0 GO not yet approved by human
+- current next human action: decide tests/ichikishima/ (69 files) — commit separately or HOLD; decide next migration phase
+- HOLD reason: execution remains disabled; productionReady: false; Phase C-3 complete but Phase D (src rename) and Phase E (repo rename) remain HOLD
 
 ## Boundaries
 

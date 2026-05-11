@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v1.2.11
-- lastUpdated: 2026-05-11
-- latestUpdate: Group B feature commit added
+- roadmapVersion: v1.3.0
+- lastUpdated: 2026-05-12
+- latestUpdate: Package name migration completed
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,23 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v1.3.0 - Package Name Migration
+
+- `package.json` name: `hermes-desktop` → `shikishima-desktop`.
+- `package-lock.json` root name: synced via `npm install --package-lock-only`.
+  - Also resolved pre-existing version stamp drift (`0.2.2` → `0.2.3`).
+  - 6 `inBundle+dev+optional` sub-entries added (reconciliation, no new deps).
+- `dev-app-update.yml` updaterCacheDirName: `hermes-desktop-updater` → `shikishima-desktop-updater`.
+- `publish.repo` and `dev-app-update.yml repo`: UNCHANGED (`hermes-desktop` — external GitHub URL).
+- `electron-builder.yml productName`: UNCHANGED (`しきしま`).
+- `appId`: UNCHANGED (`com.nousresearch.hermes`).
+- `dependencies`, `scripts`, `build config`: UNCHANGED.
+- Artifact filenames (`${name}`): now resolve to `shikishima-desktop-*`.
+- NAMING_MIGRATION_CANDIDATES.md Phase C-3 marked DONE.
+- PACKAGE_NAME_MIGRATION_PLAN.md: execution record added.
+- PACKAGE_METADATA_AUDIT.md: name field updated to reflect migration.
+- HOLD remains current. execution remains disabled. productionReady: false. No git push.
 
 ## v1.2.11 - Group B Feature Commit
 

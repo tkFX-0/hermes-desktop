@@ -145,15 +145,15 @@ Phase C is split per v1.2.2 Package Metadata Audit findings.
    - productName is the user-visible app name; independent of package.json name
    - package.json name remains `hermes-desktop`; artifact filenames unchanged
 
-#### Phase C-3 — Package Name (Medium Risk, Plan Created)
+#### Phase C-3 — Package Name ~~(Medium Risk, Plan Created)~~ **DONE in v1.3.0**
 
-3. Update `package.json name` — HOLD (plan created in v1.2.5 → execution v1.3.0)
-   - Current: `hermes-desktop`
-   - Candidate: `shikishima-desktop`
-   - Impact: artifact filenames (`${name}`), lockfile root name, `updaterCacheDirName`
-   - Plan: `docs/shikishima/PACKAGE_NAME_MIGRATION_PLAN.md`
-   - Pre-migration caveat (v1.2.6 classification): package-lock dirty = version stamp only (NOT a v1.3.0 blocker; auto-resolves in migration). Actual blockers: src/ and .gitignore dirty files must be resolved first.
-   - `publish.repo` and `dev-app-update.yml repo`: KEEP (external GitHub URL)
+3. ~~Update `package.json name`~~ **DONE in v1.3.0** (`hermes-desktop` → `shikishima-desktop`)
+   - `package.json name`: `shikishima-desktop` ✓
+   - `package-lock.json` root name: synced via `npm install --package-lock-only` ✓
+   - `dev-app-update.yml updaterCacheDirName`: `shikishima-desktop-updater` ✓
+   - `publish.repo` and `dev-app-update.yml repo`: KEPT as `hermes-desktop` (external GitHub URL) ✓
+   - Artifact filenames (`${name}`): now use `shikishima-desktop` prefix ✓
+   - Plan: `docs/shikishima/PACKAGE_NAME_MIGRATION_PLAN.md` (execution record added)
 
 ### Phase D — Source Directories (High Risk, Requires Tooling)
 

@@ -4,15 +4,49 @@
 
 - planVersion: v1.2.5
 - planDate: 2026-05-11
-- planType: plan-only / docs-static-only / report-only
-- roadmapVersion: v1.2.5
+- executionDate: 2026-05-12
+- planType: plan-and-execution-record
+- roadmapVersion: v1.3.0
 - decision: HOLD
 - execution: disabled
 - productionReady: false
 - rawValuesReported: false
 - targetExecutionVersion: v1.3.0
+- executionStatus: **COMPLETED in v1.3.0**
 
-This document is a migration plan only. No package.json name has been changed.
+This document was a migration plan. Execution was completed in v1.3.0 (2026-05-12).
+
+## Execution Result (v1.3.0)
+
+| Step | Action | Result |
+|---|---|---|
+| 0 | Working tree clean (tracked) | PASS — only package-lock version stamp dirty (non-blocker) |
+| 1 | `package.json` name | `hermes-desktop` → `shikishima-desktop` ✓ |
+| 2 | `package-lock.json` sync | `npm install --package-lock-only` — root name synced + version stamp resolved ✓ |
+| 3 | `dev-app-update.yml` updaterCacheDirName | `hermes-desktop-updater` → `shikishima-desktop-updater` ✓ |
+| 4 | `publish.repo` | `hermes-desktop` — UNCHANGED (external GitHub URL) ✓ |
+| 5 | `dev-app-update.yml repo` | `hermes-desktop` — UNCHANGED (external GitHub URL) ✓ |
+
+### package-lock.json diff classification (execution)
+
+| Category | Change | Status |
+|---|---|---|
+| Root `name` | `hermes-desktop` → `shikishima-desktop` | Intended ✓ |
+| Root `version` stamp | `0.2.2` → `0.2.3` | Pre-existing drift resolved ✓ |
+| Bundled sub-deps (6) | `@tailwindcss/oxide-wasm32-wasi` internal | `inBundle+dev+optional`, no integrity/resolved — reconciliation only ✓ |
+| Dependency versions | none | PASS ✓ |
+| integrity hashes | none | PASS ✓ |
+| resolved URLs | none | PASS ✓ |
+
+### Rollback (if needed)
+
+```
+git revert <v1.3.0-commit-hash>
+```
+Or manually:
+1. `package.json name` → `hermes-desktop`
+2. `npm install --package-lock-only` to re-sync
+3. `dev-app-update.yml updaterCacheDirName` → `hermes-desktop-updater`
 No lockfile has been modified. No npm install has been run. No build or test
 has been executed.
 
