@@ -2,9 +2,9 @@
 
 ## Update Status
 
-- roadmapVersion: v1.3.0
+- roadmapVersion: v1.3.1
 - lastUpdated: 2026-05-12
-- latestUpdate: Package name migration completed
+- latestUpdate: V2 goal and task pack added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - changelog: `ROADMAP_CHANGELOG.md`
 - phase review: `PHASE_REVIEW_MATRIX.md`

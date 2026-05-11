@@ -20,11 +20,11 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v1.3.0
-- latestUpdate: Package name migration completed
+- roadmapVersion: v1.3.1
+- latestUpdate: V2 goal and task pack added
 - docs-only commits completed: local docs commits exist
-- current next human action: decide tests/ichikishima/ (69 files) — commit separately or HOLD; decide next migration phase
-- HOLD reason: execution remains disabled; productionReady: false; Phase C-3 complete but Phase D (src rename) and Phase E (repo rename) remain HOLD
+- current next human action: review V2_GOAL_AND_TASK_PACK.md; choose which of v1.4.0/v1.5.0/v1.7.0 to start next
+- HOLD reason: execution disabled; productionReady: false; Phase D/E HOLD; tests/ichikishima review required; sandbox gitignore audit pending
 
 ## Boundaries
 

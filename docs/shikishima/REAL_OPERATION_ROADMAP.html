@@ -119,7 +119,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">roadmapVersion: v1.3.0</span>
+        <span class="chip ok">roadmapVersion: v1.3.1</span>
         <span class="chip ok">lastUpdated: 2026-05-11</span>
       </div>
     </header>
@@ -128,12 +128,13 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div class="card status-card">
           <h2>譖ｴ譁ｰ繧ｹ繝・・繧ｿ繧ｹ</h2>
           <div class="kv">
-            <div>roadmapVersion</div><div><code>v1.3.0</code></div>
+            <div>roadmapVersion</div><div><code>v1.3.1</code></div>
             <div>lastUpdated</div><div><code>2026-05-12</code></div>
-            <div>latestUpdate</div><div>Package name migration completed</div>
+            <div>latestUpdate</div><div>V2 goal and task pack added</div>
             <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
             <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
-            <div>v1.3.0 note</div><div>v1.3.0: package.json name → shikishima-desktop. package-lock synced. dev-app-update.yml updaterCacheDirName → shikishima-desktop-updater. productName/appId/publish.repo unchanged. HOLD remains current. No git push.</div>
+            <div>v1.3.1 note</div><div>v1.3.1: V2 goal pack added. POST_V1_3_0_REFERENCE_AUDIT.md + UNTRACKED_WORKTREE_INVENTORY.md + V2_GOAL_AND_TASK_PACK.md + V2_HOLD_GATE_MATRIX.md + V2_IMPLEMENTATION_SEQUENCE.md. Phase D/E HOLD. tests HOLD. sandbox gitignore audit pending.</div>
+            <div>v1.3.0 note</div><div>v1.3.0: package.json name → shikishima-desktop. package-lock synced. updaterCacheDirName → shikishima-desktop-updater. productName/appId/publish.repo unchanged. HOLD remains current.</div>
             <div>v1.2.11 note</div><div>v1.2.11: Group B committed (1f168b9): 92 files (ichikishima + preload bridge + Research.tsx + shared). ControlCenter IPC read-only. tests/ichikishima/ separate.</div>
             <div>v1.2.10 note</div><div>v1.2.10: zh-CN research label fixed ("リサーチ" → "Research"). tests/ichikishima/ confirmed (69 files, untracked) — separate commit. HOLD remains current.</div>
             <div>v1.2.9 note</div><div>v1.2.9: GROUP_B_UNTRACKED_SOURCE_AUDIT.md added. Untracked: ichikishima (~72), preload bridge (20L), Research.tsx (47L), shared/ichikishima (2). ControlCenter IPC confirmed read-only. HOLD remains current.</div>
@@ -167,7 +168,20 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       <section id="changelog">
         <h2>譖ｴ譁ｰ螻･豁ｴ / Changelog</h2>
         <div class="card">
-          <h3>v1.3.0 - Package name migration <span class="update-badge">latest</span></h3>
+          <h3>v1.3.1 - V2 goal and task pack <span class="update-badge">latest</span></h3>
+          <ul>
+            <li>POST_V1_3_0_REFERENCE_AUDIT.md: hermes-desktop refs classified (DONE/KEEP/HOLD).</li>
+            <li>UNTRACKED_WORKTREE_INVENTORY.md: tests/ichikishima (69) HOLD; tests/hermes (12) HOLD; docs/ichikishima (127) HOLD; sandbox local-only.</li>
+            <li>V2_GOAL_AND_TASK_PACK.md: v2.0 goal + task pack v1.3.1→v2.0.</li>
+            <li>V2_HOLD_GATE_MATRIX.md: all HOLD gates with GO conditions.</li>
+            <li>V2_IMPLEMENTATION_SEQUENCE.md: linear task sequence with HOLD gates.</li>
+            <li>Phase D (src rename) and Phase E (repo rename) remain HOLD.</li>
+            <li>v2.0 is NOT productionReady, NOT GO approval, NOT execution approval.</li>
+            <li>HOLD remains current; execution disabled; No git push.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>v1.3.0 - Package name migration</h3>
           <ul>
             <li>package.json name: "hermes-desktop" → "shikishima-desktop".</li>
             <li>package-lock.json: synced via npm install --package-lock-only. Root name updated; version stamp drift resolved. 6 inBundle+dev+optional entries added (reconciliation only).</li>
@@ -566,10 +580,10 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
           <div class="card">
             <h3>Current Tempo</h3>
             <div class="kv">
-              <div>roadmapVersion</div><div><code>v1.3.0</code></div>
-              <div>latestUpdate</div><div>Package name migration completed</div>
+              <div>roadmapVersion</div><div><code>v1.3.1</code></div>
+              <div>latestUpdate</div><div>V2 goal and task pack added</div>
               <div>docs-only commits</div><div>completed locally</div>
-              <div>current next human action</div><div>decide tests/ichikishima/ handling; decide next phase (Phase D src rename or Phase E repo rename)</div>
+              <div>current next human action</div><div>review V2_GOAL_AND_TASK_PACK.md; choose v1.4.0/v1.5.0/v1.7.0 to start next</div>
               <div>HOLD reason</div><div>documentation approval and execution approval remain separate; no renames or deletions approved yet</div>
             </div>
           </div>

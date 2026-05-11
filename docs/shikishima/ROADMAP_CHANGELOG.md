@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v1.3.0
+- roadmapVersion: v1.3.1
 - lastUpdated: 2026-05-12
-- latestUpdate: Package name migration completed
+- latestUpdate: V2 goal and task pack added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,22 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v1.3.1 - V2 Goal and Task Pack
+
+- Added `POST_V1_3_0_REFERENCE_AUDIT.md` — post-migration reference audit.
+  - hermes-desktop: DONE (package/lockfile/updater), KEEP (publish.repo/dev-app-update repo), HOLD (appId/executableName/Phase D-E).
+- Added `UNTRACKED_WORKTREE_INVENTORY.md` — untracked worktree classification.
+  - tests/ichikishima/ (69): HOLD (human review). tests/hermes/ (12): HOLD.
+  - docs/ichikishima/ (127): legacy docs HOLD. sandbox/ (~4,553): local-only HOLD.
+  - .claude/, .cursor/: local tool config — never commit.
+- Added `V2_GOAL_AND_TASK_PACK.md` — v2.0 goal definition + task list v1.3.1→v2.0.
+- Added `V2_HOLD_GATE_MATRIX.md` — all HOLD gates with GO conditions.
+- Added `V2_IMPLEMENTATION_SEQUENCE.md` — linear task sequence with HOLD gates.
+- v2.0 goal: naming/ControlCenter/Research/tests/untracked organized; v3.x-ready.
+- v2.0 is NOT productionReady, NOT GO approval, NOT execution approval.
+- Phase D (src rename) and Phase E (repo rename) remain HOLD.
+- HOLD remains current. execution remains disabled. No git push.
 
 ## v1.3.0 - Package Name Migration
 

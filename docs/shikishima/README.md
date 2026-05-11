@@ -87,6 +87,16 @@ network flow.
 - `OBSOLETE_FILE_CANDIDATES.md` - obsolete/deprecated file candidates.
 - `SECURITY_AND_SAFETY_AUDIT_NOTES.md` - redacted security and safety findings.
 - `PROJECT_ALIGNMENT_REVIEW.md` - 5-agent and plan alignment review.
+- `PACKAGE_METADATA_AUDIT.md` - v1.2.2 package metadata audit (description/name/productName).
+- `PACKAGE_NAME_MIGRATION_PLAN.md` - package name migration plan + v1.3.0 execution record.
+- `PACKAGE_LOCK_DIRTY_STATE_CLASSIFICATION.md` - v1.2.6 package-lock dirty state audit.
+- `SRC_DIRTY_FILES_CLASSIFICATION.md` - v1.2.7 src dirty file classification (Group A/B).
+- `GROUP_B_UNTRACKED_SOURCE_AUDIT.md` - v1.2.9 Group B untracked source audit.
+- `POST_V1_3_0_REFERENCE_AUDIT.md` - v1.3.1 post-migration hermes-desktop reference audit.
+- `UNTRACKED_WORKTREE_INVENTORY.md` - v1.3.1 untracked worktree classification.
+- `V2_GOAL_AND_TASK_PACK.md` - v2.0 goal definition + task pack v1.3.1→v2.0.
+- `V2_HOLD_GATE_MATRIX.md` - all HOLD gates with GO conditions.
+- `V2_IMPLEMENTATION_SEQUENCE.md` - linear task sequence v1.3.1→v2.0 with HOLD gates.
 
 ## How To Review
 
