@@ -82,6 +82,11 @@ network flow.
 - `SHIRUBE_KNOWLEDGE_INDEX_DESIGN.md` - しるべ Knowledge Index design.
 - `DEVELOPMENT_TEMPO_DASHBOARD.md` - Development Tempo dashboard design.
 - `SAFE_PROGRESS_VIEWS.md` - safe non-competitive progress views.
+- `REPOSITORY_HYGIENE_AUDIT.md` - v1.1.0 overall hygiene audit report.
+- `NAMING_MIGRATION_CANDIDATES.md` - naming migration candidate list.
+- `OBSOLETE_FILE_CANDIDATES.md` - obsolete/deprecated file candidates.
+- `SECURITY_AND_SAFETY_AUDIT_NOTES.md` - redacted security and safety findings.
+- `PROJECT_ALIGNMENT_REVIEW.md` - 5-agent and plan alignment review.
 
 ## How To Review
 
@@ -168,6 +173,16 @@ v1.0.1 human static review record order:
    productionReady, voice I/O, camera, microphone, StackChan control, robot
    motion, WSL/Hermes/wrapper/dummy/RunPod, or git push.
 
+v1.1.0 repository hygiene audit review order:
+
+1. Review `REPOSITORY_HYGIENE_AUDIT.md` — overall audit findings.
+2. Review `NAMING_MIGRATION_CANDIDATES.md` — decide rename scope and phasing.
+3. Review `OBSOLETE_FILE_CANDIDATES.md` — decide delete/archive scope.
+4. Review `SECURITY_AND_SAFETY_AUDIT_NOTES.md` — confirm safety signals.
+5. Review `PROJECT_ALIGNMENT_REVIEW.md` — confirm alignment decisions.
+6. Confirm v1.1.0 is audit-only; no renames or deletions approved.
+7. Confirm HOLD remains current after audit review.
+
 If the roadmap is updated, the HTML must visibly show that it was updated.
 Every roadmap-affecting change must update the visible HTML changelog and
 `ROADMAP_CHANGELOG.md`.
@@ -221,6 +236,12 @@ v1.0.0 can be recorded without changing scope. The record is docs/static-only
 and remains separate from GO, execution approval, connection approval,
 productionReady, voice I/O, camera, microphone, StackChan control, robot
 motion, WSL/Hermes/wrapper/dummy/RunPod, and git push.
+
+v1.1.0 adds a repository hygiene audit. It is audit-only / report-only. No
+files were renamed, deleted, or modified in src/. No execution, no GO, no
+productionReady change. The audit records naming candidates, obsolete file
+candidates, security/safety signals, and project alignment findings. All
+candidates remain HOLD pending separate human decisions.
 
 Next work that may proceed remains documentation/static-only: review notes,
 wording cleanup, static HTML readability review, checklist refinement, and

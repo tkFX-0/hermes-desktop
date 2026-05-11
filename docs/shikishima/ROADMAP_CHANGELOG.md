@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v1.0.1
+- roadmapVersion: v1.1.0
 - lastUpdated: 2026-05-11
-- latestUpdate: Human static review record template added
+- latestUpdate: Repository hygiene audit added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,23 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v1.1.0 - Repository Hygiene Audit
+
+- Added `REPOSITORY_HYGIENE_AUDIT.md` — overall audit report with PASS/HOLD/NG table.
+- Added `NAMING_MIGRATION_CANDIDATES.md` — phased naming migration candidate list.
+- Added `OBSOLETE_FILE_CANDIDATES.md` — files and directories for future cleanup.
+- Added `SECURITY_AND_SAFETY_AUDIT_NOTES.md` — redacted security and safety findings.
+- Added `PROJECT_ALIGNMENT_REVIEW.md` — 5-agent and plan alignment review.
+- This version is audit-only / report-only.
+- No files were renamed, deleted, or modified in src/.
+- No execution was approved.
+- No GO was issued.
+- No productionReady change.
+- HOLD remains current.
+- execution remains disabled.
+- no rename approval.
+- no deletion approval.
 
 ## v1.0.1 - Human Static Review Record Template
 

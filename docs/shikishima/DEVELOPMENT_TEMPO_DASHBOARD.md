@@ -20,11 +20,11 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v1.0.1
-- latestUpdate: Human static review record template added
+- roadmapVersion: v1.1.0
+- latestUpdate: Repository hygiene audit added
 - docs-only commits completed: local docs commits exist
-- current next human action: record v1.0.0 human static review result
-- HOLD reason: documentation approval and execution approval remain separate
+- current next human action: review hygiene audit findings and decide rename/delete scope
+- HOLD reason: documentation approval and execution approval remain separate; no renames or deletions approved yet
 
 ## Boundaries
 
