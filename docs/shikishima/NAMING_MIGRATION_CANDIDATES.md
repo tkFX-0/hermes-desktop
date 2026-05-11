@@ -131,9 +131,27 @@ Low-risk, isolated UI text changes:
 2. ~~Update `HermesLogo.tsx` alt text~~ **DONE in v1.2.1** (`Hermes` → `しきしま`)
 3. Rename `hermes.png` asset — HOLD (asset rename + import path update required)
 
-### Phase C — Package Metadata (Low Risk)
+### Phase C — Package Metadata
 
-1. Update `package.json` name and description
+Phase C is split per v1.2.2 Package Metadata Audit findings.
+
+#### Phase C-1 — Description (Very Low Risk)
+
+1. ~~Update `package.json` description~~ **DONE in v1.2.3** (`Hermes Agent Desktop — self-improving AI assistant` → `Shikishima — desktop application for Hermes Agent`)
+
+#### Phase C-2 — Product Display Name (Low Risk)
+
+2. Update `electron-builder.yml productName` — HOLD (pending Task 3 / v1.2.4)
+   - Current: `Hermes Agent`
+   - Candidate: `しきしま`
+   - Note: productName is the user-visible app name; independent of package.json name
+
+#### Phase C-3 — Package Name (Medium Risk, Needs Plan)
+
+3. Update `package.json name` — HOLD (pending plan v1.2.5 → execution v1.3.0)
+   - Current: `hermes-desktop`
+   - Candidate: `shikishima-desktop`
+   - Impact: artifact filenames (${name}), lockfile root name, updaterCacheDirName
 
 ### Phase D — Source Directories (High Risk, Requires Tooling)
 

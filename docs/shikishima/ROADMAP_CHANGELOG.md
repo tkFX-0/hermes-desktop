@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v1.2.2
+- roadmapVersion: v1.2.3
 - lastUpdated: 2026-05-11
-- latestUpdate: Package metadata audit added
+- latestUpdate: Package description migration added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,16 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v1.2.3 - Package Description Migration
+
+- `package.json` description: `Hermes Agent Desktop — self-improving AI assistant`
+  → `Shikishima — desktop application for Hermes Agent`.
+- `package.json` name: unchanged (`hermes-desktop`).
+- `electron-builder.yml` productName: unchanged (`Hermes Agent`).
+- Lockfile, dependencies, scripts, build config: unchanged.
+- NAMING_MIGRATION_CANDIDATES.md Phase C split into C-1/C-2/C-3.
+- HOLD remains current. execution remains disabled. No git push.
 
 ## v1.2.2 - Package Metadata Audit
 

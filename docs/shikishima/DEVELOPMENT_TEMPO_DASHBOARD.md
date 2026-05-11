@@ -20,11 +20,11 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v1.2.2
-- latestUpdate: Package metadata audit added
+- roadmapVersion: v1.2.3
+- latestUpdate: Package description migration added
 - docs-only commits completed: local docs commits exist
-- current next human action: approve v1.2.3 description change (SAFE per audit)
-- HOLD reason: name change requires separate plan (v1.2.4) and human GO; description change is pre-cleared
+- current next human action: approve Task 3 (v1.2.4 productName display migration)
+- HOLD reason: productName and package.json name remain unchanged; each requires separate task
 
 ## Boundaries
 

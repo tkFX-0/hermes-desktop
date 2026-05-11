@@ -1,7 +1,7 @@
 {
   "name": "hermes-desktop",
   "version": "0.2.3",
-  "description": "Hermes Agent Desktop — self-improving AI assistant",
+  "description": "Shikishima — desktop application for Hermes Agent",
   "main": "./out/main/index.js",
   "author": "fathah",
   "homepage": "https://github.com/fathah/hermes-desktop",
