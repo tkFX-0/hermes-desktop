@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v0.9.1
+- roadmapVersion: v1.0.0
 - lastUpdated: 2026-05-11
-- latestUpdate: Expression safety review hardening added
+- latestUpdate: Static design review package added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,27 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v1.0.0 - Static Design Review Package
+
+- Added Static Design Review Package.
+- Added v1 static review checklist.
+- Added v1 not-production-ready notice.
+- Organized v0.1.0 through v0.9.1 static docs and static UI design for human
+  review.
+- Clarified v1.0.0 is not productionReady.
+- Clarified v1.0.0 is not GO approval.
+- Clarified v1.0.0 is not execution approval.
+- Clarified v1.0.0 is not device connection approval.
+- Reconfirmed Static Face Preview, Expression Variation, and Voice-Mouth-Eye
+  Concept are display-only.
+- HOLD remains current.
+- execution remains disabled.
+- no audio I/O approval.
+- no camera approval.
+- no robot motion approval.
+- no WSL, Hermes, wrapper, RunPod, install, external network, or git push
+  approval.
 
 ## v0.9.1 - Expression Safety Review Hardening
 

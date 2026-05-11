@@ -7,9 +7,9 @@ and does not require tooling.
 
 | Field | Meaning | Current value |
 |---|---|---|
-| roadmapVersion | visible roadmap version | v0.9.1 |
+| roadmapVersion | visible roadmap version | v1.0.0 |
 | lastUpdated | visible update date | 2026-05-11 |
-| latestUpdate | short update summary | Expression safety review hardening added |
+| latestUpdate | short update summary | Static design review package added |
 | currentDecision | current project decision | HOLD |
 | executionStatus | execution gate state | disabled |
 | productionReady | production readiness flag | false |
@@ -57,6 +57,12 @@ and does not require tooling.
 | expressionDeviceSignalInterpretation | device signal interpretation | forbidden |
 | expressionGoInterpretation | GO indicator interpretation | forbidden |
 | expressionProductionInterpretation | production readiness interpretation | forbidden |
+| staticDesignReviewPackageStatus | v1 static package state | review_package_created |
+| v1ProductionReadyInterpretation | v1 production readiness interpretation | not_production_ready |
+| v1GoInterpretation | v1 GO interpretation | not_go_approval |
+| v1ExecutionInterpretation | v1 execution interpretation | not_execution_approval |
+| v1ConnectionInterpretation | v1 connection interpretation | not_connection_approval |
+| nextAllowedStaticWork | next safe work category | documentation_static_only |
 
 ## Status Values
 

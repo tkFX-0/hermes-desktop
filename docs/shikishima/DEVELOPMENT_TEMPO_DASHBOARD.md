@@ -20,10 +20,10 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v0.9.1
-- latestUpdate: Expression safety review hardening added
+- roadmapVersion: v1.0.0
+- latestUpdate: Static design review package added
 - docs-only commits completed: local docs commits exist
-- current next human action: review Explorer-style dashboard design
+- current next human action: review v1.0.0 static design review package
 - HOLD reason: documentation approval and execution approval remain separate
 
 ## Boundaries

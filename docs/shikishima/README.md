@@ -61,6 +61,9 @@ network flow.
 - `FACE_PREVIEW_VISUAL_STATES.md` - static visual state mapping for face preview.
 - `EXPRESSION_VARIATION_SET.md` - common static expression variation set.
 - `AGENT_EXPRESSION_STATE_MATRIX.md` - expression application matrix by agent.
+- `STATIC_DESIGN_REVIEW_PACKAGE.md` - v1.0.0 static design review package.
+- `V1_STATIC_REVIEW_CHECKLIST.md` - v1 static review checklist.
+- `V1_NOT_PRODUCTION_READY_NOTICE.md` - v1 not-production-ready notice.
 - `MINIMUM_OPERATION_RUNBOOK_DRAFT.md` - Phase 10 runbook draft.
 - `HUMAN_GO_APPROVAL_CHECKLIST.md` - future scoped GO checklist.
 - `NO_GO_CHECKLIST.md` - stop/no-go checklist.
@@ -142,6 +145,18 @@ Expression variation review order:
 4. Confirm each expression is display-only.
 5. Confirm no expression reads as real-time status, connection status, GO approval, production readiness, or robot control.
 
+v1.0.0 static design review order:
+
+1. Review `STATIC_DESIGN_REVIEW_PACKAGE.md`.
+2. Review `V1_STATIC_REVIEW_CHECKLIST.md`.
+3. Review `V1_NOT_PRODUCTION_READY_NOTICE.md`.
+4. Check `REAL_OPERATION_ROADMAP.html` for `roadmapVersion: v1.0.0`.
+5. Confirm v1.0.0 is not productionReady.
+6. Confirm v1.0.0 is not GO approval.
+7. Confirm v1.0.0 is not execution approval.
+8. Confirm Static Face Preview, Expression Variation, and Voice-Mouth-Eye
+   Concept remain display-only.
+
 If the roadmap is updated, the HTML must visibly show that it was updated.
 Every roadmap-affecting change must update the visible HTML changelog and
 `ROADMAP_CHANGELOG.md`.
@@ -184,6 +199,15 @@ v0.9.1 hardens expression safety review wording before v1.0. In this version:
   productionReady.
 - Every expression remains not a runtime status, not a device signal, not a GO
   indicator, and not production readiness.
+
+v1.0.0 adds the Static Design Review Package. It packages v0.1.0 through
+v0.9.1 for human static design review only. It is not productionReady, not GO
+approval, not execution approval, not device connection approval, not robot
+motion approval, and not runtime readiness.
+
+Next work that may proceed remains documentation/static-only: review notes,
+wording cleanup, static HTML readability review, checklist refinement, and
+documentation approval record preparation.
 
 ## Naming Rules
 

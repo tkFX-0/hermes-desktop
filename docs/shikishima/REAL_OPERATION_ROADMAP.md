@@ -2,9 +2,9 @@
 
 ## Update Status
 
-- roadmapVersion: v0.9.1
+- roadmapVersion: v1.0.0
 - lastUpdated: 2026-05-11
-- latestUpdate: Expression safety review hardening added
+- latestUpdate: Static design review package added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - changelog: `ROADMAP_CHANGELOG.md`
 - phase review: `PHASE_REVIEW_MATRIX.md`
@@ -27,6 +27,10 @@ Every future roadmap-affecting change must visibly update
 - RunPod: on-demand only, explicit approval required
 
 This roadmap is static documentation only. It is not execution approval.
+
+v1.0.0 is a Static Design Review Package. It is not productionReady, not GO
+approval, not execution approval, not device connection approval, and not
+runtime readiness.
 
 v0.4.0 adds human documentation review checklists and approval separation
 policy. Documentation approval is not execution approval.
@@ -149,6 +153,35 @@ v0.9.1 hardens the expression safety review wording:
   productionReady.
 - Every expression remains not a runtime status, not a device signal, not a GO
   indicator, and not production readiness.
+
+## Static Design Review Package
+
+v1.0.0 packages v0.1.0 through v0.9.1 for human static design review:
+
+- roadmap and changelog visibility.
+- phase review matrix.
+- human documentation review package.
+- Explorer-style static dashboard.
+- minimal dot-line face system.
+- Voice-Mouth-Eye Concept.
+- Static Face Preview Board.
+- Expression Variation Set.
+- Expression Safety Review Hardening.
+
+v1.0.0 does not approve:
+
+- productionReady.
+- GO.
+- execution.
+- device connection.
+- audio playback, microphone, recording, or camera.
+- StackChan or robot control.
+- WSL, Hermes, wrapper, dummy wrapper, RunPod, install, external network, or
+  git push.
+
+Next allowed work remains documentation/static-only: review notes, wording
+cleanup, static HTML readability review, checklist refinement, and
+documentation approval record preparation.
 
 ## Human Review Package
 

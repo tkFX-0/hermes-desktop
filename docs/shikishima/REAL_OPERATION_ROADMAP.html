@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>しきしま計画 — 実運用ロードマップ</title>
+<title>縺励″縺励∪險育判 窶・螳滄°逕ｨ繝ｭ繝ｼ繝峨・繝・・</title>
 <style>
 :root {
   --bg0:#09090d;
@@ -90,52 +90,53 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
 <body>
 <div class="app">
   <aside>
-    <div class="logo">しきしま計画</div>
-    <div class="side-title">実運用ロードマップ</div>
-    <div class="hold-pill">HOLD — 実行無効</div>
+    <div class="logo">縺励″縺励∪險育判</div>
+    <div class="side-title">螳滄°逕ｨ繝ｭ繝ｼ繝峨・繝・・</div>
+    <div class="hold-pill">HOLD 窶・螳溯｡檎┌蜉ｹ</div>
     <nav class="nav" aria-label="sections">
-      <a class="active" href="#roadmap" data-section="roadmap">フェーズ一覧</a>
-      <a href="#changelog" data-section="changelog">更新履歴</a>
+      <a class="active" href="#roadmap" data-section="roadmap">繝輔ぉ繝ｼ繧ｺ荳隕ｧ</a>
+      <a href="#changelog" data-section="changelog">譖ｴ譁ｰ螻･豁ｴ</a>
       <a href="#explorer-dashboard" data-section="explorer-dashboard">Explorer Dashboard</a>
       <a href="#minimal-face" data-section="minimal-face">Dot-Line Face</a>
       <a href="#voice-face" data-section="voice-face">Voice / Mouth / Eye</a>
       <a href="#face-preview" data-section="face-preview">Face Preview</a>
       <a href="#expression-set" data-section="expression-set">Expression Set</a>
+      <a href="#static-review" data-section="static-review">Static Review</a>
       <a href="#human-review" data-section="human-review">Human Review Package</a>
-      <a href="#agents" data-section="agents">5エージェント</a>
+      <a href="#agents" data-section="agents">5繧ｨ繝ｼ繧ｸ繧ｧ繝ｳ繝・/a>
       <a href="#router" data-section="router">Model Router</a>
-      <a href="#devices" data-section="devices">デバイス役割</a>
-      <a href="#diagram" data-section="diagram">システム図</a>
-      <a href="#forbidden" data-section="forbidden">禁止アクション</a>
+      <a href="#devices" data-section="devices">繝・ヰ繧､繧ｹ蠖ｹ蜑ｲ</a>
+      <a href="#diagram" data-section="diagram">繧ｷ繧ｹ繝・Β蝗ｳ</a>
+      <a href="#forbidden" data-section="forbidden">遖∵ｭ｢繧｢繧ｯ繧ｷ繝ｧ繝ｳ</a>
     </nav>
   </aside>
   <main>
     <header>
-      <h1>しきしま計画 — 実運用ロードマップ</h1>
-      <div class="sub">静的ドキュメント / 実行機能なし / raw values hidden</div>
+      <h1>縺励″縺励∪險育判 窶・螳滄°逕ｨ繝ｭ繝ｼ繝峨・繝・・</h1>
+      <div class="sub">髱咏噪繝峨く繝･繝｡繝ｳ繝・/ 螳溯｡梧ｩ溯・縺ｪ縺・/ raw values hidden</div>
       <div class="chips">
         <span class="chip hold">decision: HOLD</span>
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">roadmapVersion: v0.9.1</span>
+        <span class="chip ok">roadmapVersion: v1.0.0</span>
         <span class="chip ok">lastUpdated: 2026-05-11</span>
       </div>
     </header>
     <div class="content">
       <section id="roadmap" class="active">
         <div class="card status-card">
-          <h2>更新ステータス</h2>
+          <h2>譖ｴ譁ｰ繧ｹ繝・・繧ｿ繧ｹ</h2>
           <div class="kv">
-            <div>roadmapVersion</div><div><code>v0.9.1</code></div>
+            <div>roadmapVersion</div><div><code>v1.0.0</code></div>
             <div>lastUpdated</div><div><code>2026-05-11</code></div>
-            <div>latestUpdate</div><div>Expression safety review hardening added</div>
+            <div>latestUpdate</div><div>Static design review package added</div>
             <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
             <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
-            <div>v0.9.1 note</div><div>v0.9.1 hardens expression wording. Expression labels are not runtime status, device signals, GO indicators, production readiness, robot control, or execution.</div>
+            <div>v1.0.0 note</div><div>v1.0.0 packages the static design docs for human review. It is not productionReady, GO approval, execution approval, device connection approval, robot control, or runtime readiness.</div>
           </div>
         </div>
-        <h2>フェーズ一覧</h2>
+        <h2>繝輔ぉ繝ｼ繧ｺ荳隕ｧ</h2>
         <div class="card">
           <h3>Phase status legend</h3>
           <table>
@@ -149,9 +150,21 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div id="phaseGrid" class="grid"></div>
       </section>
       <section id="changelog">
-        <h2>更新履歴 / Changelog</h2>
+        <h2>譖ｴ譁ｰ螻･豁ｴ / Changelog</h2>
         <div class="card">
-          <h3>v0.9.1 — Expression safety review hardening</h3>
+          <h3>v1.0.0 - Static design review package</h3>
+          <ul>
+            <li>Added Static Design Review Package.</li>
+            <li>Added v1 static review checklist.</li>
+            <li>Added v1 not-production-ready notice.</li>
+            <li>Organized v0.1.0 through v0.9.1 for human static design review.</li>
+            <li>Reconfirmed v1.0.0 is not productionReady, not GO approval, and not execution approval.</li>
+            <li>Reconfirmed Static Face Preview, Expression Variation, and Voice-Mouth-Eye Concept are display-only.</li>
+            <li>HOLD remains current; execution remains disabled.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>v0.9.1 窶・Expression safety review hardening</h3>
           <ul>
             <li>Clarified expression labels are not runtime status, device signals, GO indicators, or production readiness.</li>
             <li>Clarified listening is not microphone input, recording, or audio standby.</li>
@@ -163,7 +176,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
           </ul>
         </div>
         <div class="card">
-          <h3>v0.9.0 — Expression variation set</h3>
+          <h3>v0.9.0 窶・Expression variation set</h3>
           <ul>
             <li>Added common static expression variation set.</li>
             <li>Added agent expression state matrix.</li>
@@ -173,7 +186,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
           </ul>
         </div>
         <div class="card">
-          <h3>v0.8.1 — Static face preview review hardening</h3>
+          <h3>v0.8.1 窶・Static face preview review hardening</h3>
           <ul>
             <li>Added display-only / no execution / no device connection boundary to each face preview card.</li>
             <li>Strengthened PC-width and smartphone-width review guidance.</li>
@@ -182,7 +195,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
           </ul>
         </div>
         <div class="card">
-          <h3>v0.8.0 — Static face preview board</h3>
+          <h3>v0.8.0 窶・Static face preview board</h3>
           <ul>
             <li>Added static face preview board for five agents.</li>
             <li>Added PC-width and smartphone-width visual review guidance.</li>
@@ -192,7 +205,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
           </ul>
         </div>
         <div class="card">
-          <h3>v0.7.0 — Voice / mouth-flap / eye-gaze concept</h3>
+          <h3>v0.7.0 窶・Voice / mouth-flap / eye-gaze concept</h3>
           <ul>
             <li>Added voice concept as non-audio display intent.</li>
             <li>Added agent-specific mouth and gaze pattern guidance.</li>
@@ -203,7 +216,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
           </ul>
         </div>
         <div class="card">
-          <h3>v0.6.0 — Minimal dot-line face expression system</h3>
+          <h3>v0.6.0 窶・Minimal dot-line face expression system</h3>
           <ul>
             <li>Added minimal dot-line face system.</li>
             <li>Replaced the current preferred direction away from costume-heavy bust-up avatar design.</li>
@@ -216,19 +229,19 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
           </ul>
         </div>
         <div class="card">
-          <h3>v0.5.0 — Explorer-style static dashboard</h3>
+          <h3>v0.5.0 窶・Explorer-style static dashboard</h3>
           <ul>
             <li>Added Explorer-style Dashboard section.</li>
             <li>Added Agent Directory dashboard design.</li>
             <li>Added Human Review Queue design.</li>
-            <li>Added しるべ Knowledge Index design.</li>
+            <li>Added 縺励ｋ縺ｹ Knowledge Index design.</li>
             <li>Added Development Tempo dashboard design.</li>
             <li>Added Safe Progress Views.</li>
             <li>HOLD remains current; execution remains disabled; no external API; no autonomous task execution.</li>
           </ul>
         </div>
         <div class="card">
-          <h3>v0.4.0 — Human documentation review package</h3>
+          <h3>v0.4.0 窶・Human documentation review package</h3>
           <ul>
             <li>Added Human Review Package section.</li>
             <li>Added Phase 3, Phase 4, and Phase 5 approval checklists.</li>
@@ -241,22 +254,22 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
           </ul>
         </div>
         <div class="card">
-          <h3>v0.3.1 — Status label consistency hardening</h3>
+          <h3>v0.3.1 窶・Status label consistency hardening</h3>
           <ul>
             <li>Added visible status legend mapping UI labels to canonical phase statuses.</li>
             <li>Added canonical phase status text to Phase 3-10 cards.</li>
-            <li>Hardened しるべ raw-value storage boundary wording.</li>
+            <li>Hardened 縺励ｋ縺ｹ raw-value storage boundary wording.</li>
             <li>HOLD remains current; execution remains disabled; no GO approval.</li>
           </ul>
         </div>
         <div class="card">
-          <h3>v0.3.0 — HOLD-safe full phase implementation loop</h3>
+          <h3>v0.3.0 窶・HOLD-safe full phase implementation loop</h3>
           <ul>
             <li>Added Phase 3 permission review package.</li>
             <li>Added Phase 4 Model Router review package.</li>
-            <li>Added Phase 5 しずめ review package.</li>
-            <li>Added Phase 6 つむぎ workflow docs.</li>
-            <li>Added Phase 7 しるべ logging templates.</li>
+            <li>Added Phase 5 縺励★繧・review package.</li>
+            <li>Added Phase 6 縺､繧縺・workflow docs.</li>
+            <li>Added Phase 7 縺励ｋ縺ｹ logging templates.</li>
             <li>Added Phase 8 device boundary docs.</li>
             <li>Added Phase 9 StackChan expression-only plan.</li>
             <li>Added Phase 10 minimum operation runbook draft.</li>
@@ -264,18 +277,18 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
           </ul>
         </div>
         <div class="card">
-          <h3>v0.2.0 — Phase 2.5-5 review support</h3>
+          <h3>v0.2.0 窶・Phase 2.5-5 review support</h3>
           <ul>
             <li>Added roadmap update visibility.</li>
             <li>Added update/changelog section.</li>
             <li>Added Phase Review Matrix references.</li>
-            <li>Added しずめ decision matrix references.</li>
+            <li>Added 縺励★繧・decision matrix references.</li>
             <li>Added Model Router review matrix references.</li>
             <li>HOLD remains current.</li>
           </ul>
         </div>
         <div class="card">
-          <h3>v0.1.0 — Initial Shikishima roadmap docs</h3>
+          <h3>v0.1.0 窶・Initial Shikishima roadmap docs</h3>
           <ul>
             <li>Added static roadmap HTML.</li>
             <li>Added iPhone/mobile review view.</li>
@@ -305,11 +318,11 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
           <h3>Agent Directory</h3>
           <table>
             <tr><th>Agent</th><th>Role</th><th>Status</th><th>Can execute?</th><th>Approval</th></tr>
-            <tr><td>しきしま / しき</td><td>orchestrator</td><td>HOLD</td><td>no</td><td>human approval for high-risk or execution-related tasks</td></tr>
-            <tr><td>しずめ</td><td>safety gate</td><td>HOLD</td><td>no</td><td>human approval for high-risk GO</td></tr>
-            <tr><td>つむぎ / つむ</td><td>implementation/docs</td><td>HOLD</td><td>no</td><td>approved scope required</td></tr>
-            <tr><td>はじめ</td><td>planning</td><td>HOLD</td><td>no</td><td>human approval before implementation</td></tr>
-            <tr><td>しるべ</td><td>knowledge/navigation</td><td>HOLD</td><td>no</td><td>separate approval for direct write automation</td></tr>
+            <tr><td>縺励″縺励∪ / 縺励″</td><td>orchestrator</td><td>HOLD</td><td>no</td><td>human approval for high-risk or execution-related tasks</td></tr>
+            <tr><td>縺励★繧・/td><td>safety gate</td><td>HOLD</td><td>no</td><td>human approval for high-risk GO</td></tr>
+            <tr><td>縺､繧縺・/ 縺､繧</td><td>implementation/docs</td><td>HOLD</td><td>no</td><td>approved scope required</td></tr>
+            <tr><td>縺ｯ縺倥ａ</td><td>planning</td><td>HOLD</td><td>no</td><td>human approval before implementation</td></tr>
+            <tr><td>縺励ｋ縺ｹ</td><td>knowledge/navigation</td><td>HOLD</td><td>no</td><td>separate approval for direct write automation</td></tr>
           </table>
         </div>
         <div class="grid">
@@ -318,7 +331,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
             <ul>
               <li>Phase 3 Agent Permissions review</li>
               <li>Phase 4 Model Router review</li>
-              <li>Phase 5 しずめ Safety Gate review</li>
+              <li>Phase 5 縺励★繧・Safety Gate review</li>
               <li>Phase 6-10 pre-execution review</li>
               <li>Push decision remains separate</li>
               <li>GO decision remains separate</li>
@@ -331,9 +344,9 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
               <li>Final Vision</li>
               <li>Agent Permissions</li>
               <li>Model Router</li>
-              <li>しずめ Safety Gate</li>
-              <li>つむぎ Workflow</li>
-              <li>しるべ Logging</li>
+              <li>縺励★繧・Safety Gate</li>
+              <li>縺､繧縺・Workflow</li>
+              <li>縺励ｋ縺ｹ Logging</li>
               <li>Device Boundaries</li>
               <li>StackChan Expression Plan</li>
               <li>Operation Runbook Draft</li>
@@ -344,8 +357,8 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
           <div class="card">
             <h3>Current Tempo</h3>
             <div class="kv">
-              <div>roadmapVersion</div><div><code>v0.9.1</code></div>
-              <div>latestUpdate</div><div>Expression safety review hardening added</div>
+              <div>roadmapVersion</div><div><code>v1.0.0</code></div>
+              <div>latestUpdate</div><div>Static design review package added</div>
               <div>docs-only commits</div><div>completed locally</div>
               <div>current next human action</div><div>review Explorer-style dashboard design</div>
               <div>HOLD reason</div><div>documentation approval and execution approval remain separate</div>
@@ -394,11 +407,11 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
           <h3>Agent face identities</h3>
           <table>
             <tr><th>Agent</th><th>Role</th><th>Tiny symbol</th><th>Default expression</th><th>Accent</th></tr>
-            <tr><td>しきしま / しき</td><td>orchestrator</td><td>center node / orbit dot</td><td>calm dot eyes, tiny soft smile</td><td>blue</td></tr>
-            <tr><td>しずめ</td><td>safety gate</td><td>HOLD bar / gate line</td><td>thin horizontal eyes, flat calm mouth</td><td>blue-green</td></tr>
-            <tr><td>つむぎ / つむ</td><td>implementation</td><td>thread curve</td><td>slightly larger dot eyes, focused mouth</td><td>amber/orange</td></tr>
-            <tr><td>はじめ</td><td>planning</td><td>tiny arrow / first-step mark</td><td>upward-looking dot eyes, small bright smile</td><td>green</td></tr>
-            <tr><td>しるべ</td><td>records and navigation</td><td>bookmark / star-dot</td><td>half-moon eyes, tiny calm smile</td><td>violet</td></tr>
+            <tr><td>縺励″縺励∪ / 縺励″</td><td>orchestrator</td><td>center node / orbit dot</td><td>calm dot eyes, tiny soft smile</td><td>blue</td></tr>
+            <tr><td>縺励★繧・/td><td>safety gate</td><td>HOLD bar / gate line</td><td>thin horizontal eyes, flat calm mouth</td><td>blue-green</td></tr>
+            <tr><td>縺､繧縺・/ 縺､繧</td><td>implementation</td><td>thread curve</td><td>slightly larger dot eyes, focused mouth</td><td>amber/orange</td></tr>
+            <tr><td>縺ｯ縺倥ａ</td><td>planning</td><td>tiny arrow / first-step mark</td><td>upward-looking dot eyes, small bright smile</td><td>green</td></tr>
+            <tr><td>縺励ｋ縺ｹ</td><td>records and navigation</td><td>bookmark / star-dot</td><td>half-moon eyes, tiny calm smile</td><td>violet</td></tr>
           </table>
         </div>
         <div class="grid">
@@ -449,11 +462,11 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
           <h3>Agent pattern summary</h3>
           <table>
             <tr><th>Agent</th><th>Voice intent</th><th>Mouth pattern</th><th>Gaze pattern</th></tr>
-            <tr><td>しきしま / しき</td><td>calm organizer</td><td>calm_loop</td><td>center with small organizing glance</td></tr>
-            <tr><td>しずめ</td><td>quiet protective gate</td><td>minimal_gate_loop</td><td>steady_center</td></tr>
-            <tr><td>つむぎ / つむ</td><td>focused maker</td><td>explain_loop</td><td>work_down or side scanning</td></tr>
-            <tr><td>はじめ</td><td>bright next-step guide</td><td>smile_talk_loop</td><td>thinking_up then center</td></tr>
-            <tr><td>しるべ</td><td>gentle record keeper</td><td>quiet_loop</td><td>search_side or lower-side gaze</td></tr>
+            <tr><td>縺励″縺励∪ / 縺励″</td><td>calm organizer</td><td>calm_loop</td><td>center with small organizing glance</td></tr>
+            <tr><td>縺励★繧・/td><td>quiet protective gate</td><td>minimal_gate_loop</td><td>steady_center</td></tr>
+            <tr><td>縺､繧縺・/ 縺､繧</td><td>focused maker</td><td>explain_loop</td><td>work_down or side scanning</td></tr>
+            <tr><td>縺ｯ縺倥ａ</td><td>bright next-step guide</td><td>smile_talk_loop</td><td>thinking_up then center</td></tr>
+            <tr><td>縺励ｋ縺ｹ</td><td>gentle record keeper</td><td>quiet_loop</td><td>search_side or lower-side gaze</td></tr>
           </table>
         </div>
         <div class="grid">
@@ -490,10 +503,10 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         </div>
         <div class="grid">
           <div class="card">
-            <h3>しきしま / しき</h3>
-            <pre>  •     •
-     ⌣
-    ·</pre>
+            <h3>縺励″縺励∪ / 縺励″</h3>
+            <pre>  窶｢     窶｢
+     竚｣
+    ﾂｷ</pre>
             <div class="kv">
               <div>asciiId</div><div>shikishima</div>
               <div>voiceIntent</div><div>calm</div>
@@ -504,10 +517,10 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
             </div>
           </div>
           <div class="card">
-            <h3>しずめ</h3>
-            <pre>  ─     ─
-     ─
-   ―――</pre>
+            <h3>縺励★繧・/h3>
+            <pre>  笏     笏
+     笏
+   窶補補・/pre>
             <div class="kv">
               <div>asciiId</div><div>shizume</div>
               <div>voiceIntent</div><div>protective</div>
@@ -518,10 +531,9 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
             </div>
           </div>
           <div class="card">
-            <h3>つむぎ / つむ</h3>
-            <pre>  ●     ●
-     o
-   ︶</pre>
+            <h3>縺､繧縺・/ 縺､繧</h3>
+            <pre>  笳・    笳・     o
+   ・ｶ</pre>
             <div class="kv">
               <div>asciiId</div><div>tsumugi</div>
               <div>voiceIntent</div><div>focused</div>
@@ -532,10 +544,9 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
             </div>
           </div>
           <div class="card">
-            <h3>はじめ</h3>
-            <pre>  ˙     ˙
-     ⌣
-     ↑</pre>
+            <h3>縺ｯ縺倥ａ</h3>
+            <pre>  ﾋ・    ﾋ・     竚｣
+     竊・/pre>
             <div class="kv">
               <div>asciiId</div><div>hajime</div>
               <div>voiceIntent</div><div>proposing</div>
@@ -546,10 +557,10 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
             </div>
           </div>
           <div class="card">
-            <h3>しるべ</h3>
-            <pre>  ◡     ◡
-     ⌣
-     ✦</pre>
+            <h3>縺励ｋ縺ｹ</h3>
+            <pre>  笳｡     笳｡
+     竚｣
+     笨ｦ</pre>
             <div class="kv">
               <div>asciiId</div><div>shirube</div>
               <div>voiceIntent</div><div>archival</div>
@@ -582,14 +593,14 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
           <h3>Common expression states</h3>
           <table>
             <tr><th>expressionId</th><th>Japanese label</th><th>purpose</th><th>voiceIntent</th><th>mouthPattern</th><th>gazePattern</th><th>blinkState</th></tr>
-            <tr><td>neutral</td><td>ニュートラル</td><td>default calm presence</td><td>calm</td><td>calm_loop</td><td>steady_center</td><td>open</td></tr>
-            <tr><td>listening</td><td>聞いている</td><td>user-facing attention concept</td><td>calm</td><td>quiet_loop</td><td>steady_center</td><td>open</td></tr>
-            <tr><td>thinking</td><td>考え中</td><td>planning or analysis concept</td><td>focused</td><td>calm_loop</td><td>thinking_up</td><td>half_closed</td></tr>
-            <tr><td>holding</td><td>HOLD中</td><td>safety hold concept</td><td>protective</td><td>minimal_gate_loop</td><td>steady_center</td><td>open</td></tr>
-            <tr><td>caution</td><td>注意</td><td>gentle caution concept</td><td>protective</td><td>mouth_flat</td><td>eyes_focus</td><td>open</td></tr>
+            <tr><td>neutral</td><td>繝九Η繝ｼ繝医Λ繝ｫ</td><td>default calm presence</td><td>calm</td><td>calm_loop</td><td>steady_center</td><td>open</td></tr>
+            <tr><td>listening</td><td>閨槭＞縺ｦ縺・ｋ</td><td>user-facing attention concept</td><td>calm</td><td>quiet_loop</td><td>steady_center</td><td>open</td></tr>
+            <tr><td>thinking</td><td>閠・∴荳ｭ</td><td>planning or analysis concept</td><td>focused</td><td>calm_loop</td><td>thinking_up</td><td>half_closed</td></tr>
+            <tr><td>holding</td><td>HOLD荳ｭ</td><td>safety hold concept</td><td>protective</td><td>minimal_gate_loop</td><td>steady_center</td><td>open</td></tr>
+            <tr><td>caution</td><td>豕ｨ諢・/td><td>gentle caution concept</td><td>protective</td><td>mouth_flat</td><td>eyes_focus</td><td>open</td></tr>
             <tr><td>rejected</td><td>REJECT</td><td>rejection concept</td><td>protective</td><td>mouth_flat</td><td>steady_center</td><td>half_closed</td></tr>
-            <tr><td>review_ready</td><td>レビュー待ち</td><td>human review readiness concept</td><td>proposing</td><td>smile_talk_loop</td><td>thinking_up</td><td>open</td></tr>
-            <tr><td>completed_static_only</td><td>静的完了</td><td>docs/static completion concept</td><td>archival</td><td>quiet_loop</td><td>steady_center</td><td>half_closed</td></tr>
+            <tr><td>review_ready</td><td>繝ｬ繝薙Η繝ｼ蠕・■</td><td>human review readiness concept</td><td>proposing</td><td>smile_talk_loop</td><td>thinking_up</td><td>open</td></tr>
+            <tr><td>completed_static_only</td><td>髱咏噪螳御ｺ・/td><td>docs/static completion concept</td><td>archival</td><td>quiet_loop</td><td>steady_center</td><td>half_closed</td></tr>
           </table>
         </div>
         <div class="card">
@@ -607,11 +618,11 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
           <h3>Agent application</h3>
           <table>
             <tr><th>Agent</th><th>ASCII ID</th><th>variation use</th><th>boundary</th></tr>
-            <tr><td>しきしま / しき</td><td>shikishima</td><td>organizing, summarizing, review-ready concepts</td><td>display-only / no execution / no device connection</td></tr>
-            <tr><td>しずめ</td><td>shizume</td><td>holding, caution, rejected concepts</td><td>display-only / no execution / no device connection</td></tr>
-            <tr><td>つむぎ / つむ</td><td>tsumugi</td><td>thinking, review-ready, completed-static-only concepts</td><td>display-only / no execution / no device connection</td></tr>
-            <tr><td>はじめ</td><td>hajime</td><td>thinking, review-ready, next-step concepts</td><td>display-only / no execution / no device connection</td></tr>
-            <tr><td>しるべ</td><td>shirube</td><td>listening, archival, completed-static-only concepts</td><td>display-only / no execution / no device connection</td></tr>
+            <tr><td>縺励″縺励∪ / 縺励″</td><td>shikishima</td><td>organizing, summarizing, review-ready concepts</td><td>display-only / no execution / no device connection</td></tr>
+            <tr><td>縺励★繧・/td><td>shizume</td><td>holding, caution, rejected concepts</td><td>display-only / no execution / no device connection</td></tr>
+            <tr><td>縺､繧縺・/ 縺､繧</td><td>tsumugi</td><td>thinking, review-ready, completed-static-only concepts</td><td>display-only / no execution / no device connection</td></tr>
+            <tr><td>縺ｯ縺倥ａ</td><td>hajime</td><td>thinking, review-ready, next-step concepts</td><td>display-only / no execution / no device connection</td></tr>
+            <tr><td>縺励ｋ縺ｹ</td><td>shirube</td><td>listening, archival, completed-static-only concepts</td><td>display-only / no execution / no device connection</td></tr>
           </table>
         </div>
         <div class="card">
@@ -625,7 +636,53 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
           </ul>
         </div>
       </section>
-      <section id="human-review">
+      <section id="static-review">
+        <h2>Static Design Review Package</h2>
+        <div class="card status-card">
+          <h3>v1.0.0 is review-only</h3>
+          <p>v1.0.0 packages the v0.1.0 through v0.9.1 static docs and static UI design for human review.</p>
+          <p>It is not productionReady, not GO approval, not execution approval, not connection approval, and not runtime readiness.</p>
+        </div>
+        <div class="grid">
+          <div class="card">
+            <h3>Review package files</h3>
+            <ul>
+              <li>STATIC_DESIGN_REVIEW_PACKAGE.md</li>
+              <li>V1_STATIC_REVIEW_CHECKLIST.md</li>
+              <li>V1_NOT_PRODUCTION_READY_NOTICE.md</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Next allowed work</h3>
+            <ul>
+              <li>human review notes</li>
+              <li>wording cleanup</li>
+              <li>static HTML readability review</li>
+              <li>checklist refinement</li>
+              <li>documentation approval record preparation</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Still forbidden</h3>
+            <ul>
+              <li>WSL / Hermes / wrapper / dummy execution</li>
+              <li>RunPod, StackChan, or robot control</li>
+              <li>audio playback, microphone, recording, or camera</li>
+              <li>external API, install, or network integration</li>
+              <li>git push, GO transition, or productionReady true</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Display-only design areas</h3>
+          <table>
+            <tr><th>Area</th><th>Review meaning</th><th>Forbidden interpretation</th></tr>
+            <tr><td>Static Face Preview</td><td>visual review only</td><td>not device UI, not connection state</td></tr>
+            <tr><td>Expression Variation</td><td>display labels only</td><td>not real-time status, not GO indicator</td></tr>
+            <tr><td>Voice-Mouth-Eye Concept</td><td>design vocabulary only</td><td>not audio I/O, not camera, not runtime animation</td></tr>
+          </table>
+        </div>
+      </section>      <section id="human-review">
         <h2>Human Review Package</h2>
         <div class="card status-card">
           <h3>Documentation review only</h3>
@@ -657,102 +714,90 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         </div>
       </section>
       <section id="agents">
-        <h2>5エージェント</h2>
+        <h2>5繧ｨ繝ｼ繧ｸ繧ｧ繝ｳ繝・/h2>
         <div class="grid">
-          <div class="agent"><div class="name">しきしま</div><div class="nick">ニックネーム: しき</div><div class="role">メインオーケストレーター。ユーザーとの対話窓口。</div><span class="tag">orchestrator</span></div>
-          <div class="agent"><div class="name">しずめ</div><div class="nick">ニックネームなし</div><div class="role">Safety Gate。GO / HOLD / REJECT を判定。</div><span class="tag">safety</span></div>
-          <div class="agent"><div class="name">つむぎ</div><div class="nick">ニックネーム: つむ</div><div class="role">開発・実装エージェント。コード・仕様・テスト・ドキュメントを織る。</div><span class="tag">implementation</span></div>
-          <div class="agent"><div class="name">はじめ</div><div class="nick">ニックネームなし</div><div class="role">計画・起点エージェント。ロードマップと次の一手を整理。</div><span class="tag">planning</span></div>
-          <div class="agent"><div class="name">しるべ</div><div class="nick">ニックネームなし</div><div class="role">記録・知識・ナビゲーション。ハンドオフとサマリーを管理。</div><span class="tag">record</span></div>
+          <div class="agent"><div class="name">縺励″縺励∪</div><div class="nick">繝九ャ繧ｯ繝阪・繝: 縺励″</div><div class="role">繝｡繧､繝ｳ繧ｪ繝ｼ繧ｱ繧ｹ繝医Ξ繝ｼ繧ｿ繝ｼ縲ゅΘ繝ｼ繧ｶ繝ｼ縺ｨ縺ｮ蟇ｾ隧ｱ遯灘哨縲・/div><span class="tag">orchestrator</span></div>
+          <div class="agent"><div class="name">縺励★繧・/div><div class="nick">繝九ャ繧ｯ繝阪・繝縺ｪ縺・/div><div class="role">Safety Gate縲・O / HOLD / REJECT 繧貞愛螳壹・/div><span class="tag">safety</span></div>
+          <div class="agent"><div class="name">縺､繧縺・/div><div class="nick">繝九ャ繧ｯ繝阪・繝: 縺､繧</div><div class="role">髢狗匱繝ｻ螳溯｣・お繝ｼ繧ｸ繧ｧ繝ｳ繝医ゅさ繝ｼ繝峨・莉墓ｧ倥・繝・せ繝医・繝峨く繝･繝｡繝ｳ繝医ｒ郢斐ｋ縲・/div><span class="tag">implementation</span></div>
+          <div class="agent"><div class="name">縺ｯ縺倥ａ</div><div class="nick">繝九ャ繧ｯ繝阪・繝縺ｪ縺・/div><div class="role">險育判繝ｻ襍ｷ轤ｹ繧ｨ繝ｼ繧ｸ繧ｧ繝ｳ繝医ゅΟ繝ｼ繝峨・繝・・縺ｨ谺｡縺ｮ荳謇九ｒ謨ｴ逅・・/div><span class="tag">planning</span></div>
+          <div class="agent"><div class="name">縺励ｋ縺ｹ</div><div class="nick">繝九ャ繧ｯ繝阪・繝縺ｪ縺・/div><div class="role">險倬鹸繝ｻ遏･隴倥・繝翫ン繧ｲ繝ｼ繧ｷ繝ｧ繝ｳ縲ゅワ繝ｳ繝峨が繝輔→繧ｵ繝槭Μ繝ｼ繧堤ｮ｡逅・・/div><span class="tag">record</span></div>
         </div>
       </section>
       <section id="router">
         <h2>Model Router</h2>
         <div class="card">
-          <p>エージェントはモデルを自由に選択しない。Model Router は `MODEL_ROUTER_REVIEW_MATRIX.md` のレビュー結果に従う。モデル選択は実行承認ではなく、しずめ Safety Gate を上書きできない。</p>
+          <p>繧ｨ繝ｼ繧ｸ繧ｧ繝ｳ繝医・繝｢繝・Ν繧定・逕ｱ縺ｫ驕ｸ謚槭＠縺ｪ縺・・odel Router 縺ｯ `MODEL_ROUTER_REVIEW_MATRIX.md` 縺ｮ繝ｬ繝薙Η繝ｼ邨先棡縺ｫ蠕薙≧縲ゅΔ繝・Ν驕ｸ謚槭・螳溯｡梧価隱阪〒縺ｯ縺ｪ縺上√＠縺壹ａ Safety Gate 繧剃ｸ頑嶌縺阪〒縺阪↑縺・・/p>
         </div>
         <table>
           <tr><th>Tier</th><th>Use</th><th>Condition</th></tr>
-          <tr><td>rules_only</td><td>決定的チェック</td><td>高リスク / しずめ判定</td></tr>
-          <tr><td>local_light</td><td>低レイテンシ</td><td>軽量ローカル応答</td></tr>
-          <tr><td>local_medium</td><td>プライベート作業</td><td>local-only data included</td></tr>
-          <tr><td>cloud_mini</td><td>低コストクラウド</td><td>非機密 / 承認済み</td></tr>
-          <tr><td>cloud_reasoner</td><td>複雑推論</td><td>非機密 / 明示承認</td></tr>
-          <tr><td>Codex/GPT</td><td>コード作業</td><td>明示タスクのみ</td></tr>
-          <tr><td>External GPU room</td><td>大型GPU実験</td><td>明示承認 / on-demand only</td></tr>
+          <tr><td>rules_only</td><td>豎ｺ螳夂噪繝√ぉ繝・け</td><td>鬮倥Μ繧ｹ繧ｯ / 縺励★繧∝愛螳・/td></tr>
+          <tr><td>local_light</td><td>菴弱Ξ繧､繝・Φ繧ｷ</td><td>霆ｽ驥上Ο繝ｼ繧ｫ繝ｫ蠢懃ｭ・/td></tr>
+          <tr><td>local_medium</td><td>繝励Λ繧､繝吶・繝井ｽ懈･ｭ</td><td>local-only data included</td></tr>
+          <tr><td>cloud_mini</td><td>菴弱さ繧ｹ繝医け繝ｩ繧ｦ繝・/td><td>髱樊ｩ溷ｯ・/ 謇ｿ隱肴ｸ医∩</td></tr>
+          <tr><td>cloud_reasoner</td><td>隍・尅謗ｨ隲・/td><td>髱樊ｩ溷ｯ・/ 譏守､ｺ謇ｿ隱・/td></tr>
+          <tr><td>Codex/GPT</td><td>繧ｳ繝ｼ繝我ｽ懈･ｭ</td><td>譏守､ｺ繧ｿ繧ｹ繧ｯ縺ｮ縺ｿ</td></tr>
+          <tr><td>External GPU room</td><td>螟ｧ蝙季PU螳滄ｨ・/td><td>譏守､ｺ謇ｿ隱・/ on-demand only</td></tr>
         </table>
       </section>
       <section id="devices">
-        <h2>デバイス役割</h2>
+        <h2>繝・ヰ繧､繧ｹ蠖ｹ蜑ｲ</h2>
         <div class="grid">
-          <div class="device"><div class="name">RTX 4070 12GB PC</div><div class="role">メイン開発・ランタイムベース。</div></div>
-          <div class="device"><div class="name">Mini PC</div><div class="role">常時稼働が本当に必要な場合のみ検討。現時点では deferred。</div></div>
-          <div class="device"><div class="name">Lenovo TAB6</div><div class="role">表示モニター。</div></div>
-          <div class="device"><div class="name">Redmi 12</div><div class="role">顔・表情プロトタイプ端末。</div></div>
-          <div class="device"><div class="name">StackChan</div><div class="role">将来の物理表情ロボット。安全ゲートなしの自動動作は禁止。</div></div>
-          <div class="device"><div class="name">iPhone 15 Pro</div><div class="role">プライベート / 読み取り専用 / 承認メモ端末。</div></div>
+          <div class="device"><div class="name">RTX 4070 12GB PC</div><div class="role">繝｡繧､繝ｳ髢狗匱繝ｻ繝ｩ繝ｳ繧ｿ繧､繝繝吶・繧ｹ縲・/div></div>
+          <div class="device"><div class="name">Mini PC</div><div class="role">蟶ｸ譎らｨｼ蜒阪′譛ｬ蠖薙↓蠢・ｦ√↑蝣ｴ蜷医・縺ｿ讀懆ｨ弱ら樟譎らせ縺ｧ縺ｯ deferred縲・/div></div>
+          <div class="device"><div class="name">Lenovo TAB6</div><div class="role">陦ｨ遉ｺ繝｢繝九ち繝ｼ縲・/div></div>
+          <div class="device"><div class="name">Redmi 12</div><div class="role">鬘斐・陦ｨ諠・・繝ｭ繝医ち繧､繝礼ｫｯ譛ｫ縲・/div></div>
+          <div class="device"><div class="name">StackChan</div><div class="role">蟆・擂縺ｮ迚ｩ逅・｡ｨ諠・Ο繝懊ャ繝医ょｮ牙・繧ｲ繝ｼ繝医↑縺励・閾ｪ蜍募虚菴懊・遖∵ｭ｢縲・/div></div>
+          <div class="device"><div class="name">iPhone 15 Pro</div><div class="role">繝励Λ繧､繝吶・繝・/ 隱ｭ縺ｿ蜿悶ｊ蟆ら畑 / 謇ｿ隱阪Γ繝｢遶ｯ譛ｫ縲・/div></div>
         </div>
       </section>
       <section id="diagram">
-        <h2>システム図</h2>
+        <h2>繧ｷ繧ｹ繝・Β蝗ｳ</h2>
         <pre>User
-  ↓
-しきしま / しき
-  ↓
-しずめ Safety Gate
-  ↓
-はじめ / つむぎ / しるべ
-  ↓
-Model Router
-  ↓
-rules_only / local_light / local_medium / cloud_mini / cloud_reasoner / Codex / External GPU room</pre>
+  竊・縺励″縺励∪ / 縺励″
+  竊・縺励★繧・Safety Gate
+  竊・縺ｯ縺倥ａ / 縺､繧縺・/ 縺励ｋ縺ｹ
+  竊・Model Router
+  竊・rules_only / local_light / local_medium / cloud_mini / cloud_reasoner / Codex / External GPU room</pre>
         <pre>Roadmap update flow:
   Roadmap/doc change
-    ↓
-  Update docs
-    ↓
-  Update HTML version badge
-    ↓
-  Update ROADMAP_CHANGELOG.md
-    ↓
-  Run static verification
-    ↓
-  Local commit only if approved
-    ↓
-  Push only if separately approved</pre>
+    竊・  Update docs
+    竊・  Update HTML version badge
+    竊・  Update ROADMAP_CHANGELOG.md
+    竊・  Run static verification
+    竊・  Local commit only if approved
+    竊・  Push only if separately approved</pre>
       </section>
       <section id="forbidden">
-        <h2>禁止アクション</h2>
+        <h2>遖∵ｭ｢繧｢繧ｯ繧ｷ繝ｧ繝ｳ</h2>
         <div class="bad-list">
-          <div class="bad">WSL 実行</div><div class="bad">Hermes 実行</div><div class="bad">wrapper / dummy 実行</div><div class="bad">packaged smoke</div>
-          <div class="bad">External GPU startup</div><div class="bad">StackChan / ロボット制御</div><div class="bad">install</div><div class="bad">external network</div>
-          <div class="bad">git push</div><div class="bad">GO 遷移</div><div class="bad">productionReady = true</div><div class="bad">raw value output</div>
+          <div class="bad">WSL 螳溯｡・/div><div class="bad">Hermes 螳溯｡・/div><div class="bad">wrapper / dummy 螳溯｡・/div><div class="bad">packaged smoke</div>
+          <div class="bad">External GPU startup</div><div class="bad">StackChan / 繝ｭ繝懊ャ繝亥宛蠕｡</div><div class="bad">install</div><div class="bad">external network</div>
+          <div class="bad">git push</div><div class="bad">GO 驕ｷ遘ｻ</div><div class="bad">productionReady = true</div><div class="bad">raw value output</div>
         </div>
         <div class="card verify" style="margin-top:16px;">
-          <strong>検証方針:</strong> 外部URL/CDNなし、fetch/APIなし、コマンド入力なし、実行ボタンなし、生値なし。しき・つむのみニックネーム。
-        </div>
+          <strong>讀懆ｨｼ譁ｹ驥・</strong> 螟夜ΚURL/CDN縺ｪ縺励’etch/API縺ｪ縺励√さ繝槭Φ繝牙・蜉帙↑縺励∝ｮ溯｡後・繧ｿ繝ｳ縺ｪ縺励∫函蛟､縺ｪ縺励ゅ＠縺阪・縺､繧縺ｮ縺ｿ繝九ャ繧ｯ繝阪・繝縲・        </div>
       </section>
     </div>
   </main>
 </div>
 <script>
 const phases = [
-  { num:"0", status:"HOLD", title:"現在の HOLD ベースライン", goal:"HOLDを明確化し、何が整っていないかをドキュメント化する。" },
-  { num:"1", status:"current", title:"命名と最終ビジョン文書", goal:"全エージェント名・役割・ニックネームルールを最終確定する。" },
-  { num:"2", status:"current", title:"静的HTML ロードマップ", goal:"静的HTMLでロードマップとタスクを可視化する。実行機能なし。" },
-  { num:"3", status:"review_ready", canonical:"review_ready_for_human_approval", title:"エージェント役割とパーミッション", goal:"各エージェントの権限・制限・通信ルールを設計する。", updated:true },
-  { num:"4", status:"review_ready", canonical:"review_ready_for_human_approval", title:"Model Router ポリシー", goal:"Model Router のルーティングポリシーを文書化・確定する。", updated:true },
-  { num:"5", status:"review_ready", canonical:"review_ready_for_human_approval", title:"しずめ Safety Gate ポリシー", goal:"GO / HOLD / REJECT 判定ルールを完全定義する。", updated:true },
-  { num:"6", status:"draft_created", canonical:"draft_created / documentation_only", title:"つむぎ 実装ワークフロー", goal:"安全に実装タスクを処理するワークフローを設計する。", updated:true },
-  { num:"7", status:"draft_created", canonical:"draft_created / documentation_only", title:"しるべ ログテンプレート", goal:"ログ形式・ハンドオフ・サマリーテンプレートを整備する。", updated:true },
-  { num:"8", status:"draft_created", canonical:"draft_created / documentation_only", title:"デバイス役割計画", goal:"全デバイスの役割・接続ルール・使用条件を最終確定する。", updated:true },
-  { num:"9", status:"robot_execution_HOLD", canonical:"draft_created / documentation_only / robot_execution_HOLD", title:"StackChan 表情専用計画", goal:"表情・表現のみに限定した安全な接続計画を作成する。", updated:true },
-  { num:"10", status:"runbook_draft_created", canonical:"requires_separate_GO / not_approved_for_execution", title:"人間監督下の最低限実運用", goal:"全フェーズ完了後、人間監督のもとで最小限の実運用を開始する。", updated:true }
+  { num:"0", status:"HOLD", title:"迴ｾ蝨ｨ縺ｮ HOLD 繝吶・繧ｹ繝ｩ繧､繝ｳ", goal:"HOLD繧呈・遒ｺ蛹悶＠縲∽ｽ輔′謨ｴ縺｣縺ｦ縺・↑縺・°繧偵ラ繧ｭ繝･繝｡繝ｳ繝亥喧縺吶ｋ縲・ },
+  { num:"1", status:"current", title:"蜻ｽ蜷阪→譛邨ゅン繧ｸ繝ｧ繝ｳ譁・嶌", goal:"蜈ｨ繧ｨ繝ｼ繧ｸ繧ｧ繝ｳ繝亥錐繝ｻ蠖ｹ蜑ｲ繝ｻ繝九ャ繧ｯ繝阪・繝繝ｫ繝ｼ繝ｫ繧呈怙邨ら｢ｺ螳壹☆繧九・ },
+  { num:"2", status:"current", title:"髱咏噪HTML 繝ｭ繝ｼ繝峨・繝・・", goal:"髱咏噪HTML縺ｧ繝ｭ繝ｼ繝峨・繝・・縺ｨ繧ｿ繧ｹ繧ｯ繧貞庄隕門喧縺吶ｋ縲ょｮ溯｡梧ｩ溯・縺ｪ縺励・ },
+  { num:"3", status:"review_ready", canonical:"review_ready_for_human_approval", title:"繧ｨ繝ｼ繧ｸ繧ｧ繝ｳ繝亥ｽｹ蜑ｲ縺ｨ繝代・繝溘ャ繧ｷ繝ｧ繝ｳ", goal:"蜷・お繝ｼ繧ｸ繧ｧ繝ｳ繝医・讓ｩ髯舌・蛻ｶ髯舌・騾壻ｿ｡繝ｫ繝ｼ繝ｫ繧定ｨｭ險医☆繧九・, updated:true },
+  { num:"4", status:"review_ready", canonical:"review_ready_for_human_approval", title:"Model Router 繝昴Μ繧ｷ繝ｼ", goal:"Model Router 縺ｮ繝ｫ繝ｼ繝・ぅ繝ｳ繧ｰ繝昴Μ繧ｷ繝ｼ繧呈枚譖ｸ蛹悶・遒ｺ螳壹☆繧九・, updated:true },
+  { num:"5", status:"review_ready", canonical:"review_ready_for_human_approval", title:"縺励★繧・Safety Gate 繝昴Μ繧ｷ繝ｼ", goal:"GO / HOLD / REJECT 蛻､螳壹Ν繝ｼ繝ｫ繧貞ｮ悟・螳夂ｾｩ縺吶ｋ縲・, updated:true },
+  { num:"6", status:"draft_created", canonical:"draft_created / documentation_only", title:"縺､繧縺・螳溯｣・Ρ繝ｼ繧ｯ繝輔Ο繝ｼ", goal:"螳牙・縺ｫ螳溯｣・ち繧ｹ繧ｯ繧貞・逅・☆繧九Ρ繝ｼ繧ｯ繝輔Ο繝ｼ繧定ｨｭ險医☆繧九・, updated:true },
+  { num:"7", status:"draft_created", canonical:"draft_created / documentation_only", title:"縺励ｋ縺ｹ 繝ｭ繧ｰ繝・Φ繝励Ξ繝ｼ繝・, goal:"繝ｭ繧ｰ蠖｢蠑上・繝上Φ繝峨が繝輔・繧ｵ繝槭Μ繝ｼ繝・Φ繝励Ξ繝ｼ繝医ｒ謨ｴ蛯吶☆繧九・, updated:true },
+  { num:"8", status:"draft_created", canonical:"draft_created / documentation_only", title:"繝・ヰ繧､繧ｹ蠖ｹ蜑ｲ險育判", goal:"蜈ｨ繝・ヰ繧､繧ｹ縺ｮ蠖ｹ蜑ｲ繝ｻ謗･邯壹Ν繝ｼ繝ｫ繝ｻ菴ｿ逕ｨ譚｡莉ｶ繧呈怙邨ら｢ｺ螳壹☆繧九・, updated:true },
+  { num:"9", status:"robot_execution_HOLD", canonical:"draft_created / documentation_only / robot_execution_HOLD", title:"StackChan 陦ｨ諠・ｰら畑險育判", goal:"陦ｨ諠・・陦ｨ迴ｾ縺ｮ縺ｿ縺ｫ髯仙ｮ壹＠縺溷ｮ牙・縺ｪ謗･邯夊ｨ育判繧剃ｽ懈・縺吶ｋ縲・, updated:true },
+  { num:"10", status:"runbook_draft_created", canonical:"requires_separate_GO / not_approved_for_execution", title:"莠ｺ髢鍋屮逹｣荳九・譛菴朱剞螳滄°逕ｨ", goal:"蜈ｨ繝輔ぉ繝ｼ繧ｺ螳御ｺ・ｾ後∽ｺｺ髢鍋屮逹｣縺ｮ繧ゅ→縺ｧ譛蟆城剞縺ｮ螳滄°逕ｨ繧帝幕蟋九☆繧九・, updated:true }
 ];
 const grid = document.getElementById("phaseGrid");
 grid.innerHTML = phases.map((phase) => {
   const badgeClass = phase.status === "HOLD" ? "hold" : phase.status === "current" ? "current" : "pending";
-  const updateBadge = phase.updated ? '<span class="update-badge">updated in v0.9.1</span>' : "";
+  const updateBadge = phase.updated ? '<span class="update-badge">updated in v1.0.0</span>' : "";
   const canonical = phase.canonical ? `<li>canonical status: ${phase.canonical}</li>` : "";
   return `<article class="phase ${phase.updated ? "updated" : ""}"><div><span class="phase-num">Phase ${phase.num}</span><span class="badge ${badgeClass}">${phase.status}</span>${updateBadge}</div><div class="phase-title">${phase.title}</div><p class="role">${phase.goal}</p><ul>${canonical}<li>decision remains HOLD</li><li>execution remains disabled</li><li>documentation approval is not execution approval</li></ul></article>`;
 }).join("");
