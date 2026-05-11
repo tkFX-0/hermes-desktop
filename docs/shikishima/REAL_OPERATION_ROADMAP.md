@@ -2,9 +2,9 @@
 
 ## Update Status
 
-- roadmapVersion: v1.5.1
+- roadmapVersion: v1.6.0
 - lastUpdated: 2026-05-12
-- latestUpdate: tests/hermes review package added
+- latestUpdate: docs/ichikishima migration plan added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - changelog: `ROADMAP_CHANGELOG.md`
 - phase review: `PHASE_REVIEW_MATRIX.md`

@@ -119,7 +119,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">roadmapVersion: v1.5.1</span>
+        <span class="chip ok">roadmapVersion: v1.6.0</span>
         <span class="chip ok">lastUpdated: 2026-05-11</span>
       </div>
     </header>
@@ -128,12 +128,13 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div class="card status-card">
           <h2>譖ｴ譁ｰ繧ｹ繝・・繧ｿ繧ｹ</h2>
           <div class="kv">
-            <div>roadmapVersion</div><div><code>v1.5.1</code></div>
+            <div>roadmapVersion</div><div><code>v1.6.0</code></div>
             <div>lastUpdated</div><div><code>2026-05-12</code></div>
-            <div>latestUpdate</div><div>tests/hermes review package added</div>
+            <div>latestUpdate</div><div>docs/ichikishima migration plan added</div>
             <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
             <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
-            <div>v1.5.1 note</div><div>v1.5.1: TESTS_HERMES_REVIEW_PACKAGE.md added. 12 zone tests. Smoke+pilot: review CI guard. Independent of ichikishima tests. Commit-ready pending GO.</div>
+            <div>v1.6.0 note</div><div>v1.6.0: DOCS_ICHIKISHIMA_MIGRATION_PLAN.md added. 127 legacy docs classified. Option 1 (archive) recommended. WSL2 wrapper runbooks flagged for review. HOLD pending scope decision.</div>
+            <div>v1.5.1 note</div><div>v1.5.1: TESTS_HERMES_REVIEW_PACKAGE.md. 12 zone tests. Commit-ready pending GO.</div>
             <div>v1.5.0 note</div><div>v1.5.0: TESTS_ICHIKISHIMA_REVIEW_PACKAGE.md. 66 test files. dummy files safe. process-local CI-guarded. Commit-ready pending GO.</div>
             <div>v1.4.0 note</div><div>v1.4.0: .gitignore: sandbox/, .cursor/, .claude/ tool config ignored. SANDBOX_GITIGNORE_AUDIT.md added.</div>
             <div>v1.3.1 note</div><div>v1.3.1: V2 goal pack. POST_V1_3_0_REFERENCE_AUDIT.md + UNTRACKED_WORKTREE_INVENTORY.md + V2_GOAL_AND_TASK_PACK.md + V2_HOLD_GATE_MATRIX.md + V2_IMPLEMENTATION_SEQUENCE.md.</div>
@@ -171,12 +172,19 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       <section id="changelog">
         <h2>譖ｴ譁ｰ螻･豁ｴ / Changelog</h2>
         <div class="card">
-          <h3>v1.5.1 - tests/hermes review package <span class="update-badge">latest</span></h3>
+          <h3>v1.6.0 - docs/ichikishima migration plan <span class="update-badge">latest</span></h3>
+          <ul>
+            <li>DOCS_ICHIKISHIMA_MIGRATION_PLAN.md added — plan-only.</li>
+            <li>127 legacy docs classified: ADRs, ControlCenter specs, Hermes specs, impl plans, misc.</li>
+            <li>WSL2 wrapper human-value runbooks: redaction review recommended before commit.</li>
+            <li>Recommended: Option 1 (legacy archive). HOLD pending human scope decision.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>v1.5.1 - tests/hermes review package</h3>
           <ul>
             <li>TESTS_HERMES_REVIEW_PACKAGE.md added — audit-only.</li>
-            <li>12 zone tests: config, denylist, path-guard, policies, wrappers, smoke, pilot.</li>
-            <li>All LOW to LOW-MEDIUM risk. Smoke+pilot: verify CI guard before commit.</li>
-            <li>Can commit independently of ichikishima tests. HOLD pending human GO.</li>
+            <li>12 zone tests: all LOW to LOW-MEDIUM risk. Commit-ready pending GO.</li>
           </ul>
         </div>
         <div class="card">

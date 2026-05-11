@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v1.5.1
+- roadmapVersion: v1.6.0
 - lastUpdated: 2026-05-12
-- latestUpdate: tests/hermes review package added
+- latestUpdate: docs/ichikishima migration plan added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,14 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v1.6.0 - docs/ichikishima Migration Plan
+
+- Added `DOCS_ICHIKISHIMA_MIGRATION_PLAN.md` — plan-only / no-move-delete.
+- 127 legacy docs classified: ADRs(2), ControlCenter specs(~20), Hermes specs(~23), impl plans(3), autonomy-zone(~4), agent/visualization(~7), operation logs(~7), memory/orchestrator(~5), mockups, misc.
+- WSL2 wrapper human-value runbooks flagged for redaction review before commit.
+- Recommended: Option 1 (legacy archive) — commit as-is without moving/deleting.
+- docs/ichikishima/ not staged. No move/delete/rename. HOLD pending scope decision.
 
 ## v1.5.1 - tests/hermes Review Package
 

@@ -1,4 +1,4 @@
-# Development Tempo Dashboard
+﻿# Development Tempo Dashboard
 
 ## Purpose
 
@@ -20,8 +20,8 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v1.5.1
-- latestUpdate: tests/hermes review package added
+- roadmapVersion: v1.6.0
+- latestUpdate: docs/ichikishima migration plan added
 - docs-only commits completed: local docs commits exist
 - current next human action: tests/ichikishima review (v1.5.0 HOLD) or Phase D plan (v1.7.0 safe)
 - HOLD reason: execution disabled; productionReady: false; Phase D/E HOLD; tests commit requires human review
@@ -33,4 +33,4 @@ creating productivity pressure or autonomous acceleration.
 - No external API.
 - No execution scheduling.
 
-この範囲では問題を検出していません。
+縺薙・遽・峇縺ｧ縺ｯ蝠城｡後ｒ讀懷・縺励※縺・∪縺帙ｓ縲・

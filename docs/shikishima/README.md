@@ -1,4 +1,4 @@
-# Shikishima Roadmap Docs
+﻿# Shikishima Roadmap Docs
 
 This directory contains static documentation for the Shikishima plan.
 
@@ -29,9 +29,9 @@ network flow.
 - `ROADMAP_STATUS_SCHEMA.md` - human-readable status schema.
 - `PHASE_3_AGENT_PERMISSION_REVIEW.md` - Phase 3 human review package.
 - `PHASE_4_MODEL_ROUTER_REVIEW.md` - Phase 4 Model Router review package.
-- `PHASE_5_SHIZUME_POLICY_REVIEW.md` - Phase 5 しずめ policy review package.
+- `PHASE_5_SHIZUME_POLICY_REVIEW.md` - Phase 5 縺励★繧・policy review package.
 - `TSUMUGI_IMPLEMENTATION_WORKFLOW.md` - Phase 6 non-execution workflow.
-- `TSUMUGI_TASK_TEMPLATE.md` - つむぎ task intake template.
+- `TSUMUGI_TASK_TEMPLATE.md` - 縺､繧縺・task intake template.
 - `TSUMUGI_SAFE_PATCH_CHECKLIST.md` - safe patch checklist.
 - `SHIRUBE_LOGGING_POLICY.md` - redacted logging policy.
 - `SHIRUBE_HANDOFF_TEMPLATE.md` - handoff template.
@@ -79,7 +79,7 @@ network flow.
 - `EXPLORER_DASHBOARD_DESIGN.md` - Explorer-style static dashboard design.
 - `AGENT_DIRECTORY_DASHBOARD.md` - Agent Directory dashboard design.
 - `HUMAN_REVIEW_QUEUE_DESIGN.md` - Human Review Queue design.
-- `SHIRUBE_KNOWLEDGE_INDEX_DESIGN.md` - しるべ Knowledge Index design.
+- `SHIRUBE_KNOWLEDGE_INDEX_DESIGN.md` - 縺励ｋ縺ｹ Knowledge Index design.
 - `DEVELOPMENT_TEMPO_DASHBOARD.md` - Development Tempo dashboard design.
 - `SAFE_PROGRESS_VIEWS.md` - safe non-competitive progress views.
 - `REPOSITORY_HYGIENE_AUDIT.md` - v1.1.0 overall hygiene audit report.
@@ -94,12 +94,13 @@ network flow.
 - `GROUP_B_UNTRACKED_SOURCE_AUDIT.md` - v1.2.9 Group B untracked source audit.
 - `POST_V1_3_0_REFERENCE_AUDIT.md` - v1.3.1 post-migration hermes-desktop reference audit.
 - `UNTRACKED_WORKTREE_INVENTORY.md` - v1.3.1 untracked worktree classification.
-- `V2_GOAL_AND_TASK_PACK.md` - v2.0 goal definition + task pack v1.3.1→v2.0.
+- `V2_GOAL_AND_TASK_PACK.md` - v2.0 goal definition + task pack v1.3.1竊致2.0.
 - `V2_HOLD_GATE_MATRIX.md` - all HOLD gates with GO conditions.
-- `V2_IMPLEMENTATION_SEQUENCE.md` - linear task sequence v1.3.1→v2.0 with HOLD gates.
+- `V2_IMPLEMENTATION_SEQUENCE.md` - linear task sequence v1.3.1竊致2.0 with HOLD gates.
 - `SANDBOX_GITIGNORE_AUDIT.md` - v1.4.0 sandbox/.cursor/.claude gitignore audit.
 - `TESTS_ICHIKISHIMA_REVIEW_PACKAGE.md` - v1.5.0 tests/ichikishima review (66 files classified).
 - `TESTS_HERMES_REVIEW_PACKAGE.md` - v1.5.1 tests/hermes review (12 zone tests classified).
+- `DOCS_ICHIKISHIMA_MIGRATION_PLAN.md` - v1.6.0 docs/ichikishima migration plan (127 files classified).
 
 ## How To Review
 
@@ -188,11 +189,11 @@ v1.0.1 human static review record order:
 
 v1.1.0 repository hygiene audit review order:
 
-1. Review `REPOSITORY_HYGIENE_AUDIT.md` — overall audit findings.
-2. Review `NAMING_MIGRATION_CANDIDATES.md` — decide rename scope and phasing.
-3. Review `OBSOLETE_FILE_CANDIDATES.md` — decide delete/archive scope.
-4. Review `SECURITY_AND_SAFETY_AUDIT_NOTES.md` — confirm safety signals.
-5. Review `PROJECT_ALIGNMENT_REVIEW.md` — confirm alignment decisions.
+1. Review `REPOSITORY_HYGIENE_AUDIT.md` 窶・overall audit findings.
+2. Review `NAMING_MIGRATION_CANDIDATES.md` 窶・decide rename scope and phasing.
+3. Review `OBSOLETE_FILE_CANDIDATES.md` 窶・decide delete/archive scope.
+4. Review `SECURITY_AND_SAFETY_AUDIT_NOTES.md` 窶・confirm safety signals.
+5. Review `PROJECT_ALIGNMENT_REVIEW.md` 窶・confirm alignment decisions.
 6. Confirm v1.1.0 is audit-only; no renames or deletions approved.
 7. Confirm HOLD remains current after audit review.
 
@@ -262,10 +263,10 @@ documentation approval record preparation.
 
 ## Naming Rules
 
-- `しきしま` may use nickname `しき`.
-- `つむぎ` may use nickname `つむ`.
-- `しずめ`, `はじめ`, and `しるべ` have no nicknames.
-- The old code name `いちきしま` is internal historical context only.
+- `縺励″縺励∪` may use nickname `縺励″`.
+- `縺､繧縺餐 may use nickname `縺､繧`.
+- `縺励★繧～, `縺ｯ縺倥ａ`, and `縺励ｋ縺ｹ` have no nicknames.
+- The old code name `縺・■縺阪＠縺ｾ` is internal historical context only.
 
 ## Static-Only Verification Scope
 
@@ -289,4 +290,4 @@ Forbidden in this documentation task:
 - GO transition.
 - `productionReady: true`.
 
-この範囲では問題を検出していません。
+縺薙・遽・峇縺ｧ縺ｯ蝠城｡後ｒ讀懷・縺励※縺・∪縺帙ｓ縲・

@@ -1,4 +1,4 @@
-# Roadmap Status Schema
+﻿# Roadmap Status Schema
 
 This is a human-readable status schema only. It is not executable JSON schema
 and does not require tooling.
@@ -7,9 +7,9 @@ and does not require tooling.
 
 | Field | Meaning | Current value |
 |---|---|---|
-| roadmapVersion | visible roadmap version | v1.5.1 |
+| roadmapVersion | visible roadmap version | v1.6.0 |
 | lastUpdated | visible update date | 2026-05-12 |
-| latestUpdate | short update summary | tests/hermes review package added |
+| latestUpdate | short update summary | docs/ichikishima migration plan added |
 | currentDecision | current project decision | HOLD |
 | executionStatus | execution gate state | disabled |
 | productionReady | production readiness flag | false |
@@ -24,7 +24,7 @@ and does not require tooling.
 | protocolStatus | dashboard protocol status | HOLD / disabled / false flags |
 | agentDirectoryStatus | agent directory dashboard state | static_display_only |
 | humanReviewQueueStatus | human review queue state | pending_review |
-| knowledgeIndexStatus | しるべ index state | redacted_static_index |
+| knowledgeIndexStatus | 縺励ｋ縺ｹ index state | redacted_static_index |
 | developmentTempoStatus | tempo dashboard state | docs_only_summary |
 | safeProgressViewStatus | progress view state | non_competitive_static |
 | faceDesignStatus | face design state | current_preferred_direction_documented |
@@ -90,4 +90,4 @@ runtime behavior, execution permission, or production readiness.
 This schema describes documentation status. It does not enable execution and is
 not GO approval.
 
-この範囲では問題を検出していません。
+縺薙・遽・峇縺ｧ縺ｯ蝠城｡後ｒ讀懷・縺励※縺・∪縺帙ｓ縲・
