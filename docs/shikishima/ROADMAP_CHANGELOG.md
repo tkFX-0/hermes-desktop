@@ -1,4 +1,4 @@
-﻿# Shikishima Roadmap Changelog
+# Shikishima Roadmap Changelog
 
 ## Purpose
 
@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v2.9.0
+- roadmapVersion: v2.9.1
 - lastUpdated: 2026-05-12
-- latestUpdate: V10 preparation package completed
+- latestUpdate: Tomorrow review package v2.9.1 sync
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,13 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v2.9.1 - Tomorrow Review Package Sync
+
+- Synced Tomorrow review package docs (`TOMORROW_DEBUG_AND_REVIEW_PACKAGE.md`, `TOMORROW_GO_HOLD_DECISION_SHEET.md`, `TOMORROW_TEST_COMMIT_REVIEW_SHEET.md`) to reflect the current top roadmapVersion: v2.9.0.
+- Clarified that G-01/G-02/G-03 are not approved, and G-04 through G-24 are absolute HOLD.
+- DocumentVersion of those sheets remains v2.7.0, but the current v2.9.0 state is authoritative.
+- execution remains disabled, productionReady is false, and no git push was performed.
 
 ## v2.9.0 - V10 Preparation Package Completed
 

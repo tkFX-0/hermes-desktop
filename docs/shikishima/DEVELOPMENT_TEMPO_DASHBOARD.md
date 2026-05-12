@@ -1,4 +1,4 @@
-﻿# Development Tempo Dashboard
+# Development Tempo Dashboard
 
 ## Purpose
 
@@ -20,9 +20,9 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v2.9.0
-- latestUpdate: V10 preparation package completed
-- docs-only commits completed: local docs commits exist (v2.3.0–v2.9.0); 37 new docs in v2.8.x
+- roadmapVersion: v2.9.1
+- latestUpdate: Tomorrow review package v2.9.1 sync
+- docs-only commits completed: local docs commits exist (v2.3.0–v2.9.1); 37 new docs in v2.8.x
 - current next human action: read TOMORROW_DEBUG_AND_REVIEW_PACKAGE.md; issue GO G-01/G-02/G-03
 - HOLD reason: execution disabled; productionReady false; G-18/G-19 not issued; current Level = 0
 
