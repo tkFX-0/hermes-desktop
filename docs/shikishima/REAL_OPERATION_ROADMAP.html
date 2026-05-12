@@ -112,6 +112,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       <a href="#hold-gates" data-section="hold-gates">HOLD Gates</a>
       <a href="#autonomy-ladder" data-section="autonomy-ladder">Autonomy Ladder</a>
       <a href="#human-review-checklist" data-section="human-review-checklist">Human Review Checklist</a>
+      <a href="#v10-readiness" data-section="v10-readiness">v10 Readiness Board</a>
     </nav>
   </aside>
   <main>
@@ -123,7 +124,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">roadmapVersion: v2.7.0</span>
+        <span class="chip ok">roadmapVersion: v2.9.0</span>
         <span class="chip ok">lastUpdated: 2026-05-12</span>
       </div>
     </header>
@@ -132,11 +133,16 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div class="card status-card">
           <h2>譖ｴ譁ｰ繧ｹ繝・・繧ｿ繧ｹ</h2>
           <div class="kv">
-            <div>roadmapVersion</div><div><code>v2.7.0</code></div>
+            <div>roadmapVersion</div><div><code>v2.9.0</code></div>
             <div>lastUpdated</div><div><code>2026-05-12</code></div>
-            <div>latestUpdate</div><div>Non-execution implementation package completed</div>
+            <div>latestUpdate</div><div>V10 preparation package completed</div>
+            <div>currentLevel</div><div><code>Level 0 — docs-only</code></div>
+            <div>nextHumanAction</div><div>Read TOMORROW_DEBUG_AND_REVIEW_PACKAGE.md → issue GO G-01/G-02</div>
+            <div>nextGOCandidates</div><div><code>G-01 / G-02 / G-03</code></div>
             <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
             <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
+            <div>v2.9.0 note</div><div>v2.9.0: v3–v10 full preparation complete (v2.8.0–v2.8.7). 37 docs added across Tasks A–H. v3/v4/v5/v6/v7/v8/v9/v10 readiness packs, debug flows, stop conditions, approval templates. Current level: 0. All gates: HOLD.</div>
+            <div>v2.7.0 note</div><div>v2.7.0: Non-execution implementation package — 25 docs (Tasks A–E): V3 validation plan, dummy/WSL/Hermes plans, redacted templates, static dashboard sections, face terminal specs, pilot runbooks, tomorrow debug package.</div>
             <div>v2.2.0 note</div><div>v2.2.0: REAL_OPERATION_MASTER_ROADMAP.md + V3_TO_V10_TASK_TREE.md + REAL_OPERATION_HOLD_GATE_MATRIX.md (G-01–G-24) + HUMAN_REVIEW_DAY_RUNBOOK.md + PRODUCTION_READY_DEFINITION.md + CONTROLLED_PILOT_DEFINITION.md + SAFE_AUTONOMY_LADDER.md (Level 0–9) + DEVICE_AND_ROBOT_INTEGRATION_GATE.md + V3_IMPLEMENTATION_BACKLOG.md + REAL_OPERATION_ROLLBACK_AND_INCIDENT_PLAN.md. Full v3–v10 path defined. Current level: 0. HOLD.</div>
             <div>v2.1.0 note</div><div>v2.1.0: V3_GOAL_AND_TASK_PACK.md + V3_EXECUTION_VALIDATION_ROADMAP.md + V3_HOLD_GATE_MATRIX.md (19 gates) + V3_IMPLEMENTATION_SEQUENCE.md + REAL_OPERATION_PATH_TO_PRODUCTION.md (v3–v10) + V3_TEST_COMMIT_DECISION_MATRIX.md + V3_HUMAN_GO_CHECKLIST.md. v3.x goal defined. No execution. HOLD.</div>
             <div>v2.0 note</div><div>v2.0: V2_READINESS_PACKAGE.md + V2_REMAINING_HOLD_ITEMS.md + V3_EXECUTION_VALIDATION_PRECONDITIONS.md. All v2.0 tasks done. v3.x preconditions documented. HOLD remains. productionReady: false.</div>
@@ -181,7 +187,21 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       <section id="changelog">
         <h2>譖ｴ譁ｰ螻･豁ｴ / Changelog</h2>
         <div class="card">
-          <h3>v2.2.0 - Real operation path fully defined <span class="update-badge">latest</span></h3>
+          <h3>v2.9.0 - V10 preparation package completed <span class="update-badge">latest</span></h3>
+          <ul>
+            <li>Task A (v2.8.0): V3_TO_V10_IMPLEMENTATION_COMPLETION_PACK + READY_CHECKLIST + HUMAN_DECISION_MAP + DEBUG_FLOW</li>
+            <li>Task B (v2.8.1): V4 validation prep — command matrix, redacted checklist, failure-to-HOLD runbook</li>
+            <li>Task C (v2.8.2): V5 dry-run prep — local-only boundary, G-20 template, rollback runbook</li>
+            <li>Task D (v2.8.3): V6 wrapper/Hermes/WSL readiness — gate checklists, stop conditions, report templates</li>
+            <li>Task E (v2.8.4): V7 device display-only — StackChan not-connected check, face terminal UI review, rollback plan</li>
+            <li>Task F (v2.8.5): V8 non-I/O expressions — mouth/eye review sheets, voice intent label, audio/camera HOLD policy</li>
+            <li>Task G (v2.8.6): V9 pilot — final prep, one-run-only checklist, human monitoring, stop card</li>
+            <li>Task H (v2.8.7): V10 — final review pack (A–F), false confirmation, not-yet-granted notice, blocker matrix, audit template</li>
+            <li>Renderer src: HOLD (not modified); static HTML sections added only. All gates HOLD. productionReady: false.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>v2.2.0 - Real operation path fully defined</h3>
           <ul>
             <li>REAL_OPERATION_MASTER_ROADMAP.md: v3–v10 master roadmap; productionReady false at every stage; G-18 only path.</li>
             <li>V3_TO_V10_TASK_TREE.md: hierarchical task breakdown; docs/code/cmd/hw classified per stage.</li>
@@ -1179,6 +1199,49 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
           <div class="phase"><div><span class="phase-num">Level 7</span><span class="badge hold">HOLD</span></div><div class="phase-title">Display-only Device</div><p class="role">Face terminal; StackChan display. robotMotion HOLD.</p><ul><li>GO required: G-14 + hardware safety review</li></ul></div>
           <div class="phase"><div><span class="phase-num">Level 8</span><span class="badge hold">HOLD</span></div><div class="phase-title">Controlled Pilot</div><p class="role">Single supervised run; human-in-loop; immediate stop.</p><ul><li>GO required: G-23 per run</li></ul></div>
           <div class="phase"><div><span class="phase-num">Level 9</span><span class="badge hold">HOLD</span></div><div class="phase-title">Production Readiness</div><p class="role">Final review; G-18 + G-19 final human approval only.</p><ul><li>productionReady: true ONLY via G-18</li></ul></div>
+        </div>
+      </section>
+      <section id="v10-readiness">
+        <h2>v3→v10 Preparation Readiness Board</h2>
+        <div class="card status-card">
+          <div class="kv">
+            <div>currentLevel</div><div><code>Level 0 — docs-only</code></div>
+            <div>productionReady</div><div><code class="chip false">false</code></div>
+            <div>execution</div><div><code class="chip off">disabled</code></div>
+            <div>robotMotion</div><div><code class="chip hold">HOLD</code></div>
+            <div>G-18</div><div><code>not issued</code></div>
+            <div>G-19</div><div><code>not issued</code></div>
+            <div>StackChan</div><div><code>purchased — NOT connected</code></div>
+            <div>nextAction</div><div>Read TOMORROW_DEBUG_AND_REVIEW_PACKAGE.md → issue G-01/G-02</div>
+          </div>
+        </div>
+        <table>
+          <tr><th>Stage</th><th>Preparation</th><th>Execution Gate</th></tr>
+          <tr><td>v3</td><td><span style="color:var(--green)">✓ All docs created</span></td><td>G-01/G-02/G-03–G-08 — HOLD</td></tr>
+          <tr><td>v4</td><td><span style="color:var(--green)">✓ Prep package complete</span></td><td>G-06/G-07 — HOLD</td></tr>
+          <tr><td>v5</td><td><span style="color:var(--green)">✓ Dry-run prep complete</span></td><td>G-20 — HOLD</td></tr>
+          <tr><td>v6</td><td><span style="color:var(--green)">✓ WSL/Hermes pack complete</span></td><td>G-09–G-12 — HOLD</td></tr>
+          <tr><td>v7</td><td><span style="color:var(--green)">✓ Device display-only pack complete</span></td><td>G-14 — HOLD (hardware safety review)</td></tr>
+          <tr><td>v8</td><td><span style="color:var(--green)">✓ Non-I/O expression pack complete</span></td><td>G-15/G-16 — HOLD</td></tr>
+          <tr><td>v9</td><td><span style="color:var(--green)">✓ Pilot final prep complete</span></td><td>G-23 — HOLD (one-run-only)</td></tr>
+          <tr><td>v10</td><td><span style="color:var(--green)">✓ Final review pack complete</span></td><td>G-18/G-19 — HOLD (human only)</td></tr>
+        </table>
+        <div class="card" style="margin-top:16px;">
+          <h3>Release Blockers (v10)</h3>
+          <div class="bad-list">
+            <div class="bad">tests not committed (G-01/G-02)</div>
+            <div class="bad">typecheck not run (G-03/G-04)</div>
+            <div class="bad">vitest not run (G-06)</div>
+            <div class="bad">Hermes not validated (G-12)</div>
+            <div class="bad">StackChan not connected (G-14)</div>
+            <div class="bad">pilot not run (G-23)</div>
+            <div class="bad">G-18 not issued (human only)</div>
+            <div class="bad">G-19 not issued (human only)</div>
+          </div>
+        </div>
+        <div class="card">
+          <p>See <code>V10_RELEASE_BLOCKER_MATRIX.md</code> for full blocker list and resolution order.</p>
+          <p>See <code>V3_TO_V10_IMPLEMENTATION_COMPLETION_PACK.md</code> for DONE/READY/AFTER-GO/HOLD per stage.</p>
         </div>
       </section>
       <section id="human-review-checklist">

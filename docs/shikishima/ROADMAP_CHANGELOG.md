@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v2.7.0
+- roadmapVersion: v2.9.0
 - lastUpdated: 2026-05-12
-- latestUpdate: Non-execution implementation package completed
+- latestUpdate: V10 preparation package completed
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,20 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v2.9.0 - V10 Preparation Package Completed
+
+- Task A (v2.8.0): V3_TO_V10_IMPLEMENTATION_COMPLETION_PACK.md + READY_CHECKLIST + HUMAN_DECISION_MAP + DEBUG_FLOW. Full DONE/READY/AFTER-GO/HOLD status per stage.
+- Task B (v2.8.1): V4 local validation prep — command matrix; redacted result checklist; failure-to-HOLD runbook.
+- Task C (v2.8.2): V5 dry-run prep — local-only value boundary; G-20 approval template; rollback runbook.
+- Task D (v2.8.3): V6 WSL/Hermes/wrapper readiness — gate checklists G-09–G-12; stop conditions; redacted report templates.
+- Task E (v2.8.4): V7 device display-only — StackChan not-connected checklist; face terminal static UI review; rollback plan.
+- Task F (v2.8.5): V8 non-I/O expressions — mouth/eye/voice intent review sheets; audio/camera/mic HOLD policy.
+- Task G (v2.8.6): V9 pilot — final prep; one-run-only checklist; human monitoring checklist; stop and rollback card.
+- Task H (v2.8.7): V10 — final review pack; false confirmation; not-yet-granted notice; release blocker matrix; audit template.
+- Task I (v2.9.0): HTML v10 readiness board + new nav section; roadmap v2.9.0; 37 docs total across v2.8.x.
+- Renderer src: HOLD — not modified; all HTML additions are static display-only.
+- productionReady: false. G-18/G-19: not issued. Current Level: 0.
 
 ## v2.7.0 - Non-Execution Implementation Package Completed
 

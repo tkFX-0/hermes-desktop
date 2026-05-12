@@ -145,6 +145,40 @@ network flow.
 - `TOMORROW_COMMAND_EXECUTION_BOUNDARY.md` - v2.7.0 allowed/GO-required/forbidden command reference.
 - `TOMORROW_STACKCHAN_BOUNDARY_CHECK.md` - v2.7.0 StackChan physical status; daily boundary confirmation.
 - `TOMORROW_TEST_COMMIT_REVIEW_SHEET.md` - v2.7.0 test file review checklist; pre-stage final check.
+- `V3_TO_V10_IMPLEMENTATION_COMPLETION_PACK.md` - v2.8.0 DONE/READY/AFTER-GO/HOLD status per stage v3–v10.
+- `V3_TO_V10_READY_CHECKLIST.md` - v2.8.0 entry/exit conditions per stage; current readiness status.
+- `V3_TO_V10_HUMAN_DECISION_MAP.md` - v2.8.0 all human GO decisions mapped by stage; agent cannot issue GO.
+- `V3_TO_V10_DEBUG_FLOW.md` - v2.8.0 per-stage debug flows; universal debug rules.
+- `V4_LOCAL_VALIDATION_PREP_PACKAGE.md` - v2.8.1 v4 entry/exit; validation order; remediation priority.
+- `V4_VALIDATION_COMMAND_MATRIX.md` - v2.8.1 typecheck/eslint/vitest/build command matrix with GO/STOP.
+- `V4_REDACTED_RESULT_CHECKLIST.md` - v2.8.1 per-command redaction checklist; classification table.
+- `V4_FAILURE_TO_HOLD_RUNBOOK.md` - v2.8.1 automatic HOLD conditions; return procedure; fix guidelines.
+- `V5_LOCAL_ONLY_DRY_RUN_PREP.md` - v2.8.2 v5 entry/exit; verification; stop conditions.
+- `V5_LOCAL_ONLY_VALUE_BOUNDARY_CHECKLIST.md` - v2.8.2 local-only value definitions; pre-run and during-run checks.
+- `V5_DRY_RUN_APPROVAL_TEMPLATE.md` - v2.8.2 G-20 template; human-only; run scope and duration.
+- `V5_DRY_RUN_ROLLBACK_RUNBOOK.md` - v2.8.2 rollback triggers; P0/P1 actions; re-run conditions.
+- `V6_WRAPPER_HERMES_WSL_READINESS_PACK.md` - v2.8.3 entry/exit; gate sequence G-09→G-12; safety rules.
+- `V6_WRAPPER_EXECUTION_GATE_CHECKLIST.md` - v2.8.3 G-09/G-10/G-11/G-12 checklists with GO templates.
+- `V6_WSL_HERMES_STOP_CONDITIONS.md` - v2.8.3 universal and per-process stop conditions; timeouts; emergency stop.
+- `V6_REDACTED_EXECUTION_REPORT_TEMPLATE.md` - v2.8.3 fill-in templates for dummy/wrapper/WSL/Hermes results.
+- `V7_DEVICE_DISPLAY_ONLY_READINESS_PACK.md` - v2.8.4 entry/exit; display-only allowed/forbidden; StackChan NOT connected.
+- `V7_STACKCHAN_NOT_CONNECTED_CHECKLIST.md` - v2.8.4 daily physical status check; G-14 pre-conditions.
+- `V7_FACE_TERMINAL_STATIC_UI_REVIEW.md` - v2.8.4 component review; safety labels; before/after G-14 tests.
+- `V7_DISPLAY_ONLY_ROLLBACK_PLAN.md` - v2.8.4 P0/P1/P2 triggers; rollback steps; re-run conditions.
+- `V8_NON_IO_EXPRESSION_IMPLEMENTATION_PACK.md` - v2.8.5 entry/exit; implementation status; what can be coded now.
+- `V8_MOUTH_PATTERN_REVIEW_SHEET.md` - v2.8.5 frame sequence; timer vs audio modes; review checklist.
+- `V8_EYE_GAZE_REVIEW_SHEET.md` - v2.8.5 gaze offsets; blink cycle; camera HOLD confirmed.
+- `V8_VOICE_INTENT_LABEL_REVIEW_SHEET.md` - v2.8.5 labels as display-only; label != real state; safety disclaimer.
+- `V8_AUDIO_CAMERA_MIC_HOLD_POLICY.md` - v2.8.5 G-15/G-16 HOLD table; code-level forbidden list.
+- `V9_CONTROLLED_PILOT_FINAL_PREP.md` - v2.8.6 prep status; what remains; before G-23 conditions.
+- `V9_ONE_RUN_ONLY_CHECKLIST.md` - v2.8.6 before/during/after checklist; auto-repeat prohibition.
+- `V9_HUMAN_MONITORING_CHECKLIST.md` - v2.8.6 monitor role; 30s cadence; after-run checklist.
+- `V9_PILOT_STOP_AND_ROLLBACK_CARD.md` - v2.8.6 stop triggers; how to stop; P0/P1/P2 rollback levels.
+- `V10_PRODUCTION_READINESS_FINAL_REVIEW_PACK.md` - v2.8.7 sections A–F all HOLD; G-18 decision criteria.
+- `V10_PRODUCTION_READY_FALSE_CONFIRMATION.md` - v2.8.7 explicit false confirmation; history table.
+- `V10_FINAL_APPROVAL_NOT_YET_GRANTED_NOTICE.md` - v2.8.7 G-18/G-19 not issued; what they require.
+- `V10_RELEASE_BLOCKER_MATRIX.md` - v2.8.7 categories A–C; non-blockers; resolution order.
+- `V10_PRE_PRODUCTION_AUDIT_TEMPLATE.md` - v2.8.7 6-section fill-in audit; PASS/FAIL; G-18-gated conclusion.
 
 ## How To Review
 
