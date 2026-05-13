@@ -39,7 +39,10 @@ function Models(): React.JSX.Element {
   }, []);
 
   useEffect(() => {
-    loadModels();
+    const timer = window.setTimeout(() => {
+      void loadModels();
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, [loadModels]);
 
   function openAddModal(): void {

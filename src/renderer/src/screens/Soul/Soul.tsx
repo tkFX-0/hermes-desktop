@@ -27,7 +27,10 @@ function Soul({ profile }: SoulProps): React.JSX.Element {
   }, [profile]);
 
   useEffect(() => {
-    loadSoul();
+    const timer = window.setTimeout(() => {
+      void loadSoul();
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, [loadSoul]);
 
   const saveSoul = useCallback(

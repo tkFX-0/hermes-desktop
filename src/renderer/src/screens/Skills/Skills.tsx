@@ -55,7 +55,10 @@ function Skills({ profile }: SkillsProps): React.JSX.Element {
   }, [loadInstalled, loadBundled]);
 
   useEffect(() => {
-    loadAll();
+    const timer = window.setTimeout(() => {
+      void loadAll();
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, [loadAll]);
 
   async function handleViewDetail(skill: InstalledSkill): Promise<void> {

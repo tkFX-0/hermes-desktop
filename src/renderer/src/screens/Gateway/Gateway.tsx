@@ -22,7 +22,10 @@ function Gateway({ profile }: { profile?: string }): React.JSX.Element {
   }, [profile]);
 
   useEffect(() => {
-    loadConfig();
+    const timer = window.setTimeout(() => {
+      void loadConfig();
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, [loadConfig]);
 
   // Poll gateway status (10s interval to reduce IPC overhead)

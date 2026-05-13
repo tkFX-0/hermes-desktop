@@ -57,7 +57,10 @@ function Agents({
   }, []);
 
   useEffect(() => {
-    loadProfiles();
+    const timer = window.setTimeout(() => {
+      void loadProfiles();
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, [loadProfiles]);
 
   async function handleCreate(): Promise<void> {
