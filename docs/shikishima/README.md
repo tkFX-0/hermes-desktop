@@ -179,6 +179,7 @@ network flow.
 - `V10_FINAL_APPROVAL_NOT_YET_GRANTED_NOTICE.md` - v2.8.7 G-18/G-19 not issued; what they require.
 - `V10_RELEASE_BLOCKER_MATRIX.md` - v2.8.7 categories A–C; non-blockers; resolution order.
 - `V10_PRE_PRODUCTION_AUDIT_TEMPLATE.md` - v2.8.7 6-section fill-in audit; PASS/FAIL; G-18-gated conclusion.
+- `openspec-lite/README.md` - no-install Markdown-only development note templates for HOLD-safe task handoffs.
 
 ## How To Review
 
