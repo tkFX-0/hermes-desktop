@@ -58,14 +58,21 @@ function App(): React.JSX.Element {
 
   // Run install check during splash
   useEffect(() => {
-    runInstallCheck();
+    const timer = window.setTimeout(() => {
+      void runInstallCheck();
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, [runInstallCheck]);
 
   // Transition away from splash when both animation and install check are done
   useEffect(() => {
     if (splashDone && nextScreen) {
-      setScreen(nextScreen);
+      const timer = window.setTimeout(() => {
+        setScreen(nextScreen);
+      }, 0);
+      return () => window.clearTimeout(timer);
     }
+    return undefined;
   }, [splashDone, nextScreen]);
 
   const handleSplashFinished = useCallback(() => {
