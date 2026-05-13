@@ -174,8 +174,11 @@ function Settings({
   }, [profile]);
 
   useEffect(() => {
-    modelLoaded.current = false;
-    loadConfig();
+    const timer = window.setTimeout(() => {
+      modelLoaded.current = false;
+      void loadConfig();
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, [loadConfig]);
 
   // Refresh model config when the settings screen becomes visible
