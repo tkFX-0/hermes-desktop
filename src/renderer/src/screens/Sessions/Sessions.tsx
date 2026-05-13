@@ -174,18 +174,23 @@ function Sessions({
   }, []);
 
   useEffect(() => {
-    loadSessions();
+    const timer = window.setTimeout(() => {
+      void loadSessions();
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, [loadSessions]);
 
   useEffect(() => {
     if (searchTimer.current) clearTimeout(searchTimer.current);
     if (!searchQuery.trim()) {
-      setSearchResults([]);
-      setIsSearching(false);
+      searchTimer.current = setTimeout(() => {
+        setSearchResults([]);
+        setIsSearching(false);
+      }, 0);
       return;
     }
-    setIsSearching(true);
     searchTimer.current = setTimeout(async () => {
+      setIsSearching(true);
       const results = await window.hermesAPI.searchSessions(searchQuery);
       setSearchResults(results);
       setIsSearching(false);
