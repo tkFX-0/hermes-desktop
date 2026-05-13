@@ -20,11 +20,11 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v2.9.2
-- latestUpdate: Human Review Ready candidate package added
-- docs-only commits completed: local docs commits exist (v2.3.0 through v2.9.2); 37 new docs in v2.8.x
+- roadmapVersion: v2.9.3
+- latestUpdate: Pre-Operation Readiness candidate package added
+- docs-only commits completed: local docs commits exist (v2.3.0 through v2.9.3); 37 new docs in v2.8.x
 - validation road: G-05 ESLint PASS candidate; G-06 vitest PASS candidate; G-07 local build PASS candidate
-- current next human action: review HUMAN_REVIEW_READY_PACKAGE.md and decide whether to accept the PASS candidates
+- current next human action: review HUMAN_REVIEW_DECISION_SHEET.md and PRE_OPERATION_READINESS_GATE.md before any scoped GO
 - HOLD reason: execution disabled; productionReady false; git push not approved; G-18/G-19 not issued; current Level = 0
 
 ## Boundaries

@@ -147,6 +147,9 @@ network flow.
 - `TOMORROW_TEST_COMMIT_REVIEW_SHEET.md` - v2.7.0 test file review checklist; pre-stage final check.
 - `HUMAN_REVIEW_READY_PACKAGE.md` - v2.9.2 local validation review-ready candidate package.
 - `VALIDATION_PASS_CANDIDATE_SUMMARY.md` - v2.9.2 G-05/G-06/G-07 PASS candidate summary.
+- `HUMAN_REVIEW_DECISION_SHEET.md` - v2.9.3 human decision sheet for accepting or holding validation candidates.
+- `PRE_OPERATION_READINESS_GATE.md` - v2.9.3 pre-operation gate and STOP conditions.
+- `CONTROLLED_PILOT_PLAN.md` - v2.9.3 design-only controlled pilot plan; Level 0 remains current.
 - `V3_TO_V10_IMPLEMENTATION_COMPLETION_PACK.md` - v2.8.0 DONE/READY/AFTER-GO/HOLD status per stage v3–v10.
 - `V3_TO_V10_READY_CHECKLIST.md` - v2.8.0 entry/exit conditions per stage; current readiness status.
 - `V3_TO_V10_HUMAN_DECISION_MAP.md` - v2.8.0 all human GO decisions mapped by stage; agent cannot issue GO.
@@ -196,6 +199,18 @@ road. Recommended review order:
 This review package is not GO approval. git push, execution, Cloudflare,
 productionReady true, device operation, and raw-value handling remain separate
 human-only decisions.
+
+## Pre-Operation Readiness Candidate
+
+v2.9.3 adds the next review gate:
+
+1. `HUMAN_REVIEW_DECISION_SHEET.md`
+2. `PRE_OPERATION_READINESS_GATE.md`
+3. `CONTROLLED_PILOT_PLAN.md`
+
+These documents prepare the human review path toward a future scoped GO. They
+do not approve operation, execution, git push, Cloudflare, device access, raw
+values, or productionReady true.
 
 ## How To Review
 

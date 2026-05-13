@@ -97,6 +97,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       <a class="active" href="#roadmap" data-section="roadmap">繝輔ぉ繝ｼ繧ｺ荳隕ｧ</a>
       <a href="#changelog" data-section="changelog">譖ｴ譁ｰ螻･豁ｴ</a>
       <a href="#human-review-ready" data-section="human-review-ready">Human Review Ready</a>
+      <a href="#pre-operation" data-section="pre-operation">Pre-Operation Gate</a>
       <a href="#explorer-dashboard" data-section="explorer-dashboard">Explorer Dashboard</a>
       <a href="#minimal-face" data-section="minimal-face">Dot-Line Face</a>
       <a href="#voice-face" data-section="voice-face">Voice / Mouth / Eye</a>
@@ -125,7 +126,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">roadmapVersion: v2.9.2</span>
+        <span class="chip ok">roadmapVersion: v2.9.3</span>
         <span class="chip ok">lastUpdated: 2026-05-13</span>
       </div>
     </header>
@@ -134,14 +135,15 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div class="card status-card">
           <h2>譖ｴ譁ｰ繧ｹ繝・・繧ｿ繧ｹ</h2>
           <div class="kv">
-            <div>roadmapVersion</div><div><code>v2.9.2</code></div>
+            <div>roadmapVersion</div><div><code>v2.9.3</code></div>
             <div>lastUpdated</div><div><code>2026-05-13</code></div>
-            <div>latestUpdate</div><div>Human Review Ready candidate package added</div>
+            <div>latestUpdate</div><div>Pre-Operation Readiness candidate package added</div>
             <div>currentLevel</div><div><code>Level 0 — docs-only</code></div>
             <div>nextHumanAction</div><div>Review HUMAN_REVIEW_READY_PACKAGE.md and decide whether to accept PASS candidates</div>
             <div>nextGOCandidates</div><div><code>G-01 / G-02 / G-03</code></div>
             <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
             <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
+            <div>v2.9.3 note</div><div>v2.9.3: Pre-Operation Readiness Candidate package added. Human decision sheet, pre-operation gate, and controlled pilot plan are review support only. HOLD remains current. No GO. No git push. No execution. productionReady=false.</div>
             <div>v2.9.2 note</div><div>v2.9.2: Human Review Ready Candidate package added. G-05 ESLint, typecheck reconfirmation, G-06 vitest, and G-07 local build are PASS candidates for human review only. HOLD remains current. No git push. No execution. productionReady=false.</div>
             <div>v2.9.0 note</div><div>v2.9.0: v3–v10 full preparation complete (v2.8.0–v2.8.7). 37 docs added across Tasks A–H. v3/v4/v5/v6/v7/v8/v9/v10 readiness packs, debug flows, stop conditions, approval templates. Current level: 0. All gates: HOLD.</div>
             <div>v2.7.0 note</div><div>v2.7.0: Non-execution implementation package — 25 docs (Tasks A–E): V3 validation plan, dummy/WSL/Hermes plans, redacted templates, static dashboard sections, face terminal specs, pilot runbooks, tomorrow debug package.</div>
@@ -189,7 +191,17 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       <section id="changelog">
         <h2>譖ｴ譁ｰ螻･豁ｴ / Changelog</h2>
         <div class="card">
-          <h3>v2.9.2 - Human Review Ready candidate package <span class="update-badge">latest</span></h3>
+          <h3>v2.9.3 - Pre-Operation Readiness candidate package <span class="update-badge">latest</span></h3>
+          <ul>
+            <li>Added HUMAN_REVIEW_DECISION_SHEET.md.</li>
+            <li>Added PRE_OPERATION_READINESS_GATE.md.</li>
+            <li>Added CONTROLLED_PILOT_PLAN.md.</li>
+            <li>Pre-Operation Readiness Candidate is review support only and does not approve operation.</li>
+            <li>HOLD remains current. execution remains disabled. productionReady remains false.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>v2.9.2 - Human Review Ready candidate package</h3>
           <ul>
             <li>Added HUMAN_REVIEW_READY_PACKAGE.md.</li>
             <li>Added VALIDATION_PASS_CANDIDATE_SUMMARY.md.</li>
@@ -675,6 +687,24 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         </div>
         <div class="card verify">
           <strong>Review boundary:</strong> Human Review Ready Candidate means the local validation road is ready to review. It does not authorize deployment, external services, secrets, raw values, robots, voice, camera, mic, or production operation.
+        </div>
+      </section>
+      <section id="pre-operation">
+        <h2>Pre-Operation Readiness Candidate</h2>
+        <div class="card status-card">
+          <h3>Human GO required</h3>
+          <p>This gate prepares the materials needed for a future human decision. It does not approve operation, execution, git push, Cloudflare, devices, robots, voice, camera, mic, secrets, raw values, or production readiness.</p>
+          <div class="kv">
+            <div>Human decision sheet</div><div><code>HUMAN_REVIEW_DECISION_SHEET.md</code></div>
+            <div>Pre-operation gate</div><div><code>PRE_OPERATION_READINESS_GATE.md</code></div>
+            <div>Controlled pilot plan</div><div><code>CONTROLLED_PILOT_PLAN.md</code></div>
+            <div>current pilot level</div><div><code>Level 0 — documentation-only</code></div>
+            <div>operational GO</div><div><code>not approved</code></div>
+            <div>required next action</div><div>Human reviews the decision sheet and either accepts candidates, requests rework, holds, or rejects operational progression.</div>
+          </div>
+        </div>
+        <div class="card verify">
+          <strong>STOP boundary:</strong> stop before productionReady true, execution enabled, git push, deploy, Cloudflare, OpenSpec CLI, install/npx, WSL/Hermes/wrapper/dummy, robots, voice, camera, mic, secrets, raw values, or repo-external writes.
         </div>
       </section>
       <section id="explorer-dashboard">

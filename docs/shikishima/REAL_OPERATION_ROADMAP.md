@@ -2,9 +2,9 @@
 
 ## Update Status
 
-- roadmapVersion: v2.9.2
+- roadmapVersion: v2.9.3
 - lastUpdated: 2026-05-13
-- latestUpdate: Human Review Ready candidate package added
+- latestUpdate: Pre-Operation Readiness candidate package added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - changelog: `ROADMAP_CHANGELOG.md`
 - phase review: `PHASE_REVIEW_MATRIX.md`
@@ -47,6 +47,21 @@ Review files:
 
 - `HUMAN_REVIEW_READY_PACKAGE.md`
 - `VALIDATION_PASS_CANDIDATE_SUMMARY.md`
+
+## Pre-Operation Readiness Candidate
+
+v2.9.3 adds the next review gate. This gate is still documentation and
+decision-support only.
+
+Review files:
+
+- `HUMAN_REVIEW_DECISION_SHEET.md`
+- `PRE_OPERATION_READINESS_GATE.md`
+- `CONTROLLED_PILOT_PLAN.md`
+
+Pre-Operation Readiness Candidate does not approve operation, GO, git push,
+Cloudflare, execution, device operation, secrets, raw values, or
+productionReady true.
 
 v1.0.0 is a Static Design Review Package. It is not productionReady, not GO
 approval, not execution approval, not device connection approval, and not

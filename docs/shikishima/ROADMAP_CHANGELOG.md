@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v2.9.2
+- roadmapVersion: v2.9.3
 - lastUpdated: 2026-05-13
-- latestUpdate: Human Review Ready candidate package added
+- latestUpdate: Pre-Operation Readiness candidate package added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,15 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v2.9.3 - Pre-Operation Readiness Candidate Package
+
+- Added `HUMAN_REVIEW_DECISION_SHEET.md` for explicit human review decisions.
+- Added `PRE_OPERATION_READINESS_GATE.md` to define the pre-operation gate and STOP conditions.
+- Added `CONTROLLED_PILOT_PLAN.md` as a design-only pilot plan.
+- Pre-Operation Readiness Candidate may be reviewed by a human, but it is not operation approval.
+- HOLD remains current. execution remains disabled. productionReady remains false.
+- git push, Cloudflare, OpenSpec CLI, npm install, npx, device operation, and production readiness remain not approved.
 
 ## v2.9.2 - Human Review Ready Candidate Package
 

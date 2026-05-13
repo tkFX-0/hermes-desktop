@@ -7,9 +7,9 @@ and does not require tooling.
 
 | Field | Meaning | Current value |
 |---|---|---|
-| roadmapVersion | visible roadmap version | v2.9.2 |
+| roadmapVersion | visible roadmap version | v2.9.3 |
 | lastUpdated | visible update date | 2026-05-13 |
-| latestUpdate | short update summary | Human Review Ready candidate package added |
+| latestUpdate | short update summary | Pre-Operation Readiness candidate package added |
 | currentDecision | current project decision | HOLD |
 | executionStatus | execution gate state | disabled |
 | productionReady | production readiness flag | false |
@@ -75,6 +75,10 @@ and does not require tooling.
 | validationCandidateInterpretation | meaning of PASS candidate | ready_for_human_review_not_GO |
 | gitPushApprovalStatus | git push approval state | not_approved |
 | cloudflareApprovalStatus | Cloudflare approval state | deferred_not_approved |
+| humanReviewDecisionSheetStatus | human decision sheet state | created_not_accepted |
+| preOperationReadinessStatus | pre-operation readiness state | candidate_created_not_GO |
+| controlledPilotPlanStatus | controlled pilot plan state | design_only_level_0 |
+| operationalGoStatus | operational GO state | not_approved |
 
 ## Status Values
 
