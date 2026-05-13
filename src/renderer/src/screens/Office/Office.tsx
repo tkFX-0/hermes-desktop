@@ -46,9 +46,12 @@ function Office({ visible }: { visible?: boolean }): React.JSX.Element {
   const startingRef = useRef(starting);
   const runningRef = useRef(running);
   const errorRef = useRef(error);
-  startingRef.current = starting;
-  runningRef.current = running;
-  errorRef.current = error;
+
+  useEffect(() => {
+    startingRef.current = starting;
+    runningRef.current = running;
+    errorRef.current = error;
+  }, [starting, running, error]);
 
   const checkStatus = useCallback(async (): Promise<void> => {
     setState("checking");
@@ -67,7 +70,10 @@ function Office({ visible }: { visible?: boolean }): React.JSX.Element {
   }, []);
 
   useEffect(() => {
-    checkStatus();
+    const timer = window.setTimeout(() => {
+      void checkStatus();
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, [checkStatus]);
 
   // Poll status only when tab is visible and in ready state
