@@ -18,23 +18,33 @@ import {
 describe("approval queue JSONL persistence", () => {
   const projectRoot = path.resolve(__dirname, "../../..");
   const zoneRoot = path.join(projectRoot, "sandbox", "hermes-autonomy-zone");
-  const approvalSubdirectory = `.vitest-apq-${randomUUID()}`;
   const dateUtc = "2099-05-06";
-  const opts = {
-    projectRoot,
-    zoneRoot,
-    approvalSubdirectory,
-    dateUtc,
+
+  const createdApprovalSubdirectories = new Set<string>();
+
+  const createOpts = () => {
+    const approvalSubdirectory = `.vitest-apq-${randomUUID()}`;
+    createdApprovalSubdirectories.add(approvalSubdirectory);
+    return {
+      projectRoot,
+      zoneRoot,
+      approvalSubdirectory,
+      dateUtc,
+    };
   };
 
-  afterEach(() =>
-    rmSync(path.join(zoneRoot, approvalSubdirectory), {
-      recursive: true,
-      force: true,
-    }),
-  );
+  afterEach(() => {
+    for (const approvalSubdirectory of createdApprovalSubdirectories) {
+      rmSync(path.join(zoneRoot, approvalSubdirectory), {
+        recursive: true,
+        force: true,
+      });
+    }
+    createdApprovalSubdirectories.clear();
+  });
 
   it("stores two snapshots as appended lines without replacing file", () => {
+    const opts = createOpts();
     const firstId = randomUUID();
     const secondId = randomUUID();
     const a = createApprovalQueueItem({
@@ -86,6 +96,7 @@ describe("approval queue JSONL persistence", () => {
   });
 
   it("merges approvals by newest snapshot with append-only lifecycle", () => {
+    const opts = createOpts();
     const first = createApprovalQueueItem({
       source: "manual",
       actor: "user",
@@ -124,6 +135,8 @@ describe("approval queue JSONL persistence", () => {
   });
 
   it("rejects parent-segment subdirectory escapes like audit store", () => {
+    const opts = createOpts();
+    const { approvalSubdirectory } = opts;
     const item = createApprovalQueueItem({
       source: "manual",
       actor: "system",
@@ -148,6 +161,8 @@ describe("approval queue JSONL persistence", () => {
   });
 
   it("rejects denialist-aligned approval subdirectory patterns", () => {
+    const opts = createOpts();
+    const { approvalSubdirectory } = opts;
     const item = createApprovalQueueItem({
       source: "manual",
       actor: "system",
@@ -172,6 +187,7 @@ describe("approval queue JSONL persistence", () => {
   });
 
   it("produces sanitize-friendly audit payloads that saveAuditLog accepts", () => {
+    const opts = createOpts();
     const auditSd = `.vitest-apq-audit-${randomUUID()}`;
     const draft = createApprovalQueueItem({
       source: "operation_block",
@@ -218,6 +234,8 @@ describe("approval queue JSONL persistence", () => {
   });
 
   it("appends seeded JSON alongside prior rows without overwriting", () => {
+    const opts = createOpts();
+    const { approvalSubdirectory } = opts;
     mkdirSync(path.join(zoneRoot, approvalSubdirectory), {
       recursive: true,
     });
