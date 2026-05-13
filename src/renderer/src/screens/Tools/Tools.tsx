@@ -274,7 +274,10 @@ function Tools({ profile }: ToolsProps): React.JSX.Element {
   }, [profile]);
 
   useEffect(() => {
-    loadToolsets();
+    const timer = window.setTimeout(() => {
+      void loadToolsets();
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, [loadToolsets]);
 
   async function handleToggle(
