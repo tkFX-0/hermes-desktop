@@ -22,7 +22,12 @@ describe("approval queue JSONL persistence", () => {
 
   const createdApprovalSubdirectories = new Set<string>();
 
-  const createOpts = () => {
+  const createOpts = (): {
+    projectRoot: string;
+    zoneRoot: string;
+    approvalSubdirectory: string;
+    dateUtc: string;
+  } => {
     const approvalSubdirectory = `.vitest-apq-${randomUUID()}`;
     createdApprovalSubdirectories.add(approvalSubdirectory);
     return {
