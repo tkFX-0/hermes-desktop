@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { useTheme } from "../../components/ThemeProvider";
+import { useTheme } from "../../components/theme-context";
 import { SETTINGS_SECTIONS, PROVIDERS, THEME_OPTIONS } from "../../constants";
 import { useI18n } from "../../components/useI18n";
 import { Download, Upload, FileText } from "lucide-react";
