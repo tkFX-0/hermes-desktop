@@ -2,9 +2,13 @@
 
 This example shows how to use OpenSpec-Lite for a narrow ESLint task without drifting into unrelated changes.
 
+## Task Name
+
+G-05 Batch A scoped ESLint検証
+
 ## Purpose
 
-Fix only the low-risk Batch A ESLint issues in three files, then commit only those files if scoped verification passes.
+Fix and verify only the low-risk Batch A ESLint issues in three files, then commit only those files if scoped verification passes.
 
 ## Current State
 
@@ -14,6 +18,9 @@ Fix only the low-risk Batch A ESLint issues in three files, then commit only tho
 - G-07: HOLD
 - git push: not approved
 - `--fix`: not approved
+- npm install: HOLD
+- npx: HOLD
+- dependency update: HOLD
 
 ## Files Allowed To Touch
 
@@ -40,6 +47,9 @@ Fix only the low-risk Batch A ESLint issues in three files, then commit only tho
 - build
 - typecheck
 - package install
+- npm install
+- npx
+- dependency update
 - package update
 - WSL
 - Hermes
@@ -62,6 +72,7 @@ Fix only the low-risk Batch A ESLint issues in three files, then commit only tho
 - an out-of-scope file would need changes
 - an out-of-scope file becomes staged
 - package, docs, React, or unrelated files would be touched
+- npm install or npx would be needed
 - judgment is unclear
 
 ## REJECT Conditions
@@ -70,6 +81,7 @@ Fix only the low-risk Batch A ESLint issues in three files, then commit only tho
 - execution boundary would be crossed
 - git push would be performed without approval
 - package install would be required
+- npx or transient package execution would be required
 
 ## Commit Policy
 
@@ -82,6 +94,23 @@ Commit is allowed only when the three-file scoped ESLint check passes and staged
 Suggested commit subject:
 
 `chore: fix batch A eslint issues`
+
+## Codex Instruction Example
+
+Use this note to verify only the three Batch A files. Do not run broad fixes, do not use `--fix`, do not use npm install, do not use npx, do not run vitest/build/typecheck, and do not stage unrelated files. Commit only if scoped ESLint exits 0 and the staged file list contains exactly the three Batch A files.
+
+## Result Log Example
+
+- scoped ESLint:
+- exit code:
+- staged files:
+- commit:
+- commit hash:
+- git push:
+
+## Obsidian Summary Example
+
+G-05 Batch A remained bounded to three files. The task either committed only the scoped files after exit code 0, or stayed HOLD with the reason recorded. G-06/G-07 and git push remained HOLD.
 
 ## Final Report Checklist
 

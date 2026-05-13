@@ -17,6 +17,11 @@
 
 - file that must remain untouched:
 
+## Forbidden Areas
+
+- area:
+- reason:
+
 ## Risk Classification
 
 - risk level:

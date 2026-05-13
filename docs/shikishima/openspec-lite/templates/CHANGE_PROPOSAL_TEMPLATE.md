@@ -49,6 +49,13 @@
 
 - reason:
 
+## Relation To Current HOLD State
+
+- current decision:
+- current G-number:
+- what remains HOLD:
+- what this proposal does not approve:
+
 ## Safety Notes
 
 - decision remains:

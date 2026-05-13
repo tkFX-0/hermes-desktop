@@ -52,3 +52,10 @@
 - docs to update:
 - changelog required:
 - final report required:
+
+## Verification Requirements
+
+- allowed verification:
+- forbidden verification:
+- required exit code:
+- required staged file check:

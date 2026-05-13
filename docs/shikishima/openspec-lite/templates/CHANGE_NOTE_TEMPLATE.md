@@ -15,6 +15,11 @@ Use this as the beginner-friendly one-page task note. It combines proposal, spec
 - why now:
 - expected safe outcome:
 
+## Why Now
+
+- reason:
+- why not later:
+
 ## Current State
 
 - decision:
@@ -42,6 +47,14 @@ Use this as the beginner-friendly one-page task note. It combines proposal, spec
 - forbidden command:
 - reason:
 
+## npm / npx / Dependency Policy
+
+- npm install:
+- npx:
+- dependency update:
+- package changes:
+- supply-chain note:
+
 ## GO Conditions
 
 - condition:
@@ -65,6 +78,13 @@ Paste the bounded instruction here. Include scope, commit policy, STOP condition
 - result classification:
 - committed:
 - commit hash:
+
+## Commit Result
+
+- commit created:
+- commit subject:
+- files committed:
+- push performed:
 
 ## Next Handoff
 

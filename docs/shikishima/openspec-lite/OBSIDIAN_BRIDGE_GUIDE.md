@@ -6,6 +6,14 @@ This guide explains how to use OpenSpec-Lite notes as Obsidian-ready Markdown wi
 
 Use one task, one note. Keep the note redacted, portable, and safe to copy manually.
 
+The starting workflow is:
+
+1. GPT drafts or refines a Lite note.
+2. The human checks that it does not include raw values, local paths, secrets, or tokens.
+3. Codex uses the Lite note as the work map.
+4. The final result is copied back into the note.
+5. The human manually places the redacted note in an Obsidian Inbox if desired.
+
 ## Example Note Names
 
 - `2026-05-13_G-05_BatchA_ESLint.md`
@@ -17,8 +25,9 @@ Use one task, one note. Keep the note redacted, portable, and safe to copy manua
 1. Copy a template from `templates/`.
 2. Fill it with slot IDs, counts, enums, commit hashes, and safe status labels only.
 3. Do not include raw values, secrets, local-only values, local paths, screenshots, or private account/device details.
-4. Paste manually into Obsidian if desired.
-5. Do not automate direct Vault writes until a separate human approval exists.
+4. Do not guess or discover the Obsidian Vault path.
+5. Paste manually into an Obsidian Inbox if desired.
+6. Do not automate direct Vault writes until a separate human approval exists.
 
 ## Not Yet Adopted
 
@@ -27,6 +36,20 @@ Use one task, one note. Keep the note redacted, portable, and safe to copy manua
 - repo-to-Vault sync
 - external search integration
 - raw local configuration capture
+- Local REST API automation
+- direct Vault path discovery
+- Cloudflare sync
+
+## Future Semi-Automation Candidates
+
+These remain HOLD until separately approved:
+
+- Codex saving to a human-specified Inbox path
+- PowerShell clipboard export of a redacted note
+- Local REST API integration
+- repo-to-Vault sync
+
+Local REST API is powerful and must remain HOLD until the safety gate and human approval scope are explicit.
 
 ## Safe Fields
 

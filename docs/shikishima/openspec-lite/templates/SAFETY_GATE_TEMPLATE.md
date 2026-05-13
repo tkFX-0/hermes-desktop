@@ -26,6 +26,15 @@
 - local-only values reported:
 - local-only values stored:
 
+## npm / npx Policy
+
+- npm install:
+- npm update:
+- npx:
+- pnpm dlx / yarn dlx / bunx:
+- dependency update:
+- package or lockfile change:
+
 ## Commit Policy
 
 - commit allowed:
