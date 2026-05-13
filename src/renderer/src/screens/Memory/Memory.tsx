@@ -125,8 +125,11 @@ function Memory({ profile }: { profile?: string }): React.JSX.Element {
   }, [profile]);
 
   useEffect(() => {
-    setLoading(true);
-    loadData();
+    const timer = window.setTimeout(() => {
+      setLoading(true);
+      void loadData();
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, [loadData]);
 
   async function handleAddEntry(): Promise<void> {
