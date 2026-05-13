@@ -7,9 +7,9 @@ and does not require tooling.
 
 | Field | Meaning | Current value |
 |---|---|---|
-| roadmapVersion | visible roadmap version | v2.9.0 |
-| lastUpdated | visible update date | 2026-05-12 |
-| latestUpdate | short update summary | V10 preparation package completed |
+| roadmapVersion | visible roadmap version | v2.9.2 |
+| lastUpdated | visible update date | 2026-05-13 |
+| latestUpdate | short update summary | Human Review Ready candidate package added |
 | currentDecision | current project decision | HOLD |
 | executionStatus | execution gate state | disabled |
 | productionReady | production readiness flag | false |
@@ -68,6 +68,13 @@ and does not require tooling.
 | reviewDecisionScope | review decision scope | docs_static_only |
 | reviewDecisionValues | allowed review values | approved_for_static_design_review / needs_revision / rejected |
 | reviewExplicitlyNotApproved | excluded approval scope | GO / execution / productionReady / connection / voice I/O / camera / microphone / StackChan control / robot motion / WSL-Hermes-wrapper-dummy-RunPod / git push |
+| humanReviewReadyStatus | human review candidate state | candidate_created |
+| g05EslintStatus | G-05 ESLint validation state | PASS candidate |
+| g06VitestStatus | G-06 vitest validation state | PASS candidate |
+| g07BuildStatus | G-07 local build validation state | PASS candidate |
+| validationCandidateInterpretation | meaning of PASS candidate | ready_for_human_review_not_GO |
+| gitPushApprovalStatus | git push approval state | not_approved |
+| cloudflareApprovalStatus | Cloudflare approval state | deferred_not_approved |
 
 ## Status Values
 

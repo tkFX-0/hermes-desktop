@@ -2,9 +2,9 @@
 
 ## Update Status
 
-- roadmapVersion: v1.9.0
-- lastUpdated: 2026-05-12
-- latestUpdate: Phase E repo rename plan added
+- roadmapVersion: v2.9.2
+- lastUpdated: 2026-05-13
+- latestUpdate: Human Review Ready candidate package added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - changelog: `ROADMAP_CHANGELOG.md`
 - phase review: `PHASE_REVIEW_MATRIX.md`
@@ -27,6 +27,26 @@ Every future roadmap-affecting change must visibly update
 - RunPod: on-demand only, explicit approval required
 
 This roadmap is static documentation only. It is not execution approval.
+
+## Human Review Ready Candidate
+
+v2.9.2 adds a Human Review Ready Candidate package for the local validation road.
+
+Candidate state:
+
+- G-05 ESLint: PASS candidate.
+- G-03/G-04 typecheck reconfirmation: PASS.
+- G-06 vitest: PASS candidate.
+- G-07 local build: PASS candidate.
+
+This candidate state is review support only. It is not final GO, not git push
+approval, not execution approval, not Cloudflare approval, and not
+productionReady true.
+
+Review files:
+
+- `HUMAN_REVIEW_READY_PACKAGE.md`
+- `VALIDATION_PASS_CANDIDATE_SUMMARY.md`
 
 v1.0.0 is a Static Design Review Package. It is not productionReady, not GO
 approval, not execution approval, not device connection approval, and not

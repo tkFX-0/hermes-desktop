@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v2.9.1
-- lastUpdated: 2026-05-12
-- latestUpdate: Tomorrow review package v2.9.1 sync
+- roadmapVersion: v2.9.2
+- lastUpdated: 2026-05-13
+- latestUpdate: Human Review Ready candidate package added
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,15 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v2.9.2 - Human Review Ready Candidate Package
+
+- Added `HUMAN_REVIEW_READY_PACKAGE.md` to summarize the reviewable local validation candidate state.
+- Added `VALIDATION_PASS_CANDIDATE_SUMMARY.md` to record G-05/G-06/G-07 PASS candidate evidence.
+- Updated roadmap/status docs so Human Review Ready Candidate is visible as review support only.
+- G-05 ESLint, typecheck reconfirmation, G-06 vitest, and G-07 local build are PASS candidates for human review.
+- HOLD remains current. execution remains disabled. productionReady remains false.
+- git push, Cloudflare, OpenSpec CLI, npm install, npx, device operation, and production readiness are not approved.
 
 ## v2.9.1 - Tomorrow Review Package Sync
 

@@ -145,6 +145,8 @@ network flow.
 - `TOMORROW_COMMAND_EXECUTION_BOUNDARY.md` - v2.7.0 allowed/GO-required/forbidden command reference.
 - `TOMORROW_STACKCHAN_BOUNDARY_CHECK.md` - v2.7.0 StackChan physical status; daily boundary confirmation.
 - `TOMORROW_TEST_COMMIT_REVIEW_SHEET.md` - v2.7.0 test file review checklist; pre-stage final check.
+- `HUMAN_REVIEW_READY_PACKAGE.md` - v2.9.2 local validation review-ready candidate package.
+- `VALIDATION_PASS_CANDIDATE_SUMMARY.md` - v2.9.2 G-05/G-06/G-07 PASS candidate summary.
 - `V3_TO_V10_IMPLEMENTATION_COMPLETION_PACK.md` - v2.8.0 DONE/READY/AFTER-GO/HOLD status per stage v3–v10.
 - `V3_TO_V10_READY_CHECKLIST.md` - v2.8.0 entry/exit conditions per stage; current readiness status.
 - `V3_TO_V10_HUMAN_DECISION_MAP.md` - v2.8.0 all human GO decisions mapped by stage; agent cannot issue GO.
@@ -180,6 +182,20 @@ network flow.
 - `V10_RELEASE_BLOCKER_MATRIX.md` - v2.8.7 categories A–C; non-blockers; resolution order.
 - `V10_PRE_PRODUCTION_AUDIT_TEMPLATE.md` - v2.8.7 6-section fill-in audit; PASS/FAIL; G-18-gated conclusion.
 - `openspec-lite/README.md` - no-install Markdown-only development note templates for HOLD-safe task handoffs.
+
+## Human Review Ready Candidate
+
+v2.9.2 adds a Human Review Ready Candidate package for the local validation
+road. Recommended review order:
+
+1. `VALIDATION_PASS_CANDIDATE_SUMMARY.md`
+2. `HUMAN_REVIEW_READY_PACKAGE.md`
+3. Recent local validation commits from Batch A through scoped vitest fix
+4. `TOMORROW_GO_HOLD_DECISION_SHEET.md`
+
+This review package is not GO approval. git push, execution, Cloudflare,
+productionReady true, device operation, and raw-value handling remain separate
+human-only decisions.
 
 ## How To Review
 

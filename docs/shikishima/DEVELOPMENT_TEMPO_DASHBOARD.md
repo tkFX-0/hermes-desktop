@@ -20,11 +20,12 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v2.9.1
-- latestUpdate: Tomorrow review package v2.9.1 sync
-- docs-only commits completed: local docs commits exist (v2.3.0–v2.9.1); 37 new docs in v2.8.x
-- current next human action: read TOMORROW_DEBUG_AND_REVIEW_PACKAGE.md; issue GO G-01/G-02/G-03
-- HOLD reason: execution disabled; productionReady false; G-18/G-19 not issued; current Level = 0
+- roadmapVersion: v2.9.2
+- latestUpdate: Human Review Ready candidate package added
+- docs-only commits completed: local docs commits exist (v2.3.0 through v2.9.2); 37 new docs in v2.8.x
+- validation road: G-05 ESLint PASS candidate; G-06 vitest PASS candidate; G-07 local build PASS candidate
+- current next human action: review HUMAN_REVIEW_READY_PACKAGE.md and decide whether to accept the PASS candidates
+- HOLD reason: execution disabled; productionReady false; git push not approved; G-18/G-19 not issued; current Level = 0
 
 ## Boundaries
 

@@ -96,6 +96,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
     <nav class="nav" aria-label="sections">
       <a class="active" href="#roadmap" data-section="roadmap">繝輔ぉ繝ｼ繧ｺ荳隕ｧ</a>
       <a href="#changelog" data-section="changelog">譖ｴ譁ｰ螻･豁ｴ</a>
+      <a href="#human-review-ready" data-section="human-review-ready">Human Review Ready</a>
       <a href="#explorer-dashboard" data-section="explorer-dashboard">Explorer Dashboard</a>
       <a href="#minimal-face" data-section="minimal-face">Dot-Line Face</a>
       <a href="#voice-face" data-section="voice-face">Voice / Mouth / Eye</a>
@@ -124,8 +125,8 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">roadmapVersion: v2.9.0</span>
-        <span class="chip ok">lastUpdated: 2026-05-12</span>
+        <span class="chip ok">roadmapVersion: v2.9.2</span>
+        <span class="chip ok">lastUpdated: 2026-05-13</span>
       </div>
     </header>
     <div class="content">
@@ -133,14 +134,15 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div class="card status-card">
           <h2>譖ｴ譁ｰ繧ｹ繝・・繧ｿ繧ｹ</h2>
           <div class="kv">
-            <div>roadmapVersion</div><div><code>v2.9.0</code></div>
-            <div>lastUpdated</div><div><code>2026-05-12</code></div>
-            <div>latestUpdate</div><div>V10 preparation package completed</div>
+            <div>roadmapVersion</div><div><code>v2.9.2</code></div>
+            <div>lastUpdated</div><div><code>2026-05-13</code></div>
+            <div>latestUpdate</div><div>Human Review Ready candidate package added</div>
             <div>currentLevel</div><div><code>Level 0 — docs-only</code></div>
-            <div>nextHumanAction</div><div>Read TOMORROW_DEBUG_AND_REVIEW_PACKAGE.md → issue GO G-01/G-02</div>
+            <div>nextHumanAction</div><div>Review HUMAN_REVIEW_READY_PACKAGE.md and decide whether to accept PASS candidates</div>
             <div>nextGOCandidates</div><div><code>G-01 / G-02 / G-03</code></div>
             <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
             <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
+            <div>v2.9.2 note</div><div>v2.9.2: Human Review Ready Candidate package added. G-05 ESLint, typecheck reconfirmation, G-06 vitest, and G-07 local build are PASS candidates for human review only. HOLD remains current. No git push. No execution. productionReady=false.</div>
             <div>v2.9.0 note</div><div>v2.9.0: v3–v10 full preparation complete (v2.8.0–v2.8.7). 37 docs added across Tasks A–H. v3/v4/v5/v6/v7/v8/v9/v10 readiness packs, debug flows, stop conditions, approval templates. Current level: 0. All gates: HOLD.</div>
             <div>v2.7.0 note</div><div>v2.7.0: Non-execution implementation package — 25 docs (Tasks A–E): V3 validation plan, dummy/WSL/Hermes plans, redacted templates, static dashboard sections, face terminal specs, pilot runbooks, tomorrow debug package.</div>
             <div>v2.2.0 note</div><div>v2.2.0: REAL_OPERATION_MASTER_ROADMAP.md + V3_TO_V10_TASK_TREE.md + REAL_OPERATION_HOLD_GATE_MATRIX.md (G-01–G-24) + HUMAN_REVIEW_DAY_RUNBOOK.md + PRODUCTION_READY_DEFINITION.md + CONTROLLED_PILOT_DEFINITION.md + SAFE_AUTONOMY_LADDER.md (Level 0–9) + DEVICE_AND_ROBOT_INTEGRATION_GATE.md + V3_IMPLEMENTATION_BACKLOG.md + REAL_OPERATION_ROLLBACK_AND_INCIDENT_PLAN.md. Full v3–v10 path defined. Current level: 0. HOLD.</div>
@@ -187,7 +189,17 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       <section id="changelog">
         <h2>譖ｴ譁ｰ螻･豁ｴ / Changelog</h2>
         <div class="card">
-          <h3>v2.9.0 - V10 preparation package completed <span class="update-badge">latest</span></h3>
+          <h3>v2.9.2 - Human Review Ready candidate package <span class="update-badge">latest</span></h3>
+          <ul>
+            <li>Added HUMAN_REVIEW_READY_PACKAGE.md.</li>
+            <li>Added VALIDATION_PASS_CANDIDATE_SUMMARY.md.</li>
+            <li>Recorded G-05 ESLint, typecheck, G-06 vitest, and G-07 local build as PASS candidates for human review.</li>
+            <li>HOLD remains current. execution remains disabled. productionReady remains false.</li>
+            <li>git push, Cloudflare, OpenSpec CLI, npm install, npx, device operation, and production readiness are not approved.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>v2.9.0 - V10 preparation package completed</h3>
           <ul>
             <li>Task A (v2.8.0): V3_TO_V10_IMPLEMENTATION_COMPLETION_PACK + READY_CHECKLIST + HUMAN_DECISION_MAP + DEBUG_FLOW</li>
             <li>Task B (v2.8.1): V4 validation prep — command matrix, redacted checklist, failure-to-HOLD runbook</li>
@@ -644,6 +656,25 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
             <li>Added forbidden actions.</li>
             <li>HOLD remains current.</li>
           </ul>
+        </div>
+      </section>
+      <section id="human-review-ready">
+        <h2>Human Review Ready Candidate</h2>
+        <div class="card status-card">
+          <h3>Candidate status only</h3>
+          <p>This section summarizes local validation readiness for human review. It is not GO approval, not execution approval, not git push approval, and not productionReady true.</p>
+          <div class="kv">
+            <div>G-05 ESLint</div><div><code>PASS candidate</code></div>
+            <div>Typecheck</div><div><code>PASS</code></div>
+            <div>G-06 vitest</div><div><code>PASS candidate</code></div>
+            <div>G-07 local build</div><div><code>PASS candidate</code></div>
+            <div>Review package</div><div><code>HUMAN_REVIEW_READY_PACKAGE.md</code></div>
+            <div>Validation summary</div><div><code>VALIDATION_PASS_CANDIDATE_SUMMARY.md</code></div>
+            <div>Human-only gates</div><div>git push / GO / execution / productionReady / Cloudflare / device operation remain HOLD.</div>
+          </div>
+        </div>
+        <div class="card verify">
+          <strong>Review boundary:</strong> Human Review Ready Candidate means the local validation road is ready to review. It does not authorize deployment, external services, secrets, raw values, robots, voice, camera, mic, or production operation.
         </div>
       </section>
       <section id="explorer-dashboard">
