@@ -20,12 +20,12 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.2.0-candidate
-- latestUpdate: Level 2 final GO package prepared
-- docs-only commits completed: local docs commits exist (v2.3.0 through v3.2.0-candidate); 37 new docs in v2.8.x; history pushed to github.com/tkFX-0/hermes-desktop
-- validation road: Level 1 PASS; Level 2 final GO package ready for human review
-- current next human action: review LEVEL_2_FINAL_GO_PACKAGE.md; fill time window in GO block; issue Level 2 GO
-- HOLD reason: execution disabled; productionReady false; Level 2 time window not filled; StackChan not arrived; Track E HOLD; Final Shikishima 100% = not complete
+- roadmapVersion: v3.2.1
+- latestUpdate: Level 2 local controlled validation PASS recorded
+- docs-only commits completed: local docs commits exist (v2.3.0 through v3.2.1); 37 new docs in v2.8.x; history pushed to github.com/tkFX-0/hermes-desktop
+- validation road: Level 1 PASS; Level 2 PASS; 712 tests passed; build successful; no regression
+- current next human action: push v3.2.1 evidence; post-Level 2 human acceptance; proceed to Local App Observation readiness
+- HOLD reason: execution disabled; productionReady false; Level 3 not approved; Local App Observation not started; StackChan not arrived; Track E HOLD; Final Shikishima 100% = not complete
 
 ## Boundaries
 

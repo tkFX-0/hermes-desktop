@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.2.0-candidate
+- roadmapVersion: v3.2.1
 - lastUpdated: 2026-05-14
-- latestUpdate: Level 2 final GO package prepared
+- latestUpdate: Level 2 local controlled validation PASS recorded
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,15 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.2.1 - Level 2 Local Controlled Validation PASS Recorded
+
+- Controlled Pilot Level 2 local controlled validation completed: 2026-05-14 (15:00-16:00 JST).
+- All five commands passed: typecheck:node (0 errors), typecheck:web (0 errors), lint (0 errors/warnings), test (712 passed / 0 failed), build (successful).
+- No regression vs Level 1. Test counts stable. Working tree unchanged before/after.
+- Added `LEVEL_2_LOCAL_CONTROLLED_VALIDATION_EVIDENCE.md`.
+- Level 3, productionReady, execution enabled, git push, Electron, WSL, devices, voice remain not approved.
+- HOLD remains current. execution remains disabled. productionReady remains false.
 
 ## v3.2.0-candidate - Level 2 Final GO Package Prepared
 
