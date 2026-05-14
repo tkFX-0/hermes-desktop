@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.3.0
+- roadmapVersion: v3.4.0
 - lastUpdated: 2026-05-14
-- latestUpdate: Post-Level 2 human acceptance record created
+- latestUpdate: Track B Local App Observation readiness package created
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,17 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.4.0 - Track B Local App Observation Readiness Package Created
+
+- roadmapVersion: v3.4.0
+- lastUpdated: 2026-05-14
+- Added `LOCAL_APP_OBSERVATION_READINESS.md`: Track B readiness scope; preconditions; allowed/forbidden activities; stop conditions; human decision options.
+- Added `LOCAL_APP_OBSERVATION_SCOPE_PROPOSAL.md`: proposed future scope (not approved); proposed GO wording template (placeholder — not GO); proposed stop conditions; proposed evidence format.
+- Added `LOCAL_APP_OBSERVATION_EVIDENCE_TEMPLATE.md`: fill-in template for future observation evidence; redacted-only output policy; working tree before/after fields.
+- Local App Observation execution not approved by this package. GO requires separate scope review + human GO with filled time_window.
+- Level 3, productionReady, Electron dev-mode, WSL, robot/voice/device, deploy, future git push not approved.
+- HOLD remains current. execution remains disabled. productionReady remains false.
 
 ## v3.3.0 - Post-Level 2 Human Acceptance Record Created
 
