@@ -212,6 +212,10 @@ These documents prepare the human review path toward a future scoped GO. They
 do not approve operation, execution, git push, Cloudflare, device access, raw
 values, or productionReady true.
 
+v2.9.4 clarifies the Human Review Decision Sheet wording: `--quiet` suppresses
+warnings, no blocking ESLint errors were reported, and operational gates beyond
+accepted validation evidence remain HOLD unless individually approved.
+
 ## How To Review
 
 1. Open `REAL_OPERATION_ROADMAP.html`.

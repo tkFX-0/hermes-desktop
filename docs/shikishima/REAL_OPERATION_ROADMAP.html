@@ -126,7 +126,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">roadmapVersion: v2.9.3</span>
+        <span class="chip ok">roadmapVersion: v2.9.4</span>
         <span class="chip ok">lastUpdated: 2026-05-13</span>
       </div>
     </header>
@@ -135,14 +135,15 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div class="card status-card">
           <h2>譖ｴ譁ｰ繧ｹ繝・・繧ｿ繧ｹ</h2>
           <div class="kv">
-            <div>roadmapVersion</div><div><code>v2.9.3</code></div>
+            <div>roadmapVersion</div><div><code>v2.9.4</code></div>
             <div>lastUpdated</div><div><code>2026-05-13</code></div>
-            <div>latestUpdate</div><div>Pre-Operation Readiness candidate package added</div>
+            <div>latestUpdate</div><div>Human review decision wording clarified</div>
             <div>currentLevel</div><div><code>Level 0 — docs-only</code></div>
             <div>nextHumanAction</div><div>Review HUMAN_REVIEW_READY_PACKAGE.md and decide whether to accept PASS candidates</div>
             <div>nextGOCandidates</div><div><code>G-01 / G-02 / G-03</code></div>
             <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
             <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
+            <div>v2.9.4 note</div><div>v2.9.4: Human Review Decision Sheet wording clarified. --quiet suppresses warnings; no blocking ESLint errors were reported. Operational gates beyond accepted validation evidence remain HOLD unless individually approved.</div>
             <div>v2.9.3 note</div><div>v2.9.3: Pre-Operation Readiness Candidate package added. Human decision sheet, pre-operation gate, and controlled pilot plan are review support only. HOLD remains current. No GO. No git push. No execution. productionReady=false.</div>
             <div>v2.9.2 note</div><div>v2.9.2: Human Review Ready Candidate package added. G-05 ESLint, typecheck reconfirmation, G-06 vitest, and G-07 local build are PASS candidates for human review only. HOLD remains current. No git push. No execution. productionReady=false.</div>
             <div>v2.9.0 note</div><div>v2.9.0: v3–v10 full preparation complete (v2.8.0–v2.8.7). 37 docs added across Tasks A–H. v3/v4/v5/v6/v7/v8/v9/v10 readiness packs, debug flows, stop conditions, approval templates. Current level: 0. All gates: HOLD.</div>
@@ -191,7 +192,15 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       <section id="changelog">
         <h2>譖ｴ譁ｰ螻･豁ｴ / Changelog</h2>
         <div class="card">
-          <h3>v2.9.3 - Pre-Operation Readiness candidate package <span class="update-badge">latest</span></h3>
+          <h3>v2.9.4 - Human review decision wording clarification <span class="update-badge">latest</span></h3>
+          <ul>
+            <li>Clarified that --quiet suppresses ESLint warnings and no blocking ESLint errors were reported.</li>
+            <li>Clarified that operational gates beyond accepted validation evidence remain HOLD unless individually approved.</li>
+            <li>HOLD remains current. execution remains disabled. productionReady remains false.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>v2.9.3 - Pre-Operation Readiness candidate package</h3>
           <ul>
             <li>Added HUMAN_REVIEW_DECISION_SHEET.md.</li>
             <li>Added PRE_OPERATION_READINESS_GATE.md.</li>

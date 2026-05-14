@@ -21,7 +21,7 @@ or repo-external writes.
 
 ## What Has Passed As Candidate
 
-- Local ESLint over `src tests` with blocking errors hidden by `--quiet`: PASS candidate.
+- Local ESLint over `src tests` with warnings suppressed by `--quiet`: PASS candidate. No blocking ESLint errors were reported.
 - Node and web typecheck scripts: PASS.
 - Existing test script: PASS candidate.
 - Existing local build script: PASS candidate.
@@ -62,7 +62,7 @@ reference for the next review gate.
 
 ## Must Remain HOLD
 
-- G-04 through G-24 unless individually approved.
+- Operational gates beyond the accepted validation evidence remain HOLD unless individually approved.
 - productionReady true.
 - execution enabled.
 - git push.

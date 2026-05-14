@@ -2,9 +2,9 @@
 
 ## Update Status
 
-- roadmapVersion: v2.9.3
+- roadmapVersion: v2.9.4
 - lastUpdated: 2026-05-13
-- latestUpdate: Pre-Operation Readiness candidate package added
+- latestUpdate: Human review decision wording clarified
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - changelog: `ROADMAP_CHANGELOG.md`
 - phase review: `PHASE_REVIEW_MATRIX.md`
@@ -62,6 +62,12 @@ Review files:
 Pre-Operation Readiness Candidate does not approve operation, GO, git push,
 Cloudflare, execution, device operation, secrets, raw values, or
 productionReady true.
+
+## Human Review Wording Clarification
+
+v2.9.4 clarifies that `--quiet` suppresses ESLint warnings and that no blocking
+ESLint errors were reported. It also clarifies that operational gates beyond
+accepted validation evidence remain HOLD unless individually approved.
 
 v1.0.0 is a Static Design Review Package. It is not productionReady, not GO
 approval, not execution approval, not device connection approval, and not
