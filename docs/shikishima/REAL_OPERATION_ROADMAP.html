@@ -126,7 +126,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">roadmapVersion: v3.0.0</span>
+        <span class="chip ok">roadmapVersion: v3.1.0</span>
         <span class="chip ok">lastUpdated: 2026-05-14</span>
       </div>
     </header>
@@ -135,14 +135,15 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div class="card status-card">
           <h2>譖ｴ譁ｰ繧ｹ繝・・繧ｿ繧ｹ</h2>
           <div class="kv">
-            <div>roadmapVersion</div><div><code>v3.0.0</code></div>
+            <div>roadmapVersion</div><div><code>v3.1.0</code></div>
             <div>lastUpdated</div><div><code>2026-05-14</code></div>
-            <div>latestUpdate</div><div>Level 1 local dry-run evidence recorded</div>
-            <div>currentLevel</div><div><code>Level 1 PASS — local dry-run completed</code></div>
-            <div>nextHumanAction</div><div>Review LEVEL_1_LOCAL_DRY_RUN_EVIDENCE.md; decide on next operational gate (Level 2 requires separate GO)</div>
-            <div>nextGOCandidates</div><div><code>Level 2 GO (separate human decision required)</code></div>
+            <div>latestUpdate</div><div>Level 2 local controlled validation scope proposal prepared</div>
+            <div>currentLevel</div><div><code>Level 1 PASS — Level 2 scope proposal ready</code></div>
+            <div>nextHumanAction</div><div>Review LEVEL_2_LOCAL_CONTROLLED_VALIDATION_SCOPE_PROPOSAL.md; proceed to Level 2 GO wording review</div>
+            <div>nextGOCandidates</div><div><code>Level 2 GO (after GO wording review)</code></div>
             <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
             <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
+            <div>v3.1.0 note</div><div>v3.1.0: Level 2 scope proposal prepared. Option A selected (deeper redacted review of same 5 Level 1 commands). Option B/C deferred. Commands marked proposal_only. Level 2 GO not issued. No execution, productionReady, push, deploy, Electron, WSL, devices, secrets approved.</div>
             <div>v3.0.0 note</div><div>v3.0.0: Controlled Pilot Level 1 local dry-run PASS (2026-05-14, 13:35-14:35 JST). All 5 commands passed (typecheck:node, typecheck:web, lint, test, build). Working tree clean after run. LEVEL_1_LOCAL_DRY_RUN_EVIDENCE.md added. Level 2 requires separate human GO. No execution, productionReady, push, deploy, WSL, devices, secrets approved.</div>
             <div>v2.9.9 note</div><div>v2.9.9: Level 1 GO wording review prepared. LEVEL_1_GO_WORDING_REVIEW.md added with draft GO template, exact command scope, output policy, stop conditions, post-run report format, and review checklist. Reviewing this document is not GO. Level 1 GO not issued. No execution, productionReady, push, deploy, WSL, devices, secrets approved.</div>
             <div>v2.9.8 note</div><div>v2.9.8: Level 1 scope proposal and acceptance clarification prepared. LEVEL_1_ACCEPTANCE_CLARIFICATION.md clarifies G-05/G-06/G-07 as official PASS for Level 1 review; accepts rollback references. LEVEL_1_LOCAL_DRY_RUN_SCOPE_PROPOSAL.md defines proposed commands, output policy, stop conditions. Level 1 GO not issued. No execution, productionReady, push, deploy, WSL, devices, secrets approved.</div>
@@ -198,7 +199,18 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       <section id="changelog">
         <h2>譖ｴ譁ｰ螻･豁ｴ / Changelog</h2>
         <div class="card">
-          <h3>v3.0.0 - Level 1 local dry-run evidence recorded <span class="update-badge">latest</span></h3>
+          <h3>v3.1.0 - Level 2 scope proposal prepared <span class="update-badge">latest</span></h3>
+          <ul>
+            <li>Added LEVEL_2_LOCAL_CONTROLLED_VALIDATION_SCOPE_PROPOSAL.md.</li>
+            <li>Option A selected: deeper redacted review of same five Level 1 commands. Options B and C deferred.</li>
+            <li>Commands marked proposal_only. No commands were run.</li>
+            <li>Level 2 GO requires a separate explicit human approval after GO wording review.</li>
+            <li>No GO, execution, productionReady true, push, deploy, Cloudflare, WSL/Hermes/wrapper, Electron, devices, robot/StackChan, voice/camera/mic, secrets, raw values, or local-only values were approved.</li>
+            <li>HOLD remains current. execution remains disabled. productionReady remains false.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>v3.0.0 - Level 1 local dry-run evidence recorded</h3>
           <ul>
             <li>Controlled Pilot Level 1 local dry-run completed successfully: 2026-05-14, 13:35-14:35 JST.</li>
             <li>All 5 commands passed: typecheck:node (2.4s), typecheck:web (3.4s), lint (12.6s), test — 712/712 passed (18.8s), build successful (13.0s).</li>
