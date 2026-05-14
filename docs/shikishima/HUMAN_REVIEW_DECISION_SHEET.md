@@ -13,11 +13,11 @@ or repo-external writes.
 
 | Item | Candidate status | Human acceptance |
 |---|---|---|
-| G-05 ESLint | PASS candidate | not yet accepted |
-| G-03/G-04 typecheck | PASS | not yet accepted |
-| G-06 vitest | PASS candidate | not yet accepted |
-| G-07 local build | PASS candidate | not yet accepted |
-| Human Review Ready Candidate | created | not yet accepted |
+| G-05 ESLint | PASS candidate | accepted as review evidence |
+| G-03/G-04 typecheck | PASS | accepted as review evidence |
+| G-06 vitest | PASS candidate | accepted as review evidence |
+| G-07 local build | PASS candidate | accepted as review evidence |
+| Human Review Ready Candidate | created | accepted as review evidence |
 
 ## What Has Passed As Candidate
 
@@ -74,26 +74,55 @@ reference for the next review gate.
 
 Use exactly one:
 
-- [ ] accept_validation_pass_candidates
+- [x] accept_validation_pass_candidates
 - [ ] request_rework
 - [ ] hold_for_manual_review
 - [ ] reject_operational_progression
 
 Optional follow-up:
 
-- [ ] allow_pre_operation_readiness_gate_review
+- [x] allow_pre_operation_readiness_gate_review
 - [ ] keep_pre_operation_readiness_gate_HOLD
-- [ ] consider_git_push_separately
+- [x] consider_git_push_separately
 
 ## Reviewer Notes
 
-- reviewed_by:
-- reviewed_at:
-- decision:
+- reviewed_by: human
+- reviewed_at: 2026-05-14
+- decision: accept_validation_pass_candidates
 - notes:
+  - Human Review Decision Sheet wording was clarified in v2.9.4.
+  - Validation evidence is acceptable as review evidence.
+  - This acceptance does not approve GO, execution, productionReady true, git push, deploy, Cloudflare, devices, voice/camera/mic, secrets, raw values, or local-only values.
+  - Operational gates beyond the accepted validation evidence remain HOLD unless individually approved.
 - required_rework:
+  - none for validation evidence acceptance
 
 ## Safety Statement
 
 No checkbox in this file approves actual operation. A separate scoped human GO is
 required before any execution-related action.
+
+## v2.9.5 Acceptance Scope
+
+Human acceptance in this sheet is limited to validation evidence only.
+
+Accepted:
+
+- G-05 ESLint evidence as review evidence.
+- G-03/G-04 typecheck evidence as review evidence.
+- G-06 vitest evidence as review evidence.
+- G-07 local build evidence as review evidence.
+- Pre-Operation Readiness Gate review may continue.
+
+Not approved:
+
+- GO.
+- execution enabled.
+- productionReady true.
+- git push.
+- deploy or Cloudflare.
+- WSL, Hermes, wrapper, dummy process, or RunPod.
+- robot, StackChan, voice, camera, or mic.
+- secret, token, raw value, or local-only value handling.
+- repo-external writes.

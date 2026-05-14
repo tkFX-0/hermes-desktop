@@ -2,9 +2,9 @@
 
 ## Update Status
 
-- roadmapVersion: v2.9.4
-- lastUpdated: 2026-05-13
-- latestUpdate: Human review decision wording clarified
+- roadmapVersion: v2.9.5
+- lastUpdated: 2026-05-14
+- latestUpdate: Validation evidence accepted for review only
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - changelog: `ROADMAP_CHANGELOG.md`
 - phase review: `PHASE_REVIEW_MATRIX.md`
@@ -68,6 +68,16 @@ productionReady true.
 v2.9.4 clarifies that `--quiet` suppresses ESLint warnings and that no blocking
 ESLint errors were reported. It also clarifies that operational gates beyond
 accepted validation evidence remain HOLD unless individually approved.
+
+## Validation Evidence Acceptance
+
+v2.9.5 records human acceptance of G-05 ESLint, G-03/G-04 typecheck, G-06
+vitest, and G-07 local build as review evidence only.
+
+This acceptance lets Pre-Operation Readiness Gate review continue. It does not
+approve GO, execution, productionReady true, git push, deploy, Cloudflare,
+WSL/Hermes/wrapper, robot/voice/camera/mic, secrets, raw values, local-only
+values, or repo-external writes.
 
 v1.0.0 is a Static Design Review Package. It is not productionReady, not GO
 approval, not execution approval, not device connection approval, and not

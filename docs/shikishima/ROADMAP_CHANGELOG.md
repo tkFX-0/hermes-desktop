@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v2.9.4
-- lastUpdated: 2026-05-13
-- latestUpdate: Human review decision wording clarified
+- roadmapVersion: v2.9.5
+- lastUpdated: 2026-05-14
+- latestUpdate: Validation evidence accepted for review only
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,13 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v2.9.5 - Validation Evidence Accepted For Review Only
+
+- Recorded human acceptance of G-05 ESLint, G-03/G-04 typecheck, G-06 vitest, and G-07 local build evidence as review evidence only.
+- Clarified that Pre-Operation Readiness Gate review may continue.
+- No GO, execution, productionReady true, git push, deploy, Cloudflare, WSL/Hermes/wrapper, robot/voice/camera/mic, secret, raw value, local-only value, or repo-external write was approved.
+- HOLD remains current. execution remains disabled. productionReady remains false.
 
 ## v2.9.4 - Human Review Decision Sheet Wording Clarification
 

@@ -126,8 +126,8 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">roadmapVersion: v2.9.4</span>
-        <span class="chip ok">lastUpdated: 2026-05-13</span>
+        <span class="chip ok">roadmapVersion: v2.9.5</span>
+        <span class="chip ok">lastUpdated: 2026-05-14</span>
       </div>
     </header>
     <div class="content">
@@ -135,14 +135,15 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div class="card status-card">
           <h2>譖ｴ譁ｰ繧ｹ繝・・繧ｿ繧ｹ</h2>
           <div class="kv">
-            <div>roadmapVersion</div><div><code>v2.9.4</code></div>
-            <div>lastUpdated</div><div><code>2026-05-13</code></div>
-            <div>latestUpdate</div><div>Human review decision wording clarified</div>
+            <div>roadmapVersion</div><div><code>v2.9.5</code></div>
+            <div>lastUpdated</div><div><code>2026-05-14</code></div>
+            <div>latestUpdate</div><div>Validation evidence accepted for review only</div>
             <div>currentLevel</div><div><code>Level 0 — docs-only</code></div>
             <div>nextHumanAction</div><div>Review HUMAN_REVIEW_READY_PACKAGE.md and decide whether to accept PASS candidates</div>
             <div>nextGOCandidates</div><div><code>G-01 / G-02 / G-03</code></div>
             <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
             <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
+            <div>v2.9.5 note</div><div>v2.9.5: Validation evidence accepted for review only. Pre-Operation Readiness Gate review may continue. No GO, execution, productionReady true, git push, deploy, Cloudflare, WSL/Hermes/wrapper, robots, voice, camera, mic, secrets, raw values, local-only values, or repo-external writes approved.</div>
             <div>v2.9.4 note</div><div>v2.9.4: Human Review Decision Sheet wording clarified. --quiet suppresses warnings; no blocking ESLint errors were reported. Operational gates beyond accepted validation evidence remain HOLD unless individually approved.</div>
             <div>v2.9.3 note</div><div>v2.9.3: Pre-Operation Readiness Candidate package added. Human decision sheet, pre-operation gate, and controlled pilot plan are review support only. HOLD remains current. No GO. No git push. No execution. productionReady=false.</div>
             <div>v2.9.2 note</div><div>v2.9.2: Human Review Ready Candidate package added. G-05 ESLint, typecheck reconfirmation, G-06 vitest, and G-07 local build are PASS candidates for human review only. HOLD remains current. No git push. No execution. productionReady=false.</div>
@@ -192,7 +193,15 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       <section id="changelog">
         <h2>譖ｴ譁ｰ螻･豁ｴ / Changelog</h2>
         <div class="card">
-          <h3>v2.9.4 - Human review decision wording clarification <span class="update-badge">latest</span></h3>
+          <h3>v2.9.5 - Validation evidence accepted for review only <span class="update-badge">latest</span></h3>
+          <ul>
+            <li>Recorded human acceptance of G-05, G-03/G-04, G-06, and G-07 evidence for review purposes only.</li>
+            <li>Pre-Operation Readiness Gate review may continue.</li>
+            <li>No GO, execution, productionReady true, git push, deploy, Cloudflare, WSL/Hermes/wrapper, robots, voice, camera, mic, secrets, raw values, local-only values, or repo-external writes were approved.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>v2.9.4 - Human review decision wording clarification</h3>
           <ul>
             <li>Clarified that --quiet suppresses ESLint warnings and no blocking ESLint errors were reported.</li>
             <li>Clarified that operational gates beyond accepted validation evidence remain HOLD unless individually approved.</li>

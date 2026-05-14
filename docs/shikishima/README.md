@@ -216,6 +216,13 @@ v2.9.4 clarifies the Human Review Decision Sheet wording: `--quiet` suppresses
 warnings, no blocking ESLint errors were reported, and operational gates beyond
 accepted validation evidence remain HOLD unless individually approved.
 
+v2.9.5 records human acceptance of validation evidence only. It accepts G-05,
+G-03/G-04, G-06, and G-07 evidence for review purposes and allows
+Pre-Operation Readiness Gate review to continue. It does not approve GO,
+execution, productionReady true, git push, deploy, Cloudflare,
+WSL/Hermes/wrapper, robot/voice/camera/mic, secrets, raw values, local-only
+values, or repo-external writes.
+
 ## How To Review
 
 1. Open `REAL_OPERATION_ROADMAP.html`.
