@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.9.0
+- roadmapVersion: v3.10.0
 - lastUpdated: 2026-05-14
-- latestUpdate: Level B1 Local App Observation PASS recorded
+- latestUpdate: Level B1 observation evidence accepted; accepted_as_local_app_observation_evidence
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,16 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.10.0 - Level B1 Observation Evidence Accepted
+
+- roadmapVersion: v3.10.0
+- lastUpdated: 2026-05-14
+- Human reviewer explicitly accepted Level B1 evidence as `accepted_as_local_app_observation_evidence`.
+- Added `LOCAL_APP_OBSERVATION_ACCEPTANCE_RECORD.md`: 13-item evidence checklist (all PASS); criteria_e1-e6 all PASS; HOLD boundary confirmed.
+- This acceptance does not approve Level 3, productionReady, execution, autonomous operation, robot/voice/device, deploy, or future git push.
+- Next candidate: Practical Local MVP Operation Rules (Level B3).
+- HOLD remains current. execution remains disabled. productionReady remains false.
 
 ## v3.9.0 - Level B1 Local App Observation PASS Recorded
 

@@ -20,12 +20,12 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.9.0
-- latestUpdate: Level B1 Local App Observation PASS recorded (2026-05-14 19:15-20:00 JST)
-- docs-only commits completed: local docs commits exist (v2.3.0 through v3.9.0); 37 new docs in v2.8.x; 30db1b4 pushed; observation evidence commit is local-only
-- validation road: Level 1 PASS; Level 2 PASS; Level 2 human acceptance PASS; Track B readiness accepted; GO wording hardened; MVP operation definition created; Level B1 Local App Observation PASS
-- current next human action: post-observation human acceptance review of LOCAL_APP_OBSERVATION_EVIDENCE.md
-- HOLD reason: execution disabled; productionReady false; Level 3 not approved; observation evidence pending human acceptance; StackChan not arrived; Track E HOLD; Final Shikishima 100% = not complete
+- roadmapVersion: v3.10.0
+- latestUpdate: Level B1 observation evidence accepted; accepted_as_local_app_observation_evidence
+- docs-only commits completed: local docs commits exist (v2.3.0 through v3.10.0); 37 new docs in v2.8.x; 30db1b4 pushed; de850d1 + acceptance commit are local-only
+- validation road: Level 1 PASS; Level 2 PASS; Level 2 human acceptance PASS; Track B readiness accepted; Level B1 PASS; Level B1 evidence accepted (criteria_e1-e6 all PASS)
+- current next human action: push de850d1 + acceptance commit, then Practical Local MVP Operation Rules (Level B3)
+- HOLD reason: execution disabled; productionReady false; Level 3 not approved; Practical Local MVP Operation Rules not yet defined; StackChan not arrived; Track E HOLD; Final Shikishima 100% = not complete
 
 ## Boundaries
 
