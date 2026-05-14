@@ -126,7 +126,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">roadmapVersion: v3.1.2</span>
+        <span class="chip ok">roadmapVersion: v3.1.3</span>
         <span class="chip ok">lastUpdated: 2026-05-14</span>
       </div>
     </header>
@@ -135,14 +135,15 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div class="card status-card">
           <h2>譖ｴ譁ｰ繧ｹ繝・・繧ｿ繧ｹ</h2>
           <div class="kv">
-            <div>roadmapVersion</div><div><code>v3.1.2</code></div>
+            <div>roadmapVersion</div><div><code>v3.1.3</code></div>
             <div>lastUpdated</div><div><code>2026-05-14</code></div>
-            <div>latestUpdate</div><div>V3 goal roadmap and /goal definitions prepared</div>
-            <div>currentLevel</div><div><code>Level 1 PASS — Level 2 GO wording + /goal ready</code></div>
-            <div>nextHumanAction</div><div>Push accumulated docs batch; issue Level 2 GO with time window</div>
+            <div>latestUpdate</div><div>Final Shikishima 100% definition prepared</div>
+            <div>currentLevel</div><div><code>Level 1 PASS — Final 100% definition complete, Level 2 GO ready</code></div>
+            <div>nextHumanAction</div><div>Push accumulated batch; issue Level 2 GO with time window</div>
             <div>nextGOCandidates</div><div><code>/goal shikishima.level2-final-go</code></div>
             <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
             <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
+            <div>v3.1.3 note</div><div>v3.1.3: Final 100% definition prepared. FINAL_SHIKISHIMA_100_PERCENT_DEFINITION.md (10 tracks), FINAL_100_PERCENT_TRACK_MATRIX.md (12 tracks), FINAL_100_PERCENT_GOAL_TREE.md (12 child goals). Track E absolute HOLD. Final 100%: not complete. Level 2 GO not issued.</div>
             <div>v3.1.2 note</div><div>v3.1.2: V3_GOAL_ROADMAP.md and CLAUDE_CODE_GOAL_DEFINITIONS.md added. 5-track roadmap (A-E), 10 /goal definitions, sequence v3.0.0–v4.0.0+. Track E absolute HOLD. Level 2 GO not issued. No execution, productionReady, push, Electron, WSL, devices, secrets approved.</div>
             <div>v3.1.1 note</div><div>v3.1.1: Level 2 GO wording review prepared. LEVEL_2_GO_WORDING_REVIEW.md: draft GO template, proposed commands (not approved), structured output policy, 15-item checklist. Level 2 GO not issued. No execution, productionReady, push, deploy, Electron, WSL, devices, secrets approved.</div>
             <div>v3.1.0 note</div><div>v3.1.0: Level 2 scope proposal prepared. Option A selected (deeper redacted review of same 5 Level 1 commands). Option B/C deferred. Commands marked proposal_only. Level 2 GO not issued. No execution, productionReady, push, deploy, Electron, WSL, devices, secrets approved.</div>
@@ -201,7 +202,17 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       <section id="changelog">
         <h2>譖ｴ譁ｰ螻･豁ｴ / Changelog</h2>
         <div class="card">
-          <h3>v3.1.2 - V3 goal roadmap and /goal definitions prepared <span class="update-badge">latest</span></h3>
+          <h3>v3.1.3 - Final Shikishima 100% definition prepared <span class="update-badge">latest</span></h3>
+          <ul>
+            <li>Added FINAL_SHIKISHIMA_100_PERCENT_DEFINITION.md: 10-track definition; Scoped 100% vs Final 100% distinction; current progress is v3 local validation, not Final 100%.</li>
+            <li>Added FINAL_100_PERCENT_TRACK_MATRIX.md: 12-track status table; Track E (voice/external/wrapper/robot) = absolute HOLD.</li>
+            <li>Added FINAL_100_PERCENT_GOAL_TREE.md: /goal shikishima.final-100 with 12 child goals; each with definition, gate, evidence, GO, stop conditions.</li>
+            <li>No GO, execution, productionReady, push, Electron, WSL, devices, voice, or secrets approved.</li>
+            <li>HOLD remains current. Final Shikishima 100%: not complete.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>v3.1.2 - V3 goal roadmap and /goal definitions prepared</h3>
           <ul>
             <li>Added V3_GOAL_ROADMAP.md: 5-track roadmap (A–E), roadmap sequence v3.0.0–v4.0.0+, STOP gates, human approval rules. Explicitly states v3.0–v3.1.1 focused on safety/validation infrastructure, not new app features.</li>
             <li>Added CLAUDE_CODE_GOAL_DEFINITIONS.md: 10 /goal definitions (push-readiness, push-approved, level2-final-go, level2-run, level2-evidence, app-observation-readiness, app-observation-go-wording, app-observation-run, local-mvp-operation, external-device-hold).</li>

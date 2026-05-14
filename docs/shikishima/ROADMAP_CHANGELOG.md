@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.1.2
+- roadmapVersion: v3.1.3
 - lastUpdated: 2026-05-14
-- latestUpdate: V3 goal roadmap and Claude Code /goal definitions prepared
+- latestUpdate: Final Shikishima 100% definition prepared
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,15 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.1.3 - Final Shikishima 100% Definition Prepared
+
+- Added `FINAL_SHIKISHIMA_100_PERCENT_DEFINITION.md`: 10-track Final 100% definition; distinguishes Scoped 100% from Final Shikishima 100%; clearly states current progress is not Final 100%.
+- Added `FINAL_100_PERCENT_TRACK_MATRIX.md`: 12-track status matrix with target, status, evidence, remaining work, required GO, risk, next action.
+- Added `FINAL_100_PERCENT_GOAL_TREE.md`: /goal tree from shikishima.final-100 through all 12 child goals; each with definition, current gate, evidence, required GO, stop conditions, what remains HOLD.
+- Track E (voice/external/wrapper/robot) confirmed absolute HOLD.
+- No GO, execution, productionReady, push, Electron, WSL, devices, or secrets approved.
+- HOLD remains current. execution remains disabled. productionReady remains false.
 
 ## v3.1.2 - V3 Goal Roadmap and Claude Code /goal Definitions Prepared
 
