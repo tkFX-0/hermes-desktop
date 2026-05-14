@@ -162,6 +162,7 @@ network flow.
 - `FINAL_SHIKISHIMA_100_PERCENT_DEFINITION.md` - v3.1.3 10-track Final Shikishima 100% definition; Scoped vs Final 100% distinction; current progress is not Final 100%.
 - `FINAL_100_PERCENT_TRACK_MATRIX.md` - v3.1.3 12-track status matrix; Track E absolute HOLD; current status per track.
 - `FINAL_100_PERCENT_GOAL_TREE.md` - v3.1.3 /goal tree from shikishima.final-100 through 12 child goals; definition, gate, GO, stop conditions per goal.
+- `STACKCHAN_NOT_ARRIVED_ROBOT_PREPARATION_ONLY.md` - v3.1.4 explicit record that StackChan has not arrived; robot preparation-only allowed; robot runtime/connection/motion HOLD.
 - `V3_TO_V10_IMPLEMENTATION_COMPLETION_PACK.md` - v2.8.0 DONE/READY/AFTER-GO/HOLD status per stage v3–v10.
 - `V3_TO_V10_READY_CHECKLIST.md` - v2.8.0 entry/exit conditions per stage; current readiness status.
 - `V3_TO_V10_HUMAN_DECISION_MAP.md` - v2.8.0 all human GO decisions mapped by stage; agent cannot issue GO.

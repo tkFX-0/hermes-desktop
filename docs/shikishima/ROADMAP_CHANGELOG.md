@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.1.3
+- roadmapVersion: v3.1.4
 - lastUpdated: 2026-05-14
-- latestUpdate: Final Shikishima 100% definition prepared
+- latestUpdate: StackChan not arrived; robot track clarified as preparation-only
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,14 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.1.4 - StackChan Not Arrived; Robot Track Clarified As Preparation-Only
+
+- Added `STACKCHAN_NOT_ARRIVED_ROBOT_PREPARATION_ONLY.md`.
+- Explicitly states StackChan has not arrived.
+- Splits Robot Track into Robot Preparation 100% (allowed now) and Robot Runtime 100% (HOLD until StackChan arrives + separate GO).
+- No robot connection, motion, servo, device testing, voice/camera/mic, or runtime behavior approved.
+- robotMotion remains HOLD. HOLD remains current. execution remains disabled. productionReady remains false.
 
 ## v3.1.3 - Final Shikishima 100% Definition Prepared
 
