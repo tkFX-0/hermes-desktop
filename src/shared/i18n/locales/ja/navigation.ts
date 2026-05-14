@@ -1,0 +1,16 @@
+export default {
+  chat: "チャット",
+  sessions: "セッション",
+  agents: "プロフィール",
+  office: "オフィス",
+  models: "モデル",
+  skills: "スキル",
+  soul: "ペルソナ",
+  memory: "メモリー",
+  tools: "ツール",
+  schedules: "スケジュール",
+  gateway: "ゲートウェイ",
+  settings: "設定",
+  research: "リサーチ",
+  controlCenter: "管制センター",
+} as const;

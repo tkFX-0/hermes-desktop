@@ -1,0 +1,23 @@
+export default {
+  title: "プロフィール",
+  subtitle:
+    "各プロフィールは独自の設定、メモリー、スキルを持つ独立したHermesワークスペースです",
+  newAgent: "新しいエージェント",
+  namePlaceholder: "エージェント名（例: coder）",
+  cloneConfig: "デフォルトから設定とAPIキーをクローン",
+  createFailed: "プロフィールの作成に失敗しました",
+  creating: "作成中...",
+  create: "作成",
+  active: "アクティブ",
+  noModel: "モデル未設定",
+  skillsCount: "{{count}}個のスキル",
+  gatewayRunning: "ゲートウェイ動作中",
+  gatewayOff: "ゲートウェイ停止",
+  chat: "チャット",
+  deleteConfirm: "削除しますか？",
+  yes: "はい",
+  no: "いいえ",
+  deleteTitle: "エージェントを削除",
+  auto: "自動",
+  local: "ローカル",
+} as const;

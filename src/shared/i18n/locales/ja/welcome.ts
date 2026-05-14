@@ -1,0 +1,22 @@
+export default {
+  title: "しきしまへようこそ",
+  subtitle:
+    "ローカル環境で動作する自己改善型AIアシスタント。プライベートで強力、常に学習し続けます。",
+  installIssueTitle: "インストールの問題",
+  getStarted: "はじめる",
+  retryInstall: "インストールを再試行",
+  terminalInstallHint: "ターミナルでインストール後、戻ってきてください：",
+  recheck: "インストールしました — 再確認",
+  installSizeHint: "必要なコンポーネントをインストールします（約2 GB）",
+  copyInstallCommand: "インストールコマンドをコピー",
+  dividerOr: "または",
+  connectRemote: "リモートHermesに接続",
+  connectRemoteTitle: "リモートHermesに接続",
+  connectRemoteSubtitle: "実行中のHermes APIサーバーのURLを入力してください。",
+  remoteServerUrl: "サーバーURL",
+  remoteApiKey: "APIキー（任意）",
+  remoteApiKeyPlaceholder: "Bearerトークン（API_SERVER_KEY）",
+  testingConnection: "テスト中",
+  connect: "接続",
+  remoteHint: "サーバーが認証なしリクエストを受け付ける場合はキーを空白にしてください（例: SSHトンネルでlocalhostに接続）。",
+} as const;

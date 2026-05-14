@@ -1,0 +1,16 @@
+export default {
+  title: "セッション",
+  searchPlaceholder: "会話を検索...",
+  noResults: "結果が見つかりません",
+  noResultsHint: "別の検索ワードをお試しください",
+  empty: "セッションがありません",
+  newConversation: "新しい会話",
+  newChat: "新しいチャット",
+  today: "今日",
+  yesterday: "昨日",
+  thisWeek: "今週",
+  earlier: "それ以前",
+  emptyHint: "チャットを開始して最初のセッションを作成しましょう",
+  messages: "件",
+  messageSingular: "件",
+} as const;
