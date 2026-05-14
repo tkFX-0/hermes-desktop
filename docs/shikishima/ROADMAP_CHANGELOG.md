@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.10.0
+- roadmapVersion: v3.11.0
 - lastUpdated: 2026-05-14
-- latestUpdate: Level B1 observation evidence accepted; accepted_as_local_app_observation_evidence
+- latestUpdate: Level B3 Practical Local MVP Operation Rules candidate created
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,19 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.11.0 - Level B3 Practical Local MVP Operation Rules Candidate Created
+
+- roadmapVersion: v3.11.0
+- lastUpdated: 2026-05-14
+- Added `PRACTICAL_LOCAL_MVP_OPERATION_RULES.md`: 13-item pre-run checks; allowed/forbidden actions; 12 STOP conditions; incident handling; next level conditions; Level B3 operation level.
+- Added `LOCAL_MVP_SESSION_PROTOCOL.md`: 7 session states; 10-step session flow; session ID format.
+- Added `LOCAL_MVP_EVIDENCE_SCHEMA.md`: all required evidence fields with types/formats; 10 validation rules; redacted-only policy.
+- Added `LOCAL_MVP_OPERATION_ACCEPTANCE_RECORD_TEMPLATE.md`: ready-to-fill acceptance block; 16-item pre-acceptance checklist; what acceptance means/does not mean.
+- Updated `PRACTICAL_LOCAL_MVP_ACCEPTANCE_CRITERIA.md`: criteria_e1-e6 all PASS; B3 docs marked as CANDIDATE pending human acceptance.
+- Updated `AUTONOMOUS_LOOP_BOUNDARIES.md`: added Level B3 specific allowed (b3_allow_1-7) and forbidden (b3_forbid_1-9) actions.
+- Practical Local MVP Operation Rules: candidate — human acceptance pending.
+- HOLD remains current. execution remains disabled. productionReady remains false.
 
 ## v3.10.0 - Level B1 Observation Evidence Accepted
 

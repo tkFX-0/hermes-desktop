@@ -59,6 +59,36 @@ forbid_17: Deploy or trigger Cloudflare / external services
 forbid_18: Use WSL / Hermes / wrapper
 ```
 
+## Level B3 Specific: Allowed Autonomous Actions
+
+Under Level B3 Practical Local MVP Operation, the assistant may additionally:
+
+```text
+b3_allow_1: Prepare session checklist using LOCAL_MVP_DAILY_CHECK_TEMPLATE.md
+b3_allow_2: Compare current evidence to previous session evidence for regressions
+b3_allow_3: Summarize STOP causes from evidence records (category only)
+b3_allow_4: Generate docs-only remediation task if issue detected
+b3_allow_5: Recommend human GO wording for next session
+b3_allow_6: Prepare operation evidence draft for human review
+b3_allow_7: Generate session_id for next session
+```
+
+## Level B3 Specific: Forbidden Autonomous Actions
+
+Under Level B3, the assistant must still NOT:
+
+```text
+b3_forbid_1: Choose or fill time_window for any session
+b3_forbid_2: Issue GO for any session
+b3_forbid_3: Run app without explicit session GO
+b3_forbid_4: Push without explicit push GO
+b3_forbid_5: Enable execution state
+b3_forbid_6: Set productionReady true
+b3_forbid_7: Approve Level 3
+b3_forbid_8: Operate robot / voice / device
+b3_forbid_9: Expose raw or local-only values in any output
+```
+
 ## Loop Gate Rules
 
 At each step, the assistant must check:

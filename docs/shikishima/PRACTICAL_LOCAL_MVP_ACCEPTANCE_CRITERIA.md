@@ -89,15 +89,19 @@ criteria_d5: PASS (LOCAL_OPERATION_STOP_CONDITIONS.md created)
 criteria_d6: PASS (LOCAL_MVP_OPERATOR_RUNBOOK.md created)
 criteria_d7: PASS (LOCAL_MVP_DAILY_CHECK_TEMPLATE.md created)
 criteria_d8: PASS (LOCAL_MVP_INCIDENT_RESPONSE_PLAYBOOK.md created)
-criteria_d9: PASS (AUTONOMOUS_LOOP_BOUNDARIES.md created — pending)
-criteria_d10: PASS (LEVEL_3_CANDIDATE_PRECONDITIONS.md created — pending)
+criteria_d9: PASS (AUTONOMOUS_LOOP_BOUNDARIES.md created + updated for B3)
+criteria_d10: PASS (LEVEL_3_CANDIDATE_PRECONDITIONS.md created)
+criteria_d_rules: CANDIDATE (PRACTICAL_LOCAL_MVP_OPERATION_RULES.md created — human acceptance pending)
+criteria_d_protocol: CANDIDATE (LOCAL_MVP_SESSION_PROTOCOL.md created)
+criteria_d_schema: CANDIDATE (LOCAL_MVP_EVIDENCE_SCHEMA.md created)
+criteria_d_acceptance_template: CANDIDATE (LOCAL_MVP_OPERATION_ACCEPTANCE_RECORD_TEMPLATE.md created)
 
-criteria_e1: PENDING — Local App Observation not yet executed
-criteria_e2: PENDING
-criteria_e3: PENDING
-criteria_e4: PENDING
-criteria_e5: PENDING
-criteria_e6: PENDING
+criteria_e1: PASS (Local App Observation session completed 2026-05-14)
+criteria_e2: PASS (evidence recorded in LOCAL_APP_OBSERVATION_EVIDENCE.md)
+criteria_e3: PASS (accepted_as_local_app_observation_evidence)
+criteria_e4: PASS (no raw/secret/local-only values in evidence)
+criteria_e5: PASS (no stop conditions triggered)
+criteria_e6: PASS (working tree clean after observation)
 
 criteria_s1: PASS (execution: disabled)
 criteria_s2: PASS (productionReady: false)
