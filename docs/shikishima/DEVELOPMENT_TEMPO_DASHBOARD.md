@@ -20,12 +20,12 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.14.0
-- latestUpdate: Session-006 CLEAN_B3_PASS accepted (main screen); Final Shikishima 100% operation path defined; clean_b3_pass=3/5
-- docs-only commits completed: v2.3.0→v3.14.0 series; 2c41e0e pushed; current HEAD local
-- validation road: Level 1 PASS; Level 2 PASS; Level B3 rules accepted; Sessions 003+005+006 CLEAN_B3_PASS accepted; overall ~16-18%
-- current next human action: provide time_window GO for Session-007 navigation regression
-- HOLD reason: execution disabled; productionReady false; Level 3 not approved (~11 prerequisites, 2 more clean PASS sessions needed); StackChan not arrived; Final Shikishima 100% = not complete
+- roadmapVersion: v3.15.0
+- latestUpdate: Session-007 CLEAN_B3_PASS #4 accepted; Session-008 PASS_WITH_TIMING_CAVEAT; operation loop docs prepared; clean_b3_pass=4/5
+- docs-only commits completed: v2.3.0→v3.15.0 series; commits_ahead=3 (push GO pending)
+- validation road: Level 1+2 PASS; B3 rules accepted; Sessions 003+005+006+007 CLEAN_B3_PASS; overall ~16-18%; B3 loop ~80%
+- current next human action: push GO for 3 ahead commits → Session-009 time_window GO (Settings/Models, +30s buffer)
+- HOLD reason: execution disabled; productionReady false; Level 3 not approved (~9 prerequisites after B3 5/5); StackChan not arrived; Final Shikishima 100% = not complete
 
 ## Boundaries
 

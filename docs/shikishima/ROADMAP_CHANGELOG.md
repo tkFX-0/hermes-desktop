@@ -29,6 +29,23 @@ Every future roadmap-affecting change must update:
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
 
+## v3.15.0 - Operation Loop Stabilized, Session-009 GO Pack Ready
+
+- roadmapVersion: v3.15.0
+- lastUpdated: 2026-05-15
+- Session-007 CLEAN_B3_PASS #4 accepted (Control Center deep observation)
+- Session-008 PASS_WITH_TIMING_CAVEAT recorded (-1s pre-window, duplicate angle)
+- clean_b3_pass_for_level3: 4/5
+- Created: CURRENT_AHEAD_COMMITS_PUSH_READINESS.md (safe_to_request_push_go)
+- Created: PUSH_GO_TEMPLATE_CURRENT_AHEAD_COMMITS.md
+- Created: SESSION_009_CLEAN_B3_PASS_GO_PACK.md (+30s buffer rule enforced)
+- Created: LEVEL_B3_5_OF_5_ACCEPTANCE_TEMPLATE.md
+- Created: JAPANESE_UI_MINIMAL_IMPLEMENTATION_GO_DRAFT.md
+- Created: LEVEL_3_GAP_CLOSURE_PLAN.md (~9 prerequisites after B3 5/5)
+- Created: FINAL_SHIKISHIMA_PROGRESS_RECALCULATION.md (overall ~16-18%)
+- Level 3 remains not approved. HOLD maintained.
+- Next: Session-009 CLEAN_B3_PASS #5 (Settings/Models, +30s timing rule).
+
 ## v3.14.0 - Final Shikishima 100% Operation Path Defined
 
 - roadmapVersion: v3.14.0
