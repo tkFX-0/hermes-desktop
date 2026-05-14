@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v2.9.8
+- roadmapVersion: v2.9.9
 - lastUpdated: 2026-05-14
-- latestUpdate: Level 1 scope proposal and acceptance clarification prepared
+- latestUpdate: Level 1 GO wording review prepared
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,14 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v2.9.9 - Level 1 GO Wording Review Prepared
+
+- Added `LEVEL_1_GO_WORDING_REVIEW.md`: copy-pasteable draft GO wording, exact command scope, output policy, stop conditions, post-run report format, and final review checklist.
+- Creating and reviewing this document is not GO. Level 1 execution remains HOLD.
+- Human must fill in time window and issue GO in a new explicit message before Level 1 may be executed.
+- No GO, execution, productionReady true, git push, deploy, Cloudflare, WSL/Hermes/wrapper, devices, robot/StackChan, voice/camera/mic, secrets, raw values, or local-only values were approved.
+- HOLD remains current. execution remains disabled. productionReady remains false.
 
 ## v2.9.8 - Level 1 Scope Proposal and Acceptance Clarification Prepared
 
