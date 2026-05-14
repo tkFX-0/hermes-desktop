@@ -29,6 +29,20 @@ Every future roadmap-affecting change must update:
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
 
+## v3.14.0 - Final Shikishima 100% Operation Path Defined
+
+- roadmapVersion: v3.14.0
+- lastUpdated: 2026-05-14
+- Session-006 CLEAN_B3_PASS accepted: main screen status labels confirmed (HOLD/disabled/false)
+- clean_b3_pass_for_level3: 3/5
+- Created: FINAL_SHIKISHIMA_100_PERCENT_OPERATION_PATH.md (overall ~16-18%; B3 loop 60%)
+- Created: FINAL_SHIKISHIMA_PROGRESS_LOOP.md (repeatable loop definition)
+- Created: LEVEL_B3_REMAINING_2_SESSION_PLAN.md (Session-007/008 plan)
+- Created: JAPANESE_UI_SURFACE_ROADMAP.md (Japanese UI roadmap, not implementation)
+- Created: NEXT_CLAUDE_CODE_TASKS.md (10 prioritized tasks to 100%)
+- Level 3 remains not approved. execution remains disabled. productionReady remains false.
+- Next: Session-007 navigation regression (clean B3 PASS #4).
+
 ## v3.13.0 - B3 Daily Loop First Cycle Completed
 
 - roadmapVersion: v3.13.0
