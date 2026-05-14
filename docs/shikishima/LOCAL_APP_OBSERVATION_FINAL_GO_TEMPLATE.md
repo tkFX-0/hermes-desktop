@@ -35,7 +35,15 @@ Approved purpose:
 Observe the local app UI/status only and record redacted evidence.
 
 Approved command scope:
-npx electron .
+.\node_modules\.bin\electron.cmd .
+
+Command notes:
+- This command uses the already-present local Electron binary only.
+- It must not run npm install, npm update, npm exec, or npx.
+- If the local Electron binary is missing, STOP. Do not install.
+- The GO command must use an already-present local binary only.
+- No package fetching or dependency installation is approved.
+- If local binary availability is uncertain, STOP before execution.
 
 Allowed:
 - start local app in Electron dev-mode within the approved time_window only
@@ -46,6 +54,15 @@ Allowed:
 - take screenshots only if no secrets / raw values / local-only values visible
 
 Forbidden:
+- npx
+- npm install
+- npm update
+- npm exec
+- transient package execution
+- network package resolution
+- dependency changes
+- package.json changes
+- package-lock.json changes
 - productionReady true
 - execution enabled
 - Level 3
@@ -57,7 +74,6 @@ Forbidden:
 - robot motion
 - voice / camera / mic
 - raw values / secrets / local-only values in any output
-- package changes
 - src / tests changes
 - staging or committing source changes during observation
 - future git push
@@ -71,6 +87,7 @@ Stop immediately if:
 - unexpected file changes appear
 - scope ambiguity is detected
 - time_window expires
+- local Electron binary is missing (do not install — STOP)
 
 Evidence format after observation:
 - use docs/shikishima/LOCAL_APP_OBSERVATION_EVIDENCE_TEMPLATE.md
@@ -89,7 +106,10 @@ placeholder_01: <YYYY-MM-DD HH:MM-HH:MM JST> filled with concrete value
 placeholder_02: no other placeholder values remain
 wording_review_confirmed: LOCAL_APP_OBSERVATION_GO_WORDING_REVIEW.md reviewed
 checklist_13_items_confirmed: all 13 items in wording review checklist PASS
-pre_run_checks_confirmed: all 13 pre-run checks reviewed
+pre_run_checks_confirmed: all 14 pre-run checks reviewed
+local_binary_confirmed: .\node_modules\.bin\electron.cmd exists locally
+npx_not_used: confirmed
+npm_install_not_used: confirmed
 ```
 
 If placeholder_01 is not filled, sending this block is NOT a valid GO.

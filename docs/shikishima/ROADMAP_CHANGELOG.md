@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.6.0
+- roadmapVersion: v3.6.1
 - lastUpdated: 2026-05-14
-- latestUpdate: Local App Observation GO wording review package created
+- latestUpdate: Local App Observation GO command hardened; npx replaced with local binary
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,16 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.6.1 - Local App Observation GO Command Hardened
+
+- roadmapVersion: v3.6.1
+- lastUpdated: 2026-05-14
+- Hardened `LOCAL_APP_OBSERVATION_FINAL_GO_TEMPLATE.md`: replaced `npx electron .` with `.\node_modules\.bin\electron.cmd .` (local binary only); added npx/npm install/npm update/npm exec/transient package execution to forbidden list; added local binary missing STOP condition; updated placeholder checklist.
+- Hardened `LOCAL_APP_OBSERVATION_GO_WORDING_REVIEW.md`: updated proposed command to local binary; marked npx/npm install/npm update/npm exec/transient execution as HOLD; added pre_14 (local binary check); added stop_10 (missing binary); updated forbidden list.
+- Reason: `npx` conflicts with established `npx: HOLD / transient package execution: HOLD` safety boundary.
+- Local App Observation execution not approved. GO requires human explicit message with filled time_window.
+- HOLD remains current. execution remains disabled. productionReady remains false.
 
 ## v3.6.0 - Local App Observation GO Wording Review Package Created
 

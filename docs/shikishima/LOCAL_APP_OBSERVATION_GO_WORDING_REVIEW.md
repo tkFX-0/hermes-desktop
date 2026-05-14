@@ -40,11 +40,22 @@ The following is the proposed command for a future Local App Observation.
 It is proposed only, not approved to run by this document.
 
 ```text
-proposed_command: npx electron .
+proposed_command: .\node_modules\.bin\electron.cmd .
 mode: dev-mode
-scope: local only
+scope: local only — uses already-present local binary only
 proposed_only_until_human_go: true
+npx: HOLD — not used
+npm_install: HOLD — not used
+npm_update: HOLD — not used
+npm_exec: HOLD — not used
+transient_package_execution: HOLD
 ```
+
+This command uses the already-present local Electron binary only.
+It must not run npm install, npm update, npm exec, or npx.
+If the local Electron binary is missing, STOP. Do not install.
+The GO command must use an already-present local binary only.
+No package fetching or dependency installation is approved.
 
 This command must not be executed until an explicit human GO is issued with
 a filled time_window.
@@ -67,6 +78,7 @@ pre_10: redacted-only output policy confirmed
 pre_11: stop conditions understood
 pre_12: this is a local-only observation (no external deploy / Cloudflare)
 pre_13: StackChan / robot / voice / camera / mic: all confirmed not connected
+pre_14: .\node_modules\.bin\electron.cmd exists locally — do not run npm install if missing
 ```
 
 If any pre-run check fails, STOP and do not issue GO.
@@ -94,8 +106,13 @@ local-only config values may appear in any evidence field.
 - Connect to external services
 - Trigger network requests beyond local dev-mode
 - Stage or commit source changes during observation
-- Install packages
-- Run npm install / npx (except the approved launch command)
+- Run npx
+- Run npm install
+- Run npm update
+- Run npm exec
+- Execute transient packages or network package resolution
+- Change package.json or package-lock.json
+- Change dependencies
 - Approve Level 3 or productionReady true
 - Start robot / StackChan / device / voice / camera / mic
 - Take screenshots containing secrets or private config
@@ -115,6 +132,7 @@ stop_6: unexpected file changes appear in working tree
 stop_7: any behavior outside the approved observation scope occurs
 stop_8: scope ambiguity is detected — stop and clarify before continuing
 stop_9: time_window expires
+stop_10: local Electron binary (.\node_modules\.bin\electron.cmd) is missing — do not install
 ```
 
 After any stop: record the stop condition category (no raw values),
