@@ -2,6 +2,13 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useTheme } from "../../components/theme-context";
 import { SETTINGS_SECTIONS, PROVIDERS, THEME_OPTIONS } from "../../constants";
 import { useI18n } from "../../components/useI18n";
+import { APP_LOCALES, type AppLocale } from "../../../../shared/i18n";
+
+const LOCALE_DISPLAY_NAMES: Record<AppLocale, string> = {
+  en: "English",
+  "zh-CN": "中文（简体）",
+  ja: "日本語",
+};
 import { Download, Upload, FileText } from "lucide-react";
 
 // Read cached values from localStorage for instant display
@@ -29,7 +36,7 @@ function Settings({
   profile?: string;
   visible?: boolean;
 }): React.JSX.Element {
-  const { t } = useI18n();
+  const { t, locale, setLocale } = useI18n();
   const [env, setEnv] = useState<Record<string, string>>({});
   const [savedKey, setSavedKey] = useState<string | null>(null);
   const [hermesHome, setHermesHome] = useState("");
@@ -726,6 +733,22 @@ function Settings({
             ))}
           </div>
           <div className="settings-field-hint">{t("settings.appearanceHint")}</div>
+        </div>
+        <div className="settings-field">
+          <label className="settings-field-label">
+            {locale === "ja" ? "表示言語" : "Language"}
+          </label>
+          <div className="settings-theme-options">
+            {APP_LOCALES.map((loc) => (
+              <button
+                key={loc}
+                className={`settings-theme-option ${locale === loc ? "active" : ""}`}
+                onClick={() => setLocale(loc)}
+              >
+                {LOCALE_DISPLAY_NAMES[loc]}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 

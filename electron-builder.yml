@@ -13,6 +13,7 @@ asarUnpack:
   - resources/**
 win:
   executableName: hermes-agent
+  forceCodeSigning: false
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
