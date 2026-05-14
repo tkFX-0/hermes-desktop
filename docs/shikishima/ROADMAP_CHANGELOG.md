@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v2.9.9
+- roadmapVersion: v3.0.0
 - lastUpdated: 2026-05-14
-- latestUpdate: Level 1 GO wording review prepared
+- latestUpdate: Level 1 local dry-run evidence recorded
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,15 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.0.0 - Level 1 Local Dry-Run Evidence Recorded
+
+- Controlled Pilot Level 1 local dry-run completed successfully on 2026-05-14 (13:35-14:35 JST).
+- All five commands passed: typecheck:node, typecheck:web, lint, test, build.
+- Working tree after run: staged 0, actual content diff 0, no unexpected file edits.
+- Added `LEVEL_1_LOCAL_DRY_RUN_EVIDENCE.md` as evidence record.
+- Level 2, Level 3, execution, productionReady true, git push, deploy, WSL/Hermes/wrapper, devices, robot/StackChan, voice/camera/mic, secrets, raw values, and local-only values remain not approved.
+- HOLD remains current. execution remains disabled. productionReady remains false.
 
 ## v2.9.9 - Level 1 GO Wording Review Prepared
 

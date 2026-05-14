@@ -20,12 +20,12 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v2.9.9
-- latestUpdate: Level 1 GO wording review prepared
-- docs-only commits completed: local docs commits exist (v2.3.0 through v2.9.9); 37 new docs in v2.8.x; history pushed to github.com/tkFX-0/hermes-desktop
-- validation road: G-05/G-06/G-07 clarified as official PASS for Level 1 review
-- current next human action: review LEVEL_1_GO_WORDING_REVIEW.md; fill in time window; issue Level 1 GO if accepted
-- HOLD reason: execution disabled; productionReady false; Level 1 GO not yet issued; G-18/G-19 not issued; current Level = 0
+- roadmapVersion: v3.0.0
+- latestUpdate: Level 1 local dry-run evidence recorded
+- docs-only commits completed: local docs commits exist (v2.3.0 through v3.0.0); 37 new docs in v2.8.x; history pushed to github.com/tkFX-0/hermes-desktop
+- validation road: Level 1 local dry-run PASS (2026-05-14); all 5 commands passed; working tree clean after run
+- current next human action: review LEVEL_1_LOCAL_DRY_RUN_EVIDENCE.md; decide on next operational gate (Level 2 requires separate GO)
+- HOLD reason: execution disabled; productionReady false; Level 2 GO not issued; G-18/G-19 not issued; current Level = 1 PASS / next = human decision
 
 ## Boundaries
 
