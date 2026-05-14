@@ -181,6 +181,7 @@ network flow.
 - `PRACTICAL_LOCAL_MVP_ACCEPTANCE_CRITERIA.md` - v3.8.0 24 criteria (10 docs + 6 evidence + 8 safety); Practical Local MVP ≠ Final 100% distinction; current status per criterion.
 - `AUTONOMOUS_LOOP_BOUNDARIES.md` - v3.8.0 12 allowed + 18 forbidden autonomous loop actions; 5 gate checks; loop output contract.
 - `LEVEL_3_CANDIDATE_PRECONDITIONS.md` - v3.8.0 16 preconditions for Level 3 candidate; Level 3 remains HOLD; explicit statement this doc does not approve Level 3.
+- `LOCAL_APP_OBSERVATION_EVIDENCE.md` - v3.9.0 Level B1 observation evidence (2026-05-14 19:15-20:00 JST); app started; 2 screens PASS; no stop conditions; no raw values; working tree unchanged; pending human acceptance.
 - `LOCAL_APP_OBSERVATION_FINAL_GO_TEMPLATE.md` - v3.6.1 ready-to-copy GO block template (time_window placeholder — not GO until human fills and sends); hardened command (local binary only, npx removed); placeholder checklist; allowed/forbidden/stop list.
 - `V3_TO_V10_IMPLEMENTATION_COMPLETION_PACK.md` - v2.8.0 DONE/READY/AFTER-GO/HOLD status per stage v3–v10.
 - `V3_TO_V10_READY_CHECKLIST.md` - v2.8.0 entry/exit conditions per stage; current readiness status.

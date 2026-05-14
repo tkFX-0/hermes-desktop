@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.8.0
+- roadmapVersion: v3.9.0
 - lastUpdated: 2026-05-14
-- latestUpdate: Practical Local MVP pre-operation expansion package created (6 docs)
+- latestUpdate: Level B1 Local App Observation PASS recorded
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,19 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.9.0 - Level B1 Local App Observation PASS Recorded
+
+- roadmapVersion: v3.9.0
+- lastUpdated: 2026-05-14
+- Controlled Local App Observation completed: 2026-05-14 (19:15-20:00 JST).
+- Command used: .\node_modules\.bin\electron.cmd . (local binary only; npx not used).
+- App started: true. Screens observed: 2 (しきしま). No issues reported.
+- No stop conditions triggered. No raw values / secrets / local-only values reported.
+- Working tree unchanged before/after: staged 0/0, diff 0/0.
+- Added `LOCAL_APP_OBSERVATION_EVIDENCE.md`.
+- Execution remains disabled. productionReady remains false. Level 3 not approved.
+- Next gate: post-observation human acceptance review.
 
 ## v3.8.0 - Practical Local MVP Pre-Operation Expansion Package Created
 
