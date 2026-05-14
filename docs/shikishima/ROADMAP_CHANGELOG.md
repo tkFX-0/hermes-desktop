@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.1.1
+- roadmapVersion: v3.1.2
 - lastUpdated: 2026-05-14
-- latestUpdate: Level 2 GO wording review prepared
+- latestUpdate: V3 goal roadmap and Claude Code /goal definitions prepared
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,15 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.1.2 - V3 Goal Roadmap and Claude Code /goal Definitions Prepared
+
+- Added `V3_GOAL_ROADMAP.md`: 5-track roadmap (Validation, App Observation, Local MVP, 5-Agent, External/Device), roadmap sequence v3.0.0–v4.0.0+, current/next gate, STOP gates, human approval rules.
+- Added `CLAUDE_CODE_GOAL_DEFINITIONS.md`: 10 /goal definitions (push-readiness through external-device-hold), each with allowed/forbidden scope, human approval, stop conditions, result log, next gate.
+- Explicitly states v3.0-v3.1.1 focused on safety/validation infrastructure, not new app features.
+- Electron dev-mode observation is Track B, not yet approved.
+- All Track E items (external/device/WSL/Hermes/wrapper/robot/voice/camera/mic) remain absolute HOLD.
+- HOLD remains current. execution remains disabled. productionReady remains false.
 
 ## v3.1.1 - Level 2 GO Wording Review Prepared
 
