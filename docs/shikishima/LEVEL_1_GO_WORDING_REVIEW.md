@@ -106,7 +106,8 @@ This document itself is not GO.
 
 ## Exact Command Scope
 
-The following commands are the complete approved command list for Level 1.
+The following commands are the complete proposed command list for a future Level 1 GO.
+They are not approved to run by this document.
 No additional commands may be added at execution time without a new GO.
 
 | Order | Command | Purpose |
@@ -287,6 +288,7 @@ Before issuing Level 1 GO, the human must confirm each item:
 | 10 | No secrets, tokens, or raw values will be exposed | confirmed |
 | 11 | GO wording copied with time window filled in | yes |
 | 12 | GO issued in a new explicit message (not this document) | yes |
+| 13 | Level 1 execution still requires a new explicit human GO | yes |
 
 ## Safety Boundary
 
