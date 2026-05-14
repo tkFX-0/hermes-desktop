@@ -84,3 +84,18 @@ Any future pilot approval must be explicit and scoped. Examples:
 
 Current pilot level remains Level 0: documentation-only. The next step is human
 review of the Pre-Operation Readiness Candidate, not operation.
+
+## Human Reviewer Notes
+
+- reviewed_by: human
+- reviewed_at: 2026-05-14
+- decision: accept_as_review_evidence
+- notes:
+  - Controlled Pilot Plan is acceptable as planning and review evidence only.
+  - Controlled Pilot Plan is not operational GO.
+  - Current pilot level remains Level 0: documentation-only.
+  - This acceptance does not approve Level 1, Level 2, Level 3, GO, execution, productionReady true, git push, deploy, Cloudflare, WSL/Hermes/wrapper, devices, robot/StackChan, voice/camera/mic, secrets, raw values, or local-only values.
+  - Any movement above Level 0 requires a separate explicit human approval with exact scope.
+  - Operational gates remain HOLD unless individually approved.
+- required_rework:
+  - none

@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v2.9.5
+- roadmapVersion: v2.9.6
 - lastUpdated: 2026-05-14
-- latestUpdate: Validation evidence accepted for review only
+- latestUpdate: Pre-operation and controlled pilot review evidence recorded
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,14 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v2.9.6 - Pre-Operation and Controlled Pilot Review Evidence Recorded
+
+- Recorded Human Reviewer Notes in `PRE_OPERATION_READINESS_GATE.md` and `CONTROLLED_PILOT_PLAN.md` as review evidence only.
+- Pre-Operation Readiness Gate accepted as review evidence only; not operational GO.
+- Controlled Pilot Plan accepted as planning and review evidence only; current level remains Level 0: documentation-only.
+- No GO, execution, productionReady true, git push, deploy, Cloudflare, WSL/Hermes/wrapper, devices, robot/StackChan, voice/camera/mic, secrets, raw values, or local-only values were approved.
+- HOLD remains current. execution remains disabled. productionReady remains false.
 
 ## v2.9.5 - Validation Evidence Accepted For Review Only
 

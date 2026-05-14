@@ -100,6 +100,8 @@ Only existing local tools and scripts may be used:
 No npm install, npx, dependency update, external deploy, packaged smoke,
 WSL/Hermes/wrapper/dummy, or device operation is allowed by this gate.
 
+These commands are listed as future validation evidence requirements only and are not approved to run by this review note.
+
 ## Required Git Push Decision
 
 git push remains separate. Passing validation or reaching Pre-Operation
@@ -138,3 +140,17 @@ Stop before:
 Pre-Operation Readiness Candidate may be reviewed when this file, the human
 decision sheet, the validation summary, and the controlled pilot plan all exist.
 It still requires a separate human GO before any operation.
+
+## Human Reviewer Notes
+
+- reviewed_by: human
+- reviewed_at: 2026-05-14
+- decision: accept_as_review_evidence
+- notes:
+  - Pre-Operation Readiness Gate is acceptable as review evidence only.
+  - Pre-Operation Readiness Candidate is not operational GO.
+  - This acceptance does not approve GO, execution, productionReady true, git push, deploy, Cloudflare, WSL/Hermes/wrapper, devices, robot/StackChan, voice/camera/mic, secrets, raw values, or local-only values.
+  - Required validation commands listed in this document are future validation evidence requirements only and are not approved to run by this review note.
+  - Operational gates remain HOLD unless individually approved.
+- required_rework:
+  - none

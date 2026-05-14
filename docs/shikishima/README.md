@@ -148,8 +148,8 @@ network flow.
 - `HUMAN_REVIEW_READY_PACKAGE.md` - v2.9.2 local validation review-ready candidate package.
 - `VALIDATION_PASS_CANDIDATE_SUMMARY.md` - v2.9.2 G-05/G-06/G-07 PASS candidate summary.
 - `HUMAN_REVIEW_DECISION_SHEET.md` - v2.9.3 human decision sheet for accepting or holding validation candidates.
-- `PRE_OPERATION_READINESS_GATE.md` - v2.9.3 pre-operation gate and STOP conditions.
-- `CONTROLLED_PILOT_PLAN.md` - v2.9.3 design-only controlled pilot plan; Level 0 remains current.
+- `PRE_OPERATION_READINESS_GATE.md` - v2.9.6 pre-operation gate and STOP conditions; human reviewer notes recorded.
+- `CONTROLLED_PILOT_PLAN.md` - v2.9.6 design-only controlled pilot plan; Level 0 remains current; human reviewer notes recorded.
 - `V3_TO_V10_IMPLEMENTATION_COMPLETION_PACK.md` - v2.8.0 DONE/READY/AFTER-GO/HOLD status per stage v3–v10.
 - `V3_TO_V10_READY_CHECKLIST.md` - v2.8.0 entry/exit conditions per stage; current readiness status.
 - `V3_TO_V10_HUMAN_DECISION_MAP.md` - v2.8.0 all human GO decisions mapped by stage; agent cannot issue GO.
