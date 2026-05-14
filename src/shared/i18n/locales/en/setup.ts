@@ -5,6 +5,9 @@ export default {
     openrouter: { name: "OpenRouter", desc: "200+ models", tag: "Recommended" },
     anthropic: { name: "Anthropic", desc: "Claude models", tag: "" },
     openai: { name: "OpenAI", desc: "GPT models", tag: "" },
+    google: { name: "Google", desc: "Gemini models", tag: "" },
+    xai: { name: "xAI", desc: "Grok models", tag: "" },
+    nous: { name: "Nous Research", desc: "Hermes models", tag: "No API key needed" },
     local: {
       name: "Local LLM",
       desc: "LM Studio, Ollama, etc.",
@@ -25,6 +28,7 @@ export default {
   missingApiKey: "Please enter an API key",
   missingServerUrl: "Please enter the server URL",
   saveFailed: "Failed to save configuration",
+  apiKeyPlaceholder: "Paste your API key here",
   noKeyHint: "Don't have a key? Get one here",
   continue: "Continue",
   saving: "Saving...",

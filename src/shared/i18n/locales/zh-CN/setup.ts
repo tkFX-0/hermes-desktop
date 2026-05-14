@@ -5,6 +5,9 @@ export default {
     openrouter: { name: "OpenRouter", desc: "200+ 模型", tag: "推荐" },
     anthropic: { name: "Anthropic", desc: "Claude 模型", tag: "" },
     openai: { name: "OpenAI", desc: "GPT 模型", tag: "" },
+    google: { name: "Google", desc: "Gemini 模型", tag: "" },
+    xai: { name: "xAI", desc: "Grok 模型", tag: "" },
+    nous: { name: "Nous Research", desc: "Hermes 模型", tag: "无需 API Key" },
     local: {
       name: "本地模型",
       desc: "LM Studio、Ollama 等",
@@ -25,6 +28,7 @@ export default {
   missingApiKey: "请输入 API Key",
   missingServerUrl: "请输入服务器地址",
   saveFailed: "保存配置失败",
+  apiKeyPlaceholder: "在此粘贴您的 API Key",
   noKeyHint: "还没有 Key？点此获取",
   continue: "继续",
   saving: "保存中...",

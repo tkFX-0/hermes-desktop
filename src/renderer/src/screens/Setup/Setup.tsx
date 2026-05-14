@@ -142,8 +142,11 @@ function Setup({ onComplete }: { onComplete: () => void }): React.JSX.Element {
               <input
                 className="input"
                 type={showKey ? "text" : "password"}
-                placeholder={provider.placeholder}
+                placeholder={t("setup.apiKeyPlaceholder")}
                 value={apiKey}
+                autoComplete="new-password"
+                data-lpignore="true"
+                data-1p-ignore="true"
                 onChange={(e) => {
                   setApiKey(e.target.value);
                   setError("");
