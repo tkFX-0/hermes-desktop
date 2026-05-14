@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.11.0
+- roadmapVersion: v3.12.0
 - lastUpdated: 2026-05-14
-- latestUpdate: Level B3 Practical Local MVP Operation Rules candidate created
+- latestUpdate: Level B3 Practical Local MVP Operation Rules accepted; accepted_as_practical_local_mvp_operation_rules
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,17 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.12.0 - Level B3 Operation Rules Accepted
+
+- roadmapVersion: v3.12.0
+- lastUpdated: 2026-05-14
+- Human reviewer explicitly accepted Level B3 rules as `accepted_as_practical_local_mvp_operation_rules`.
+- Added `LOCAL_MVP_OPERATION_ACCEPTANCE_RECORD.md`: 18-item checklist (all PASS); human acceptance statement; what acceptance means/does not mean; HOLD boundary confirmed.
+- Updated `PRACTICAL_LOCAL_MVP_ACCEPTANCE_CRITERIA.md`: all docs criteria PASS; evidence criteria PASS; safety criteria PASS.
+- This acceptance does not approve Level 3, productionReady, execution, robot/voice/device, deploy, or future git push.
+- Next: push 6f0414f + acceptance commit → Level B3 daily operation loop.
+- HOLD remains current. execution remains disabled. productionReady remains false.
 
 ## v3.11.0 - Level B3 Practical Local MVP Operation Rules Candidate Created
 

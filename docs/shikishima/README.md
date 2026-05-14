@@ -187,6 +187,7 @@ network flow.
 - `LOCAL_MVP_SESSION_PROTOCOL.md` - v3.11.0 7 session states; 10-step flow (pre-check → GO → binary → open → observe → stop-check → close → working-tree → evidence → acceptance); session ID format.
 - `LOCAL_MVP_EVIDENCE_SCHEMA.md` - v3.11.0 all evidence fields with types and formats; 10 validation rules; redacted-only policy.
 - `LOCAL_MVP_OPERATION_ACCEPTANCE_RECORD_TEMPLATE.md` - v3.11.0 ready-to-fill acceptance block; 16-item pre-acceptance checklist; what acceptance means / does not mean.
+- `LOCAL_MVP_OPERATION_ACCEPTANCE_RECORD.md` - v3.12.0 official human acceptance record; accepted_as_practical_local_mvp_operation_rules; 18-item checklist (all PASS); HOLD boundary confirmed; next: Level B3 daily operation loop.
 - `LOCAL_APP_OBSERVATION_FINAL_GO_TEMPLATE.md` - v3.6.1 ready-to-copy GO block template (time_window placeholder — not GO until human fills and sends); hardened command (local binary only, npx removed); placeholder checklist; allowed/forbidden/stop list.
 - `V3_TO_V10_IMPLEMENTATION_COMPLETION_PACK.md` - v2.8.0 DONE/READY/AFTER-GO/HOLD status per stage v3–v10.
 - `V3_TO_V10_READY_CHECKLIST.md` - v2.8.0 entry/exit conditions per stage; current readiness status.
