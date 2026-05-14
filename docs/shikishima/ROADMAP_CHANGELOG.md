@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v2.9.7
+- roadmapVersion: v2.9.8
 - lastUpdated: 2026-05-14
-- latestUpdate: Remote push evidence recorded
+- latestUpdate: Level 1 scope proposal and acceptance clarification prepared
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,15 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v2.9.8 - Level 1 Scope Proposal and Acceptance Clarification Prepared
+
+- Added `LEVEL_1_ACCEPTANCE_CLARIFICATION.md`: clarifies G-05/G-06/G-07 as official PASS for Level 1 review; accepts rollback references as Level 1 prerequisites; does not approve Level 1 GO.
+- Added `LEVEL_1_LOCAL_DRY_RUN_SCOPE_PROPOSAL.md`: exact proposed command list, time window placeholder, output policy, stop conditions, and approval requirements; proposal only, not approved.
+- All Level 1 entry conditions are now available for human review.
+- Level 1 GO still requires a separate explicit human approval with exact scope.
+- No GO, execution, productionReady true, git push, deploy, Cloudflare, WSL/Hermes/wrapper, devices, robot/StackChan, voice/camera/mic, secrets, raw values, or local-only values were approved.
+- HOLD remains current. execution remains disabled. productionReady remains false.
 
 ## v2.9.7 - Remote Push Evidence Recorded
 
