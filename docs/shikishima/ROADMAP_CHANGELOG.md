@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.1.4
+- roadmapVersion: v3.2.0-candidate
 - lastUpdated: 2026-05-14
-- latestUpdate: StackChan not arrived; robot track clarified as preparation-only
+- latestUpdate: Level 2 final GO package prepared
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,13 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.2.0-candidate - Level 2 Final GO Package Prepared
+
+- Added `LEVEL_2_FINAL_GO_PACKAGE.md`: ready-to-copy GO block (time window placeholder), exact 5-command scope, structured output policy, stop conditions, pre-run verification, result log format, 15-item checklist.
+- Level 2 execution not approved by this package; GO requires human to fill time window and send explicitly.
+- No GO, execution, productionReady, push, Electron, WSL, robot/StackChan, voice/camera/mic, secrets approved.
+- HOLD remains current. execution remains disabled.
 
 ## v3.1.4 - StackChan Not Arrived; Robot Track Clarified As Preparation-Only
 

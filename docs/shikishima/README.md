@@ -163,6 +163,7 @@ network flow.
 - `FINAL_100_PERCENT_TRACK_MATRIX.md` - v3.1.3 12-track status matrix; Track E absolute HOLD; current status per track.
 - `FINAL_100_PERCENT_GOAL_TREE.md` - v3.1.3 /goal tree from shikishima.final-100 through 12 child goals; definition, gate, GO, stop conditions per goal.
 - `STACKCHAN_NOT_ARRIVED_ROBOT_PREPARATION_ONLY.md` - v3.1.4 explicit record that StackChan has not arrived; robot preparation-only allowed; robot runtime/connection/motion HOLD.
+- `LEVEL_2_FINAL_GO_PACKAGE.md` - v3.2.0-candidate final Level 2 GO package; ready-to-copy GO block (time window blank); 5-command scope; result format; 15-item checklist; Level 2 GO not approved by this doc.
 - `V3_TO_V10_IMPLEMENTATION_COMPLETION_PACK.md` - v2.8.0 DONE/READY/AFTER-GO/HOLD status per stage v3–v10.
 - `V3_TO_V10_READY_CHECKLIST.md` - v2.8.0 entry/exit conditions per stage; current readiness status.
 - `V3_TO_V10_HUMAN_DECISION_MAP.md` - v2.8.0 all human GO decisions mapped by stage; agent cannot issue GO.
