@@ -750,10 +750,36 @@ export function isApiReady(): boolean {
   return apiServerAvailable === true;
 }
 
+function validateRemoteUrl(url: string): { ok: true; parsed: URL } | { ok: false } {
+  try {
+    const parsed = new URL(url);
+    if (!["http:", "https:"].includes(parsed.protocol)) return { ok: false };
+    const h = parsed.hostname.toLowerCase();
+    // ブロック: loopback / link-local / cloud metadata / private ranges
+    if (
+      h === "localhost" ||
+      /^127\./.test(h) ||
+      /^0\./.test(h) ||
+      /^169\.254\./.test(h) ||
+      /^10\./.test(h) ||
+      /^172\.(1[6-9]|2[0-9]|3[01])\./.test(h) ||
+      /^192\.168\./.test(h)
+    ) {
+      return { ok: false };
+    }
+    return { ok: true, parsed };
+  } catch {
+    return { ok: false };
+  }
+}
+
 export function testRemoteConnection(
   url: string,
   apiKey?: string,
 ): Promise<boolean> {
+  const check = validateRemoteUrl(url);
+  if (!check.ok) return Promise.resolve(false);
+
   return new Promise((resolve) => {
     const target = `${url.replace(/\/+$/, "")}/health`;
     const mod = target.startsWith("https") ? https : http;

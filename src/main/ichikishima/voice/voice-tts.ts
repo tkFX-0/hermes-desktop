@@ -12,6 +12,29 @@ export interface TtsResult {
   message?: string;
 }
 
+// TTS用URLのバリデーション
+// VOICEVOXはローカルのみ許可 (localhost / 127.0.0.1)
+function validateTtsBaseUrl(url: string): { ok: true; parsed: URL } | { ok: false; reason: string } {
+  let parsed: URL;
+  try {
+    parsed = new URL(url);
+  } catch {
+    return { ok: false, reason: "Invalid URL format" };
+  }
+
+  if (!["http:", "https:"].includes(parsed.protocol)) {
+    return { ok: false, reason: "Only http/https allowed for TTS" };
+  }
+
+  const host = parsed.hostname.toLowerCase();
+  // VOICEVOXはローカルのみ。127.0.0.1 / localhost のみ許可
+  if (host !== "localhost" && host !== "127.0.0.1") {
+    return { ok: false, reason: `TTS base URL must be localhost. Got: ${host}` };
+  }
+
+  return { ok: true, parsed };
+}
+
 export async function speakText(
   config: VoiceConfig,
   request: TtsRequest,
@@ -26,6 +49,10 @@ export async function speakText(
   }
 
   if (config.ttsProvider === "voicevox") {
+    const urlCheck = validateTtsBaseUrl(config.ttsBaseUrl);
+    if (!urlCheck.ok) {
+      return { success: false, message: urlCheck.reason };
+    }
     return speakVoicevox(config, request);
   }
 
@@ -36,9 +63,15 @@ async function speakVoicevox(
   config: VoiceConfig,
   request: TtsRequest,
 ): Promise<TtsResult> {
+  const urlCheck = validateTtsBaseUrl(config.ttsBaseUrl);
+  if (!urlCheck.ok) {
+    return { success: false, message: urlCheck.reason };
+  }
+  const base = config.ttsBaseUrl.replace(/\/+$/, "");
+
   try {
     const queryRes = await fetch(
-      `${config.ttsBaseUrl}/audio_query?text=${encodeURIComponent(request.text)}&speaker=${request.speakerId ?? 1}`,
+      `${base}/audio_query?text=${encodeURIComponent(request.text)}&speaker=${request.speakerId ?? 1}`,
       { method: "POST" },
     );
     if (!queryRes.ok) {
@@ -47,7 +80,7 @@ async function speakVoicevox(
     const query = await queryRes.json();
 
     const synthRes = await fetch(
-      `${config.ttsBaseUrl}/synthesis?speaker=${request.speakerId ?? 1}`,
+      `${base}/synthesis?speaker=${request.speakerId ?? 1}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
