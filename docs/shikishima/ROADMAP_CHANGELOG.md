@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v2.9.6
+- roadmapVersion: v2.9.7
 - lastUpdated: 2026-05-14
-- latestUpdate: Pre-operation and controlled pilot review evidence recorded
+- latestUpdate: Remote push evidence recorded
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,16 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v2.9.7 - Remote Push Evidence Recorded
+
+- Recorded first successful remote push of docs-only history to https://github.com/tkFX-0/hermes-desktop.
+- Added `REMOTE_PUSH_EVIDENCE.md` as push evidence record only.
+- Push scope: committed history only (5 docs-only commits, v2.9.2 through v2.9.6).
+- CRLF-only modified files and untracked files were not pushed.
+- Push approval for that scope is consumed; any future push requires new explicit human approval.
+- No GO, execution, productionReady true, deploy, Cloudflare, WSL/Hermes/wrapper, devices, robot/StackChan, voice/camera/mic, secrets, raw values, or local-only values were approved.
+- HOLD remains current. execution remains disabled. productionReady remains false.
 
 ## v2.9.6 - Pre-Operation and Controlled Pilot Review Evidence Recorded
 

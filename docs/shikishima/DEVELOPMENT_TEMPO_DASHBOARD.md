@@ -20,12 +20,12 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v2.9.6
-- latestUpdate: Pre-operation and controlled pilot review evidence recorded
-- docs-only commits completed: local docs commits exist (v2.3.0 through v2.9.6); 37 new docs in v2.8.x
+- roadmapVersion: v2.9.7
+- latestUpdate: Remote push evidence recorded
+- docs-only commits completed: local docs commits exist (v2.3.0 through v2.9.6); 37 new docs in v2.8.x; history pushed to github.com/tkFX-0/hermes-desktop
 - validation road: G-05 ESLint PASS candidate; G-06 vitest PASS candidate; G-07 local build PASS candidate
-- current next human action: review recorded evidence in PRE_OPERATION_READINESS_GATE.md and CONTROLLED_PILOT_PLAN.md and decide on next operational gate
-- HOLD reason: execution disabled; productionReady false; git push not approved; G-18/G-19 not issued; current Level = 0
+- current next human action: review REMOTE_PUSH_EVIDENCE.md and decide on next operational gate
+- HOLD reason: execution disabled; productionReady false; future git push not approved; G-18/G-19 not issued; current Level = 0
 
 ## Boundaries
 

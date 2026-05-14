@@ -126,7 +126,7 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">roadmapVersion: v2.9.6</span>
+        <span class="chip ok">roadmapVersion: v2.9.7</span>
         <span class="chip ok">lastUpdated: 2026-05-14</span>
       </div>
     </header>
@@ -135,14 +135,15 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div class="card status-card">
           <h2>譖ｴ譁ｰ繧ｹ繝・・繧ｿ繧ｹ</h2>
           <div class="kv">
-            <div>roadmapVersion</div><div><code>v2.9.6</code></div>
+            <div>roadmapVersion</div><div><code>v2.9.7</code></div>
             <div>lastUpdated</div><div><code>2026-05-14</code></div>
-            <div>latestUpdate</div><div>Pre-operation and controlled pilot review evidence recorded</div>
+            <div>latestUpdate</div><div>Remote push evidence recorded</div>
             <div>currentLevel</div><div><code>Level 0 — docs-only</code></div>
-            <div>nextHumanAction</div><div>Review recorded evidence in PRE_OPERATION_READINESS_GATE.md and CONTROLLED_PILOT_PLAN.md and decide on next operational gate</div>
+            <div>nextHumanAction</div><div>Review REMOTE_PUSH_EVIDENCE.md and decide on next operational gate</div>
             <div>nextGOCandidates</div><div><code>G-01 / G-02 / G-03</code></div>
             <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
             <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
+            <div>v2.9.7 note</div><div>v2.9.7: First remote push of docs-only history to github.com/tkFX-0/hermes-desktop (main). REMOTE_PUSH_EVIDENCE.md added. Push scope: committed history only. Future git push requires new explicit human approval. No GO, execution, productionReady true, deploy, Cloudflare, WSL/Hermes/wrapper, devices, robot/StackChan, voice/camera/mic, secrets, raw values, or local-only values approved.</div>
             <div>v2.9.6 note</div><div>v2.9.6: Pre-operation and controlled pilot review evidence recorded. PRE_OPERATION_READINESS_GATE.md and CONTROLLED_PILOT_PLAN.md accepted as review evidence only. Current pilot level remains Level 0. No GO, execution, productionReady true, git push, deploy, Cloudflare, WSL/Hermes/wrapper, devices, robot/StackChan, voice/camera/mic, secrets, raw values, or local-only values approved.</div>
             <div>v2.9.5 note</div><div>v2.9.5: Validation evidence accepted for review only. Pre-Operation Readiness Gate review may continue. No GO, execution, productionReady true, git push, deploy, Cloudflare, WSL/Hermes/wrapper, robots, voice, camera, mic, secrets, raw values, local-only values, or repo-external writes approved.</div>
             <div>v2.9.4 note</div><div>v2.9.4: Human Review Decision Sheet wording clarified. --quiet suppresses warnings; no blocking ESLint errors were reported. Operational gates beyond accepted validation evidence remain HOLD unless individually approved.</div>
@@ -194,7 +195,18 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       <section id="changelog">
         <h2>譖ｴ譁ｰ螻･豁ｴ / Changelog</h2>
         <div class="card">
-          <h3>v2.9.6 - Pre-operation and controlled pilot review evidence recorded <span class="update-badge">latest</span></h3>
+          <h3>v2.9.7 - Remote push evidence recorded <span class="update-badge">latest</span></h3>
+          <ul>
+            <li>First remote push of docs-only history to github.com/tkFX-0/hermes-desktop (main). Added REMOTE_PUSH_EVIDENCE.md.</li>
+            <li>Push scope: committed history only (5 docs-only commits, v2.9.2 through v2.9.6).</li>
+            <li>CRLF-only modified files and untracked files were not pushed.</li>
+            <li>Push approval for that scope is consumed. Any future push requires new explicit human approval.</li>
+            <li>No GO, execution, productionReady true, deploy, Cloudflare, WSL/Hermes/wrapper, devices, robot/StackChan, voice/camera/mic, secrets, raw values, or local-only values were approved.</li>
+            <li>HOLD remains current. execution remains disabled. productionReady remains false.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>v2.9.6 - Pre-operation and controlled pilot review evidence recorded</h3>
           <ul>
             <li>Recorded Human Reviewer Notes in PRE_OPERATION_READINESS_GATE.md and CONTROLLED_PILOT_PLAN.md as review evidence only.</li>
             <li>Pre-Operation Readiness Gate accepted as review evidence only; not operational GO.</li>
