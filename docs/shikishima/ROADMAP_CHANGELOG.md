@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.6.1
+- roadmapVersion: v3.7.0
 - lastUpdated: 2026-05-14
-- latestUpdate: Local App Observation GO command hardened; npx replaced with local binary
+- latestUpdate: Practical Local MVP Operation definition package created (4 docs)
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,17 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.7.0 - Practical Local MVP Operation Definition Package Created
+
+- roadmapVersion: v3.7.0
+- lastUpdated: 2026-05-14
+- Added `PRACTICAL_LOCAL_MVP_OPERATION_DEFINITION.md`: 6-tier operation level (B0–B4, C); definition of Practical Local MVP Operation; 13-item session verification matrix; remaining HOLD list; Level 3 candidate conditions.
+- Added `LOCAL_OPERATION_AUTONOMOUS_LOOP_PLAN.md`: 7-step allowed loop pattern; forbidden loop pattern; loop termination conditions; per-iteration output format.
+- Added `LOCAL_OPERATION_TEST_MATRIX.md`: pre/during/post observation check tables; evidence recording rules; session result criteria.
+- Added `LOCAL_OPERATION_STOP_CONDITIONS.md`: pre/during/post/loop stop conditions (12 + 8 + 4 + 7 = 31 total); after-stop procedure.
+- Local App Observation execution not approved. GO with concrete time_window required.
+- HOLD remains current. execution remains disabled. productionReady remains false.
 
 ## v3.6.1 - Local App Observation GO Command Hardened
 

@@ -170,7 +170,11 @@ network flow.
 - `LOCAL_APP_OBSERVATION_SCOPE_PROPOSAL.md` - v3.4.0 proposed future Local App Observation scope (not approved); proposed GO wording template (placeholder — not GO); proposed stop conditions; proposed evidence format; time_window required.
 - `LOCAL_APP_OBSERVATION_EVIDENCE_TEMPLATE.md` - v3.4.0 fill-in evidence template for future observation; redacted-only output policy; screens/result/issues/stop-conditions/working-tree fields; template use policy.
 - `TRACK_B_READINESS_ACCEPTANCE_RECORD.md` - v3.5.0 official human acceptance record for Track B readiness; 17-item review checklist (all PASS); accepted_as_track_b_readiness_scope; HOLD boundary confirmed; next candidate GO wording review.
-- `LOCAL_APP_OBSERVATION_GO_WORDING_REVIEW.md` - v3.6.0 GO wording review only (not GO); proposed command npx electron . (proposed only); 13-item pre-run checklist; 9 stop conditions; 13-item GO wording checklist; post-observation decision options.
+- `LOCAL_APP_OBSERVATION_GO_WORDING_REVIEW.md` - v3.6.1 GO wording review only (not GO); hardened command .\node_modules\.bin\electron.cmd . (local binary only); 14-item pre-run checklist; 10 stop conditions; 13-item GO wording checklist; post-observation decision options.
+- `PRACTICAL_LOCAL_MVP_OPERATION_DEFINITION.md` - v3.7.0 6-tier operation level (B0-B4, C); definition of Practical Local MVP Operation; 13-item session verification; remaining HOLD list; Level 3 candidate conditions.
+- `LOCAL_OPERATION_AUTONOMOUS_LOOP_PLAN.md` - v3.7.0 7-step allowed autonomous loop pattern; forbidden loop pattern; loop termination conditions; per-iteration output format.
+- `LOCAL_OPERATION_TEST_MATRIX.md` - v3.7.0 pre/during/post observation check tables; evidence recording rules; session result criteria (PASS/HOLD/NG).
+- `LOCAL_OPERATION_STOP_CONDITIONS.md` - v3.7.0 pre/during/post/loop stop conditions (31 total); after-stop procedure; safety boundary.
 - `LOCAL_APP_OBSERVATION_FINAL_GO_TEMPLATE.md` - v3.6.1 ready-to-copy GO block template (time_window placeholder — not GO until human fills and sends); hardened command (local binary only, npx removed); placeholder checklist; allowed/forbidden/stop list.
 - `V3_TO_V10_IMPLEMENTATION_COMPLETION_PACK.md` - v2.8.0 DONE/READY/AFTER-GO/HOLD status per stage v3–v10.
 - `V3_TO_V10_READY_CHECKLIST.md` - v2.8.0 entry/exit conditions per stage; current readiness status.
