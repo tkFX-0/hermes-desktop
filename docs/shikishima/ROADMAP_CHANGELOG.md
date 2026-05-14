@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.7.0
+- roadmapVersion: v3.8.0
 - lastUpdated: 2026-05-14
-- latestUpdate: Practical Local MVP Operation definition package created (4 docs)
+- latestUpdate: Practical Local MVP pre-operation expansion package created (6 docs)
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,19 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.8.0 - Practical Local MVP Pre-Operation Expansion Package Created
+
+- roadmapVersion: v3.8.0
+- lastUpdated: 2026-05-14
+- Added `LOCAL_MVP_OPERATOR_RUNBOOK.md`: who/when/pre-open/allowed/forbidden/record/stop/report/HOLD for operators.
+- Added `LOCAL_MVP_DAILY_CHECK_TEMPLATE.md`: per-session fill-in template; pre-open/observation/status/safety/stop/result fields; redacted-only policy.
+- Added `LOCAL_MVP_INCIDENT_RESPONSE_PLAYBOOK.md`: 9 incident types; immediate actions; what not to record; reopen/commit/push policy per type.
+- Added `PRACTICAL_LOCAL_MVP_ACCEPTANCE_CRITERIA.md`: 10 docs criteria + 6 evidence criteria + 8 safety criteria; current status per criterion; Practical Local MVP ≠ Final 100% distinction.
+- Added `AUTONOMOUS_LOOP_BOUNDARIES.md`: 12 allowed actions + 18 forbidden actions; 5 gate checks; loop output contract.
+- Added `LEVEL_3_CANDIDATE_PRECONDITIONS.md`: 6 observation + 5 operational + 5 human preconditions; Level 3 still HOLD; explicit statement that this doc does not approve Level 3.
+- Local App Observation execution not approved. f6ed64c and this commit are local-only until pushed separately.
+- HOLD remains current. execution remains disabled. productionReady remains false.
 
 ## v3.7.0 - Practical Local MVP Operation Definition Package Created
 

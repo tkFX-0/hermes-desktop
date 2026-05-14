@@ -175,6 +175,12 @@ network flow.
 - `LOCAL_OPERATION_AUTONOMOUS_LOOP_PLAN.md` - v3.7.0 7-step allowed autonomous loop pattern; forbidden loop pattern; loop termination conditions; per-iteration output format.
 - `LOCAL_OPERATION_TEST_MATRIX.md` - v3.7.0 pre/during/post observation check tables; evidence recording rules; session result criteria (PASS/HOLD/NG).
 - `LOCAL_OPERATION_STOP_CONDITIONS.md` - v3.7.0 pre/during/post/loop stop conditions (31 total); after-stop procedure; safety boundary.
+- `LOCAL_MVP_OPERATOR_RUNBOOK.md` - v3.8.0 operator guide: who/when/pre-open checks/allowed/forbidden/record/stop/report/HOLD; local MVP is human-supervised only.
+- `LOCAL_MVP_DAILY_CHECK_TEMPLATE.md` - v3.8.0 per-session fill-in template; pre-open/observation/status/safety/stop/result fields; redacted-only policy; one per session.
+- `LOCAL_MVP_INCIDENT_RESPONSE_PLAYBOOK.md` - v3.8.0 9 incident types; immediate actions per type; what not to record; reopen/commit/push policy per type.
+- `PRACTICAL_LOCAL_MVP_ACCEPTANCE_CRITERIA.md` - v3.8.0 24 criteria (10 docs + 6 evidence + 8 safety); Practical Local MVP ≠ Final 100% distinction; current status per criterion.
+- `AUTONOMOUS_LOOP_BOUNDARIES.md` - v3.8.0 12 allowed + 18 forbidden autonomous loop actions; 5 gate checks; loop output contract.
+- `LEVEL_3_CANDIDATE_PRECONDITIONS.md` - v3.8.0 16 preconditions for Level 3 candidate; Level 3 remains HOLD; explicit statement this doc does not approve Level 3.
 - `LOCAL_APP_OBSERVATION_FINAL_GO_TEMPLATE.md` - v3.6.1 ready-to-copy GO block template (time_window placeholder — not GO until human fills and sends); hardened command (local binary only, npx removed); placeholder checklist; allowed/forbidden/stop list.
 - `V3_TO_V10_IMPLEMENTATION_COMPLETION_PACK.md` - v2.8.0 DONE/READY/AFTER-GO/HOLD status per stage v3–v10.
 - `V3_TO_V10_READY_CHECKLIST.md` - v2.8.0 entry/exit conditions per stage; current readiness status.
