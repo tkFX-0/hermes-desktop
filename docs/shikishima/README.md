@@ -156,6 +156,7 @@ network flow.
 - `LEVEL_1_GO_WORDING_REVIEW.md` - v2.9.9 draft GO wording template with exact command scope, output policy, stop conditions, post-run report format, and review checklist; wording review only, not GO.
 - `LEVEL_1_LOCAL_DRY_RUN_EVIDENCE.md` - v3.0.0 evidence record of Controlled Pilot Level 1 local dry-run PASS (2026-05-14); all 5 commands passed; Level 2 requires separate GO.
 - `LEVEL_2_LOCAL_CONTROLLED_VALIDATION_SCOPE_PROPOSAL.md` - v3.1.0 Level 2 scope proposal; Option A selected (deeper redacted review of same 5 commands); proposal only, not approved.
+- `LEVEL_2_GO_WORDING_REVIEW.md` - v3.1.1 draft GO wording template for Level 2; structured output policy; 15-item checklist; wording review only, not GO.
 - `V3_TO_V10_IMPLEMENTATION_COMPLETION_PACK.md` - v2.8.0 DONE/READY/AFTER-GO/HOLD status per stage v3–v10.
 - `V3_TO_V10_READY_CHECKLIST.md` - v2.8.0 entry/exit conditions per stage; current readiness status.
 - `V3_TO_V10_HUMAN_DECISION_MAP.md` - v2.8.0 all human GO decisions mapped by stage; agent cannot issue GO.

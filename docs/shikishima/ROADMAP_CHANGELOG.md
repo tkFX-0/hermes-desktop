@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.1.0
+- roadmapVersion: v3.1.1
 - lastUpdated: 2026-05-14
-- latestUpdate: Level 2 local controlled validation scope proposal prepared
+- latestUpdate: Level 2 GO wording review prepared
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,14 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.1.1 - Level 2 GO Wording Review Prepared
+
+- Added `LEVEL_2_GO_WORDING_REVIEW.md`: draft GO template with proposed commands (not approved), structured output policy, stop conditions, pre-run verification, result log format, 15-item checklist.
+- Document is wording_review_only / HOLD. Level 2 execution not approved.
+- Human must fill in time window and issue GO in a new explicit message.
+- No GO, execution, productionReady true, git push, deploy, Cloudflare, WSL/Hermes/wrapper, Electron, devices, robot/StackChan, voice/camera/mic, secrets, raw values, or local-only values were approved.
+- HOLD remains current. execution remains disabled. productionReady remains false.
 
 ## v3.1.0 - Level 2 Local Controlled Validation Scope Proposal Prepared
 
