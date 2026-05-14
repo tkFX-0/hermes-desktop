@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.12.0
+- roadmapVersion: v3.13.0
 - lastUpdated: 2026-05-14
-- latestUpdate: Level B3 Practical Local MVP Operation Rules accepted; accepted_as_practical_local_mvp_operation_rules
-- baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
+- latestUpdate: Level B3 Session-001→003 loop completed; Session-003 accepted; B3 daily loop runbook + Level 3 gap audit created
+- baselineCommit: d6056c812c406014c62a8a7d5e07381e31927783
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,22 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.13.0 - B3 Daily Loop First Cycle Completed
+
+- roadmapVersion: v3.13.0
+- lastUpdated: 2026-05-14
+- B3 Session-001→003 loop completed and pushed to origin/main (d6056c8).
+  - Session-001: STOP — secret_like_placeholder_visible (STOP correctly detected)
+  - Session-002: STOP — build_not_run_after_source_change (root cause resolved)
+  - Session-003: PASS — provider masking fix verified; accepted_as_level_b3_session_003_evidence
+- source fix 48e2f78 pushed: placeholder "AIza..." → "Paste your API key here"
+- Created: LEVEL_B3_DAILY_LOOP_RUNBOOK.md (runbook v1)
+- Created: LEVEL_B3_SESSION_HISTORY.md
+- Created: LEVEL_3_GAP_AUDIT.md (~11 prerequisites remain before Level 3 can be proposed)
+- Created: LEVEL_B3_NEXT_SESSION_PLAN.md (Session-004→007 candidates)
+- Level 3 remains not approved. execution remains disabled. productionReady remains false.
+- Next: human accepts runbook/gap audit docs; run Session-004 with time_window GO.
 
 ## v3.12.0 - Level B3 Operation Rules Accepted
 
