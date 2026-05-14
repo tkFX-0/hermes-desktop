@@ -169,6 +169,7 @@ network flow.
 - `LOCAL_APP_OBSERVATION_READINESS.md` - v3.4.0 Track B readiness scope; preconditions (10 items); allowed observation activities; forbidden activities; stop conditions; human decision options; Local App Observation execution not approved.
 - `LOCAL_APP_OBSERVATION_SCOPE_PROPOSAL.md` - v3.4.0 proposed future Local App Observation scope (not approved); proposed GO wording template (placeholder — not GO); proposed stop conditions; proposed evidence format; time_window required.
 - `LOCAL_APP_OBSERVATION_EVIDENCE_TEMPLATE.md` - v3.4.0 fill-in evidence template for future observation; redacted-only output policy; screens/result/issues/stop-conditions/working-tree fields; template use policy.
+- `TRACK_B_READINESS_ACCEPTANCE_RECORD.md` - v3.5.0 official human acceptance record for Track B readiness; 17-item review checklist (all PASS); accepted_as_track_b_readiness_scope; HOLD boundary confirmed; next candidate GO wording review.
 - `V3_TO_V10_IMPLEMENTATION_COMPLETION_PACK.md` - v2.8.0 DONE/READY/AFTER-GO/HOLD status per stage v3–v10.
 - `V3_TO_V10_READY_CHECKLIST.md` - v2.8.0 entry/exit conditions per stage; current readiness status.
 - `V3_TO_V10_HUMAN_DECISION_MAP.md` - v2.8.0 all human GO decisions mapped by stage; agent cannot issue GO.

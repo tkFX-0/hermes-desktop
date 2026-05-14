@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.4.0
+- roadmapVersion: v3.5.0
 - lastUpdated: 2026-05-14
-- latestUpdate: Track B Local App Observation readiness package created
+- latestUpdate: Track B readiness acceptance record created; accepted_as_track_b_readiness_scope
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,16 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.5.0 - Track B Readiness Acceptance Record Created
+
+- roadmapVersion: v3.5.0
+- lastUpdated: 2026-05-14
+- Human reviewer explicitly accepted Track B readiness package as `accepted_as_track_b_readiness_scope`.
+- Added `TRACK_B_READINESS_ACCEPTANCE_RECORD.md`: 17-item review checklist (all PASS); human acceptance statement; readiness package summary; HOLD boundary confirmed.
+- This acceptance does not approve Local App Observation execution, Electron dev-mode, Level 3, productionReady, execution enabled, robot/voice/device runtime, deployment, or future git push.
+- Next candidate: `/goal shikishima.app-observation-go-wording` (GO wording review).
+- HOLD remains current. execution remains disabled. productionReady remains false.
 
 ## v3.4.0 - Track B Local App Observation Readiness Package Created
 

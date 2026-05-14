@@ -20,12 +20,12 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.4.0
-- latestUpdate: Track B Local App Observation readiness package created (3 docs)
-- docs-only commits completed: local docs commits exist (v2.3.0 through v3.4.0); 37 new docs in v2.8.x; history pushed to github.com/tkFX-0/hermes-desktop
-- validation road: Level 1 PASS; Level 2 PASS; Level 2 human acceptance PASS (18/18 checks); Track B readiness scope created
-- current next human action: review Track B readiness package; decide whether to approve Local App Observation scope proposal + GO wording; issue GO with filled time_window
-- HOLD reason: execution disabled; productionReady false; Level 3 not approved; Local App Observation execution not approved (GO required); StackChan not arrived; Track E HOLD; Final Shikishima 100% = not complete
+- roadmapVersion: v3.5.0
+- latestUpdate: Track B readiness acceptance record created; accepted_as_track_b_readiness_scope
+- docs-only commits completed: local docs commits exist (v2.3.0 through v3.5.0); 37 new docs in v2.8.x; history pushed to github.com/tkFX-0/hermes-desktop
+- validation road: Level 1 PASS; Level 2 PASS; Level 2 human acceptance PASS (18/18 checks); Track B readiness accepted (17/17 checks)
+- current next human action: /goal shikishima.app-observation-go-wording — GO wording review for Local App Observation
+- HOLD reason: execution disabled; productionReady false; Level 3 not approved; Local App Observation execution not approved (GO wording review + GO required); StackChan not arrived; Track E HOLD; Final Shikishima 100% = not complete
 
 ## Boundaries
 
