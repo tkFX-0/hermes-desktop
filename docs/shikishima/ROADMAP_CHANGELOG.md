@@ -29,6 +29,18 @@ Every future roadmap-affecting change must update:
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
 
+## v3.19.0 - Phase 2C Design Docs + Route to B3 5/5
+
+- roadmapVersion: v3.19.0
+- lastUpdated: 2026-05-15
+- IPHONE_PRIVATE_CONSOLE_PHASE_2C_DESIGN.md: full design
+- IPHONE_PRIVATE_CONSOLE_PHASE_2C_PAIRING_TOKEN.md: token spec
+- IPHONE_PRIVATE_CONSOLE_PHASE_2C_SAME_LAN_CHECKLIST.md: pre/impl/session checklists
+- IPHONE_PRIVATE_CONSOLE_SESSION_009_IPHONE_GO_DRAFT.md: Session-009 GO template
+- Phase 2C implementation: NOT approved (separate GO required)
+- Session-009: not countable yet (Phase 2C must complete first)
+- RustDesk-less B3 #5 route: fully documented
+
 ## v3.18.0 - Shikishima App Independence Architecture Documented
 
 - roadmapVersion: v3.18.0
