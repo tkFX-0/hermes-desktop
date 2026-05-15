@@ -29,6 +29,22 @@ Every future roadmap-affecting change must update:
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
 
+## v3.17.0 - Canonical Agent Naming Aligned (v2)
+
+- roadmapVersion: v3.17.0
+- lastUpdated: 2026-05-15
+- canonical 7-agent naming confirmed and recorded in docs
+  - Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ
+- legacy names deprecated: つむぎ→つむぐ / はじめ→むすび / イツキシマ→いちきしま
+- technical ID → canonical mapping table established
+- AGENT_NAMES_ROLES_AND_PERMISSIONS.md: complete rewrite (canonical_v2)
+- AGENT_DIRECTORY_DASHBOARD.md: updated to canonical structure
+- README.md: canonical agent table added
+- AGENT_DOT_LINE_FACE_SYSTEM.md: つむぎ→つむぐ / はじめ→むすび
+- Source technical IDs (hermes_worker, supervisor, etc.) unchanged
+- UI label alignment (MobileAgentTeam, agent-registry labelJa) is separate task
+- Phase 2B-2 localhost server (50d414c) unchanged — naming docs are separate commit
+
 ## v3.16.0 - iPhone Private Console Phase 2B Design Prepared
 
 - roadmapVersion: v3.16.0

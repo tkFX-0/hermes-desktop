@@ -1,6 +1,30 @@
 ﻿# Shikishima Roadmap Docs
+date_updated: 2026-05-15
 
 This directory contains static documentation for the Shikishima plan.
+
+---
+
+## Canonical Agent Names (v2 — 確定版)
+
+| canonical | 役割 | technical IDs |
+|---|---|---|
+| Hermes Core | 心臓・脳 | hermes_worker |
+| しきしま | 顔・管制塔 | supervisor |
+| いちきしま | 審判 | ichikishima_reviewer |
+| しずめ | ブレーキ | approval_guardian, suppressive_agent |
+| しるべ | 記録と道標 | audit_keeper, visualization_observer |
+| むすび | 接続と編成 | execution_planner, research_agent |
+| つむぐ | 記憶と文脈 | memory_curator |
+
+Legacy names (deprecated):
+- つむぎ → つむぐ
+- はじめ → むすび
+- イツキシマ表記 → いちきしま
+
+See `AGENT_NAMES_ROLES_AND_PERMISSIONS.md` for full permission model.
+
+---
 
 Current state:
 
@@ -30,7 +54,7 @@ network flow.
 - `PHASE_3_AGENT_PERMISSION_REVIEW.md` - Phase 3 human review package.
 - `PHASE_4_MODEL_ROUTER_REVIEW.md` - Phase 4 Model Router review package.
 - `PHASE_5_SHIZUME_POLICY_REVIEW.md` - Phase 5 縺励★繧・policy review package.
-- `TSUMUGI_IMPLEMENTATION_WORKFLOW.md` - Phase 6 non-execution workflow.
+- `TSUMUGI_IMPLEMENTATION_WORKFLOW.md` - Phase 6 non-execution workflow (legacy: つむぎ → canonical: つむぐ).
 - `TSUMUGI_TASK_TEMPLATE.md` - 縺､繧縺・task intake template.
 - `TSUMUGI_SAFE_PATCH_CHECKLIST.md` - safe patch checklist.
 - `SHIRUBE_LOGGING_POLICY.md` - redacted logging policy.

@@ -52,11 +52,12 @@ Each agent is identified by five quiet signals:
 | --- | --- | --- | --- | --- | --- |
 | しきしま / しき | shikishima | calm dot eyes or tiny capsule dots | tiny soft smile | center node / orbit dot | blue |
 | しずめ | shizume | thin horizontal eyes | flat calm mouth | HOLD bar / gate line | blue-green |
-| つむぎ / つむ | tsumugi | slightly larger dot eyes | tiny focused mouth or small o | thread curve | amber/orange |
-| はじめ | hajime | upward-looking dot eyes | small bright smile | tiny arrow / first-step mark | green |
+| つむぐ | tsumugu | slightly larger dot eyes | tiny focused mouth or small o | thread curve | amber/orange |
+| むすび | musubi | upward-looking dot eyes | small bright smile | knot / connection mark | green |
 | しるべ | shirube | half-moon or sleepy eyes | tiny calm smile | bookmark / star-dot | violet |
 
-Only しき and つむ are nicknames. しずめ, はじめ, and しるべ have no nicknames.
+Only しき is a nickname (for しきしま). No other nicknames.
+Legacy note: つむぎ (tsumugi) is now つむぐ (tsumugu). はじめ (hajime) is now むすび (musubi).
 
 ## Safety Boundary
 
