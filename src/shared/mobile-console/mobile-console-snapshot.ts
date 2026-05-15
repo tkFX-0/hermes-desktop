@@ -1,16 +1,16 @@
 import type { MobileConsoleSnapshot } from "./mobile-console-types";
 
 const AGENT_DEFAULTS = [
-  { id: "supervisor",             labelJa: "統括スーパーバイザ",  color: "#a371f7", category: "統括" },
-  { id: "hermes_worker",          labelJa: "Hermes 作業",         color: "#58a6ff", category: "作業" },
-  { id: "ichikishima_reviewer",   labelJa: "イツキシマ審査",       color: "#3fb950", category: "審査" },
-  { id: "approval_guardian",      labelJa: "承認の門番",           color: "#fb923c", category: "承認" },
-  { id: "audit_keeper",           labelJa: "監査保管",             color: "#39d353", category: "監査" },
-  { id: "memory_curator",         labelJa: "メモリ候補",           color: "#f778ba", category: "記憶" },
-  { id: "visualization_observer", labelJa: "可視化オブザーバ",     color: "#79c0ff", category: "観察" },
-  { id: "suppressive_agent",      labelJa: "抑止エージェント",     color: "#f85149", category: "抑止" },
-  { id: "research_agent",         labelJa: "調査エージェント",     color: "#d29922", category: "調査" },
-  { id: "execution_planner",      labelJa: "実行計画（設計のみ）", color: "#8b949e", category: "計画" },
+  { id: "supervisor",             labelJa: "しきしま",    color: "#a371f7", category: "顔・管制塔" },
+  { id: "hermes_worker",          labelJa: "Hermes Core", color: "#58a6ff", category: "心臓・脳" },
+  { id: "ichikishima_reviewer",   labelJa: "いちきしま",  color: "#3fb950", category: "審判" },
+  { id: "approval_guardian",      labelJa: "しずめ",      color: "#fb923c", category: "ブレーキ" },
+  { id: "audit_keeper",           labelJa: "しるべ",      color: "#39d353", category: "記録と道標" },
+  { id: "memory_curator",         labelJa: "つむぐ",      color: "#f778ba", category: "記憶・文脈" },
+  { id: "visualization_observer", labelJa: "しるべ",      color: "#79c0ff", category: "記録と道標" },
+  { id: "suppressive_agent",      labelJa: "しずめ",      color: "#f85149", category: "ブレーキ" },
+  { id: "research_agent",         labelJa: "むすび",      color: "#d29922", category: "接続と編成" },
+  { id: "execution_planner",      labelJa: "むすび",      color: "#8b949e", category: "接続と編成" },
 ].map((a) => ({
   ...a,
   enabled: false as const,
@@ -20,7 +20,7 @@ const AGENT_DEFAULTS = [
   autoApprove: false as const,
 }));
 
-/** Safe static default snapshot for Phase 1 / Phase 2A (no runtime data yet). */
+/** Safe static default snapshot for Phase 2B. */
 export const MOBILE_CONSOLE_DEFAULT_SNAPSHOT: MobileConsoleSnapshot = {
   decision: "HOLD",
   execution: "disabled",
@@ -29,7 +29,7 @@ export const MOBILE_CONSOLE_DEFAULT_SNAPSHOT: MobileConsoleSnapshot = {
   level3: "not_approved",
   robotMotion: "HOLD",
   appStatus: "initialized",
-  phase: "iphone_private_console_phase_2a",
+  phase: "iphone_private_console_phase_2b_ipc",
   b3Progress: {
     current: 4,
     required: 5,
@@ -47,8 +47,8 @@ export const MOBILE_CONSOLE_DEFAULT_SNAPSHOT: MobileConsoleSnapshot = {
   },
   pushReadiness: {
     branch: "main",
-    headShort: "b4eea34",
-    originMainShort: "b4eea34",
+    headShort: "a668137",
+    originMainShort: "a668137",
     commitsAhead: 0,
     stagedFiles: 0,
     dirtyTracked: 0,
@@ -62,14 +62,14 @@ export const MOBILE_CONSOLE_DEFAULT_SNAPSHOT: MobileConsoleSnapshot = {
   },
   auditSummary: {
     approvalQueueCount: 0,
-    auditLogCountLabel: "≈12",
+    auditLogCountLabel: "≈15",
     memoryCandidateCount: 3,
     recentEvents: [
-      { time: "11:20", event: "iPhone Private Console Phase 2A 実装", type: "commit" },
-      { time: "11:07", event: "Session-009 STOP (外部インストーラー検出)",  type: "stop"   },
-      { time: "01:48", event: "Control Center redesign commit + push",       type: "commit" },
-      { time: "01:35", event: "SSRF修正 + research/suppressive agent追加",   type: "commit" },
-      { time: "01:03", event: "日本語ロケール + StackChan + CI/CD",          type: "commit" },
+      { time: "11:50", event: "canonical agent naming v2 docs aligned",              type: "docs"   },
+      { time: "11:40", event: "Phase 2B-2 localhost GET server module committed",    type: "commit" },
+      { time: "11:30", event: "Phase 2B-1 IPC redacted snapshot pushed",            type: "commit" },
+      { time: "11:20", event: "Phase 2B design docs committed",                      type: "commit" },
+      { time: "11:07", event: "Session-009 STOP (外部インストーラー検出)",             type: "stop"   },
     ],
   },
   stopHistory: [
