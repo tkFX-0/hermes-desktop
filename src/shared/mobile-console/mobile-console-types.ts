@@ -12,7 +12,8 @@ export type MobileLevel3 = "not_approved";
 export type MobileDataSource =
   | "static_phase1"
   | "redacted_snapshot_phase2a"
-  | "redacted_snapshot_phase2b_ipc";
+  | "redacted_snapshot_phase2b_ipc"
+  | "redacted_snapshot_phase2b_localhost";
 
 export interface MobileSessionRecord {
   readonly id: string;
