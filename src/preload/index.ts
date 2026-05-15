@@ -2,8 +2,10 @@ import { contextBridge, ipcRenderer } from "electron";
 import { electronAPI } from "@electron-toolkit/preload";
 
 import { createIchikishimaControlCenterPreloadApi } from "./ichikishima-control-center";
+import { createMobileConsolePreloadApi } from "./mobile-console";
 
 const ichikishimaControlCenter = createIchikishimaControlCenterPreloadApi();
+const mobileConsole = createMobileConsolePreloadApi();
 
 const hermesAPI = {
   // Installation
@@ -644,6 +646,7 @@ if (process.contextIsolated) {
       "ichikishimaControlCenter",
       ichikishimaControlCenter,
     );
+    contextBridge.exposeInMainWorld("mobileConsole", mobileConsole);
   } catch (error) {
     console.error(error);
   }
@@ -654,4 +657,6 @@ if (process.contextIsolated) {
   window.hermesAPI = hermesAPI;
   // @ts-ignore (define in dts)
   window.ichikishimaControlCenter = ichikishimaControlCenter;
+  // @ts-ignore (define in dts)
+  window.mobileConsole = mobileConsole;
 }

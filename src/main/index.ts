@@ -8,6 +8,7 @@ import {
 } from "electron";
 import { join } from "path";
 import { registerControlCenterReadonlyIpcHandlers } from "./ichikishima/control-center/control-center-readonly-ipc";
+import { registerMobileConsoleIpcHandler } from "./mobile-console";
 import {
   controlCenterElectronHintsFromApp,
   resolveControlCenterPathResolution,
@@ -202,6 +203,9 @@ function createWindow(): void {
 
 function setupIPC(): void {
   registerControlCenterReadonlyIpcHandlers(ipcMain, {
+    getParams: getIchikishimaControlCenterReadonlyParams,
+  });
+  registerMobileConsoleIpcHandler(ipcMain, {
     getParams: getIchikishimaControlCenterReadonlyParams,
   });
 

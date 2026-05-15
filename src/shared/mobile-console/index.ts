@@ -16,3 +16,4 @@ export type {
 
 export { MOBILE_CONSOLE_DEFAULT_SNAPSHOT } from "./mobile-console-snapshot";
 export { buildMobileSnapshot, isForbiddenField } from "./mobile-console-redaction";
+export { MOBILE_CONSOLE_READONLY_GET_SNAPSHOT_IPC_CHANNEL } from "./mobile-console-ipc-channel";

@@ -1,4 +1,5 @@
 import type { ControlCenterAppSnapshot } from "../main/ichikishima/control-center/control-center-app-snapshot";
+import type { MobileConsoleSnapshot } from "../shared/mobile-console";
 import { ElectronAPI } from "@electron-toolkit/preload";
 
 interface InstallStatus {
@@ -436,10 +437,16 @@ interface IchikishimaControlCenterAPI {
   getAppSnapshot: () => Promise<ControlCenterAppSnapshot>;
 }
 
+interface MobileConsoleAPI {
+  /** iPhone Private Console read-only redacted snapshot（実行なし） */
+  getRedactedSnapshot: () => Promise<MobileConsoleSnapshot>;
+}
+
 declare global {
   interface Window {
     electron: ElectronAPI;
     hermesAPI: HermesAPI;
     ichikishimaControlCenter: IchikishimaControlCenterAPI;
+    mobileConsole: MobileConsoleAPI;
   }
 }
