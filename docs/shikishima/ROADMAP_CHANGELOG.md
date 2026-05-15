@@ -29,6 +29,27 @@ Every future roadmap-affecting change must update:
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
 
+## v3.16.0 - iPhone Private Console Phase 2B Design Prepared
+
+- roadmapVersion: v3.16.0
+- lastUpdated: 2026-05-15
+- iPhone Private Console Phase 1 static UI: implemented + pushed (b4eea34)
+- iPhone Private Console Phase 2A redacted snapshot adapter: implemented + pushed (dbb26c7)
+- iPhone Private Console Phase 2B design: docs prepared (this commit)
+  - IPHONE_PRIVATE_CONSOLE_PHASE_2B_DESIGN.md
+  - IPHONE_PRIVATE_CONSOLE_PHASE_2B_API_BOUNDARY.md
+  - IPHONE_PRIVATE_CONSOLE_PHASE_2B_SECURITY_REVIEW.md
+  - IPHONE_PRIVATE_CONSOLE_PHASE_2B_IMPLEMENTATION_GO_DRAFT.md
+  - IPHONE_PRIVATE_CONSOLE_PHASE_2C_SAME_LAN_PREP.md
+- Phase 2B implementation: NOT approved
+- No src/main, preload, IPC, server, or network changes
+- Session-009 still not countable (Phase 2C required for iPhone real-status)
+- RustDeskレス検証パス: 設計確立済み
+- clean_b3_pass: 4/5
+- Level 3: not approved. HOLD maintained.
+- Next: Phase 2B design review → Phase 2B-1 IPC GO → Phase 2B-2 localhost GO
+  → Phase 2C same-LAN GO → iPhone real-status → Session-009 #5
+
 ## v3.15.0 - Operation Loop Stabilized, Session-009 GO Pack Ready
 
 - roadmapVersion: v3.15.0
