@@ -1,5 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
-import { LayoutDashboard, RefreshCw } from "lucide-react";
+import {
+  Activity,
+  AlertCircle,
+  BookOpen,
+  Brain,
+  LayoutDashboard,
+  Layers,
+  RefreshCw,
+  Search,
+  Shield,
+  ShieldOff,
+  Zap,
+} from "lucide-react";
 
 import { useI18n } from "../../components/useI18n";
 import {
@@ -64,6 +76,172 @@ const PATH_STATUS_I18N: Record<
   zone_outside_project_warning:
     "controlCenter.shell.snapshotSource.pathStatusLabels.zone_outside_project_warning",
 };
+
+type AgentIconId =
+  | "supervisor"
+  | "hermes_worker"
+  | "ichikishima_reviewer"
+  | "approval_guardian"
+  | "audit_keeper"
+  | "memory_curator"
+  | "visualization_observer"
+  | "suppressive_agent"
+  | "research_agent"
+  | "execution_planner";
+
+interface AgentMeta {
+  role: string;
+  color: string;
+  category: string;
+  Icon: React.ComponentType<{ size?: number; color?: string; "aria-hidden"?: boolean }>;
+}
+
+const AGENT_META: Record<string, AgentMeta> = {
+  supervisor: {
+    role: "タスク配分・全体調整",
+    color: "#a371f7",
+    category: "統括",
+    Icon: Layers,
+  },
+  hermes_worker: {
+    role: "API接続・作業提案",
+    color: "#58a6ff",
+    category: "作業",
+    Icon: Zap,
+  },
+  ichikishima_reviewer: {
+    role: "安全審査・提案精査",
+    color: "#3fb950",
+    category: "審査",
+    Icon: Shield,
+  },
+  approval_guardian: {
+    role: "承認ゲート・エスカレーション",
+    color: "#fb923c",
+    category: "承認",
+    Icon: Shield,
+  },
+  audit_keeper: {
+    role: "操作記録・監査ログ",
+    color: "#39d353",
+    category: "監査",
+    Icon: BookOpen,
+  },
+  memory_curator: {
+    role: "学習候補抽出・整理",
+    color: "#f778ba",
+    category: "記憶",
+    Icon: Brain,
+  },
+  visualization_observer: {
+    role: "状態可視化・観察",
+    color: "#79c0ff",
+    category: "観察",
+    Icon: Activity,
+  },
+  suppressive_agent: {
+    role: "逸脱検知・緊急停止",
+    color: "#f85149",
+    category: "抑止",
+    Icon: ShieldOff,
+  },
+  research_agent: {
+    role: "情報調査・リスク評価",
+    color: "#d29922",
+    category: "調査",
+    Icon: Search,
+  },
+  execution_planner: {
+    role: "実行計画設計（設計のみ）",
+    color: "#8b949e",
+    category: "計画",
+    Icon: AlertCircle,
+  },
+};
+
+interface AgentCardProps {
+  id: string;
+  labelJa: string;
+  autoRun: false;
+  autoApprove: false;
+}
+
+function AgentCard({ id, labelJa }: AgentCardProps): React.JSX.Element {
+  const meta = AGENT_META[id as AgentIconId] ?? {
+    role: "役割未定義",
+    color: "#30363d",
+    category: "不明",
+    Icon: AlertCircle,
+  };
+  const { Icon, color, category, role } = meta;
+
+  return (
+    <div
+      style={{
+        background: "#0d1117",
+        border: "1px solid #30363d",
+        borderTop: `3px solid ${color}`,
+        borderRadius: 8,
+        padding: "12px 14px",
+        display: "flex",
+        flexDirection: "column",
+        gap: 6,
+      }}
+    >
+      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <Icon size={16} color={color} aria-hidden />
+        <span
+          style={{
+            fontSize: 10,
+            fontWeight: 600,
+            color,
+            background: `${color}18`,
+            border: `1px solid ${color}44`,
+            borderRadius: 3,
+            padding: "1px 6px",
+            letterSpacing: "0.04em",
+          }}
+        >
+          {category}
+        </span>
+      </div>
+
+      <div>
+        <div style={{ fontSize: 13, fontWeight: 600, color: "#e6edf3", lineHeight: 1.3 }}>
+          {labelJa}
+        </div>
+        <div style={{ fontSize: 11, color: "#6e7681", marginTop: 2 }}>{id}</div>
+      </div>
+
+      <div style={{ fontSize: 12, color: "#8b949e", lineHeight: 1.4 }}>{role}</div>
+
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginTop: 2 }}>
+        {(
+          [
+            { label: "無効化中", color: "#f85149", bg: "#1c2128" },
+            { label: "ドライランのみ", color: "#8b949e", bg: "#1c2128" },
+            { label: "承認必須", color: "#fb923c", bg: "#1c2128" },
+          ] as const
+        ).map(({ label, color: c, bg }) => (
+          <span
+            key={label}
+            style={{
+              fontSize: 10,
+              color: c,
+              background: bg,
+              border: `1px solid ${c}44`,
+              borderRadius: 3,
+              padding: "1px 6px",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {label}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 /** Read-only Control Center：`getAppSnapshot` のみ（hermesAPI 実行 API は呼ばない）。 */
 export default function ControlCenterAppShell(): React.JSX.Element {
@@ -230,122 +408,72 @@ export default function ControlCenterAppShell(): React.JSX.Element {
 
       {state.kind === "success" && (
         <>
-          <section
-            role="region"
-            aria-label={String(t("controlCenter.shell.snapshotSource.title"))}
-            aria-describedby={
-              state.snapshot.pendingPackagingResolution
-                ? "cc-pending-packaging-flag"
-                : undefined
-            }
-            style={{
-              ...cardStyle,
-              borderLeftWidth: 4,
-              borderLeftStyle: "solid",
-              borderLeftColor: state.snapshot.pendingPackagingResolution
-                ? "#d29922"
-                : "#3fb950",
-            }}
-          >
-            <h2 style={{ fontSize: 14, margin: "0 0 10px", color: "#a371f7" }}>
-              {t("controlCenter.shell.snapshotSource.title")}
-            </h2>
-            <ul
+          {/* ===== エージェントダッシュボード（最優先表示） ===== */}
+          <section style={cardStyle} aria-label="エージェントダッシュボード">
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
+              <h2 style={{ fontSize: 14, margin: 0, color: "#a371f7" }}>
+                {t("controlCenter.shell.agentTeam")}
+              </h2>
+              <div style={{ display: "flex", gap: 8, fontSize: 11, alignItems: "center" }}>
+                <span style={{ color: "#6e7681" }}>
+                  {t("controlCenter.shell.scheduler")}:{" "}
+                  {state.snapshot.agentTeamSummary.schedulerEnabled
+                    ? t("controlCenter.shell.schedulerUnexpected")
+                    : t("controlCenter.shell.schedulerOff")}
+                </span>
+                <span
+                  style={{
+                    background: "#1c2128",
+                    border: "1px solid #30363d",
+                    borderRadius: 3,
+                    padding: "1px 6px",
+                    color: "#8b949e",
+                    fontSize: 10,
+                  }}
+                >
+                  blockers: {state.snapshot.agentTeamSummary.blockerCountApprox}
+                </span>
+                <span
+                  style={{
+                    background: "#1c2128",
+                    border: "1px solid #d29922",
+                    borderRadius: 3,
+                    padding: "1px 6px",
+                    color: "#d29922",
+                    fontSize: 10,
+                  }}
+                >
+                  warnings: {state.snapshot.agentTeamSummary.warningCountApprox}
+                </span>
+              </div>
+            </div>
+
+            {/* 全エージェントカード グリッド */}
+            <div
               style={{
-                listStyle: "none",
-                padding: 0,
-                margin: "0 0 12px",
-                fontSize: 13,
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+                gap: 10,
+                marginBottom: 10,
               }}
             >
-              <li>
-                <strong>
-                  {t("controlCenter.shell.snapshotSource.runtimeMode")}
-                </strong>
-                {": "}
-                {state.snapshot.pathResolutionRuntimeMode ===
-                "electron_development"
-                  ? t("controlCenter.shell.snapshotSource.runtimeDev")
-                  : t(
-                      "controlCenter.shell.snapshotSource.runtimePackagedPending",
-                    )}
-              </li>
-              <li>
-                <strong>
-                  {t("controlCenter.shell.snapshotSource.sourceLabel")}
-                </strong>
-                {": "}
-                {t(SOURCE_LABEL_I18N[state.snapshot.snapshotSourceLabel])}
-              </li>
-              <li>
-                <strong>
-                  {t("controlCenter.shell.snapshotSource.pathStatus")}
-                </strong>
-                {": "}
-                {t(PATH_STATUS_I18N[state.snapshot.pathResolutionStatus])}
-              </li>
-              <li>
-                <strong>productionReady</strong>:{" "}
-                {String(state.snapshot.productionReady)} —{" "}
-                {t("controlCenter.shell.productionNotReady")}
-              </li>
-              {state.snapshot.pendingPackagingResolution ? (
-                <li
-                  id="cc-pending-packaging-flag"
-                  style={{ color: "#d29922", marginTop: 6 }}
-                >
-                  {t("controlCenter.shell.snapshotSource.pendingPackaging")}
-                </li>
-              ) : null}
-              {state.snapshot.wsl2LocalValueValidationSummary
-                .slotInventoryRefreshSummary ? (
-                <li>
-                  <strong>wsl2PackagingSafetyGate</strong>{" "}
-                  <span style={muted}>
-                    (enum-only assessment - no execution)
-                  </span>
-                  {": "}packagingGate=
-                  {clip(
-                    state.snapshot.wsl2LocalValueValidationSummary
-                      .slotInventoryRefreshSummary.packagingGateStatus ??
-                      "unresolved",
-                    48,
-                  )}{" "}
-                  packagingRisk=
-                  {clip(
-                    state.snapshot.wsl2LocalValueValidationSummary
-                      .slotInventoryRefreshSummary.packagingRiskLevel ??
-                      "unknown",
-                    24,
-                  )}{" "}
-                  packagingBlockers=
-                  {clip(
-                    state.snapshot.wsl2LocalValueValidationSummary.slotInventoryRefreshSummary.packagingBlockers?.join(
-                      ", ",
-                    ) ?? "none",
-                    120,
-                  )}{" "}
-                  canRunWrapper=
-                  {String(
-                    state.snapshot.wsl2LocalValueValidationSummary
-                      .slotInventoryRefreshSummary.canRunWrapper ?? false,
-                  )}{" "}
-                  decision remains HOLD; execution remains disabled; packaging
-                  gate is non-execution readiness only.{" "}
-                  {RAW_VALUES_HIDDEN_LABEL}
-                </li>
-              ) : null}
-            </ul>
-            <div style={{ fontSize: 12, ...muted }}>
-              {t("controlCenter.shell.snapshotSource.linesTitle")}
-            </div>
-            <ul style={{ fontSize: 12, paddingLeft: 18, margin: "6px 0 0" }}>
-              {state.snapshot.pathResolutionSafeSummaryLines.map((ln, idx) => (
-                <li key={`prs-${idx}`}>{clip(ln, 220)}</li>
+              {state.snapshot.agentTeamSummary.agents.slice(0, 12).map((ag) => (
+                <AgentCard
+                  key={ag.id}
+                  id={ag.id}
+                  labelJa={ag.labelJa}
+                  autoRun={ag.autoRun}
+                  autoApprove={ag.autoApprove}
+                />
               ))}
-            </ul>
+            </div>
+
+            <p style={{ ...muted, margin: 0, fontSize: 11 }}>
+              {t("controlCenter.shell.schedulerHint")}
+            </p>
           </section>
 
+          {/* ===== 概要（ブロッカー/警告数 + 次の目標） ===== */}
           <section style={cardStyle}>
             <h2 style={{ fontSize: 14, margin: "0 0 10px", color: "#58a6ff" }}>
               {t("controlCenter.shell.global")}
@@ -805,31 +933,6 @@ export default function ControlCenterAppShell(): React.JSX.Element {
 
           <section style={cardStyle}>
             <h2 style={{ fontSize: 14, margin: "0 0 8px" }}>
-              {t("controlCenter.shell.agentTeam")}
-            </h2>
-            <p style={{ fontSize: 12 }}>
-              {t("controlCenter.shell.scheduler")}:{" "}
-              {state.snapshot.agentTeamSummary.schedulerEnabled
-                ? t("controlCenter.shell.schedulerUnexpected")
-                : t("controlCenter.shell.schedulerOff")}
-              {" · "}
-              blockers≈{state.snapshot.agentTeamSummary.blockerCountApprox}{" "}
-              warnings≈{state.snapshot.agentTeamSummary.warningCountApprox}
-            </p>
-            <p style={{ ...muted, margin: "6px 0 0", fontSize: 11 }}>
-              {t("controlCenter.shell.schedulerHint")}
-            </p>
-            <ul style={{ fontSize: 11, paddingLeft: 16, margin: "8px 0 0" }}>
-              {state.snapshot.agentTeamSummary.agents.slice(0, 12).map((ag) => (
-                <li key={ag.id}>
-                  {clip(ag.labelJa, 80)} ({ag.id})
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          <section style={cardStyle}>
-            <h2 style={{ fontSize: 14, margin: "0 0 8px" }}>
               {t("controlCenter.shell.visualization")}
             </h2>
             <p style={{ fontSize: 12 }}>
@@ -873,6 +976,123 @@ export default function ControlCenterAppShell(): React.JSX.Element {
             <ul style={{ fontSize: 11, paddingLeft: 16, margin: "6px 0 0" }}>
               {state.snapshot.memorySummary.safeSummaryLines.map((line, i) => (
                 <li key={`${i}-${line.slice(0, 40)}`}>{clip(line, 200)}</li>
+              ))}
+            </ul>
+          </section>
+
+          {/* ===== スナップショット情報（技術詳細 — 最下部） ===== */}
+          <section
+            role="region"
+            aria-label={String(t("controlCenter.shell.snapshotSource.title"))}
+            aria-describedby={
+              state.snapshot.pendingPackagingResolution
+                ? "cc-pending-packaging-flag"
+                : undefined
+            }
+            style={{
+              ...cardStyle,
+              borderLeftWidth: 4,
+              borderLeftStyle: "solid",
+              borderLeftColor: state.snapshot.pendingPackagingResolution
+                ? "#d29922"
+                : "#3fb950",
+            }}
+          >
+            <h2 style={{ fontSize: 14, margin: "0 0 10px", color: "#a371f7" }}>
+              {t("controlCenter.shell.snapshotSource.title")}
+            </h2>
+            <ul
+              style={{
+                listStyle: "none",
+                padding: 0,
+                margin: "0 0 12px",
+                fontSize: 13,
+              }}
+            >
+              <li>
+                <strong>
+                  {t("controlCenter.shell.snapshotSource.runtimeMode")}
+                </strong>
+                {": "}
+                {state.snapshot.pathResolutionRuntimeMode ===
+                "electron_development"
+                  ? t("controlCenter.shell.snapshotSource.runtimeDev")
+                  : t(
+                      "controlCenter.shell.snapshotSource.runtimePackagedPending",
+                    )}
+              </li>
+              <li>
+                <strong>
+                  {t("controlCenter.shell.snapshotSource.sourceLabel")}
+                </strong>
+                {": "}
+                {t(SOURCE_LABEL_I18N[state.snapshot.snapshotSourceLabel])}
+              </li>
+              <li>
+                <strong>
+                  {t("controlCenter.shell.snapshotSource.pathStatus")}
+                </strong>
+                {": "}
+                {t(PATH_STATUS_I18N[state.snapshot.pathResolutionStatus])}
+              </li>
+              <li>
+                <strong>productionReady</strong>:{" "}
+                {String(state.snapshot.productionReady)} —{" "}
+                {t("controlCenter.shell.productionNotReady")}
+              </li>
+              {state.snapshot.pendingPackagingResolution ? (
+                <li
+                  id="cc-pending-packaging-flag"
+                  style={{ color: "#d29922", marginTop: 6 }}
+                >
+                  {t("controlCenter.shell.snapshotSource.pendingPackaging")}
+                </li>
+              ) : null}
+              {state.snapshot.wsl2LocalValueValidationSummary
+                .slotInventoryRefreshSummary ? (
+                <li>
+                  <strong>wsl2PackagingSafetyGate</strong>{" "}
+                  <span style={muted}>
+                    (enum-only assessment - no execution)
+                  </span>
+                  {": "}packagingGate=
+                  {clip(
+                    state.snapshot.wsl2LocalValueValidationSummary
+                      .slotInventoryRefreshSummary.packagingGateStatus ??
+                      "unresolved",
+                    48,
+                  )}{" "}
+                  packagingRisk=
+                  {clip(
+                    state.snapshot.wsl2LocalValueValidationSummary
+                      .slotInventoryRefreshSummary.packagingRiskLevel ??
+                      "unknown",
+                    24,
+                  )}{" "}
+                  packagingBlockers=
+                  {clip(
+                    state.snapshot.wsl2LocalValueValidationSummary.slotInventoryRefreshSummary.packagingBlockers?.join(
+                      ", ",
+                    ) ?? "none",
+                    120,
+                  )}{" "}
+                  canRunWrapper=
+                  {String(
+                    state.snapshot.wsl2LocalValueValidationSummary
+                      .slotInventoryRefreshSummary.canRunWrapper ?? false,
+                  )}{" "}
+                  decision remains HOLD; execution remains disabled; packaging
+                  gate is non-execution readiness only.{" "}
+                  {RAW_VALUES_HIDDEN_LABEL}
+                </li>
+              ) : null}
+            </ul>
+            <div style={{ fontSize: 12, ...muted }}>
+              {t("controlCenter.shell.snapshotSource.linesTitle")}
+            </div>
+            <ul style={{ fontSize: 12, paddingLeft: 18, margin: "6px 0 0" }}>
+              {state.snapshot.pathResolutionSafeSummaryLines.map((ln, idx) => (
+                <li key={`prs-${idx}`}>{clip(ln, 220)}</li>
               ))}
             </ul>
           </section>
