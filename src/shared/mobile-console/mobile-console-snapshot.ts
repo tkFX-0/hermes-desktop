@@ -1,0 +1,95 @@
+import type { MobileConsoleSnapshot } from "./mobile-console-types";
+
+const AGENT_DEFAULTS = [
+  { id: "supervisor",             labelJa: "統括スーパーバイザ",  color: "#a371f7", category: "統括" },
+  { id: "hermes_worker",          labelJa: "Hermes 作業",         color: "#58a6ff", category: "作業" },
+  { id: "ichikishima_reviewer",   labelJa: "イツキシマ審査",       color: "#3fb950", category: "審査" },
+  { id: "approval_guardian",      labelJa: "承認の門番",           color: "#fb923c", category: "承認" },
+  { id: "audit_keeper",           labelJa: "監査保管",             color: "#39d353", category: "監査" },
+  { id: "memory_curator",         labelJa: "メモリ候補",           color: "#f778ba", category: "記憶" },
+  { id: "visualization_observer", labelJa: "可視化オブザーバ",     color: "#79c0ff", category: "観察" },
+  { id: "suppressive_agent",      labelJa: "抑止エージェント",     color: "#f85149", category: "抑止" },
+  { id: "research_agent",         labelJa: "調査エージェント",     color: "#d29922", category: "調査" },
+  { id: "execution_planner",      labelJa: "実行計画（設計のみ）", color: "#8b949e", category: "計画" },
+].map((a) => ({
+  ...a,
+  enabled: false as const,
+  dryRunOnly: true as const,
+  requiresUserApproval: true as const,
+  autoRun: false as const,
+  autoApprove: false as const,
+}));
+
+/** Safe static default snapshot for Phase 1 / Phase 2A (no runtime data yet). */
+export const MOBILE_CONSOLE_DEFAULT_SNAPSHOT: MobileConsoleSnapshot = {
+  decision: "HOLD",
+  execution: "disabled",
+  productionReady: false,
+  rawValuesReported: false,
+  level3: "not_approved",
+  robotMotion: "HOLD",
+  appStatus: "initialized",
+  phase: "iphone_private_console_phase_2a",
+  b3Progress: {
+    current: 4,
+    required: 5,
+    nextSession: "Session-009",
+    timingRule: "window_start_plus_30_seconds",
+    rustDeskDeprecated: true,
+    recentSessions: [
+      { id: "Session-007", result: "CLEAN_B3_PASS",           date: "05-14" },
+      { id: "Session-006", result: "CLEAN_B3_PASS",           date: "05-14" },
+      { id: "Session-008", result: "PASS_WITH_TIMING_CAVEAT", date: "05-15" },
+      { id: "Session-005", result: "CLEAN_B3_PASS",           date: "05-14" },
+      { id: "Session-003", result: "CLEAN_B3_PASS",           date: "05-15" },
+      { id: "Session-002", result: "STOP",                    date: "05-15" },
+    ],
+  },
+  pushReadiness: {
+    branch: "main",
+    headShort: "b4eea34",
+    originMainShort: "b4eea34",
+    commitsAhead: 0,
+    stagedFiles: 0,
+    dirtyTracked: 0,
+    recommendation: "nothing_to_push",
+  },
+  agentTeam: {
+    schedulerEnabled: false,
+    agents: AGENT_DEFAULTS,
+    blockerCount: 0,
+    warningCount: 0,
+  },
+  auditSummary: {
+    approvalQueueCount: 0,
+    auditLogCountLabel: "≈12",
+    memoryCandidateCount: 3,
+    recentEvents: [
+      { time: "11:20", event: "iPhone Private Console Phase 2A 実装", type: "commit" },
+      { time: "11:07", event: "Session-009 STOP (外部インストーラー検出)",  type: "stop"   },
+      { time: "01:48", event: "Control Center redesign commit + push",       type: "commit" },
+      { time: "01:35", event: "SSRF修正 + research/suppressive agent追加",   type: "commit" },
+      { time: "01:03", event: "日本語ロケール + StackChan + CI/CD",          type: "commit" },
+    ],
+  },
+  stopHistory: [
+    {
+      sessionId: "shikishima-session-2026-05-15-009",
+      stopType: "unexpected_external_operation_appeared",
+      date: "2026-05-15 11:07",
+      classified: true,
+      remediated: false,
+      note: "NousResearch Hermes Installer が表示。別Taskで調査予定。",
+    },
+    {
+      sessionId: "shikishima-session-2026-05-15-002",
+      stopType: "raw_value_visible",
+      date: "2026-05-15 21:17",
+      classified: true,
+      remediated: true,
+      note: "APIキープレフィックスが表示。fix 48e2f78 で解消。",
+    },
+  ],
+  generatedAt: "2026-05-15T00:00:00+09:00",
+  dataSource: "static_phase1",
+};
