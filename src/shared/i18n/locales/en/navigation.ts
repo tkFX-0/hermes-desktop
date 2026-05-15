@@ -13,4 +13,5 @@ export default {
   settings: "Settings",
   research: "Research",
   controlCenter: "Control Center",
+  mobileConsole: "Mobile Console",
 } as const;

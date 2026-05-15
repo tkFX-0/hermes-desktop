@@ -13,4 +13,5 @@ export default {
   settings: "設定",
   research: "リサーチ",
   controlCenter: "管制センター",
+  mobileConsole: "モバイル",
 } as const;

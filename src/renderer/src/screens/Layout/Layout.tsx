@@ -13,6 +13,7 @@ import Models from "../Models/Models";
 import Schedules from "../Schedules/Schedules";
 import Research from "../Research/Research";
 import ControlCenterAppShell from "../ControlCenterAppShell/ControlCenterAppShell";
+import MobileConsoleApp from "../MobileConsole/MobileConsoleApp";
 import RemoteNotice from "../../components/RemoteNotice";
 import hermeslogo from "../../assets/hermes.png";
 import {
@@ -30,7 +31,7 @@ import {
   Timer,
   Download,
 } from "../../assets/icons";
-import { BarChart2, LayoutDashboard } from "lucide-react";
+import { BarChart2, LayoutDashboard, Smartphone } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useI18n } from "../../components/useI18n";
 
@@ -48,7 +49,8 @@ type View =
   | "gateway"
   | "settings"
   | "research"
-  | "controlCenter";
+  | "controlCenter"
+  | "mobileConsole";
 
 const NAV_ITEMS: { view: View; icon: LucideIcon; labelKey: string }[] = [
   { view: "chat", icon: ChatBubble, labelKey: "navigation.chat" },
@@ -72,6 +74,11 @@ const NAV_ITEMS: { view: View; icon: LucideIcon; labelKey: string }[] = [
     view: "controlCenter",
     icon: LayoutDashboard as LucideIcon,
     labelKey: "navigation.controlCenter",
+  },
+  {
+    view: "mobileConsole",
+    icon: Smartphone as LucideIcon,
+    labelKey: "navigation.mobileConsole",
   },
 ];
 
@@ -336,6 +343,18 @@ function Layout(): React.JSX.Element {
             }}
           >
             <ControlCenterAppShell />
+          </div>
+        )}
+        {view === "mobileConsole" && (
+          <div
+            style={{
+              display: "flex",
+              flex: 1,
+              flexDirection: "column",
+              overflow: "hidden",
+            }}
+          >
+            <MobileConsoleApp />
           </div>
         )}
       </main>

@@ -13,4 +13,5 @@ export default {
   settings: "设置",
   research: "Research",
   controlCenter: "Control Center",
+  mobileConsole: "移动端",
 } as const;
