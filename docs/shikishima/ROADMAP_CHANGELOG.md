@@ -29,6 +29,19 @@ Every future roadmap-affecting change must update:
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
 
+## v3.18.0 - Shikishima App Independence Architecture Documented
+
+- roadmapVersion: v3.18.0
+- lastUpdated: 2026-05-15
+- SHIKISHIMA_APP_INDEPENDENCE_ARCHITECTURE.md created
+  - Current state: Control Center as extension inside Hermes Agent app
+  - Target: しきしまApp independent, Hermes Core as heart/engine
+  - Phase A (now): module separation within monorepo
+  - Phase B (future): packages/hermes-core + packages/shikishima-*
+  - Phase C (future): apps/shikishima-desktop + apps/hermes-worker
+  - Prerequisites: B3 5/5 + Level 3 GO + Phase 2C complete
+- No source changes. docs-only.
+
 ## v3.17.0 - Canonical Agent Naming Aligned (v2)
 
 - roadmapVersion: v3.17.0

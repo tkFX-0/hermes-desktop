@@ -20,7 +20,7 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.17.0
+- roadmapVersion: v3.18.0
 - latestUpdate: 2026-05-15 — canonical agent naming v2 aligned in docs; Phase 2B-2 localhost server committed (50d414c); Phase 2B-1 IPC pushed (d51f498); clean_b3_pass=4/5
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
