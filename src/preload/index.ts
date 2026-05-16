@@ -13,6 +13,7 @@ const hermesAPI = {
     installed: boolean;
     configured: boolean;
     hasApiKey: boolean;
+    windowsManualInstallRequired?: boolean;
   }> => ipcRenderer.invoke("check-install"),
 
   startInstall: (): Promise<{ success: boolean; error?: string }> =>

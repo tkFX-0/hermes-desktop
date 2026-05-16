@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { classifyInstallResult } from "../src/main/installer";
+import {
+  classifyInstallResult,
+  getInstallerObservationPolicy,
+} from "../src/main/installer";
 
 describe("classifyInstallResult", () => {
   it("classifies a clean successful installer log as pass", () => {
@@ -77,5 +80,43 @@ describe("classifyInstallResult", () => {
 
     expect(result.status).toBe("fail");
     expect(result.status).not.toBe("windows_manual_installer_required");
+  });
+});
+
+describe("getInstallerObservationPolicy", () => {
+  it("windows_manual_installer_required is non-blocking in controlled observation mode", () => {
+    const policy = getInstallerObservationPolicy(
+      "windows_manual_installer_required",
+    );
+    expect(policy.blocking).toBe(false);
+    expect(policy.autoInstallAllowed).toBe(false);
+    expect(policy.manualActionRequired).toBe(true);
+  });
+
+  it("windows_manual_installer_required does not imply install success", () => {
+    const policy = getInstallerObservationPolicy(
+      "windows_manual_installer_required",
+    );
+    expect(policy.installSuccess).toBe(false);
+  });
+
+  it("fail is blocking and allows auto-install retry", () => {
+    const policy = getInstallerObservationPolicy("fail");
+    expect(policy.blocking).toBe(true);
+    expect(policy.autoInstallAllowed).toBe(true);
+    expect(policy.installSuccess).toBe(false);
+  });
+
+  it("pass is non-blocking with install success", () => {
+    const policy = getInstallerObservationPolicy("pass");
+    expect(policy.blocking).toBe(false);
+    expect(policy.installSuccess).toBe(true);
+    expect(policy.manualActionRequired).toBe(false);
+  });
+
+  it("pass_with_warning is non-blocking with install success", () => {
+    const policy = getInstallerObservationPolicy("pass_with_warning");
+    expect(policy.blocking).toBe(false);
+    expect(policy.installSuccess).toBe(true);
   });
 });

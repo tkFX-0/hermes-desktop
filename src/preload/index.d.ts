@@ -7,6 +7,7 @@ interface InstallStatus {
   configured: boolean;
   hasApiKey: boolean;
   verified: boolean;
+  windowsManualInstallRequired?: boolean;
 }
 
 interface InstallProgress {

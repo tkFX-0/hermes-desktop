@@ -41,6 +41,12 @@ function App(): React.JSX.Element {
 
       // Local mode: normal install check
       const status = await window.hermesAPI.checkInstall();
+      if (status.windowsManualInstallRequired) {
+        // Non-blocking caveat: Hermes not installed on Windows.
+        // Proceed to main so iPhone Private Console observation remains accessible.
+        setNextScreen("main");
+        return;
+      }
       if (!status.installed) {
         setNextScreen("welcome");
       } else if (!status.verified) {

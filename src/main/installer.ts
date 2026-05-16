@@ -18,6 +18,49 @@ export interface InstallStatus {
   configured: boolean;
   hasApiKey: boolean;
   verified: boolean;
+  /** True on Windows when Hermes CLI is not installed and requires manual PowerShell setup. */
+  windowsManualInstallRequired?: boolean;
+}
+
+export interface InstallerObservationPolicy {
+  /** Whether this install state blocks controlled observation. */
+  blocking: boolean;
+  /** Whether automatic installation is allowed. */
+  autoInstallAllowed: boolean;
+  /** Whether manual user action is required before Hermes works. */
+  manualActionRequired: boolean;
+  /** Whether Hermes install was confirmed successful. */
+  installSuccess: boolean;
+}
+
+/** Pure function: derive observation policy from installer classification. */
+export function getInstallerObservationPolicy(
+  classification: InstallResultStatus,
+): InstallerObservationPolicy {
+  switch (classification) {
+    case "windows_manual_installer_required":
+      return {
+        blocking: false,
+        autoInstallAllowed: false,
+        manualActionRequired: true,
+        installSuccess: false,
+      };
+    case "pass":
+    case "pass_with_warning":
+      return {
+        blocking: false,
+        autoInstallAllowed: false,
+        manualActionRequired: false,
+        installSuccess: true,
+      };
+    default:
+      return {
+        blocking: true,
+        autoInstallAllowed: true,
+        manualActionRequired: false,
+        installSuccess: false,
+      };
+  }
 }
 
 export interface InstallProgress {
@@ -103,6 +146,8 @@ export function checkInstallStatus(): InstallStatus {
   }
 
   const installed = existsSync(HERMES_PYTHON) && existsSync(HERMES_SCRIPT);
+  const windowsManualInstallRequired =
+    !installed && process.platform === "win32";
   const configured = existsSync(HERMES_ENV_FILE);
   let hasApiKey = false;
   let verified = false;
@@ -160,7 +205,7 @@ export function checkInstallStatus(): InstallStatus {
     }
   }
 
-  return { installed, configured, hasApiKey, verified };
+  return { installed, configured, hasApiKey, verified, windowsManualInstallRequired };
 }
 
 export function classifyInstallResult(
