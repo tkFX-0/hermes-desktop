@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.21.0
+- roadmapVersion: v3.22.0
 - lastUpdated: 2026-05-16
-- latestUpdate: Session-009 iPhone same-LAN confirmation evidence recorded; CLEAN_B3_PASS_CANDIDATE; B3 5/5 candidate pending human acceptance
+- latestUpdate: B3 5/5 acceptance review created; pending human acceptance phrase
 - baselineCommit: d6056c812c406014c62a8a7d5e07381e31927783
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,18 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.22.0 - B3 5/5 Acceptance Review Created
+
+- roadmapVersion: v3.22.0
+- lastUpdated: 2026-05-16
+- B3_5_OF_5_ACCEPTANCE_REVIEW.md created
+- Acceptance scope: B3 observation loop only
+- Session-009 (iPhone Phase 2C same-LAN) accepted as B3 #5
+- B3 5/5 acceptance review: pending human acceptance phrase
+- Level 3: not approved
+- productionReady: false / execution: disabled
+- runtime branch: local only, not pushed
 
 ## v3.21.0 - Session-009 iPhone Same-LAN Evidence Recorded
 

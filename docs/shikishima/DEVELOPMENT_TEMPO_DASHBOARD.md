@@ -20,14 +20,14 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.21.0
-- latestUpdate: 2026-05-16 - Session-009 iPhone same-LAN evidence recorded; CLEAN_B3_PASS_CANDIDATE; B3 5/5 candidate pending human acceptance
+- roadmapVersion: v3.22.0
+- latestUpdate: 2026-05-16 - B3 5/5 acceptance review doc created (B3_5_OF_5_ACCEPTANCE_REVIEW.md); pending human acceptance phrase; Session-009 evidence pushed (bd73f8c)
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
-- current HEAD: local docs evidence commit pending; origin/main remains e6db281 until separate push GO
-- validation road: Level 1+2 PASS; Phase 2C same-LAN evidence PASS candidate; B3 5/5 candidate pending human acceptance; overall ~25%
-- current next human action: review Session-009 evidence -> approve evidence docs push separately -> decide B3 5/5 acceptance separately
-- HOLD reason: execution disabled; productionReady false; Level 3 not approved; runtime branch not pushed; B3 acceptance not created; Final Shikishima 100% = not complete
+- current HEAD: origin/main=bd73f8c (evidence pushed); B3 acceptance commit pending push after human acceptance
+- validation road: Level 1+2 PASS; Phase 2C same-LAN PASS; B3 5/5 acceptance review created; pending human acceptance phrase; overall ~28%
+- current next human action: write acceptance phrase → B3 5/5 finalized → push acceptance docs
+- HOLD reason: execution disabled; productionReady false; Level 3 not approved; B3 acceptance phrase not yet written by human; runtime branch not pushed; Final Shikishima 100% = not complete
 
 ## Boundaries
 
