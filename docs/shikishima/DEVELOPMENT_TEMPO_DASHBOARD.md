@@ -20,14 +20,14 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.46.0
-- latestUpdate: 2026-05-17 - Session 002 HOLD (app closed before observation); Session 003 GO package created
+- roadmapVersion: v3.47.0
+- latestUpdate: 2026-05-17 - Session 004 PASS_WITH_CAVEAT; 30% milestone reached; accepted by human
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
-- current HEAD: ahead=2 docs commits (1bd1b69, dba9742); origin/main=c7717c9; push readiness: SAFE (docs-only confirmed)
-- validation road: Level 1+2 PASS; Phase 2C same-LAN PASS; B3 5/5 ACCEPTED; B3 loop COMPLETE; L3 Session 001 HOLD; L3 Session 002 HOLD; L3 Session 003: awaiting GO; overall ~32%
-- current next human action: review Session 003 GO package → provide time_window → send Level 3-A Session 003 final GO
-- HOLD reason: execution disabled; productionReady false; Level 3 not approved; runtime branch not pushed; Final Shikishima 100% = not complete
+- current HEAD: origin/main=7bc2526; commits_ahead=0 (after roadmap update push)
+- validation road: Level 1+2 PASS; Phase 2C same-LAN PASS; B3 5/5 ACCEPTED; B3 loop COMPLETE; L3 Session 001-003 HOLD; L3 Session 004 PASS_WITH_CAVEAT ✓; overall ~30%
+- current next human action: 30→45% planning (iPhone Private Console UX improvement)
+- HOLD reason: execution disabled; productionReady false; Level 3-B/C/D/E not approved; Final Shikishima 100% = not complete
 
 ## Boundaries
 

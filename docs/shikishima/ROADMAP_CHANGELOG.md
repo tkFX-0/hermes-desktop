@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.46.0
+- roadmapVersion: v3.47.0
 - lastUpdated: 2026-05-17
-- latestUpdate: Level 3-A Session 002 HOLD evidence recorded; Session 003 GO package draft created
-- baselineCommit: d6056c812c406014c62a8a7d5e07381e31927783
+- latestUpdate: Level 3-A Session 004 PASS_WITH_CAVEAT — 30% milestone reached
+- baselineCommit: 7bc2526efdc1b65130dca0884f96758772b1fd4a
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,22 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.47.0 - Level 3-A Session 004 PASS_WITH_CAVEAT — Phase 20→30% Complete
+
+- roadmapVersion: v3.47.0
+- lastUpdated: 2026-05-17
+- LEVEL_3_A_OBSERVATION_EVIDENCE_2026-05-17-004.md created
+  - result: PASS_WITH_CAVEAT
+  - caveat: windows_manual_installer_required_non_blocking
+  - iPhone observation: completed ✓ (mobile UI reachable, redacted snapshot visible)
+  - rawValuesReported in app content: false ✓
+  - Electron window open during report: true ✓
+- phase_20_to_30_status: COMPLETE_PASS_WITH_CAVEAT
+- progress: ~30%
+- source fixes landed: 060f67c (windows classifier) / 7f98c78 (non-blocking)
+- next phase: 30→45% (iPhone Private Console UX improvement)
+- human_accepted: true (Session 004 PASS_WITH_CAVEAT accepted as 30% milestone)
 
 ## v3.46.0 - Level 3-A Session 002 HOLD Evidence Recorded; Session 003 GO Package Created
 
