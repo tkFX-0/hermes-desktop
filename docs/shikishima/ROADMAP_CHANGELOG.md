@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.23.0
+- roadmapVersion: v3.24.0
 - lastUpdated: 2026-05-16
-- latestUpdate: B3 5/5 ACCEPTED — accepted_as_level_b3_5_of_5_practical_local_mvp_operation_evidence
+- latestUpdate: B3 observation loop officially complete — B3_OBSERVATION_LOOP_COMPLETION_RECORD.md created
 - baselineCommit: d6056c812c406014c62a8a7d5e07381e31927783
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,16 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.24.0 - B3 Observation Loop Officially Complete
+
+- roadmapVersion: v3.24.0
+- lastUpdated: 2026-05-16
+- B3_OBSERVATION_LOOP_COMPLETION_RECORD.md created
+- completion_status: COMPLETE
+- origin/main frozen at c4d32df
+- Level 3: not approved / productionReady: false / execution: disabled
+- next gate: Level 3 planning gate (separate human decision required)
 
 ## v3.23.0 - B3 5/5 Accepted
 
