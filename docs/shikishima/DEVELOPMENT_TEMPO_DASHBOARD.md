@@ -20,8 +20,8 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.28.0
-- latestUpdate: 2026-05-16 - Level 3-A GO wording draft complete; all planning docs created; ready for human GO review
+- roadmapVersion: v3.29.0
+- latestUpdate: 2026-05-16 - Level 3-A runbook created; evidence template / STOP checklist / iPhone protocol / acceptance template / final GO package pending
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: ahead=1 (L3 planning gate); origin/main=df9efda

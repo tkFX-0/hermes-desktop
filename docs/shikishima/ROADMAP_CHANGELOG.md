@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.28.0
+- roadmapVersion: v3.29.0
 - lastUpdated: 2026-05-16
-- latestUpdate: Level 3-A GO wording draft created — template only, not execution approval
+- latestUpdate: Level 3-A controlled observation runbook created
 - baselineCommit: d6056c812c406014c62a8a7d5e07381e31927783
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,14 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.29.0 - Level 3-A Controlled Observation Runbook Created
+
+- roadmapVersion: v3.29.0
+- lastUpdated: 2026-05-16
+- LEVEL_3_A_CONTROLLED_OBSERVATION_RUNBOOK.md created
+- Preconditions / human actions / ClaudeCode actions / procedure / completion criteria
+- Level 3-A is design only — not execution approval
 
 ## v3.28.0 - Level 3-A GO Wording Draft Created
 
