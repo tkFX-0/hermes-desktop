@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.29.0
+- roadmapVersion: v3.30.0
 - lastUpdated: 2026-05-16
-- latestUpdate: Level 3-A controlled observation runbook created
+- latestUpdate: Level 3-A observation evidence template created
 - baselineCommit: d6056c812c406014c62a8a7d5e07381e31927783
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,13 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.30.0 - Level 3-A Evidence Template Created
+
+- roadmapVersion: v3.30.0
+- lastUpdated: 2026-05-16
+- LEVEL_3_A_OBSERVATION_EVIDENCE_TEMPLATE.md created
+- Blank template: session/pre-run/observation/iPhone/negative/shutdown/post-run/result
 
 ## v3.29.0 - Level 3-A Controlled Observation Runbook Created
 
