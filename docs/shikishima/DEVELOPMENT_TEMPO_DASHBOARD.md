@@ -20,13 +20,13 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.24.0
-- latestUpdate: 2026-05-16 - B3 observation loop officially complete; B3_OBSERVATION_LOOP_COMPLETION_RECORD.md created; origin/main=c4d32df
+- roadmapVersion: v3.25.0
+- latestUpdate: 2026-05-16 - Level 3 planning gate defined (LEVEL_3_PLANNING_GATE_DEFINITION.md); B3 loop complete; Level 3 not approved
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
-- current HEAD: ahead=1 (completion record); origin/main=c4d32df
-- validation road: Level 1+2 PASS; Phase 2C same-LAN PASS; B3 5/5 ACCEPTED; B3 loop COMPLETE; overall ~30%
-- current next human action: push completion record → decide Level 3 planning gate
+- current HEAD: ahead=1 (L3 planning gate); origin/main=df9efda
+- validation road: Level 1+2 PASS; Phase 2C same-LAN PASS; B3 5/5 ACCEPTED; B3 loop COMPLETE; L3 planning: in progress; overall ~32%
+- current next human action: L3 preconditions audit → L3 scope proposal → L3-A GO wording draft
 - HOLD reason: execution disabled; productionReady false; Level 3 not approved; runtime branch not pushed; Final Shikishima 100% = not complete
 
 ## Boundaries

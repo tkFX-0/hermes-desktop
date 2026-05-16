@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.24.0
+- roadmapVersion: v3.25.0
 - lastUpdated: 2026-05-16
-- latestUpdate: B3 observation loop officially complete — B3_OBSERVATION_LOOP_COMPLETION_RECORD.md created
+- latestUpdate: Level 3 planning gate definition created — not Level 3 approval
 - baselineCommit: d6056c812c406014c62a8a7d5e07381e31927783
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,17 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.25.0 - Level 3 Planning Gate Defined
+
+- roadmapVersion: v3.25.0
+- lastUpdated: 2026-05-16
+- LEVEL_3_PLANNING_GATE_DEFINITION.md created
+- Defines what Level 3 is / is not / forbidden / required decisions / STOP conditions
+- Candidate tracks: 3-A through 3-E (proposals only, none approved)
+- Level 3-A recommended as first candidate (narrowest scope)
+- Level 3: not approved by this document
+- B3 loop: COMPLETE / productionReady: false / execution: disabled
 
 ## v3.24.0 - B3 Observation Loop Officially Complete
 
