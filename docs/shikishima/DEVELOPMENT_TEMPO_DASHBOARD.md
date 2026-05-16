@@ -20,8 +20,8 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.25.0
-- latestUpdate: 2026-05-16 - Level 3 planning gate defined (LEVEL_3_PLANNING_GATE_DEFINITION.md); B3 loop complete; Level 3 not approved
+- roadmapVersion: v3.26.0
+- latestUpdate: 2026-05-16 - Level 3 preconditions audited; risk classification documented; scope + GO wording pending
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: ahead=1 (L3 planning gate); origin/main=df9efda
