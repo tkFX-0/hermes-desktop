@@ -20,8 +20,8 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.38.0
-- latestUpdate: 2026-05-16 - StackChan + autonomy levels + approval queue created; external policy / alignment review pending
+- roadmapVersion: v3.39.0
+- latestUpdate: 2026-05-16 - StackChan + autonomy + approval queue + external policy created; alignment review pending
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: ahead=1 (L3 planning gate); origin/main=df9efda
