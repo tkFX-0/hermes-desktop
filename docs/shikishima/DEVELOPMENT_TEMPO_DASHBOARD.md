@@ -20,8 +20,8 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.42.0
-- latestUpdate: 2026-05-17 - L3-A Session 001 HOLD (Installer caveat); Option B retry policy; new time_window GO pending
+- roadmapVersion: v3.43.0
+- latestUpdate: 2026-05-17 - Option B installer caveat policy defined; Session 002 GO package pending
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: ahead=1 (L3 planning gate); origin/main=df9efda

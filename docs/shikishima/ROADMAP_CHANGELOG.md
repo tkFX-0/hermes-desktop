@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.42.0
+- roadmapVersion: v3.43.0
 - lastUpdated: 2026-05-17
-- latestUpdate: Level 3-A Session 001 HOLD evidence recorded — Hermes Installer caveat; Option B retry policy approved
+- latestUpdate: Level 3-A installer dialog caveat policy defined (Option B)
 - baselineCommit: d6056c812c406014c62a8a7d5e07381e31927783
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,15 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.43.0 - Level 3-A Installer Dialog Caveat Policy Defined
+
+- roadmapVersion: v3.43.0
+- lastUpdated: 2026-05-17
+- LEVEL_3_A_INSTALLER_DIALOG_CAVEAT_POLICY.md created
+- Option B: dismiss dialog / PASS_WITH_CAVEAT / no install / no elevation / no download
+- Root cause: Hermes CLI not installed → recurring startup behavior
+- Applies to all future Level 3-A Scope B runs
 
 ## v3.42.0 - Level 3-A Session 001 HOLD Evidence Recorded
 
