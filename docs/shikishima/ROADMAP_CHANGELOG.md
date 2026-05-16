@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.37.0
+- roadmapVersion: v3.38.0
 - lastUpdated: 2026-05-16
-- latestUpdate: Shikishima tool autonomy levels L0-5 defined
+- latestUpdate: Shikishima human approval queue design created
 - baselineCommit: d6056c812c406014c62a8a7d5e07381e31927783
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,14 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.38.0 - Shikishima Human Approval Queue Design Created
+
+- roadmapVersion: v3.38.0
+- lastUpdated: 2026-05-16
+- SHIKISHIMA_HUMAN_APPROVAL_QUEUE_DESIGN.md created
+- 18-field approval item / 10 action types / GO/HOLD/REJECT flow
+- Non-negotiable rule list / future implementation candidates (not approved)
 
 ## v3.37.0 - Shikishima Tool Autonomy Levels Defined
 
