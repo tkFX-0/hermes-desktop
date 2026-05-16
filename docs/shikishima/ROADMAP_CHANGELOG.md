@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.41.0
+- roadmapVersion: v3.42.0
 - lastUpdated: 2026-05-17
-- latestUpdate: Level 3-A final GO package filled (Scope B / Phase 2C iPhone) — awaiting separate final human GO
+- latestUpdate: Level 3-A Session 001 HOLD evidence recorded — Hermes Installer caveat; Option B retry policy approved
 - baselineCommit: d6056c812c406014c62a8a7d5e07381e31927783
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,16 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.42.0 - Level 3-A Session 001 HOLD Evidence Recorded
+
+- roadmapVersion: v3.42.0
+- lastUpdated: 2026-05-17
+- LEVEL_3_A_OBSERVATION_EVIDENCE_2026-05-17-001.md created
+- Session 001 result: HOLD (Hermes Installer dialog appeared before iPhone check)
+- STOP correctly triggered / rollback correctly executed
+- Option B retry policy: dismiss installer dialog / PASS_WITH_CAVEAT
+- Temp ENABLED=true commit kept in local backup branch only (not pushed to main)
 
 ## v3.41.0 - Level 3-A Final GO Package Filled (Scope B)
 

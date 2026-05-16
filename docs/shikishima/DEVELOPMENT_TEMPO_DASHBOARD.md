@@ -20,13 +20,13 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.41.0
-- latestUpdate: 2026-05-17 - L3-A final GO package filled (Scope B / 00:15-00:45 JST); awaiting separate final human GO
+- roadmapVersion: v3.42.0
+- latestUpdate: 2026-05-17 - L3-A Session 001 HOLD (Installer caveat); Option B retry policy; new time_window GO pending
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: ahead=1 (L3 planning gate); origin/main=df9efda
 - validation road: Level 1+2 PASS; Phase 2C same-LAN PASS; B3 5/5 ACCEPTED; B3 loop COMPLETE; L3 planning: in progress; overall ~32%
-- current next human action: review filled GO package → send final L3-A execution GO → Level 3-A Scope B run
+- current next human action: push Session 001 HOLD evidence → Option B caveat doc → Session 002 new time_window GO
 - HOLD reason: execution disabled; productionReady false; Level 3 not approved; runtime branch not pushed; Final Shikishima 100% = not complete
 
 ## Boundaries
