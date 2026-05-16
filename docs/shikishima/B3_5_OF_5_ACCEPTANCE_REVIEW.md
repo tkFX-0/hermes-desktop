@@ -159,14 +159,30 @@ runtime_branch   : local only, not pushed
 
 ---
 
-## Required Human Acceptance Phrase
+## Human Acceptance Phrase
 
 ```text
 accepted_as_level_b3_5_of_5_practical_local_mvp_operation_evidence
 ```
 
-Human must write this phrase to finalize B3 5/5 acceptance.
-Pending until human review.
+acceptance_status: ACCEPTED
+accepted_by: human (2026-05-16)
+acceptance_basis: Session-009 iPhone Phase 2C same-LAN confirmation evidence (bd73f8c)
+
+B3 5/5 is officially accepted as of this record.
+
+## Post-Acceptance State
+
+```text
+B3: 5/5 ACCEPTED
+Session-009: accepted_as_clean_b3_pass
+Level 3: not approved
+productionReady: false
+execution: disabled
+rawValuesReported: false
+runtime branch: not pushed
+activation commit 35f02c5: not pushed
+```
 
 ---
 
