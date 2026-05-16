@@ -1,6 +1,6 @@
 # iPhone Private Console — Phase 2B Design
-date: 2026-05-15
-status: design_draft — not implemented
+date: 2026-05-16
+status: implemented — phase2b1_ipc_pushed / phase2b2_localhost_module_pushed_not_auto_wired
 phase: 2B
 
 ---

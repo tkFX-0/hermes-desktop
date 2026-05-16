@@ -1,6 +1,6 @@
 # iPhone Private Console — MVP Phases
-date: 2026-05-15
-status: design_draft — not implemented
+date: 2026-05-16
+status: phase1_complete / phase2a_complete / phase2b1_complete / phase2b2_complete_not_auto_wired / phase2c_disabled_pending_activation
 
 ---
 

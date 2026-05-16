@@ -1,7 +1,7 @@
 # iPhone Private Console — Phase 2C Same-LAN Prep
-date: 2026-05-15
-status: design_draft — not implemented
-prerequisite: Phase 2B-1 and 2B-2 stable
+date: 2026-05-16
+status: design_complete — implementation_committed_disabled / prerequisite_met
+prerequisite: Phase 2B-1 and 2B-2 stable (both implemented and pushed)
 
 ---
 
