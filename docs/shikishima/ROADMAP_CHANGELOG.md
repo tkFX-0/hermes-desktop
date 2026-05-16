@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.31.0
+- roadmapVersion: v3.32.0
 - lastUpdated: 2026-05-16
-- latestUpdate: Level 3-A STOP and rollback checklist created
+- latestUpdate: Level 3-A iPhone same-LAN observation protocol created
 - baselineCommit: d6056c812c406014c62a8a7d5e07381e31927783
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,13 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.32.0 - Level 3-A iPhone Same-LAN Protocol Created
+
+- roadmapVersion: v3.32.0
+- lastUpdated: 2026-05-16
+- LEVEL_3_A_IPHONE_SAME_LAN_PROTOCOL.md created
+- Human actions / ClaudeCode actions / required checks table / forbidden list
 
 ## v3.31.0 - Level 3-A STOP and Rollback Checklist Created
 
