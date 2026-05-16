@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.35.0
+- roadmapVersion: v3.36.0
 - lastUpdated: 2026-05-16
-- latestUpdate: Shikishima + StackChan assistant vision recorded — north star for all future design
+- latestUpdate: StackChan role and expression policy created
 - baselineCommit: d6056c812c406014c62a8a7d5e07381e31927783
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,14 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.36.0 - StackChan Role and Expression Policy Created
+
+- roadmapVersion: v3.36.0
+- lastUpdated: 2026-05-16
+- STACKCHAN_ROLE_AND_EXPRESSION_POLICY.md created
+- 11 expression states / speech policy / physical safety boundary all HOLD
+- robotMotion: HOLD / voice: HOLD / camera/mic: HOLD
 
 ## v3.35.0 - Shikishima + StackChan Assistant Vision Recorded
 
