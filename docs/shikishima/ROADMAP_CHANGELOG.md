@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.13.0
-- lastUpdated: 2026-05-14
-- latestUpdate: Level B3 Session-001→003 loop completed; Session-003 accepted; B3 daily loop runbook + Level 3 gap audit created
+- roadmapVersion: v3.21.0
+- lastUpdated: 2026-05-16
+- latestUpdate: Session-009 iPhone same-LAN confirmation evidence recorded; CLEAN_B3_PASS_CANDIDATE; B3 5/5 candidate pending human acceptance
 - baselineCommit: d6056c812c406014c62a8a7d5e07381e31927783
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,18 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.21.0 - Session-009 iPhone Same-LAN Evidence Recorded
+
+- roadmapVersion: v3.21.0
+- lastUpdated: 2026-05-16
+- LOCAL_MVP_OPERATION_EVIDENCE_2026-05-16-009.md created
+- Session-009 result: CLEAN_B3_PASS_CANDIDATE
+- B3 status: 5/5 candidate, pending human acceptance
+- Evidence records /mobile/health, /mobile/ui, and /mobile/snapshot PASS through Phase 2C same-LAN confirmation
+- Evidence records negative checks: no-token and invalid-token snapshot requests rejected; no wildcard CORS; no 0.0.0.0 bind; no execution/write/push endpoints
+- Runtime branch and activation commit remain local-only and not pushed
+- This is not B3 acceptance, not Level 3 approval, not productionReady true, and not execution enabled
 
 ## v3.19.0 - Phase 2C Design Docs + Route to B3 5/5
 

@@ -2,9 +2,9 @@
 
 ## Update Status
 
-- roadmapVersion: v2.9.5
-- lastUpdated: 2026-05-14
-- latestUpdate: Validation evidence accepted for review only
+- roadmapVersion: v3.21.0
+- lastUpdated: 2026-05-16
+- latestUpdate: Session-009 iPhone same-LAN evidence recorded as CLEAN_B3_PASS_CANDIDATE; B3 5/5 candidate pending human acceptance
 - baselineCommit: 181389df175d8db7241ebc13d4d3b20d66812b76
 - changelog: `ROADMAP_CHANGELOG.md`
 - phase review: `PHASE_REVIEW_MATRIX.md`
@@ -78,6 +78,25 @@ This acceptance lets Pre-Operation Readiness Gate review continue. It does not
 approve GO, execution, productionReady true, git push, deploy, Cloudflare,
 WSL/Hermes/wrapper, robot/voice/camera/mic, secrets, raw values, local-only
 values, or repo-external writes.
+
+## Session-009 iPhone Same-LAN Evidence
+
+v3.21.0 records Session-009 Phase 2C same-LAN confirmation evidence.
+
+Evidence file:
+
+- `LOCAL_MVP_OPERATION_EVIDENCE_2026-05-16-009.md`
+
+Candidate state:
+
+- Session-009: CLEAN_B3_PASS_CANDIDATE.
+- B3: 5/5 candidate, pending human acceptance.
+- `/mobile/health`, `/mobile/ui`, and `/mobile/snapshot`: PASS.
+- Runtime branch and activation commit: local-only / not pushed.
+
+This evidence does not approve B3 acceptance, Level 3, productionReady true,
+execution enabled, git push, deploy, Cloudflare, raw values, secrets,
+local-only values, or runtime branch push.
 
 v1.0.0 is a Static Design Review Package. It is not productionReady, not GO
 approval, not execution approval, not device connection approval, and not

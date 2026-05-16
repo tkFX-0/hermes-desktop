@@ -126,8 +126,8 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <span class="chip off">execution: disabled</span>
         <span class="chip false">productionReady: false</span>
         <span class="chip false">rawValuesReported: false</span>
-        <span class="chip ok">roadmapVersion: v3.12.0</span>
-        <span class="chip ok">lastUpdated: 2026-05-14</span>
+        <span class="chip ok">roadmapVersion: v3.21.0</span>
+        <span class="chip ok">lastUpdated: 2026-05-16</span>
       </div>
     </header>
     <div class="content">
@@ -135,14 +135,15 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
         <div class="card status-card">
           <h2>譖ｴ譁ｰ繧ｹ繝・・繧ｿ繧ｹ</h2>
           <div class="kv">
-            <div>roadmapVersion</div><div><code>v3.12.0</code></div>
-            <div>lastUpdated</div><div><code>2026-05-14</code></div>
-            <div>latestUpdate</div><div>Level B3 Operation Rules accepted; accepted_as_practical_local_mvp_operation_rules</div>
-            <div>currentLevel</div><div><code>Level B3 ACCEPTED — push + daily operation loop pending</code></div>
-            <div>nextHumanAction</div><div>Push 6f0414f + acceptance commit, then begin Level B3 daily operation loop</div>
-            <div>nextGOCandidates</div><div><code>push GO for 6f0414f + acceptance, then session GO with time_window</code></div>
+            <div>roadmapVersion</div><div><code>v3.21.0</code></div>
+            <div>lastUpdated</div><div><code>2026-05-16</code></div>
+            <div>latestUpdate</div><div>Session-009 iPhone same-LAN evidence recorded as CLEAN_B3_PASS_CANDIDATE; B3 5/5 candidate pending human acceptance</div>
+            <div>currentLevel</div><div><code>B3 5/5 CANDIDATE - human acceptance pending</code></div>
+            <div>nextHumanAction</div><div>Review Session-009 evidence, approve evidence docs push separately, then decide B3 5/5 acceptance separately</div>
+            <div>nextGOCandidates</div><div><code>evidence docs push GO, then separate B3 acceptance decision</code></div>
             <div>baselineCommit</div><div><code>181389df175d8db7241ebc13d4d3b20d66812b76</code></div>
             <div>currentStatus</div><div>decision=HOLD / execution=disabled / productionReady=false / rawValuesReported=false</div>
+            <div>v3.21.0 note</div><div>v3.21.0: Session-009 Phase 2C iPhone same-LAN evidence recorded. /mobile/health, /mobile/ui, and /mobile/snapshot PASS. Negative checks PASS. Session-009 = CLEAN_B3_PASS_CANDIDATE. B3 = 5/5 candidate pending human acceptance. Runtime branch and activation commit are local-only and not pushed. Level 3, productionReady, execution, and B3 acceptance are not approved.</div>
             <div>v3.12.0 note</div><div>v3.12.0: Level B3 rules accepted. Human reviewer accepted as accepted_as_practical_local_mvp_operation_rules. 18/18 checklist PASS. LOCAL_MVP_OPERATION_ACCEPTANCE_RECORD.md added. All docs/evidence criteria PASS. HOLD remains. Level 3, productionReady, execution not approved.</div>
             <div>v3.11.0 note</div><div>v3.11.0: Level B3 rules package created. PRACTICAL_LOCAL_MVP_OPERATION_RULES.md, LOCAL_MVP_SESSION_PROTOCOL.md, LOCAL_MVP_EVIDENCE_SCHEMA.md, LOCAL_MVP_OPERATION_ACCEPTANCE_RECORD_TEMPLATE.md. criteria_e1-e6 all PASS. B3 rules pending human acceptance. HOLD remains. Level 3, productionReady, execution not approved.</div>
             <div>v3.10.0 note</div><div>v3.10.0: Level B1 observation evidence accepted (accepted_as_local_app_observation_evidence). LOCAL_APP_OBSERVATION_ACCEPTANCE_RECORD.md added. 13/13 evidence checks PASS. criteria_e1-e6 PASS. Next: Level B3 operation rules.</div>
@@ -216,7 +217,16 @@ pre { white-space:pre; overflow:auto; background:var(--bg2); border:1px solid va
       <section id="changelog">
         <h2>譖ｴ譁ｰ螻･豁ｴ / Changelog</h2>
         <div class="card">
-          <h3>v3.12.0 - Level B3 Operation Rules accepted <span class="update-badge">latest</span></h3>
+          <h3>v3.21.0 - Session-009 iPhone same-LAN evidence recorded <span class="update-badge">latest</span></h3>
+          <ul>
+            <li>LOCAL_MVP_OPERATION_EVIDENCE_2026-05-16-009.md added.</li>
+            <li>Session-009 result: CLEAN_B3_PASS_CANDIDATE. B3 status: 5/5 candidate pending human acceptance.</li>
+            <li>Evidence records /mobile/health, /mobile/ui, /mobile/snapshot PASS and negative checks PASS without raw LAN IP or raw pairing token.</li>
+            <li>Runtime branch and activation commit remain local-only and not pushed. No B3 acceptance, Level 3 approval, productionReady true, or execution enabled.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>v3.12.0 - Level B3 Operation Rules accepted</h3>
           <ul>
             <li>Human reviewer accepted Level B3 rules as accepted_as_practical_local_mvp_operation_rules. 18/18 checklist PASS.</li>
             <li>LOCAL_MVP_OPERATION_ACCEPTANCE_RECORD.md added. All docs and evidence criteria PASS. HOLD remains.</li>
