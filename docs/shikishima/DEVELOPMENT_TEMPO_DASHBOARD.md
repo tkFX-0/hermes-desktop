@@ -20,13 +20,13 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.39.0
-- latestUpdate: 2026-05-16 - StackChan + autonomy + approval queue + external policy created; alignment review pending
+- roadmapVersion: v3.40.0
+- latestUpdate: 2026-05-16 - Full vision expansion pack complete; alignment review: all docs CONSISTENT; no contradictions
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: ahead=1 (L3 planning gate); origin/main=df9efda
 - validation road: Level 1+2 PASS; Phase 2C same-LAN PASS; B3 5/5 ACCEPTED; B3 loop COMPLETE; L3 planning: in progress; overall ~32%
-- current next human action: push vision commit → fill LEVEL_3_A_FINAL_GO_PACKAGE_DRAFT → send L3-A execution GO
+- current next human action: push vision expansion docs → fill LEVEL_3_A_FINAL_GO_PACKAGE_DRAFT → send L3-A execution GO
 - HOLD reason: execution disabled; productionReady false; Level 3 not approved; runtime branch not pushed; Final Shikishima 100% = not complete
 
 ## Boundaries

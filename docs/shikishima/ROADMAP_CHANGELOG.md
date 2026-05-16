@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.39.0
+- roadmapVersion: v3.40.0
 - lastUpdated: 2026-05-16
-- latestUpdate: External tool integration policy map created (X/cal/reservation/shopping/sensors/ToDo/finance/dev)
+- latestUpdate: Vision + Level 3-A alignment review complete — all docs consistent / no contradictions
 - baselineCommit: d6056c812c406014c62a8a7d5e07381e31927783
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,16 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.40.0 - Vision and Level 3-A Alignment Review Complete
+
+- roadmapVersion: v3.40.0
+- lastUpdated: 2026-05-16
+- SHIKISHIMA_VISION_LEVEL_3A_ALIGNMENT_REVIEW.md created
+- All 6 design docs reviewed: CONSISTENT
+- No contradictions detected
+- Core rule confirmed: propose/draft/warn YES / high-risk execution requires GO
+- Level 3-A: controlled observation only (CONFIRMED)
 
 ## v3.39.0 - External Tool Integration Policy Map Created
 
