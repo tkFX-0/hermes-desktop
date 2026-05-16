@@ -437,9 +437,20 @@ interface IchikishimaControlCenterAPI {
   getAppSnapshot: () => Promise<ControlCenterAppSnapshot>;
 }
 
+interface Phase2cConnectionInfo {
+  readonly active: boolean;
+  readonly phase2cEnabled: boolean;
+  readonly lanUrl?: string;
+  readonly pairingToken?: string;
+  readonly pairingTokenPresent?: true;
+  readonly pairingTokenRawReported?: false;
+}
+
 interface MobileConsoleAPI {
   /** iPhone Private Console read-only redacted snapshot（実行なし） */
   getRedactedSnapshot: () => Promise<MobileConsoleSnapshot>;
+  /** Phase 2C LAN connection info — Electron UI display only */
+  getPhase2cConnectionInfo: () => Promise<Phase2cConnectionInfo>;
 }
 
 declare global {

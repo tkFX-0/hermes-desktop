@@ -13,7 +13,8 @@ export type MobileDataSource =
   | "static_phase1"
   | "redacted_snapshot_phase2a"
   | "redacted_snapshot_phase2b_ipc"
-  | "redacted_snapshot_phase2b_localhost";
+  | "redacted_snapshot_phase2b_localhost"
+  | "redacted_snapshot_phase2c_same_lan";
 
 export interface MobileSessionRecord {
   readonly id: string;

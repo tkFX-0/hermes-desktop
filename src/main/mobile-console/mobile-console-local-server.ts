@@ -26,13 +26,16 @@ import {
   writeErrorResponse,
 } from "./mobile-console-http-security";
 import { buildLiveMobileConsoleSnapshot } from "./mobile-console-snapshot-service";
+import { extractBearerToken } from "./mobile-console-pairing";
 import type { ControlCenterDataProviderParams } from "../ichikishima/control-center/control-center-data-provider";
 
 export interface MobileConsoleLocalServerOptions {
   getParams: () => ControlCenterDataProviderParams;
   port?: number;
-  /** Override bind host for testing. Production must always be 127.0.0.1. */
+  /** Override bind host for testing. Production must always be 127.0.0.1 (Phase 2B-2) or LAN IP (Phase 2C). */
   host?: string;
+  /** Phase 2C pairing token. If provided, all non-health endpoints require it. */
+  pairingToken?: string;
 }
 
 const ROUTES: ReadonlySet<string> = new Set([
@@ -62,15 +65,23 @@ function handleRequest(
     return;
   }
 
+  if (opts.pairingToken) {
+    const bearer = extractBearerToken(req.headers["authorization"] as string | undefined);
+    if (!bearer || bearer !== opts.pairingToken) {
+      writeErrorResponse(res, 401, "unauthorized");
+      return;
+    }
+  }
+
   if (pathname === "/mobile/status" || pathname === "/mobile/snapshot") {
     try {
       const snapshot = buildLiveMobileConsoleSnapshot({
         controlCenterParams: opts.getParams(),
       });
-      writeJsonResponse(res, 200, {
-        ...snapshot,
-        dataSource: "redacted_snapshot_phase2b_localhost" as const,
-      });
+      const dataSource = opts.pairingToken
+        ? ("redacted_snapshot_phase2c_same_lan" as const)
+        : ("redacted_snapshot_phase2b_localhost" as const);
+      writeJsonResponse(res, 200, { ...snapshot, dataSource });
     } catch {
       writeErrorResponse(res, 500, "snapshot_unavailable");
     }
@@ -104,7 +115,12 @@ export async function startMobileConsoleLocalServer(
   const host = opts.host ?? MOBILE_CONSOLE_ALLOWED_BIND_HOST;
   const port = opts.port ?? MOBILE_CONSOLE_DEFAULT_PORT;
 
-  assertBindHost(host);
+  // Phase 2B-2 (no token): localhost-only guard. Phase 2C (token present): caller
+  // (startPhase2cServer) already ran assertPhase2cBindHost — do not override with
+  // the stricter 127.0.0.1-only check, which would reject LAN IPs.
+  if (!opts.pairingToken) {
+    assertBindHost(host);
+  }
 
   const server = createServer((req: IncomingMessage, res: ServerResponse) => {
     handleRequest(req, res, opts);

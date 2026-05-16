@@ -8,7 +8,12 @@ import {
 } from "electron";
 import { join } from "path";
 import { registerControlCenterReadonlyIpcHandlers } from "./ichikishima/control-center/control-center-readonly-ipc";
-import { registerMobileConsoleIpcHandler } from "./mobile-console";
+import {
+  registerMobileConsoleIpcHandler,
+  MOBILE_CONSOLE_PHASE_2C_ENABLED,
+  startPhase2cServer,
+} from "./mobile-console";
+import type { Phase2cStartResult } from "./mobile-console";
 import {
   controlCenterElectronHintsFromApp,
   resolveControlCenterPathResolution,
@@ -124,6 +129,7 @@ process.on("unhandledRejection", (reason) => {
 
 let mainWindow: BrowserWindow | null = null;
 let currentChatAbort: (() => void) | null = null;
+let phase2cInstance: Phase2cStartResult | null = null;
 
 function getIchikishimaControlCenterReadonlyParams(): ControlCenterDataProviderParams {
   const resolved = resolveControlCenterPathResolution({
@@ -207,6 +213,21 @@ function setupIPC(): void {
   });
   registerMobileConsoleIpcHandler(ipcMain, {
     getParams: getIchikishimaControlCenterReadonlyParams,
+  });
+
+  // Phase 2C connection info — for Electron UI display only
+  ipcMain.handle("mobile-console.getPhase2cConnectionInfo", () => {
+    if (!phase2cInstance) {
+      return { active: false, phase2cEnabled: MOBILE_CONSOLE_PHASE_2C_ENABLED };
+    }
+    return {
+      active: true,
+      phase2cEnabled: MOBILE_CONSOLE_PHASE_2C_ENABLED,
+      lanUrl: phase2cInstance.lanUrlForElectronUiOnly,
+      pairingToken: phase2cInstance.pairing.rawTokenForElectronUiOnly,
+      pairingTokenPresent: true,
+      pairingTokenRawReported: false,
+    };
   });
 
   // Installation
@@ -878,6 +899,12 @@ app.whenReady().then(() => {
   setupIPC();
   createWindow();
   setupUpdater();
+
+  if (MOBILE_CONSOLE_PHASE_2C_ENABLED) {
+    startPhase2cServer({ getParams: getIchikishimaControlCenterReadonlyParams })
+      .then((result) => { phase2cInstance = result; })
+      .catch((err) => { console.error("[Phase2C] start failed:", err); });
+  }
 
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
