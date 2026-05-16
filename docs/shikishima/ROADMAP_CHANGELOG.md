@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.43.0
+- roadmapVersion: v3.44.0
 - lastUpdated: 2026-05-17
-- latestUpdate: Level 3-A installer dialog caveat policy defined (Option B)
+- latestUpdate: Level 3-A Session 002 GO package draft created — awaiting time_window and final GO
 - baselineCommit: d6056c812c406014c62a8a7d5e07381e31927783
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,16 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.44.0 - Level 3-A Session 002 GO Package Draft Created
+
+- roadmapVersion: v3.44.0
+- lastUpdated: 2026-05-17
+- LEVEL_3_A_SESSION_002_GO_PACKAGE_DRAFT.md created
+- Updated result classification: CLEAN_PASS / PASS_WITH_CAVEAT / HOLD
+- Option B caveat acknowledged in GO template
+- 15-item pre-GO checklist updated for Session 002
+- Awaiting human time_window and final GO
 
 ## v3.43.0 - Level 3-A Installer Dialog Caveat Policy Defined
 
