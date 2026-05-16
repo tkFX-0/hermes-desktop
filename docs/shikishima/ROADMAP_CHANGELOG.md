@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.26.0
+- roadmapVersion: v3.27.0
 - lastUpdated: 2026-05-16
-- latestUpdate: Level 3 preconditions audit complete — LEVEL_3_PRECONDITIONS_AUDIT.md created
+- latestUpdate: Level 3 scope proposed — Level 3-A recommended as first candidate
 - baselineCommit: d6056c812c406014c62a8a7d5e07381e31927783
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,16 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.27.0 - Level 3 Scope Proposed
+
+- roadmapVersion: v3.27.0
+- lastUpdated: 2026-05-16
+- LEVEL_3_SCOPE_PROPOSAL.md created
+- Level 3-A (read-only observation continuation): recommended, PASS criteria defined
+- Level 3-B/C/D/E: deferred
+- StackChan / robot / voice / camera: HOLD (no track)
+- Level 3: not approved / productionReady: false / execution: disabled
 
 ## v3.26.0 - Level 3 Preconditions Audited
 
