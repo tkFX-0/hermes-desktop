@@ -55,3 +55,22 @@ export function writeErrorResponse(
     rawValuesReported: false,
   });
 }
+
+/** Write safe HTML response with security headers. No CORS. */
+export function writeHtmlResponse(
+  res: ServerResponse,
+  status: number,
+  html: string,
+): void {
+  const bytes = Buffer.from(html, "utf-8");
+  res.writeHead(status, {
+    "Content-Type": "text/html; charset=utf-8",
+    "Content-Length": bytes.length,
+    "Cache-Control": "no-store",
+    "Content-Security-Policy":
+      "default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'self'; base-uri 'none'; form-action 'none'",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+  });
+  res.end(bytes);
+}

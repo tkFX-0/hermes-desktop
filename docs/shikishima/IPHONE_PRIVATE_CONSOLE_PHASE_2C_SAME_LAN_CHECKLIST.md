@@ -37,6 +37,8 @@ status: design_draft
 [ ] mobile-console-local-server.ts updated
     [ ] validateBearerToken() added
     [ ] /mobile/health exempted from auth (connectivity check)
+    [ ] /mobile/ui serves paired read-only HTML without embedding token
+    [ ] /mobile/ui lets iPhone Safari send Bearer token to /mobile/snapshot
     [ ] /mobile/status requires valid token
     [ ] /mobile/snapshot requires valid token
     [ ] 401 response on invalid/missing token
@@ -67,15 +69,17 @@ status: design_draft
 ```
 [ ] Windows app running with Phase 2C enabled
 [ ] iPhone on same Wi-Fi network as Windows PC
-[ ] Pairing token copied from Electron UI
-[ ] iPhone Safari navigated to setup URL
-[ ] Token entered (form, not URL param)
-[ ] iPhone confirms GET /mobile/status response:
+[ ] Pairing token manually entered in /mobile/ui
+[ ] iPhone Safari navigated to /mobile/ui
+[ ] Token entered in form (not URL param, not persisted)
+[ ] iPhone confirms GET /mobile/snapshot via Bearer header:
     [ ] decision: HOLD visible
     [ ] execution: disabled visible
     [ ] productionReady: false visible
     [ ] rawValuesReported: false visible
     [ ] level3: not_approved visible
+    [ ] B3: 4/5 visible before Session-009
+    [ ] Session-009: not countable visible before separate time_window GO
     [ ] dataSource: redacted_snapshot_phase2c_same_lan visible
 [ ] No raw values visible
 [ ] No token visible in response

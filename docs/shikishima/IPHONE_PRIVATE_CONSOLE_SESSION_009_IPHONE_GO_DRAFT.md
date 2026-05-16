@@ -12,8 +12,9 @@ note: This document does NOT approve Session-009.
 [ ] Phase 2B-1 IPC path complete and pushed
 [ ] Phase 2B-2 localhost server module complete and pushed
 [ ] Phase 2C same-LAN server with pairing token implemented and pushed
+[ ] /mobile/ui paired page implemented and pushed
 [ ] iPhone confirmed on same Wi-Fi network as Windows PC
-[ ] iPhone Safari / PWA shows live redacted status (Phase 5 PASS)
+[ ] iPhone Safari /mobile/ui shows live redacted snapshot through Bearer header (Phase 5 PASS)
 [ ] dataSource = redacted_snapshot_phase2c_same_lan confirmed on iPhone
 [ ] No raw values visible on iPhone
 [ ] No token visible in iPhone display
