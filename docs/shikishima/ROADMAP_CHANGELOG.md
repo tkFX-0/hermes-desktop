@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.34.0
+- roadmapVersion: v3.35.0
 - lastUpdated: 2026-05-16
-- latestUpdate: Level 3-A design package complete — final GO package draft created
+- latestUpdate: Shikishima + StackChan assistant vision recorded — north star for all future design
 - baselineCommit: d6056c812c406014c62a8a7d5e07381e31927783
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,16 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.35.0 - Shikishima + StackChan Assistant Vision Recorded
+
+- roadmapVersion: v3.35.0
+- lastUpdated: 2026-05-16
+- SHIKISHIMA_STACKCHAN_ASSISTANT_VISION.md created
+- Core vision: brain(Shikishima) + face(StackChan) + workers(ClaudeCode/Codex)
+- Tool autonomy levels 0-5 defined (current: L0-1, L2 by GO)
+- Future roadmap candidates listed (all docs-only, none approved)
+- Not execution approval / not Level 3 approval / not productionReady
 
 ## v3.34.0 - Level 3-A Final GO Package Draft Created
 
