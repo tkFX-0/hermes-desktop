@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.32.0
+- roadmapVersion: v3.33.0
 - lastUpdated: 2026-05-16
-- latestUpdate: Level 3-A iPhone same-LAN observation protocol created
+- latestUpdate: Level 3-A human acceptance review template created
 - baselineCommit: d6056c812c406014c62a8a7d5e07381e31927783
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,13 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.33.0 - Level 3-A Human Acceptance Template Created
+
+- roadmapVersion: v3.33.0
+- lastUpdated: 2026-05-16
+- LEVEL_3_A_HUMAN_ACCEPTANCE_REVIEW_TEMPLATE.md created
+- 18-item review checklist / candidate statuses / explicit "does not approve" list
 
 ## v3.32.0 - Level 3-A iPhone Same-LAN Protocol Created
 

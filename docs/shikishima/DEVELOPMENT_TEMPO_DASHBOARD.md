@@ -20,8 +20,8 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.32.0
-- latestUpdate: 2026-05-16 - L3-A runbook + evidence + STOP/rollback + iPhone protocol created; acceptance template / final GO package pending
+- roadmapVersion: v3.33.0
+- latestUpdate: 2026-05-16 - L3-A runbook + evidence + STOP/rollback + iPhone protocol + acceptance template created; final GO package pending
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: ahead=1 (L3 planning gate); origin/main=df9efda
