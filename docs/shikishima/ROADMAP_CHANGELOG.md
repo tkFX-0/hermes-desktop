@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.45.0
+- roadmapVersion: v3.46.0
 - lastUpdated: 2026-05-17
-- latestUpdate: Shikishima Codex pet こましき concept defined
+- latestUpdate: Level 3-A Session 002 HOLD evidence recorded; Session 003 GO package draft created
 - baselineCommit: d6056c812c406014c62a8a7d5e07381e31927783
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,20 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.46.0 - Level 3-A Session 002 HOLD Evidence Recorded; Session 003 GO Package Created
+
+- roadmapVersion: v3.46.0
+- lastUpdated: 2026-05-17
+- LEVEL_3_A_OBSERVATION_EVIDENCE_2026-05-17-002.md created
+  - result: HOLD — app closed before iPhone observation was confirmed
+  - stop_trigger: app_closed_before_observation_reported
+  - ENABLED reverted: true → false as const (commit 1bd1b69)
+  - backup_branch: session-002-runtime-local-backup (bae8db4)
+- LEVEL_3_A_SESSION_003_GO_PACKAGE_DRAFT.md created
+  - session_003_observation_note added: keep Electron window open; report before closing
+  - Option B caveat policy carried over
+  - awaiting human time_window and final GO
 
 ## v3.45.0 - Shikishima Codex Pet こましき Concept Defined
 
