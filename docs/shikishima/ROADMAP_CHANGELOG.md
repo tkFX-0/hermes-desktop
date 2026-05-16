@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.36.0
+- roadmapVersion: v3.37.0
 - lastUpdated: 2026-05-16
-- latestUpdate: StackChan role and expression policy created
+- latestUpdate: Shikishima tool autonomy levels L0-5 defined
 - baselineCommit: d6056c812c406014c62a8a7d5e07381e31927783
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,14 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.37.0 - Shikishima Tool Autonomy Levels Defined
+
+- roadmapVersion: v3.37.0
+- lastUpdated: 2026-05-16
+- SHIKISHIMA_TOOL_AUTONOMY_LEVELS.md created
+- L0(suggestion) / L1(draft) / L2(approved assist) / L3(gated API) / L4-5(HOLD)
+- Current limit: L0-1 allowed / L2 by GO / L4-5 HOLD
 
 ## v3.36.0 - StackChan Role and Expression Policy Created
 
