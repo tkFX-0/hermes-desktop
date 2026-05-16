@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.40.0
-- lastUpdated: 2026-05-16
-- latestUpdate: Vision + Level 3-A alignment review complete — all docs consistent / no contradictions
+- roadmapVersion: v3.41.0
+- lastUpdated: 2026-05-17
+- latestUpdate: Level 3-A final GO package filled (Scope B / Phase 2C iPhone) — awaiting separate final human GO
 - baselineCommit: d6056c812c406014c62a8a7d5e07381e31927783
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,17 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.41.0 - Level 3-A Final GO Package Filled (Scope B)
+
+- roadmapVersion: v3.41.0
+- lastUpdated: 2026-05-17
+- LEVEL_3_A_FINAL_GO_PACKAGE_DRAFT.md filled with human-provided values
+  scope: B / Phase 2C iPhone same-LAN / date: 2026-05-17 / window: 00:15-00:45 JST
+  exact_command: npm run dev (with ENABLED=true local commit, NOT pushed to main)
+  iPhone_confirmation_required: yes
+  evidence_file: LEVEL_3_A_OBSERVATION_EVIDENCE_2026-05-17-001.md
+- This draft does not approve execution — separate final human GO required
 
 ## v3.40.0 - Vision and Level 3-A Alignment Review Complete
 
