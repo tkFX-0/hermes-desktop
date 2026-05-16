@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.44.0
+- roadmapVersion: v3.45.0
 - lastUpdated: 2026-05-17
-- latestUpdate: Level 3-A Session 002 GO package draft created — awaiting time_window and final GO
+- latestUpdate: Shikishima Codex pet こましき concept defined
 - baselineCommit: d6056c812c406014c62a8a7d5e07381e31927783
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,15 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.45.0 - Shikishima Codex Pet こましき Concept Defined
+
+- roadmapVersion: v3.45.0
+- lastUpdated: 2026-05-17
+- SHIKISHIMA_CODEX_PET_CONCEPT.md created
+- こましき: small Codex companion / status guardian / display-only
+- 10 expression states / relationship model / design tone / name origin
+- Level 0 autonomy only (display/suggestion) / no execution authority
 
 ## v3.44.0 - Level 3-A Session 002 GO Package Draft Created
 
