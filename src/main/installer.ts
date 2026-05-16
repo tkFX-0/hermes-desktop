@@ -28,6 +28,20 @@ export interface InstallProgress {
   log: string;
 }
 
+export type InstallResultStatus = "pass" | "pass_with_warning" | "fail";
+
+export interface InstallResultEvidence {
+  exitCode: number | null;
+  log: string;
+  hermesVerified: boolean;
+}
+
+export interface InstallResultClassification {
+  status: InstallResultStatus;
+  finalSuccessMarker: boolean;
+  fallbackWarning: boolean;
+}
+
 export function getEnhancedPath(): string {
   const home = homedir();
   const extra = [
@@ -143,6 +157,58 @@ export function checkInstallStatus(): InstallStatus {
   }
 
   return { installed, configured, hasApiKey, verified };
+}
+
+export function classifyInstallResult(
+  evidence: InstallResultEvidence,
+): InstallResultClassification {
+  const finalSuccessMarker = /Installation complete!?/i.test(evidence.log);
+  const fallbackWarning =
+    /uv\.lock sync failed|fallback tier|exited with warnings/i.test(evidence.log);
+
+  if (finalSuccessMarker && evidence.hermesVerified && fallbackWarning) {
+    return { status: "pass_with_warning", finalSuccessMarker, fallbackWarning };
+  }
+
+  if (
+    evidence.exitCode !== 0 &&
+    finalSuccessMarker &&
+    evidence.hermesVerified
+  ) {
+    return { status: "pass_with_warning", finalSuccessMarker, fallbackWarning };
+  }
+
+  if (
+    evidence.exitCode === 0 &&
+    (finalSuccessMarker || evidence.hermesVerified)
+  ) {
+    return { status: "pass", finalSuccessMarker, fallbackWarning };
+  }
+
+  return { status: "fail", finalSuccessMarker, fallbackWarning };
+}
+
+function isHermesInstallVerified(): boolean {
+  if (!existsSync(HERMES_PYTHON) || !existsSync(HERMES_SCRIPT)) {
+    return false;
+  }
+
+  try {
+    execSync(`"${HERMES_PYTHON}" "${HERMES_SCRIPT}" --version`, {
+      cwd: HERMES_REPO,
+      env: {
+        ...process.env,
+        PATH: getEnhancedPath(),
+        HOME: homedir(),
+        HERMES_HOME,
+      },
+      stdio: "ignore",
+      timeout: 15000,
+    });
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 // Cached version to avoid re-running the Python process
@@ -471,26 +537,31 @@ export async function runInstall(
     });
 
     proc.on("close", (code) => {
-      if (code === 0) {
+      const classification = classifyInstallResult({
+        exitCode: code,
+        log,
+        hermesVerified: isHermesInstallVerified(),
+      });
+
+      if (classification.status === "pass") {
         emit("\nInstallation complete!\n");
         resolve();
-      } else {
-        // The install script can exit non-zero due to benign issues
-        // (e.g. git stash pop failure on already-clean repo).
-        // If Hermes is actually installed and working, treat as success.
-        if (existsSync(HERMES_PYTHON) && existsSync(HERMES_SCRIPT)) {
-          emit(
-            "\nInstall script exited with warnings, but Hermes is installed successfully.\n",
-          );
-          resolve();
-        } else {
-          reject(
-            new Error(
-              `Installation failed (exit code ${code}). You can try installing via terminal instead.`,
-            ),
-          );
-        }
+        return;
       }
+
+      if (classification.status === "pass_with_warning") {
+        emit(
+          "\nInstallation complete with non-fatal installer warnings. Hermes is verified.\n",
+        );
+        resolve();
+        return;
+      }
+
+      reject(
+        new Error(
+          `Installation failed (exit code ${code}). You can try installing via terminal instead.`,
+        ),
+      );
     });
 
     proc.on("error", (err) => {
