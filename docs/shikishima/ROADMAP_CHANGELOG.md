@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.27.0
+- roadmapVersion: v3.28.0
 - lastUpdated: 2026-05-16
-- latestUpdate: Level 3 scope proposed — Level 3-A recommended as first candidate
+- latestUpdate: Level 3-A GO wording draft created — template only, not execution approval
 - baselineCommit: d6056c812c406014c62a8a7d5e07381e31927783
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,16 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.28.0 - Level 3-A GO Wording Draft Created
+
+- roadmapVersion: v3.28.0
+- lastUpdated: 2026-05-16
+- LEVEL_3_A_GO_WORDING_DRAFT.md created
+- Template with all required placeholders (time/command/port/shutdown/evidence/STOP/rollback)
+- 12-item GO checklist for human review
+- 11-item PASS criteria defined
+- Level 3: not approved / productionReady: false / execution: disabled
 
 ## v3.27.0 - Level 3 Scope Proposed
 
