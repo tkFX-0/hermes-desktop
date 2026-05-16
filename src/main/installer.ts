@@ -28,7 +28,11 @@ export interface InstallProgress {
   log: string;
 }
 
-export type InstallResultStatus = "pass" | "pass_with_warning" | "fail";
+export type InstallResultStatus =
+  | "pass"
+  | "pass_with_warning"
+  | "fail"
+  | "windows_manual_installer_required";
 
 export interface InstallResultEvidence {
   exitCode: number | null;
@@ -165,6 +169,18 @@ export function classifyInstallResult(
   const finalSuccessMarker = /Installation complete!?/i.test(evidence.log);
   const fallbackWarning =
     /uv\.lock sync failed|fallback tier|exited with warnings/i.test(evidence.log);
+
+  // Windows-specific: official install.sh prints this hint and exits with code 1.
+  // Not an unexpected failure — classify as known manual-install condition.
+  const windowsInstallerHint =
+    /Windows detected\. Please use the PowerShell installer/i.test(evidence.log);
+  if (windowsInstallerHint) {
+    return {
+      status: "windows_manual_installer_required",
+      finalSuccessMarker,
+      fallbackWarning,
+    };
+  }
 
   if (finalSuccessMarker && evidence.hermesVerified && fallbackWarning) {
     return { status: "pass_with_warning", finalSuccessMarker, fallbackWarning };
@@ -505,6 +521,18 @@ export async function runInstall(
   emit("Running official Hermes install script...\n");
 
   return new Promise((resolve, reject) => {
+    // Windows cannot run the Unix install script. Classify immediately as known manual condition.
+    if (process.platform === "win32") {
+      reject(
+        new Error(
+          "windows_manual_installer_required: Hermes CLI is not installed or requires manual Windows installation. " +
+            "Automatic installation is not performed in Shikishima controlled observation mode. " +
+            "Please keep this as HOLD unless separately approved.",
+        ),
+      );
+      return;
+    }
+
     const home = homedir();
 
     // Source the user's shell profile to get the same PATH as their terminal,
@@ -554,6 +582,16 @@ export async function runInstall(
           "\nInstallation complete with non-fatal installer warnings. Hermes is verified.\n",
         );
         resolve();
+        return;
+      }
+
+      if (classification.status === "windows_manual_installer_required") {
+        reject(
+          new Error(
+            "windows_manual_installer_required: Hermes CLI requires manual Windows installation. " +
+              "Please keep this as HOLD unless separately approved.",
+          ),
+        );
         return;
       }
 

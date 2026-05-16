@@ -44,4 +44,38 @@ describe("classifyInstallResult", () => {
     expect(result.status).toBe("fail");
     expect(result.finalSuccessMarker).toBe(false);
   });
+
+  it("classifies Windows PowerShell installer hint as windows_manual_installer_required", () => {
+    const result = classifyInstallResult({
+      exitCode: 1,
+      hermesVerified: false,
+      log: "Hermes Agent Installer\nWindows detected. Please use the PowerShell installer:\nirm https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.ps1 | iex\n",
+    });
+
+    expect(result.status).toBe("windows_manual_installer_required");
+    expect(result.status).not.toBe("fail");
+    expect(result.finalSuccessMarker).toBe(false);
+  });
+
+  it("classifies exit code 1 with Windows hint as windows_manual_installer_required not unknown failure", () => {
+    const result = classifyInstallResult({
+      exitCode: 1,
+      hermesVerified: false,
+      log: "Running official Hermes install script...\nWindows detected. Please use the PowerShell installer:\n",
+    });
+
+    expect(result.status).toBe("windows_manual_installer_required");
+    expect(result.status).not.toBe("fail");
+  });
+
+  it("does not classify as windows_manual_installer_required when hint is absent", () => {
+    const result = classifyInstallResult({
+      exitCode: 1,
+      hermesVerified: false,
+      log: "Some other error occurred.\n",
+    });
+
+    expect(result.status).toBe("fail");
+    expect(result.status).not.toBe("windows_manual_installer_required");
+  });
 });
