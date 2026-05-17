@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.84.0
-- lastUpdated: 2026-05-17
-- latestUpdate: Task 24 future gate registry and HOLD boundary recorded
-- baselineCommit: 35befd7
+- roadmapVersion: v3.85.0
+- lastUpdated: 2026-05-18
+- latestUpdate: UI-11 runtime observation PASS_WITH_CAVEAT — CAVEAT-01 (Layout.tsx wiring gap) recorded
+- baselineCommit: 6f76a94
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,19 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.85.0 - UI-11 Runtime Observation PASS_WITH_CAVEAT
+
+- roadmapVersion: v3.85.0
+- lastUpdated: 2026-05-18
+- runtime observation executed: 2026-05-18 00:37-01:00 JST
+- result: PASS_WITH_CAVEAT
+- CAVEAT-01: new Command Center pages (UI-05〜UI-10) not wired into Layout.tsx
+  - components compile/test correctly (806 tests PASS)
+  - not reachable from running app
+  - fix required: UI-12 Layout wiring (separate GO)
+- no safety violations: productionReady false / execution disabled / no raw values
+- evidence: UI_11_RUNTIME_OBSERVATION_EVIDENCE.md + UI_11_RUNTIME_OBSERVATION_CAVEAT_01.md
 
 ## v3.84.0 - Task 24 Future Gate Registry and HOLD Boundary
 
