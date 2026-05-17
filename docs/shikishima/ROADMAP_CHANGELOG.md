@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.68.0
+- roadmapVersion: v3.69.0
 - lastUpdated: 2026-05-17
-- latestUpdate: Gate 007 accepted/pushed evidence recorded — UI-01 + Gate 007 both confirmed at origin/main 2729d04
-- baselineCommit: 2729d04
+- latestUpdate: UI-02 implementation scope review prepared — 4 scope/test/stop-condition docs; awaiting human GO for source
+- baselineCommit: a023154
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,22 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.69.0 - UI-02 Implementation Scope Review Prepared
+
+- roadmapVersion: v3.69.0
+- lastUpdated: 2026-05-17
+- 4 UI-02 scope docs created:
+  - UI_02_IMPLEMENTATION_SCOPE_REVIEW.md
+      (4 allowed files; type-only; no components; no runtime)
+  - UI_02_ALLOWED_FILES_AND_COMMANDS.md
+      (exact allowed/forbidden files + commands; tsconfig edge case noted)
+  - UI_02_TEST_PLAN.md
+      (typecheck:node + typecheck:web + vitest; failure handling)
+  - UI_02_STOP_CONDITIONS.md
+      (source scope / safety / runtime / TypeScript / git / test violations)
+- source implementation: NOT started; awaiting separate human GO
+- docs-only; no src changes; no push
 
 ## v3.68.0 - Gate 007 Accepted and Pushed Evidence Recorded
 

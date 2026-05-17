@@ -20,14 +20,14 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.68.0
-- latestUpdate: 2026-05-17 - Gate 007 accepted/pushed evidence recorded; UI-01+Gate 007 at origin/main 2729d04
+- roadmapVersion: v3.69.0
+- latestUpdate: 2026-05-17 - UI-02 scope review prepared (4 docs); awaiting human GO for type-only source implementation
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
-- current HEAD: origin/main=2729d04; commits_ahead=1 (Gate 007 acceptance evidence, push GO pending)
-- validation road: Gate 001-007 ✓; UI-01 PUSHED; Gate 007 PUSHED; Gate 007 evidence: created
-- current next human action: push GO for evidence commit; then review UI-02 GO draft and issue UI-02 GO when ready
-- HOLD reason: productionReady false; execution disabled; UI-02 src not yet implemented; requires separate GO
+- current HEAD: origin/main=a023154; commits_ahead=1 (UI-02 scope review, push GO pending)
+- validation road: Gate 001-007 ✓; UI-01 PUSHED; Gate 007 PUSHED+EVIDENCED; UI-02 scope: DEFINED
+- current next human action: push GO for scope review commit (Task 04); then issue UI-02 implementation GO (Task 05)
+- HOLD reason: productionReady false; execution disabled; UI-02 src not yet started; requires separate GO
 
 ## Boundaries
 
