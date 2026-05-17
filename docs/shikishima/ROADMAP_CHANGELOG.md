@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.70.0
+- roadmapVersion: v3.71.0
 - lastUpdated: 2026-05-17
-- latestUpdate: UI-02 contract scaffold PASS — 4 type files; all literals; typecheck+tests PASS; evidence recorded
-- baselineCommit: 6eac036
+- latestUpdate: UI-03 backend snapshot contract design — 4 docs; 12 pages mapped; redaction + freshness policy defined
+- baselineCommit: beba654
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,22 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.71.0 - UI-03 Backend Snapshot Contract Design Prepared
+
+- roadmapVersion: v3.71.0
+- lastUpdated: 2026-05-17
+- 4 docs created:
+  - UI_03_BACKEND_SNAPSHOT_CONTRACT_REVIEW.md (purpose / risks / STOP conditions)
+  - UI_03_PAGE_DATA_REQUIREMENTS.md (12 pages; field tables; fallback rules)
+  - UI_03_REDACTION_AND_FRESHNESS_POLICY.md (severity table; 11 raw value categories)
+  - UI_03_IMPLEMENTATION_GO_DRAFT.md (3 helper files + test; NOT approval)
+- key policy:
+    HOLD is universal fallback for stale/missing/error/unknown
+    redaction happens in main/preload, not renderer
+    rawValuesReported: false must be provable at IPC boundary
+- implementation: NOT started; separate GO required
+- docs-only; no push
 
 ## v3.70.0 - UI-02 Contract Scaffold PASS — Evidence Recorded
 
