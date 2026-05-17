@@ -20,14 +20,14 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.89.0
-- latestUpdate: 2026-05-18 - UI-13 mobile layout foundation evidence recorded; UI-12 Part B design alignment PASS
+- roadmapVersion: v3.91.0
+- latestUpdate: 2026-05-18 - UI-14 Operator/Chat mobile layout PASS; scope+evidence recorded; all pushed
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
-- current HEAD: origin/main=c48675c; commits_ahead=0 (clean baseline)
-- validation road: Gate 001-007 ✓; UI-01-13 PASS; UI-12 Part B shell design aligned; UI-13 mobile foundation done
-- current next human action: push GO for UI-13 evidence commit; then UI-14 Operator/Chat mobile scope GO
-- HOLD reason: productionReady false; execution disabled; P2-001/P2-002 remaining mobile layout items
+- current HEAD: origin/main=5055b6d; commits_ahead=1 (evidence docs, push pending after this commit)
+- validation road: Gate 001-007 ✓; UI-01-14 PASS; shell design aligned; mobile foundation + responsive pages done
+- current next human action: push GO for UI-14 scope+evidence docs; then runtime recheck GO (new time_window)
+- HOLD reason: productionReady false; execution disabled; runtime recheck pending; P2-004/005 deferred
 
 ## Boundaries
 

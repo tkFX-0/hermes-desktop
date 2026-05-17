@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.89.0
+- roadmapVersion: v3.91.0
 - lastUpdated: 2026-05-18
-- latestUpdate: UI-13 mobile layout foundation evidence recorded
-- baselineCommit: c48675c
+- latestUpdate: UI-14 Operator/Chat mobile layout evidence recorded
+- baselineCommit: 5055b6d
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,24 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.91.0 - UI-14 Operator/Chat Mobile Layout Evidence
+
+- roadmapVersion: v3.91.0
+- lastUpdated: 2026-05-18
+- commit: 5055b6d (pushed)
+- P2-001 OperatorPage: 2-col grid (>=900px sidebar) + mobile 1-col
+- P2-002 CommandChatPage: 2-panel (>=900px left panel) + mobile vertical stack
+- CSS classes: cc-operator-grid/main/side + cc-chat-outer/status-panel/main
+- typecheck×2 PASS / mobile-console 37/37 / ui-snapshot-helpers 45/45
+- remaining: P2-004 NextActionCard / P2-005 PageRightRail / runtime recheck
+
+## v3.90.0 - UI-14 Operator/Chat Mobile Layout Scope
+
+- roadmapVersion: v3.90.0
+- lastUpdated: 2026-05-18
+- scope docs created; actual paths recorded (differ from Night Task B spec)
+- P2-001 + P2-002 defined; implementation done as 5055b6d
 
 ## v3.89.0 - UI-13 Mobile Layout Foundation Evidence
 
