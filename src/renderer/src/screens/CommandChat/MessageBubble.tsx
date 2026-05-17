@@ -33,7 +33,7 @@ export function MessageBubble({ message, lang = "ja" }: MessageBubbleProps) {
           background: isUser
             ? "var(--go, #2563eb)"
             : "var(--paper2, #f3f4f6)",
-          color: isUser ? "#ffffff" : "var(--ink, #111827)",
+          color: isUser ? "var(--paper, #ffffff)" : "var(--ink, #111827)",
           borderRadius: isUser ? "12px 12px 2px 12px" : "12px 12px 12px 2px",
           fontFamily:
             lang === "en"

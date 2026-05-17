@@ -1,0 +1,81 @@
+/* Command Center design tokens.
+   These CSS custom properties are used by all Command Center components.
+   Fallbacks are already baked into each component, but this sheet
+   ensures correct values are resolved (avoids relying on fallback strings). */
+
+:root,
+[data-theme="light"] {
+  /* Surface */
+  --paper:     #ffffff;
+  --paper2:    #f3f4f6;
+  --paper3:    #e5e7eb;
+
+  /* Text */
+  --ink:       #111827;
+  --ink2:      #374151;
+  --ink3:      #9ca3af;
+
+  /* Structure */
+  --rule:      #e5e7eb;
+  --bar:       #1a1f2e;
+  --bar-text:  #f9fafb;
+  --bar-text-2: #9ca3af;
+
+  /* State: HOLD (amber) */
+  --hold:      #d97706;
+  --hold-soft: #fef3c7;
+
+  /* State: GO (blue) */
+  --go:        #2563eb;
+  --go-soft:   #dbeafe;
+
+  /* State: PASS (green) */
+  --pass:      #16a34a;
+  --pass-soft: #dcfce7;
+
+  /* State: STOP (red) */
+  --stop:      #dc2626;
+  --stop-soft: #fee2e2;
+
+  /* State: REJECT (rose) */
+  --reject:    #9f1239;
+  --reject-soft: #ffe4e6;
+}
+
+[data-theme="dark"] {
+  /* Surface — warm charcoal */
+  --paper:     #1c1c1e;
+  --paper2:    #2c2c2e;
+  --paper3:    #3a3a3c;
+
+  /* Text */
+  --ink:       #f2f2f7;
+  --ink2:      #aeaeb2;
+  --ink3:      #6c6c70;
+
+  /* Structure */
+  --rule:      #38383a;
+  --bar:       #0d0d0f;
+  --bar-text:  #f2f2f7;
+  --bar-text-2: #6c6c70;
+
+  /* State: HOLD */
+  --hold:      #f59e0b;
+  --hold-soft: #292210;
+
+  /* State: GO */
+  --go:        #60a5fa;
+  --go-soft:   #0f1a2e;
+
+  /* State: PASS */
+  --pass:      #4ade80;
+  --pass-soft: #0e1f14;
+
+  /* State: STOP */
+  --stop:      #f87171;
+  --stop-soft: #1f0d0d;
+
+  /* State: REJECT */
+  --reject:    #fb7185;
+  --reject-soft: #1c0b0f;
+}
