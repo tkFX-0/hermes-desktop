@@ -20,7 +20,7 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.48.0
+- roadmapVersion: v3.49.0
 - latestUpdate: 2026-05-17 - Phase 30→45% implemented: こましき display + iPhone UX + 31 tests PASS
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
@@ -30,6 +30,15 @@ creating productivity pressure or autonomous acceleration.
 - HOLD reason: execution disabled; productionReady false; Level 3-B/C/D/E not approved; Final Shikishima 100% = not complete
 
 ## Boundaries
+
+## Phase 45 to 60 Update
+
+- latestUpdate: 2026-05-17 - Phase 45 to 60 Approval Queue UI foundation COMPLETE_PASS candidate
+- current HEAD baseline: origin/main=a0ffa2a before local Phase 45 to 60 commits
+- validation road: Level 1+2 PASS; Phase 2C same-LAN PASS; B3 5/5 ACCEPTED; Phase 30 to 45 COMPLETE_PASS; overall approximately 45%
+- current next human action: review Phase 45 to 60 Approval Queue UI evidence and decide push GO
+- Approval Queue status: display-only, no execution, no push, no runtime start
+- HOLD reason: productionReady false; execution disabled; Level 3-B/C/D/E not approved; device and external actions HOLD
 
 - No autonomous acceleration.
 - No reward or earning mechanics.

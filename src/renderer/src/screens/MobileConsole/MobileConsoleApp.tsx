@@ -12,6 +12,7 @@ import MobileAuditSummary from "./MobileAuditSummary";
 import MobileStopHistory from "./MobileStopHistory";
 import MobilePushReadiness from "./MobilePushReadiness";
 import MobileAgentTeam from "./MobileAgentTeam";
+import MobileApprovalQueueCard from "./MobileApprovalQueueCard";
 
 interface Phase2cInfo {
   active: boolean;
@@ -20,11 +21,12 @@ interface Phase2cInfo {
   pairingToken?: string;
 }
 
-type Tab = "status" | "b3" | "go" | "audit" | "stop" | "push" | "agents" | "connect";
+type Tab = "status" | "b3" | "approval" | "go" | "audit" | "stop" | "push" | "agents" | "connect";
 
 const TABS: { id: Tab; label: string }[] = [
   { id: "status",  label: "状態"   },
   { id: "b3",      label: "B3"     },
+  { id: "approval", label: "Queue" },
   { id: "go",      label: "GO"     },
   { id: "audit",   label: "証跡"   },
   { id: "stop",    label: "STOP"   },
@@ -155,6 +157,7 @@ export default function MobileConsoleApp(): React.JSX.Element {
       <div style={{ flex: 1 }}>
         {tab === "status"  && <MobileStatusCard   snapshot={snapshot} />}
         {tab === "b3"      && <MobileB3Progress   snapshot={snapshot} />}
+        {tab === "approval" && <MobileApprovalQueueCard snapshot={snapshot} />}
         {tab === "go"      && <MobileGoDrafts />}
         {tab === "audit"   && <MobileAuditSummary snapshot={snapshot} />}
         {tab === "stop"    && <MobileStopHistory  snapshot={snapshot} />}

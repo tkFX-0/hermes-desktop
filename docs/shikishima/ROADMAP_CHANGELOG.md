@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.47.0
+- roadmapVersion: v3.49.0
 - lastUpdated: 2026-05-17
-- latestUpdate: Level 3-A Session 004 PASS_WITH_CAVEAT — 30% milestone reached
-- baselineCommit: 7bc2526efdc1b65130dca0884f96758772b1fd4a
+- latestUpdate: Phase 45 to 60 Approval Queue UI foundation COMPLETE_PASS candidate
+- baselineCommit: a0ffa2a
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,22 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.49.0 - Phase 45 to 60 Approval Queue UI Foundation
+
+- roadmapVersion: v3.49.0
+- lastUpdated: 2026-05-17
+- latestUpdate: Phase 45 to 60 Approval Queue UI foundation COMPLETE_PASS candidate
+- ApprovalQueueItem / ApprovalQueueSummary redacted snapshot model added
+- Default approval queue items added for source change review, future runtime observation, git push, and StackChan physical operation
+- iPhone `/mobile/ui` now displays Approval Queue cards after authenticated redacted snapshot fetch
+- Desktop Mobile Console now includes an Approval Queue tab
+- Queue controls are inactive / display-only / no execution
+- Komashiki default state remains HOLD while high or critical held approval items exist
+- stale Session-009 display wording removed from mobile GO drafts and B3 progress copy
+- evidence: PHASE_45_TO_60_APPROVAL_QUEUE_UI_EVIDENCE.md
+- result_candidate: COMPLETE_PASS
+- next: human review + push GO for Phase 45 to 60 commits
 
 ## v3.48.0 - Phase 30→45% iPhone Console UX + こましき Display Implemented
 

@@ -1,4 +1,8 @@
-import type { MobileConsoleSnapshot, MobileDataSource } from "./mobile-console-types";
+import type {
+  ApprovalQueueItem,
+  MobileConsoleSnapshot,
+  MobileDataSource,
+} from "./mobile-console-types";
 import { MOBILE_CONSOLE_DEFAULT_SNAPSHOT } from "./mobile-console-snapshot";
 
 const FORBIDDEN_FIELD_PATTERNS = [
@@ -36,6 +40,26 @@ function scrub(value: unknown, fallback: string = "redacted"): unknown {
     return out;
   }
   return fallback;
+}
+
+function scrubApprovalQueueItem(item: ApprovalQueueItem): ApprovalQueueItem {
+  return {
+    ...item,
+    title: scrub(item.title) as string,
+    summary: scrub(item.summary) as string,
+    requiredHumanAction: scrub(item.requiredHumanAction) as string,
+    blockedReason:
+      typeof item.blockedReason === "string" ? (scrub(item.blockedReason) as string) : undefined,
+    safeNextStep:
+      typeof item.safeNextStep === "string" ? (scrub(item.safeNextStep) as string) : undefined,
+    evidenceRef:
+      typeof item.evidenceRef === "string" ? (scrub(item.evidenceRef) as string) : undefined,
+    createdAtLabel:
+      typeof item.createdAtLabel === "string" ? (scrub(item.createdAtLabel) as string) : undefined,
+    rawValuesReported: false,
+    execution: "disabled",
+    productionReady: false,
+  };
 }
 
 /**
@@ -79,6 +103,8 @@ export function buildMobileSnapshot(
     pushReadiness: partial.pushReadiness ?? base.pushReadiness,
     agentTeam: partial.agentTeam ?? base.agentTeam,
     auditSummary: partial.auditSummary ?? base.auditSummary,
+    approvalQueue: partial.approvalQueue?.map(scrubApprovalQueueItem) ?? base.approvalQueue,
+    approvalQueueSummary: partial.approvalQueueSummary ?? base.approvalQueueSummary,
     stopHistory: partial.stopHistory ?? base.stopHistory,
 
     generatedAt: partial.generatedAt ?? new Date().toISOString(),

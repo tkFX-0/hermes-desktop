@@ -46,7 +46,7 @@ const ROUTES: ReadonlySet<string> = new Set([
   "/mobile/snapshot",
 ]);
 
-function buildMobileUiHtml(): string {
+export function buildMobileUiHtml(): string {
   return `<!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -86,6 +86,17 @@ button:disabled{background:#21262d;color:#8b949e;cursor:not-allowed}
 .prog-card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:10px 12px;margin-bottom:10px;font-size:11px;color:#8b949e}
 .prog-pass{color:#3fb950;font-weight:600}
 .prog-inprog{color:#d29922;font-weight:600}
+.approval-card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:10px 12px;margin-bottom:10px}
+.approval-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;margin-bottom:7px}
+.approval-title{font-size:12px;font-weight:700;color:#e6edf3;line-height:1.4}
+.approval-meta{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:7px}
+.pill{display:inline-block;border-radius:999px;padding:2px 7px;font-size:9px;font-weight:700;letter-spacing:.02em;text-transform:uppercase}
+.risk-low{background:rgba(63,185,80,.14);color:#3fb950}.risk-medium{background:rgba(210,153,34,.14);color:#d29922}.risk-high{background:rgba(251,146,60,.14);color:#fb923c}.risk-critical{background:rgba(248,81,73,.14);color:#f85149}
+.state-pill{background:#21262d;color:#c9d1d9}.display-pill{background:rgba(88,166,255,.12);color:#58a6ff}
+.approval-text{font-size:11px;color:#c9d1d9;line-height:1.5;margin:5px 0}
+.approval-label{color:#8b949e;font-size:10px;margin-right:4px}
+.approval-actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-top:8px}
+.approval-actions button{margin-top:0;background:#21262d;color:#8b949e;border:1px solid #30363d;font-size:10px;padding:6px;cursor:not-allowed}
 </style>
 </head>
 <body>
@@ -134,6 +145,12 @@ button:disabled{background:#21262d;color:#8b949e;cursor:not-allowed}
 <div id="sess-val" style="font-size:11px"></div>
 </div>
 
+<div id="approval-section" class="card hidden">
+<div class="card-title">Approval Queue</div>
+<div class="dim" style="margin-bottom:8px">Display-only / No execution / Human decision required</div>
+<div id="approval-list"></div>
+</div>
+
 <script>
 var KOMA_MSGS={
   GO:"準備OKだよ。人間GOが来たら進めるよ。",
@@ -154,11 +171,36 @@ var CAVEAT_MSGS={
 function st(id,v){var e=document.getElementById(id);if(e)e.textContent=String(v);}
 function show(id){var e=document.getElementById(id);if(e)e.classList.remove('hidden');}
 function hide(id){var e=document.getElementById(id);if(e)e.classList.add('hidden');}
+function esc(v){return String(v??'').replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function riskClass(r){return r==='critical'?'risk-critical':r==='high'?'risk-high':r==='medium'?'risk-medium':'risk-low';}
+function renderApprovalQueue(items){
+  var list=document.getElementById('approval-list');
+  if(!list)return;
+  var safe=Array.isArray(items)?items:[];
+  if(safe.length===0){list.innerHTML='<div class="dim">No approval queue items.</div>';show('approval-section');return;}
+  list.innerHTML=safe.map(function(item){
+    return '<div class="approval-card">'+
+      '<div class="approval-head"><div class="approval-title">'+esc(item.title)+'</div><span class="pill display-pill">display-only</span></div>'+
+      '<div class="approval-meta">'+
+        '<span class="pill '+riskClass(item.riskLevel)+'">'+esc(item.riskLevel)+'</span>'+
+        '<span class="pill state-pill">'+esc(item.decisionState)+'</span>'+
+        '<span class="pill state-pill">'+esc(item.actionKind)+'</span>'+
+      '</div>'+
+      '<div class="approval-text">'+esc(item.summary)+'</div>'+
+      '<div class="approval-text"><span class="approval-label">required:</span>'+esc(item.requiredHumanAction)+'</div>'+
+      (item.blockedReason?'<div class="approval-text"><span class="approval-label">blocked:</span>'+esc(item.blockedReason)+'</div>':'')+
+      (item.safeNextStep?'<div class="approval-text"><span class="approval-label">next:</span>'+esc(item.safeNextStep)+'</div>':'')+
+      (item.evidenceRef?'<div class="approval-text"><span class="approval-label">evidence:</span>'+esc(item.evidenceRef)+'</div>':'')+
+      '<div class="approval-actions"><button disabled>Approve inactive</button><button disabled>Hold inactive</button><button disabled>Reject inactive</button></div>'+
+    '</div>';
+  }).join('');
+  show('approval-section');
+}
 async function go(){
   var btn=document.getElementById('btn');
   var t=document.getElementById('tok').value;
   if(!t){err('Token is required');return;}
-  btn.disabled=true;hide('ep');hide('sp');hide('koma-section');hide('caveat-section');hide('next-section');hide('prog-section');
+  btn.disabled=true;hide('ep');hide('sp');hide('koma-section');hide('caveat-section');hide('next-section');hide('prog-section');hide('approval-section');
   try{
     var r=await fetch('/mobile/snapshot',{headers:{'Authorization':'Bearer '+t}});
     t=null;
@@ -190,6 +232,7 @@ async function go(){
       if(d.currentSession)st('sess-val','現在: '+d.currentSession);
       show('prog-section');
     }
+    renderApprovalQueue(d.approvalQueue);
   }catch(e){t=null;err('Connection failed');}
   finally{btn.disabled=false;}
 }

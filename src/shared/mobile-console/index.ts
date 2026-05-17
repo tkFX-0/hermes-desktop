@@ -13,6 +13,11 @@ export type {
   MobileAgentTeam,
   MobileAuditSummary,
   KomashikiDisplayState,
+  ApprovalDecisionState,
+  ApprovalRiskLevel,
+  ApprovalActionKind,
+  ApprovalQueueItem,
+  ApprovalQueueSummary,
 } from "./mobile-console-types";
 
 export { MOBILE_CONSOLE_DEFAULT_SNAPSHOT } from "./mobile-console-snapshot";

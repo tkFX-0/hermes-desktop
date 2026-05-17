@@ -33,6 +33,58 @@ export type MobileDataSource =
   | "redacted_snapshot_phase2b_localhost"
   | "redacted_snapshot_phase2c_same_lan";
 
+export type ApprovalDecisionState =
+  | "draft"
+  | "waiting_human"
+  | "approved_by_human"
+  | "held_by_human"
+  | "rejected_by_human"
+  | "expired"
+  | "completed"
+  | "stopped";
+
+export type ApprovalRiskLevel = "low" | "medium" | "high" | "critical";
+
+export type ApprovalActionKind =
+  | "docs_update"
+  | "source_change"
+  | "test_or_typecheck"
+  | "git_push"
+  | "runtime_observation"
+  | "external_api"
+  | "device_operation"
+  | "production_release"
+  | "unknown";
+
+export interface ApprovalQueueItem {
+  readonly id: string;
+  readonly title: string;
+  readonly summary: string;
+  readonly proposedBy: "human" | "gpt" | "codex" | "claudecode" | "system";
+  readonly actionKind: ApprovalActionKind;
+  readonly riskLevel: ApprovalRiskLevel;
+  readonly decisionState: ApprovalDecisionState;
+  readonly requiredHumanAction: string;
+  readonly blockedReason?: string;
+  readonly safeNextStep?: string;
+  readonly evidenceRef?: string;
+  readonly createdAtLabel?: string;
+  readonly rawValuesReported: false;
+  readonly execution: "disabled";
+  readonly productionReady: false;
+}
+
+export interface ApprovalQueueSummary {
+  readonly total: number;
+  readonly waitingHuman: number;
+  readonly held: number;
+  readonly critical: number;
+  readonly displayOnly: true;
+  readonly execution: "disabled";
+  readonly productionReady: false;
+  readonly rawValuesReported: false;
+}
+
 export interface MobileSessionRecord {
   readonly id: string;
   readonly result: "CLEAN_B3_PASS" | "PASS_WITH_TIMING_CAVEAT" | "STOP" | "pending";
@@ -117,6 +169,8 @@ export interface MobileConsoleSnapshot {
   readonly pushReadiness: MobilePushReadiness;
   readonly agentTeam: MobileAgentTeam;
   readonly auditSummary: MobileAuditSummary;
+  readonly approvalQueue: readonly ApprovalQueueItem[];
+  readonly approvalQueueSummary: ApprovalQueueSummary;
   readonly stopHistory: readonly MobileStopRecord[];
   readonly generatedAt: string;
   readonly dataSource: MobileDataSource;

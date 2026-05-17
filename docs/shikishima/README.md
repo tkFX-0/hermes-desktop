@@ -42,6 +42,7 @@ network flow.
 - `REAL_OPERATION_ROADMAP.html` - static browser roadmap.
 - `REAL_OPERATION_ROADMAP.md` - Markdown roadmap.
 - `ROADMAP_CHANGELOG.md` - visible roadmap update history.
+- `PHASE_45_TO_60_APPROVAL_QUEUE_UI_EVIDENCE.md` - Phase 45 to 60 Approval Queue UI evidence and safety boundary.
 - `PHASE_REVIEW_MATRIX.md` - Phase 0-10 documentation/execution review state.
 - `SHIKISHIMA_FINAL_VISION.md` - final vision draft.
 - `AGENT_NAMES_ROLES_AND_PERMISSIONS.md` - agent names, roles, and permission boundaries.
