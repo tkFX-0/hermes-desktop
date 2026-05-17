@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.61.0
+- roadmapVersion: v3.62.0
 - lastUpdated: 2026-05-17
-- latestUpdate: Gate 004 audit readiness evidence PASS — toolset ready for first actual session
-- baselineCommit: fbb4558
+- latestUpdate: Gate 004 audit dry-run PASS — PASS/HOLD/REJECT classification confirmed
+- baselineCommit: 572b21c
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,21 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.62.0 - Gate 004 Audit Dry-Run PASS: PASS/HOLD/REJECT Classification Confirmed
+
+- roadmapVersion: v3.62.0
+- lastUpdated: 2026-05-17
+- POST_100_GATE_004_AUDIT_DRY_RUN_EVIDENCE.md created
+  - samples_total: 3 / samples_classified: 3
+  - sample-001: general_text_draft → PASS (work note; no sensitive data; manual_copy_only clear)
+  - sample-002: calendar_event_draft → HOLD (ambiguous schedule target; external calendar implied)
+  - sample-003: external_send_request → REJECT ("自動送信" explicitly requests forbidden external write)
+  - classification_rules_usable: true
+  - operation_log_compatibility: confirmed for all 3 paths
+  - result: AUDIT_CLASSIFICATION_CONFIRMED
+- docs-only; no code; no push
+- status: Gate 004 classification confirmed; 65% candidate
 
 ## v3.61.0 - Gate 004 Audit Readiness Evidence PASS
 

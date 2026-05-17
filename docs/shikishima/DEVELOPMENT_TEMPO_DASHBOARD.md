@@ -20,14 +20,14 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.61.0
-- latestUpdate: 2026-05-17 - Gate 004 audit readiness evidence PASS; toolset ready for first actual session
+- roadmapVersion: v3.62.0
+- latestUpdate: 2026-05-17 - Gate 004 audit dry-run PASS; PASS/HOLD/REJECT classification confirmed (65% candidate)
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
-- current HEAD: origin/main=fbb4558; commits_ahead=1 (Gate 004 readiness evidence, push GO pending)
-- validation road: 100% safety-readiness ✓; Gate 001 ✓; Gate 002 ✓; Gate 003 ✓; Limited Manual Op: STARTED; Gates 004-007: design_ready; Gate 004 readiness: PASS
-- current next human action: review Gate 004 readiness evidence; decide commit GO and push GO; then plan first actual Gate 004 operation session
-- HOLD reason: productionReady false; execution disabled; Gate 004 first actual session not yet run; Gates 005/006/007 pending execution
+- current HEAD: origin/main=572b21c; commits_ahead=1 (Gate 004 dry-run evidence, push GO pending)
+- validation road: 100% safety-readiness ✓; Gate 001 ✓; Gate 002 ✓; Gate 003 ✓; Limited Manual Op: STARTED; Gates 004-007: design_ready; Gate 004 readiness: PUSHED; Gate 004 dry-run: PASS
+- current next human action: review Gate 004 dry-run evidence; decide push GO; then Task 13 Gate 005 precheck
+- HOLD reason: productionReady false; execution disabled; Gate 005/006/007 pending; runtime observation not yet run
 
 ## Boundaries
 
