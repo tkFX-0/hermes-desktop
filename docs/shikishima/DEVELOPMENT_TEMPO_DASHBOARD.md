@@ -20,8 +20,8 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.47.0
-- latestUpdate: 2026-05-17 - Session 004 PASS_WITH_CAVEAT; 30% milestone reached; accepted by human
+- roadmapVersion: v3.48.0
+- latestUpdate: 2026-05-17 - Phase 30→45% implemented: こましき display + iPhone UX + 31 tests PASS
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: origin/main=7bc2526; commits_ahead=0 (after roadmap update push)

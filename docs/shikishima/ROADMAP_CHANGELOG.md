@@ -29,6 +29,21 @@ Every future roadmap-affecting change must update:
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
 
+## v3.48.0 - Phase 30→45% iPhone Console UX + こましき Display Implemented
+
+- roadmapVersion: v3.48.0
+- lastUpdated: 2026-05-17
+- KomashikiDisplayState type added (10 states)
+- MobileConsoleSnapshot: komashikiState / caveats / nextHumanAction / phaseProgress / currentSession
+- iPhone HTML (buildMobileUiHtml): こましき section / caveat section / next action / phase progress
+- Default snapshot: updated from stale Phase 2A/B3 to current 30% / L3-A state
+- MobileKomashikiCard.tsx: new display-only Desktop component
+- MobileStatusCard: stale text removed, KomashikiCard integrated
+- 19 new tests (31 total PASS)
+- typecheck: node=0 / web=0
+- result_candidate: COMPLETE_PASS
+- next: human acceptance + push GO → 45→60% Approval Queue UI
+
 ## v3.47.0 - Level 3-A Session 004 PASS_WITH_CAVEAT — Phase 20→30% Complete
 
 - roadmapVersion: v3.47.0
