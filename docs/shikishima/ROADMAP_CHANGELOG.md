@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.67.0
+- roadmapVersion: v3.68.0
 - lastUpdated: 2026-05-17
-- latestUpdate: Gate 007 Command Center wording hardening — button/state/safety policies fixed before UI-02
-- baselineCommit: 474c928
+- latestUpdate: Gate 007 accepted/pushed evidence recorded — UI-01 + Gate 007 both confirmed at origin/main 2729d04
+- baselineCommit: 2729d04
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,19 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.68.0 - Gate 007 Accepted and Pushed Evidence Recorded
+
+- roadmapVersion: v3.68.0
+- lastUpdated: 2026-05-17
+- GATE_007_ACCEPTED_AND_PUSHED_EVIDENCE.md created
+  - 474c928 UI-01 design package intake: PUSHED ✓
+  - 2729d04 Gate 007 wording hardening: PUSHED ✓
+  - origin/main 2729d04 confirmed by CLI ✓
+  - commits_ahead 0 confirmed ✓
+  - all safety invariants maintained ✓
+  - UI-02 approval: NOT included
+- docs-only; no push (this evidence commit pending push GO)
 
 ## v3.67.0 - Gate 007 Command Center Wording Hardening
 
