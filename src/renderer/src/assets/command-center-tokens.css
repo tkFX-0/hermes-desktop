@@ -19,6 +19,68 @@
   }
 }
 
+/* ── Operator page: 2-column on wide screens, 1-column on mobile ── */
+.cc-operator-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.cc-operator-main { min-width: 0; }
+.cc-operator-side { display: none; }
+
+@media (min-width: 900px) {
+  .cc-operator-grid {
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    grid-template-rows: auto;
+    gap: 20px;
+    align-items: start;
+  }
+  .cc-operator-side {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+  }
+}
+
+/* ── Chat page: left status panel on wide screens ── */
+.cc-chat-outer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+.cc-chat-status-panel { display: none; }
+.cc-chat-main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+@media (min-width: 900px) {
+  .cc-chat-outer {
+    flex-direction: row;
+  }
+  .cc-chat-status-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 200px;
+    flex-shrink: 0;
+    padding: 16px 14px;
+    border-right: 1px solid var(--rule, #e5e7eb);
+    background: var(--paper2, #f3f4f6);
+    overflow-y: auto;
+  }
+  .cc-chat-main {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
 /* Safe-area inset support for iOS web view / notch devices */
 @supports (padding: env(safe-area-inset-bottom)) {
   .cc-safe-area-bottom {
