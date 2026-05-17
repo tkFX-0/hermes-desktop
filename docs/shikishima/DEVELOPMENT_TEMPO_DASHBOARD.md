@@ -20,14 +20,14 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.85.0
-- latestUpdate: 2026-05-18 - UI-11 runtime observation PASS_WITH_CAVEAT; CAVEAT-01 Layout.tsx wiring gap identified
+- roadmapVersion: v3.89.0
+- latestUpdate: 2026-05-18 - UI-13 mobile layout foundation evidence recorded; UI-12 Part B design alignment PASS
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
-- current HEAD: origin/main=6f76a94; local commits_ahead=1 (Task 15 evidence, push pending)
-- validation road: Gate 001-007 ✓; UI-01-10 PASS; UI-11 PASS_WITH_CAVEAT; CAVEAT-01 = Layout.tsx wiring missing
-- current next human action: push GO for Task 15 evidence; then UI-12 Layout wiring GO
-- HOLD reason: productionReady false; execution disabled; CAVEAT-01 blocks visual verification of new pages
+- current HEAD: origin/main=c48675c; commits_ahead=0 (clean baseline)
+- validation road: Gate 001-007 ✓; UI-01-13 PASS; UI-12 Part B shell design aligned; UI-13 mobile foundation done
+- current next human action: push GO for UI-13 evidence commit; then UI-14 Operator/Chat mobile scope GO
+- HOLD reason: productionReady false; execution disabled; P2-001/P2-002 remaining mobile layout items
 
 ## Boundaries
 

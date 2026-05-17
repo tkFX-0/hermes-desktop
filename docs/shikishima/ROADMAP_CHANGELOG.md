@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.85.0
+- roadmapVersion: v3.89.0
 - lastUpdated: 2026-05-18
-- latestUpdate: UI-11 runtime observation PASS_WITH_CAVEAT — CAVEAT-01 (Layout.tsx wiring gap) recorded
-- baselineCommit: 6f76a94
+- latestUpdate: UI-13 mobile layout foundation evidence recorded
+- baselineCommit: c48675c
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,38 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.89.0 - UI-13 Mobile Layout Foundation Evidence
+
+- roadmapVersion: v3.89.0
+- lastUpdated: 2026-05-18
+- commit: c48675c (pushed)
+- 14 files: PageShell/Topbar/command-center-tokens.css + 11 page files
+- mobile breakpoint 600px; compact chrome; CSS var padding; safe-area
+- typecheck×2 PASS / mobile-console 37/37 / ui-snapshot-helpers 45/45
+- remaining P2: Operator 3-col mobile (P2-001), Chat 3-col mobile (P2-002)
+
+## v3.88.0 - UI-12 Part B Runtime Observation PASS
+
+- roadmapVersion: v3.88.0
+- lastUpdated: 2026-05-18
+- Topbar / SafetyStrip 6chips / Footer all visible; 12 pages PASS
+- CAVEAT-MOBILE-01 noted; mobile layout deferred to UI-13
+- no STOP conditions; clean shutdown
+
+## v3.87.0 - UI-12 Part B SafetyStrip + PageShell Design Alignment
+
+- roadmapVersion: v3.87.0
+- lastUpdated: 2026-05-18
+- P1-001 SafetyStrip 6 chips; P1-003 9 states; P1-002 footer; P2-003 Topbar
+- typecheck×2 PASS / mobile-console 37 / ui-snapshot-helpers 45
+
+## v3.86.0 - UI-12 Layout Wiring + Task 17A Design Conformance
+
+- roadmapVersion: v3.86.0
+- lastUpdated: 2026-05-18
+- UI-12: Layout.tsx wired; 12 pages accessible from Control Center nav
+- Task 17A: P0×0 / P1×3 / P2×7 / P3×3 gap backlog recorded
 
 ## v3.85.0 - UI-11 Runtime Observation PASS_WITH_CAVEAT
 
