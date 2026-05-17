@@ -83,6 +83,22 @@ export function buildMobileSnapshot(
 
     generatedAt: partial.generatedAt ?? new Date().toISOString(),
     dataSource,
+
+    // Display-only companion and action fields — no raw values allowed.
+    komashikiState: partial.komashikiState ?? base.komashikiState,
+    caveats: partial.caveats ?? base.caveats,
+    nextHumanAction:
+      typeof partial.nextHumanAction === "string"
+        ? (scrub(partial.nextHumanAction) as string)
+        : base.nextHumanAction,
+    phaseProgress:
+      typeof partial.phaseProgress === "string"
+        ? (scrub(partial.phaseProgress) as string)
+        : base.phaseProgress,
+    currentSession:
+      typeof partial.currentSession === "string"
+        ? (scrub(partial.currentSession) as string)
+        : base.currentSession,
   };
 }
 

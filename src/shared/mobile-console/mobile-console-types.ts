@@ -9,6 +9,23 @@
 export type MobileDecision = "HOLD" | "stop";
 export type MobileExecution = "disabled";
 export type MobileLevel3 = "not_approved";
+
+/**
+ * Display-only state for こましき companion.
+ * Display only — not an execution actor, not a GO authority.
+ */
+export type KomashikiDisplayState =
+  | "GO"
+  | "HOLD"
+  | "REJECT"
+  | "PASS"
+  | "STOP"
+  | "REVIEW_READY"
+  | "PUSH_WAITING"
+  | "RUNTIME_RUNNING"
+  | "CAVEAT"
+  | "SLEEPY";
+
 export type MobileDataSource =
   | "static_phase1"
   | "redacted_snapshot_phase2a"
@@ -103,4 +120,14 @@ export interface MobileConsoleSnapshot {
   readonly stopHistory: readonly MobileStopRecord[];
   readonly generatedAt: string;
   readonly dataSource: MobileDataSource;
+  /** Display-only こましき state. Never an execution authority. */
+  readonly komashikiState?: KomashikiDisplayState;
+  /** Non-blocking caveat labels. Each string is safe display text only. */
+  readonly caveats?: readonly string[];
+  /** Safe display text for next required human action. No raw values. */
+  readonly nextHumanAction?: string;
+  /** Safe phase progress label (e.g. "30% COMPLETE_PASS_WITH_CAVEAT"). */
+  readonly phaseProgress?: string;
+  /** Current session identifier (e.g. "Session 004 PASS_WITH_CAVEAT"). */
+  readonly currentSession?: string;
 }

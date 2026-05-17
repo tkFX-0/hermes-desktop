@@ -12,6 +12,7 @@ export type {
   MobileB3Progress,
   MobileAgentTeam,
   MobileAuditSummary,
+  KomashikiDisplayState,
 } from "./mobile-console-types";
 
 export { MOBILE_CONSOLE_DEFAULT_SNAPSHOT } from "./mobile-console-snapshot";
