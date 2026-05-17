@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.69.0
+- roadmapVersion: v3.70.0
 - lastUpdated: 2026-05-17
-- latestUpdate: UI-02 implementation scope review prepared — 4 scope/test/stop-condition docs; awaiting human GO for source
-- baselineCommit: a023154
+- latestUpdate: UI-02 contract scaffold PASS — 4 type files; all literals; typecheck+tests PASS; evidence recorded
+- baselineCommit: 6eac036
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,20 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.70.0 - UI-02 Contract Scaffold PASS — Evidence Recorded
+
+- roadmapVersion: v3.70.0
+- lastUpdated: 2026-05-17
+- UI_02_CONTRACT_SCAFFOLD_EVIDENCE.md created
+  - 6eac036 feat: add command center ui contract types confirmed
+  - 4 type files; no existing files modified; no components
+  - 14 safety literal types encoded (productionReady:false / execution:"disabled" /
+    physicalOperation:false / displayOnly:true / target:"local-chat-service" etc.)
+  - typecheck:node PASS / typecheck:web PASS / mobile-console 37/37 PASS
+  - rendered UI: not implemented (UI-03+)
+  - status: PASS
+- docs-only evidence; no push
 
 ## v3.69.0 - UI-02 Implementation Scope Review Prepared
 
