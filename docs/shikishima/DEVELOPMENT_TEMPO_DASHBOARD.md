@@ -21,13 +21,13 @@ creating productivity pressure or autonomous acceleration.
 ## Current Static Values
 
 - roadmapVersion: v3.53.0
-- latestUpdate: 2026-05-17 - Post-100 Gate 001 PASS: Draft Outbox Operation Rulebook created
+- latestUpdate: 2026-05-17 - Post-100 Gate 001 hardened: rulebook + evidence + approved_for_manual_copy explicit
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
-- current HEAD: origin/main=ad27e9a; commits_ahead=1 (Post-100 Gate 001 docs, push GO pending)
-- validation road: 100% safety-readiness candidate ✓; Post-100 Gate 001 PASS (Draft Outbox rulebook)
-- current next human action: accept Gate 001 PASS → push GO → proceed to next gate (e.g. Gate 002 runtime/external GO definition)
-- HOLD reason: productionReady false; execution disabled; runtime/external/device/voice/deploy = all HOLD; operate only via future GO registry
+- current HEAD: origin/main=ad27e9a; commits_ahead=2 (cd289fe + evidence commit, push GO pending)
+- validation road: 100% safety-readiness candidate ✓; Post-100 Gate 001 COMPLETE_PASS candidate (hardened)
+- current next human action: accepted_as_draft_outbox_operation_rules → push GO for cd289fe + evidence commit
+- HOLD reason: productionReady false; execution disabled; all external/device/voice/deploy = HOLD
 
 ## Boundaries
 

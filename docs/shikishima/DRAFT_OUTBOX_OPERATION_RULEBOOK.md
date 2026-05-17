@@ -61,15 +61,29 @@ Step 2 — Human Review
 
 Step 3 — Decision
   Human decides one of:
-    APPROVE_FOR_MANUAL_COPY → proceed to Step 4
-    HOLD → item state: "held" — do not proceed
-    REJECT → item state: "rejected" — do not proceed
+    approved_for_manual_copy → proceed to Step 4
+    needs_revision           → return to Step 1 with notes
+    hold                     → item state: hold — do not proceed
+    rejected                 → item state: rejected — do not proceed
+
+  IMPORTANT: "approved_for_manual_copy" means:
+    Human may manually copy the draft content after review.
+    This does NOT authorize the system to send, post, schedule,
+    create, purchase, reserve, pay, or mutate external services.
+    This does NOT authorize the AI to take any action.
+    Manual copy only. Human action only.
 
 Step 4 — Manual Copy (human only)
   Human manually copies the draft body / content.
   Human manually performs the external action (opens email client, browser, etc.).
+  Item state moves to: manual_action_in_progress
+
   The app does NOT send, post, create, pay, or execute.
   The AI does NOT perform the action.
+  No automatic send. No one-click send. No calendar API write.
+  No GitHub remote issue creation. No GitHub remote PR creation.
+  No social API post. No purchase. No payment. No reservation.
+  No checkout. No external API write.
 
 Step 5 — Evidence
   Human creates an evidence note:
@@ -78,10 +92,11 @@ Step 5 — Evidence
     - result (sent / not sent / error)
     - rawValuesReported: false
   The evidence note may reference the draft item ID.
+  Item state moves to: manual_action_completed_by_human
 
 Step 6 — Item Archival
   Human sets item state to "archived" after action is completed.
-  Or item remains "held" / "rejected" if not approved.
+  Or item remains "hold" / "rejected" if not approved_for_manual_copy.
 ```
 
 ---
@@ -89,14 +104,41 @@ Step 6 — Item Archival
 ## State Machine
 
 ```text
-draft_only      → waiting_human (human opens for review)
-waiting_human   → held         (human holds)
-waiting_human   → rejected     (human rejects)
-waiting_human   → archived     (human manually completed action + evidence)
-held            → waiting_human (reconsidered)
-held            → rejected
-rejected        → archived
-expired         → archived
+draft_created               item proposed by AI / Codex / ClaudeCode / system
+  ↓
+review_requested            human opens for review; checklist started
+  ↓ (one of)
+  ├── needs_revision        → draft_created (revised and re-proposed)
+  ├── hold                  → can move to review_requested later
+  ├── rejected              → archived
+  └── approved_for_manual_copy
+        │
+        │  DEFINITION:
+        │    Human may manually copy the draft content after review.
+        │    This does NOT authorize the system to send, post, schedule,
+        │    create, purchase, reserve, pay, or mutate external services.
+        │    This does NOT authorize the AI to take any action.
+        │    Manual copy only. Human action only.
+        ↓
+manual_action_in_progress   human is manually performing the action
+  ↓
+manual_action_completed_by_human  evidence created; result recorded
+  ↓
+archived                    item lifecycle complete
+
+hold                 → review_requested (reconsidered)
+hold                 → rejected
+rejected             → archived
+expired              → archived
+superseded           → archived (newer draft replaced this one)
+```
+
+States that must NOT exist:
+```text
+approved              (ambiguous — always use approved_for_manual_copy)
+auto_sent             (impossible — no auto-send path)
+executed              (impossible — no execution path)
+payment_processed     (impossible — no payment path)
 ```
 
 ---
@@ -248,7 +290,10 @@ Reviewer: human
        HOLD: not ready yet, may proceed later
        REJECT: will not proceed; archive
 
-Decision: [ ] APPROVE_FOR_MANUAL_COPY  [ ] HOLD  [ ] REJECT
+Decision: [ ] approved_for_manual_copy  [ ] hold  [ ] needs_revision  [ ] rejected
+
+  NOTE: approved_for_manual_copy means human may copy draft manually only.
+        It does NOT authorize the system or AI to send, create, pay, or execute.
 
 Evidence note created after action: [ ] yes / [ ] not applicable
 ```
@@ -296,17 +341,47 @@ A draft item should be REJECT if:
 
 ## Forbidden Automated Actions
 
+The following actions are NEVER permitted by the app or AI:
+
 ```text
-The app and AI must NEVER:
-  - send email automatically
-  - create calendar events automatically
-  - create GitHub issues or PRs remotely
-  - post to social media
-  - purchase, pay, or reserve
-  - call external APIs with write operations
-  - expose raw token / API key / LAN IP in draft body
-  - change draft state without human input
-  - approve their own draft items
+Email:
+  - No automatic send
+  - No one-click send
+  - No send via SMTP / API without human manual action
+
+Calendar:
+  - No calendar API write
+  - No automatic event creation
+  - No meeting invite dispatch
+
+GitHub:
+  - No GitHub remote issue creation
+  - No GitHub remote PR creation
+  - No merge / close / comment via API
+
+Social media:
+  - No social API post
+  - No tweet / toot / post of any kind
+  - No scheduled post dispatch
+
+Payment / Commerce:
+  - No purchase
+  - No payment
+  - No reservation
+  - No checkout
+  - No subscription activation
+  - No billing API call
+
+External API:
+  - No external API write operations
+  - No credential / token / API key / LAN IP exposure in draft body
+  - No raw values in any outgoing draft
+
+State management:
+  - Draft state must not change without human input
+  - The system must not approve its own draft items
+  - "approved" must not be used without "for_manual_copy" qualifier
+  - No auto-transition to manual_action_completed_by_human
 ```
 
 ---
