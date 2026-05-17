@@ -20,14 +20,14 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.72.0
-- latestUpdate: 2026-05-17 - UI-03 PASS (dc80ebe); 45 tests; HOLD/redaction/stale helpers implemented; evidence pending push
+- roadmapVersion: v3.73.0
+- latestUpdate: 2026-05-17 - UI-04 shell components PASS (93109a8); SafetyStrip+PageTabs+ChatInputBar+PageShell done
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
-- current HEAD: origin/main=dc80ebe; commits_ahead=1 (UI-03 evidence, push in progress)
-- validation road: Gate 001-007 ✓; UI-01-03 PASS; snapshot helpers+5 page mappers done; UI-04 shell components next
-- current next human action: UI-04 shell components GO (PageShell / PageTabs / SafetyStrip)
-- HOLD reason: productionReady false; execution disabled; no rendered UI; UI-04 requires separate GO
+- current HEAD: origin/main=68cdb19; commits_ahead=2 (93109a8 components + evidence, push pending)
+- validation road: Gate 001-007 ✓; UI-01-04 PASS; shell components done; UI-05 Operator/Chat pages next
+- current next human action: push GO for UI-04 commits; then UI-05 Operator page GO
+- HOLD reason: productionReady false; execution disabled; pages not wired; UI-05 requires separate GO
 
 ## Boundaries
 

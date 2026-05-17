@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.72.0
+- roadmapVersion: v3.73.0
 - lastUpdated: 2026-05-17
-- latestUpdate: UI-03 snapshot helpers PASS (dc80ebe) — 45 tests; HOLD fallback; redaction; literal invariants
-- baselineCommit: dc80ebe
+- latestUpdate: UI-04 shell components PASS (93109a8) — SafetyStrip/PageTabs/ChatInputBar/PageShell/MiniLampRow
+- baselineCommit: 93109a8
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,20 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.73.0 - UI-04 Shell Components PASS
+
+- roadmapVersion: v3.73.0
+- lastUpdated: 2026-05-17
+- 5 new components in src/renderer/src/components/Shell/:
+  - MiniLampRow.tsx (color + label lamps; all 14 LampState values)
+  - SafetyStrip.tsx (always-visible; STALE badge; role=status; productionReady:false literal)
+  - PageTabs.tsx (12-tab nav; navigation-only; keyboard focus; aria-selected)
+  - ChatInputBar.tsx (local chat only; safety note always visible; tap targets >= 44px)
+  - PageShell.tsx (SafetyStrip + PageTabs + body slot)
+- no IPC; no rendered pages wired; no runtime
+- typecheck:node PASS / typecheck:web PASS / mobile-console 37/37 PASS
+- docs-only evidence + push pending
 
 ## v3.72.0 - UI-03 Snapshot Helpers PASS — Evidence Recorded
 
