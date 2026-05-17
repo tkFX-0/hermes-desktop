@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.60.0
+- roadmapVersion: v3.61.0
 - lastUpdated: 2026-05-17
-- latestUpdate: Post-100 Gates 004–007 design package created — 14 docs-only files
-- baselineCommit: b84c1cd
+- latestUpdate: Gate 004 audit readiness evidence PASS — toolset ready for first actual session
+- baselineCommit: fbb4558
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,22 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.61.0 - Gate 004 Audit Readiness Evidence PASS
+
+- roadmapVersion: v3.61.0
+- lastUpdated: 2026-05-17
+- POST_100_GATE_004_AUDIT_READINESS_EVIDENCE.md created
+  - Gate 004 design docs presence check: all 3 present ✓ (fbb4558)
+  - Dry-run pre-operation checklist against current baseline: PASS
+  - Dry-run post-operation checklist (nominal): PASS
+  - Per-draft checklist practical assessment vs Gate 003 evidence: all 10 items USABLE
+  - Incident response rules completeness: COMPLETE
+  - Operation log template completeness: COMPLETE
+  - Internal consistency check: all 3 docs mutually consistent ✓
+  - result: PASS — readiness_status: READY_FOR_FIRST_ACTUAL_SESSION
+- docs-only; no code changes; no push
+- status: first actual session may proceed with separate human GO
 
 ## v3.60.0 - Post-100 Gates 004–007 Design Package
 
