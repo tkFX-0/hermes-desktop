@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.64.0
+- roadmapVersion: v3.65.0
 - lastUpdated: 2026-05-17
-- latestUpdate: Gate 006 GO wording reviewed — 7/9 elements confirmed; 4 minor gaps identified; annotated sample GO created
-- baselineCommit: f246934
+- latestUpdate: Gate 006 controlled runtime observation PASS — iPhone confirmed; shutdown + port close verified
+- baselineCommit: e0c86fd
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,26 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.65.0 - Gate 006 Controlled Runtime Observation PASS
+
+- roadmapVersion: v3.65.0
+- lastUpdated: 2026-05-17
+- POST_100_GATE_006_CONTROLLED_RUNTIME_OBSERVATION_EVIDENCE.md created
+  - session_id: gate006-session-001
+  - time_window: 2026-05-17 17:05-18:00 JST
+  - runtime_command: npm run dev
+  - iPhone Private Console: connected; read-only; redacted ✓
+  - productionReady: false displayed ✓ / execution: disabled displayed ✓
+  - external writes: all inactive ✓ / Draft Outbox: draft-only ✓
+  - Approval Queue: display-only ✓ / StackChan: display-only ✓
+  - shutdown: completed ✓ / port_3030_closed: true ✓
+  - ENABLED flag reverted: false as const ✓
+  - UI snapshot version note: a0ffa2a is stale snapshot metadata (known behavior; not a safety concern)
+  - BLOCKER-002 resolved: Gate 006 observation PASS ✓
+  - result: CONTROLLED_RUNTIME_OBSERVATION_PASS
+- docs-only; no code; no push
+- status: 80〜85% candidate
 
 ## v3.64.0 - Gate 006 Runtime Observation GO Wording Reviewed
 
