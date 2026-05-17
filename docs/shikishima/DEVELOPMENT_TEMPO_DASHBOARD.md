@@ -20,14 +20,14 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.59.0
-- latestUpdate: 2026-05-17 - Limited Manual Operation STARTED evidence created; 50〜55% progress
+- roadmapVersion: v3.60.0
+- latestUpdate: 2026-05-17 - Post-100 Gates 004–007 design package created (14 docs-only files)
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
-- current HEAD: origin/main=665f65e; commits_ahead=1 (STARTED evidence, push GO pending)
-- validation road: 100% safety-readiness ✓; Gate 001 ✓; Gate 002 ✓; Gate 003 ✓; Limited Manual Op: STARTED (local)
-- current next human action: push GO for acceptance evidence → plan Gate 002 Initial Limited Manual Operation Test
-- HOLD reason: productionReady false; execution disabled; all external/device/voice/deploy = HOLD
+- current HEAD: origin/main=b84c1cd; commits_ahead=1 (Gates 004-007 design, push GO pending)
+- validation road: 100% safety-readiness ✓; Gate 001 ✓; Gate 002 ✓; Gate 003 ✓; Limited Manual Op: STARTED; Gates 004-007: design_ready
+- current next human action: review Gates 004-007 design package; decide commit GO and push GO
+- HOLD reason: productionReady false; execution disabled; Gate 004 sessions not yet run; Gates 005/006/007 pending execution
 
 ## Boundaries
 

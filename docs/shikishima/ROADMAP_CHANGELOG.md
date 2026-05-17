@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.59.0
+- roadmapVersion: v3.60.0
 - lastUpdated: 2026-05-17
-- latestUpdate: Limited Manual Operation STARTED evidence created — basis: Gate 001/002/003 all PASS
-- baselineCommit: 665f65e
+- latestUpdate: Post-100 Gates 004–007 design package created — 14 docs-only files
+- baselineCommit: b84c1cd
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,33 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.60.0 - Post-100 Gates 004–007 Design Package
+
+- roadmapVersion: v3.60.0
+- lastUpdated: 2026-05-17
+- docs_created: 14 (docs-only; no code changes)
+- Gate 004 files:
+  - POST_100_GATE_004_MANUAL_OPERATION_AUDIT_CHECKLIST.md
+  - POST_100_GATE_004_INCIDENT_RESPONSE_RULES.md
+  - POST_100_GATE_004_OPERATION_LOG_TEMPLATE.md
+- Gate 005 files:
+  - POST_100_GATE_005_PRODUCTION_READY_PRECHECKLIST.md
+  - POST_100_GATE_005_PRODUCTION_READY_BLOCKERS.md (6 active blockers)
+  - POST_100_GATE_005_PRODUCTION_READY_FINAL_GO_TEMPLATE.md
+- Gate 006 files:
+  - POST_100_GATE_006_RUNTIME_OBSERVATION_PLAN.md
+  - POST_100_GATE_006_RUNTIME_OBSERVATION_GO_TEMPLATE.md
+  - POST_100_GATE_006_RUNTIME_OBSERVATION_EVIDENCE_TEMPLATE.md
+- Gate 007 files:
+  - POST_100_GATE_007_LIMITED_MANUAL_OPERATION_USE_CASE_EXPANSION_PLAN.md
+  - POST_100_GATE_007_USE_CASE_POLICY_MATRIX.md (3 approved / 6 pending)
+  - POST_100_GATE_007_EXPANDED_OPERATION_EVIDENCE_TEMPLATE.md
+- Cross-gate files:
+  - POST_100_GATES_004_TO_007_DESIGN_SUMMARY.md
+  - POST_100_GATES_004_TO_007_DESIGN_PACKAGE_EVIDENCE.md
+- status: design_ready — no sessions executed; no push performed
+- safety invariants: all maintained
 
 ## v3.59.0 - Limited Manual Operation STARTED
 
