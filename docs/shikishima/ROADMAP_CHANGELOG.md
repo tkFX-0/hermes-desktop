@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.57.0
+- roadmapVersion: v3.58.0
 - lastUpdated: 2026-05-17
-- latestUpdate: Post-100 Gate 003 plan + evidence template created — Manual Operation Repeatability Test
-- baselineCommit: f3e446c
+- latestUpdate: Post-100 Gate 003 PASS — 3 samples repeated; repeatability_confirmed
+- baselineCommit: 50f79fc
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,20 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.58.0 - Post-100 Gate 003 PASS: Manual Operation Repeatability Test
+
+- roadmapVersion: v3.58.0
+- lastUpdated: 2026-05-17
+- POST_100_GATE_003_MANUAL_OPERATION_REPEATABILITY_EVIDENCE.md created
+  - samples_total: 3 / samples_passed: 3 / samples_hold: 0 / samples_rejected: 0
+  - sample-002: general_text_draft — PASS
+  - sample-003: github_issue_draft — PASS (no remote creation, external_service: none)
+  - sample-004: social_post_draft — PASS (no social API, external_service: none)
+  - repeatability_confirmed: true
+  - limited_manual_operation_candidate: true
+- result: PASS
+- next: push GO for evidence → Task 7 Limited Manual Operation STARTED evidence
 
 ## v3.57.0 - Post-100 Gate 003: Manual Operation Repeatability Test Plan
 
