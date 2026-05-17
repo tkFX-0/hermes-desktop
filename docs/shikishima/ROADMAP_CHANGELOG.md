@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.53.0
+- roadmapVersion: v3.54.0
 - lastUpdated: 2026-05-17
-- latestUpdate: Post-100 Gate 001 — Draft Outbox Operation Rulebook created
-- baselineCommit: ad27e9a
+- latestUpdate: Post-100 Gate 001 ACCEPTED_AND_PUSHED — accepted_as_draft_outbox_operation_rules
+- baselineCommit: 248c94e
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,16 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.54.0 - Post-100 Gate 001 ACCEPTED_AND_PUSHED
+
+- roadmapVersion: v3.54.0
+- lastUpdated: 2026-05-17
+- POST_100_GATE_001_ACCEPTED_AND_PUSHED_EVIDENCE.md created
+- accepted_as_draft_outbox_operation_rules: true
+- pushed commits: cd289fe + 248c94e → origin/main (248c94e)
+- next recommended gate: Gate 002 Initial Limited Manual Operation Test
+- Gate 002 scope: non-sensitive text proposal → manual copy only → evidence
 
 ## v3.53.0 - Post-100 Gate 001: Draft Outbox Operation Rulebook (hardened)
 
