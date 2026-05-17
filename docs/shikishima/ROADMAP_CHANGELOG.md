@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.71.0
+- roadmapVersion: v3.72.0
 - lastUpdated: 2026-05-17
-- latestUpdate: UI-03 backend snapshot contract design — 4 docs; 12 pages mapped; redaction + freshness policy defined
-- baselineCommit: beba654
+- latestUpdate: UI-03 snapshot helpers PASS (dc80ebe) — 45 tests; HOLD fallback; redaction; literal invariants
+- baselineCommit: dc80ebe
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,19 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.72.0 - UI-03 Snapshot Helpers PASS — Evidence Recorded
+
+- roadmapVersion: v3.72.0
+- lastUpdated: 2026-05-17
+- UI_03_IMPLEMENTATION_EVIDENCE.md created
+  - dc80ebe feat: add ui 03 snapshot helpers and freshness utilities
+  - ui-freshness-helpers: isStale / getHoldFallback / resolveDecision
+  - ui-snapshot-helpers: SafeSnapshotSummary / checkRedaction / snapshotToSafeSummary / holdSummary
+  - snapshot-to-page: 5 page mappers (Operator/Chat/StackChan/Push/SafetyStrip)
+  - tests: 45/45 PASS; typecheck×2 PASS; mobile-console 37/37 PASS
+  - key: all mappers return HOLD for null/stale; physicalOperation:false literal
+- docs-only evidence; no push
 
 ## v3.71.0 - UI-03 Backend Snapshot Contract Design Prepared
 
