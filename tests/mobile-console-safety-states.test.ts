@@ -5,7 +5,11 @@ import {
   MOBILE_CONSOLE_DEFAULT_SNAPSHOT,
   mapKomashikiToDisplayExpression,
 } from "../src/shared/mobile-console";
-import type { ApprovalQueueItem, KomashikiDisplayState } from "../src/shared/mobile-console";
+import type {
+  ApprovalQueueItem,
+  DraftOutboxItem,
+  KomashikiDisplayState,
+} from "../src/shared/mobile-console";
 import { buildMobileUiHtml } from "../src/main/mobile-console/mobile-console-local-server";
 
 describe("mobile console safety invariants", () => {
@@ -314,6 +318,93 @@ describe("mobile ui display terminal rendering", () => {
   });
 });
 
+describe("draft outbox safety model", () => {
+  it("default draft outbox is draft-only and cannot write externally", () => {
+    const { draftOutbox, draftOutboxSummary } = MOBILE_CONSOLE_DEFAULT_SNAPSHOT;
+
+    expect(draftOutbox.length).toBeGreaterThan(0);
+    expect(draftOutboxSummary.total).toBe(draftOutbox.length);
+    expect(draftOutboxSummary.displayOnly).toBe(true);
+    expect(draftOutboxSummary.externalWrite).toBe(false);
+    expect(draftOutboxSummary.sent).toBe(false);
+    expect(draftOutboxSummary.remoteCreated).toBe(false);
+    expect(draftOutboxSummary.paymentOrReservation).toBe(false);
+    expect(draftOutboxSummary.execution).toBe("disabled");
+    expect(draftOutboxSummary.productionReady).toBe(false);
+    expect(draftOutboxSummary.rawValuesReported).toBe(false);
+
+    for (const item of draftOutbox) {
+      expect(item.externalWrite).toBe(false);
+      expect(item.sent).toBe(false);
+      expect(item.remoteCreated).toBe(false);
+      expect(item.paymentOrReservation).toBe(false);
+      expect(item.execution).toBe("disabled");
+      expect(item.productionReady).toBe(false);
+      expect(item.rawValuesReported).toBe(false);
+    }
+  });
+
+  it("draft outbox redaction keeps unsafe attempted fields disabled", () => {
+    const unsafeItem = {
+      ...MOBILE_CONSOLE_DEFAULT_SNAPSHOT.draftOutbox[0],
+      externalWrite: true,
+      sent: true,
+      remoteCreated: true,
+      paymentOrReservation: true,
+      execution: "enabled",
+      productionReady: true,
+      rawValuesReported: true,
+    } as unknown as DraftOutboxItem;
+
+    const snap = buildMobileSnapshot({ draftOutbox: [unsafeItem] }, "static_phase1");
+
+    expect(snap.draftOutbox[0].externalWrite).toBe(false);
+    expect(snap.draftOutbox[0].sent).toBe(false);
+    expect(snap.draftOutbox[0].remoteCreated).toBe(false);
+    expect(snap.draftOutbox[0].paymentOrReservation).toBe(false);
+    expect(snap.draftOutbox[0].execution).toBe("disabled");
+    expect(snap.draftOutbox[0].productionReady).toBe(false);
+    expect(snap.draftOutbox[0].rawValuesReported).toBe(false);
+  });
+
+  it("contains held purchase/reservation and remote draft items only", () => {
+    const purchase = MOBILE_CONSOLE_DEFAULT_SNAPSHOT.draftOutbox.find(
+      (item) => item.actionKind === "purchase_or_reservation_draft",
+    );
+    const github = MOBILE_CONSOLE_DEFAULT_SNAPSHOT.draftOutbox.find(
+      (item) => item.actionKind === "github_issue_draft",
+    );
+
+    expect(purchase?.draftState).toBe("held");
+    expect(purchase?.riskLevel).toBe("critical");
+    expect(purchase?.paymentOrReservation).toBe(false);
+    expect(github?.remoteCreated).toBe(false);
+  });
+});
+
+describe("mobile ui draft outbox rendering", () => {
+  it("renders draft outbox as no-write HTML with inactive controls", () => {
+    const html = buildMobileUiHtml();
+
+    expect(html).toContain("Draft Outbox");
+    expect(html).toContain("Draft-only / No external write / No send / No remote creation / Human copy required");
+    expect(html).toContain("Send inactive");
+    expect(html).toContain("Create remote inactive");
+    expect(html).toContain("Pay inactive");
+    expect(html).toContain("renderDraftOutbox");
+  });
+
+  it("does not include active external action affordances", () => {
+    const html = buildMobileUiHtml();
+
+    expect(html).not.toContain("sendEmail(");
+    expect(html).not.toContain("createCalendar");
+    expect(html).not.toContain("createIssue");
+    expect(html).not.toContain("purchase(");
+    expect(html).not.toContain("fetch('https://");
+  });
+});
+
 describe("default snapshot alignment with 45% state", () => {
   it("default komashikiState is HOLD", () => {
     expect(MOBILE_CONSOLE_DEFAULT_SNAPSHOT.komashikiState).toBe("HOLD");
@@ -325,9 +416,9 @@ describe("default snapshot alignment with 45% state", () => {
     );
   });
 
-  it("default phaseProgress reflects 45 to 60 approval queue milestone", () => {
-    expect(MOBILE_CONSOLE_DEFAULT_SNAPSHOT.phaseProgress).toContain("45");
-    expect(MOBILE_CONSOLE_DEFAULT_SNAPSHOT.phaseProgress).toContain("approval queue");
+  it("default phaseProgress reflects 75 to 90 draft outbox milestone", () => {
+    expect(MOBILE_CONSOLE_DEFAULT_SNAPSHOT.phaseProgress).toContain("75");
+    expect(MOBILE_CONSOLE_DEFAULT_SNAPSHOT.phaseProgress).toContain("draft outbox");
   });
 
   it("default safety invariants are preserved", () => {

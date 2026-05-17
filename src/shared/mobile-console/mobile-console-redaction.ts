@@ -1,6 +1,7 @@
 import type {
   ApprovalQueueItem,
   DisplayTerminalPreviewState,
+  DraftOutboxItem,
   MobileConsoleSnapshot,
   MobileDataSource,
 } from "./mobile-console-types";
@@ -84,6 +85,28 @@ function scrubDisplayTerminalPreview(
   };
 }
 
+function scrubDraftOutboxItem(item: DraftOutboxItem): DraftOutboxItem {
+  return {
+    ...item,
+    title: scrub(item.title) as string,
+    summary: scrub(item.summary) as string,
+    destinationLabel: scrub(item.destinationLabel) as string,
+    bodyPreview: scrub(item.bodyPreview) as string,
+    requiredHumanAction: scrub(item.requiredHumanAction) as string,
+    blockedReason: scrub(item.blockedReason) as string,
+    safeNextStep: scrub(item.safeNextStep) as string,
+    evidenceRef:
+      typeof item.evidenceRef === "string" ? (scrub(item.evidenceRef) as string) : undefined,
+    externalWrite: false,
+    sent: false,
+    remoteCreated: false,
+    paymentOrReservation: false,
+    rawValuesReported: false,
+    execution: "disabled",
+    productionReady: false,
+  };
+}
+
 /**
  * Build a safe MobileConsoleSnapshot from partial/unknown runtime data.
  *
@@ -107,6 +130,7 @@ export function buildMobileSnapshot(
 
   const base = MOBILE_CONSOLE_DEFAULT_SNAPSHOT;
   const approvalQueue = partial.approvalQueue?.map(scrubApprovalQueueItem) ?? base.approvalQueue;
+  const draftOutbox = partial.draftOutbox?.map(scrubDraftOutboxItem) ?? base.draftOutbox;
   const komashikiState = partial.komashikiState ?? base.komashikiState;
   const caveats = partial.caveats ?? base.caveats;
   const displayTerminalPreview =
@@ -143,6 +167,8 @@ export function buildMobileSnapshot(
     approvalQueueSummary: partial.approvalQueueSummary ?? base.approvalQueueSummary,
     displayTerminalPreview,
     displayTerminalSummary: partial.displayTerminalSummary ?? base.displayTerminalSummary,
+    draftOutbox,
+    draftOutboxSummary: partial.draftOutboxSummary ?? base.draftOutboxSummary,
     stopHistory: partial.stopHistory ?? base.stopHistory,
 
     generatedAt: partial.generatedAt ?? new Date().toISOString(),

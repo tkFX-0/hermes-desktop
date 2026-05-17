@@ -20,7 +20,7 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.50.0
+- roadmapVersion: v3.51.0
 - latestUpdate: 2026-05-17 - Phase 30→45% implemented: こましき display + iPhone UX + 31 tests PASS
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
@@ -49,6 +49,15 @@ creating productivity pressure or autonomous acceleration.
 - Display Terminal Preview: display-only model + iPhone UI + desktop Face tab
 - current next human action: review Phase 60 to 75 evidence and decide push GO
 - HOLD reason: StackChan physical operation false; connection not attempted; voice/camera/mic disabled
+
+## Phase 75 to 90 Update
+
+- latestUpdate: 2026-05-17 - Draft Outbox / External Action Safety Layer COMPLETE_PASS candidate
+- current HEAD baseline: origin/main=85d183c before local Phase 75 to 90 commits
+- Draft Outbox: display-only, no send, no remote creation, no payment/reservation
+- external action status: all writes HOLD
+- current next human action: review Phase 75 to 90 evidence and decide push GO
+- HOLD reason: productionReady false; execution disabled; external actions require separate future approval
 
 - No autonomous acceleration.
 - No reward or earning mechanics.

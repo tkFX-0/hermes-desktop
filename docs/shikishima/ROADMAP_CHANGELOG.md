@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.50.0
+- roadmapVersion: v3.51.0
 - lastUpdated: 2026-05-17
-- latestUpdate: Phase 60 to 75 StackChan / Face Terminal display preparation COMPLETE_PASS candidate
-- baselineCommit: 305e8db
+- latestUpdate: Phase 75 to 90 Draft Outbox / External Action Safety Layer COMPLETE_PASS candidate
+- baselineCommit: 85d183c
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,20 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.51.0 - Phase 75 to 90 Draft Outbox / External Action Safety Layer
+
+- roadmapVersion: v3.51.0
+- lastUpdated: 2026-05-17
+- DraftOutboxItem / DraftOutboxSummary redacted snapshot model added
+- Default draft-only outbox items added for email, GitHub follow-up, calendar checkpoint, and purchase/reservation HOLD
+- iPhone `/mobile/ui` now displays Draft Outbox cards after authenticated redacted snapshot fetch
+- Desktop Mobile Console now includes an Outbox tab
+- Outbox controls are inactive / draft-only / no external write
+- Tests added for no send, no remote creation, no payment/reservation, and no external API behavior
+- evidence: PHASE_75_TO_90_DRAFT_OUTBOX_SAFETY_EVIDENCE.md
+- result_candidate: COMPLETE_PASS
+- next: human review + push GO for Phase 75 to 90 commits
 
 ## v3.50.0 - Phase 60 to 75 StackChan / Face Terminal Display Preparation
 

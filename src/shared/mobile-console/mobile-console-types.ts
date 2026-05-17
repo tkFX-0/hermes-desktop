@@ -145,6 +145,62 @@ export interface DisplayTerminalSummary {
   readonly rawValuesReported: false;
 }
 
+export type ExternalActionDraftKind =
+  | "email_draft"
+  | "calendar_draft"
+  | "github_issue_draft"
+  | "github_pr_draft"
+  | "social_post_draft"
+  | "purchase_or_reservation_draft"
+  | "external_api_draft"
+  | "unknown";
+
+export type DraftOutboxState =
+  | "draft_only"
+  | "waiting_human"
+  | "held"
+  | "rejected"
+  | "expired"
+  | "archived";
+
+export interface DraftOutboxItem {
+  readonly id: string;
+  readonly title: string;
+  readonly summary: string;
+  readonly proposedBy: "human" | "gpt" | "codex" | "claudecode" | "system";
+  readonly actionKind: ExternalActionDraftKind;
+  readonly riskLevel: ApprovalRiskLevel;
+  readonly draftState: DraftOutboxState;
+  readonly destinationLabel: string;
+  readonly bodyPreview: string;
+  readonly requiredHumanAction: string;
+  readonly blockedReason: string;
+  readonly safeNextStep: string;
+  readonly evidenceRef?: string;
+  readonly externalWrite: false;
+  readonly sent: false;
+  readonly remoteCreated: false;
+  readonly paymentOrReservation: false;
+  readonly rawValuesReported: false;
+  readonly execution: "disabled";
+  readonly productionReady: false;
+}
+
+export interface DraftOutboxSummary {
+  readonly total: number;
+  readonly waitingHuman: number;
+  readonly held: number;
+  readonly highOrCritical: number;
+  readonly displayOnly: true;
+  readonly externalWrite: false;
+  readonly sent: false;
+  readonly remoteCreated: false;
+  readonly paymentOrReservation: false;
+  readonly execution: "disabled";
+  readonly productionReady: false;
+  readonly rawValuesReported: false;
+}
+
 export interface MobileSessionRecord {
   readonly id: string;
   readonly result: "CLEAN_B3_PASS" | "PASS_WITH_TIMING_CAVEAT" | "STOP" | "pending";
@@ -233,6 +289,8 @@ export interface MobileConsoleSnapshot {
   readonly approvalQueueSummary: ApprovalQueueSummary;
   readonly displayTerminalPreview: DisplayTerminalPreviewState;
   readonly displayTerminalSummary: DisplayTerminalSummary;
+  readonly draftOutbox: readonly DraftOutboxItem[];
+  readonly draftOutboxSummary: DraftOutboxSummary;
   readonly stopHistory: readonly MobileStopRecord[];
   readonly generatedAt: string;
   readonly dataSource: MobileDataSource;

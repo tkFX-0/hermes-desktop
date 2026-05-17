@@ -23,6 +23,10 @@ export type {
   DisplayExpressionState,
   DisplayTerminalPreviewState,
   DisplayTerminalSummary,
+  ExternalActionDraftKind,
+  DraftOutboxState,
+  DraftOutboxItem,
+  DraftOutboxSummary,
 } from "./mobile-console-types";
 
 export {

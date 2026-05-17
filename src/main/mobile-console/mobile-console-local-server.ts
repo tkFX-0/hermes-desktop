@@ -102,6 +102,8 @@ button:disabled{background:#21262d;color:#8b949e;cursor:not-allowed}
 .display-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
 .display-cell{background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:7px}
 .display-cell .fl{display:block;margin-bottom:3px}
+.outbox-card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:10px 12px;margin-bottom:10px}
+.outbox-body{font-family:ui-monospace,monospace;font-size:10px;line-height:1.5;background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:8px;margin-top:6px;white-space:pre-wrap;color:#c9d1d9}
 </style>
 </head>
 <body>
@@ -172,6 +174,12 @@ button:disabled{background:#21262d;color:#8b949e;cursor:not-allowed}
 <div id="approval-list"></div>
 </div>
 
+<div id="outbox-section" class="card hidden">
+<div class="card-title">Draft Outbox</div>
+<div class="dim" style="margin-bottom:8px">Draft-only / No external write / No send / No remote creation / Human copy required</div>
+<div id="outbox-list"></div>
+</div>
+
 <script>
 var KOMA_MSGS={
   GO:"準備OKだよ。人間GOが来たら進めるよ。",
@@ -232,11 +240,34 @@ function renderApprovalQueue(items){
   }).join('');
   show('approval-section');
 }
+function renderDraftOutbox(items){
+  var list=document.getElementById('outbox-list');
+  if(!list)return;
+  var safe=Array.isArray(items)?items:[];
+  if(safe.length===0){list.innerHTML='<div class="dim">No draft outbox items.</div>';show('outbox-section');return;}
+  list.innerHTML=safe.map(function(item){
+    return '<div class="outbox-card">'+
+      '<div class="approval-head"><div class="approval-title">'+esc(item.title)+'</div><span class="pill display-pill">draft-only</span></div>'+
+      '<div class="approval-meta">'+
+        '<span class="pill '+riskClass(item.riskLevel)+'">'+esc(item.riskLevel)+'</span>'+
+        '<span class="pill state-pill">'+esc(item.draftState)+'</span>'+
+        '<span class="pill state-pill">'+esc(item.actionKind)+'</span>'+
+      '</div>'+
+      '<div class="approval-text">'+esc(item.summary)+'</div>'+
+      '<div class="approval-text"><span class="approval-label">destination:</span>'+esc(item.destinationLabel)+'</div>'+
+      '<div class="outbox-body">'+esc(item.bodyPreview)+'</div>'+
+      '<div class="approval-text"><span class="approval-label">blocked:</span>'+esc(item.blockedReason)+'</div>'+
+      '<div class="approval-text"><span class="approval-label">next:</span>'+esc(item.safeNextStep)+'</div>'+
+      '<div class="approval-actions"><button disabled>Send inactive</button><button disabled>Create remote inactive</button><button disabled>Pay inactive</button></div>'+
+    '</div>';
+  }).join('');
+  show('outbox-section');
+}
 async function go(){
   var btn=document.getElementById('btn');
   var t=document.getElementById('tok').value;
   if(!t){err('Token is required');return;}
-  btn.disabled=true;hide('ep');hide('sp');hide('koma-section');hide('caveat-section');hide('next-section');hide('prog-section');hide('display-section');hide('approval-section');
+  btn.disabled=true;hide('ep');hide('sp');hide('koma-section');hide('caveat-section');hide('next-section');hide('prog-section');hide('display-section');hide('approval-section');hide('outbox-section');
   try{
     var r=await fetch('/mobile/snapshot',{headers:{'Authorization':'Bearer '+t}});
     t=null;
@@ -270,6 +301,7 @@ async function go(){
     }
     renderDisplayPreview(d.displayTerminalPreview);
     renderApprovalQueue(d.approvalQueue);
+    renderDraftOutbox(d.draftOutbox);
   }catch(e){t=null;err('Connection failed');}
   finally{btn.disabled=false;}
 }
