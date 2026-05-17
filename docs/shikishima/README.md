@@ -1,5 +1,5 @@
 ﻿# Shikishima Roadmap Docs
-date_updated: 2026-05-15
+date_updated: 2026-05-17
 
 This directory contains static documentation for the Shikishima plan.
 

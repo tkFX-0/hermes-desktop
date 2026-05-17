@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.73.0
+- roadmapVersion: v3.80.0
 - lastUpdated: 2026-05-17
-- latestUpdate: UI-04 shell components PASS (93109a8) — SafetyStrip/PageTabs/ChatInputBar/PageShell/MiniLampRow
-- baselineCommit: 93109a8
+- latestUpdate: UI-11 controlled runtime observation readiness package prepared
+- baselineCommit: 35befd7
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,80 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.80.0 - UI-11 Controlled Runtime Observation Readiness Package
+
+- roadmapVersion: v3.80.0
+- lastUpdated: 2026-05-17
+- 5 docs created:
+  - UI_11_CONTROLLED_RUNTIME_OBSERVATION_READINESS.md
+  - UI_11_RUNTIME_OBSERVATION_GO_DRAFT.md
+  - UI_11_RUNTIME_OBSERVATION_CHECKLIST.md
+  - UI_11_RUNTIME_OBSERVATION_EVIDENCE_TEMPLATE.md
+  - UI_11_STOP_CONDITIONS.md
+- preconditions defined; runtime GO not yet issued
+- productionReady: false / execution: disabled / rawValuesReported: false
+
+## v3.79.0 - UI-10 Visual QA PASS
+
+- roadmapVersion: v3.79.0
+- lastUpdated: 2026-05-17
+- command-center-tokens.css created: light/dark CSS variable definitions
+- main.tsx updated: CSS token import added
+- MessageBubble.tsx: #ffffff → var(--paper, #ffffff) dark mode fix
+- typecheck:node PASS / typecheck:web PASS / vitest 806 PASS
+- commit: 35befd7 (pushed)
+
+## v3.78.0 - UI-09 State/Toast/CommandPalette Components PASS
+
+- roadmapVersion: v3.78.0
+- lastUpdated: 2026-05-17
+- 6 new components:
+  - EmptyState / LoadingState / ErrorState / StaleWarning
+  - ToastContainer (4 variants, auto-dismiss)
+  - CommandPalette (Ctrl+K, keyboard-driven, navigation-only)
+- typecheck:node PASS / typecheck:web PASS / vitest 806 PASS
+- commit: 8989acf (pushed)
+
+## v3.77.0 - UI-08 Settings/Help/Onboarding Pages PASS
+
+- roadmapVersion: v3.77.0
+- lastUpdated: 2026-05-17
+- 3 new pages:
+  - CommandSettingsPage (6 interactive settings + 5 locked capabilities)
+  - CommandHelpPage (safety policy reference)
+  - OnboardingFlow (5-step wizard, navigation only)
+- tests/ipc-handlers.test.ts: also scan preload/mobile-console.ts
+- typecheck:node PASS / typecheck:web PASS / vitest 806 PASS
+- commit: 821ca6e (pushed)
+
+## v3.76.0 - UI-07 StackChan Control Room PASS
+
+- roadmapVersion: v3.76.0
+- lastUpdated: 2026-05-17
+- 2 new pages: StackChanPage + StackChanMobilePage (393px mobile)
+- physicalOperation/voiceActive/cameraActive/micActive: all false (literal)
+- typecheck:node PASS / typecheck:web PASS / vitest PASS
+- commit: e3fb17a (pushed)
+
+## v3.75.0 - UI-06 Operational Suite Pages PASS
+
+- roadmapVersion: v3.75.0
+- lastUpdated: 2026-05-17
+- 6 new pages: Outbox / Queue / GoPage / Evidence / Stop / Push
+- externalWrite: false / displayOnly: true / pushIsExternalOnly: confirmed
+- typecheck:node PASS / typecheck:web PASS / vitest PASS
+- commit: a08e31d (pushed)
+
+## v3.74.0 - UI-05 Operator and Chat Pages PASS
+
+- roadmapVersion: v3.74.0
+- lastUpdated: 2026-05-17
+- 4 new files: LampGrid / OperatorPage / CommandChatPage / MessageBubble
+- OperatorPage: 9-lamp grid, safety invariant section
+- CommandChatPage: local chat only, no external connection
+- typecheck:node PASS / typecheck:web PASS / vitest PASS
+- commit: fb7db4c (pushed)
 
 ## v3.73.0 - UI-04 Shell Components PASS
 
