@@ -4,7 +4,11 @@ import { join } from "path";
 
 const ROOT = join(__dirname, "..");
 const indexSrc = readFileSync(join(ROOT, "src/main/index.ts"), "utf-8");
-const preloadSrc = readFileSync(join(ROOT, "src/preload/index.ts"), "utf-8");
+// Scan all preload source files that register ipcRenderer.invoke calls
+const preloadSrc = [
+  readFileSync(join(ROOT, "src/preload/index.ts"), "utf-8"),
+  readFileSync(join(ROOT, "src/preload/mobile-console.ts"), "utf-8"),
+].join("\n");
 
 /**
  * Extract all IPC channel names registered in main/index.ts.
