@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.51.0
+- roadmapVersion: v3.52.0
 - lastUpdated: 2026-05-17
-- latestUpdate: Phase 75 to 90 Draft Outbox / External Action Safety Layer COMPLETE_PASS candidate
-- baselineCommit: 85d183c
+- latestUpdate: Phase 90→100 Final Safety Review COMPLETE_PASS candidate — 100% safety-readiness candidate
+- baselineCommit: 40d102b
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,19 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.52.0 - Phase 90→100 Final Safety Review
+
+- roadmapVersion: v3.52.0
+- lastUpdated: 2026-05-17
+- FINAL_SAFETY_REVIEW_LIMITED_OPERATION_READINESS.md created
+- FINAL_HOLD_AND_FUTURE_GO_REGISTRY.md created (16 items, all HOLD)
+- PHASE_90_TO_100_FINAL_SAFETY_REVIEW_EVIDENCE.md created
+- Evidence chain 20→90% confirmed: all COMPLETE_PASS or PASS_WITH_CAVEAT
+- Safety invariants confirmed by source scan + 49 tests
+- result_candidate: COMPLETE_PASS
+- 100% safety-readiness candidate — NOT productionReady true
+- next: human acceptance + push GO
 
 ## v3.51.0 - Phase 75 to 90 Draft Outbox / External Action Safety Layer
 
