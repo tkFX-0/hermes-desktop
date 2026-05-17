@@ -20,12 +20,12 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.58.0
-- latestUpdate: 2026-05-17 - Gate 003 PASS: 3/3 samples; repeatability_confirmed; limited_manual_operation_candidate
+- roadmapVersion: v3.59.0
+- latestUpdate: 2026-05-17 - Limited Manual Operation STARTED evidence created; 50〜55% progress
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
-- current HEAD: origin/main=50f79fc; commits_ahead=1 (Gate 003 evidence, push GO pending)
-- validation road: 100% safety-readiness ✓; Gate 001 ✓; Gate 002 ✓; Gate 003 PASS (local) ✓; STARTED evidence pending
+- current HEAD: origin/main=665f65e; commits_ahead=1 (STARTED evidence, push GO pending)
+- validation road: 100% safety-readiness ✓; Gate 001 ✓; Gate 002 ✓; Gate 003 ✓; Limited Manual Op: STARTED (local)
 - current next human action: push GO for acceptance evidence → plan Gate 002 Initial Limited Manual Operation Test
 - HOLD reason: productionReady false; execution disabled; all external/device/voice/deploy = HOLD
 

@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.58.0
+- roadmapVersion: v3.59.0
 - lastUpdated: 2026-05-17
-- latestUpdate: Post-100 Gate 003 PASS — 3 samples repeated; repeatability_confirmed
-- baselineCommit: 50f79fc
+- latestUpdate: Limited Manual Operation STARTED evidence created — basis: Gate 001/002/003 all PASS
+- baselineCommit: 665f65e
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,18 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.59.0 - Limited Manual Operation STARTED
+
+- roadmapVersion: v3.59.0
+- lastUpdated: 2026-05-17
+- LIMITED_MANUAL_OPERATION_START_EVIDENCE.md created
+  - status: STARTED
+  - basis: Gate 001 + Gate 002 + Gate 003 all ACCEPTED/PUSHED
+  - allowed: draft creation / human review / approved_for_manual_copy / human manual copy
+  - not approved: productionReady / execution / runtime / external writes / StackChan / voice
+  - progress: 50〜55%
+- next: push GO for STARTED evidence → Task 8
 
 ## v3.58.0 - Post-100 Gate 003 PASS: Manual Operation Repeatability Test
 
