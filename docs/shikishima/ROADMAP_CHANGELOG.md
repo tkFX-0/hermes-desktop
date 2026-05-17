@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.56.0
+- roadmapVersion: v3.57.0
 - lastUpdated: 2026-05-17
-- latestUpdate: Post-100 Gate 002 PASS — Initial Limited Manual Operation Test evidence recorded
-- baselineCommit: dbe50aa
+- latestUpdate: Post-100 Gate 003 plan + evidence template created — Manual Operation Repeatability Test
+- baselineCommit: f3e446c
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,21 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.57.0 - Post-100 Gate 003: Manual Operation Repeatability Test Plan
+
+- roadmapVersion: v3.57.0
+- lastUpdated: 2026-05-17
+- POST_100_GATE_003_MANUAL_OPERATION_REPEATABILITY_PLAN.md created
+  - 3 planned samples: work_note / github_issue_draft / social_post_draft
+  - all samples: external_service none / manual_copy_only
+  - approved_for_manual_copy definition per sample
+  - success criteria: 3 samples PASS / repeatability_confirmed
+- POST_100_GATE_003_MANUAL_OPERATION_REPEATABILITY_EVIDENCE_TEMPLATE.md created
+  - per-sample: state_flow / 8-item checklist / decision
+  - summary: samples_total / samples_passed / repeatability_confirmed
+  - safety invariants / non-approval boundary
+- next: human review + push GO for plan commit → Task 5 repeatability execution
 
 ## v3.56.0 - Post-100 Gate 002 PASS: Initial Limited Manual Operation Test
 
