@@ -1,7 +1,18 @@
 import { useState } from "react";
 
-const card: React.CSSProperties = { background: "#161b22", border: "1px solid #30363d", borderRadius: 8, padding: 14, marginBottom: 12 };
-const heading: React.CSSProperties = { fontSize: 15, fontWeight: 600, color: "#d29922", marginBottom: 12 };
+const card: React.CSSProperties = {
+  background: "#161b22",
+  border: "1px solid #30363d",
+  borderRadius: 8,
+  padding: 14,
+  marginBottom: 12,
+};
+const heading: React.CSSProperties = {
+  fontSize: 15,
+  fontWeight: 600,
+  color: "#d29922",
+  marginBottom: 12,
+};
 const muted: React.CSSProperties = { color: "#8b949e", fontSize: 12 };
 const codeBox: React.CSSProperties = {
   background: "#0d1117",
@@ -17,16 +28,16 @@ const codeBox: React.CSSProperties = {
   lineHeight: 1.5,
 };
 
-const SESSION_009_GO = `I explicitly approve this one Level B3 daily operation session only.
+const NEXT_SESSION_GO = `I explicitly approve this one supervised observation session only.
 
 Approved session:
-shikishima-session-2026-05-15-009
+[session_id]
 
 Approved time_window:
-2026-05-15 HH:MM-HH:MM JST
+[YYYY-MM-DD HH:MM-HH:MM JST]
 
 Approved purpose:
-Level B3 clean B3 PASS #5 — iPhone Private Console safe display observation.
+Next approved Shikishima observation session.
 Confirm that the iPhone console is visible and does not expose raw values,
 secrets, local-only values, unsafe GO labels, execution enabled state,
 or productionReady true state.
@@ -69,8 +80,8 @@ Forbidden:
 - Level 3 / productionReady / execution approval`;
 
 const DRAFTS = [
-  { id: "session-009", label: "Session-009 GO テンプレート", text: SESSION_009_GO },
-  { id: "push-go", label: "Push GO テンプレート", text: PUSH_GO },
+  { id: "next-session", label: "Next Session GO Template", text: NEXT_SESSION_GO },
+  { id: "push-go", label: "Push GO Template", text: PUSH_GO },
 ];
 
 export default function MobileGoDrafts(): React.JSX.Element {
@@ -87,9 +98,11 @@ export default function MobileGoDrafts(): React.JSX.Element {
     <div>
       <div style={{ ...card, background: "#0d1117", border: "1px solid rgba(251,146,60,0.4)" }}>
         <div style={{ fontSize: 12, color: "#fb923c", lineHeight: 1.5 }}>
-          ⚠ このGOテキストはコピー専用です。<br />
-          このUIから自動実行・自動承認はされません。<br />
-          コピー後、ClaudeCodeまたはチャットに貼り付けてください。
+          These are copy-only human review templates.
+          <br />
+          This UI does not execute, approve, push, or enable runtime behavior.
+          <br />
+          Paste a copied template into the review channel only after the human fills the placeholders.
         </div>
       </div>
 
@@ -112,13 +125,13 @@ export default function MobileGoDrafts(): React.JSX.Element {
               fontWeight: 600,
             }}
           >
-            {copied === d.id ? "コピー完了 ✓" : "コピー (実行なし)"}
+            {copied === d.id ? "Copied" : "Copy template only"}
           </button>
         </div>
       ))}
 
       <div style={{ ...muted, textAlign: "center", padding: "8px 0" }}>
-        コピーのみ — 実行なし / 承認なし / pushなし
+        copy only / no execution / no approval / no push
       </div>
     </div>
   );
