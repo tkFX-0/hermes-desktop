@@ -1,4 +1,4 @@
-/**
+﻿/**
  * PushPage — Push readiness display-only.
  * The UI NEVER triggers git push. This is display and copy only.
  * pushGoReceived shows whether a human GO has been received externally.
@@ -21,7 +21,7 @@ export function PushPage({ data, onCopySummary, lang = "ja" }: PushPageProps) {
   const isClean = data.commitsAhead === 0 && data.staged === 0 && data.trackedDirty === 0;
 
   return (
-    <div style={{ padding: "18px 22px", display: "flex", flexDirection: "column", gap: 16 }}>
+    <div style={{ padding: "var(--page-pd-v, 18px) var(--page-pd-h, 22px)", display: "flex", flexDirection: "column", gap: 16 }}>
       <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between" }}>
         <p style={{ fontFamily: '"IBM Plex Mono", ui-monospace, monospace', fontSize: 10, letterSpacing: 2, color: "var(--ink3, #9ca3af)", margin: 0 }}>
           PUSH

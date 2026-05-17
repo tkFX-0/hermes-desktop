@@ -1,4 +1,4 @@
-/**
+﻿/**
  * StackChanPage — StackChan Control Room.
  * Display-only. Physical operation remains HOLD.
  * No voice/camera/mic activation. No serial/USB/Wi-Fi device access.
@@ -114,7 +114,7 @@ export function StackChanPage({
   return (
     <div
       style={{
-        padding: "18px 22px",
+        padding: "var(--page-pd-v, 18px) var(--page-pd-h, 22px)",
         display: "flex",
         flexDirection: "column",
         gap: 16,

@@ -1,15 +1,19 @@
 /**
  * PageShell — outer wrapper for all Command Center pages.
  * Design spec: pages-shell.jsx PageShell.
- * Structure: Topbar / PageTabs / SafetyStrip / body / Footer.
- * Does not connect to IPC. Receives data via props.
+ * Structure: Topbar / SafetyStrip / PageTabs / body / Footer.
+ * Detects narrow window (<600px) and passes compact={true} to chrome.
+ * Safe-area insets applied to footer for notch devices.
  */
 
+import { useState, useEffect } from "react";
 import type { PageId } from "../../../../shared/ichikishima/ui-page-types";
 import type { SafetyStripDisplayData } from "../../utils/snapshot-to-page";
 import { SafetyStrip } from "./SafetyStrip";
 import { PageTabs } from "./PageTabs";
 import { Topbar } from "./Topbar";
+
+const MOBILE_BREAKPOINT = 600;
 
 interface PageShellProps {
   readonly activePage: PageId;
@@ -30,6 +34,16 @@ export function PageShell({
   sub,
   children,
 }: PageShellProps) {
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== "undefined" && window.innerWidth < MOBILE_BREAKPOINT,
+  );
+
+  useEffect(() => {
+    const handler = () => setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
+    window.addEventListener("resize", handler, { passive: true });
+    return () => window.removeEventListener("resize", handler);
+  }, []);
+
   return (
     <div
       style={{
@@ -43,7 +57,7 @@ export function PageShell({
       }}
     >
       {/* Topbar — mode indicator (display-only) */}
-      <Topbar mode={mode} sub={sub} lang={lang} />
+      <Topbar mode={mode} sub={sub} lang={lang} compact={isMobile} />
 
       {/* SafetyStrip — must always be visible; never hidden */}
       <SafetyStrip
@@ -51,6 +65,7 @@ export function PageShell({
         productionReady={safety.productionReady}
         execution={safety.execution}
         stale={safety.stale}
+        compact={isMobile}
       />
 
       {/* PageTabs — navigation only */}
@@ -58,10 +73,12 @@ export function PageShell({
         activePage={activePage}
         onNavigate={onNavigate}
         lang={lang}
+        compact={isMobile}
       />
 
-      {/* Page body */}
+      {/* Page body — safe-area sides on narrow screens */}
       <div
+        className={isMobile ? "cc-safe-area-sides" : undefined}
         style={{
           flex: 1,
           minHeight: 0,
@@ -71,13 +88,16 @@ export function PageShell({
         {children}
       </div>
 
-      {/* Footer — canonical disclaimer; always visible */}
+      {/* Footer — canonical disclaimer; safe-area bottom for notch devices */}
       <div
+        className="cc-safe-area-bottom"
         style={{
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          padding: "5px 16px",
+          flexWrap: "wrap",
+          gap: 4,
+          padding: isMobile ? "4px 14px" : "5px 16px",
           borderTop: "1px solid var(--paper3, #e5e7eb)",
           background: "var(--paper2, #f3f4f6)",
           flexShrink: 0,

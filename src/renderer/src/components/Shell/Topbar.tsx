@@ -9,6 +9,7 @@ interface TopbarProps {
   readonly mode?: "OPERATOR" | "INSPECTOR";
   readonly sub?: string;
   readonly lang?: "ja" | "en";
+  readonly compact?: boolean;
 }
 
 const MODE_LABEL: Record<"OPERATOR" | "INSPECTOR", { ja: string; en: string }> = {
@@ -16,7 +17,7 @@ const MODE_LABEL: Record<"OPERATOR" | "INSPECTOR", { ja: string; en: string }> =
   INSPECTOR: { ja: "詳細検査", en: "INSPECTOR" },
 };
 
-export function Topbar({ mode = "OPERATOR", sub, lang = "ja" }: TopbarProps) {
+export function Topbar({ mode = "OPERATOR", sub, lang = "ja", compact = false }: TopbarProps) {
   const label = MODE_LABEL[mode];
 
   return (
@@ -26,7 +27,7 @@ export function Topbar({ mode = "OPERATOR", sub, lang = "ja" }: TopbarProps) {
         display: "flex",
         alignItems: "center",
         gap: 10,
-        height: 30,
+        height: compact ? 24 : 30,
         padding: "0 16px",
         background: "var(--bar, #1a1f2e)",
         borderBottom: "1px solid rgba(255,255,255,0.06)",

@@ -157,11 +157,11 @@ export function OnboardingFlow({ onComplete, lang = "ja" }: OnboardingFlowProps)
   return (
     <div
       style={{
-        padding: "24px 28px",
+        padding: "var(--page-pd-v, 24px) var(--page-pd-h, 28px)",
         display: "flex",
         flexDirection: "column",
         gap: 20,
-        maxWidth: 560,
+        maxWidth: "var(--page-max-w, 560px)",
         margin: "0 auto",
       }}
     >

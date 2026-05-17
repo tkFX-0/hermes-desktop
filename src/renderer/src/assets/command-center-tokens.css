@@ -3,6 +3,33 @@
    Fallbacks are already baked into each component, but this sheet
    ensures correct values are resolved (avoids relying on fallback strings). */
 
+/* ── Responsive page layout ── */
+:root {
+  /* Page body padding (used via var() in page components) */
+  --page-pd-v: 18px;
+  --page-pd-h: 22px;
+  --page-max-w: 700px;
+}
+
+@media (max-width: 599px) {
+  :root {
+    --page-pd-v: 12px;
+    --page-pd-h: 14px;
+    --page-max-w: 100%;
+  }
+}
+
+/* Safe-area inset support for iOS web view / notch devices */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .cc-safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .cc-safe-area-sides {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
 :root,
 [data-theme="light"] {
   /* Surface */

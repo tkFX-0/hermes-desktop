@@ -1,4 +1,4 @@
-/**
+﻿/**
  * QueuePage — Approval Queue display-only.
  * Approve/Hold/Reject labels are copy-label actions only.
  * No automated execution from UI.
@@ -26,7 +26,7 @@ export function QueuePage({
   lang = "ja",
 }: QueuePageProps) {
   return (
-    <div style={{ padding: "18px 22px", display: "flex", flexDirection: "column", gap: 16 }}>
+    <div style={{ padding: "var(--page-pd-v, 18px) var(--page-pd-h, 22px)", display: "flex", flexDirection: "column", gap: 16 }}>
       <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between" }}>
         <p style={{ fontFamily: '"IBM Plex Mono", ui-monospace, monospace', fontSize: 10, letterSpacing: 2, color: "var(--ink3, #9ca3af)", margin: 0 }}>
           {lang === "ja" ? "承認待ち · QUEUE" : "APPROVAL QUEUE"}

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * StopPage — STOP event history display.
  * Copy-only. Cannot clear history or resume without human review.
  * Empty history = nominal (good state).
@@ -22,7 +22,7 @@ export function StopPage({
   const isNominal = events.length === 0;
 
   return (
-    <div style={{ padding: "18px 22px", display: "flex", flexDirection: "column", gap: 16 }}>
+    <div style={{ padding: "var(--page-pd-v, 18px) var(--page-pd-h, 22px)", display: "flex", flexDirection: "column", gap: 16 }}>
       <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between" }}>
         <p style={{ fontFamily: '"IBM Plex Mono", ui-monospace, monospace', fontSize: 10, letterSpacing: 2, color: "var(--stop, #dc2626)", margin: 0 }}>
           STOP

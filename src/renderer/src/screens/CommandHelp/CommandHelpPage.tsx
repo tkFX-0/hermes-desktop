@@ -153,11 +153,11 @@ export function CommandHelpPage({ lang = "ja" }: CommandHelpPageProps) {
   return (
     <div
       style={{
-        padding: "18px 22px",
+        padding: "var(--page-pd-v, 18px) var(--page-pd-h, 22px)",
         display: "flex",
         flexDirection: "column",
         gap: 20,
-        maxWidth: 700,
+        maxWidth: "var(--page-max-w, 700px)",
       }}
     >
       {/* Page header */}
