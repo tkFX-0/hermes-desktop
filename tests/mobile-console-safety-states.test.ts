@@ -1,7 +1,9 @@
 import { describe, it, expect } from "vitest";
 import {
   buildMobileSnapshot,
+  deriveDisplayExpressionState,
   MOBILE_CONSOLE_DEFAULT_SNAPSHOT,
+  mapKomashikiToDisplayExpression,
 } from "../src/shared/mobile-console";
 import type { ApprovalQueueItem, KomashikiDisplayState } from "../src/shared/mobile-console";
 import { buildMobileUiHtml } from "../src/main/mobile-console/mobile-console-local-server";
@@ -224,6 +226,91 @@ describe("mobile ui approval queue rendering", () => {
     expect(html).not.toContain("sessionStorage");
     expect(html).not.toContain("console.log");
     expect(html).not.toContain("0.0.0.0");
+  });
+});
+
+describe("display terminal preview safety model", () => {
+  it("default display terminal is not arrived and display-only", () => {
+    const { displayTerminalPreview: preview, displayTerminalSummary: summary } =
+      MOBILE_CONSOLE_DEFAULT_SNAPSHOT;
+
+    expect(preview.terminalKind).toBe("stackchan_display");
+    expect(preview.connectionState).toBe("not_arrived");
+    expect(summary.deviceArrivalStatus).toBe("not_arrived");
+    expect(summary.physicalTestStatus).toBe("deferred");
+    expect(summary.connectionAttempted).toBe(false);
+    expect(preview.physicalOperation).toBe(false);
+    expect(preview.voiceEnabled).toBe(false);
+    expect(preview.cameraEnabled).toBe(false);
+    expect(preview.microphoneEnabled).toBe(false);
+    expect(preview.execution).toBe("disabled");
+    expect(preview.productionReady).toBe(false);
+    expect(preview.rawValuesReported).toBe(false);
+  });
+
+  it("display terminal redaction keeps unsafe attempted fields disabled", () => {
+    const unsafePreview = {
+      ...MOBILE_CONSOLE_DEFAULT_SNAPSHOT.displayTerminalPreview,
+      physicalOperation: true,
+      voiceEnabled: true,
+      cameraEnabled: true,
+      microphoneEnabled: true,
+      execution: "enabled",
+      productionReady: true,
+      rawValuesReported: true,
+    } as unknown as typeof MOBILE_CONSOLE_DEFAULT_SNAPSHOT.displayTerminalPreview;
+
+    const snap = buildMobileSnapshot({ displayTerminalPreview: unsafePreview }, "static_phase1");
+
+    expect(snap.displayTerminalPreview.physicalOperation).toBe(false);
+    expect(snap.displayTerminalPreview.voiceEnabled).toBe(false);
+    expect(snap.displayTerminalPreview.cameraEnabled).toBe(false);
+    expect(snap.displayTerminalPreview.microphoneEnabled).toBe(false);
+    expect(snap.displayTerminalPreview.execution).toBe("disabled");
+    expect(snap.displayTerminalPreview.productionReady).toBe(false);
+    expect(snap.displayTerminalPreview.rawValuesReported).toBe(false);
+  });
+
+  it("critical device approval item maps to caution display", () => {
+    expect(
+      deriveDisplayExpressionState({
+        approvalQueue: MOBILE_CONSOLE_DEFAULT_SNAPSHOT.approvalQueue,
+        komashikiState: "PASS",
+      }),
+    ).toBe("caution");
+  });
+
+  it("komashiki states map to display expressions", () => {
+    expect(mapKomashikiToDisplayExpression("PUSH_WAITING")).toBe("push_waiting");
+    expect(mapKomashikiToDisplayExpression("CAVEAT")).toBe("pass_with_caveat");
+    expect(mapKomashikiToDisplayExpression("PASS", ["caveat"])).toBe("pass_with_caveat");
+    expect(mapKomashikiToDisplayExpression("PASS")).toBe("pass");
+    expect(mapKomashikiToDisplayExpression("STOP")).toBe("stop");
+  });
+});
+
+describe("mobile ui display terminal rendering", () => {
+  it("renders display terminal preview with non-execution labels", () => {
+    const html = buildMobileUiHtml();
+
+    expect(html).toContain("Display Terminal Preview");
+    expect(html).toContain("Physical device not connected");
+    expect(html).toContain("StackChan has not arrived");
+    expect(html).toContain("No robot motion");
+    expect(html).toContain("voice/camera/mic");
+    expect(html).toContain("renderDisplayPreview");
+  });
+
+  it("does not render device connection or hardware action buttons", () => {
+    const html = buildMobileUiHtml();
+
+    expect(html).not.toContain("Connect StackChan");
+    expect(html).not.toContain("Test device");
+    expect(html).not.toContain("Move robot");
+    expect(html).not.toContain("Speak");
+    expect(html).not.toContain("Camera");
+    expect(html).not.toContain("Microphone");
+    expect(html).not.toContain("Send command");
   });
 });
 

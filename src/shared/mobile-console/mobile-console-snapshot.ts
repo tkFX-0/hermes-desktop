@@ -1,4 +1,9 @@
-import type { MobileConsoleSnapshot } from "./mobile-console-types";
+import type {
+  ApprovalQueueItem,
+  DisplayExpressionState,
+  KomashikiDisplayState,
+  MobileConsoleSnapshot,
+} from "./mobile-console-types";
 
 const AGENT_DEFAULTS = [
   { id: "supervisor",             labelJa: "しきしま",    color: "#a371f7", category: "顔・管制塔" },
@@ -102,6 +107,86 @@ const DEFAULT_APPROVAL_QUEUE_SUMMARY = {
   rawValuesReported: false,
 } as const;
 
+const DEFAULT_DISPLAY_TERMINAL_PREVIEW = {
+  terminalKind: "stackchan_display",
+  connectionState: "not_arrived",
+  expressionState: "caution",
+  displayLabel: "StackChan / Face Terminal Preview",
+  displayMessage: "Device not arrived. Display preparation only. Physical operation remains HOLD.",
+  safetyNote: "Display-only preview. No robot motion, no voice, no camera, no microphone, no device connection.",
+  physicalOperation: false,
+  voiceEnabled: false,
+  cameraEnabled: false,
+  microphoneEnabled: false,
+  execution: "disabled",
+  productionReady: false,
+  rawValuesReported: false,
+} as const;
+
+const DEFAULT_DISPLAY_TERMINAL_SUMMARY = {
+  deviceArrivalStatus: "not_arrived",
+  physicalTestStatus: "deferred",
+  connectionAttempted: false,
+  displayOnly: true,
+  physicalOperation: false,
+  voiceEnabled: false,
+  cameraEnabled: false,
+  microphoneEnabled: false,
+  execution: "disabled",
+  productionReady: false,
+  rawValuesReported: false,
+} as const;
+
+export function mapKomashikiToDisplayExpression(
+  state: KomashikiDisplayState = "HOLD",
+  caveats: readonly string[] = [],
+): DisplayExpressionState {
+  if (caveats.length > 0 && state === "PASS") return "pass_with_caveat";
+
+  switch (state) {
+    case "STOP":
+      return "stop";
+    case "REJECT":
+      return "rejected";
+    case "PASS":
+      return "pass";
+    case "CAVEAT":
+      return "pass_with_caveat";
+    case "PUSH_WAITING":
+      return "push_waiting";
+    case "RUNTIME_RUNNING":
+      return "runtime_running";
+    case "REVIEW_READY":
+      return "review_ready";
+    case "SLEEPY":
+      return "sleepy";
+    case "GO":
+      return "neutral";
+    case "HOLD":
+    default:
+      return "holding";
+  }
+}
+
+export function deriveDisplayExpressionState(input: {
+  approvalQueue?: readonly ApprovalQueueItem[];
+  komashikiState?: KomashikiDisplayState;
+  caveats?: readonly string[];
+}): DisplayExpressionState {
+  const queue = input.approvalQueue ?? [];
+  const criticalHeld = queue.some(
+    (item) => item.riskLevel === "critical" && item.decisionState === "held_by_human",
+  );
+  if (criticalHeld) return "caution";
+
+  const highHeld = queue.some(
+    (item) => item.riskLevel === "high" && item.decisionState === "held_by_human",
+  );
+  if (highHeld) return "holding";
+
+  return mapKomashikiToDisplayExpression(input.komashikiState, input.caveats);
+}
+
 /** Safe static default snapshot — aligned with Phase 45→60 state. */
 export const MOBILE_CONSOLE_DEFAULT_SNAPSHOT: MobileConsoleSnapshot = {
   decision: "HOLD",
@@ -155,6 +240,8 @@ export const MOBILE_CONSOLE_DEFAULT_SNAPSHOT: MobileConsoleSnapshot = {
   },
   approvalQueue: DEFAULT_APPROVAL_QUEUE,
   approvalQueueSummary: DEFAULT_APPROVAL_QUEUE_SUMMARY,
+  displayTerminalPreview: DEFAULT_DISPLAY_TERMINAL_PREVIEW,
+  displayTerminalSummary: DEFAULT_DISPLAY_TERMINAL_SUMMARY,
   stopHistory: [
     {
       sessionId: "L3-A-Session-003",

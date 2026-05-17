@@ -85,6 +85,66 @@ export interface ApprovalQueueSummary {
   readonly rawValuesReported: false;
 }
 
+export type DisplayTerminalKind =
+  | "iphone_console"
+  | "desktop_console"
+  | "stackchan_display"
+  | "face_terminal"
+  | "unknown";
+
+export type DisplayTerminalConnectionState =
+  | "not_connected"
+  | "not_arrived"
+  | "mock_only"
+  | "display_preview_only"
+  | "connected_display_only"
+  | "held";
+
+export type DisplayExpressionState =
+  | "neutral"
+  | "listening"
+  | "thinking"
+  | "holding"
+  | "caution"
+  | "rejected"
+  | "review_ready"
+  | "pass"
+  | "pass_with_caveat"
+  | "push_waiting"
+  | "runtime_running"
+  | "stop"
+  | "sleepy";
+
+export interface DisplayTerminalPreviewState {
+  readonly terminalKind: DisplayTerminalKind;
+  readonly connectionState: DisplayTerminalConnectionState;
+  readonly expressionState: DisplayExpressionState;
+  readonly displayLabel: string;
+  readonly displayMessage: string;
+  readonly safetyNote: string;
+  readonly physicalOperation: false;
+  readonly voiceEnabled: false;
+  readonly cameraEnabled: false;
+  readonly microphoneEnabled: false;
+  readonly execution: "disabled";
+  readonly productionReady: false;
+  readonly rawValuesReported: false;
+}
+
+export interface DisplayTerminalSummary {
+  readonly deviceArrivalStatus: "not_arrived";
+  readonly physicalTestStatus: "deferred";
+  readonly connectionAttempted: false;
+  readonly displayOnly: true;
+  readonly physicalOperation: false;
+  readonly voiceEnabled: false;
+  readonly cameraEnabled: false;
+  readonly microphoneEnabled: false;
+  readonly execution: "disabled";
+  readonly productionReady: false;
+  readonly rawValuesReported: false;
+}
+
 export interface MobileSessionRecord {
   readonly id: string;
   readonly result: "CLEAN_B3_PASS" | "PASS_WITH_TIMING_CAVEAT" | "STOP" | "pending";
@@ -171,6 +231,8 @@ export interface MobileConsoleSnapshot {
   readonly auditSummary: MobileAuditSummary;
   readonly approvalQueue: readonly ApprovalQueueItem[];
   readonly approvalQueueSummary: ApprovalQueueSummary;
+  readonly displayTerminalPreview: DisplayTerminalPreviewState;
+  readonly displayTerminalSummary: DisplayTerminalSummary;
   readonly stopHistory: readonly MobileStopRecord[];
   readonly generatedAt: string;
   readonly dataSource: MobileDataSource;

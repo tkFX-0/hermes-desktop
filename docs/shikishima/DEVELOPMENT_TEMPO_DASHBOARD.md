@@ -20,7 +20,7 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.49.0
+- roadmapVersion: v3.50.0
 - latestUpdate: 2026-05-17 - Phase 30→45% implemented: こましき display + iPhone UX + 31 tests PASS
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
@@ -39,6 +39,16 @@ creating productivity pressure or autonomous acceleration.
 - current next human action: review Phase 45 to 60 Approval Queue UI evidence and decide push GO
 - Approval Queue status: display-only, no execution, no push, no runtime start
 - HOLD reason: productionReady false; execution disabled; Level 3-B/C/D/E not approved; device and external actions HOLD
+
+## Phase 60 to 75 Update
+
+- latestUpdate: 2026-05-17 - StackChan / Face Terminal display preparation COMPLETE_PASS candidate
+- current HEAD baseline: origin/main=305e8db before local Phase 60 to 75 commits
+- StackChan arrival status: not_arrived
+- physical test status: deferred
+- Display Terminal Preview: display-only model + iPhone UI + desktop Face tab
+- current next human action: review Phase 60 to 75 evidence and decide push GO
+- HOLD reason: StackChan physical operation false; connection not attempted; voice/camera/mic disabled
 
 - No autonomous acceleration.
 - No reward or earning mechanics.

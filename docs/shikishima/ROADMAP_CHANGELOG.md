@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.49.0
+- roadmapVersion: v3.50.0
 - lastUpdated: 2026-05-17
-- latestUpdate: Phase 45 to 60 Approval Queue UI foundation COMPLETE_PASS candidate
-- baselineCommit: a0ffa2a
+- latestUpdate: Phase 60 to 75 StackChan / Face Terminal display preparation COMPLETE_PASS candidate
+- baselineCommit: 305e8db
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,21 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.50.0 - Phase 60 to 75 StackChan / Face Terminal Display Preparation
+
+- roadmapVersion: v3.50.0
+- lastUpdated: 2026-05-17
+- DisplayTerminalPreviewState / DisplayTerminalSummary redacted snapshot model added
+- Default display preview state: StackChan not arrived, display preview only, physical operation false
+- Expression mapping added for Komashiki and Approval Queue state
+- iPhone `/mobile/ui` now displays Display Terminal Preview after authenticated redacted snapshot fetch
+- Desktop Mobile Console now includes a Face tab for StackChan / Face Terminal Preview
+- Tests added for display terminal safety, non-connection policy, and expression mapping
+- evidence: PHASE_60_TO_75_STACKCHAN_DISPLAY_PREPARATION_EVIDENCE.md
+- result_candidate: COMPLETE_PASS
+- physical_test_status: deferred
+- next: human review + push GO for Phase 60 to 75 commits
 
 ## v3.49.0 - Phase 45 to 60 Approval Queue UI Foundation
 

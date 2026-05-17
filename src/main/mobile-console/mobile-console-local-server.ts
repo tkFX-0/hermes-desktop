@@ -97,6 +97,11 @@ button:disabled{background:#21262d;color:#8b949e;cursor:not-allowed}
 .approval-label{color:#8b949e;font-size:10px;margin-right:4px}
 .approval-actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-top:8px}
 .approval-actions button{margin-top:0;background:#21262d;color:#8b949e;border:1px solid #30363d;font-size:10px;padding:6px;cursor:not-allowed}
+.display-preview{background:rgba(163,113,247,.07);border:1px solid rgba(163,113,247,.35);border-radius:8px;padding:10px 12px;margin-bottom:10px}
+.display-face{font-family:ui-monospace,monospace;font-size:22px;line-height:1;text-align:center;color:#a371f7;background:#0d1117;border:1px solid #30363d;border-radius:7px;padding:12px;margin:8px 0}
+.display-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+.display-cell{background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:7px}
+.display-cell .fl{display:block;margin-bottom:3px}
 </style>
 </head>
 <body>
@@ -145,6 +150,22 @@ button:disabled{background:#21262d;color:#8b949e;cursor:not-allowed}
 <div id="sess-val" style="font-size:11px"></div>
 </div>
 
+<div id="display-section" class="display-preview hidden">
+<div class="card-title">Display Terminal Preview</div>
+<div class="dim">Display-only / Physical device not connected / StackChan has not arrived / No robot motion / No voice / camera / mic</div>
+<div class="display-face" id="display-face">(-_-)</div>
+<div class="approval-text" id="display-message">-</div>
+<div class="approval-text"><span class="approval-label">safety:</span><span id="display-safety">-</span></div>
+<div class="display-grid">
+<div class="display-cell"><span class="fl">terminal</span><span class="fv" id="display-kind">-</span></div>
+<div class="display-cell"><span class="fl">connection</span><span class="fv" id="display-connection">-</span></div>
+<div class="display-cell"><span class="fl">expression</span><span class="fv" id="display-expression">-</span></div>
+<div class="display-cell"><span class="fl">physical</span><span class="fv safe" id="display-physical">false</span></div>
+<div class="display-cell"><span class="fl">voice/camera/mic</span><span class="fv safe" id="display-av">disabled</span></div>
+<div class="display-cell"><span class="fl">execution</span><span class="fv dis" id="display-exec">disabled</span></div>
+</div>
+</div>
+
 <div id="approval-section" class="card hidden">
 <div class="card-title">Approval Queue</div>
 <div class="dim" style="margin-bottom:8px">Display-only / No execution / Human decision required</div>
@@ -173,6 +194,21 @@ function show(id){var e=document.getElementById(id);if(e)e.classList.remove('hid
 function hide(id){var e=document.getElementById(id);if(e)e.classList.add('hidden');}
 function esc(v){return String(v??'').replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 function riskClass(r){return r==='critical'?'risk-critical':r==='high'?'risk-high':r==='medium'?'risk-medium':'risk-low';}
+function faceGlyph(state){return state==='stop'?'(X_X)':state==='pass'?'(^_^)':state==='pass_with_caveat'?'(^_^;)':state==='push_waiting'?'(o_o)':state==='caution'?'(! !)':state==='sleepy'?'(-.-)':'(-_-)';}
+function renderDisplayPreview(preview){
+  if(!preview)return;
+  st('display-face',faceGlyph(preview.expressionState));
+  st('display-message',preview.displayMessage||'-');
+  st('display-safety',preview.safetyNote||'-');
+  st('display-kind',preview.terminalKind||'-');
+  st('display-connection',preview.connectionState||'-');
+  st('display-expression',preview.expressionState||'-');
+  st('display-physical',String(preview.physicalOperation===true));
+  var av=(preview.voiceEnabled||preview.cameraEnabled||preview.microphoneEnabled)?'enabled':'disabled';
+  st('display-av',av);
+  st('display-exec',preview.execution||'disabled');
+  show('display-section');
+}
 function renderApprovalQueue(items){
   var list=document.getElementById('approval-list');
   if(!list)return;
@@ -200,7 +236,7 @@ async function go(){
   var btn=document.getElementById('btn');
   var t=document.getElementById('tok').value;
   if(!t){err('Token is required');return;}
-  btn.disabled=true;hide('ep');hide('sp');hide('koma-section');hide('caveat-section');hide('next-section');hide('prog-section');hide('approval-section');
+  btn.disabled=true;hide('ep');hide('sp');hide('koma-section');hide('caveat-section');hide('next-section');hide('prog-section');hide('display-section');hide('approval-section');
   try{
     var r=await fetch('/mobile/snapshot',{headers:{'Authorization':'Bearer '+t}});
     t=null;
@@ -232,6 +268,7 @@ async function go(){
       if(d.currentSession)st('sess-val','現在: '+d.currentSession);
       show('prog-section');
     }
+    renderDisplayPreview(d.displayTerminalPreview);
     renderApprovalQueue(d.approvalQueue);
   }catch(e){t=null;err('Connection failed');}
   finally{btn.disabled=false;}

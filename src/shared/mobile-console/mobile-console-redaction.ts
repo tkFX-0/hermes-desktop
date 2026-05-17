@@ -1,9 +1,13 @@
 import type {
   ApprovalQueueItem,
+  DisplayTerminalPreviewState,
   MobileConsoleSnapshot,
   MobileDataSource,
 } from "./mobile-console-types";
-import { MOBILE_CONSOLE_DEFAULT_SNAPSHOT } from "./mobile-console-snapshot";
+import {
+  deriveDisplayExpressionState,
+  MOBILE_CONSOLE_DEFAULT_SNAPSHOT,
+} from "./mobile-console-snapshot";
 
 const FORBIDDEN_FIELD_PATTERNS = [
   /apikey/i, /api_key/i, /token/i, /secret/i, /password/i,
@@ -62,6 +66,24 @@ function scrubApprovalQueueItem(item: ApprovalQueueItem): ApprovalQueueItem {
   };
 }
 
+function scrubDisplayTerminalPreview(
+  preview: DisplayTerminalPreviewState,
+): DisplayTerminalPreviewState {
+  return {
+    ...preview,
+    displayLabel: scrub(preview.displayLabel) as string,
+    displayMessage: scrub(preview.displayMessage) as string,
+    safetyNote: scrub(preview.safetyNote) as string,
+    physicalOperation: false,
+    voiceEnabled: false,
+    cameraEnabled: false,
+    microphoneEnabled: false,
+    execution: "disabled",
+    productionReady: false,
+    rawValuesReported: false,
+  };
+}
+
 /**
  * Build a safe MobileConsoleSnapshot from partial/unknown runtime data.
  *
@@ -84,6 +106,20 @@ export function buildMobileSnapshot(
   }
 
   const base = MOBILE_CONSOLE_DEFAULT_SNAPSHOT;
+  const approvalQueue = partial.approvalQueue?.map(scrubApprovalQueueItem) ?? base.approvalQueue;
+  const komashikiState = partial.komashikiState ?? base.komashikiState;
+  const caveats = partial.caveats ?? base.caveats;
+  const displayTerminalPreview =
+    partial.displayTerminalPreview !== undefined
+      ? scrubDisplayTerminalPreview(partial.displayTerminalPreview)
+      : {
+          ...base.displayTerminalPreview,
+          expressionState: deriveDisplayExpressionState({
+            approvalQueue,
+            komashikiState,
+            caveats,
+          }),
+        };
 
   return {
     // safety invariants — never overridden
@@ -103,16 +139,18 @@ export function buildMobileSnapshot(
     pushReadiness: partial.pushReadiness ?? base.pushReadiness,
     agentTeam: partial.agentTeam ?? base.agentTeam,
     auditSummary: partial.auditSummary ?? base.auditSummary,
-    approvalQueue: partial.approvalQueue?.map(scrubApprovalQueueItem) ?? base.approvalQueue,
+    approvalQueue,
     approvalQueueSummary: partial.approvalQueueSummary ?? base.approvalQueueSummary,
+    displayTerminalPreview,
+    displayTerminalSummary: partial.displayTerminalSummary ?? base.displayTerminalSummary,
     stopHistory: partial.stopHistory ?? base.stopHistory,
 
     generatedAt: partial.generatedAt ?? new Date().toISOString(),
     dataSource,
 
     // Display-only companion and action fields — no raw values allowed.
-    komashikiState: partial.komashikiState ?? base.komashikiState,
-    caveats: partial.caveats ?? base.caveats,
+    komashikiState,
+    caveats,
     nextHumanAction:
       typeof partial.nextHumanAction === "string"
         ? (scrub(partial.nextHumanAction) as string)
