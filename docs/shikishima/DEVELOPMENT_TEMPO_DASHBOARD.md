@@ -20,14 +20,14 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.63.0
-- latestUpdate: 2026-05-17 - Gate 005 productionReady precheck reviewed; false confirmed with 6 active blockers (70% candidate)
+- roadmapVersion: v3.64.0
+- latestUpdate: 2026-05-17 - Gate 006 GO wording reviewed; annotated sample GO ready; runtime NOT started (75% candidate)
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
-- current HEAD: origin/main=c1b80a1; commits_ahead=1 (Gate 005 precheck review, push GO pending)
-- validation road: 100% safety-readiness ✓; Gate 001-003 ✓; LimManOp: STARTED; G004 audit+classification PUSHED; G005 precheck: reviewed
-- current next human action: review Gate 005 precheck review evidence; decide push GO; then Task 15 Gate 006 GO wording review
-- HOLD reason: productionReady false (6 blockers); execution disabled; no actual op sessions; Gate 006/007 pending
+- current HEAD: origin/main=f246934; commits_ahead=1 (Gate 006 GO review, push GO pending)
+- validation road: Gate 001-003 ✓; LimManOp: STARTED; G004 audit+classification PUSHED; G005 precheck PUSHED; G006 GO wording: REVIEWED
+- current next human action: review Gate 006 GO wording review; decide push GO; then Task 17 controlled runtime observation (concrete time_window required)
+- HOLD reason: productionReady false; execution disabled; no actual op sessions; runtime observation not yet run; Gate 007 pending
 
 ## Boundaries
 

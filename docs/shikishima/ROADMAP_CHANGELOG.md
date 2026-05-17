@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.63.0
+- roadmapVersion: v3.64.0
 - lastUpdated: 2026-05-17
-- latestUpdate: Gate 005 productionReady precheck reviewed — false confirmed with explicit reasoning; 6 active blockers documented
-- baselineCommit: c1b80a1
+- latestUpdate: Gate 006 GO wording reviewed — 7/9 elements confirmed; 4 minor gaps identified; annotated sample GO created
+- baselineCommit: f246934
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,20 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.64.0 - Gate 006 Runtime Observation GO Wording Reviewed
+
+- roadmapVersion: v3.64.0
+- lastUpdated: 2026-05-17
+- POST_100_GATE_006_RUNTIME_OBSERVATION_GO_REVIEW_EVIDENCE.md created
+  - 9 required GO elements reviewed against existing template
+  - present: Elements 1-6, 8 (7/9 fully; Elements 7 and 9 partial)
+  - 4 minor gaps identified (runtime command, shutdown failure, port close confirm, STOP conditions in GO)
+  - annotated sample GO created covering all 9 elements with gap hardening
+  - verdict: GO_WORDING_REVIEWED; first session can proceed with annotated sample form
+  - runtime_started: false (docs-only review)
+- docs-only; no code; no push
+- status: GO_WORDING_REVIEWED; 75% candidate
 
 ## v3.63.0 - Gate 005 productionReady Precheck Reviewed
 
