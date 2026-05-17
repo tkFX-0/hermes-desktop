@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.55.0
+- roadmapVersion: v3.56.0
 - lastUpdated: 2026-05-17
-- latestUpdate: Post-100 Gate 002 plan + evidence template created — Initial Limited Manual Operation Test
-- baselineCommit: de33408
+- latestUpdate: Post-100 Gate 002 PASS — Initial Limited Manual Operation Test evidence recorded
+- baselineCommit: dbe50aa
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,21 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.56.0 - Post-100 Gate 002 PASS: Initial Limited Manual Operation Test
+
+- roadmapVersion: v3.56.0
+- lastUpdated: 2026-05-17
+- POST_100_GATE_002_INITIAL_LIMITED_MANUAL_OPERATION_EVIDENCE.md created
+  - test_id: post100-gate002-sample-001
+  - category: general_text_draft / external_service: none
+  - 8-item checklist: all PASS
+  - state_flow: draft_created → review_requested → approved_for_manual_copy
+  - approved_for_manual_copy semantics confirmed
+  - all safety invariants: false/disabled/true ✓
+- result: PASS
+- workflow validation: Draft Outbox → approved_for_manual_copy confirmed functional
+- next: human acceptance + push GO → Gate 003 repeatability test (optional)
 
 ## v3.55.0 - Post-100 Gate 002: Initial Limited Manual Operation Test Plan
 

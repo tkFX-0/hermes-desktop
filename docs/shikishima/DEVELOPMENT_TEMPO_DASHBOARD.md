@@ -20,12 +20,12 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.55.0
-- latestUpdate: 2026-05-17 - Gate 002 plan + evidence template created; non-sensitive draft test defined
+- roadmapVersion: v3.56.0
+- latestUpdate: 2026-05-17 - Gate 002 PASS: approved_for_manual_copy workflow confirmed; 8-item checklist all PASS
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
-- current HEAD: origin/main=de33408; commits_ahead=1 (Gate 002 plan docs, push GO pending)
-- validation road: 100% safety-readiness ✓; Gate 001 ACCEPTED_AND_PUSHED ✓; Gate 002 plan ready — awaiting human test execution
+- current HEAD: origin/main=dbe50aa; commits_ahead=1 (Gate 002 evidence, push GO pending)
+- validation road: 100% safety-readiness ✓; Gate 001 ACCEPTED ✓; Gate 002 PASS (evidence local) ✓; Gate 003 optional
 - current next human action: push GO for acceptance evidence → plan Gate 002 Initial Limited Manual Operation Test
 - HOLD reason: productionReady false; execution disabled; all external/device/voice/deploy = HOLD
 
