@@ -20,14 +20,14 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.80.0
-- latestUpdate: 2026-05-17 - UI-11 runtime observation readiness package prepared; UI-03–UI-10 all PASS
+- roadmapVersion: v3.84.0
+- latestUpdate: 2026-05-17 - Task 21-24 all docs complete; UI-11 readiness + Gate registry + LMO + productionReady audit
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
-- current HEAD: origin/main=35befd7; commits_ahead=0 (clean baseline)
-- validation road: Gate 001-007 ✓; UI-01-10 PASS (36 files, 4864 lines, 806 tests); UI-11 readiness prepared
-- current next human action: issue runtime observation GO with explicit time_window
-- HOLD reason: productionReady false; execution disabled; runtime observation not yet executed
+- current HEAD: origin/main=8d1a696; local commits_ahead≥4 (Task 21-24 commits, push pending)
+- validation road: Gate 001-007 ✓; UI-01-10 PASS; UI-11 docs ✓; Task 21-24 docs ✓; runtime GO pending
+- current next human action: push GO for Task 21-24 commits; then issue runtime observation GO with time_window
+- HOLD reason: productionReady false; execution disabled; runtime observation not yet executed; Task 14 needs time_window GO
 
 ## Boundaries
 

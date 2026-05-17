@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.80.0
+- roadmapVersion: v3.84.0
 - lastUpdated: 2026-05-17
-- latestUpdate: UI-11 controlled runtime observation readiness package prepared
+- latestUpdate: Task 24 future gate registry and HOLD boundary recorded
 - baselineCommit: 35befd7
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,36 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.84.0 - Task 24 Future Gate Registry and HOLD Boundary
+
+- roadmapVersion: v3.84.0
+- lastUpdated: 2026-05-17
+- 6 docs created (FUTURE_GATE_REGISTRY / DEVICE_AND_SENSOR / EXTERNAL_ACTION / STACKCHAN_HOLD / VOICE_CAMERA_MIC_HOLD / EXTERNAL_WRITE_HOLD)
+- 16 future gates registered; all HOLD
+- productionReady: false / execution: disabled — not changing
+
+## v3.83.0 - Task 23 productionReady Precondition Audit
+
+- roadmapVersion: v3.83.0
+- lastUpdated: 2026-05-17
+- 5 docs: audit (11 categories) + not-approved notice + GO draft + risk register (8) + rollback plan
+- 3 active blockers: RUNTIME-01 / TEST-01 / Gate-005
+- productionReady: false — not approved
+
+## v3.82.0 - Task 22 Final 95→100 Limited Manual Operation Package
+
+- roadmapVersion: v3.82.0
+- lastUpdated: 2026-05-17
+- 5 docs: LMO package + rules + daily checklist + STOP playbook + human approval matrix
+- autonomous execution not approved; external write not approved
+
+## v3.81.0 - Task 21 Final 90→95 Readiness Package
+
+- roadmapVersion: v3.81.0
+- lastUpdated: 2026-05-17
+- 4 docs: readiness package + acceptance criteria (15 ACs) + remaining risks (7) + not-production-ready notice
+- runtime observation still pending; Gate 005 HOLD acceptable for 90→95
 
 ## v3.80.0 - UI-11 Controlled Runtime Observation Readiness Package
 
