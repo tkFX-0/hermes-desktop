@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.66.0
+- roadmapVersion: v3.67.0
 - lastUpdated: 2026-05-17
-- latestUpdate: UI-01 Final Command Center design package ingested — 15 design files + 6 planning docs
-- baselineCommit: 7c1d47b
+- latestUpdate: Gate 007 Command Center wording hardening — button/state/safety policies fixed before UI-02
+- baselineCommit: 474c928
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,23 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.67.0 - Gate 007 Command Center Wording Hardening
+
+- roadmapVersion: v3.67.0
+- lastUpdated: 2026-05-17
+- 5 docs created in docs/shikishima/:
+  - GATE_007_WORDING_HARDENING_PLAN.md (scope / non-scope / STOP conditions)
+  - COMMAND_CENTER_UI_BUTTON_WORDING_POLICY.md
+      (16-area wording table: unsafe → safe / approved label list / locked control spec)
+  - COMMAND_CENTER_UI_STATE_LABEL_POLICY.md
+      (14 canonical states / fallback rules / display rules)
+  - COMMAND_CENTER_DESIGN_TO_IMPLEMENTATION_SAFETY_CHECKLIST.md
+      (15 sections A-O / sign-off format for each UI phase)
+  - GATE_007_CLAUDECODE_UI02_GO_DRAFT.md
+      (UI-02 GO template / explicit NOT-approval notice)
+- docs-only; no src changes; no push
+- status: Gate 007 wording hardening complete; UI-02 blocked until push + human GO
 
 ## v3.66.0 - UI-01 Final Command Center Design Package Ingested
 

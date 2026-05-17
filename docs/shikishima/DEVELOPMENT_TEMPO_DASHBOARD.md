@@ -20,14 +20,14 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.66.0
-- latestUpdate: 2026-05-17 - UI-01 design package ingested (12 pages / 6 planning docs); UI-02 type scaffold is next
+- roadmapVersion: v3.67.0
+- latestUpdate: 2026-05-17 - Gate 007 wording hardening complete; button/state/safety policy fixed; UI-02 GO draft ready
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
-- current HEAD: origin/main=7c1d47b; commits_ahead=1 (UI-01 design intake, push GO pending)
-- validation road: Gate 001-006 ✓; LimManOp: STARTED_AND_AUDIT_READY; UI-01: COMPLETE; UI-02〜10: pending
-- current next human action: review UI-01 intake docs; decide push GO; then choose Task 19 (Gate 007) or UI-02 (type scaffold)
-- HOLD reason: productionReady false; execution disabled; Gate 007 pending; UI src not yet implemented
+- current HEAD: origin/main=474c928; commits_ahead=1 (Gate 007 wording hardening, push GO pending)
+- validation road: Gate 001-007 ✓; LimManOp: STARTED_AND_AUDIT_READY; UI-01: COMPLETE; Gate 007 wording: COMPLETE
+- current next human action: review Gate 007 docs; push GO; then review UI-02 GO draft → issue UI-02 GO when ready
+- HOLD reason: productionReady false; execution disabled; UI src not yet implemented; UI-02 requires separate GO
 
 ## Boundaries
 
