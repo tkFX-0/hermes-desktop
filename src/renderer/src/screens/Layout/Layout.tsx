@@ -12,7 +12,6 @@ import Office from "../Office/Office";
 import Models from "../Models/Models";
 import Schedules from "../Schedules/Schedules";
 import Research from "../Research/Research";
-import ControlCenterAppShell from "../ControlCenterAppShell/ControlCenterAppShell";
 import MobileConsoleApp from "../MobileConsole/MobileConsoleApp";
 import RemoteNotice from "../../components/RemoteNotice";
 import hermeslogo from "../../assets/hermes.png";
@@ -34,6 +33,30 @@ import {
 import { BarChart2, LayoutDashboard, Smartphone } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useI18n } from "../../components/useI18n";
+import { PageShell } from "../../components/Shell/PageShell";
+import { OperatorPage } from "../Operator/OperatorPage";
+import { CommandChatPage } from "../CommandChat/CommandChatPage";
+import { StackChanPage } from "../StackChan/StackChanPage";
+import { OutboxPage } from "../Outbox/OutboxPage";
+import { QueuePage } from "../Queue/QueuePage";
+import { GoPage } from "../GoPage/GoPage";
+import { EvidencePage } from "../Evidence/EvidencePage";
+import { StopPage } from "../Stop/StopPage";
+import { PushPage } from "../Push/PushPage";
+import { CommandSettingsPage } from "../CommandSettings/CommandSettingsPage";
+import { CommandHelpPage } from "../CommandHelp/CommandHelpPage";
+import type { PageId } from "../../../../shared/ichikishima/ui-page-types";
+import {
+  toSafetyStripData,
+  toOperatorPageData,
+  toChatPageData,
+} from "../../utils/snapshot-to-page";
+import type {
+  LocalChatMessage,
+  StackChanStatusData,
+  PushReadinessData,
+  LocalSettingsData,
+} from "../../types/service-contracts";
 
 type View =
   | "chat"
@@ -82,6 +105,36 @@ const NAV_ITEMS: { view: View; icon: LucideIcon; labelKey: string }[] = [
   },
 ];
 
+const CC_HOLD_STACKCHAN: StackChanStatusData = {
+  connection: "unknown",
+  physicalOperation: false,
+  voiceActive: false,
+  cameraActive: false,
+  micActive: false,
+  stale: true,
+} as const;
+
+const CC_HOLD_PUSH: PushReadinessData = {
+  branch: "—",
+  commitsAhead: 0,
+  staged: 0,
+  trackedDirty: 0,
+  pushGoReceived: false,
+  stale: true,
+} as const;
+
+const CC_DEFAULT_SETTINGS: LocalSettingsData = {
+  language: "ja",
+  theme: "light",
+  safetyStripDensity: "normal",
+  defaultPage: "operator",
+  snapshotRefreshIntervalSeconds: 60,
+  staleThresholdSeconds: 60,
+  onStale: "switch-to-hold",
+  toastEnabled: true,
+  toastLingerSeconds: 5,
+} as const;
+
 function Layout(): React.JSX.Element {
   const { t } = useI18n();
   const [view, setView] = useState<View>("chat");
@@ -92,6 +145,10 @@ function Layout(): React.JSX.Element {
   const [officeVisited, setOfficeVisited] = useState(false);
   // Remote mode — many screens show "not available" instead of empty data
   const [remoteMode, setRemoteMode] = useState(false);
+  // Command Center state
+  const [ccPage, setCcPage] = useState<PageId>("operator");
+  const [ccMessages, setCcMessages] = useState<LocalChatMessage[]>([]);
+  const [ccSettings, setCcSettings] = useState<LocalSettingsData>(CC_DEFAULT_SETTINGS);
 
   // Re-check remote mode on tab switch (picks up Settings changes)
   useEffect(() => {
@@ -131,6 +188,81 @@ function Layout(): React.JSX.Element {
       await window.hermesAPI.downloadUpdate();
     } else if (updateState === "ready") {
       await window.hermesAPI.installUpdate();
+    }
+  }
+
+  function handleCcSettingUpdate<K extends keyof LocalSettingsData>(
+    key: K,
+    value: LocalSettingsData[K],
+  ): void {
+    setCcSettings((prev) => ({ ...prev, [key]: value }));
+  }
+
+  function renderCcPage(): React.ReactNode {
+    switch (ccPage) {
+      case "operator":
+      case "inspector":
+        return <OperatorPage data={toOperatorPageData(null)} lang="ja" />;
+      case "chat":
+        return (
+          <CommandChatPage
+            messages={ccMessages}
+            safety={toChatPageData(null)}
+            onSend={(content) =>
+              setCcMessages((prev) => [
+                ...prev,
+                {
+                  id: `local-${Date.now()}`,
+                  role: "user" as const,
+                  content,
+                  timestampUnixMs: Date.now(),
+                },
+              ])
+            }
+            lang="ja"
+          />
+        );
+      case "stackchan":
+        return (
+          <StackChanPage
+            status={CC_HOLD_STACKCHAN}
+            onCopyStatus={() =>
+              void navigator.clipboard.writeText("StackChan: unknown / stale")
+            }
+            lang="ja"
+          />
+        );
+      case "outbox":
+        return <OutboxPage items={[]} onCopy={() => {}} stale lang="ja" />;
+      case "queue":
+        return <QueuePage items={[]} onCopySummary={() => {}} stale lang="ja" />;
+      case "go":
+        return <GoPage templates={[]} onCopyTemplate={() => {}} stale lang="ja" />;
+      case "evidence":
+        return <EvidencePage records={[]} onCopy={() => {}} stale lang="ja" />;
+      case "stop":
+        return <StopPage events={[]} onCopy={() => {}} stale lang="ja" />;
+      case "push":
+        return (
+          <PushPage
+            data={CC_HOLD_PUSH}
+            onCopySummary={() =>
+              void navigator.clipboard.writeText("push: stale")
+            }
+            lang="ja"
+          />
+        );
+      case "settings":
+        return (
+          <CommandSettingsPage
+            settings={ccSettings}
+            onUpdateSetting={handleCcSettingUpdate}
+            lang="ja"
+          />
+        );
+      case "help":
+      default:
+        return <CommandHelpPage lang="ja" />;
     }
   }
 
@@ -340,9 +472,17 @@ function Layout(): React.JSX.Element {
               flex: 1,
               flexDirection: "column",
               overflow: "hidden",
+              minHeight: 0,
             }}
           >
-            <ControlCenterAppShell />
+            <PageShell
+              activePage={ccPage}
+              onNavigate={setCcPage}
+              safety={toSafetyStripData(null)}
+              lang="ja"
+            >
+              {renderCcPage()}
+            </PageShell>
           </div>
         )}
         {view === "mobileConsole" && (
