@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.65.0
+- roadmapVersion: v3.66.0
 - lastUpdated: 2026-05-17
-- latestUpdate: Gate 006 controlled runtime observation PASS — iPhone confirmed; shutdown + port close verified
-- baselineCommit: e0c86fd
+- latestUpdate: UI-01 Final Command Center design package ingested — 15 design files + 6 planning docs
+- baselineCommit: 7c1d47b
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,22 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.66.0 - UI-01 Final Command Center Design Package Ingested
+
+- roadmapVersion: v3.66.0
+- lastUpdated: 2026-05-17
+- docs/shikishima/design/final-command-center/ created
+  - source/: 15 design JSX files + index.html + .design-canvas.state.json
+  - DESIGN_PACKAGE_INTAKE_REPORT.md: 12 pages / 5 states / full coverage confirmed
+  - DESIGN_TO_IMPLEMENTATION_MAPPING.md: file → src target mapping
+  - FRONTEND_BACKEND_UI_CONTRACT.md: per-page service deps + button policy
+  - UI_SAFETY_AND_BUTTON_POLICY_REVIEW.md: all safety checks PASS
+  - UI_IMPLEMENTATION_PHASE_PLAN.md: UI-01 through UI-10 phases
+  - CLAUDECODE_IMPLEMENTATION_HANDOFF.md: UI-02 first; rollback plan
+- source implementation: NOT started
+- productionReady: false / execution: disabled
+- docs-only; no src changes; no push
 
 ## v3.65.0 - Gate 006 Controlled Runtime Observation PASS
 

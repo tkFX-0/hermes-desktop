@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<title>しきしま · Operator View Design</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap">
+<style>
+  /* ────────── Theme tokens ──────────
+     All component colors reference these CSS vars (see shikishima.jsx `sk`).
+     Toggle theme by flipping html[data-theme]. */
+  :root,
+  [data-theme="light"] {
+    --paper:       #f4f1ea;
+    --paper2:      #ebe7dd;
+    --paper3:      #dfdaca;
+    --ink:         #1a1814;
+    --ink2:        #4a463d;
+    --ink3:        #7d7869;
+    --rule:        #2a261f;
+    --bar:         #1a1814;
+    --bar-text:    #f4f1ea;
+    --bar-text-2:  #bdb6a3;
+    --hold:        #b6791a;
+    --hold-soft:   #f3e0b4;
+    --go:          #1f5fb8;
+    --go-soft:     #cfdcf2;
+    --pass:        #2f7a3d;
+    --pass-soft:   #cfe2d1;
+    --stop:        #b13128;
+    --stop-soft:   #efc9c4;
+    --reject:      #5a1717;
+    --reject-soft: #d9b5b1;
+    /* page (canvas) bg */
+    --page-bg:     #f0eee9;
+  }
+  [data-theme="dark"] {
+    --paper:       #14130f;
+    --paper2:      #1d1b16;
+    --paper3:      #2e2b24;
+    --ink:         #ece7d8;
+    --ink2:        #b4ae9c;
+    --ink3:        #7a7466;
+    --rule:        #c9c3b1;
+    --bar:         #0b0a08;
+    --bar-text:    #ece7d8;
+    --bar-text-2:  #8a8472;
+    --hold:        #e3ad55;
+    --hold-soft:   #3a2c0f;
+    --go:          #6fa3e6;
+    --go-soft:     #16243a;
+    --pass:        #7cbe88;
+    --pass-soft:   #142a1b;
+    --stop:        #e3625a;
+    --stop-soft:   #34110f;
+    --reject:      #c98b85;
+    --reject-soft: #25090a;
+    --page-bg:     #0a0908;
+  }
+
+  html, body {
+    margin: 0; padding: 0; height: 100%;
+    background: var(--page-bg);
+    transition: background 200ms ease;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  button { font-family: inherit; }
+
+  /* ────────── Top toolbar ──────────
+     Floating control over the design-canvas. Lang + Theme. */
+  .sk-toolbar {
+    position: fixed; top: 12px; right: 12px; z-index: 9999;
+    display: flex; gap: 8px;
+    padding: 8px;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    box-shadow: 0 6px 24px rgba(0,0,0,.18);
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    color: var(--ink);
+    user-select: none;
+  }
+  .sk-toolbar .sk-group {
+    display: inline-flex; align-items: stretch;
+    border: 1px solid var(--rule); border-radius: 2px;
+    overflow: hidden;
+  }
+  .sk-toolbar .sk-tag {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 1.2px;
+    color: var(--ink3);
+    padding: 6px 8px;
+    display: inline-flex; align-items: center;
+    border-right: 1px solid var(--paper3);
+    background: var(--paper2);
+  }
+  .sk-toolbar button {
+    border: 0; background: transparent;
+    padding: 6px 12px;
+    font: 600 12px/1 "IBM Plex Sans", system-ui, sans-serif;
+    color: var(--ink2);
+    cursor: pointer;
+    transition: background 120ms, color 120ms;
+  }
+  .sk-toolbar button + button { border-left: 1px solid var(--paper3); }
+  .sk-toolbar button[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .sk-toolbar button:hover:not([aria-pressed="true"]) {
+    background: var(--paper2);
+    color: var(--ink);
+  }
+</style>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="ios-frame.jsx"></script>
+<script type="text/babel" src="shikishima.jsx"></script>
+<script type="text/babel" src="pages-shell.jsx"></script>
+<script type="text/babel" src="mobile.jsx"></script>
+<script type="text/babel" src="desktop.jsx"></script>
+<script type="text/babel" src="stackchan.jsx"></script>
+<script type="text/babel" src="stackchan-mobile.jsx"></script>
+<script type="text/babel" src="pages-chat.jsx"></script>
+<script type="text/babel" src="pages-suite.jsx"></script>
+<script type="text/babel" src="backend.jsx"></script>
+<script type="text/babel" src="pages-final.jsx"></script>
+<script type="text/babel" src="pages-states.jsx"></script>
+<script type="text/babel" src="handoff.jsx"></script>
+<script type="text/babel" src="policy.jsx"></script>
+
+<script type="text/babel">
+// ── Toolbar (Lang + Theme) ────────────────────────────────
+function Toolbar({ lang, setLang, theme, setTheme }) {
+  return (
+    <div className="sk-toolbar">
+      <div className="sk-group">
+        <span className="sk-tag">LANG</span>
+        <button aria-pressed={lang === 'ja'} onClick={() => setLang('ja')}>日本語</button>
+        <button aria-pressed={lang === 'en'} onClick={() => setLang('en')}>English</button>
+      </div>
+      <div className="sk-group">
+        <span className="sk-tag">THEME</span>
+        <button aria-pressed={theme === 'light'} onClick={() => setTheme('light')}>
+          {lang === 'en' ? 'Light' : 'ライト'}
+        </button>
+        <button aria-pressed={theme === 'dark'}  onClick={() => setTheme('dark')}>
+          {lang === 'en' ? 'Dark' : 'ダーク'}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ── App ──────────────────────────────────────────────────
+function App() {
+  // Persist preferences across reload — small QoL during review.
+  const [lang,  setLangRaw]  = React.useState(() => localStorage.getItem('sk-lang')  || 'ja');
+  const [theme, setThemeRaw] = React.useState(() => localStorage.getItem('sk-theme') || 'light');
+
+  const setLang  = (v) => { setLangRaw(v);  localStorage.setItem('sk-lang',  v); };
+  const setTheme = (v) => { setThemeRaw(v); localStorage.setItem('sk-theme', v); };
+
+  React.useEffect(() => { document.documentElement.setAttribute('data-theme', theme); }, [theme]);
+  React.useEffect(() => { document.documentElement.setAttribute('lang', lang); }, [lang]);
+
+  return (
+    <LangCtx.Provider value={lang}>
+      <Toolbar lang={lang} setLang={setLang} theme={theme} setTheme={setTheme} />
+      <DesignCanvas>
+
+        {/* §00 — Cover + IA + State lamps reference */}
+        <DCSection
+          id="cover"
+          title={T('しきしま 操作室 — Simple Operator View',
+                   'Shikishima · Operator Room — Simple Operator View')}
+          subtitle={T('日常運用のための単一画面 · chat / lamps / 次の人間アクション / 安全境界',
+                      'Daily-use surface · chat / lamps / next human action / safety boundary')}>
+          <DCArtboard id="cover" label={T('概要 · 設計方針', 'brief · design intent')} width={920} height={420}>
+            <Cover />
+          </DCArtboard>
+          <DCArtboard id="ia" label={T('IA · 2つのview', 'IA · two views')} width={520} height={420}>
+            <IAOverview />
+          </DCArtboard>
+        </DCSection>
+
+        {/* §01 — State lamps reference */}
+        <DCSection
+          id="lamps"
+          title={T('§01  状態ランプ', '§01  State Lamps')}
+          subtitle={T('HOLD · GO_READY · PASS · STOP · REJECT — 色 + code + 短文。色だけに頼らない。',
+                      'HOLD · GO_READY · PASS · STOP · REJECT — color + code + phrase. Never color-only.')}>
+          <DCArtboard id="lamp-spec" label={T('状態ランプ仕様', 'State lamp reference')}
+                      width={1200} height={640}>
+            <LampSpecCard width={1200} />
+          </DCArtboard>
+        </DCSection>
+
+        {/* §02 — PC (Desktop) */}
+        <DCSection
+          id="pc"
+          title={T('§02  PC版 — デスクトップ Operator', '§02  PC — Desktop Operator')}
+          subtitle={T('1200×760。3カラム構成: セッション履歴 / lamp+next+chat / 安全境界+コピーボタン。',
+                      '1200×760. 3-column: session timeline / lamp+next+chat / safety+copy buttons.')}>
+          <DCArtboard id="pc-hold" label={T('HOLD · 既定状態', 'HOLD · default')}
+                      width={1200} height={760}>
+            <DesktopOperator state="HOLD" width={1200} height={760} />
+          </DCArtboard>
+          <DCArtboard id="pc-go" label={T('GO_READY · 人間GO待ち', 'GO_READY · awaiting human GO')}
+                      width={1200} height={760}>
+            <DesktopOperator state="GO_READY" width={1200} height={760} />
+          </DCArtboard>
+        </DCSection>
+
+        {/* §03 — PC Inspector */}
+        <DCSection
+          id="pc-inspector"
+          title={T('§03  PC版 — Inspector (監査)', '§03  PC — Inspector (audit)')}
+          subtitle={T('読み取り専用の監査グリッド · このビューからは何も実行されない。',
+                      'Read-only audit grid · nothing executes from this view.')}>
+          <DCArtboard id="pc-inspect" label={T('Inspector · 監査ビュー', 'Inspector · audit')}
+                      width={1400} height={880}>
+            <DesktopInspector width={1400} height={880} />
+          </DCArtboard>
+        </DCSection>
+
+        {/* §04 — iPhone 15 Pro (6.1") */}
+        <DCSection
+          id="iphone"
+          title={T('§04  iPhone版 — iPhone 15 Pro 専用 (6.1")',
+                   '§04  iPhone — iPhone 15 Pro only (6.1")')}
+          subtitle={T('393×852pt。HOLD (既定) / GO_READY / STOP の3状態。',
+                      '393×852 pt. Three states: HOLD (default) / GO_READY / STOP.')}>
+          <DCArtboard id="ip-hold" label={T('HOLD · 待機 (既定)', 'HOLD · holding (default)')}
+                      width={393} height={852}>
+            <MobileOperator state="HOLD" />
+          </DCArtboard>
+          <DCArtboard id="ip-go" label={T('GO_READY · 人間GO待ち', 'GO_READY · awaiting human GO')}
+                      width={393} height={852}>
+            <MobileOperator state="GO_READY" />
+          </DCArtboard>
+          <DCArtboard id="ip-stop" label={T('STOP · 停止中', 'STOP · stopped')}
+                      width={393} height={852}>
+            <MobileOperator state="STOP" />
+          </DCArtboard>
+        </DCSection>
+
+        {/* §05 — StackChan Control Room · PC */}
+        <DCSection
+          id="sc-pc"
+          title={T('§05  PC版 — StackChan 管制室',
+                   '§05  PC — StackChan Control Room')}
+          subtitle={T('1200×820。接続済み / 未接続 / 接続不安定 の3状態。物理操作は常にHOLD。',
+                      '1200×820. Three states: connected / disconnected / error. Physical operation always HOLD.')}>
+          <DCArtboard id="sc-pc-connected"
+                      label={T('CONNECTED · 接続済み (表示のみ)', 'CONNECTED · display-only')}
+                      width={1200} height={820}>
+            <DesktopStackChan conn="CONNECTED" decision="HOLD" width={1200} height={820} />
+          </DCArtboard>
+          <DCArtboard id="sc-pc-disconn"
+                      label={T('DISCONNECTED · 未接続', 'DISCONNECTED · not connected')}
+                      width={1200} height={820}>
+            <DesktopStackChan conn="DISCONNECTED" decision="HOLD" width={1200} height={820} />
+          </DCArtboard>
+          <DCArtboard id="sc-pc-error"
+                      label={T('ERROR · 接続不安定 (locked)', 'ERROR · unstable (locked)')}
+                      width={1200} height={820}>
+            <DesktopStackChan conn="ERROR" decision="STOP" width={1200} height={820} />
+          </DCArtboard>
+        </DCSection>
+
+        {/* §06 — StackChan Control Room · iPhone */}
+        <DCSection
+          id="sc-iphone"
+          title={T('§06  iPhone版 — StackChan 管制室 (iPhone 15 Pro)',
+                   '§06  iPhone — StackChan Control Room (iPhone 15 Pro)')}
+          subtitle={T('393×852pt。接続済み / 未接続 / 接続不安定 の3状態。',
+                      '393×852 pt. Three states: connected / disconnected / error.')}>
+          <DCArtboard id="sc-ip-connected"
+                      label={T('CONNECTED · 接続済み', 'CONNECTED · connected')}
+                      width={393} height={852}>
+            <MobileStackChan conn="CONNECTED" decision="HOLD" />
+          </DCArtboard>
+          <DCArtboard id="sc-ip-disconn"
+                      label={T('DISCONNECTED · 未接続', 'DISCONNECTED')}
+                      width={393} height={852}>
+            <MobileStackChan conn="DISCONNECTED" decision="HOLD" />
+          </DCArtboard>
+          <DCArtboard id="sc-ip-stale"
+                      label={T('STALE · 応答遅延', 'STALE · delayed')}
+                      width={393} height={852}>
+            <MobileStackChan conn="STALE" decision="HOLD" />
+          </DCArtboard>
+        </DCSection>
+
+        {/* §07 — Chat (PC + iPhone) */}
+        <DCSection
+          id="chat"
+          title={T('§07  Chat ページ',
+                   '§07  Chat Page')}
+          subtitle={T('PC + iPhone。「送信」はチャット送信のみ。外部送信 / push / 実行は行いません。',
+                      'PC + iPhone. "Send" means chat message only. Never external send / push / execute.')}>
+          <DCArtboard id="chat-pc-hold"
+                      label={T('PC · HOLD', 'PC · HOLD')}
+                      width={1400} height={900}>
+            <DesktopChatPage decision="HOLD" width={1400} height={900} />
+          </DCArtboard>
+          <DCArtboard id="chat-pc-go"
+                      label={T('PC · GO_READY', 'PC · GO_READY')}
+                      width={1400} height={900}>
+            <DesktopChatPage decision="GO_READY" width={1400} height={900} />
+          </DCArtboard>
+          <DCArtboard id="chat-iphone"
+                      label={T('iPhone · HOLD', 'iPhone · HOLD')}
+                      width={393} height={852}>
+            <MobileChatPage decision="HOLD" />
+          </DCArtboard>
+        </DCSection>
+
+        {/* §08 — Workflow: Outbox + Queue */}
+        <DCSection
+          id="workflow"
+          title={T('§08  PCワークフロー — Outbox / Queue',
+                   '§08  PC Workflow — Outbox / Queue')}
+          subtitle={T('下書きと人間判断キュー。送信・承認・実行ボタンは設計上不在。',
+                      'Drafts and human-decision queue. Send / approve / execute buttons are absent by design.')}>
+          <DCArtboard id="wf-outbox"
+                      label={T('Outbox · 下書き', 'Outbox · drafts')}
+                      width={1400} height={900}>
+            <DesktopOutboxPage decision="HOLD" width={1400} height={900} />
+          </DCArtboard>
+          <DCArtboard id="wf-queue"
+                      label={T('Queue · 承認待ち', 'Queue · awaiting')}
+                      width={1400} height={900}>
+            <DesktopQueuePage decision="HOLD" width={1400} height={900} />
+          </DCArtboard>
+        </DCSection>
+
+        {/* §09 — GO + Evidence */}
+        <DCSection
+          id="go-evidence"
+          title={T('§09  PC — GO / Evidence',
+                   '§09  PC — GO / Evidence')}
+          subtitle={T('GOテンプレートはコピー専用。証跡はGateごとに保存。',
+                      'GO templates are copy-only. Evidence is stored per gate.')}>
+          <DCArtboard id="go-page"
+                      label={T('GO · GO_READY', 'GO · GO_READY')}
+                      width={1400} height={900}>
+            <DesktopGOPage decision="GO_READY" width={1400} height={900} />
+          </DCArtboard>
+          <DCArtboard id="evidence-page"
+                      label={T('Evidence · HOLD', 'Evidence · HOLD')}
+                      width={1400} height={900}>
+            <DesktopEvidencePage decision="HOLD" width={1400} height={900} />
+          </DCArtboard>
+        </DCSection>
+
+        {/* §10 — STOP + Push */}
+        <DCSection
+          id="stop-push"
+          title={T('§10  PC — STOP / Push',
+                   '§10  PC — STOP / Push')}
+          subtitle={T('停止履歴と再開ルール。Push 状態は表示のみ。',
+                      'Stop history and restart rules. Push is status-only.')}>
+          <DCArtboard id="stop-page"
+                      label={T('STOP · 履歴', 'STOP · history')}
+                      width={1400} height={900}>
+            <DesktopStopPage decision="HOLD" width={1400} height={900} />
+          </DCArtboard>
+          <DCArtboard id="push-page"
+                      label={T('Push · 状態のみ', 'Push · status only')}
+                      width={1400} height={900}>
+            <DesktopPushPage decision="HOLD" width={1400} height={900} />
+          </DCArtboard>
+        </DCSection>
+
+        {/* §B — Backend integration design (docs-only) */}
+        <DCSection
+          id="backend-arch"
+          title={T('§B  バックエンド設計 — Local Backend Layer (docs-only)',
+                   '§B  Backend Design — Local Backend Layer (docs-only)')}
+          subtitle={T('Electron main をローカルバックエンドコーディネーターとして整理。実装は別GO。',
+                      'Treat Electron main as the local backend coordinator. Implementation is a separate GO.')}>
+          <DCArtboard id="backend-arch-3layer"
+                      label={T('§B1  3層アーキテクチャ', '§B1  3-Layer Architecture')}
+                      width={1200} height={820}>
+            <BackendArchitectureCard width={1200} />
+          </DCArtboard>
+          <DCArtboard id="backend-service-map"
+                      label={T('§B2  Service Map (9 services)', '§B2  Service Map (9 services)')}
+                      width={1400} height={920}>
+            <BackendServiceMapCard width={1400} />
+          </DCArtboard>
+          <DCArtboard id="backend-preload"
+                      label={T('§B3  Preload Safe API Contract', '§B3  Preload Safe API Contract')}
+                      width={1200} height={760}>
+            <PreloadApiCard width={1200} />
+          </DCArtboard>
+          <DCArtboard id="backend-types"
+                      label={T('§B4  Data Model (TypeScript)', '§B4  Data Model (TypeScript)')}
+                      width={1200} height={680}>
+            <BackendDataModelCard width={1200} />
+          </DCArtboard>
+          <DCArtboard id="backend-wiring"
+                      label={T('§B5  Page × Backend 配線', '§B5  Page × Backend Wiring')}
+                      width={1400} height={760}>
+            <PageBackendWiringCard width={1400} />
+          </DCArtboard>
+          <DCArtboard id="backend-phase"
+                      label={T('§B6  Phase Plan B-1 → B-6', '§B6  Phase Plan B-1 → B-6')}
+                      width={1400} height={620}>
+            <BackendPhasePlanCard width={1400} />
+          </DCArtboard>
+          <DCArtboard id="backend-docs"
+                      label={T('§B7  docs-only 成果物', '§B7  docs-only deliverables')}
+                      width={1200} height={760}>
+            <BackendDocsCard width={1200} />
+          </DCArtboard>
+        </DCSection>
+
+        {/* §C — Final design package */}
+        <DCSection
+          id="final-settings-help"
+          title={T('§C  Settings ・ Help ・ Onboarding',
+                   '§C  Settings · Help · Onboarding')}
+          subtitle={T('予備ページと初回ガイダンス。危険設定はすべて future gate。',
+                      'Auxiliary pages and first-run guidance. All risky settings are future-gated.')}>
+          <DCArtboard id="final-settings"
+                      label={T('Settings · PC', 'Settings · PC')}
+                      width={1400} height={920}>
+            <DesktopSettingsPage decision="HOLD" width={1400} height={920} />
+          </DCArtboard>
+          <DCArtboard id="final-help"
+                      label={T('Help / Guide · PC', 'Help / Guide · PC')}
+                      width={1400} height={920}>
+            <DesktopHelpPage decision="HOLD" width={1400} height={920} />
+          </DCArtboard>
+        </DCSection>
+
+        <DCSection
+          id="final-onboarding"
+          title={T('§C  Onboarding — iPhone 6 画面',
+                   '§C  Onboarding — 6 iPhone screens')}
+          subtitle={T('初回起動フロー。Welcome → Safety → Copy-only → Chat → StackChan → Ready',
+                      'First-run flow. Welcome → Safety → Copy-only → Chat → StackChan → Ready')}>
+          {[0, 1, 2, 3, 4, 5].map(i => (
+            <DCArtboard key={i}
+                        id={`onboarding-${i + 1}`}
+                        label={`Step ${i + 1}`}
+                        width={393} height={852}>
+              <MobileOnboarding index={i} />
+            </DCArtboard>
+          ))}
+        </DCSection>
+
+        <DCSection
+          id="final-ia"
+          title={T('§C  IA Map · User Flows', '§C  IA Map · User Flows')}
+          subtitle={T('全ページ一覧 + 6シナリオフロー',
+                      'all pages overview + six canonical user flows')}>
+          <DCArtboard id="final-ia-map"
+                      label={T('IA Map (§C1)', 'IA Map (§C1)')}
+                      width={1400} height={780}>
+            <IAMapCard width={1400} />
+          </DCArtboard>
+          <DCArtboard id="final-flows"
+                      label={T('User Flows A〜F (§C2)', 'User Flows A–F (§C2)')}
+                      width={1400} height={760}>
+            <UserFlowsCard width={1400} />
+          </DCArtboard>
+        </DCSection>
+
+        <DCSection
+          id="final-states"
+          title={T('§C  State Matrix · Empty/Loading/Error/Stale · Toast · Command Palette',
+                   '§C  States · Empty/Loading/Error/Stale · Toast · Command Palette')}
+          subtitle={T('状態と連携の詳細設計', 'state and interaction patterns')}>
+          <DCArtboard id="final-states-matrix"
+                      label={T('Extended State Matrix (§C3)', 'Extended State Matrix (§C3)')}
+                      width={1400} height={780}>
+            <StateMatrixCard width={1400} />
+          </DCArtboard>
+          <DCArtboard id="final-empty"
+                      label={T('Empty / Loading / Error / Stale (§C4)', 'Empty / Loading / Error / Stale (§C4)')}
+                      width={1400} height={620}>
+            <EmptyStatesCard width={1400} />
+          </DCArtboard>
+          <DCArtboard id="final-toasts"
+                      label={T('Toast / Notification (§C5)', 'Toast / Notification (§C5)')}
+                      width={1400} height={620}>
+            <ToastsCard width={1400} />
+          </DCArtboard>
+          <DCArtboard id="final-palette"
+                      label={T('Command Palette (§C6)', 'Command Palette (§C6)')}
+                      width={1200} height={720}>
+            <CommandPaletteCard width={1200} />
+          </DCArtboard>
+        </DCSection>
+
+        <DCSection
+          id="final-handoff"
+          title={T('§C  Tokens · Component API · QA · Handoff',
+                   '§C  Tokens · Component API · QA · Handoff')}
+          subtitle={T('ClaudeCodeへの最終引き継ぎ', 'final handoff to ClaudeCode')}>
+          <DCArtboard id="final-tokens"
+                      label={T('Design Tokens · A11y · Responsive (§C7)', 'Design Tokens · A11y · Responsive (§C7)')}
+                      width={1400} height={840}>
+            <DesignTokensCard width={1400} />
+          </DCArtboard>
+          <DCArtboard id="final-component-api"
+                      label={T('Component API (§C8)', 'Component API (§C8)')}
+                      width={1400} height={820}>
+            <ComponentApiCard width={1400} />
+          </DCArtboard>
+          <DCArtboard id="final-qa"
+                      label={T('QA & Handoff (§C9)', 'QA & Handoff (§C9)')}
+                      width={1400} height={920}>
+            <QaHandoffCard width={1400} />
+          </DCArtboard>
+          <DCArtboard id="final-index"
+                      label={T('Deliverables Index (§C10)', 'Deliverables Index (§C10)')}
+                      width={1200} height={700}>
+            <FinalIndexCard width={1200} />
+          </DCArtboard>
+        </DCSection>
+
+        {/* §11 — Policy + Wording */}
+        <DCSection
+          id="policy"
+          title={T('§11  方針 と 言い回し', '§11  Policy & Wording')}
+          subtitle={T('Copy-only ボタン方針 · 安全境界の正式文字列 · DO/DON\'T。',
+                      "Copy-only button policy · canonical safety strings · DO/DON'T list.")}>
+          <DCArtboard id="btn-policy" label={T('ボタン方針', 'Button policy')}
+                      width={1200} height={760}>
+            <ButtonPolicyCard width={1200} />
+          </DCArtboard>
+          <DCArtboard id="wording" label={T('安全境界の言い回し', 'Safety wording')}
+                      width={1200} height={760}>
+            <SafetyWordingCard width={1200} />
+          </DCArtboard>
+        </DCSection>
+
+      </DesignCanvas>
+    </LangCtx.Provider>
+  );
+}
+
+// ───────── Cover · brief restatement ─────────
+function Cover() {
+  const lang = useLang();
+  const jp = lang !== 'en';
+  return (
+    <div style={{
+      width: '100%', height: '100%', background: sk.paper,
+      padding: '32px 36px', fontFamily: sk.sans, color: sk.ink,
+      border: `1px solid ${sk.rule}`,
+      display: 'flex', flexDirection: 'column',
+    }}>
+      <div style={{
+        fontFamily: sk.mono, fontSize: 11, letterSpacing: 2, color: sk.ink3,
+      }}>SHIKISHIMA · PRIVATE CONSOLE · DESIGN NOTE 2026-05-17</div>
+
+      <div style={{
+        fontFamily: jp ? sk.jp : sk.sans, fontSize: 36, fontWeight: 700,
+        color: sk.ink, marginTop: 6, lineHeight: 1.15,
+      }}>
+        {jp
+          ? <>操作室 — 3秒で <span style={{ color: sk.go }}>状態</span> がわかる</>
+          : <>Operator Room — read the <span style={{ color: sk.go }}>state</span> in 3 seconds</>}
+      </div>
+      <div style={{
+        fontFamily: jp ? sk.jp : sk.sans, fontSize: 16, color: sk.ink2,
+        marginTop: 10, lineHeight: 1.6, maxWidth: 760,
+      }}>
+        {jp
+          ? <>従来Consoleは監査と開発レビューには十分だが、日常運用には情報過多。
+              この画面では <b>chat · 状態ランプ · 次の人間アクション · 安全境界</b> だけを扱う。
+              実行系のボタンは置かない。</>
+          : <>The original console is rich for audit and development but too dense for daily use.
+              This surface handles only <b>chat · status lamps · next human action · safety boundary</b>.
+              No execution buttons.</>}
+      </div>
+
+      <div style={{ flex: 1 }}/>
+
+      <div style={{
+        display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14,
+        marginTop: 26,
+      }}>
+        {(jp ? [
+          ['Chat',         '状況会話\n読み取り専用'],
+          ['Lamps',        'HOLD / GO_READY /\nPASS / STOP / REJECT'],
+          ['Next action',  '人間タスクを\n1件、日本語で'],
+          ['Safety',       '4フラグを\n常時表示'],
+        ] : [
+          ['Chat',         'situation,\nread-only'],
+          ['Lamps',        'HOLD / GO_READY /\nPASS / STOP / REJECT'],
+          ['Next action',  'one human task,\nin Japanese'],
+          ['Safety',       '4 flags, always on screen'],
+        ]).map(([k, v]) => (
+          <div key={k} style={{
+            borderTop: `1.5px solid ${sk.rule}`, paddingTop: 10,
+          }}>
+            <div style={{
+              fontFamily: sk.mono, fontSize: 11, letterSpacing: 1.2, color: sk.ink3,
+            }}>{k.toUpperCase()}</div>
+            <div style={{
+              fontFamily: jp ? sk.jp : sk.sans, fontSize: 14, color: sk.ink,
+              marginTop: 6, whiteSpace: 'pre-line', lineHeight: 1.45,
+            }}>{v}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ───────── IA · 2つのview ─────────
+function IAOverview() {
+  const lang = useLang();
+  const jp = lang !== 'en';
+  return (
+    <div style={{
+      width: '100%', height: '100%', background: sk.paper,
+      padding: '28px 28px', fontFamily: sk.sans, color: sk.ink,
+      border: `1px solid ${sk.rule}`,
+      display: 'flex', flexDirection: 'column', gap: 18,
+    }}>
+      <div style={{
+        fontFamily: sk.mono, fontSize: 11, letterSpacing: 2, color: sk.ink3,
+      }}>INFORMATION ARCHITECTURE</div>
+      <div style={{
+        fontFamily: jp ? sk.jp : sk.sans, fontSize: 20, fontWeight: 600,
+        color: sk.ink, lineHeight: 1.3,
+      }}>{T('2つのview · 1人の人間', 'Two views · one human')}</div>
+
+      <ViewRow
+        kind="OPERATOR"
+        jp={T('操作室', 'Operator Room')}
+        desc={T('日常運用。lamps + chat + 次の人間アクション + 安全境界。copy-only buttons。',
+                'Daily use. Lamps + chat + next human action + safety boundary. Copy-only buttons.')}
+        size={T('既定', 'default')}
+        glyph="●"
+      />
+      <ViewRow
+        kind="INSPECTOR"
+        jp={T('監査', 'Audit')}
+        desc={T('監査 / 開発レビュー。Queue, Outbox, Push, STOP, Evidence, AG, Runtime。読み取り専用。',
+                'Audit / dev review. Queue, Outbox, Push, STOP, Evidence, AG, Runtime. Read-only.')}
+        size={T('必要時', 'on-demand')}
+        glyph="▣"
+      />
+
+      <div style={{
+        marginTop: 'auto', paddingTop: 12,
+        borderTop: `1px dashed ${sk.paper3}`,
+        fontFamily: jp ? sk.jp : sk.sans, fontSize: 12, color: sk.ink2, lineHeight: 1.6,
+      }}>
+        {jp ? (<>
+          <b>切替:</b> 既定は{' '}
+          <span style={{ fontFamily: sk.mono, fontSize: 11, padding: '1px 6px', border: `1px solid ${sk.rule}` }}>OPERATOR</span>。
+          INSPECTORへの遷移はUI右上のtoggleから。どちらのviewからも外部実行は発生しない。
+        </>) : (<>
+          <b>Switch:</b> default is{' '}
+          <span style={{ fontFamily: sk.mono, fontSize: 11, padding: '1px 6px', border: `1px solid ${sk.rule}` }}>OPERATOR</span>;
+          jump to INSPECTOR from the toggle at the top right. Neither view ever performs an external action.
+        </>)}
+      </div>
+    </div>
+  );
+}
+
+function ViewRow({ kind, jp, desc, size, glyph }) {
+  const lang = useLang();
+  const useJp = lang !== 'en';
+  return (
+    <div style={{
+      display: 'grid', gridTemplateColumns: '52px 1fr',
+      gap: 16, alignItems: 'flex-start',
+    }}>
+      <div style={{
+        width: 52, height: 52,
+        border: `1.5px solid ${sk.rule}`,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontFamily: sk.mono, fontSize: 22, color: sk.ink,
+        background: sk.paper2,
+      }}>{glyph}</div>
+      <div>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
+          <div style={{
+            fontFamily: sk.mono, fontSize: 13, fontWeight: 700,
+            letterSpacing: 1.5, color: sk.ink,
+          }}>{kind}</div>
+          <div style={{
+            fontFamily: useJp ? sk.jp : sk.sans, fontSize: 14, color: sk.ink,
+          }}>{jp}</div>
+          <div style={{
+            marginLeft: 'auto',
+            fontFamily: sk.mono, fontSize: 10, color: sk.ink3,
+            padding: '1px 7px', border: `1px solid ${sk.paper3}`,
+          }}>{size}</div>
+        </div>
+        <div style={{
+          fontFamily: useJp ? sk.jp : sk.sans, fontSize: 12, color: sk.ink2,
+          marginTop: 4, lineHeight: 1.55,
+        }}>{desc}</div>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

@@ -20,14 +20,14 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.65.0
-- latestUpdate: 2026-05-17 - Gate 006 session-001 PASS; iPhone confirmed; shutdown+port close verified; BLOCKER-002 resolved (80-85% candidate)
+- roadmapVersion: v3.66.0
+- latestUpdate: 2026-05-17 - UI-01 design package ingested (12 pages / 6 planning docs); UI-02 type scaffold is next
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
-- current HEAD: origin/main=e0c86fd; commits_ahead=1 (Gate 006 observation evidence, push GO pending)
-- validation road: Gate 001-003 ✓; LimManOp: STARTED; G004 PUSHED; G005 PUSHED; G006 PASS (session-001)
-- current next human action: review Gate 006 observation evidence; decide push GO (Task 18); then Task 19 Gate 007 wording hardening
-- HOLD reason: productionReady false; execution disabled; Gate 007 pending; BLOCKER-002 resolved; 5 blockers remain
+- current HEAD: origin/main=7c1d47b; commits_ahead=1 (UI-01 design intake, push GO pending)
+- validation road: Gate 001-006 ✓; LimManOp: STARTED_AND_AUDIT_READY; UI-01: COMPLETE; UI-02〜10: pending
+- current next human action: review UI-01 intake docs; decide push GO; then choose Task 19 (Gate 007) or UI-02 (type scaffold)
+- HOLD reason: productionReady false; execution disabled; Gate 007 pending; UI src not yet implemented
 
 ## Boundaries
 
