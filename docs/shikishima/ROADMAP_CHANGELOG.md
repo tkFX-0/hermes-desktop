@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.62.0
+- roadmapVersion: v3.63.0
 - lastUpdated: 2026-05-17
-- latestUpdate: Gate 004 audit dry-run PASS — PASS/HOLD/REJECT classification confirmed
-- baselineCommit: 572b21c
+- latestUpdate: Gate 005 productionReady precheck reviewed — false confirmed with explicit reasoning; 6 active blockers documented
+- baselineCommit: c1b80a1
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,24 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.63.0 - Gate 005 productionReady Precheck Reviewed
+
+- roadmapVersion: v3.63.0
+- lastUpdated: 2026-05-17
+- POST_100_GATE_005_PRODUCTION_READY_PRECHECK_REVIEW_EVIDENCE.md created
+  - Section A: 1/5 (STARTED done; 3 actual sessions not yet run)
+  - Section B: 1/5 (ENABLED flag confirmed; per-session verification pending)
+  - Section C: 0/3 (Gate 006 not yet executed)
+  - Section D: 0/3 partial (Gate 007 not yet executed)
+  - Section E: deferred (re-verify at productionReady final review)
+  - Section F: 2/4 (changelog + dashboard current; registry + blockers pending)
+  - Section G: 0/3 (final review and GO template pending)
+  - active_blockers: 6 (all open; resolution paths defined)
+  - BLOCKER-004 partial credit: HOLD/REJECT paths confirmed usable via dry-run
+  - productionReady: false — reasons explicit and documented
+- docs-only; no code; no push
+- status: productionReady_precheck: reviewed; 70% candidate
 
 ## v3.62.0 - Gate 004 Audit Dry-Run PASS: PASS/HOLD/REJECT Classification Confirmed
 
