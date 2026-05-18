@@ -13,6 +13,14 @@ interface StackChanPageProps {
   readonly lang?: "ja" | "en";
 }
 
+const FACE_GLYPH: Readonly<Record<string, string>> = {
+  HOLD:      "(･_･;)",
+  GO_READY:  "(･ω･)",
+  PASS:      "(´ᴗ`)",
+  STOP:      "(！_！)",
+  REJECT:    "(×_×)",
+};
+
 const CONNECTION_LABEL: Record<
   StackChanStatusData["connection"],
   { ja: string; en: string; color: string }
@@ -259,12 +267,34 @@ export function StackChanPage({
               background: "var(--paper2, #f3f4f6)",
               border: "1px solid var(--rule, #e5e7eb)",
               borderRadius: 4,
-              fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-              fontSize: 12,
-              color: "var(--ink, #111827)",
+              display: "flex",
+              flexDirection: "column",
+              gap: 4,
             }}
           >
-            {status.faceState}
+            {FACE_GLYPH[status.faceState] && (
+              <span
+                style={{
+                  fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
+                  fontSize: 24,
+                  color: "var(--ink, #111827)",
+                  letterSpacing: 2,
+                  lineHeight: 1.3,
+                }}
+                aria-hidden
+              >
+                {FACE_GLYPH[status.faceState]}
+              </span>
+            )}
+            <span
+              style={{
+                fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
+                fontSize: 12,
+                color: "var(--ink, #111827)",
+              }}
+            >
+              {status.faceState}
+            </span>
           </div>
         </section>
       )}
