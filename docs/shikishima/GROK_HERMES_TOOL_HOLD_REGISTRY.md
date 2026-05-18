@@ -233,6 +233,161 @@ separate_GO_required: yes
 
 ---
 
+## web_search
+
+```
+status:               HOLD
+hermes_default:       unknown (verify locally)
+reason:               General web search capability; scope not yet defined
+gate_required:        web_search Gate (TBD)
+separate_GO_required: yes
+```
+
+---
+
+## web_extract
+
+```
+status:               HOLD
+reason:               Extract content from specific URLs; scope not yet defined
+gate_required:        web Gate (TBD)
+separate_GO_required: yes
+```
+
+---
+
+## Browser Tools
+
+```
+status:               HOLD
+reason:               Automated browser interaction capability
+                      Scope and safety boundary not yet defined
+gate_required:        browser Gate (TBD)
+separate_GO_required: yes
+```
+
+---
+
+## Custom Voices (TTS variants)
+
+```
+status:               HOLD
+reason:               Custom voice models for TTS; requires GHG-09b first
+gate_required:        GHG-09b + custom voice policy
+separate_GO_required: yes
+```
+
+---
+
+## LINE
+
+```
+status:               HOLD
+reason:               Japan-primary messaging platform
+                      External message send requires per-message GO
+gate_required:        GATE-MSG-01 (LINE)
+separate_GO_required: yes — per message
+```
+
+---
+
+## Microsoft Teams
+
+```
+status:               HOLD
+reason:               Workplace messaging; external write requires per-send GO
+gate_required:        GATE-MSG-01 (Teams)
+separate_GO_required: yes
+```
+
+---
+
+## SimpleX
+
+```
+status:               HOLD
+reason:               Privacy-focused messaging; no current use case defined
+gate_required:        GATE-MSG-01 (SimpleX)
+separate_GO_required: yes
+```
+
+---
+
+## cron / Scheduled Digest
+
+```
+status:               HOLD
+hermes_default:       unknown (verify locally)
+reason:               Scheduled task execution; requires XS-08 for x_search digest
+                      General cron requires GATE-AUTO-01 scope
+gate_required:        XS-08 (for social digest) / GATE-AUTO-01 (general)
+separate_GO_required: yes — schedule definition approved by human
+```
+
+---
+
+## Memory (Hermes persistent memory)
+
+```
+status:               HOLD
+reason:               Long-term memory persistence across Hermes sessions
+                      Data retention policy and privacy boundary not yet defined
+gate_required:        Memory Gate (TBD)
+separate_GO_required: yes
+```
+
+---
+
+## Multi-Agent Kanban
+
+```
+status:               HOLD
+reason:               Multi-agent task coordination; requires GATE-AUTO-01
+                      Agent permissions must be individually scoped
+gate_required:        GATE-AUTO-01
+separate_GO_required: yes
+```
+
+---
+
+## /goal / /subgoal
+
+```
+status:               HOLD
+reason:               Goal hierarchy commands for multi-step autonomous tasks
+                      Requires GATE-AUTO-01 and human-defined goal boundaries
+gate_required:        GATE-AUTO-01
+separate_GO_required: yes — per goal definition
+```
+
+---
+
+## local proxy
+
+```
+status:               HOLD
+reason:               Route requests through local proxy
+                      Network policy and scope not yet defined
+gate_required:        Local proxy Gate (TBD)
+separate_GO_required: yes
+```
+
+---
+
+## computer_use
+
+```
+status:               REJECT
+reason:               Autonomous desktop/GUI control is permanently REJECT for Shikishima
+                      Human controls the desktop
+                      Even supervised computer_use creates unacceptable ambiguity
+                      No gate path exists for autonomous GUI control
+gate_required:        none — REJECT
+```
+
+---
+
+_Updated: 2026-05-18 — added web_search/web_extract/browser/voices/LINE/Teams/SimpleX/cron/memory/multi-agent/goal/proxy/computer_use_
 _Created: 2026-05-18_
 _productionReady: false_
 _execution: disabled_

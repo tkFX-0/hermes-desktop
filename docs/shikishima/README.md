@@ -53,8 +53,13 @@ network flow.
 - `GROK_HERMES_PROVIDER_ARCHITECTURE_REVIEW.md` - Grok-Hermes xai-oauth integration research (docs-only, HOLD).
 - `GROK_HERMES_PROVIDER_GATE.md` - GHG-00 through GHG-09 gate sequence for Grok-Hermes activation.
 - `GROK_HERMES_TOKEN_AND_AUTH_BOUNDARY.md` - auth.json token boundary rules.
-- `GROK_HERMES_TOOL_HOLD_REGISTRY.md` - x_search/TTS/image/video/transcription/messaging HOLD registry.
+- `GROK_HERMES_TOOL_HOLD_REGISTRY.md` - all Hermes tool HOLD registry including web/messaging/cron/memory/computer_use(REJECT).
 - `PROVIDER_ROUTER_UPDATED_DESIGN.md` - updated provider routing design (primary/fallback/escalation).
+- `HERMES_SOCIAL_AWARENESS_FEATURE_CATALOG.md` - Social Awareness Layer feature catalog with XS stage gates.
+- `X_SEARCH_SHIKISHIMA_INTEGRATION_PLAN.md` - x_search read-only integration plan and Draft Outbox design.
+- `X_SEARCH_HOLD_GO_MATRIX.md` - XS-00 through XS-09 gate sequence for x_search activation.
+- `HERMES_TOOL_EXPANSION_CATALOG.md` - complete Hermes tool catalog (HOLD/CANDIDATE/REJECT).
+- `NARUEBI_STYLE_REFERENCE_BOUNDARY.md` - what Shikishima adopts vs rejects from Naruebi social pattern.
 - `SHIZUME_SAFETY_GATE_POLICY.md` - Shizume safety gate policy.
 - `SHIZUME_DECISION_MATRIX.md` - GO / HOLD / REJECT decision matrix.
 - `SHIKISHIMA_SYSTEM_DIAGRAM.md` - system diagrams in Mermaid and ASCII.

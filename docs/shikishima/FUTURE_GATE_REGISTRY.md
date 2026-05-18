@@ -52,13 +52,49 @@ GATE-CAM-01 (independent)
 GATE-AUTO-01 (requires all above)
 ```
 
+## Grok-Hermes Provider Gates (GHG series)
+
+| Gate ID | Capability | Current Status | Required Before |
+|---|---|---|---|
+| GHG-00 | Docs-only research | COMPLETE | — |
+| GHG-01 | Hermes version / readiness check | HOLD | explicit human GO |
+| GHG-02 | Auth boundary review | HOLD | GHG-01 PASS |
+| GHG-03 | Manual OAuth login (human-only) | HOLD | GHG-02 PASS + human GO |
+| GHG-04 | Redacted provider status | HOLD | GHG-03 PASS |
+| GHG-05 | Chat-only dry run | HOLD | GHG-04 PASS + human GO + time_window |
+| GHG-06 | Provider-router integration | HOLD | GHG-05 PASS + impl GO |
+| GHG-07 | Fallback / quota / timeout policy | HOLD | GHG-06 PASS |
+| GHG-08 | Limited manual chat operation | HOLD | GHG-07 PASS + human GO + time_window |
+| GHG-09a | x_search enablement | HOLD | GHG-08 PASS + XS-01+ |
+| GHG-09b | TTS | HOLD | GHG-08 PASS + separate GO |
+| GHG-09c | Image generation | HOLD | GHG-08 PASS + separate GO |
+| GHG-09d | Video generation | HOLD | GHG-08 PASS + separate GO |
+| GHG-09e | Transcription | HOLD | GHG-08 PASS + mic gate |
+| GHG-09f | Messaging adapters | HOLD | GHG-08 PASS + per-platform GO |
+
+## x_search Social Awareness Gates (XS series)
+
+| Gate ID | Capability | Current Status | Required Before |
+|---|---|---|---|
+| XS-00 | Docs-only registration | COMPLETE | — |
+| XS-01 | Auth boundary review for x_search | HOLD | GHG-04 PASS |
+| XS-02 | Enablement GO draft | HOLD | XS-01 PASS |
+| XS-03 | Read-only manual dry run | HOLD | XS-02 PASS + human GO + time_window |
+| XS-04 | Redacted result display | HOLD | XS-03 PASS |
+| XS-05 | Daily digest draft only | HOLD | XS-04 PASS + human GO |
+| XS-06 | Draft Outbox integration | HOLD | XS-05 PASS + impl GO |
+| XS-07 | Runtime UI status | HOLD | XS-06 PASS |
+| XS-08 | Limited manual operation | HOLD | XS-07 PASS + human GO + time_window |
+| XS-09 | External posting review | HOLD | XS-08 PASS + content policy GO |
+
 ## Required Statement
 
-Task 24 does not approve any future gate.
-Task 24 only records future approval boundaries.
+No gate in this registry is approved.
+This registry only records approval boundaries.
 All capabilities listed remain HOLD.
 productionReady remains false.
 execution remains disabled.
+_Updated: 2026-05-18 — added GHG and XS gate series_
 
 ---
 

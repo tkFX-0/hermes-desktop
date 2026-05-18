@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.94.0
+- roadmapVersion: v3.95.0
 - lastUpdated: 2026-05-18
-- latestUpdate: Grok-Hermes provider architecture review + GHG gate registry added
-- baselineCommit: d15d143
+- latestUpdate: x_search Social Awareness catalog + Hermes tool expansion + Naruebi boundary added
+- baselineCommit: 38509ab
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,20 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.95.0 - x_search Social Awareness + Hermes Tool Catalog
+
+- roadmapVersion: v3.95.0
+- lastUpdated: 2026-05-18
+- commits: docs-only (local, push pending)
+- HERMES_SOCIAL_AWARENESS_FEATURE_CATALOG.md: observe/summarize/draft/GO pipeline stages
+- X_SEARCH_SHIKISHIMA_INTEGRATION_PLAN.md: read-only → draft outbox integration plan
+- X_SEARCH_HOLD_GO_MATRIX.md: XS-00 through XS-09 gate sequence
+- HERMES_TOOL_EXPANSION_CATALOG.md: all Hermes tools with HOLD/CANDIDATE/REJECT status
+- NARUEBI_STYLE_REFERENCE_BOUNDARY.md: what to adopt vs reject from Naruebi pattern
+- GROK_HERMES_TOOL_HOLD_REGISTRY.md: added web_search/browser/LINE/Teams/SimpleX/cron/memory/multi-agent/goal/proxy/computer_use(REJECT)
+- FUTURE_GATE_REGISTRY.md: GHG-00-09 and XS-00-09 gates added
+- autonomous_posting: REJECT / oauth_performed: false / runtime_started: false
 
 ## v3.94.0 - Grok-Hermes Provider Architecture Review
 
