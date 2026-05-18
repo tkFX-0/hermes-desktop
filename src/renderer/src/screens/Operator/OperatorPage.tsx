@@ -10,6 +10,7 @@
 
 import type { OperatorPageDisplayData } from "../../utils/snapshot-to-page";
 import { LampGrid } from "./LampGrid";
+import { NextActionCard } from "../../components/State/NextActionCard";
 
 interface OperatorPageProps {
   readonly data: OperatorPageDisplayData;
@@ -230,32 +231,17 @@ export function OperatorPage({
             </section>
           )}
 
-          {/* Next human action */}
-          {nextHumanAction && (
-            <section aria-label="Next human action">
-              <p style={SECTION_HEADING}>
-                {lang === "ja" ? "次のアクション" : "NEXT ACTION"}
-              </p>
-              <p
-                style={{
-                  fontFamily:
-                    lang === "en"
-                      ? '"IBM Plex Sans", "Inter", system-ui, sans-serif'
-                      : '"Noto Sans JP", "Hiragino Sans", system-ui, sans-serif',
-                  fontSize: 12,
-                  color: "var(--ink, #111827)",
-                  margin: 0,
-                  padding: "10px 14px",
-                  background: "var(--paper2, #f3f4f6)",
-                  border: "1px solid var(--rule, #e5e7eb)",
-                  borderRadius: 4,
-                  lineHeight: 1.6,
-                }}
-              >
-                {nextHumanAction}
-              </p>
-            </section>
-          )}
+          {/* Next human action — always shown */}
+          <section aria-label="Next human action">
+            <p style={SECTION_HEADING}>
+              {lang === "ja" ? "次のアクション" : "NEXT ACTION"}
+            </p>
+            <NextActionCard
+              decision={data.staleBadge ? "HOLD" : data.decision}
+              customAction={nextHumanAction}
+              lang={lang}
+            />
+          </section>
         </div>
 
         {/* ── SIDEBAR column (desktop ≥900px only) ── */}
