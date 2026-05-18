@@ -20,14 +20,14 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.93.0
-- latestUpdate: 2026-05-18 - P3-003 StackChan face glyphs implemented; evidence recorded; push pending
+- roadmapVersion: v3.94.0
+- latestUpdate: 2026-05-18 - Grok-Hermes provider architecture review + GHG gate registry; docs-only
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: origin/main=5055b6d; commits_ahead=1 (evidence docs, push pending after this commit)
 - validation road: Gate 001-007 ✓; UI-01-14 PASS; shell design aligned; mobile foundation + responsive pages done
-- current next human action: runtime recheck GO for P3-003 after user returns; then push GO for P3-003 commits
-- HOLD reason: productionReady false; execution disabled; P3-003 visual recheck pending (user at work)
+- current next human action: push GO for pending commits (P3-003 + Grok-Hermes docs); then runtime recheck GO after user returns
+- HOLD reason: productionReady false; execution disabled; P3-003 visual recheck pending; GHG-01 not started
 
 ## Boundaries
 

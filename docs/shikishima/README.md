@@ -1,5 +1,5 @@
 ﻿# Shikishima Roadmap Docs
-date_updated: 2026-05-17
+date_updated: 2026-05-18
 
 This directory contains static documentation for the Shikishima plan.
 
@@ -50,6 +50,11 @@ network flow.
 - `AGENT_NAMES_ROLES_AND_PERMISSIONS.md` - agent names, roles, and permission boundaries.
 - `MODEL_ROUTING_POLICY.md` - model routing policy.
 - `MODEL_ROUTER_REVIEW_MATRIX.md` - review matrix for model routing cases.
+- `GROK_HERMES_PROVIDER_ARCHITECTURE_REVIEW.md` - Grok-Hermes xai-oauth integration research (docs-only, HOLD).
+- `GROK_HERMES_PROVIDER_GATE.md` - GHG-00 through GHG-09 gate sequence for Grok-Hermes activation.
+- `GROK_HERMES_TOKEN_AND_AUTH_BOUNDARY.md` - auth.json token boundary rules.
+- `GROK_HERMES_TOOL_HOLD_REGISTRY.md` - x_search/TTS/image/video/transcription/messaging HOLD registry.
+- `PROVIDER_ROUTER_UPDATED_DESIGN.md` - updated provider routing design (primary/fallback/escalation).
 - `SHIZUME_SAFETY_GATE_POLICY.md` - Shizume safety gate policy.
 - `SHIZUME_DECISION_MATRIX.md` - GO / HOLD / REJECT decision matrix.
 - `SHIKISHIMA_SYSTEM_DIAGRAM.md` - system diagrams in Mermaid and ASCII.

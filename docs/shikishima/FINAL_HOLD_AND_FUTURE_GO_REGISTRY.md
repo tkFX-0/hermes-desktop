@@ -230,4 +230,54 @@ stop_conditions:
 
 ---
 
+### 17. Grok-Hermes OAuth Login (GHG-03)
+
+```text
+status:                    HOLD
+reason:                    xai-oauth provider is a candidate (research phase only)
+                           OAuth login must be performed by human only
+                           ClaudeCode MUST NOT run hermes auth add
+minimum_future_GO:         GHG-03 explicit human GO with time_window
+required_evidence:         GHG-01 PASS + GHG-02 PASS before GHG-03
+                           Human confirms auth.json location and permissions
+                           Human confirms subscription tier
+stop_conditions:
+  - ClaudeCode runs hermes auth add
+  - Raw token appears in any output
+  - auth.json becomes git-tracked
+reference:                 GROK_HERMES_PROVIDER_GATE.md (GHG-03)
+```
+
+### 18. Grok-Hermes Chat-Only Dry Run (GHG-05)
+
+```text
+status:                    HOLD
+reason:                    Chat with xai-oauth provider not yet tested
+minimum_future_GO:         GHG-05 explicit human GO with time_window
+                           after GHG-01 through GHG-04 pass in order
+required_evidence:         GHG-04 PASS (redacted provider status confirmed)
+                           Human present during dry run
+stop_conditions:
+  - Tool activation during dry run
+  - x_search activated
+  - Any external action triggered
+reference:                 GROK_HERMES_PROVIDER_GATE.md (GHG-05)
+```
+
+### 19. Grok-Hermes Tool Expansion (GHG-09a onward)
+
+```text
+status:                    HOLD
+includes:                  x_search, TTS, image gen, video gen, transcription,
+                           messaging adapters, Discord/Telegram/WhatsApp/Signal
+reason:                    Each tool requires individual sub-gate and separate GO
+                           None are included in the chat-only dry run
+minimum_future_GO:         GHG-09a through GHG-09f (separate per tool)
+reference:                 GROK_HERMES_TOOL_HOLD_REGISTRY.md
+```
+
+---
+
+_Updated: 2026-05-18 — added Grok-Hermes OAuth items (GHG gates 17-19)_
+
 この範囲では問題を検出していません。

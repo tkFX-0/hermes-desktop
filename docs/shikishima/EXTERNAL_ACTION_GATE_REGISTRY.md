@@ -119,6 +119,86 @@ Human approval: required per push
 
 ---
 
+## X Search (via Grok-Hermes x_search)
+
+```
+Gate ID:    GATE-XSEARCH-01 (GHG-09a)
+Status:     HOLD
+Capability: Sending search queries to X (Twitter) via Hermes x_search tool
+            Default-off in Hermes — requires explicit enable step
+Required before Gate:
+  - GHG-08 complete (chat-only operation established)
+  - x_search content policy defined
+  - Query logging policy defined (no sensitive query content stored unsafely)
+  - Rate limit policy defined
+  - Human review of first search
+  - Separate explicit human GO: "GHG-09a x_search GO"
+Human approval: required per activation
+```
+
+## TTS / Audio Output (via Grok-Hermes)
+
+```
+Gate ID:    GATE-TTS-01 (GHG-09b)
+Status:     HOLD
+Capability: Text-to-speech output via Hermes xAI TTS surface
+Required before Gate:
+  - GHG-08 complete
+  - Audio output scope defined
+  - Verify subscription tier supports TTS
+  - Human confirms TTS is safe in current environment
+  - Separate explicit human GO: "GHG-09b TTS GO"
+Human approval: required per activation
+```
+
+## Image Generation (via Grok-Hermes)
+
+```
+Gate ID:    GATE-IMAGE-01 (GHG-09c)
+Status:     HOLD
+Capability: Image generation via Hermes xAI image surface
+Required before Gate:
+  - GHG-08 complete
+  - Content policy for generated images defined
+  - Image storage and display policy defined
+  - Verify subscription tier supports image generation
+  - Separate explicit human GO: "GHG-09c image generation GO"
+Human approval: required per activation
+```
+
+## Video Generation (via Grok-Hermes)
+
+```
+Gate ID:    GATE-VIDEO-01 (GHG-09d)
+Status:     HOLD
+Capability: Video generation via Hermes xAI video surface
+            Default-off in Hermes — requires explicit enable step
+Required before Gate:
+  - GHG-08 complete
+  - Content policy for generated video defined
+  - Storage and quota policy defined
+  - Separate explicit human GO: "GHG-09d video generation GO"
+Human approval: required per activation
+```
+
+## Messaging Adapters (Discord / Telegram / WhatsApp / Signal)
+
+```
+Gate ID:    GATE-MSG-01 (per adapter)
+Status:     HOLD
+Capability: Sending messages via any messaging adapter in Hermes
+Required before Gate:
+  - GATE-EW-01 complete
+  - Per-adapter scope defined (no bulk send)
+  - Message content policy defined
+  - Recipient confirmation mechanism defined
+  - Human review of first send per platform
+  - Separate explicit human GO per platform
+Human approval: required per platform per send
+```
+
+---
+
 ## Required Statement
 
 None of the above capabilities are approved.
@@ -127,4 +207,5 @@ externalWrite: false / productionReady: false / execution: disabled
 
 ---
 
+_Updated: 2026-05-18 — added x_search, TTS, image, video, messaging gates_
 _Created: 2026-05-17_

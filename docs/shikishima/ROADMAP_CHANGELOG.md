@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.93.0
+- roadmapVersion: v3.94.0
 - lastUpdated: 2026-05-18
-- latestUpdate: P3-003 StackChan face glyphs implemented + evidence recorded
-- baselineCommit: 6b011be
+- latestUpdate: Grok-Hermes provider architecture review + GHG gate registry added
+- baselineCommit: d15d143
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,20 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.94.0 - Grok-Hermes Provider Architecture Review
+
+- roadmapVersion: v3.94.0
+- lastUpdated: 2026-05-18
+- commits: docs-only (local, push pending)
+- GROK_HERMES_PROVIDER_ARCHITECTURE_REVIEW.md: official xai-oauth integration recorded
+- GROK_HERMES_PROVIDER_GATE.md: GHG-00 through GHG-09 gate sequence defined
+- GROK_HERMES_TOKEN_AND_AUTH_BOUNDARY.md: auth.json boundary rules defined
+- GROK_HERMES_TOOL_HOLD_REGISTRY.md: x_search/TTS/image/video/transcription/messaging all HOLD
+- PROVIDER_ROUTER_UPDATED_DESIGN.md: primary/fallback/escalation routing design
+- FINAL_HOLD_AND_FUTURE_GO_REGISTRY.md: GHG items 17-19 added
+- EXTERNAL_ACTION_GATE_REGISTRY.md: x_search/TTS/image/video/messaging gates added
+- oauth_performed: false / runtime_started: false / source_changed: false
 
 ## v3.93.0 - P3-003 StackChan Face Glyphs Implemented
 
