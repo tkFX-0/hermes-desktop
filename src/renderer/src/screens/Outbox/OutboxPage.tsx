@@ -5,6 +5,7 @@
  */
 
 import type { UIDraftOutboxItem } from "../../types/service-contracts";
+import { InactiveStamp } from "../../components/Shell/InactiveStamp";
 
 interface OutboxPageProps {
   readonly items: readonly UIDraftOutboxItem[];
@@ -39,13 +40,14 @@ export function OutboxPage({
 }: OutboxPageProps) {
   return (
     <div style={{ padding: "var(--page-pd-v, 18px) var(--page-pd-h, 22px)", display: "flex", flexDirection: "column", gap: 16 }}>
-      <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between" }}>
+      <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
         <p style={{ fontFamily: '"IBM Plex Mono", ui-monospace, monospace', fontSize: 10, letterSpacing: 2, color: "var(--ink3, #9ca3af)", margin: 0 }}>
           {lang === "ja" ? "下書き · OUTBOX" : "DRAFT OUTBOX"}
         </p>
-        <span style={{ fontFamily: '"IBM Plex Mono", ui-monospace, monospace', fontSize: 10, color: "var(--ink3, #9ca3af)" }}>
-          {lang === "ja" ? "下書きのみ。送信・作成・決済しません。" : "Draft only. No send, create, or payment."}
-        </span>
+        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
+          <InactiveStamp label={lang === "ja" ? "送信" : "send"} lang={lang} />
+          <InactiveStamp label={lang === "ja" ? "作成" : "create"} lang={lang} />
+        </div>
       </div>
 
       {stale && (

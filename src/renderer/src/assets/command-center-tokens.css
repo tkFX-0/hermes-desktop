@@ -31,7 +31,7 @@
 @media (min-width: 900px) {
   .cc-operator-grid {
     display: grid;
-    grid-template-columns: 1fr 220px;
+    grid-template-columns: 1fr 260px;
     grid-template-rows: auto;
     gap: 20px;
     align-items: start;

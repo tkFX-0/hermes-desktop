@@ -5,6 +5,7 @@
  */
 
 import type { PushReadinessData } from "../../types/service-contracts";
+import { InactiveStamp } from "../../components/Shell/InactiveStamp";
 
 interface PushPageProps {
   readonly data: PushReadinessData;
@@ -22,15 +23,18 @@ export function PushPage({ data, onCopySummary, lang = "ja" }: PushPageProps) {
 
   return (
     <div style={{ padding: "var(--page-pd-v, 18px) var(--page-pd-h, 22px)", display: "flex", flexDirection: "column", gap: 16 }}>
-      <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
         <p style={{ fontFamily: '"IBM Plex Mono", ui-monospace, monospace', fontSize: 10, letterSpacing: 2, color: "var(--ink3, #9ca3af)", margin: 0 }}>
           PUSH
         </p>
-        {data.stale && (
-          <span style={{ fontFamily: '"IBM Plex Mono", ui-monospace, monospace', fontSize: 10, color: "var(--hold, #d97706)", border: "1px solid var(--hold, #d97706)", padding: "1px 5px", borderRadius: 2 }}>
-            STALE
-          </span>
-        )}
+        <div style={{ display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap" }}>
+          <InactiveStamp label="push" lang={lang} />
+          {data.stale && (
+            <span style={{ fontFamily: '"IBM Plex Mono", ui-monospace, monospace', fontSize: 10, color: "var(--hold, #d97706)", border: "1px solid var(--hold, #d97706)", padding: "1px 5px", borderRadius: 2 }}>
+              STALE
+            </span>
+          )}
+        </div>
       </div>
 
       {/* Safety note */}

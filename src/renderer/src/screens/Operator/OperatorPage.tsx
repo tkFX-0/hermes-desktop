@@ -11,6 +11,7 @@
 import type { OperatorPageDisplayData } from "../../utils/snapshot-to-page";
 import { LampGrid } from "./LampGrid";
 import { NextActionCard } from "../../components/State/NextActionCard";
+import { PageRightRail } from "../../components/Shell/PageRightRail";
 
 interface OperatorPageProps {
   readonly data: OperatorPageDisplayData;
@@ -52,15 +53,6 @@ export function OperatorPage({
   onRefresh,
   lang = "ja",
 }: OperatorPageProps) {
-  const decisionColor =
-    data.decision === "PASS" || data.decision === "PASS_WITH_CAVEAT"
-      ? "var(--pass, #16a34a)"
-      : data.decision === "GO_READY"
-        ? "var(--go, #2563eb)"
-        : data.decision === "STOP"
-          ? "var(--stop, #dc2626)"
-          : "var(--hold, #d97706)";
-
   return (
     <div
       style={{
@@ -247,132 +239,45 @@ export function OperatorPage({
         {/* ── SIDEBAR column (desktop ≥900px only) ── */}
         <aside
           className="cc-operator-side"
-          aria-label={lang === "ja" ? "状態サマリー" : "Status summary"}
+          aria-label={lang === "ja" ? "状態サイドバー" : "Status sidebar"}
         >
-          {/* Decision badge */}
-          <div
-            style={{
-              padding: "14px",
-              background: "var(--paper2, #f3f4f6)",
-              border: `2px solid ${decisionColor}`,
-              borderRadius: 6,
-              display: "flex",
-              flexDirection: "column",
-              gap: 6,
-              alignItems: "center",
-            }}
-          >
-            <span
-              style={{
-                width: 14,
-                height: 14,
-                borderRadius: "50%",
-                background: decisionColor,
-              }}
-              aria-hidden
-            />
-            <span
-              style={{
-                fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-                fontSize: 14,
-                fontWeight: 700,
-                color: decisionColor,
-                letterSpacing: 1,
-              }}
-            >
-              {data.staleBadge ?? data.decision}
-            </span>
-            <span
-              style={{
-                fontFamily:
-                  lang === "en"
-                    ? '"IBM Plex Sans", "Inter", system-ui, sans-serif'
-                    : '"Noto Sans JP", "Hiragino Sans", system-ui, sans-serif',
-                fontSize: 10,
-                color: "var(--ink3, #9ca3af)",
-                textAlign: "center",
-              }}
-            >
-              {lang === "ja"
-                ? "まだ待機。人間GOが必要です。"
-                : "Holding. Human GO required."}
-            </span>
-          </div>
-
-          {/* Data source */}
-          <div
-            style={{
-              padding: "8px 10px",
-              background: "var(--paper2, #f3f4f6)",
-              border: "1px solid var(--rule, #e5e7eb)",
-              borderRadius: 4,
-            }}
-          >
-            <p
-              style={{
-                fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-                fontSize: 9,
-                color: "var(--ink3, #9ca3af)",
-                margin: "0 0 4px",
-                letterSpacing: 1,
-              }}
-            >
-              DATA SOURCE
-            </p>
-            <p
-              style={{
-                fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-                fontSize: 10,
-                color: "var(--ink2, #374151)",
-                margin: 0,
-                wordBreak: "break-all",
-              }}
-            >
-              {data.dataSource}
-            </p>
-          </div>
-
-          {/* Blocked actions reminder */}
-          <div
-            style={{
-              padding: "8px 10px",
-              background: "var(--hold-soft, #fef3c7)",
-              border: "1px solid var(--hold, #d97706)",
-              borderRadius: 4,
-            }}
-          >
-            <p
-              style={{
-                fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-                fontSize: 9,
-                color: "var(--hold, #d97706)",
-                margin: "0 0 6px",
-                letterSpacing: 1,
-              }}
-            >
-              BLOCKED
-            </p>
-            {[
-              lang === "ja" ? "実行" : "execute",
-              "push",
-              lang === "ja" ? "外部送信" : "ext. write",
-              lang === "ja" ? "物理操作" : "physical",
-            ].map((label) => (
-              <p
-                key={label}
+          <PageRightRail
+            decision={data.staleBadge ? "HOLD" : data.decision}
+            lang={lang}
+            extra={
+              <div
                 style={{
-                  fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-                  fontSize: 9,
-                  color: "var(--hold, #d97706)",
-                  margin: "2px 0",
-                  textDecoration: "line-through",
-                  opacity: 0.7,
+                  padding: "8px 10px",
+                  background: "var(--paper, #ffffff)",
+                  border: "1px solid var(--rule, #e5e7eb)",
+                  borderRadius: 4,
                 }}
               >
-                {label}
-              </p>
-            ))}
-          </div>
+                <p
+                  style={{
+                    fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
+                    fontSize: 9,
+                    color: "var(--ink3, #9ca3af)",
+                    margin: "0 0 4px",
+                    letterSpacing: 1,
+                  }}
+                >
+                  DATA SOURCE
+                </p>
+                <p
+                  style={{
+                    fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
+                    fontSize: 10,
+                    color: "var(--ink2, #374151)",
+                    margin: 0,
+                    wordBreak: "break-all",
+                  }}
+                >
+                  {data.dataSource}
+                </p>
+              </div>
+            }
+          />
         </aside>
       </div>
     </div>
