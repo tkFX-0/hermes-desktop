@@ -5,8 +5,9 @@
 
 // ─── Page IDs ───────────────────────────────────────────────────────────────
 
-/** 12 primary pages in the Command Center. */
+/** 13 primary pages in the Command Center. */
 export type PageId =
+  | "theater"
   | "operator"
   | "chat"
   | "stackchan"
@@ -21,6 +22,7 @@ export type PageId =
   | "help";
 
 export const ALL_PAGE_IDS: readonly PageId[] = [
+  "theater",
   "operator",
   "chat",
   "stackchan",
@@ -89,6 +91,13 @@ export interface PageContract {
 }
 
 export const PAGE_CONTRACTS: readonly PageContract[] = [
+  {
+    id: "theater",
+    labelJa: "管制室",
+    labelEn: "Theater",
+    primaryServices: ["safe-snapshot-service"],
+    unavailableFallback: "HOLD",
+  },
   {
     id: "operator",
     labelJa: "操作室",

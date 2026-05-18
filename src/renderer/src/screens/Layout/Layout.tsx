@@ -34,6 +34,7 @@ import { BarChart2, LayoutDashboard, Smartphone } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useI18n } from "../../components/useI18n";
 import { PageShell } from "../../components/Shell/PageShell";
+import { AgentTheaterPage } from "../AgentTheater/AgentTheaterPage";
 import { OperatorPage } from "../Operator/OperatorPage";
 import { CommandChatPage } from "../CommandChat/CommandChatPage";
 import { StackChanPage } from "../StackChan/StackChanPage";
@@ -200,6 +201,13 @@ function Layout(): React.JSX.Element {
 
   function renderCcPage(): React.ReactNode {
     switch (ccPage) {
+      case "theater":
+        return (
+          <AgentTheaterPage
+            decision={toOperatorPageData(null).decision}
+            lang="ja"
+          />
+        );
       case "operator":
       case "inspector":
         return <OperatorPage data={toOperatorPageData(null)} lang="ja" />;
