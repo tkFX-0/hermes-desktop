@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.95.0
+- roadmapVersion: v3.96.0
 - lastUpdated: 2026-05-18
-- latestUpdate: x_search Social Awareness catalog + Hermes tool expansion + Naruebi boundary added
-- baselineCommit: 38509ab
+- latestUpdate: Agent Theater + Slot Worker Routing implementation design added
+- baselineCommit: 289bb81
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,24 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.96.0 - Agent Theater and Slot Worker Routing Design
+
+- roadmapVersion: v3.96.0
+- lastUpdated: 2026-05-18
+- commits: docs-only (local, push pending)
+- AGENT_THEATER_IMPLEMENTATION_DESIGN.md: main design + layout sketch
+- PIXEL_GHOST_AGENT_CHARACTER_SPEC.md: 5 agents with poses, flags, expressions
+- AGENT_THEATER_POSE_AND_ACTION_MATRIX.md: 8-pose matrix per agent + state mapping
+- AGENT_HANDOFF_FLOW_DESIGN.md: 8-step control room flow + HOLD/STOP behavior
+- SLOT_WORKER_ROUTING_DESIGN.md: 8 slots with worker/gate definitions
+- CODEX_CLAUDECODE_WORKER_BOUNDARY.md: dev worker constraint policy
+- AGENT_THEATER_SAFETY_DISPLAY_POLICY.md: what to show/not show/not allow
+- AGENT_THEATER_IMPLEMENTATION_PHASES.md: AT-00 through AT-08
+- FUTURE_GATE_REGISTRY.md: AT series added
+- FINAL_HOLD_AND_FUTURE_GO_REGISTRY.md: AT-02/03, XS-03 items added
+- COMMAND_CENTER_DESIGN_GAP_BACKLOG.md: AT items added, execution order updated
+- source_changed: false / runtime_started: false / assets_added: false
 
 ## v3.95.0 - x_search Social Awareness + Hermes Tool Catalog
 

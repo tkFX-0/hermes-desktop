@@ -62,6 +62,42 @@ Phase D (P3 — polish):
 
 ---
 
+## AT Items (Agent Theater — new phase)
+
+| ID | Title | Impl? | Scope |
+|---|---|---|---|
+| AT-01 | Agent Theater page route design | docs (next) | Design doc only |
+| AT-02 | Agent Theater static UI | no | AgentTheaterPage.tsx (new) |
+| AT-03 | Pixel ghost asset integration | no | src/assets/agents/ |
+| AT-04 | State binding to snapshot | no | AgentTheaterPage.tsx |
+| AT-05 | CSS animation | no | CSS + AgentTheaterPage.tsx |
+| AT-06 | Slot worker status display | no | SlotStatusBar.tsx (new) |
+| AT-07 | Handoff animation | no | AgentTheaterPage.tsx |
+| AT-08 | Runtime visual recheck | pending human | — |
+
+---
+
+## Execution Order Recommendation (Updated)
+
+```
+Phase A (P1 — done): P1-001/002/003
+Phase B (P2 — done): P2-001 through P2-007
+Phase C (P3 — in progress):
+  P3-003: StackChan face glyphs (DONE — 6b011be)
+  P3-001: CSS token cleanup (next P3 item)
+Phase E (AT — Agent Theater):
+  AT-01: page route design
+  AT-02: static UI
+  AT-03: pixel ghost assets
+  AT-04 → AT-07: state/animation/slot
+  AT-08: runtime visual recheck
+Phase F (Provider / Social):
+  GHG-01 → GHG-08: Grok-Hermes activation
+  XS-01 → XS-08: x_search social awareness
+```
+
+---
+
 ## Not in Backlog
 
 ```

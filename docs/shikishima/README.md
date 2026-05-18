@@ -60,6 +60,14 @@ network flow.
 - `X_SEARCH_HOLD_GO_MATRIX.md` - XS-00 through XS-09 gate sequence for x_search activation.
 - `HERMES_TOOL_EXPANSION_CATALOG.md` - complete Hermes tool catalog (HOLD/CANDIDATE/REJECT).
 - `NARUEBI_STYLE_REFERENCE_BOUNDARY.md` - what Shikishima adopts vs rejects from Naruebi social pattern.
+- `AGENT_THEATER_IMPLEMENTATION_DESIGN.md` - Agent Theater (Control Room) main design, layout, and tech stack.
+- `PIXEL_GHOST_AGENT_CHARACTER_SPEC.md` - pixel ghost character spec for 5 agents (visual, pose, flag color).
+- `AGENT_THEATER_POSE_AND_ACTION_MATRIX.md` - 8-pose matrix per agent with animation types and state mapping.
+- `AGENT_HANDOFF_FLOW_DESIGN.md` - 8-step handoff flow + HOLD/STOP visual behavior.
+- `SLOT_WORKER_ROUTING_DESIGN.md` - 8 Slot definitions with worker/gate/allowed/forbidden rules.
+- `CODEX_CLAUDECODE_WORKER_BOUNDARY.md` - dev worker constraint policy (allowed/forbidden commands).
+- `AGENT_THEATER_SAFETY_DISPLAY_POLICY.md` - what must/must not show in Agent Theater UI.
+- `AGENT_THEATER_IMPLEMENTATION_PHASES.md` - AT-00 through AT-08 phase plan.
 - `SHIZUME_SAFETY_GATE_POLICY.md` - Shizume safety gate policy.
 - `SHIZUME_DECISION_MATRIX.md` - GO / HOLD / REJECT decision matrix.
 - `SHIKISHIMA_SYSTEM_DIAGRAM.md` - system diagrams in Mermaid and ASCII.

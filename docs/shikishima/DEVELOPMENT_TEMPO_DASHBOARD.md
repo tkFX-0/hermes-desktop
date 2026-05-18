@@ -20,8 +20,8 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.95.0
-- latestUpdate: 2026-05-18 - x_search social awareness catalog + Hermes tool catalog + Naruebi boundary; docs-only
+- roadmapVersion: v3.96.0
+- latestUpdate: 2026-05-18 - Agent Theater + Slot Worker Routing design; 8 docs; AT-00 complete
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: origin/main=5055b6d; commits_ahead=1 (evidence docs, push pending after this commit)

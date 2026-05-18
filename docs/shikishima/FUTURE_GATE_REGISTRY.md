@@ -87,6 +87,20 @@ GATE-AUTO-01 (requires all above)
 | XS-08 | Limited manual operation | HOLD | XS-07 PASS + human GO + time_window |
 | XS-09 | External posting review | HOLD | XS-08 PASS + content policy GO |
 
+## Agent Theater Implementation Gates (AT series)
+
+| Gate ID | Capability | Current Status | Required Before |
+|---|---|---|---|
+| AT-00 | Docs-only design | COMPLETE | — |
+| AT-01 | Page route design (docs) | HOLD | AT-00 + human review |
+| AT-02 | Static UI implementation | HOLD | AT-01 + impl GO |
+| AT-03 | Pixel ghost asset integration | HOLD | AT-02 + asset review GO |
+| AT-04 | State binding to snapshot | HOLD | AT-02 + impl GO |
+| AT-05 | CSS-only animation | HOLD | AT-02 + impl GO + human visual review |
+| AT-06 | Slot worker status display | HOLD | AT-04 + impl GO |
+| AT-07 | Handoff animation | HOLD | AT-06 + impl GO + human visual review |
+| AT-08 | Runtime visual recheck | HOLD | AT-04+ + human GO + time_window |
+
 ## Required Statement
 
 No gate in this registry is approved.

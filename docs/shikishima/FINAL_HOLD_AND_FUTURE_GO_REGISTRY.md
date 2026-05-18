@@ -278,6 +278,50 @@ reference:                 GROK_HERMES_TOOL_HOLD_REGISTRY.md
 
 ---
 
+### 20. Agent Theater Static UI (AT-02)
+
+```text
+status:                    HOLD
+reason:                    AgentTheaterPage not yet implemented
+minimum_future_GO:         AT-01 design review + AT-02 implementation GO
+required_evidence:         AT-01 scope doc reviewed by human
+stop_conditions:
+  - execute/push/send button appears in component
+  - SafetyStrip not present
+  - raw values exposed in agent card
+reference:                 AGENT_THEATER_IMPLEMENTATION_PHASES.md (AT-02)
+```
+
+### 21. Agent Theater Pixel Ghost Assets (AT-03)
+
+```text
+status:                    HOLD
+reason:                    Pixel art assets not yet created or reviewed
+minimum_future_GO:         AT-02 PASS + asset originality review GO
+required_evidence:         Human confirms assets are original or properly licensed
+stop_conditions:
+  - Third-party character assets committed without license review
+  - Asset size causes performance issues
+reference:                 AGENT_THEATER_IMPLEMENTATION_PHASES.md (AT-03)
+```
+
+### 22. x_search Social Awareness (XS-03)
+
+```text
+status:                    HOLD
+reason:                    x_search not yet enabled; read-only query not yet run
+minimum_future_GO:         XS-01 + XS-02 PASS then XS-03 GO with time_window
+required_evidence:         GHG-08 PASS; human present; safe topic defined
+stop_conditions:
+  - x_search triggers without GO
+  - Any write action on X
+  - auth token exposed in result
+reference:                 X_SEARCH_HOLD_GO_MATRIX.md (XS-03)
+```
+
+---
+
+_Updated: 2026-05-18 — added Agent Theater (AT-02/03) and x_search (XS-03) items_
 _Updated: 2026-05-18 — added Grok-Hermes OAuth items (GHG gates 17-19)_
 
 この範囲では問題を検出していません。
