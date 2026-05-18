@@ -6,6 +6,7 @@
  */
 
 import type { AgentId, PoseState } from "../../types/agent-theater-types";
+import { GhostSvg } from "./GhostSvg";
 
 interface AgentSpec {
   readonly nameJa: string;
@@ -69,40 +70,8 @@ export function AgentCard({ agentId, pose, lang = "ja" }: AgentCardProps) {
         minWidth: 88,
       }}
     >
-      {/* CSS ghost placeholder */}
-      <div
-        style={{
-          width: 38,
-          height: 46,
-          background: "var(--paper, #ffffff)",
-          border: "2px solid var(--go, #2563eb)",
-          borderRadius: "50% 50% 46% 46%",
-          position: "relative",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-        aria-hidden
-      >
-        {/* Flag color dot */}
-        <span
-          style={{
-            position: "absolute",
-            top: -4,
-            right: -5,
-            width: 9,
-            height: 9,
-            borderRadius: "50%",
-            background: spec.flagColor,
-            border: "1.5px solid var(--paper, #ffffff)",
-          }}
-        />
-        {/* Eyes */}
-        <div style={{ display: "flex", gap: 5, marginTop: -4 }}>
-          <span style={{ width: 5, height: 5, borderRadius: "50%", background: "var(--go, #2563eb)" }} />
-          <span style={{ width: 5, height: 5, borderRadius: "50%", background: "var(--go, #2563eb)" }} />
-        </div>
-      </div>
+      {/* Inline SVG ghost (AT-03) */}
+      <GhostSvg agentId={agentId} size={44} />
 
       {/* Name */}
       <span
