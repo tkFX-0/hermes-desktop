@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.91.0
+- roadmapVersion: v3.92.0
 - lastUpdated: 2026-05-18
-- latestUpdate: UI-14 Operator/Chat mobile layout evidence recorded
-- baselineCommit: 5055b6d
+- latestUpdate: P3-003 StackChan face glyphs implementation scope prepared
+- baselineCommit: 15f1c5c
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,15 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.92.0 - P3-003 StackChan Face Glyphs Scope Prepared
+
+- roadmapVersion: v3.92.0
+- lastUpdated: 2026-05-18
+- P2-007 confirmed resolved (UI-13); P3-003 selected as next item
+- scope docs: P2_007_SCOPE_REVIEW.md + ALLOWED_FILES + TEST_PLAN + GO_DRAFT
+- P2-005/P2-006 runtime recheck PASS recorded + pushed (15f1c5c)
+- all P2 items complete; P3-001/P3-003 remaining
 
 ## v3.91.0 - UI-14 Operator/Chat Mobile Layout Evidence
 
