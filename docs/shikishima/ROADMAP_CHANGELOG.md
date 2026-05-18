@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.96.0
+- roadmapVersion: v3.97.0
 - lastUpdated: 2026-05-18
-- latestUpdate: Agent Theater + Slot Worker Routing implementation design added
-- baselineCommit: 289bb81
+- latestUpdate: AT-01 page route design complete — 6 files, types, props, layout defined
+- baselineCommit: f17dab1
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,17 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.97.0 - AT-01 Agent Theater Page Route Design
+
+- roadmapVersion: v3.97.0
+- lastUpdated: 2026-05-18
+- commit: local (push pending)
+- page_id: "theater" / tab: 管制室 / position: index 0
+- 6 files defined: ui-page-types.ts, Layout.tsx, AgentTheaterPage/AgentCard/SlotStatusBar.tsx, agent-theater-types.ts
+- types: AgentId, PoseState, SlotStatus, AgentPoseMap
+- pose derivation from decision (no new IPC)
+- AT-02 auto-proceed approved in design
 
 ## v3.96.0 - Agent Theater and Slot Worker Routing Design
 
