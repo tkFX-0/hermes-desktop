@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.92.0
+- roadmapVersion: v3.93.0
 - lastUpdated: 2026-05-18
-- latestUpdate: P3-003 StackChan face glyphs implementation scope prepared
-- baselineCommit: 15f1c5c
+- latestUpdate: P3-003 StackChan face glyphs implemented + evidence recorded
+- baselineCommit: 6b011be
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,15 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.93.0 - P3-003 StackChan Face Glyphs Implemented
+
+- roadmapVersion: v3.93.0
+- lastUpdated: 2026-05-18
+- commit: 6b011be (local, push pending)
+- FACE_GLYPH map: HOLD/GO_READY/PASS/STOP/REJECT → ASCII art face
+- typecheck×2 PASS / vitest 806/807
+- push pending human GO; visual recheck pending after user returns
 
 ## v3.92.0 - P3-003 StackChan Face Glyphs Scope Prepared
 

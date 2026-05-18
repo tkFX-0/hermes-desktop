@@ -20,8 +20,8 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.92.0
-- latestUpdate: 2026-05-18 - P2-005/006 PageRightRail+InactiveStamp PASS; P3-003 scope prepared; origin/main=15f1c5c
+- roadmapVersion: v3.93.0
+- latestUpdate: 2026-05-18 - P3-003 StackChan face glyphs implemented; evidence recorded; push pending
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: origin/main=5055b6d; commits_ahead=1 (evidence docs, push pending after this commit)
