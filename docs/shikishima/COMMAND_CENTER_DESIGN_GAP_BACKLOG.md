@@ -68,8 +68,10 @@ Phase D (P3 — polish):
 |---|---|---|---|
 | AT-01 | Agent Theater page route design | docs (next) | Design doc only |
 | AT-02 | Agent Theater static UI | no | AgentTheaterPage.tsx (new) |
-| AT-03 | Pixel ghost asset integration | no | src/assets/agents/ |
-| AT-04 | State binding to snapshot | no | AgentTheaterPage.tsx |
+| AT-03 | Pixel ghost SVG characters | yes (3d99293 + c214819) | GhostSvg.tsx |
+| AT-04 | Visual recheck GO package | yes (docs) | AT_04_VISUAL_RECHECK_*.md |
+| AT-04b | AT-04 runtime visual recheck | HOLD | human GO + time_window |
+| AT-04c | State binding to snapshot | no | AgentTheaterPage.tsx |
 | AT-05 | CSS animation | no | CSS + AgentTheaterPage.tsx |
 | AT-06 | Slot worker status display | no | SlotStatusBar.tsx (new) |
 | AT-07 | Handoff animation | no | AgentTheaterPage.tsx |

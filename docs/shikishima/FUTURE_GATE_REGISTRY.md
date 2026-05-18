@@ -99,7 +99,8 @@ GATE-AUTO-01 (requires all above)
 | AT-05 | CSS-only animation | HOLD | AT-02 + impl GO + human visual review |
 | AT-06 | Slot worker status display | HOLD | AT-04 + impl GO |
 | AT-07 | Handoff animation | HOLD | AT-06 + impl GO + human visual review |
-| AT-08 | Runtime visual recheck | HOLD | AT-04+ + human GO + time_window |
+| AT-08 | Runtime visual recheck (initial) | PASS (2026-05-18) | — |
+| AT-08b | AT-04 refined ghost runtime recheck | HOLD | human GO + time_window |
 
 ## Required Statement
 

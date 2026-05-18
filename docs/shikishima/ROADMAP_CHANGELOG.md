@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.97.0
-- lastUpdated: 2026-05-18
-- latestUpdate: AT-01 page route design complete — 6 files, types, props, layout defined
-- baselineCommit: f17dab1
+- roadmapVersion: v3.98.0
+- lastUpdated: 2026-05-19
+- latestUpdate: AT-04 visual recheck GO package prepared; runtime GO pending
+- baselineCommit: c214819
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,15 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.98.0 - AT-04 Visual Recheck GO Package
+
+- roadmapVersion: v3.98.0
+- lastUpdated: 2026-05-19
+- commit: local (push pending)
+- AT-04 visual recheck GO package + checklist + evidence template created
+- runtime GO not yet issued; awaiting human date/time_window
+- next: AT-04 runtime visual recheck → AT-06 Slot Worker Status polish
 
 ## v3.97.0 - AT-01 Agent Theater Page Route Design
 

@@ -20,14 +20,14 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.97.0
-- latestUpdate: 2026-05-18 - AT-01 page route design complete; 6 files scoped; AT-02 impl ready
+- roadmapVersion: v3.98.0
+- latestUpdate: 2026-05-19 - AT-04 visual recheck GO package prepared; runtime GO pending
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: origin/main=5055b6d; commits_ahead=1 (evidence docs, push pending after this commit)
 - validation road: Gate 001-007 ✓; UI-01-14 PASS; shell design aligned; mobile foundation + responsive pages done
-- current next human action: push GO for pending commits (P3-003 + Grok-Hermes docs); then runtime recheck GO after user returns
-- HOLD reason: productionReady false; execution disabled; P3-003 visual recheck pending; GHG-01 not started
+- current next human action: AT-04 visual recheck GO (date + time_window); then AT-06 Slot Worker Status polish
+- HOLD reason: productionReady false; execution disabled; AT-04 runtime recheck not yet issued
 
 ## Boundaries
 

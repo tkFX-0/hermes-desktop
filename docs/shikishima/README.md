@@ -68,6 +68,9 @@ network flow.
 - `CODEX_CLAUDECODE_WORKER_BOUNDARY.md` - dev worker constraint policy (allowed/forbidden commands).
 - `AGENT_THEATER_SAFETY_DISPLAY_POLICY.md` - what must/must not show in Agent Theater UI.
 - `AGENT_THEATER_IMPLEMENTATION_PHASES.md` - AT-00 through AT-08 phase plan.
+- `AT_04_VISUAL_RECHECK_GO_PACKAGE.md` - AT-04 runtime visual recheck GO package (runtime GO not yet issued).
+- `AT_04_VISUAL_RECHECK_CHECKLIST.md` - visual checklist for AT-04 runtime observation.
+- `AT_04_VISUAL_RECHECK_EVIDENCE_TEMPLATE.md` - evidence template for AT-04 runtime observation.
 - `SHIZUME_SAFETY_GATE_POLICY.md` - Shizume safety gate policy.
 - `SHIZUME_DECISION_MATRIX.md` - GO / HOLD / REJECT decision matrix.
 - `SHIKISHIMA_SYSTEM_DIAGRAM.md` - system diagrams in Mermaid and ASCII.
