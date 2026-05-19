@@ -37,6 +37,7 @@ import { useTheme } from "../../components/theme-context";
 import { PageShell } from "../../components/Shell/PageShell";
 import { AgentTheaterPage } from "../AgentTheater/AgentTheaterPage";
 import { OperatorPage } from "../Operator/OperatorPage";
+import { RoomChat } from "../AgentTheater/PixelRoom/RoomChat";
 import { CommandChatPage } from "../CommandChat/CommandChatPage";
 import { StackChanPage } from "../StackChan/StackChanPage";
 import { OutboxPage } from "../Outbox/OutboxPage";
@@ -255,7 +256,26 @@ function Layout(): React.JSX.Element {
         );
       case "operator":
       case "inspector":
-        return <OperatorPage data={toOperatorPageData(ccSafeSummary)} lang="ja" />;
+        return (
+          <>
+            <OperatorPage data={toOperatorPageData(ccSafeSummary)} lang="ja" />
+            <RoomChat
+              messages={ccMessages}
+              onSend={(content) =>
+                setCcMessages((prev) => [
+                  ...prev,
+                  {
+                    id: `local-${Date.now()}`,
+                    role: "user" as const,
+                    content,
+                    timestampUnixMs: Date.now(),
+                  },
+                ])
+              }
+              lang="ja"
+            />
+          </>
+        );
       case "chat":
         return (
           <CommandChatPage
