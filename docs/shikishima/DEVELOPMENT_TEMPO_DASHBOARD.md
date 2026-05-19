@@ -20,8 +20,8 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v4.15.0
-- latestUpdate: 2026-05-19 - 3D Pixel Room Vision Design Package (PXR-00〜04) 完成; Final Goal Lock完成; Room Layout実装
+- roadmapVersion: v4.16.0
+- latestUpdate: 2026-05-20 - PXR-05A 3D タブ設計書完成 (Three.js/R3F 方針確定); PXR-02/03 idle アニメーション+状態連動完成
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: origin/main=75e690b
@@ -54,10 +54,15 @@ creating productivity pressure or autonomous acceleration.
 
 | ID | 内容 | 優先度 | Gate |
 |---|---|---|---|
-| PXR-01 | CSS isometric 静的部屋 + 5エージェント配置 | 高 | Level 4 |
-| PXR-02 | エージェント idle アニメーション | 中 | Level 4 |
-| PXR-03 | 状態連動モーション (React state → CSS) | 中 | Level 4 |
+| PXR-01 | CSS isometric 静的部屋 + 5エージェント配置 | 完了 | ✅ |
+| PXR-02 | エージェント idle アニメーション | 完了 | ✅ |
+| PXR-03 | 状態連動モーション (React state → CSS) | 完了 | ✅ |
 | PXR-04 | Sprite asset gate | 低 | PXR-04 asset gate |
+| PXR-05A | 3D タブ設計書 (Three.js/R3F 方針) | 完了 | ✅ |
+| PXR-05B | npm install GO → R3F 最小 Canvas | 高 | **人間 GO 待ち** |
+| PXR-05C | 床・壁・デスク・5エージェント 3D 配置 | 高 | PXR-05B 完了後 |
+| PXR-05D | Safety HUD overlay / 状態反映 | 高 | PXR-05C 完了後 |
+| PXR-06 | 自由視点 (OrbitControls) | 低 | PXR-05D + 人間判断後 |
 | AT-05 | Sprite / 画像アセット計画 | 低 (optional) | AT-05 asset gate |
 | CC-01 | Control Center live data 接続 (snapshot → 実データ) | 中 | Level 4 |
 | CC-02 | PageShell IPC 接続 (hermes snapshot 購読) | 中 | Level 4 |

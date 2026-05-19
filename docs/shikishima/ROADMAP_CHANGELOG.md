@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.15.0
-- lastUpdated: 2026-05-19
-- latestUpdate: 3D Pixel Room Vision Design Package (PXR-00〜04) 完成
+- roadmapVersion: v4.16.0
+- lastUpdated: 2026-05-20
+- latestUpdate: PXR-05A 3D タブ設計書完成 (Three.js/R3F 方針確定)
 - baselineCommit: aadea91
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,16 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.16.0 - PXR-05A 3D タブ設計書
+
+- `PXR_05A_3D_TAB_DESIGN.md`: Three.js/R3F 方針確定 (Approach A / OrthographicCamera)。
+- 依存追加計画: `three ^0.177` / `@react-three/fiber ^9` / `@react-three/drei ^10` / `@types/three ^0.177`。
+- コンポーネント構成: `PixelRoom3D/` 8 ファイル設計。
+- 3D シーン座標・ライティング・マテリアル設計。
+- タブ統合設計: TheaterView に `"3d"` 追加。
+- フェーズ計画: PXR-05A(設計) → 05B(package GO) → 05C(ジオメトリ) → 05D(HUD/状態) → 06(自由視点)。
+- docs-only。runtime 未起動。package 変更なし。push 未実施。
 
 ## v4.15.0 - 3D Pixel Room Vision Design Package (PXR-00)
 
