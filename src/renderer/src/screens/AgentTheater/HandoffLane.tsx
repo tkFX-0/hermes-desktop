@@ -78,11 +78,11 @@ export function HandoffLane({ decision, lang = "ja" }: HandoffLaneProps): React.
           background: "#0d1117",
           border: "1px solid #21262d",
           borderRadius: 4,
-          padding: "38px 14px 10px",
+          padding: "46px 18px 14px",
           display: "flex",
           alignItems: "center",
           flexWrap: "wrap",
-          rowGap: 8,
+          rowGap: 10,
           columnGap: 0,
         }}
       >
@@ -121,8 +121,8 @@ export function HandoffLane({ decision, lang = "ja" }: HandoffLaneProps): React.
                 <div
                   className={isActive ? "at-active-step" : undefined}
                   style={{
-                    width: 20,
-                    height: 20,
+                    width: 26,
+                    height: 26,
                     borderRadius: "50%",
                     background: isBlocked
                       ? "#f85149"
@@ -138,7 +138,7 @@ export function HandoffLane({ decision, lang = "ja" }: HandoffLaneProps): React.
                     alignItems: "center",
                     justifyContent: "center",
                     fontFamily: '"IBM Plex Mono", monospace',
-                    fontSize: 9,
+                    fontSize: 11,
                     fontWeight: 700,
                     color:
                       (isActive && !isBlocked) || isBlocked
@@ -156,7 +156,7 @@ export function HandoffLane({ decision, lang = "ja" }: HandoffLaneProps): React.
                 <span
                   style={{
                     fontFamily: '"IBM Plex Mono", monospace',
-                    fontSize: 8,
+                    fontSize: 10,
                     color: isBlocked
                       ? "#f85149"
                       : isActive
@@ -176,11 +176,11 @@ export function HandoffLane({ decision, lang = "ja" }: HandoffLaneProps): React.
               {i < STEPS.length - 1 && (
                 <div
                   style={{
-                    width: 18,
+                    width: 22,
                     height: 1,
                     background: isDone && !isBlocked ? "#334155" : "#1c2333",
-                    margin: "0 3px",
-                    marginBottom: 16,
+                    margin: "0 4px",
+                    marginBottom: 20,
                     flexShrink: 0,
                   }}
                 />
@@ -194,11 +194,11 @@ export function HandoffLane({ decision, lang = "ja" }: HandoffLaneProps): React.
           style={{
             marginLeft: "auto",
             fontFamily: '"IBM Plex Mono", monospace',
-            fontSize: 8,
+            fontSize: 10,
             color: "#f0883e",
             border: "1px solid #f0883e",
             borderRadius: 2,
-            padding: "2px 6px",
+            padding: "3px 8px",
             whiteSpace: "nowrap" as const,
             alignSelf: "flex-start",
             marginTop: 1,

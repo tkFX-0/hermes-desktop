@@ -100,7 +100,7 @@ export function ControlRoomLayout({ decision, poses, lang = "ja" }: ControlRoomL
       style={{
         background: "#0d1117",
         borderRadius: 8,
-        padding: "14px 12px 12px",
+        padding: "18px 16px 16px",
         border: "1px solid #21262d",
         minWidth: 0,
         overflow: "hidden",
@@ -122,7 +122,7 @@ export function ControlRoomLayout({ decision, poses, lang = "ja" }: ControlRoomL
           <span
             style={{
               fontFamily: '"IBM Plex Mono", monospace',
-              fontSize: 9,
+              fontSize: 11,
               letterSpacing: 1.5,
               color: "#58a6ff",
               textTransform: "uppercase" as const,
@@ -139,11 +139,11 @@ export function ControlRoomLayout({ decision, poses, lang = "ja" }: ControlRoomL
           <span
             style={{
               fontFamily: '"IBM Plex Mono", monospace',
-              fontSize: 8,
+              fontSize: 10,
               color: decColor,
               border: `1px solid ${decColor}`,
               borderRadius: 2,
-              padding: "1px 5px",
+              padding: "2px 7px",
               whiteSpace: "nowrap" as const,
             }}
           >
@@ -155,11 +155,11 @@ export function ControlRoomLayout({ decision, poses, lang = "ja" }: ControlRoomL
               key={b.key}
               style={{
                 fontFamily: '"IBM Plex Mono", monospace',
-                fontSize: 8,
+                fontSize: 10,
                 color: "#6e7681",
                 border: "1px solid #21262d",
                 borderRadius: 2,
-                padding: "1px 5px",
+                padding: "2px 7px",
                 whiteSpace: "nowrap" as const,
               }}
             >
@@ -176,9 +176,9 @@ export function ControlRoomLayout({ decision, poses, lang = "ja" }: ControlRoomL
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 128px), 1fr))",
-          gap: 8,
-          margin: "10px 0",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 160px), 1fr))",
+          gap: 10,
+          margin: "14px 0",
         }}
       >
         {AGENT_IDS.map((id) => (
@@ -190,14 +190,14 @@ export function ControlRoomLayout({ decision, poses, lang = "ja" }: ControlRoomL
       <DotGridStrip />
 
       {/* Handoff lane */}
-      <div style={{ marginTop: 10 }}>
+      <div style={{ marginTop: 14 }}>
         <div
           style={{
             fontFamily: '"IBM Plex Mono", monospace',
-            fontSize: 9,
+            fontSize: 11,
             letterSpacing: 1.2,
             color: "#6e7681",
-            marginBottom: 6,
+            marginBottom: 8,
             textTransform: "uppercase" as const,
           }}
         >

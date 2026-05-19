@@ -68,10 +68,10 @@ const WORKERS: readonly WorkerCardData[] = [
 
 const PANEL_LABEL: React.CSSProperties = {
   fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-  fontSize: 9,
+  fontSize: 12,
   letterSpacing: 1.2,
   color: "#6e7681",
-  marginBottom: 8,
+  marginBottom: 10,
   textTransform: "uppercase" as const,
 };
 
@@ -86,7 +86,7 @@ export function WorkerStatusPanel({ lang = "ja" }: WorkerStatusPanelProps): Reac
         background: "#0d1117",
         border: "1px solid #21262d",
         borderRadius: 8,
-        padding: "12px",
+        padding: "16px",
       }}
     >
       {/* Panel header */}
@@ -98,9 +98,9 @@ export function WorkerStatusPanel({ lang = "ja" }: WorkerStatusPanelProps): Reac
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 150px), 1fr))",
-          gap: 8,
-          marginBottom: 12,
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 190px), 1fr))",
+          gap: 10,
+          marginBottom: 14,
         }}
       >
         {WORKERS.map((worker) => (

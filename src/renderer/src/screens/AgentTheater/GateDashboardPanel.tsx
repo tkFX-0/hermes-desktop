@@ -177,16 +177,16 @@ const SUMMARY_BADGES = [
 
 const PANEL_LABEL: React.CSSProperties = {
   fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-  fontSize: 9,
+  fontSize: 12,
   letterSpacing: 1.2,
   color: "#6e7681",
-  marginBottom: 8,
+  marginBottom: 10,
   textTransform: "uppercase" as const,
 };
 
 const TAGLINE_STYLE: React.CSSProperties = {
   fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-  fontSize: 8,
+  fontSize: 11,
   color: "#8b949e",
   fontStyle: "italic",
   lineHeight: 1.4,
@@ -203,7 +203,7 @@ export function GateDashboardPanel({ lang = "ja" }: GateDashboardPanelProps): Re
         background: "#0d1117",
         border: "1px solid #21262d",
         borderRadius: 8,
-        padding: "12px",
+        padding: "16px",
         minWidth: 0,
       }}
     >
@@ -211,13 +211,13 @@ export function GateDashboardPanel({ lang = "ja" }: GateDashboardPanelProps): Re
         {lang === "ja" ? "GATE DASHBOARD · 未来ゲート" : "GATE DASHBOARD · FUTURE GATES"}
       </p>
 
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 12 }}>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 14 }}>
         {SUMMARY_BADGES.map((badge) => (
           <span
             key={badge.key}
             style={{
               fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-              fontSize: 8,
+              fontSize: 11,
               color: badge.color,
               border: `1px solid ${badge.color}`,
               borderRadius: 2,
@@ -233,9 +233,9 @@ export function GateDashboardPanel({ lang = "ja" }: GateDashboardPanelProps): Re
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 210px), 1fr))",
-          gap: 8,
-          marginBottom: 12,
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 260px), 1fr))",
+          gap: 10,
+          marginBottom: 14,
         }}
       >
         {GATE_ITEMS.map((item) => (

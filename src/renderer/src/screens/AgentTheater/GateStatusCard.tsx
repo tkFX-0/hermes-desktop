@@ -35,10 +35,10 @@ export function GateStatusCard({ item }: GateStatusCardProps): React.JSX.Element
         border: "1px solid #21262d",
         borderLeft: `3px solid ${accent}`,
         borderRadius: 4,
-        padding: "9px 11px",
+        padding: "12px 15px",
         display: "flex",
         flexDirection: "column" as const,
-        gap: 6,
+        gap: 8,
         minWidth: 0,
         overflow: "hidden",
       }}
@@ -47,7 +47,7 @@ export function GateStatusCard({ item }: GateStatusCardProps): React.JSX.Element
         <span
           style={{
             fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-            fontSize: 10,
+            fontSize: 13,
             fontWeight: 700,
             color: accent,
             overflowWrap: "anywhere" as const,
@@ -61,7 +61,7 @@ export function GateStatusCard({ item }: GateStatusCardProps): React.JSX.Element
       <span
         style={{
           fontFamily: '"IBM Plex Sans", "Inter", system-ui, sans-serif',
-          fontSize: 10,
+          fontSize: 13,
           color: "#c9d1d9",
           lineHeight: 1.3,
           overflowWrap: "anywhere" as const,
@@ -73,7 +73,7 @@ export function GateStatusCard({ item }: GateStatusCardProps): React.JSX.Element
       <span
         style={{
           fontFamily: '"IBM Plex Sans", "Inter", system-ui, sans-serif',
-          fontSize: 9,
+          fontSize: 12,
           color: "#8b949e",
           lineHeight: 1.35,
           overflowWrap: "anywhere" as const,
@@ -96,11 +96,11 @@ export function GateStatusCard({ item }: GateStatusCardProps): React.JSX.Element
             key={allowed}
             style={{
               fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-              fontSize: 7,
+              fontSize: 10,
               color: "#3fb950",
               border: "1px solid #21262d",
               borderRadius: 2,
-              padding: "0 3px",
+              padding: "1px 5px",
               whiteSpace: "nowrap" as const,
             }}
           >
@@ -115,11 +115,11 @@ export function GateStatusCard({ item }: GateStatusCardProps): React.JSX.Element
             key={forbidden}
             style={{
               fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-              fontSize: 7,
+              fontSize: 10,
               color: "#f85149",
               border: "1px solid #21262d",
               borderRadius: 2,
-              padding: "0 3px",
+              padding: "1px 5px",
               whiteSpace: "nowrap" as const,
             }}
           >
@@ -131,11 +131,11 @@ export function GateStatusCard({ item }: GateStatusCardProps): React.JSX.Element
       <span
         style={{
           fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-          fontSize: 7,
+          fontSize: 10,
           color: item.autonomyLevel === 5 ? "#f0883e" : "#3fb950",
           border: `1px solid ${item.autonomyLevel === 5 ? "#f0883e" : "#3fb950"}`,
           borderRadius: 2,
-          padding: "1px 4px",
+          padding: "2px 6px",
           alignSelf: "flex-start" as const,
         }}
       >
@@ -156,7 +156,7 @@ function GateFact({ label, value, color }: GateFactProps): React.JSX.Element {
     <span
       style={{
         fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-        fontSize: 8,
+        fontSize: 11,
         color: "#6e7681",
         lineHeight: 1.3,
         overflowWrap: "anywhere" as const,

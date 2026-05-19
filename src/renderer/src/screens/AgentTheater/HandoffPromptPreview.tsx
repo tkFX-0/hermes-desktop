@@ -26,7 +26,7 @@ export function HandoffPromptPreview({ title, preview, accentColor, lang = "ja" 
         style={{
           background: "#161b22",
           borderBottom: "1px solid #21262d",
-          padding: "4px 10px",
+          padding: "6px 14px",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
@@ -35,7 +35,7 @@ export function HandoffPromptPreview({ title, preview, accentColor, lang = "ja" 
         <span
           style={{
             fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-            fontSize: 8,
+            fontSize: 11,
             fontWeight: 700,
             color: accentColor,
           }}
@@ -45,11 +45,11 @@ export function HandoffPromptPreview({ title, preview, accentColor, lang = "ja" 
         <span
           style={{
             fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-            fontSize: 7,
+            fontSize: 10,
             color: "#6e7681",
             border: "1px solid #21262d",
             borderRadius: 2,
-            padding: "0 3px",
+            padding: "1px 5px",
           }}
         >
           {lang === "ja" ? "表示のみ" : "display only"}
@@ -57,11 +57,11 @@ export function HandoffPromptPreview({ title, preview, accentColor, lang = "ja" 
       </div>
 
       {/* Prompt body */}
-      <div style={{ padding: "8px 10px" }}>
+      <div style={{ padding: "12px 14px" }}>
         <p
           style={{
             fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-            fontSize: 9,
+            fontSize: 12,
             color: "#c9d1d9",
             margin: 0,
             lineHeight: 1.5,

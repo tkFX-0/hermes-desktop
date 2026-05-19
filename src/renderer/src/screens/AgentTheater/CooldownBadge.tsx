@@ -29,12 +29,12 @@ export function CooldownBadge({ status, lang = "ja" }: CooldownBadgeProps): Reac
     <span
       style={{
         fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-        fontSize: 7,
+        fontSize: 10,
         fontWeight: 700,
         color,
         border: `1px solid ${color}`,
         borderRadius: 2,
-        padding: "1px 4px",
+        padding: "2px 6px",
         whiteSpace: "nowrap" as const,
         flexShrink: 0,
       }}

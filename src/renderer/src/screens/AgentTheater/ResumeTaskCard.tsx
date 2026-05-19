@@ -34,10 +34,10 @@ export function ResumeTaskCard({ task, lang = "ja" }: ResumeTaskCardProps): Reac
         border: "1px solid #21262d",
         borderLeft: `3px solid ${accent}`,
         borderRadius: 4,
-        padding: "8px 10px",
+        padding: "12px 14px",
         display: "flex",
         flexDirection: "column" as const,
-        gap: 5,
+        gap: 7,
         minWidth: 0,
       }}
     >
@@ -46,7 +46,7 @@ export function ResumeTaskCard({ task, lang = "ja" }: ResumeTaskCardProps): Reac
         <span
           style={{
             fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-            fontSize: 8,
+            fontSize: 11,
             color: "#6e7681",
             letterSpacing: 0.5,
           }}
@@ -60,7 +60,7 @@ export function ResumeTaskCard({ task, lang = "ja" }: ResumeTaskCardProps): Reac
       <span
         style={{
           fontFamily: '"IBM Plex Sans", "Inter", system-ui, sans-serif',
-          fontSize: 11,
+          fontSize: 14,
           fontWeight: 600,
           color: "#e6edf3",
           lineHeight: 1.3,
@@ -74,7 +74,7 @@ export function ResumeTaskCard({ task, lang = "ja" }: ResumeTaskCardProps): Reac
         <span
           style={{
             fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-            fontSize: 8,
+            fontSize: 11,
             color: "#8b949e",
           }}
         >
@@ -83,7 +83,7 @@ export function ResumeTaskCard({ task, lang = "ja" }: ResumeTaskCardProps): Reac
         <span
           style={{
             fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-            fontSize: 8,
+            fontSize: 11,
             color: "#c9d1d9",
           }}
         >
@@ -92,11 +92,11 @@ export function ResumeTaskCard({ task, lang = "ja" }: ResumeTaskCardProps): Reac
         <span
           style={{
             fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-            fontSize: 7,
+            fontSize: 10,
             color: levelColor,
             border: `1px solid ${levelColor}`,
             borderRadius: 2,
-            padding: "0 3px",
+            padding: "1px 5px",
             whiteSpace: "nowrap" as const,
           }}
         >
@@ -112,7 +112,7 @@ export function ResumeTaskCard({ task, lang = "ja" }: ResumeTaskCardProps): Reac
         <span
           style={{
             fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-            fontSize: 8,
+            fontSize: 11,
             color: "#6e7681",
             whiteSpace: "nowrap" as const,
             flexShrink: 0,
@@ -123,7 +123,7 @@ export function ResumeTaskCard({ task, lang = "ja" }: ResumeTaskCardProps): Reac
         <span
           style={{
             fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-            fontSize: 8,
+            fontSize: 11,
             color: "#8b949e",
           }}
         >
@@ -136,7 +136,7 @@ export function ResumeTaskCard({ task, lang = "ja" }: ResumeTaskCardProps): Reac
         <span
           style={{
             fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-            fontSize: 8,
+            fontSize: 11,
             color: "#6e7681",
             whiteSpace: "nowrap" as const,
             flexShrink: 0,
@@ -160,11 +160,11 @@ export function ResumeTaskCard({ task, lang = "ja" }: ResumeTaskCardProps): Reac
         <span
           style={{
             fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-            fontSize: 7,
+            fontSize: 10,
             color: "#f0883e",
             border: "1px solid #f0883e",
             borderRadius: 2,
-            padding: "1px 4px",
+            padding: "2px 6px",
             alignSelf: "flex-start" as const,
           }}
         >
@@ -177,7 +177,7 @@ export function ResumeTaskCard({ task, lang = "ja" }: ResumeTaskCardProps): Reac
         <span
           style={{
             fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-            fontSize: 7,
+            fontSize: 10,
             color: "#6e7681",
             fontStyle: "italic",
           }}

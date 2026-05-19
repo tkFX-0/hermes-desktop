@@ -15,7 +15,7 @@ export function RouteWorkerBadge({ worker, accentColor, humanGoRequired = false 
       <span
         style={{
           fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-          fontSize: 10,
+          fontSize: 13,
           fontWeight: 700,
           color: accentColor,
         }}
@@ -26,7 +26,7 @@ export function RouteWorkerBadge({ worker, accentColor, humanGoRequired = false 
         <span
           style={{
             fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-            fontSize: 7,
+            fontSize: 10,
             color: "#f0883e",
             border: "1px solid #f0883e",
             borderRadius: 2,

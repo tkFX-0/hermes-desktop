@@ -70,10 +70,10 @@ const DEFAULT_SLOTS: readonly SlotStatus[] = [
 
 const SECTION_HEADING: React.CSSProperties = {
   fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-  fontSize: 10,
+  fontSize: 12,
   letterSpacing: 2,
   color: "var(--ink3, #9ca3af)",
-  margin: "0 0 8px",
+  margin: "0 0 10px",
   textTransform: "uppercase" as const,
 };
 
@@ -101,17 +101,17 @@ export function AgentTheaterPage({
   return (
     <div
       style={{
-        padding: "var(--page-pd-v, 18px) var(--page-pd-h, 22px)",
+        padding: "var(--page-pd-v, 22px) var(--page-pd-h, 28px)",
         minHeight: 0,
         overflowX: "hidden",
       }}
     >
-      <p style={{ ...SECTION_HEADING, marginBottom: 16 }}>
+      <p style={{ ...SECTION_HEADING, marginBottom: 20 }}>
         {lang === "ja" ? "管制室 · THEATER" : "CONTROL ROOM · THEATER"}
       </p>
 
       <div className="cc-operator-grid">
-        <div className="cc-operator-main" style={{ display: "flex", flexDirection: "column", gap: 18, minWidth: 0 }}>
+        <div className="cc-operator-main" style={{ display: "flex", flexDirection: "column", gap: 24, minWidth: 0 }}>
           <section style={SECTION_BLOCK} aria-label={lang === "ja" ? "管制室" : "Control room"}>
             <ControlRoomLayout decision={decision} poses={poses} lang={lang} />
           </section>

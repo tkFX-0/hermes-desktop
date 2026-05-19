@@ -33,7 +33,7 @@ export function AutonomyLevelLegend({ lang = "ja" }: AutonomyLevelLegendProps): 
         background: "#0d1117",
         border: "1px solid #21262d",
         borderRadius: 4,
-        padding: "10px 12px",
+        padding: "14px 16px",
       }}
     >
       {/* Level rows */}
@@ -53,9 +53,9 @@ export function AutonomyLevelLegend({ lang = "ja" }: AutonomyLevelLegendProps): 
             <span
               style={{
                 fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-                fontSize: 8,
+                fontSize: 11,
                 color: isHuman ? "#f0883e" : "#6e7681",
-                minWidth: 46,
+                minWidth: 56,
                 flexShrink: 0,
               }}
             >
@@ -64,7 +64,7 @@ export function AutonomyLevelLegend({ lang = "ja" }: AutonomyLevelLegendProps): 
             <span
               style={{
                 fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-                fontSize: 8,
+                fontSize: 11,
                 color: isHuman ? "#f0883e" : "#8b949e",
                 flex: 1,
                 minWidth: 0,
@@ -76,11 +76,11 @@ export function AutonomyLevelLegend({ lang = "ja" }: AutonomyLevelLegendProps): 
               <span
                 style={{
                   fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-                  fontSize: 7,
+                  fontSize: 10,
                   color: "#3fb950",
                   border: "1px solid #3fb950",
                   borderRadius: 2,
-                  padding: "0 3px",
+                  padding: "1px 5px",
                   whiteSpace: "nowrap" as const,
                   flexShrink: 0,
                 }}
@@ -92,11 +92,11 @@ export function AutonomyLevelLegend({ lang = "ja" }: AutonomyLevelLegendProps): 
               <span
                 style={{
                   fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-                  fontSize: 7,
+                  fontSize: 10,
                   color: "#f0883e",
                   border: "1px solid #f0883e",
                   borderRadius: 2,
-                  padding: "0 3px",
+                  padding: "1px 5px",
                   whiteSpace: "nowrap" as const,
                   flexShrink: 0,
                 }}
@@ -118,11 +118,11 @@ export function AutonomyLevelLegend({ lang = "ja" }: AutonomyLevelLegendProps): 
             key={action}
             style={{
               fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-              fontSize: 7,
+              fontSize: 10,
               color: "#f0883e",
               border: "1px solid #21262d",
               borderRadius: 2,
-              padding: "1px 4px",
+              padding: "2px 6px",
               whiteSpace: "nowrap" as const,
             }}
           >
@@ -135,7 +135,7 @@ export function AutonomyLevelLegend({ lang = "ja" }: AutonomyLevelLegendProps): 
       <p
         style={{
           fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-          fontSize: 8,
+          fontSize: 11,
           color: "#6e7681",
           margin: 0,
           fontStyle: "italic",

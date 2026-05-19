@@ -16,11 +16,11 @@ Filling this template alone does not start runtime.
 at14_runtime_visual_recheck_go:
 
   # Required: date of the session (YYYY-MM-DD)
-  date:
+  date: 2026-05-19
 
   # Required: JST time window (e.g. "21:00-22:00 JST")
-  time_window_start:
-  time_window_end:
+  time_window_start: "19:30"
+  time_window_end: "20:00"
   timezone: JST
 
   # Approved command (must match exactly)

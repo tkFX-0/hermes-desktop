@@ -179,7 +179,7 @@ export function ControlRoomZone({ agentId, pose, lang = "ja" }: ControlRoomZoneP
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        padding: "10px 8px",
+        padding: "14px 12px",
         background: "#161b22",
         borderRadius: 6,
         border: "1px solid #21262d",
@@ -189,20 +189,20 @@ export function ControlRoomZone({ agentId, pose, lang = "ja" }: ControlRoomZoneP
       }}
     >
       {/* Zone label */}
-      <span style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: 9, letterSpacing: 0.8, color: config.accentColor, textTransform: "uppercase" as const }}>
+      <span style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: 11, letterSpacing: 0.8, color: config.accentColor, textTransform: "uppercase" as const }}>
         {lang === "ja" ? config.labelJa : config.labelEn}
       </span>
 
       {/* Agent SVG */}
-      <GhostSvg agentId={agentId} size={42} />
+      <GhostSvg agentId={agentId} size={52} />
 
       {/* Agent name */}
-      <span style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: 10, fontWeight: 700, color: "#c9d1d9" }}>
+      <span style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: 13, fontWeight: 700, color: "#c9d1d9" }}>
         {lang === "ja" ? config.nameJa : config.nameEn}
       </span>
 
       {/* Pose badge */}
-      <span style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: 8, color: poseColor, border: `1px solid ${poseColor}`, borderRadius: 2, padding: "1px 5px", letterSpacing: 0.4 }}>
+      <span style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: 10, color: poseColor, border: `1px solid ${poseColor}`, borderRadius: 2, padding: "2px 7px", letterSpacing: 0.4 }}>
         {poseLabel}
       </span>
 

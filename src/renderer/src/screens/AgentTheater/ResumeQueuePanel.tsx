@@ -81,10 +81,10 @@ const SAFETY_BADGES = [
 
 const PANEL_LABEL: React.CSSProperties = {
   fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-  fontSize: 9,
+  fontSize: 12,
   letterSpacing: 1.2,
   color: "#6e7681",
-  marginBottom: 8,
+  marginBottom: 10,
   textTransform: "uppercase" as const,
 };
 
@@ -117,7 +117,7 @@ export function ResumeQueuePanel({ lang = "ja" }: ResumeQueuePanelProps): React.
         background: "#0d1117",
         border: "1px solid #21262d",
         borderRadius: 8,
-        padding: "12px",
+        padding: "16px",
       }}
     >
       {/* Panel header */}
@@ -129,9 +129,9 @@ export function ResumeQueuePanel({ lang = "ja" }: ResumeQueuePanelProps): React.
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 200px), 1fr))",
-          gap: 8,
-          marginBottom: 12,
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 240px), 1fr))",
+          gap: 10,
+          marginBottom: 14,
         }}
       >
         {SAMPLE_TASKS.map((task) => (
@@ -152,7 +152,7 @@ export function ResumeQueuePanel({ lang = "ja" }: ResumeQueuePanelProps): React.
             key={b.keyEn}
             style={{
               fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-              fontSize: 8,
+              fontSize: 11,
               color: b.color,
               border: `1px solid ${b.color}`,
               borderRadius: 2,
@@ -175,7 +175,7 @@ export function ResumeQueuePanel({ lang = "ja" }: ResumeQueuePanelProps): React.
             key={line}
             style={{
               fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-              fontSize: 8,
+              fontSize: 11,
               color: "#6e7681",
               fontStyle: "italic",
             }}

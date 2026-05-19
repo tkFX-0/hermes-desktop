@@ -40,7 +40,7 @@ export function HumanGateActionCard({ action, lang = "ja" }: HumanGateActionCard
         border: "1px solid #21262d",
         borderLeft: `3px solid ${accent}`,
         borderRadius: 4,
-        padding: "7px 10px",
+        padding: "10px 14px",
         display: "flex",
         alignItems: "flex-start",
         gap: 8,
@@ -52,7 +52,7 @@ export function HumanGateActionCard({ action, lang = "ja" }: HumanGateActionCard
         <span
           style={{
             fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-            fontSize: 9,
+            fontSize: 12,
             fontWeight: 700,
             color: accent,
             whiteSpace: "nowrap" as const,
@@ -63,7 +63,7 @@ export function HumanGateActionCard({ action, lang = "ja" }: HumanGateActionCard
         <span
           style={{
             fontFamily: '"IBM Plex Sans", "Inter", system-ui, sans-serif',
-            fontSize: 9,
+            fontSize: 12,
             color: "#8b949e",
             lineHeight: 1.3,
           }}

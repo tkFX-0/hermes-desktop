@@ -37,7 +37,7 @@ export function SlotStatusBar({ slots, lang = "ja" }: SlotStatusBarProps): React
               display: "flex",
               alignItems: "center",
               gap: 8,
-              padding: "5px 10px",
+              padding: "8px 12px",
               background: i % 2 === 0 ? "var(--paper2, #f3f4f6)" : "var(--paper, #ffffff)",
               borderTop: i > 0 ? "1px solid var(--rule, #e5e7eb)" : "none",
             }}
@@ -45,10 +45,10 @@ export function SlotStatusBar({ slots, lang = "ja" }: SlotStatusBarProps): React
             <span
               style={{
                 fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-                fontSize: 9,
+                fontSize: 11,
                 color: "var(--ink3, #9ca3af)",
                 letterSpacing: 0.5,
-                minWidth: 56,
+                minWidth: 68,
                 flexShrink: 0,
               }}
             >
@@ -58,7 +58,7 @@ export function SlotStatusBar({ slots, lang = "ja" }: SlotStatusBarProps): React
             <span
               style={{
                 fontFamily: '"IBM Plex Sans", "Inter", system-ui, sans-serif',
-                fontSize: 11,
+                fontSize: 13,
                 color: "var(--ink2, #374151)",
                 flex: 1,
                 minWidth: 0,
@@ -70,7 +70,7 @@ export function SlotStatusBar({ slots, lang = "ja" }: SlotStatusBarProps): React
             <span
               style={{
                 fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-                fontSize: 9,
+                fontSize: 11,
                 color: "var(--ink3, #9ca3af)",
                 flexShrink: 1,
                 minWidth: 0,
@@ -85,11 +85,11 @@ export function SlotStatusBar({ slots, lang = "ja" }: SlotStatusBarProps): React
             <span
               style={{
                 fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-                fontSize: 9,
+                fontSize: 11,
                 color: st.color,
                 border: `1px solid ${st.color}`,
                 borderRadius: 2,
-                padding: "1px 5px",
+                padding: "2px 7px",
                 flexShrink: 0,
               }}
             >
@@ -100,7 +100,7 @@ export function SlotStatusBar({ slots, lang = "ja" }: SlotStatusBarProps): React
               <span
                 style={{
                   fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-                  fontSize: 9,
+                  fontSize: 11,
                   color: "var(--hold, #d97706)",
                   flexShrink: 0,
                 }}

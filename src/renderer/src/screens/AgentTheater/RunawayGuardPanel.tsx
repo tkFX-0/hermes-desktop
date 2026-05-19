@@ -85,10 +85,10 @@ const GUARDED_ACTIONS: readonly GuardedActionData[] = [
 
 const PANEL_LABEL: React.CSSProperties = {
   fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-  fontSize: 9,
+  fontSize: 12,
   letterSpacing: 1.2,
   color: "#6e7681",
-  marginBottom: 8,
+  marginBottom: 10,
   textTransform: "uppercase" as const,
 };
 
@@ -103,7 +103,7 @@ export function RunawayGuardPanel({ lang = "ja" }: RunawayGuardPanelProps): Reac
         background: "#0d1117",
         border: "1px solid #21262d",
         borderRadius: 8,
-        padding: "12px",
+        padding: "16px",
         minWidth: 0,
         overflow: "hidden",
       }}
@@ -116,7 +116,7 @@ export function RunawayGuardPanel({ lang = "ja" }: RunawayGuardPanelProps): Reac
         <span
           style={{
             fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-            fontSize: 7,
+            fontSize: 10,
             color: "#f85149",
             border: "1px solid #f85149",
             borderRadius: 2,
@@ -132,7 +132,7 @@ export function RunawayGuardPanel({ lang = "ja" }: RunawayGuardPanelProps): Reac
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 200px), 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 240px), 1fr))",
           gap: 6,
           marginBottom: 12,
         }}
@@ -150,11 +150,11 @@ export function RunawayGuardPanel({ lang = "ja" }: RunawayGuardPanelProps): Reac
         <span
           style={{
             fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-            fontSize: 8,
+            fontSize: 11,
             color: "#3fb950",
             border: "1px solid #3fb950",
             borderRadius: 2,
-            padding: "2px 6px",
+            padding: "3px 8px",
             whiteSpace: "nowrap" as const,
           }}
         >
@@ -163,11 +163,11 @@ export function RunawayGuardPanel({ lang = "ja" }: RunawayGuardPanelProps): Reac
         <span
           style={{
             fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-            fontSize: 8,
+            fontSize: 11,
             color: "#f0883e",
             border: "1px solid #f0883e",
             borderRadius: 2,
-            padding: "2px 6px",
+            padding: "3px 8px",
             whiteSpace: "nowrap" as const,
           }}
         >
@@ -183,7 +183,7 @@ export function RunawayGuardPanel({ lang = "ja" }: RunawayGuardPanelProps): Reac
         <span
           style={{
             fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-            fontSize: 8,
+            fontSize: 11,
             color: "#8b949e",
             fontStyle: "italic",
           }}
@@ -193,7 +193,7 @@ export function RunawayGuardPanel({ lang = "ja" }: RunawayGuardPanelProps): Reac
         <span
           style={{
             fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-            fontSize: 8,
+            fontSize: 11,
             color: "#8b949e",
             fontStyle: "italic",
           }}

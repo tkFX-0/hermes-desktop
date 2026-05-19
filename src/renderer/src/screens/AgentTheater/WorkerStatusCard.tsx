@@ -42,10 +42,10 @@ export function WorkerStatusCard({ worker, lang = "ja" }: WorkerStatusCardProps)
         border: "1px solid #21262d",
         borderLeft: `3px solid ${worker.accentColor}`,
         borderRadius: 4,
-        padding: "8px 10px",
+        padding: "12px 14px",
         display: "flex",
         flexDirection: "column" as const,
-        gap: 4,
+        gap: 6,
         minWidth: 0,
       }}
     >
@@ -62,7 +62,7 @@ export function WorkerStatusCard({ worker, lang = "ja" }: WorkerStatusCardProps)
         <span
           style={{
             fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-            fontSize: 10,
+            fontSize: 13,
             fontWeight: 700,
             color: worker.accentColor,
           }}
@@ -72,11 +72,11 @@ export function WorkerStatusCard({ worker, lang = "ja" }: WorkerStatusCardProps)
         <span
           style={{
             fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-            fontSize: 7,
+            fontSize: 10,
             color: st.color,
             border: `1px solid ${st.color}`,
             borderRadius: 2,
-            padding: "1px 4px",
+            padding: "2px 6px",
             whiteSpace: "nowrap" as const,
             flexShrink: 0,
           }}
@@ -89,7 +89,7 @@ export function WorkerStatusCard({ worker, lang = "ja" }: WorkerStatusCardProps)
       <span
         style={{
           fontFamily: '"IBM Plex Sans", "Inter", system-ui, sans-serif',
-          fontSize: 9,
+          fontSize: 11,
           color: "#8b949e",
           lineHeight: 1.3,
         }}
@@ -101,7 +101,7 @@ export function WorkerStatusCard({ worker, lang = "ja" }: WorkerStatusCardProps)
       <span
         style={{
           fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-          fontSize: 8,
+          fontSize: 11,
           color: "#6e7681",
           lineHeight: 1.2,
         }}
