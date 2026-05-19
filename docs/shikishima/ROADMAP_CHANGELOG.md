@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.04.0
+- roadmapVersion: v4.05.0
 - lastUpdated: 2026-05-19
-- latestUpdate: AT-10 Runaway Guard Panel implemented; typecheck PASS; runtime recheck HOLD
-- baselineCommit: d96d976
+- latestUpdate: AT-11 Worker Routing / Handoff Prompt Panel implemented; typecheck PASS; runtime recheck HOLD
+- baselineCommit: 72748ba
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,18 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.05.0 - AT-11 Worker Routing / Handoff Prompt Panel
+
+- Added `RouteWorkerBadge.tsx`: worker name badge with accent color.
+- Added `HandoffPromptPreview.tsx`: display-only prompt preview block (no auto-send, no copy).
+- Added `WorkerRouteCard.tsx`: card per worker with allowed/forbidden badges.
+- Added `WorkerRoutingPanel.tsx`: 5 worker routes + 3 prompt previews + safety strip + taglines.
+- Added `WorkerRouteKind` type + `WorkerRoute` interface to agent-theater-types.ts.
+- Modified `AgentTheaterPage.tsx`: ROUTING section added.
+- No auto-dispatch, no API calls. Static display data.
+- typecheck PASS / vitest 806/807; runtime recheck HOLD.
+- productionReady: false / execution: disabled.
 
 ## v4.04.0 - AT-10 Runaway Guard / Human-Gated Action Panel
 

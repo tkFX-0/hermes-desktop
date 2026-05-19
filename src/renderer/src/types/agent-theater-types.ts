@@ -88,3 +88,36 @@ export type GuardedActionStatus =
   | "LOCKED_FALSE"
   | "LOCKED_DISABLED"
   | "DISABLED";
+
+export type WorkerRouteKind =
+  | "DESIGN"
+  | "UI_IMPLEMENTATION"
+  | "SMALL_FIX"
+  | "PUSH_READINESS"
+  | "RUNTIME_OBSERVATION"
+  | "OAUTH_GATE"
+  | "SOCIAL_READ_ONLY"
+  | "OBSIDIAN_LOCAL_NOTE"
+  | "EXTERNAL_WRITE"
+  | "HUMAN_APPROVAL";
+
+export interface WorkerRoute {
+  readonly routeId: string;
+  readonly taskTypeJa: string;
+  readonly taskTypeEn: string;
+  readonly recommendedWorker: string;
+  readonly workerStatus: SlotWorkerStatus;
+  readonly autonomyLevelLabel: string;
+  readonly handoffModeJa: string;
+  readonly handoffModeEn: string;
+  readonly plainReasonJa: string;
+  readonly plainReasonEn: string;
+  readonly allowedJa: readonly string[];
+  readonly allowedEn: readonly string[];
+  readonly forbiddenJa: readonly string[];
+  readonly forbiddenEn: readonly string[];
+  readonly samplePromptTitle: string;
+  readonly samplePromptPreview: string;
+  readonly humanGoRequired: boolean;
+  readonly accentColor: string;
+}
