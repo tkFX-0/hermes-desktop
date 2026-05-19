@@ -72,6 +72,14 @@ network flow.
 - `AT_14_RUNTIME_VISUAL_RECHECK_SCOPE.md` - per-section observation points and expected element values.
 - `AT_14_RUNTIME_VISUAL_RECHECK_SELF_AUDIT.md` - ClaudeCode self-audit confirming docs-only diff; runtime HOLD.
 - `AT_13_FINAL_VISUAL_POLISH_EVIDENCE.md` - AT-13 implementation evidence and responsive check results.
+- `SHIKISHIMA_100_PERCENT_ROADMAP_DESIGN.md` - Phase 1–10 フェーズ設計書; 100%までの全計画.
+- `SHIKISHIMA_REMAINING_TASK_REGISTRY_TO_100.md` - DONE/HOLD/BLOCKED/FUTURE 全Task表.
+- `SHIKISHIMA_LEVEL5_GATE_PLAN_TO_100.md` - Level 5 全操作一覧 + 承認フォームテンプレート.
+- `SHIKISHIMA_100_PERCENT_DEFINITION_OF_DONE.md` - 100% の定義と最終チェックリスト.
+- `SHIKISHIMA_NEXT_SESSION_HANDOFF_TO_100.md` - 次セッション引き継ぎ + Option A-E.
+- `SHIKISHIMA_100_PERCENT_ROADMAP_SELF_AUDIT.md` - ClaudeCode 自己監査記録 (docs-only diff確認).
+- `LEVEL5_BLOCKED_TASKS.md` - Level 5 ブロック中タスク (CC-03/HB-01/XS-01) 承認フォーム.
+- `2026-05-19_DAILY_WORK_SUMMARY.md` - 2026-05-19 全作業サマリー.
 - `AT_REMAINING_IMPLEMENTATION_PUSH_READINESS.md` - docs-only push readiness checklist for remaining AT design package.
 - `PROVIDER_ROUTER_UPDATED_DESIGN.md` - updated provider routing design (primary/fallback/escalation).
 - `HERMES_SOCIAL_AWARENESS_FEATURE_CATALOG.md` - Social Awareness Layer feature catalog with XS stage gates.

@@ -20,13 +20,13 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v4.11.0
-- latestUpdate: 2026-05-19 - Agent Theater UI series complete; Ctrl+wheel zoom added; nav reorder done
+- roadmapVersion: v4.12.0
+- latestUpdate: 2026-05-19 - 100% Roadmap Design Package 完成; CC-01/02/UI-01/02 実装済み; 残Task全整理
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
-- current HEAD: origin/main=574131b
-- validation road: Gate 001-007 ✓; AT-07〜AT-14 PASS; AT-15 UI scale PASS; zoom PASS; nav PASS
-- current next human action: define next feature scope
+- current HEAD: origin/main=75e690b
+- validation road: Gate 001-007 ✓; AT-07〜AT-15 PASS; CC-01/02 PASS; UI-01/02 PASS; 100% Roadmap docs完成
+- current next human action: Option A (AT-14 runtime time_window GO) が推奨
 - HOLD reason: productionReady false; execution disabled; Level 5 actions require explicit human GO
 
 ## Agent Theater — 完了済み

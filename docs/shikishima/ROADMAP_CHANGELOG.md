@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.11.0
+- roadmapVersion: v4.12.0
 - lastUpdated: 2026-05-19
-- latestUpdate: Agent Theater UI series complete (AT-07〜AT-15); Ctrl+wheel zoom; nav reorder
-- baselineCommit: 574131b
+- latestUpdate: 100% Roadmap Design Package 作成; CC-01/02/UI-01/02 完了; 残Task全整理
+- baselineCommit: 75e690b
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,16 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.12.0 - 100% Roadmap Design Package
+
+- `SHIKISHIMA_100_PERCENT_ROADMAP_DESIGN.md`: Phase 1–10 フェーズ設計書
+- `SHIKISHIMA_REMAINING_TASK_REGISTRY_TO_100.md`: DONE/HOLD/BLOCKED/FUTURE 全Task表
+- `SHIKISHIMA_LEVEL5_GATE_PLAN_TO_100.md`: Level 5 全操作一覧 + 承認フォーム
+- `SHIKISHIMA_100_PERCENT_DEFINITION_OF_DONE.md`: 100% の定義と最終チェックリスト
+- `SHIKISHIMA_NEXT_SESSION_HANDOFF_TO_100.md`: 次セッション引き継ぎ + Option A-E
+- `SHIKISHIMA_100_PERCENT_ROADMAP_SELF_AUDIT.md`: ClaudeCode 自己監査記録
+- docs-only。ソース変更なし。runtime 未起動。push 未実施。
 
 ## v4.11.0 - Nav Reorder
 
