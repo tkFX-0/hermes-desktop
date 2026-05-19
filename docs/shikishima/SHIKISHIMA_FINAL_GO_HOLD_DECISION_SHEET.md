@@ -23,21 +23,21 @@
 
 ## Decision 2 — Runtime visual recheck を実施するか
 
-**判断:** ( ) GO with date/time_window  ( ) HOLD  ( ) REJECT
+**判断:** (x) GO
 
-**GO の場合、記入:**
 ```yaml
 runtime_visual_recheck_go:
-  date:
-  time_window_start:       # HH:MM JST
-  time_window_end:
+  date:                    2026-05-19
+  time_window_start:       "20:56"
+  time_window_end:         "21:30"
+  timezone:                JST
   approved_command:        npm run dev
-  observation_target:      Agent Theater / Control Center
+  observation_target:      Agent Theater / Control Center / Room Layout
   shutdown_method:         Ctrl+C
-  evidence_file:
+  evidence_file:           docs/shikishima/AT14_ROOM_VISUAL_EVIDENCE_2026-05-19.md
 ```
 
-**人間の判断:** _______________
+**人間の判断:** GO (2026-05-19 20:56 JST)
 
 ---
 
