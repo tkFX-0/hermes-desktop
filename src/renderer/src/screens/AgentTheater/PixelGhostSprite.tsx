@@ -1,6 +1,8 @@
 /**
- * PixelGhostSprite — Pixel Room specific ghost character designs.
- * PXR-05E redesign: rounded bodies, unified face, role-faithful accessories.
+ * PixelGhostSprite — CSS/SVG character approximations for the Pixel Room.
+ * Based on the approved ghost design sheet:
+ * #1/#6 command headset, #2/#7 safety HOLD, #3/#8 planning map,
+ * #4/#9 development hardhat, #5/#10 record headphones/book.
  * Inline SVG only. No image assets. Display-only.
  */
 
@@ -11,35 +13,89 @@ interface PixelGhostSpriteProps {
   readonly size?: number;
 }
 
-const BODY_FILL = "#edf2ff";
-const BODY_SHADOW = "#c4d4f0";
-const INK = "#1a2852";
+const WHITE = "#f6fbff";
+const EDGE = "#7aa7f6";
+const SHADOW = "#c5d8ff";
+const INK = "#102052";
+const BLUSH = "#ff8f8f";
 const MONO = '"IBM Plex Mono", monospace';
 
 const BODY_PATH =
-  "M32,12 C15,12 7,23 7,37 C7,51 14,58 20,55 Q23,63 27,55 Q30,63 32,57 Q34,63 37,55 Q41,63 44,55 C50,58 57,51 57,37 C57,23 49,12 32,12 Z";
+  "M32,9 C18,9 10,19 10,34 C10,45 15,53 22,54 Q25,62 29,55 Q32,63 35,55 Q39,62 42,54 C50,53 56,45 56,34 C56,19 46,9 32,9 Z";
 
-function GhostBase(): React.JSX.Element {
+function Body({ edge = EDGE }: { readonly edge?: string }): React.JSX.Element {
   return (
     <>
-      <ellipse cx="33" cy="68" rx="17" ry="4" fill="rgba(40,60,200,0.09)" />
-      <path d={BODY_PATH} fill={BODY_SHADOW} transform="translate(1,1.5)" />
-      <path d={BODY_PATH} fill={BODY_FILL} />
-      <ellipse cx="29" cy="26" rx="15" ry="10" fill="rgba(255,255,255,0.38)" />
+      <ellipse cx="34" cy="70" rx="20" ry="4.5" fill="rgba(0,0,0,0.18)" />
+      <path d={BODY_PATH} fill={SHADOW} transform="translate(1.6,2)" opacity="0.82" />
+      <path d={BODY_PATH} fill={WHITE} stroke={edge} strokeWidth="1.7" strokeLinejoin="round" />
+      <path d="M22,15 C16,20 14,28 15,36" stroke="rgba(255,255,255,0.85)" strokeWidth="4" strokeLinecap="round" />
+      <path d="M41,11 C38,17 37,24 42,30" stroke={SHADOW} strokeWidth="2.6" strokeLinecap="round" opacity="0.9" />
     </>
   );
 }
 
-function GhostFace(): React.JSX.Element {
+function Face({ mood = "smile" }: { readonly mood?: "smile" | "focus" | "calm" }): React.JSX.Element {
+  const leftEye = mood === "calm" ? "M18,31 Q23,27 28,31" : undefined;
+  const rightEye = mood === "calm" ? "M38,31 Q43,27 48,31" : undefined;
+
   return (
     <>
-      <rect x="19" y="27" width="10" height="12" rx="2.5" fill={INK} />
-      <rect x="20" y="28" width="3" height="3" rx="0.5" fill="white" opacity="0.9" />
-      <rect x="35" y="27" width="10" height="12" rx="2.5" fill={INK} />
-      <rect x="36" y="28" width="3" height="3" rx="0.5" fill="white" opacity="0.9" />
-      <ellipse cx="13" cy="38" rx="5.5" ry="4" fill="rgba(255,115,115,0.46)" />
-      <ellipse cx="51" cy="38" rx="5.5" ry="4" fill="rgba(255,115,115,0.46)" />
-      <path d="M22,42 Q32,51 42,42" stroke={INK} strokeWidth="2.2" fill="none" strokeLinecap="round" />
+      {leftEye ? (
+        <path d={leftEye} stroke={INK} strokeWidth="3" fill="none" strokeLinecap="round" />
+      ) : (
+        <rect x="20" y="28" width="8" height="11" rx="2" fill={INK} />
+      )}
+      {rightEye ? (
+        <path d={rightEye} stroke={INK} strokeWidth="3" fill="none" strokeLinecap="round" />
+      ) : (
+        <rect x="38" y="28" width="8" height="11" rx="2" fill={INK} />
+      )}
+      {mood !== "calm" ? (
+        <>
+          <rect x="21" y="29" width="2.4" height="2.4" rx="0.5" fill="white" opacity="0.9" />
+          <rect x="39" y="29" width="2.4" height="2.4" rx="0.5" fill="white" opacity="0.9" />
+        </>
+      ) : null}
+      <ellipse cx="15" cy="40" rx="4.8" ry="3.5" fill={BLUSH} opacity="0.58" />
+      <ellipse cx="51" cy="40" rx="4.8" ry="3.5" fill={BLUSH} opacity="0.58" />
+      {mood === "focus" ? (
+        <path d="M26,44 Q33,48 40,44" stroke={INK} strokeWidth="2" fill="none" strokeLinecap="round" />
+      ) : (
+        <path d="M24,43 Q33,50 42,43" stroke={INK} strokeWidth="2" fill="none" strokeLinecap="round" />
+      )}
+    </>
+  );
+}
+
+function MiniFlag({
+  x,
+  y,
+  color,
+  text,
+  pole = "#263554",
+}: {
+  readonly x: number;
+  readonly y: number;
+  readonly color: string;
+  readonly text: string;
+  readonly pole?: string;
+}): React.JSX.Element {
+  return (
+    <>
+      <rect x={x} y={y} width="2.2" height="32" rx="1" fill={pole} />
+      <rect x={x + 2} y={y + 1} width="15" height="11" rx="1.4" fill={color} />
+      <text
+        x={x + 9.5}
+        y={y + 9.2}
+        textAnchor="middle"
+        fontFamily={MONO}
+        fontSize="5.2"
+        fill="white"
+        fontWeight="900"
+      >
+        {text}
+      </text>
     </>
   );
 }
@@ -47,20 +103,16 @@ function GhostFace(): React.JSX.Element {
 function ShikishimaSprite(): React.JSX.Element {
   return (
     <g>
-      <GhostBase />
-      <path d="M12,34 Q32,9 52,34" stroke="#1c2d5c" strokeWidth="4.5" fill="none" strokeLinecap="round" />
-      <ellipse cx="11" cy="35" rx="6" ry="7" fill="#1c2d5c" />
-      <ellipse cx="11" cy="35" rx="3.5" ry="4.5" fill="#2e4a90" />
-      <ellipse cx="53" cy="35" rx="6" ry="7" fill="#1c2d5c" />
-      <ellipse cx="53" cy="35" rx="3.5" ry="4.5" fill="#2e4a90" />
-      <GhostFace />
-      <path d="M6,39 Q4,50 13,54" stroke="#1c2d5c" strokeWidth="2" fill="none" strokeLinecap="round" />
-      <circle cx="13" cy="55" r="2.5" fill="#1c2d5c" />
-      <rect x="54" y="8" width="2" height="30" rx="1" fill="#223355" />
-      <rect x="56" y="8" width="12" height="9" rx="1.5" fill="#2255dd" />
-      <text x="62" y="15.5" textAnchor="middle" fontFamily={MONO} fontSize="5" fill="white" fontWeight="bold">
-        しき
-      </text>
+      <Body edge="#4f8dff" />
+      <path d="M11,35 Q13,9 33,9 Q52,9 55,35" stroke="#142858" strokeWidth="4.8" fill="none" strokeLinecap="round" />
+      <ellipse cx="11" cy="36" rx="6.6" ry="9" fill="#132552" />
+      <ellipse cx="11" cy="36" rx="3.4" ry="5.4" fill="#35549a" />
+      <ellipse cx="55" cy="36" rx="6.6" ry="9" fill="#132552" />
+      <ellipse cx="55" cy="36" rx="3.4" ry="5.4" fill="#35549a" />
+      <Face />
+      <path d="M8,42 Q7,52 16,56" stroke="#132552" strokeWidth="2.2" fill="none" strokeLinecap="round" />
+      <rect x="13" y="54" width="7" height="4" rx="2" fill="#132552" />
+      <MiniFlag x={56} y={14} color="#1f57df" text="しき" />
     </g>
   );
 }
@@ -68,18 +120,18 @@ function ShikishimaSprite(): React.JSX.Element {
 function ShizumeSprite(): React.JSX.Element {
   return (
     <g>
-      <GhostBase />
-      <ellipse cx="32" cy="14" rx="20" ry="8" fill="#192440" />
-      <path d="M12,14 Q32,5 52,14 L52,18 Q32,11 12,18 Z" fill="#243060" />
-      <rect x="10" y="19" width="44" height="5" rx="2.5" fill="#192440" />
-      <rect x="18" y="46" width="28" height="4" rx="1.5" fill="#f5c020" />
-      <rect x="18" y="52" width="28" height="3.5" rx="1.5" fill="#f5c020" />
-      <GhostFace />
-      <rect x="54" y="18" width="2" height="30" rx="1" fill="#443322" />
-      <rect x="56" y="18" width="12" height="9" rx="1.5" fill="#cc1111" />
-      <text x="62" y="25.5" textAnchor="middle" fontFamily={MONO} fontSize="4" fill="white" fontWeight="bold">
-        HOLD
-      </text>
+      <Body edge="#f0b429" />
+      <path d="M13,22 Q31,5 51,22" fill="#172448" />
+      <path d="M17,18 Q32,7 48,18" fill="#263d78" />
+      <rect x="12" y="22" width="40" height="5" rx="2.5" fill="#172448" />
+      <circle cx="16" cy="19" r="5.2" fill="#f8bf1a" stroke="#9d6700" strokeWidth="1.2" />
+      <circle cx="16" cy="19" r="2.8" fill="#ffe889" />
+      <rect x="16" y="49" width="32" height="4.4" rx="1.8" fill="#f8bf1a" />
+      <path d="M18,46 L27,57 M46,46 L37,57" stroke="#f8bf1a" strokeWidth="4" strokeLinecap="round" />
+      <Face mood="focus" />
+      <circle cx="31" cy="46" r="3.4" fill="#f8bf1a" stroke="#9d6700" strokeWidth="1" />
+      <path d="M29,45 Q24,42 22,38" stroke="#172448" strokeWidth="2" fill="none" strokeLinecap="round" />
+      <MiniFlag x={54} y={16} color="#dc1f1f" text="HOLD" pole="#522" />
     </g>
   );
 }
@@ -87,25 +139,18 @@ function ShizumeSprite(): React.JSX.Element {
 function HajimeSprite(): React.JSX.Element {
   return (
     <g>
-      <GhostBase />
-      <circle cx="50" cy="15" r="8" fill="rgba(220,228,255,0.82)" stroke={BODY_SHADOW} strokeWidth="1" />
-      <circle cx="43" cy="24" r="3.5" fill="rgba(220,228,255,0.82)" stroke={BODY_SHADOW} strokeWidth="0.8" />
-      <circle cx="40" cy="30" r="2" fill="rgba(220,228,255,0.82)" stroke={BODY_SHADOW} strokeWidth="0.8" />
-      <text x="50" y="19" textAnchor="middle" fontFamily={MONO} fontSize="9" fill={INK} fontWeight="bold">
+      <Body edge="#5bbf6a" />
+      <Face />
+      <path d="M11,48 L24,43 L35,48 L48,43 L55,48 L55,63 L42,68 L31,63 L18,68 L11,63 Z" fill="#c8d96a" stroke="#4d8b35" strokeWidth="1.5" />
+      <path d="M24,43 V63 M35,48 V68 M48,43 V63" stroke="#7da64a" strokeWidth="1" />
+      <path d="M15,59 Q24,52 34,57 Q44,62 52,52" stroke="#2f7f44" strokeWidth="1.5" fill="none" strokeDasharray="3 2" />
+      <circle cx="18" cy="58" r="2" fill="#e03838" />
+      <circle cx="44" cy="54" r="2" fill="#e03838" />
+      <rect x="50" y="41" width="10" height="12" rx="2" fill="#7b4a20" />
+      <path d="M52,41 Q55,37 58,41" stroke="#7b4a20" strokeWidth="2" fill="none" />
+      <circle cx="49" cy="16" r="7.5" fill="rgba(230,238,255,0.92)" stroke="#b9caff" strokeWidth="1.2" />
+      <text x="49" y="20" textAnchor="middle" fontFamily={MONO} fontSize="8" fill={INK} fontWeight="900">
         ?
-      </text>
-      <GhostFace />
-      <rect x="12" y="48" width="24" height="16" rx="3" fill="#c8b458" />
-      <rect x="13" y="49" width="22" height="14" rx="2" fill="#d8c468" />
-      <path d="M15,53 Q18,51 21,53 Q24,55 27,53" stroke="#2e6020" strokeWidth="1.3" fill="none" />
-      <path d="M15,57 Q19,59 23,57" stroke="#2e6020" strokeWidth="1.3" fill="none" />
-      <path d="M15,61 Q18,59 22,61 Q25,63 29,61" stroke="#3a7030" strokeWidth="1.3" fill="none" />
-      <circle cx="18" cy="54" r="2" fill="#dd2020" />
-      <circle cx="26" cy="58" r="1.5" fill="#dd2020" />
-      <rect x="40" y="8" width="2" height="24" rx="1" fill="#1e4e1e" />
-      <rect x="42" y="8" width="12" height="9" rx="1.5" fill="#28a828" />
-      <text x="48" y="15.5" textAnchor="middle" fontFamily={MONO} fontSize="5" fill="white" fontWeight="bold">
-        はじ
       </text>
     </g>
   );
@@ -114,25 +159,18 @@ function HajimeSprite(): React.JSX.Element {
 function TsumugiSprite(): React.JSX.Element {
   return (
     <g>
-      <GhostBase />
-      <ellipse cx="32" cy="16" rx="24" ry="5.5" fill="#d49000" />
-      <path d="M15,16 Q15,4 32,4 Q49,4 49,16" fill="#f5bc00" />
-      <path
-        d="M21,6 Q32,3 43,6 Q47,10 47,15 Q41,10 32,10 Q23,10 17,15 Q17,10 21,6"
-        fill="rgba(255,245,130,0.50)"
-      />
-      <rect x="30" y="4" width="4" height="12" rx="2" fill="#d49000" opacity="0.4" />
-      <GhostFace />
-      <rect x="42" y="51" width="17" height="12" rx="2" fill="#7a4820" />
-      <rect x="42" y="49" width="17" height="5" rx="1.5" fill="#8a5830" />
-      <path d="M47,49 Q50.5,44 54,49" stroke="#8a5830" strokeWidth="2.5" fill="none" />
-      <rect x="44" y="55" width="3" height="2" rx="0.5" fill="#c89040" />
-      <rect x="53" y="55" width="3" height="2" rx="0.5" fill="#c89040" />
-      <rect x="4" y="22" width="2" height="28" rx="1" fill="#a04800" />
-      <rect x="6" y="22" width="12" height="9" rx="1.5" fill="#f07000" />
-      <text x="12" y="29.5" textAnchor="middle" fontFamily={MONO} fontSize="5" fill="white" fontWeight="bold">
-        つむ
-      </text>
+      <Body edge="#f0a020" />
+      <path d="M14,22 Q16,6 32,6 Q48,6 50,22" fill="#f5bd12" stroke="#b87500" strokeWidth="1.2" />
+      <rect x="10" y="22" width="44" height="5.5" rx="2.6" fill="#d98a00" />
+      <path d="M23,8 V22 M32,6 V22 M41,8 V22" stroke="#b87500" strokeWidth="1.4" opacity="0.7" />
+      <Face mood="focus" />
+      <rect x="43" y="48" width="17" height="14" rx="2" fill="#7a4820" />
+      <rect x="43" y="46" width="17" height="5" rx="1.5" fill="#936130" />
+      <path d="M48,46 Q51.5,41 55,46" stroke="#936130" strokeWidth="2.4" fill="none" />
+      <rect x="46" y="54" width="3" height="2" rx="0.5" fill="#d9a049" />
+      <rect x="54" y="54" width="3" height="2" rx="0.5" fill="#d9a049" />
+      <path d="M9,49 L19,39" stroke="#56616f" strokeWidth="3" strokeLinecap="round" />
+      <path d="M17,36 Q21,33 25,36 Q23,40 18,39 Z" fill="#56616f" />
     </g>
   );
 }
@@ -140,29 +178,22 @@ function TsumugiSprite(): React.JSX.Element {
 function ShirubeSprite(): React.JSX.Element {
   return (
     <g>
-      <GhostBase />
-      <path d="M12,34 Q32,9 52,34" stroke="#201848" strokeWidth="4.5" fill="none" strokeLinecap="round" />
-      <ellipse cx="11" cy="35" rx="6" ry="7" fill="#201848" />
-      <ellipse cx="11" cy="35" rx="3.5" ry="4.5" fill="#3828a0" />
-      <ellipse cx="53" cy="35" rx="6" ry="7" fill="#201848" />
-      <ellipse cx="53" cy="35" rx="3.5" ry="4.5" fill="#3828a0" />
-      <GhostFace />
-      <rect x="29" y="48" width="3" height="17" rx="1" fill="#201848" />
-      <rect x="11" y="49" width="18" height="15" rx="2" fill="#f8f4ec" />
-      <line x1="13" y1="53" x2="27" y2="53" stroke="rgba(140,140,140,0.6)" strokeWidth="0.9" />
-      <line x1="13" y1="57" x2="27" y2="57" stroke="rgba(140,140,140,0.6)" strokeWidth="0.9" />
-      <line x1="13" y1="61" x2="22" y2="61" stroke="rgba(140,140,140,0.6)" strokeWidth="0.9" />
-      <rect x="32" y="49" width="18" height="15" rx="2" fill="#f8f4ec" />
-      <line x1="34" y1="53" x2="48" y2="53" stroke="rgba(140,140,140,0.6)" strokeWidth="0.9" />
-      <line x1="34" y1="57" x2="48" y2="57" stroke="rgba(140,140,140,0.6)" strokeWidth="0.9" />
-      <line x1="34" y1="61" x2="44" y2="61" stroke="rgba(140,140,140,0.6)" strokeWidth="0.9" />
-      <path d="M41,59 L46,53 L47,54 L42,60 Z" fill="#2a2060" />
-      <circle cx="41" cy="60" r="1.2" fill="#2a2060" />
-      <rect x="54" y="8" width="2" height="26" rx="1" fill="#40206a" />
-      <rect x="56" y="8" width="12" height="9" rx="1.5" fill="#7040c0" />
-      <text x="62" y="15.5" textAnchor="middle" fontFamily={MONO} fontSize="5" fill="white" fontWeight="bold">
-        しる
-      </text>
+      <Body edge="#6c82ff" />
+      <path d="M11,35 Q13,9 33,9 Q52,9 55,35" stroke="#18224d" strokeWidth="4.8" fill="none" strokeLinecap="round" />
+      <ellipse cx="11" cy="36" rx="6.6" ry="9" fill="#18224d" />
+      <ellipse cx="11" cy="36" rx="3.4" ry="5.4" fill="#4557b8" />
+      <ellipse cx="55" cy="36" rx="6.6" ry="9" fill="#18224d" />
+      <ellipse cx="55" cy="36" rx="3.4" ry="5.4" fill="#4557b8" />
+      <Face mood="calm" />
+      <path d="M21,47 L33,47 L33,64 L21,64 Z" fill="#f7f1e7" stroke="#1b2a60" strokeWidth="1.3" />
+      <path d="M33,47 L47,47 L47,64 L33,64 Z" fill="#fff8ee" stroke="#1b2a60" strokeWidth="1.3" />
+      <rect x="31.5" y="47" width="3" height="17" rx="1" fill="#e24b2c" />
+      <line x1="24" y1="52" x2="31" y2="52" stroke="#8c8c8c" strokeWidth="0.9" />
+      <line x1="24" y1="56" x2="31" y2="56" stroke="#8c8c8c" strokeWidth="0.9" />
+      <line x1="36" y1="52" x2="44" y2="52" stroke="#8c8c8c" strokeWidth="0.9" />
+      <line x1="36" y1="56" x2="44" y2="56" stroke="#8c8c8c" strokeWidth="0.9" />
+      <path d="M19,46 Q14,50 12,56" stroke="#18224d" strokeWidth="2" fill="none" strokeLinecap="round" />
+      <circle cx="12" cy="56" r="2" fill="#18224d" />
     </g>
   );
 }
@@ -179,9 +210,9 @@ export function PixelGhostSprite({ agentId, size = 64 }: PixelGhostSpriteProps):
   const Sprite = SPRITE_MAP[agentId];
   return (
     <svg
-      viewBox="0 0 64 80"
+      viewBox="0 0 70 78"
       width={size}
-      height={Math.round(size * 1.25)}
+      height={Math.round(size * 1.12)}
       aria-hidden
       style={{ display: "block", overflow: "visible" }}
     >
