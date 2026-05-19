@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.98.0
+- roadmapVersion: v3.99.0
 - lastUpdated: 2026-05-19
-- latestUpdate: AT-04 visual recheck GO package prepared; runtime GO pending
-- baselineCommit: c214819
+- latestUpdate: AT-07 dark control room layout implemented; runtime recheck HOLD
+- baselineCommit: f04a81c
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,17 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v3.99.0 - AT-07 Control Room Environment Layout
+
+- roadmapVersion: v3.99.0
+- lastUpdated: 2026-05-19
+- commits: local (push pending)
+- ControlRoomZone.tsx: 5 agent zone cards with CSS ambient decorations
+- HandoffLane.tsx: 6-step flow (依頼→計画→安全確認→作業準備→記録→GO待ち)
+- ControlRoomLayout.tsx: dark navy room with safety badge strip + dot grid
+- AgentTheaterPage.tsx: uses ControlRoomLayout
+- typecheck PASS / vitest 806/807; runtime recheck HOLD
 
 ## v3.98.0 - AT-04 Visual Recheck GO Package
 

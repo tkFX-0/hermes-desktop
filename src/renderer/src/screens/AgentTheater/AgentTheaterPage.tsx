@@ -1,23 +1,15 @@
 /**
  * AgentTheaterPage — Agent Theater / Control Room main page.
- * Display-only. Shows 5 pixel ghost agents, handoff flow, and slot status.
+ * Display-only. Shows control room environment with 5 agent zones.
  * No execute/push/send buttons. Safety invariants via PageRightRail.
  * Design spec: AGENT_THEATER_IMPLEMENTATION_DESIGN.md
- * Phase: AT-02 (CSS placeholder — no sprite assets yet)
+ * Phase: AT-07 (dark control room layout with CSS ambient details)
  */
 
-import type { AgentId, AgentPoseMap, PoseState, SlotStatus } from "../../types/agent-theater-types";
-import { AgentCard } from "./AgentCard";
+import type { AgentPoseMap, PoseState, SlotStatus } from "../../types/agent-theater-types";
 import { SlotStatusBar } from "./SlotStatusBar";
 import { PageRightRail } from "../../components/Shell/PageRightRail";
-
-const AGENT_IDS: readonly AgentId[] = [
-  "shikishima",
-  "shizume",
-  "hajime",
-  "tsumugi",
-  "shirube",
-];
+import { ControlRoomLayout } from "./ControlRoomLayout";
 
 function allPoses(pose: PoseState): AgentPoseMap {
   return {
@@ -60,14 +52,6 @@ function deriveAgentPoses(decision: string): AgentPoseMap {
       };
   }
 }
-
-const HANDOFF_STEPS: readonly { agentId: AgentId; labelJa: string; labelEn: string }[] = [
-  { agentId: "shikishima", labelJa: "指揮",   labelEn: "Command" },
-  { agentId: "hajime",     labelJa: "計画",   labelEn: "Plan" },
-  { agentId: "shizume",    labelJa: "確認",   labelEn: "Check" },
-  { agentId: "tsumugi",    labelJa: "実装",   labelEn: "Build" },
-  { agentId: "shirube",    labelJa: "記録",   labelEn: "Record" },
-];
 
 const DEFAULT_SLOTS: readonly SlotStatus[] = [
   { slotId: "SLOT-CONVERSE",  labelJa: "会話",     labelEn: "Converse", workerLabel: "Grok-Hermes",  status: "hold",   gateRequired: "GHG-03" },
@@ -117,81 +101,10 @@ export function AgentTheaterPage({
 
       <div className="cc-operator-grid">
         {/* ── MAIN column ── */}
-        <div className="cc-operator-main" style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-          {/* Agent stage */}
-          <section aria-label={lang === "ja" ? "エージェント状態" : "Agent status"}>
-            <p style={SECTION_HEADING}>
-              {lang === "ja" ? "エージェント" : "AGENTS"}
-            </p>
-            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-              {AGENT_IDS.map((id) => (
-                <AgentCard key={id} agentId={id} pose={poses[id]} lang={lang} />
-              ))}
-            </div>
-          </section>
-
-          {/* Handoff flow */}
-          <section aria-label={lang === "ja" ? "引き渡しフロー" : "Handoff flow"}>
-            <p style={SECTION_HEADING}>
-              {lang === "ja" ? "引き渡しフロー" : "HANDOFF FLOW"}
-            </p>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 6,
-                padding: "10px 14px",
-                background: "var(--paper2, #f3f4f6)",
-                border: "1px solid var(--rule, #e5e7eb)",
-                borderRadius: 4,
-                flexWrap: "wrap",
-              }}
-            >
-              {HANDOFF_STEPS.map((step, i) => (
-                <span key={step.agentId} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                  <span
-                    style={{
-                      fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-                      fontSize: 11,
-                      color:
-                        poses[step.agentId] === "hold_stop_blocked"
-                          ? "var(--stop, #dc2626)"
-                          : poses[step.agentId] === "idle"
-                            ? "var(--ink3, #9ca3af)"
-                            : "var(--ink, #111827)",
-                      fontWeight: poses[step.agentId] !== "idle" ? 700 : 400,
-                    }}
-                  >
-                    {lang === "ja" ? step.labelJa : step.labelEn}
-                  </span>
-                  {i < HANDOFF_STEPS.length - 1 && (
-                    <span
-                      style={{
-                        fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-                        fontSize: 10,
-                        color: "var(--ink3, #9ca3af)",
-                      }}
-                    >
-                      →
-                    </span>
-                  )}
-                </span>
-              ))}
-              <span
-                style={{
-                  marginLeft: "auto",
-                  fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-                  fontSize: 9,
-                  color: "var(--hold, #d97706)",
-                  border: "1px solid var(--hold, #d97706)",
-                  borderRadius: 2,
-                  padding: "1px 6px",
-                  whiteSpace: "nowrap" as const,
-                }}
-              >
-                {lang === "ja" ? "人間GO待ち" : "AWAIT HUMAN GO"}
-              </span>
-            </div>
+        <div className="cc-operator-main" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          {/* Control room environment */}
+          <section aria-label={lang === "ja" ? "管制室" : "Control room"}>
+            <ControlRoomLayout decision={decision} poses={poses} lang={lang} />
           </section>
 
           {/* Slot status */}

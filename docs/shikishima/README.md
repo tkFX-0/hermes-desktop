@@ -71,6 +71,7 @@ network flow.
 - `AT_04_VISUAL_RECHECK_GO_PACKAGE.md` - AT-04 runtime visual recheck GO package (runtime GO not yet issued).
 - `AT_04_VISUAL_RECHECK_CHECKLIST.md` - visual checklist for AT-04 runtime observation.
 - `AT_04_VISUAL_RECHECK_EVIDENCE_TEMPLATE.md` - evidence template for AT-04 runtime observation.
+- `AT_07_CONTROL_ROOM_ENVIRONMENT_LAYOUT_EVIDENCE.md` - AT-07 dark control room implementation evidence.
 - `SHIZUME_SAFETY_GATE_POLICY.md` - Shizume safety gate policy.
 - `SHIZUME_DECISION_MATRIX.md` - GO / HOLD / REJECT decision matrix.
 - `SHIKISHIMA_SYSTEM_DIAGRAM.md` - system diagrams in Mermaid and ASCII.

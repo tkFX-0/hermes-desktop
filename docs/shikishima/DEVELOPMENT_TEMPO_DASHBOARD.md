@@ -20,8 +20,8 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.98.0
-- latestUpdate: 2026-05-19 - AT-04 visual recheck GO package prepared; runtime GO pending
+- roadmapVersion: v3.99.0
+- latestUpdate: 2026-05-19 - AT-07 dark control room layout implemented; typecheck PASS; runtime recheck HOLD
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: origin/main=5055b6d; commits_ahead=1 (evidence docs, push pending after this commit)
