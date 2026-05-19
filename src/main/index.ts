@@ -7,6 +7,7 @@ import {
   Notification,
 } from "electron";
 import { join } from "path";
+import { readFileSync, writeFileSync, existsSync } from "fs";
 import { registerControlCenterReadonlyIpcHandlers } from "./ichikishima/control-center/control-center-readonly-ipc";
 import {
   registerMobileConsoleIpcHandler,
@@ -131,6 +132,31 @@ let mainWindow: BrowserWindow | null = null;
 let currentChatAbort: (() => void) | null = null;
 let phase2cInstance: Phase2cStartResult | null = null;
 
+// UI-01: window bounds persistence
+interface WindowBounds { x: number; y: number; width: number; height: number; }
+function windowBoundsPath(): string {
+  return join(app.getPath("userData"), "window-bounds.json");
+}
+function loadWindowBounds(): WindowBounds | null {
+  try {
+    const p = windowBoundsPath();
+    if (!existsSync(p)) return null;
+    const parsed = JSON.parse(readFileSync(p, "utf8")) as unknown;
+    if (typeof parsed !== "object" || parsed === null) return null;
+    const b = parsed as Record<string, unknown>;
+    if (
+      typeof b.x === "number" && typeof b.y === "number" &&
+      typeof b.width === "number" && typeof b.height === "number" &&
+      b.width >= 800 && b.height >= 600
+    ) return { x: b.x, y: b.y, width: b.width, height: b.height };
+  } catch { /* ignore */ }
+  return null;
+}
+function saveWindowBounds(win: BrowserWindow): void {
+  try { writeFileSync(windowBoundsPath(), JSON.stringify(win.getBounds()), "utf8"); }
+  catch { /* ignore */ }
+}
+
 function getIchikishimaControlCenterReadonlyParams(): ControlCenterDataProviderParams {
   const resolved = resolveControlCenterPathResolution({
     mainProcessDirname: __dirname,
@@ -147,9 +173,12 @@ function getIchikishimaControlCenterReadonlyParams(): ControlCenterDataProviderP
 }
 
 function createWindow(): void {
+  const savedBounds = loadWindowBounds();
   mainWindow = new BrowserWindow({
-    width: 1100,
-    height: 750,
+    width: savedBounds?.width ?? 1100,
+    height: savedBounds?.height ?? 750,
+    x: savedBounds?.x,
+    y: savedBounds?.y,
     minWidth: 800,
     minHeight: 600,
     show: false,
@@ -170,6 +199,10 @@ function createWindow(): void {
   mainWindow.on("ready-to-show", () => {
     mainWindow!.show();
   });
+
+  // UI-01: save bounds on resize/move so they survive restarts
+  mainWindow.on("resize", () => { if (mainWindow) saveWindowBounds(mainWindow); });
+  mainWindow.on("move",   () => { if (mainWindow) saveWindowBounds(mainWindow); });
 
   mainWindow.webContents.on("render-process-gone", (_event, details) => {
     console.error(

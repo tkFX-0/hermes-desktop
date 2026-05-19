@@ -30,9 +30,10 @@ import {
   Timer,
   Download,
 } from "../../assets/icons";
-import { BarChart2, LayoutDashboard, Smartphone } from "lucide-react";
+import { BarChart2, LayoutDashboard, Smartphone, Sun, Moon, Monitor } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useI18n } from "../../components/useI18n";
+import { useTheme } from "../../components/theme-context";
 import { PageShell } from "../../components/Shell/PageShell";
 import { AgentTheaterPage } from "../AgentTheater/AgentTheaterPage";
 import { OperatorPage } from "../Operator/OperatorPage";
@@ -52,6 +53,12 @@ import {
   toOperatorPageData,
   toChatPageData,
 } from "../../utils/snapshot-to-page";
+import {
+  snapshotToSafeSummary,
+  holdSummary,
+  type SafeSnapshotSummary,
+} from "../../../../shared/ichikishima/ui-snapshot-helpers";
+import { parseControlCenterShellSnapshot } from "../../../../shared/ichikishima/control-center-shell-ui-contract";
 import type {
   LocalChatMessage,
   StackChanStatusData,
@@ -138,6 +145,7 @@ const CC_DEFAULT_SETTINGS: LocalSettingsData = {
 
 function Layout(): React.JSX.Element {
   const { t } = useI18n();
+  const { theme, setTheme } = useTheme();
   const [view, setView] = useState<View>("chat");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
@@ -150,11 +158,36 @@ function Layout(): React.JSX.Element {
   const [ccPage, setCcPage] = useState<PageId>("operator");
   const [ccMessages, setCcMessages] = useState<LocalChatMessage[]>([]);
   const [ccSettings, setCcSettings] = useState<LocalSettingsData>(CC_DEFAULT_SETTINGS);
+  const [ccSafeSummary, setCcSafeSummary] = useState<SafeSnapshotSummary>(
+    () => holdSummary(0, "unavailable"),
+  );
 
   // Re-check remote mode on tab switch (picks up Settings changes)
   useEffect(() => {
     window.hermesAPI.isRemoteMode().then(setRemoteMode);
   }, [view]);
+
+  // CC-01/02: Poll Control Center snapshot when the controlCenter tab is active
+  useEffect(() => {
+    if (view !== "controlCenter") return;
+    const intervalSec = ccSettings.snapshotRefreshIntervalSeconds ?? 30;
+
+    async function fetchSnapshot(): Promise<void> {
+      try {
+        const raw: unknown = await window.ichikishimaControlCenter.getAppSnapshot();
+        if (!raw) { setCcSafeSummary(holdSummary(0, "snapshot_null")); return; }
+        const parsed = parseControlCenterShellSnapshot(raw);
+        if (!parsed.ok) { setCcSafeSummary(holdSummary(0, parsed.errorCode)); return; }
+        setCcSafeSummary(snapshotToSafeSummary(parsed.snapshot, intervalSec));
+      } catch {
+        setCcSafeSummary(holdSummary(0, "ipc_error"));
+      }
+    }
+
+    void fetchSnapshot();
+    const tid = window.setInterval(() => { void fetchSnapshot(); }, intervalSec * 1000);
+    return () => window.clearInterval(tid);
+  }, [view, ccSettings.snapshotRefreshIntervalSeconds]);
 
   // Auto-update state
   const [updateVersion, setUpdateVersion] = useState<string | null>(null);
@@ -210,12 +243,12 @@ function Layout(): React.JSX.Element {
         );
       case "operator":
       case "inspector":
-        return <OperatorPage data={toOperatorPageData(null)} lang="ja" />;
+        return <OperatorPage data={toOperatorPageData(ccSafeSummary)} lang="ja" />;
       case "chat":
         return (
           <CommandChatPage
             messages={ccMessages}
-            safety={toChatPageData(null)}
+            safety={toChatPageData(ccSafeSummary)}
             onSend={(content) =>
               setCcMessages((prev) => [
                 ...prev,
@@ -338,6 +371,32 @@ function Layout(): React.JSX.Element {
         </nav>
 
         <div className="sidebar-footer">
+          {/* UI-02: theme toggle */}
+          <div style={{ display: "flex", gap: 4, marginBottom: 6 }}>
+            {(["light", "dark", "system"] as const).map((t) => (
+              <button
+                key={t}
+                onClick={() => setTheme(t)}
+                title={t}
+                style={{
+                  flex: 1,
+                  padding: "4px 0",
+                  borderRadius: 4,
+                  border: "1px solid var(--border, rgba(255,255,255,0.06))",
+                  background: theme === t ? "var(--bg-active, #424242)" : "transparent",
+                  color: theme === t ? "var(--text-primary, #ececec)" : "var(--text-muted, #8e8e8e)",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {t === "light" && <Sun size={12} />}
+                {t === "dark"  && <Moon size={12} />}
+                {t === "system" && <Monitor size={12} />}
+              </button>
+            ))}
+          </div>
           {updateState && (
             <button className="sidebar-update-btn" onClick={handleUpdate}>
               <Download size={13} />
@@ -486,7 +545,7 @@ function Layout(): React.JSX.Element {
             <PageShell
               activePage={ccPage}
               onNavigate={setCcPage}
-              safety={toSafetyStripData(null)}
+              safety={toSafetyStripData(ccSafeSummary)}
               lang="ja"
             >
               {renderCcPage()}
