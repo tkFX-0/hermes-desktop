@@ -20,24 +20,54 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v4.08.0
-- latestUpdate: 2026-05-19 - AT-14 Runtime Visual Recheck Package prepared; AT-13 visual polish complete; runtime recheck HOLD
+- roadmapVersion: v4.11.0
+- latestUpdate: 2026-05-19 - Agent Theater UI series complete; Ctrl+wheel zoom added; nav reorder done
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
-- current HEAD: origin/main=a8ef150 (AT-13 push PASS); AT-14 docs commit pending push
-- validation road: Gate 001-007 ✓; UI-01-14 PASS; AT-07 through AT-13 PASS; AT-14 docs-only
-- current next human action: push GO for AT-14 docs commit; then human time_window GO for runtime visual recheck
-- HOLD reason: productionReady false; execution disabled; Level 5 actions require explicit human GO; runtime recheck awaits time_window GO
+- current HEAD: origin/main=574131b
+- validation road: Gate 001-007 ✓; AT-07〜AT-14 PASS; AT-15 UI scale PASS; zoom PASS; nav PASS
+- current next human action: define next feature scope
+- HOLD reason: productionReady false; execution disabled; Level 5 actions require explicit human GO
 
-## Remaining Agent Theater Update
+## Agent Theater — 完了済み
 
-- AT-10: DONE — Runaway Guard / Human-Gated Action Panel implemented + pushed
-- AT-11: DONE — Worker Routing / Handoff Prompt Panel implemented + pushed
-- AT-12: DONE — Gate Dashboard / Future Gate Panel implemented + pushed
-- AT-13: DONE — Final Visual Polish / Responsive Pass complete + pushed (a8ef150)
-- AT-14: IN PROGRESS — docs package created; runtime recheck HOLD; human time_window GO required
-- AT-05: Sprite Asset Plan recorded; image asset integration remains separately gated
-- implementation routing: ClaudeCode for UI (Codex rate-limited → ClaudeCode self-audit in place)
+| Task | 内容 | 状態 |
+|---|---|---|
+| AT-07 | Control Room Layout + HandoffLane | DONE |
+| AT-08 | Worker Status Panel + Slot Status Bar | DONE |
+| AT-09 | Resume Queue / Cooldown Panel | DONE |
+| AT-10 | Runaway Guard / Human-Gated Action Panel | DONE |
+| AT-11 | Worker Routing / Handoff Prompt Panel | DONE |
+| AT-12 | Gate Dashboard / Future Gate Panel | DONE |
+| AT-13 | Final Visual Polish / Responsive Pass | DONE |
+| AT-14 | Runtime Visual Recheck Package + 目視確認 PASS | DONE |
+| AT-15 | UI Scale-Up (font ×1.3、padding、grid) | DONE |
+
+## その他完了済み
+
+| 作業 | 内容 | commit |
+|---|---|---|
+| Ctrl+wheel zoom | 全ページ zoom 0.5x〜2.5x、localStorage 永続 | a1defa1 |
+| Nav reorder | Control Center / Mobile Console を先頭に | 574131b |
+
+## 残TASK候補
+
+| ID | 内容 | 優先度 | Gate |
+|---|---|---|---|
+| AT-05 | Sprite / 画像アセット計画 | 低 (optional) | AT-05 asset gate |
+| CC-01 | Control Center live data 接続 (snapshot → 実データ) | 中 | Level 4 |
+| CC-02 | PageShell IPC 接続 (hermes snapshot 購読) | 中 | Level 4 |
+| CC-03 | Command Chat 実送信 (現在display-only) | 高 | Level 5 (human GO) |
+| UI-01 | ウィンドウサイズ記憶 / zoom 初期値設定 | 低 | Level 4 |
+| UI-02 | ダークモード / ライトモード切り替え完全対応 | 低 | Level 4 |
+| HB-01 | Hermes Bridge 接続 (WSL2 → desktop) | 高 | Level 5 |
+| XS-01 | x_search read-only Gate (XS-READ) 実装 | 低 | XS-READ GO |
+
+## 次アクション
+
+- 残TASK から優先順位を決めて着手
+- Level 4 以下は ClaudeCode で実装可能
+- Level 5 / Gate 付きは人間 GO が必要
 
 ## SLOT-09 Worker Autonomy Update
 

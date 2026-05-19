@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.08.0
+- roadmapVersion: v4.11.0
 - lastUpdated: 2026-05-19
-- latestUpdate: AT-14 Runtime Visual Recheck Package prepared; AT-13 visual polish complete; runtime recheck HOLD
-- baselineCommit: a8ef150
+- latestUpdate: Agent Theater UI series complete (AT-07〜AT-15); Ctrl+wheel zoom; nav reorder
+- baselineCommit: 574131b
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,26 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.11.0 - Nav Reorder
+
+- `Layout.tsx`: Control Center / Mobile Console をサイドバー先頭に移動。
+- 変更 1 ファイル。typecheck PASS。
+
+## v4.10.0 - Ctrl+Wheel Zoom
+
+- `main.tsx`: 全ページ Ctrl+wheel zoom 追加 (0.5x〜2.5x、Ctrl+0 リセット)。
+- localStorage でズームレベル永続化 (key: cc-zoom)。
+- 変更 1 ファイル。typecheck PASS。
+
+## v4.09.0 - AT-15 UI Scale-Up
+
+- 全 AgentTheater コンポーネント (22ファイル) フォントサイズ約 1.3x スケールアップ。
+- fontSize 7→10 / 8→11 / 9→12 / 10→13 / 11→14。
+- card padding +4px / panel padding 12→16px / grid minmax +30〜50px。
+- HandoffLane step circles 20→26px / GhostSvg 42→52px。
+- AT-14 runtime visual recheck PASS evidence を記録。
+- typecheck PASS。
 
 ## v4.08.0 - AT-14 Runtime Visual Recheck Package
 
