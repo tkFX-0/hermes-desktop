@@ -63,6 +63,7 @@ network flow.
 - `AT_10_RUNAWAY_GUARD_PANEL_DESIGN.md` - Human-Gated Action Panel design for Level 5 boundaries.
 - `AT_11_WORKER_ROUTING_HANDOFF_PROMPT_PANEL_DESIGN.md` - Worker Routing / copy-only Handoff Prompt Panel design.
 - `AT_12_GATE_DASHBOARD_DESIGN.md` - Future Gate Dashboard design for RUNTIME/OAUTH/XS/OBS/external gates.
+- `AT_12_GATE_DASHBOARD_PANEL_EVIDENCE.md` - AT-12 Gate Dashboard implementation evidence and safety boundary.
 - `AT_13_FINAL_VISUAL_POLISH_PLAN.md` - Agent Theater final responsive visual polish plan.
 - `AT_05_SPRITE_ASSET_PLAN.md` - optional sprite/image asset policy and future gate plan.
 - `AT_14_RUNTIME_VISUAL_RECHECK_PACKAGE.md` - runtime visual recheck request package; runtime remains HOLD.

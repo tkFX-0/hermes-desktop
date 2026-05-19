@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.05.0
+- roadmapVersion: v4.06.0
 - lastUpdated: 2026-05-19
-- latestUpdate: AT-11 Worker Routing / Handoff Prompt Panel implemented; typecheck PASS; runtime recheck HOLD
-- baselineCommit: 72748ba
+- latestUpdate: AT-12 Gate Dashboard / Future Gate Panel implemented; runtime recheck HOLD
+- baselineCommit: 5a63e0c
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,18 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.06.0 - AT-12 Gate Dashboard / Future Gate Panel
+
+- Added `GateStatusBadge.tsx`: compact display-only badge for GateStatus.
+- Added `GateStatusCard.tsx`: display-only card per future/human-gated capability.
+- Added `GateDashboardPanel.tsx`: 12 gate items + safety summary badges + plain-language boundary copy.
+- Added `GateStatus`, `GateDashboardCategory`, and `GateDashboardItem` types to agent-theater-types.ts.
+- Modified `AgentTheaterPage.tsx`: GATES section added below ROUTING.
+- Added `AT_12_GATE_DASHBOARD_PANEL_EVIDENCE.md`.
+- Displays PUSH-GO, RUNTIME-GO, OAUTH-GO, XS-READ, OBS-LOCAL, EXTERNAL-WRITE, PRODUCTION-READY, EXECUTION-ENABLE, STACKCHAN-PHYSICAL, VOICE-CAMERA-MIC, SPRITE-ASSET, and RUNTIME-VISUAL-RECHECK.
+- No gate toggles, no buttons, no runtime, no OAuth, no x_search, no Obsidian write, no external API.
+- productionReady: false / execution: disabled / rawValuesReported: false.
 
 ## v4.05.0 - AT-11 Worker Routing / Handoff Prompt Panel
 

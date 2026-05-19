@@ -20,20 +20,20 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v4.05.0
-- latestUpdate: 2026-05-19 - AT-11 Worker Routing / Handoff Prompt Panel implemented; typecheck PASS; runtime recheck HOLD
+- roadmapVersion: v4.06.0
+- latestUpdate: 2026-05-19 - AT-12 Gate Dashboard / Future Gate Panel implemented; runtime recheck HOLD
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
-- current HEAD: origin/main=72748ba; commits_ahead=1 after AT-11 commit
+- current HEAD: origin/main=5a63e0c; commits_ahead=1 after AT-12 commit
 - validation road: Gate 001-007 ✓; UI-01-14 PASS; shell design aligned; mobile foundation + responsive pages done
-- current next human action: push readiness review for AT-11; then AT-12 Gate Dashboard
+- current next human action: push readiness review for AT-12; then AT-13 Final Visual Polish
 - HOLD reason: productionReady false; execution disabled; Level 5 actions require explicit human GO
 
 ## Remaining Agent Theater Update
 
 - AT-10: Runaway Guard / Human-Gated Action Panel design-ready
 - AT-11: Worker Routing / Handoff Prompt Panel design-ready
-- AT-12: Gate Dashboard / Future Gate Panel design-ready
+- AT-12: Gate Dashboard / Future Gate Panel implemented; push readiness pending
 - AT-13: Final Visual Polish / Responsive Pass design-ready
 - AT-14: Runtime Visual Recheck Package design-ready; runtime HOLD
 - AT-05: Sprite Asset Plan recorded; image asset integration remains separately gated

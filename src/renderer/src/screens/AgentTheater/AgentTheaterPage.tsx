@@ -3,7 +3,7 @@
  * Display-only. Shows control room environment with 5 agent zones.
  * No execute/push/send buttons. Safety invariants via PageRightRail.
  * Design spec: AGENT_THEATER_IMPLEMENTATION_DESIGN.md
- * Phase: AT-11 (worker routing / handoff prompt panel)
+ * Phase: AT-12 (gate dashboard / future gate panel)
  */
 
 import type { AgentPoseMap, PoseState, SlotStatus } from "../../types/agent-theater-types";
@@ -14,6 +14,7 @@ import { WorkerStatusPanel } from "./WorkerStatusPanel";
 import { ResumeQueuePanel } from "./ResumeQueuePanel";
 import { RunawayGuardPanel } from "./RunawayGuardPanel";
 import { WorkerRoutingPanel } from "./WorkerRoutingPanel";
+import { GateDashboardPanel } from "./GateDashboardPanel";
 
 function allPoses(pose: PoseState): AgentPoseMap {
   return {
@@ -149,6 +150,14 @@ export function AgentTheaterPage({
               {lang === "ja" ? "ルーティング" : "ROUTING"}
             </p>
             <WorkerRoutingPanel lang={lang} />
+          </section>
+
+          {/* Gate dashboard / future gate panel */}
+          <section aria-label={lang === "ja" ? "未来ゲート" : "Gate dashboard"}>
+            <p style={SECTION_HEADING}>
+              {lang === "ja" ? "ゲート" : "GATES"}
+            </p>
+            <GateDashboardPanel lang={lang} />
           </section>
         </div>
 

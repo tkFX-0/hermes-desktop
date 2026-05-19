@@ -121,3 +121,42 @@ export interface WorkerRoute {
   readonly humanGoRequired: boolean;
   readonly accentColor: string;
 }
+
+export type GateStatus =
+  | "PASS"
+  | "READY"
+  | "HOLD"
+  | "NEEDS_HUMAN"
+  | "FUTURE"
+  | "BLOCKED"
+  | "STOP"
+  | "LOCKED_FALSE"
+  | "LOCKED_DISABLED";
+
+export type GateDashboardCategory =
+  | "push"
+  | "runtime"
+  | "auth"
+  | "social"
+  | "local_note"
+  | "external_write"
+  | "production"
+  | "execution"
+  | "device"
+  | "media"
+  | "asset"
+  | "review";
+
+export interface GateDashboardItem {
+  readonly gateId: string;
+  readonly title: string;
+  readonly status: GateStatus;
+  readonly category: GateDashboardCategory;
+  readonly plainLabel: string;
+  readonly currentState: string;
+  readonly requiredHumanAction: string;
+  readonly allowedNow: readonly string[];
+  readonly forbiddenNow: readonly string[];
+  readonly autonomyLevel: 1 | 2 | 3 | 4 | 5;
+  readonly evidenceTarget: string;
+}
