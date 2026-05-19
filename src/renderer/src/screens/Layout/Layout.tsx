@@ -34,25 +34,13 @@ import { BarChart2, LayoutDashboard, Smartphone, Sun, Moon, Monitor } from "luci
 import type { LucideIcon } from "lucide-react";
 import { useI18n } from "../../components/useI18n";
 import { useTheme } from "../../components/theme-context";
-import { PageShell } from "../../components/Shell/PageShell";
-import { AgentTheaterPage } from "../AgentTheater/AgentTheaterPage";
+import { SafetyStrip } from "../../components/Shell/SafetyStrip";
+import { PixelRoomView } from "../AgentTheater/PixelRoom/PixelRoomView";
 import { OperatorPage } from "../Operator/OperatorPage";
 import { RoomChat } from "../AgentTheater/PixelRoom/RoomChat";
-import { CommandChatPage } from "../CommandChat/CommandChatPage";
-import { StackChanPage } from "../StackChan/StackChanPage";
-import { OutboxPage } from "../Outbox/OutboxPage";
-import { QueuePage } from "../Queue/QueuePage";
-import { GoPage } from "../GoPage/GoPage";
-import { EvidencePage } from "../Evidence/EvidencePage";
-import { StopPage } from "../Stop/StopPage";
-import { PushPage } from "../Push/PushPage";
-import { CommandSettingsPage } from "../CommandSettings/CommandSettingsPage";
-import { CommandHelpPage } from "../CommandHelp/CommandHelpPage";
-import type { PageId } from "../../../../shared/ichikishima/ui-page-types";
 import {
   toSafetyStripData,
   toOperatorPageData,
-  toChatPageData,
 } from "../../utils/snapshot-to-page";
 import {
   snapshotToSafeSummary,
@@ -62,8 +50,6 @@ import {
 import { parseControlCenterShellSnapshot } from "../../../../shared/ichikishima/control-center-shell-ui-contract";
 import type {
   LocalChatMessage,
-  StackChanStatusData,
-  PushReadinessData,
   LocalSettingsData,
 } from "../../types/service-contracts";
 
@@ -114,24 +100,6 @@ const NAV_ITEMS: { view: View; icon: LucideIcon; labelKey: string }[] = [
   },
 ];
 
-const CC_HOLD_STACKCHAN: StackChanStatusData = {
-  connection: "unknown",
-  physicalOperation: false,
-  voiceActive: false,
-  cameraActive: false,
-  micActive: false,
-  stale: true,
-} as const;
-
-const CC_HOLD_PUSH: PushReadinessData = {
-  branch: "—",
-  commitsAhead: 0,
-  staged: 0,
-  trackedDirty: 0,
-  pushGoReceived: false,
-  stale: true,
-} as const;
-
 const CC_DEFAULT_SETTINGS: LocalSettingsData = {
   language: "ja",
   theme: "light",
@@ -156,9 +124,8 @@ function Layout(): React.JSX.Element {
   // Remote mode — many screens show "not available" instead of empty data
   const [remoteMode, setRemoteMode] = useState(false);
   // Command Center state
-  const [ccPage, setCcPage] = useState<PageId>("operator");
   const [ccMessages, setCcMessages] = useState<LocalChatMessage[]>([]);
-  const [ccSettings, setCcSettings] = useState<LocalSettingsData>(CC_DEFAULT_SETTINGS);
+  const [ccSettings] = useState<LocalSettingsData>(CC_DEFAULT_SETTINGS);
   const [ccSafeSummary, setCcSafeSummary] = useState<SafeSnapshotSummary>(
     () => holdSummary(0, "unavailable"),
   );
@@ -223,119 +190,6 @@ function Layout(): React.JSX.Element {
       await window.hermesAPI.downloadUpdate();
     } else if (updateState === "ready") {
       await window.hermesAPI.installUpdate();
-    }
-  }
-
-  function handleCcSettingUpdate<K extends keyof LocalSettingsData>(
-    key: K,
-    value: LocalSettingsData[K],
-  ): void {
-    setCcSettings((prev) => ({ ...prev, [key]: value }));
-  }
-
-  function renderCcPage(): React.ReactNode {
-    switch (ccPage) {
-      case "theater":
-        return (
-          <AgentTheaterPage
-            decision={toOperatorPageData(ccSafeSummary).decision}
-            messages={ccMessages}
-            onSend={(content) =>
-              setCcMessages((prev) => [
-                ...prev,
-                {
-                  id: `local-${Date.now()}`,
-                  role: "user" as const,
-                  content,
-                  timestampUnixMs: Date.now(),
-                },
-              ])
-            }
-            lang="ja"
-          />
-        );
-      case "operator":
-      case "inspector":
-        return (
-          <>
-            <OperatorPage data={toOperatorPageData(ccSafeSummary)} lang="ja" />
-            <RoomChat
-              messages={ccMessages}
-              onSend={(content) =>
-                setCcMessages((prev) => [
-                  ...prev,
-                  {
-                    id: `local-${Date.now()}`,
-                    role: "user" as const,
-                    content,
-                    timestampUnixMs: Date.now(),
-                  },
-                ])
-              }
-              lang="ja"
-            />
-          </>
-        );
-      case "chat":
-        return (
-          <CommandChatPage
-            messages={ccMessages}
-            safety={toChatPageData(ccSafeSummary)}
-            onSend={(content) =>
-              setCcMessages((prev) => [
-                ...prev,
-                {
-                  id: `local-${Date.now()}`,
-                  role: "user" as const,
-                  content,
-                  timestampUnixMs: Date.now(),
-                },
-              ])
-            }
-            lang="ja"
-          />
-        );
-      case "stackchan":
-        return (
-          <StackChanPage
-            status={CC_HOLD_STACKCHAN}
-            onCopyStatus={() =>
-              void navigator.clipboard.writeText("StackChan: unknown / stale")
-            }
-            lang="ja"
-          />
-        );
-      case "outbox":
-        return <OutboxPage items={[]} onCopy={() => {}} stale lang="ja" />;
-      case "queue":
-        return <QueuePage items={[]} onCopySummary={() => {}} stale lang="ja" />;
-      case "go":
-        return <GoPage templates={[]} onCopyTemplate={() => {}} stale lang="ja" />;
-      case "evidence":
-        return <EvidencePage records={[]} onCopy={() => {}} stale lang="ja" />;
-      case "stop":
-        return <StopPage events={[]} onCopy={() => {}} stale lang="ja" />;
-      case "push":
-        return (
-          <PushPage
-            data={CC_HOLD_PUSH}
-            onCopySummary={() =>
-              void navigator.clipboard.writeText("push: stale")
-            }
-            lang="ja"
-          />
-        );
-      case "settings":
-        return (
-          <CommandSettingsPage
-            settings={ccSettings}
-            onUpdateSetting={handleCcSettingUpdate}
-            lang="ja"
-          />
-        );
-      case "help":
-      default:
-        return <CommandHelpPage lang="ja" />;
     }
   }
 
@@ -572,16 +426,72 @@ function Layout(): React.JSX.Element {
               flexDirection: "column",
               overflow: "hidden",
               minHeight: 0,
+              background: "#0d1117",
             }}
           >
-            <PageShell
-              activePage={ccPage}
-              onNavigate={setCcPage}
-              safety={toSafetyStripData(ccSafeSummary)}
-              lang="ja"
+            {/* Safety invariants strip — always visible */}
+            <SafetyStrip
+              decision={toSafetyStripData(ccSafeSummary).decision}
+              productionReady={toSafetyStripData(ccSafeSummary).productionReady}
+              execution={toSafetyStripData(ccSafeSummary).execution}
+              stale={toSafetyStripData(ccSafeSummary).stale}
+            />
+
+            {/* Integrated scrollable body */}
+            <div style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: "16px 20px", display: "flex", flexDirection: "column", gap: 0 }}>
+              {/* 1. 3D Pixel Room */}
+              <PixelRoomView
+                decision={toOperatorPageData(ccSafeSummary).decision}
+                lang="ja"
+              />
+
+              {/* 2. Operator status */}
+              <div style={{ marginTop: 16 }}>
+                <OperatorPage
+                  data={toOperatorPageData(ccSafeSummary)}
+                  lang="ja"
+                />
+              </div>
+
+              {/* 3. Chat */}
+              <RoomChat
+                messages={ccMessages}
+                onSend={(content) =>
+                  setCcMessages((prev) => [
+                    ...prev,
+                    {
+                      id: `local-${Date.now()}`,
+                      role: "user" as const,
+                      content,
+                      timestampUnixMs: Date.now(),
+                    },
+                  ])
+                }
+                lang="ja"
+              />
+            </div>
+
+            {/* Footer — safety disclaimer */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                flexWrap: "wrap",
+                gap: 4,
+                padding: "5px 16px",
+                borderTop: "1px solid #21262d",
+                background: "#080c14",
+                flexShrink: 0,
+              }}
             >
-              {renderCcPage()}
-            </PageShell>
+              <span style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: 9, color: "#484f58", letterSpacing: 0.5 }}>
+                しきしま · Private Console
+              </span>
+              <span style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: 9, color: "#484f58", letterSpacing: 0.5 }}>
+                このUIから外部実行は発生しません
+              </span>
+            </div>
           </div>
         )}
         {view === "mobileConsole" && (
