@@ -77,6 +77,16 @@ type View =
   | "mobileConsole";
 
 const NAV_ITEMS: { view: View; icon: LucideIcon; labelKey: string }[] = [
+  {
+    view: "controlCenter",
+    icon: LayoutDashboard as LucideIcon,
+    labelKey: "navigation.controlCenter",
+  },
+  {
+    view: "mobileConsole",
+    icon: Smartphone as LucideIcon,
+    labelKey: "navigation.mobileConsole",
+  },
   { view: "chat", icon: ChatBubble, labelKey: "navigation.chat" },
   { view: "sessions", icon: Clock, labelKey: "navigation.sessions" },
   { view: "agents", icon: Users, labelKey: "navigation.agents" },
@@ -93,16 +103,6 @@ const NAV_ITEMS: { view: View; icon: LucideIcon; labelKey: string }[] = [
     view: "research",
     icon: BarChart2 as LucideIcon,
     labelKey: "navigation.research",
-  },
-  {
-    view: "controlCenter",
-    icon: LayoutDashboard as LucideIcon,
-    labelKey: "navigation.controlCenter",
-  },
-  {
-    view: "mobileConsole",
-    icon: Smartphone as LucideIcon,
-    labelKey: "navigation.mobileConsole",
   },
 ];
 
