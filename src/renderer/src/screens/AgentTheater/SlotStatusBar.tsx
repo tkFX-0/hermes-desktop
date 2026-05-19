@@ -19,7 +19,7 @@ interface SlotStatusBarProps {
   readonly lang?: "ja" | "en";
 }
 
-export function SlotStatusBar({ slots, lang = "ja" }: SlotStatusBarProps) {
+export function SlotStatusBar({ slots, lang = "ja" }: SlotStatusBarProps): React.JSX.Element {
   return (
     <div
       style={{
@@ -72,7 +72,11 @@ export function SlotStatusBar({ slots, lang = "ja" }: SlotStatusBarProps) {
                 fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
                 fontSize: 9,
                 color: "var(--ink3, #9ca3af)",
-                flexShrink: 0,
+                flexShrink: 1,
+                minWidth: 0,
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap" as const,
               }}
             >
               {slot.workerLabel}

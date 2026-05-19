@@ -76,7 +76,7 @@ const SAFETY_BADGES = [
   { keyJa: "OAuth",      keyEn: "OAuth",          value: "human GO",     color: "#f0883e" },
   { keyJa: "x_search",   keyEn: "x_search",       value: "read-only GO", color: "#f59e0b" },
   { keyJa: "Obsidian",   keyEn: "Obsidian",       value: "local GO",     color: "#f59e0b" },
-  { keyJa: "外部write",  keyEn: "ext. write",     value: "blocked",      color: "#6e7681" },
+  { keyJa: "外部write",  keyEn: "ext. write",     value: "blocked",      color: "#f85149" },
 ] as const;
 
 const PANEL_LABEL: React.CSSProperties = {
@@ -129,7 +129,7 @@ export function ResumeQueuePanel({ lang = "ja" }: ResumeQueuePanelProps): React.
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 200px), 1fr))",
           gap: 8,
           marginBottom: 12,
         }}

@@ -102,6 +102,8 @@ export function ControlRoomLayout({ decision, poses, lang = "ja" }: ControlRoomL
         borderRadius: 8,
         padding: "14px 12px 12px",
         border: "1px solid #21262d",
+        minWidth: 0,
+        overflow: "hidden",
       }}
     >
       {/* Room header */}
@@ -116,7 +118,7 @@ export function ControlRoomLayout({ decision, poses, lang = "ja" }: ControlRoomL
         }}
       >
         {/* Title + window */}
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, minWidth: 0, flexWrap: "wrap" }}>
           <span
             style={{
               fontFamily: '"IBM Plex Mono", monospace',
@@ -174,7 +176,7 @@ export function ControlRoomLayout({ decision, poses, lang = "ja" }: ControlRoomL
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 128px), 1fr))",
           gap: 8,
           margin: "10px 0",
         }}

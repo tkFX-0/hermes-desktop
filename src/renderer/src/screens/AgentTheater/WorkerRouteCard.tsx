@@ -29,10 +29,11 @@ export function WorkerRouteCard({ route, lang = "ja" }: WorkerRouteCardProps): R
         flexDirection: "column" as const,
         gap: 5,
         minWidth: 0,
+        overflow: "hidden",
       }}
     >
       {/* Worker name + level badge */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 4 }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 4, flexWrap: "wrap" }}>
         <RouteWorkerBadge worker={route.recommendedWorker} accentColor={route.accentColor} humanGoRequired={route.humanGoRequired} />
         <span
           style={{
@@ -57,6 +58,7 @@ export function WorkerRouteCard({ route, lang = "ja" }: WorkerRouteCardProps): R
           fontSize: 9,
           color: "#c9d1d9",
           lineHeight: 1.3,
+          overflowWrap: "anywhere" as const,
         }}
       >
         {lang === "ja" ? route.taskTypeJa : route.taskTypeEn}
@@ -68,6 +70,7 @@ export function WorkerRouteCard({ route, lang = "ja" }: WorkerRouteCardProps): R
           fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
           fontSize: 8,
           color: "#6e7681",
+          overflowWrap: "anywhere" as const,
         }}
       >
         {lang === "ja" ? route.handoffModeJa : route.handoffModeEn}
@@ -84,6 +87,7 @@ export function WorkerRouteCard({ route, lang = "ja" }: WorkerRouteCardProps): R
           color: "#8b949e",
           fontStyle: "italic",
           lineHeight: 1.3,
+          overflowWrap: "anywhere" as const,
         }}
       >
         {lang === "ja" ? route.plainReasonJa : route.plainReasonEn}

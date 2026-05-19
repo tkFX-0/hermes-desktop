@@ -184,6 +184,14 @@ const PANEL_LABEL: React.CSSProperties = {
   textTransform: "uppercase" as const,
 };
 
+const TAGLINE_STYLE: React.CSSProperties = {
+  fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
+  fontSize: 8,
+  color: "#8b949e",
+  fontStyle: "italic",
+  lineHeight: 1.4,
+};
+
 interface GateDashboardPanelProps {
   readonly lang?: "ja" | "en";
 }
@@ -196,6 +204,7 @@ export function GateDashboardPanel({ lang = "ja" }: GateDashboardPanelProps): Re
         border: "1px solid #21262d",
         borderRadius: 8,
         padding: "12px",
+        minWidth: 0,
       }}
     >
       <p style={PANEL_LABEL}>
@@ -224,7 +233,7 @@ export function GateDashboardPanel({ lang = "ja" }: GateDashboardPanelProps): Re
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 210px), 1fr))",
           gap: 8,
           marginBottom: 12,
         }}
@@ -250,10 +259,3 @@ export function GateDashboardPanel({ lang = "ja" }: GateDashboardPanelProps): Re
     </div>
   );
 }
-
-const TAGLINE_STYLE: React.CSSProperties = {
-  fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-  fontSize: 8,
-  color: "#8b949e",
-  fontStyle: "italic",
-};

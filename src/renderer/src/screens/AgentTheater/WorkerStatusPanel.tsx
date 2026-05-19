@@ -98,7 +98,7 @@ export function WorkerStatusPanel({ lang = "ja" }: WorkerStatusPanelProps): Reac
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 150px), 1fr))",
           gap: 8,
           marginBottom: 12,
         }}

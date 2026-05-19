@@ -104,10 +104,12 @@ export function RunawayGuardPanel({ lang = "ja" }: RunawayGuardPanelProps): Reac
         border: "1px solid #21262d",
         borderRadius: 8,
         padding: "12px",
+        minWidth: 0,
+        overflow: "hidden",
       }}
     >
       {/* Panel header */}
-      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10, flexWrap: "wrap" }}>
         <p style={{ ...PANEL_LABEL, marginBottom: 0 }}>
           {lang === "ja" ? "RUNAWAY GUARD · 監視境界" : "RUNAWAY GUARD · BOUNDARY"}
         </p>
@@ -130,7 +132,7 @@ export function RunawayGuardPanel({ lang = "ja" }: RunawayGuardPanelProps): Reac
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 200px), 1fr))",
           gap: 6,
           marginBottom: 12,
         }}

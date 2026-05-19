@@ -172,7 +172,7 @@ export function WorkerRoutingPanel({ lang = "ja" }: WorkerRoutingPanelProps): Re
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 180px), 1fr))",
           gap: 8,
           marginBottom: 14,
         }}
@@ -192,7 +192,7 @@ export function WorkerRoutingPanel({ lang = "ja" }: WorkerRoutingPanelProps): Re
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 200px), 1fr))",
           gap: 8,
           marginBottom: 14,
         }}

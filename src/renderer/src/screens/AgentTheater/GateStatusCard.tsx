@@ -40,15 +40,17 @@ export function GateStatusCard({ item }: GateStatusCardProps): React.JSX.Element
         flexDirection: "column" as const,
         gap: 6,
         minWidth: 0,
+        overflow: "hidden",
       }}
     >
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6 }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6, flexWrap: "wrap" }}>
         <span
           style={{
             fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
             fontSize: 10,
             fontWeight: 700,
             color: accent,
+            overflowWrap: "anywhere" as const,
           }}
         >
           {item.gateId}
@@ -62,6 +64,7 @@ export function GateStatusCard({ item }: GateStatusCardProps): React.JSX.Element
           fontSize: 10,
           color: "#c9d1d9",
           lineHeight: 1.3,
+          overflowWrap: "anywhere" as const,
         }}
       >
         {item.title}
@@ -73,6 +76,7 @@ export function GateStatusCard({ item }: GateStatusCardProps): React.JSX.Element
           fontSize: 9,
           color: "#8b949e",
           lineHeight: 1.35,
+          overflowWrap: "anywhere" as const,
         }}
       >
         {item.plainLabel}
@@ -155,6 +159,7 @@ function GateFact({ label, value, color }: GateFactProps): React.JSX.Element {
         fontSize: 8,
         color: "#6e7681",
         lineHeight: 1.3,
+        overflowWrap: "anywhere" as const,
       }}
     >
       <span style={{ color }}>{label}</span>: {value}
