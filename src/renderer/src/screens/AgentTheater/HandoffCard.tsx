@@ -22,7 +22,7 @@ interface HandoffCardProps {
   readonly lang?: "ja" | "en";
 }
 
-export function HandoffCard({ stage, lang = "ja" }: HandoffCardProps) {
+export function HandoffCard({ stage, lang = "ja" }: HandoffCardProps): React.JSX.Element {
   const { color, ja, en } = STAGE_LABEL[stage];
   return (
     <div

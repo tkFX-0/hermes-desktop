@@ -66,7 +66,7 @@ interface HandoffLaneProps {
   readonly lang?: "ja" | "en";
 }
 
-export function HandoffLane({ decision, lang = "ja" }: HandoffLaneProps) {
+export function HandoffLane({ decision, lang = "ja" }: HandoffLaneProps): React.JSX.Element {
   const activeStep = deriveActiveStep(decision);
   const stage = deriveHandoffStage(decision);
 

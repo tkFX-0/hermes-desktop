@@ -84,7 +84,7 @@ export function AgentTheaterPage({
   agentPoses,
   slotStatuses,
   lang = "ja",
-}: AgentTheaterPageProps) {
+}: AgentTheaterPageProps): React.JSX.Element {
   const poses = agentPoses ?? deriveAgentPoses(decision);
   const slots = slotStatuses ?? DEFAULT_SLOTS;
 

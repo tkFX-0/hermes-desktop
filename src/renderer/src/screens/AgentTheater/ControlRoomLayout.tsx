@@ -19,7 +19,7 @@ const AGENT_IDS: readonly AgentId[] = [
 ];
 
 // CSS-only night window panel
-function NightWindow() {
+function NightWindow(): React.JSX.Element {
   return (
     <div
       style={{
@@ -56,7 +56,7 @@ function NightWindow() {
 }
 
 // Dot-grid decorative background strip
-function DotGridStrip() {
+function DotGridStrip(): React.JSX.Element {
   return (
     <div
       style={{
@@ -92,7 +92,7 @@ export interface ControlRoomLayoutProps {
   readonly lang?: "ja" | "en";
 }
 
-export function ControlRoomLayout({ decision, poses, lang = "ja" }: ControlRoomLayoutProps) {
+export function ControlRoomLayout({ decision, poses, lang = "ja" }: ControlRoomLayoutProps): React.JSX.Element {
   const decColor = decisionBadgeColor(decision);
 
   return (

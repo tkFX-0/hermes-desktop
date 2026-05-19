@@ -70,7 +70,7 @@ const POSE_COLOR: Readonly<Record<PoseState, string>> = {
 
 // ── CSS-only ambient desk decorations ──
 
-function CommandDeskAmbient({ color }: { color: string }) {
+function CommandDeskAmbient({ color }: { color: string }): React.JSX.Element {
   return (
     <div style={{ display: "flex", gap: 4, alignItems: "flex-end" }}>
       {([30, 22] as const).map((w, i) => (
@@ -88,7 +88,7 @@ function CommandDeskAmbient({ color }: { color: string }) {
   );
 }
 
-function SafetyGateAmbient({ color }: { color: string }) {
+function SafetyGateAmbient({ color }: { color: string }): React.JSX.Element {
   return (
     <div style={{ display: "flex", gap: 3, alignItems: "flex-end" }}>
       {([14, 20, 14] as const).map((h, i) => (
@@ -101,7 +101,7 @@ function SafetyGateAmbient({ color }: { color: string }) {
   );
 }
 
-function PlanningDeskAmbient({ color }: { color: string }) {
+function PlanningDeskAmbient({ color }: { color: string }): React.JSX.Element {
   return (
     <div style={{ position: "relative", width: 46, height: 28, border: `1px solid ${color}`, borderRadius: 2, background: "#040d21", overflow: "hidden", opacity: 0.9 }}>
       <div style={{ position: "absolute", top: "33%", left: 0, right: 0, height: 1, background: color, opacity: 0.3 }} />
@@ -116,7 +116,7 @@ function PlanningDeskAmbient({ color }: { color: string }) {
   );
 }
 
-function DevBenchAmbient({ color }: { color: string }) {
+function DevBenchAmbient({ color }: { color: string }): React.JSX.Element {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
       {[36, 30, 24].map((w, row) => (
@@ -133,7 +133,7 @@ function DevBenchAmbient({ color }: { color: string }) {
   );
 }
 
-function RecordLogAmbient({ color }: { color: string }) {
+function RecordLogAmbient({ color }: { color: string }): React.JSX.Element {
   return (
     <div style={{ display: "flex", gap: 5, alignItems: "flex-end" }}>
       <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
@@ -167,7 +167,7 @@ export interface ControlRoomZoneProps {
   readonly lang?: "ja" | "en";
 }
 
-export function ControlRoomZone({ agentId, pose, lang = "ja" }: ControlRoomZoneProps) {
+export function ControlRoomZone({ agentId, pose, lang = "ja" }: ControlRoomZoneProps): React.JSX.Element {
   const config = ZONE_CONFIG[agentId];
   const Ambient = AMBIENT_MAP[agentId];
   const poseLabel = lang === "ja" ? POSE_LABELS[pose].ja : POSE_LABELS[pose].en;
