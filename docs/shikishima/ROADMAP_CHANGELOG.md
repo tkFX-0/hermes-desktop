@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.06.0
+- roadmapVersion: v4.08.0
 - lastUpdated: 2026-05-19
-- latestUpdate: AT-12 Gate Dashboard / Future Gate Panel implemented; runtime recheck HOLD
-- baselineCommit: 5a63e0c
+- latestUpdate: AT-14 Runtime Visual Recheck Package prepared; AT-13 visual polish complete; runtime recheck HOLD
+- baselineCommit: a8ef150
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,33 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.08.0 - AT-14 Runtime Visual Recheck Package
+
+- Created `AT_14_RUNTIME_VISUAL_RECHECK_PACKAGE.md`: expanded full scope, per-AT checklist, STOP conditions, shutdown method, safety boundary.
+- Created `AT_14_RUNTIME_VISUAL_RECHECK_GO_TEMPLATE.md`: human GO form with pre-flight checklist and invocation instructions.
+- Created `AT_14_RUNTIME_VISUAL_RECHECK_EVIDENCE_TEMPLATE.md`: post-session evidence template covering AT-07 through AT-13 + safety invariants.
+- Created `AT_14_RUNTIME_VISUAL_RECHECK_SCOPE.md`: per-section observation points, element-level expected values, time budget.
+- Created `AT_14_RUNTIME_VISUAL_RECHECK_SELF_AUDIT.md`: ClaudeCode self-audit confirming docs-only diff; runtime remains HOLD.
+- Docs-only commit. No source changes. No runtime started. No push performed.
+- productionReady: false / execution: disabled / rawValuesReported: false.
+- Runtime remains HOLD; human time_window GO required to proceed.
+
+## v4.07.0 - AT-13 Final Visual Polish / Responsive Pass
+
+- Modified `AgentTheaterPage.tsx`: Phase AT-13; SECTION_BLOCK style; overflowX: hidden; gap 18; DEFAULT_SLOTS workerLabels corrected.
+- Modified `ControlRoomLayout.tsx`: minWidth: 0 + overflow: hidden; flexWrap on header.
+- Modified `GateDashboardPanel.tsx`: minWidth: 0; padding cleanup.
+- Modified `GateStatusCard.tsx`: overflowWrap: "anywhere" on text; overflow: hidden on card.
+- Modified `ResumeQueuePanel.tsx`: grid auto-fit min(100%, 200px); 外部write badge color #f85149 (unified red).
+- Modified `RunawayGuardPanel.tsx`: minWidth: 0 + overflow: hidden; flexWrap on header; grid auto-fit min(100%, 200px).
+- Modified `SlotStatusBar.tsx`: workerLabel flexShrink; explicit return type (pre-existing ESLint fix).
+- Modified `WorkerRouteCard.tsx`: overflowWrap: "anywhere"; overflow: hidden.
+- Modified `WorkerRoutingPanel.tsx`: grids auto-fit min(100%, 180px/200px).
+- Modified `WorkerStatusPanel.tsx`: grid auto-fit min(100%, 150px).
+- Added `AT_13_FINAL_VISUAL_POLISH_EVIDENCE.md`.
+- typecheck PASS / ESLint 0 errors. Runtime recheck HOLD.
+- productionReady: false / execution: disabled / rawValuesReported: false.
 
 ## v4.06.0 - AT-12 Gate Dashboard / Future Gate Panel
 

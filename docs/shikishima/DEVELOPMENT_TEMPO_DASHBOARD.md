@@ -20,25 +20,24 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v4.06.0
-- latestUpdate: 2026-05-19 - AT-12 Gate Dashboard / Future Gate Panel implemented; runtime recheck HOLD
+- roadmapVersion: v4.08.0
+- latestUpdate: 2026-05-19 - AT-14 Runtime Visual Recheck Package prepared; AT-13 visual polish complete; runtime recheck HOLD
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
-- current HEAD: origin/main=5a63e0c; commits_ahead=1 after AT-12 commit
-- validation road: Gate 001-007 ✓; UI-01-14 PASS; shell design aligned; mobile foundation + responsive pages done
-- current next human action: push readiness review for AT-12; then AT-13 Final Visual Polish
-- HOLD reason: productionReady false; execution disabled; Level 5 actions require explicit human GO
+- current HEAD: origin/main=a8ef150 (AT-13 push PASS); AT-14 docs commit pending push
+- validation road: Gate 001-007 ✓; UI-01-14 PASS; AT-07 through AT-13 PASS; AT-14 docs-only
+- current next human action: push GO for AT-14 docs commit; then human time_window GO for runtime visual recheck
+- HOLD reason: productionReady false; execution disabled; Level 5 actions require explicit human GO; runtime recheck awaits time_window GO
 
 ## Remaining Agent Theater Update
 
-- AT-10: Runaway Guard / Human-Gated Action Panel design-ready
-- AT-11: Worker Routing / Handoff Prompt Panel design-ready
-- AT-12: Gate Dashboard / Future Gate Panel implemented; push readiness pending
-- AT-13: Final Visual Polish / Responsive Pass design-ready
-- AT-14: Runtime Visual Recheck Package design-ready; runtime HOLD
+- AT-10: DONE — Runaway Guard / Human-Gated Action Panel implemented + pushed
+- AT-11: DONE — Worker Routing / Handoff Prompt Panel implemented + pushed
+- AT-12: DONE — Gate Dashboard / Future Gate Panel implemented + pushed
+- AT-13: DONE — Final Visual Polish / Responsive Pass complete + pushed (a8ef150)
+- AT-14: IN PROGRESS — docs package created; runtime recheck HOLD; human time_window GO required
 - AT-05: Sprite Asset Plan recorded; image asset integration remains separately gated
-- priority order: AT-10 -> AT-11 -> AT-12 -> AT-13 -> AT-14 -> AT-05
-- implementation routing: ClaudeCode for UI, Codex for review/push readiness, Human for Level 5 GO
+- implementation routing: ClaudeCode for UI (Codex rate-limited → ClaudeCode self-audit in place)
 
 ## SLOT-09 Worker Autonomy Update
 

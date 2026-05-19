@@ -66,7 +66,12 @@ network flow.
 - `AT_12_GATE_DASHBOARD_PANEL_EVIDENCE.md` - AT-12 Gate Dashboard implementation evidence and safety boundary.
 - `AT_13_FINAL_VISUAL_POLISH_PLAN.md` - Agent Theater final responsive visual polish plan.
 - `AT_05_SPRITE_ASSET_PLAN.md` - optional sprite/image asset policy and future gate plan.
-- `AT_14_RUNTIME_VISUAL_RECHECK_PACKAGE.md` - runtime visual recheck request package; runtime remains HOLD.
+- `AT_14_RUNTIME_VISUAL_RECHECK_PACKAGE.md` - AT-14 main package: scope, STOP conditions, shutdown method, safety boundary.
+- `AT_14_RUNTIME_VISUAL_RECHECK_GO_TEMPLATE.md` - human GO form: fill date/time_window and say GO to approve one runtime session.
+- `AT_14_RUNTIME_VISUAL_RECHECK_EVIDENCE_TEMPLATE.md` - post-session evidence template: copy, rename with date, fill after recheck.
+- `AT_14_RUNTIME_VISUAL_RECHECK_SCOPE.md` - per-section observation points and expected element values.
+- `AT_14_RUNTIME_VISUAL_RECHECK_SELF_AUDIT.md` - ClaudeCode self-audit confirming docs-only diff; runtime HOLD.
+- `AT_13_FINAL_VISUAL_POLISH_EVIDENCE.md` - AT-13 implementation evidence and responsive check results.
 - `AT_REMAINING_IMPLEMENTATION_PUSH_READINESS.md` - docs-only push readiness checklist for remaining AT design package.
 - `PROVIDER_ROUTER_UPDATED_DESIGN.md` - updated provider routing design (primary/fallback/escalation).
 - `HERMES_SOCIAL_AWARENESS_FEATURE_CATALOG.md` - Social Awareness Layer feature catalog with XS stage gates.
