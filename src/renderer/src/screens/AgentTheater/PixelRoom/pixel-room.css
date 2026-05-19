@@ -264,42 +264,40 @@
   pointer-events: none;
 }
 
-/* ── Station diamond layout ── */
-.pxr-stations {
-  position: relative;
-  z-index: 1;
+/* ── Horizontal agent row ── */
+.pxr-agents-row {
   display: flex;
-  flex-direction: column;
   gap: 8px;
-}
-
-.pxr-row-top,
-.pxr-row-bot {
-  display: flex;
+  align-items: flex-end;
   justify-content: center;
+  flex-wrap: nowrap;
+  min-width: 0;
 }
 
-.pxr-row-top > *,
-.pxr-row-bot > * {
-  width: min(210px, 100%);
-}
-
-.pxr-row-mid {
-  display: grid;
-  grid-template-columns: 1fr 1.4fr 1fr;
-  gap: 8px;
-  align-items: start;
-}
-
-/* ── Command center wrap (shikishima) ── */
-.pxr-command-wrap {
+.pxr-agent-col {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3px;
+  gap: 4px;
+  flex: 1 1 100px;
+  min-width: 90px;
+  max-width: 150px;
 }
 
+.pxr-agent-col-side {
+  flex: 0 0 auto;
+  max-width: 130px;
+}
+
+.pxr-agent-col-command {
+  flex: 0 0 auto;
+  min-width: 130px;
+  max-width: 160px;
+}
+
+/* ── Command label ── */
 .pxr-command-label {
+  font-family: "IBM Plex Mono", monospace;
   font-size: 8px;
   letter-spacing: 3px;
   color: #7eb8ff;
@@ -308,6 +306,20 @@
   text-transform: uppercase;
   text-shadow: 0 0 8px rgba(88,166,255,0.6);
 }
+
+/* ── Legacy diamond layout (kept for fallback) ── */
+.pxr-stations {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pxr-row-top, .pxr-row-bot { display: flex; justify-content: center; }
+.pxr-row-top > *, .pxr-row-bot > * { width: min(210px, 100%); }
+.pxr-row-mid { display: grid; grid-template-columns: 1fr 1.4fr 1fr; gap: 8px; align-items: start; }
+.pxr-command-wrap { display: flex; flex-direction: column; align-items: center; gap: 3px; }
 
 /* ── Agent station card ── */
 .pxr-station {

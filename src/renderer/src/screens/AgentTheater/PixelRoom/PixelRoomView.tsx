@@ -1,9 +1,8 @@
 /**
  * PixelRoomView — Night operations pixel art control room.
  * Reference: ３D部屋イメージ.png
- * Dark blue-purple night sky + desk decorations + 5 agents + workflow lane.
- * No image assets. CSS + GhostSvg. Display-only.
- * PXR-01~03 + style refresh.
+ * Wide horizontal layout: しずめ|はじめ|★しきしま|つむぐ|しるべ
+ * No image assets. CSS + GhostSvg only. Display-only.
  */
 
 import React from "react";
@@ -11,15 +10,13 @@ import "./pixel-room.css";
 import type { AgentId, AgentPoseMap, PoseState } from "../../../types/agent-theater-types";
 import { GhostSvg } from "../GhostSvg";
 import { RoomHUD } from "./RoomHUD";
+import { PixelRoomHud } from "./PixelRoomHud";
+import { PixelRoomHandoffRail } from "./PixelRoomHandoffRail";
+import { PixelRoomGatePanel } from "./PixelRoomGatePanel";
+import { PixelRoomLogStrip } from "./PixelRoomLogStrip";
 
-/* ── Pose → animation class ── */
-const IDLE_ANIM: Record<AgentId, string> = {
-  shikishima: "pxr-anim-scan",
-  shizume:    "pxr-anim-hold",
-  hajime:     "pxr-anim-lean",
-  tsumugi:    "pxr-anim-type",
-  shirube:    "pxr-anim-pen",
-};
+/* ── Constants ── */
+const MONO = '"IBM Plex Mono", ui-monospace, monospace';
 
 const ACCENT: Record<AgentId, string> = {
   shikishima: "#7eb8ff",
@@ -29,12 +26,20 @@ const ACCENT: Record<AgentId, string> = {
   shirube:    "#b07fff",
 };
 
+/* ── Pose helpers ── */
 function poseAnim(id: AgentId, pose: PoseState): string {
   switch (pose) {
     case "hold_stop_blocked": return "pxr-anim-hold";
     case "working":           return id === "tsumugi" ? "pxr-anim-type" : "pxr-anim-float";
     case "thinking":          return "pxr-anim-scan";
-    default:                  return IDLE_ANIM[id];
+    case "idle":
+    default: return {
+      shikishima: "pxr-anim-scan",
+      shizume:    "pxr-anim-hold",
+      hajime:     "pxr-anim-lean",
+      tsumugi:    "pxr-anim-type",
+      shirube:    "pxr-anim-pen",
+    }[id];
   }
 }
 
@@ -50,59 +55,169 @@ function poseLabel(pose: PoseState): { text: string; cls: string } {
   }
 }
 
-/* ── Desk decorations per agent ── */
-const DESK_ICONS: Record<AgentId, string[]> = {
-  shikishima: ["🖥", "🎧", "📡"],
-  shizume:    ["🛑", "🚧", "⚠️"],
-  hajime:     ["🗺", "📌", "✏️"],
-  tsumugi:    ["⌨️", "🔧", "💻"],
-  shirube:    ["📓", "🖊", "📚"],
-};
+/* ── Desk-specific CSS decorations ── */
+function DeskDecor({ id }: { id: AgentId }): React.JSX.Element {
+  const accent = ACCENT[id];
+
+  if (id === "shikishima") return (
+    <div className="pxr-desk-decor" aria-hidden>
+      {/* Dual monitors */}
+      <div style={{ display: "flex", gap: 3, alignItems: "flex-end" }}>
+        <div style={{ width: 22, height: 16, border: `1.5px solid ${accent}88`, borderRadius: 2, background: "#040d22", boxShadow: `0 0 5px ${accent}44`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ width: 12, height: 7, background: `${accent}33`, borderRadius: 1 }} />
+        </div>
+        <div style={{ width: 18, height: 13, border: `1.5px solid ${accent}66`, borderRadius: 2, background: "#040d22", boxShadow: `0 0 4px ${accent}33` }} />
+      </div>
+      {/* Headset icon */}
+      <span style={{ fontSize: 11, filter: `drop-shadow(0 0 3px ${accent})` }}>🎧</span>
+    </div>
+  );
+
+  if (id === "shizume") return (
+    <div className="pxr-desk-decor" aria-hidden>
+      {/* HOLD wooden sign */}
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 1 }}>
+        <div style={{ background: "#f85149", border: "1.5px solid #991b1b", borderRadius: 2, padding: "1px 5px", fontFamily: MONO, fontSize: 7, fontWeight: 800, color: "#fff", letterSpacing: 0.5, boxShadow: "0 0 6px rgba(248,81,73,0.6)" }}>HOLD</div>
+        <div style={{ width: 2, height: 6, background: "#7c3f00" }} />
+      </div>
+      {/* Warning light */}
+      <span style={{ fontSize: 10 }} className="pxr-blink">🚨</span>
+      {/* Traffic cone */}
+      <span style={{ fontSize: 10 }}>🚧</span>
+    </div>
+  );
+
+  if (id === "hajime") return (
+    <div className="pxr-desk-decor" aria-hidden>
+      {/* Mini map */}
+      <div style={{ width: 28, height: 20, border: `1.5px solid ${ACCENT.hajime}66`, borderRadius: 2, background: "#040f08", position: "relative", overflow: "hidden" }}>
+        <svg width="28" height="20" style={{ position: "absolute", inset: 0 }}>
+          <polyline points="4,16 10,10 16,13 22,6" stroke="#3fb950" strokeWidth="1" fill="none" strokeDasharray="2 1" opacity="0.7" />
+          <circle cx="4" cy="16" r="1.5" fill="#3fb950" opacity="0.9" />
+          <circle cx="22" cy="6" r="1.5" fill="#f0883e" opacity="0.9" />
+        </svg>
+      </div>
+      <span style={{ fontSize: 10 }}>📌</span>
+      <span style={{ fontSize: 10 }}>✏️</span>
+    </div>
+  );
+
+  if (id === "tsumugi") return (
+    <div className="pxr-desk-decor" aria-hidden>
+      {/* Keyboard */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 2, alignItems: "center" }}>
+        <div style={{ width: 28, height: 9, border: `1.5px solid ${ACCENT.tsumugi}66`, borderRadius: 2, background: "#1a0a00",
+          backgroundImage: "repeating-linear-gradient(90deg, transparent 0px, transparent 4px, rgba(240,136,62,0.2) 4px, rgba(240,136,62,0.2) 5px)",
+          boxShadow: `0 0 4px ${ACCENT.tsumugi}33` }} />
+      </div>
+      <span style={{ fontSize: 10 }}>🔧</span>
+      <span style={{ fontSize: 10 }}>💻</span>
+    </div>
+  );
+
+  /* shirube */
+  return (
+    <div className="pxr-desk-decor" aria-hidden>
+      {/* Bookshelf */}
+      <div style={{ display: "flex", gap: 1, alignItems: "flex-end" }}>
+        {["#b07fff", "#3fb950", "#f0883e", "#7eb8ff"].map((c, i) => (
+          <div key={i} style={{ width: 5, height: 10 + i * 2, background: c, borderRadius: "1px 1px 0 0", opacity: 0.8 }} />
+        ))}
+      </div>
+      <span style={{ fontSize: 10 }}>🖊</span>
+      <span style={{ fontSize: 10 }}>📓</span>
+    </div>
+  );
+}
+
+/* ── Monitor for しきしま's back wall ── */
+function CommandMonitor({ decision }: { decision: string }): React.JSX.Element {
+  const isHold = decision !== "GO_READY" && decision !== "PASS";
+  return (
+    <div aria-hidden style={{
+      width: 90, height: 55,
+      border: "2px solid rgba(88,166,255,0.4)",
+      borderRadius: 4,
+      background: "#030a18",
+      boxShadow: "0 0 12px rgba(88,166,255,0.15)",
+      display: "flex", flexDirection: "column",
+      overflow: "hidden",
+      flexShrink: 0,
+    }}>
+      {/* Monitor title bar */}
+      <div style={{ background: "rgba(88,166,255,0.12)", padding: "2px 5px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <span style={{ fontFamily: MONO, fontSize: 6, color: "#7eb8ff", letterSpacing: 0.5 }}>本日のレーン状況</span>
+        <div style={{ display: "flex", gap: 2 }}>
+          {["#f85149","#f0883e","#3fb950"].map((c,i) => (
+            <div key={i} style={{ width: 4, height: 4, borderRadius: "50%", background: c, opacity: 0.7 }} />
+          ))}
+        </div>
+      </div>
+      {/* Monitor content — simple bars */}
+      <div style={{ flex: 1, padding: "4px 5px", display: "flex", flexDirection: "column", gap: 3 }}>
+        {[
+          { label: "SAFETY", pct: 100, color: "#3fb950" },
+          { label: "DEV",    pct: isHold ? 0 : 60, color: "#7eb8ff" },
+          { label: "PLAN",   pct: 80,  color: "#f0883e" },
+        ].map((bar) => (
+          <div key={bar.label} style={{ display: "flex", alignItems: "center", gap: 3 }}>
+            <span style={{ fontFamily: MONO, fontSize: 5, color: "#6680aa", width: 30, flexShrink: 0 }}>{bar.label}</span>
+            <div style={{ flex: 1, height: 4, background: "rgba(40,60,140,0.3)", borderRadius: 2, overflow: "hidden" }}>
+              <div style={{ width: `${bar.pct}%`, height: "100%", background: bar.color, borderRadius: 2, transition: "width 0.5s" }} />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 /* ── Agent station card ── */
-interface StationProps {
+interface AgentStationProps {
   id: AgentId;
   nameJa: string;
   roleJa: string;
   pose: PoseState;
-  variant?: "command" | "gate" | "default";
-  size?: number;
+  isCommand?: boolean;
+  isGate?: boolean;
+  decision?: string;
   lang?: "ja" | "en";
 }
 
-function AgentStation({ id, nameJa, roleJa, pose, variant = "default", size = 42, lang = "ja" }: StationProps): React.JSX.Element {
+function AgentStation({ id, nameJa, roleJa, pose, isCommand, isGate, decision = "HOLD" }: AgentStationProps): React.JSX.Element {
   const accent = ACCENT[id];
   const anim = poseAnim(id, pose);
   const status = poseLabel(pose);
-  const variantClass = variant === "command" ? " pxr-command" : variant === "gate" ? " pxr-gate" : "";
+  const size = isCommand ? 52 : 40;
 
   return (
-    <div className={`pxr-station${variantClass}`}>
+    <div className={`pxr-station${isCommand ? " pxr-command" : isGate ? " pxr-gate" : ""}`}
+      style={{ minWidth: isCommand ? 130 : 100 }}>
+
       {/* Accent dot */}
       <div aria-hidden style={{
         position: "absolute", top: 5, right: 5,
         width: 5, height: 5, borderRadius: "50%",
-        background: accent, opacity: 0.8,
-        boxShadow: `0 0 5px ${accent}`,
-      }} className={variant === "command" || variant === "gate" ? "pxr-blink" : undefined} />
+        background: accent, opacity: 0.85,
+        boxShadow: `0 0 6px ${accent}`,
+      }} className={(isCommand || isGate) ? "pxr-blink" : undefined} />
 
-      {/* Desk decor icons */}
-      <div className="pxr-desk-decor" aria-hidden>
-        {DESK_ICONS[id].map((icon, i) => (
-          <span key={i} className="pxr-desk-icon" style={{ color: accent }}>{icon}</span>
-        ))}
-      </div>
+      {/* Command monitor above shikishima */}
+      {isCommand && <CommandMonitor decision={decision} />}
 
-      {/* Ghost avatar with animation */}
+      {/* Desk decorations */}
+      <DeskDecor id={id} />
+
+      {/* Ghost with animation */}
       <div className={anim} style={{ display: "flex" }} aria-hidden>
         <GhostSvg agentId={id} size={size} />
       </div>
 
       {/* Name */}
-      <div className="pxr-station-name" style={{ color: accent }}>{nameJa}</div>
+      <div className="pxr-station-name" style={{ color: accent, fontSize: isCommand ? 12 : 11 }}>{nameJa}</div>
 
       {/* Role */}
-      <div className="pxr-station-role">{lang === "ja" ? roleJa : roleJa}</div>
+      <div className="pxr-station-role">{roleJa}</div>
 
       {/* Status */}
       <div className={`pxr-station-state ${status.cls}`}>{status.text}</div>
@@ -114,99 +229,57 @@ function AgentStation({ id, nameJa, roleJa, pose, variant = "default", size = 42
 function GateLamp({ pose }: { pose: PoseState }): React.JSX.Element {
   const isHold = pose === "hold_stop_blocked" || pose === "idle" || pose === "waiting_human_go";
   return (
-    <div className="pxr-gate-wrap" aria-hidden>
+    <div aria-hidden style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 2, marginBottom: 2 }}>
       <div className={isHold ? "pxr-blink" : undefined} style={{
-        width: 9, height: 9, borderRadius: "50%",
+        width: 10, height: 10, borderRadius: "50%",
         background: isHold ? "#f85149" : "#3fb950",
-        boxShadow: isHold ? "0 0 7px rgba(248,81,73,0.9)" : "0 0 7px rgba(63,185,80,0.7)",
+        boxShadow: isHold ? "0 0 8px rgba(248,81,73,0.9)" : "0 0 8px rgba(63,185,80,0.7)",
       }} />
-      <span style={{ fontSize: 6, fontFamily: '"IBM Plex Mono", monospace', color: isHold ? "#f85149" : "#3fb950", letterSpacing: 0.5 }}>
+      <span style={{ fontFamily: MONO, fontSize: 6, color: isHold ? "#f85149" : "#3fb950", letterSpacing: 0.5 }}>
         {isHold ? "HOLD" : "GO"}
       </span>
     </div>
   );
 }
 
-/* ── Monitor / wall panel ── */
-function WallMonitor(): React.JSX.Element {
-  return (
-    <div className="pxr-wall-panel" aria-hidden>
-      <div className="pxr-wall-panel-cell lit-blue" />
-      <div className="pxr-wall-panel-cell" />
-      <div className="pxr-wall-panel-cell lit-green" />
-      <div className="pxr-wall-panel-cell lit-amber" />
-    </div>
-  );
-}
-
-/* ── Whiteboard (むすび's desk backdrop) ── */
-function Whiteboard(): React.JSX.Element {
+/* ── Wall panel ── */
+function WallPanel({ accent }: { accent?: string }): React.JSX.Element {
+  const c = accent ?? "#7eb8ff";
   return (
     <div aria-hidden style={{
-      width: 76, height: 40, border: "1.5px solid rgba(40,60,140,0.5)",
-      borderRadius: 3, background: "#060d22", position: "relative",
-      overflow: "hidden", flexShrink: 0,
+      width: 50, height: 35, border: `1.5px solid ${c}44`,
+      borderRadius: 3, background: "#030a18",
+      display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2, padding: 3,
     }}>
-      <div style={{ position: "absolute", inset: 0,
-        backgroundImage: "linear-gradient(rgba(88,166,255,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(88,166,255,0.06) 1px,transparent 1px)",
-        backgroundSize: "12px 12px" }} />
-      <svg style={{ position: "absolute", inset: 0 }} width="76" height="40" aria-hidden>
-        <polyline points="12,30 24,18 38,24 52,12 64,20" stroke="#3fb950" strokeWidth="1" fill="none" strokeDasharray="2 2" opacity="0.6" />
-        {[[12,30],[24,18],[38,24],[52,12],[64,20]].map(([x,y],i) => (
-          <circle key={i} cx={x} cy={y} r="2" fill="#3fb950" opacity="0.7" />
-        ))}
-      </svg>
-      <span style={{ position: "absolute", bottom: 3, right: 4, fontSize: 6, fontFamily: '"IBM Plex Mono",monospace', color: "#3fb950", opacity: 0.7 }}>PLAN</span>
+      <div style={{ borderRadius: 1, background: "#0c1d4a", boxShadow: `inset 0 0 4px ${c}66` }} />
+      <div style={{ borderRadius: 1, background: "#030a18", border: "1px solid rgba(40,60,140,0.3)" }} />
+      <div style={{ borderRadius: 1, background: "#030a18", border: "1px solid rgba(40,60,140,0.3)" }} />
+      <div style={{ borderRadius: 1, background: "#1a1000", boxShadow: "inset 0 0 4px rgba(245,158,11,0.35)" }} />
     </div>
   );
 }
 
-/* ── Legend panel (管制ボード) ── */
-function LegendPanel(): React.JSX.Element {
-  const items: [string, AgentId, string][] = [
-    ["安全第一", "shizume", ACCENT.shizume],
-    ["あわてない", "hajime", ACCENT.hajime],
-    ["つなげる", "tsumugi", ACCENT.tsumugi],
-    ["記録する", "shirube", ACCENT.shirube],
-  ];
+/* ── Night window ── */
+function NightWindow(): React.JSX.Element {
   return (
-    <div className="pxr-legend" aria-label="管制ボード">
-      <div className="pxr-legend-title">管制ボード</div>
-      {items.map(([label, , color]) => (
-        <div key={label} className="pxr-legend-item">
-          <div className="pxr-legend-dot" style={{ background: color, boxShadow: `0 0 3px ${color}` }} />
-          {label}
-        </div>
+    <div aria-hidden style={{
+      width: 60, height: 40, border: "1.5px solid rgba(40,60,140,0.5)",
+      borderRadius: 3, background: "#020510", overflow: "hidden", position: "relative",
+    }}>
+      {/* Stars */}
+      {[[8,6],[22,10],[38,4],[50,14],[14,18],[44,8]].map(([x,y],i) => (
+        <div key={i} style={{ position: "absolute", left: x, top: y, width: 1.5, height: 1.5, borderRadius: "50%", background: "#ffffff", opacity: 0.5 + (i%3)*0.15 }} />
       ))}
-    </div>
-  );
-}
-
-/* ── Workflow lane (bottom) ── */
-const WORKFLOW_STEPS = [
-  { num: "1", ja: "ユーザー依頼", status: "active" },
-  { num: "2", ja: "計画する",     status: "active" },
-  { num: "3", ja: "安全チェック", status: "hold"   },
-  { num: "4", ja: "実装する",     status: "idle"   },
-  { num: "5", ja: "記録する",     status: "idle"   },
-] as const;
-
-function WorkflowLane({ decision }: { decision: string }): React.JSX.Element {
-  const isStop = decision === "STOP";
-  return (
-    <div className="pxr-workflow" aria-label="ワークフロー">
-      {WORKFLOW_STEPS.map((step, i) => {
-        const cls = isStop ? "hold" : step.status === "hold" ? "hold" : step.status === "active" ? "active" : "";
-        return (
-          <React.Fragment key={step.num}>
-            <div className="pxr-workflow-step">
-              <div className={`pxr-workflow-circle ${cls}`}>{step.num}</div>
-              <div className="pxr-workflow-label">{step.ja}</div>
-            </div>
-            {i < WORKFLOW_STEPS.length - 1 && <div className="pxr-workflow-arrow" />}
-          </React.Fragment>
-        );
-      })}
+      {/* City lights */}
+      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 12,
+        background: "linear-gradient(180deg, transparent 0%, rgba(4,10,30,0.8) 100%)" }}>
+        {[4,10,18,25,32,40,48,55].map((lx,i) => (
+          <div key={i} style={{ position: "absolute", left: lx, bottom: 1, width: 2, height: 4 + (i%3)*2,
+            background: i%2===0 ? "#f0883e" : "#7eb8ff", opacity: 0.6 }} />
+        ))}
+      </div>
+      {/* Moon */}
+      <div style={{ position: "absolute", right: 8, top: 4, width: 8, height: 8, borderRadius: "50%", background: "#e8e0c0", boxShadow: "0 0 4px rgba(232,224,192,0.6)" }} />
     </div>
   );
 }
@@ -238,61 +311,61 @@ export function PixelRoomView({ decision = "HOLD", poses, lang = "ja" }: PixelRo
 
   return (
     <div className="pxr-root">
-      {/* Header */}
-      <div className="pxr-header">
-        <span className="pxr-header-title">🌙 {lang === "ja" ? "管制室 · NIGHT OPS" : "COMMAND · NIGHT OPS"}</span>
-        <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
-          <span className="pxr-header-badge">display-only</span>
-          <span className="pxr-header-badge">夜間オペレーション中</span>
-        </div>
-      </div>
+      {/* ── Top HUD (large status boxes) ── */}
+      <PixelRoomHud decision={decision} lang={lang} />
 
-      {/* Back wall */}
+      {/* ── Back wall with decorations ── */}
       <div className="pxr-wall-back">
         <div className="pxr-wall-decor">
-          <LegendPanel />
-          <Whiteboard />
-          <WallMonitor />
+          <WallPanel accent={ACCENT.shizume} />
+          <NightWindow />
+          <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+            <span style={{ fontFamily: MONO, fontSize: 9, color: "#7eb8ff", letterSpacing: 1.5, textTransform: "uppercase" }}>
+              🌙 {lang === "ja" ? "管制室 · NIGHT OPS" : "COMMAND · NIGHT OPS"}
+            </span>
+          </div>
+          <NightWindow />
+          <WallPanel accent={ACCENT.shirube} />
         </div>
       </div>
 
       <div className="pxr-dot-strip" />
 
-      {/* Side walls + floor */}
+      {/* ── Room body (side walls + agent floor) ── */}
       <div className="pxr-side-walls">
         <div className="pxr-wall-left-strip" aria-hidden />
 
         <div className="pxr-floor-area">
-          <div className="pxr-stations">
+          {/* ── Horizontal agent row ── */}
+          <div className="pxr-agents-row">
 
-            {/* TOP: むすび */}
-            <div className="pxr-row-top">
-              <AgentStation id="hajime" nameJa="むすび" roleJa="計画デスク" pose={p.hajime} lang={lang} />
+            {/* しずめ — left safety gate */}
+            <div className="pxr-agent-col pxr-agent-col-side">
+              <GateLamp pose={p.shizume} />
+              <AgentStation id="shizume" nameJa="しずめ" roleJa="安全ゲート" pose={p.shizume} isGate decision={decision} lang={lang} />
             </div>
 
-            {/* MID: しずめ | ★しきしま | つむぐ */}
-            <div className="pxr-row-mid">
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
-                <GateLamp pose={p.shizume} />
-                <AgentStation id="shizume" nameJa="しずめ" roleJa="安全ゲート" pose={p.shizume} variant="gate" lang={lang} />
-              </div>
-
-              <div className="pxr-command-wrap">
-                <div className="pxr-command-label">★ COMMAND</div>
-                <AgentStation id="shikishima" nameJa="しきしま" roleJa="司令席" pose={p.shikishima} variant="command" size={50} lang={lang} />
-              </div>
-
-              <AgentStation id="tsumugi" nameJa="つむぐ" roleJa="開発ベンチ" pose={p.tsumugi} lang={lang} />
+            {/* はじめ — left-center planning */}
+            <div className="pxr-agent-col">
+              <AgentStation id="hajime" nameJa="むすび" roleJa="計画デスク" pose={p.hajime} decision={decision} lang={lang} />
             </div>
 
-            {/* BOT: しるべ */}
-            <div className="pxr-row-bot">
-              <AgentStation id="shirube" nameJa="しるべ" roleJa="記録棚" pose={p.shirube} lang={lang} />
+            {/* ★ しきしま — command center */}
+            <div className="pxr-agent-col pxr-agent-col-command">
+              <div className="pxr-command-label">★ COMMAND</div>
+              <AgentStation id="shikishima" nameJa="しきしま" roleJa="司令席" pose={p.shikishima} isCommand decision={decision} lang={lang} />
+            </div>
+
+            {/* つむぐ — right dev bench */}
+            <div className="pxr-agent-col">
+              <AgentStation id="tsumugi" nameJa="つむぐ" roleJa="開発ベンチ" pose={p.tsumugi} decision={decision} lang={lang} />
+            </div>
+
+            {/* しるべ — right record shelf */}
+            <div className="pxr-agent-col pxr-agent-col-side">
+              <AgentStation id="shirube" nameJa="しるべ" roleJa="記録棚" pose={p.shirube} decision={decision} lang={lang} />
             </div>
           </div>
-
-          {/* Workflow lane */}
-          <WorkflowLane decision={decision} />
 
           {/* Floor strip */}
           <div className="pxr-floor-strip" aria-hidden />
@@ -303,7 +376,16 @@ export function PixelRoomView({ decision = "HOLD", poses, lang = "ja" }: PixelRo
 
       <div className="pxr-dot-strip" />
 
-      {/* Safety HUD */}
+      {/* ── Handoff rail ── */}
+      <PixelRoomHandoffRail decision={decision} lang={lang} />
+
+      {/* ── Bottom: log strip + gate panel ── */}
+      <div style={{ display: "flex", gap: 8, padding: "8px 12px", background: "rgba(4,8,20,0.7)", flexWrap: "wrap" }}>
+        <PixelRoomLogStrip />
+        <PixelRoomGatePanel />
+      </div>
+
+      {/* ── Safety HUD strip ── */}
       <RoomHUD decision={decision} lang={lang} />
     </div>
   );
