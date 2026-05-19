@@ -1,27 +1,197 @@
 /**
- * PixelRoomHandoffPath — display-only delivery ghost animation.
- * Route: むすび -> しずめ -> つむぎ -> しるべ -> しきしま.
- * No visible route lines, arrows, or station nodes.
- * prefers-reduced-motion: the delivery ghost remains static.
+ * PixelRoomHandoffPath — display-only agent handoff animation.
+ * A working agent leaves its station, carries a document to the next agent,
+ * pauses at the receiving station, then returns to its own workstation.
+ * No route lines, arrows, station nodes, or third-party delivery ghost.
  */
 
 import { useEffect, useState } from "react";
 
 const W = 940;
 const H = 500;
+const CYCLE_SECONDS = 25;
 
-/*
- * The path still defines movement geometry, but it is not rendered.
- * keyPoints are based on approximate cumulative segment lengths:
- * むすび=0, しずめ=0.10, つむぎ=0.49, しるべ=0.59, しきしま=0.85, return=1.
- */
-const DELIVERY_PATH = "M252,348 L92,358 L686,348 L848,356 L470,258 Z";
-const DELIVERY_KEY_POINTS = "0;0;0.10;0.10;0.49;0.49;0.59;0.59;0.85;1";
-const DELIVERY_KEY_TIMES = "0;0.07;0.15;0.22;0.51;0.58;0.67;0.74;0.93;1";
+type HandoffAgent = "hajime" | "shizume" | "tsumugi" | "shirube" | "shikishima";
+
+interface StationPoint {
+  readonly x: number;
+  readonly y: number;
+}
+
+interface HandoffStep {
+  readonly from: HandoffAgent;
+  readonly to: HandoffAgent;
+  readonly start: StationPoint;
+  readonly end: StationPoint;
+  readonly beginSeconds: number;
+  readonly color: string;
+  readonly label: string;
+}
+
+const HANDOFF_STEPS: readonly HandoffStep[] = [
+  {
+    from: "hajime",
+    to: "shizume",
+    start: { x: 252, y: 348 },
+    end: { x: 92, y: 358 },
+    beginSeconds: 0,
+    color: "#3fb950",
+    label: "plan",
+  },
+  {
+    from: "shizume",
+    to: "tsumugi",
+    start: { x: 92, y: 358 },
+    end: { x: 686, y: 348 },
+    beginSeconds: 5,
+    color: "#f85149",
+    label: "safety",
+  },
+  {
+    from: "tsumugi",
+    to: "shirube",
+    start: { x: 686, y: 348 },
+    end: { x: 848, y: 356 },
+    beginSeconds: 10,
+    color: "#f0883e",
+    label: "dev",
+  },
+  {
+    from: "shirube",
+    to: "shikishima",
+    start: { x: 848, y: 356 },
+    end: { x: 470, y: 258 },
+    beginSeconds: 15,
+    color: "#b07fff",
+    label: "record",
+  },
+  {
+    from: "shikishima",
+    to: "hajime",
+    start: { x: 470, y: 258 },
+    end: { x: 252, y: 348 },
+    beginSeconds: 20,
+    color: "#58a6ff",
+    label: "return",
+  },
+] as const;
 
 interface PixelRoomHandoffPathProps {
   readonly decision?: string;
   readonly zIndex?: number;
+}
+
+function createRoundTripPath(step: HandoffStep): string {
+  const midX = (step.start.x + step.end.x) / 2;
+  const midY = Math.min(step.start.y, step.end.y) - 42;
+  return [
+    `M${step.start.x},${step.start.y}`,
+    `Q${midX},${midY} ${step.end.x},${step.end.y}`,
+    `Q${midX},${midY} ${step.start.x},${step.start.y}`,
+  ].join(" ");
+}
+
+function AgentMiniGhost({ agent, color }: { readonly agent: HandoffAgent; readonly color: string }): React.JSX.Element {
+  const capColor = agent === "tsumugi" ? "#f5bc00" : agent === "shizume" ? "#1d2748" : undefined;
+  const headsetColor = agent === "shikishima" ? "#1c2d5c" : agent === "shirube" ? "#201848" : undefined;
+
+  return (
+    <g transform="translate(0,-24)">
+      <ellipse cx="0" cy="18" rx="14" ry="3.5" fill="rgba(0,0,0,0.22)" />
+      <path
+        d="M0,-16 C-10,-16 -14,-9 -14,-2 L-14,7 Q-11,13 -6,9 Q-3,15 0,9 Q3,15 6,9 Q11,13 14,7 L14,-2 C14,-9 10,-16 0,-16 Z"
+        fill="rgba(237,242,255,0.96)"
+        stroke={color}
+        strokeWidth="1.5"
+      />
+      <ellipse cx="-2" cy="-10" rx="6" ry="4.5" fill="rgba(255,255,255,0.36)" />
+
+      {capColor ? (
+        <>
+          <path d="M-12,-16 Q0,-25 12,-16" fill={capColor} />
+          <rect x="-14" y="-16" width="28" height="3.5" rx="1.8" fill={capColor} />
+        </>
+      ) : null}
+
+      {headsetColor ? (
+        <>
+          <path d="M-12,-5 Q0,-22 12,-5" stroke={headsetColor} strokeWidth="2.4" fill="none" strokeLinecap="round" />
+          <ellipse cx="-13" cy="-4" rx="3" ry="4" fill={headsetColor} />
+          <ellipse cx="13" cy="-4" rx="3" ry="4" fill={headsetColor} />
+        </>
+      ) : null}
+
+      {agent === "hajime" ? (
+        <circle cx="12" cy="-18" r="5" fill="rgba(220,228,255,0.9)" stroke="#c4d4f0" strokeWidth="0.8" />
+      ) : null}
+
+      <rect x="-7" y="-8" width="5" height="6" rx="1.2" fill="#1a2852" />
+      <rect x="2" y="-8" width="5" height="6" rx="1.2" fill="#1a2852" />
+      <ellipse cx="-10" cy="-1" rx="3" ry="2" fill="rgba(255,130,130,0.5)" />
+      <ellipse cx="10" cy="-1" rx="3" ry="2" fill="rgba(255,130,130,0.5)" />
+      <path d="M-5,4 Q0,8 5,4" stroke="#1a2852" strokeWidth="1.4" fill="none" strokeLinecap="round" />
+
+      <g>
+        <animateTransform
+          attributeName="transform"
+          type="translate"
+          values="0,0; 0,-1.8; 0,0"
+          dur="1.1s"
+          repeatCount="indefinite"
+        />
+        <rect x="-10" y="7" width="20" height="13" rx="2" fill="rgba(242,248,255,0.96)" stroke={color} strokeWidth="1" />
+        <line x1="-6" y1="11" x2="6" y2="11" stroke={color} strokeWidth="0.9" opacity="0.7" />
+        <line x1="-6" y1="15" x2="3" y2="15" stroke={color} strokeWidth="0.9" opacity="0.45" />
+      </g>
+    </g>
+  );
+}
+
+function HandoffActor({ step, reducedMotion }: { readonly step: HandoffStep; readonly reducedMotion: boolean }): React.JSX.Element {
+  const path = createRoundTripPath(step);
+  const begin = `${step.beginSeconds}s`;
+
+  if (reducedMotion) {
+    return <g />;
+  }
+
+  return (
+    <g filter="url(#pxr-agent-handoff-glow)">
+      <g opacity="0">
+        <animate
+          attributeName="opacity"
+          values="0;1;1;1;0"
+          keyTimes="0;0.08;0.50;0.86;1"
+          dur={`${CYCLE_SECONDS}s`}
+          begin={begin}
+          repeatCount="indefinite"
+        />
+        <animateMotion
+          path={path}
+          dur={`${CYCLE_SECONDS}s`}
+          begin={begin}
+          repeatCount="indefinite"
+          calcMode="linear"
+          keyPoints="0;0;0.5;0.5;1;1"
+          keyTimes="0;0.08;0.42;0.58;0.92;1"
+        />
+
+        <AgentMiniGhost agent={step.from} color={step.color} />
+
+        <text
+          x="0"
+          y="28"
+          textAnchor="middle"
+          fontFamily='"IBM Plex Mono", monospace'
+          fontSize="7"
+          fill={step.color}
+          letterSpacing="0.6"
+        >
+          {step.label} -&gt; {step.to}
+        </text>
+      </g>
+    </g>
+  );
 }
 
 export function PixelRoomHandoffPath({ decision = "HOLD", zIndex = 14 }: PixelRoomHandoffPathProps): React.JSX.Element {
@@ -53,8 +223,8 @@ export function PixelRoomHandoffPath({ decision = "HOLD", zIndex = 14 }: PixelRo
       viewBox={`0 0 ${W} ${H}`}
     >
       <defs>
-        <filter id="pxr-delivery-ghost-glow" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="3" result="blur" />
+        <filter id="pxr-agent-handoff-glow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="2.8" result="blur" />
           <feMerge>
             <feMergeNode in="blur" />
             <feMergeNode in="SourceGraphic" />
@@ -62,58 +232,9 @@ export function PixelRoomHandoffPath({ decision = "HOLD", zIndex = 14 }: PixelRo
         </filter>
       </defs>
 
-      {!isStop && (
-        <g filter="url(#pxr-delivery-ghost-glow)">
-          <animateMotion
-            path={DELIVERY_PATH}
-            dur="16s"
-            repeatCount="indefinite"
-            calcMode="linear"
-            keyPoints={DELIVERY_KEY_POINTS}
-            keyTimes={DELIVERY_KEY_TIMES}
-            begin={reducedMotion ? "indefinite" : "0s"}
-          />
-
-          <g transform="translate(0,-24)">
-            <path
-              d="M0,-14 C-8,-14 -11,-8 -11,-2 L-11,5 Q-9,11 -5,7 Q-2,13 1,7 Q4,13 7,7 Q11,11 11,5 L11,-2 C11,-8 8,-14 0,-14 Z"
-              fill="rgba(100,168,255,0.93)"
-            />
-            <ellipse cx="-2" cy="-9" rx="5" ry="4" fill="rgba(255,255,255,0.28)" />
-            <rect x="-7" y="-10" width="4" height="5" rx="1" fill="#1a2852" />
-            <rect x="-6.5" y="-9.5" width="1.5" height="1.5" fill="white" opacity="0.9" />
-            <rect x="2" y="-10" width="4" height="5" rx="1" fill="#1a2852" />
-            <rect x="2.5" y="-9.5" width="1.5" height="1.5" fill="white" opacity="0.9" />
-            <ellipse cx="-9" cy="-4" rx="2.5" ry="2" fill="rgba(255,130,130,0.52)" />
-            <ellipse cx="8" cy="-4" rx="2.5" ry="2" fill="rgba(255,130,130,0.52)" />
-            <path d="M-4,1 Q0,5 4,1" stroke="#1a2852" strokeWidth="1.3" fill="none" strokeLinecap="round" />
-
-            <g>
-              <animateTransform
-                attributeName="transform"
-                type="translate"
-                values="0,0; 0,-2; 0,0"
-                dur="1.6s"
-                repeatCount="indefinite"
-                begin={reducedMotion ? "indefinite" : "0s"}
-              />
-              <rect
-                x="-8"
-                y="5"
-                width="16"
-                height="11"
-                rx="2"
-                fill="rgba(242,248,255,0.95)"
-                stroke="rgba(88,150,255,0.60)"
-                strokeWidth="0.9"
-              />
-              <line x1="-5" y1="8.5" x2="6" y2="8.5" stroke="rgba(88,166,255,0.60)" strokeWidth="0.9" />
-              <line x1="-5" y1="11.5" x2="3" y2="11.5" stroke="rgba(88,166,255,0.40)" strokeWidth="0.9" />
-              <circle cx="7" cy="6" r="1.5" fill="rgba(255,220,80,0.80)" />
-            </g>
-          </g>
-        </g>
-      )}
+      {!isStop && HANDOFF_STEPS.map((step) => (
+        <HandoffActor key={`${step.from}-${step.to}`} step={step} reducedMotion={reducedMotion} />
+      ))}
 
       {isStop && (
         <text
