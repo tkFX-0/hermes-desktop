@@ -3,13 +3,14 @@
  * Display-only. Shows control room environment with 5 agent zones.
  * No execute/push/send buttons. Safety invariants via PageRightRail.
  * Design spec: AGENT_THEATER_IMPLEMENTATION_DESIGN.md
- * Phase: AT-07 (dark control room layout with CSS ambient details)
+ * Phase: AT-08 (worker status panel + autonomy level legend)
  */
 
 import type { AgentPoseMap, PoseState, SlotStatus } from "../../types/agent-theater-types";
 import { SlotStatusBar } from "./SlotStatusBar";
 import { PageRightRail } from "../../components/Shell/PageRightRail";
 import { ControlRoomLayout } from "./ControlRoomLayout";
+import { WorkerStatusPanel } from "./WorkerStatusPanel";
 
 function allPoses(pose: PoseState): AgentPoseMap {
   return {
@@ -113,6 +114,14 @@ export function AgentTheaterPage({
               {lang === "ja" ? "スロット" : "SLOTS"}
             </p>
             <SlotStatusBar slots={slots} lang={lang} />
+          </section>
+
+          {/* Worker status + autonomy level legend */}
+          <section aria-label={lang === "ja" ? "ワーカー状態" : "Worker status"}>
+            <p style={SECTION_HEADING}>
+              {lang === "ja" ? "ワーカー" : "WORKERS"}
+            </p>
+            <WorkerStatusPanel lang={lang} />
           </section>
         </div>
 

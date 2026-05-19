@@ -41,3 +41,12 @@ export type HandoffStage =
   | "waiting_human_go"
   | "hold_blocked"
   | "stopped";
+
+export type SlotWorkerStatus =
+  | "READY"
+  | "BUSY"
+  | "COOLDOWN"
+  | "DEGRADED"
+  | "BLOCKED"
+  | "FAILED"
+  | "NEEDS_HUMAN";

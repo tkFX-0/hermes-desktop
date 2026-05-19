@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.00.0
+- roadmapVersion: v4.01.0
 - lastUpdated: 2026-05-19
-- latestUpdate: SLOT-09 worker status and human-gated autonomy boundary recorded as docs-only policy
-- baselineCommit: f04a81c
+- latestUpdate: AT-08 Slot Worker Status Panel implemented; typecheck PASS; runtime recheck HOLD
+- baselineCommit: 0a528d6
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,17 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.01.0 - AT-08 Slot Worker Status Panel
+
+- Added `WorkerStatusCard.tsx`: display-only card per worker (GPT / ClaudeCode / Codex / Cursor / Human Gate).
+- Added `AutonomyLevelLegend.tsx`: Level 1-5 boundary with Level 4 AI OK / Level 5 human GO badges.
+- Added `WorkerStatusPanel.tsx`: panel container with 5 worker cards + autonomy legend.
+- Modified `AgentTheaterPage.tsx`: new WORKERS section added below SLOTS.
+- Added `SlotWorkerStatus` type: READY / BUSY / COOLDOWN / DEGRADED / BLOCKED / FAILED / NEEDS_HUMAN.
+- No execute buttons, no push buttons, no external API calls.
+- typecheck PASS / vitest 806/807; runtime recheck HOLD.
+- productionReady: false / execution: disabled / rawValuesReported: false.
 
 ## v4.00.0 - SLOT-09 Worker Status and Human-Gated Autonomy Boundary
 
