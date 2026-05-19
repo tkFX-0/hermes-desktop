@@ -59,6 +59,14 @@ network flow.
 - `HUMAN_GATED_ACTIONS_PLAIN_LANGUAGE_GUIDE.md` - simple Japanese guide for AUTO OK / HUMAN GO / READ-ONLY GO / HARD STOP.
 - `OBSIDIAN_LOCAL_NOTE_GATE_PLAN.md` - future OBS-LOCAL local Markdown note write gate.
 - `SOCIAL_AWARENESS_READ_ONLY_GATE_PLAN.md` - future XS-READ x_search/social read-only awareness gate.
+- `AT_REMAINING_IMPLEMENTATION_DESIGN_PACKAGE.md` - consolidated design package for remaining Agent Theater items after AT-09.
+- `AT_10_RUNAWAY_GUARD_PANEL_DESIGN.md` - Human-Gated Action Panel design for Level 5 boundaries.
+- `AT_11_WORKER_ROUTING_HANDOFF_PROMPT_PANEL_DESIGN.md` - Worker Routing / copy-only Handoff Prompt Panel design.
+- `AT_12_GATE_DASHBOARD_DESIGN.md` - Future Gate Dashboard design for RUNTIME/OAUTH/XS/OBS/external gates.
+- `AT_13_FINAL_VISUAL_POLISH_PLAN.md` - Agent Theater final responsive visual polish plan.
+- `AT_05_SPRITE_ASSET_PLAN.md` - optional sprite/image asset policy and future gate plan.
+- `AT_14_RUNTIME_VISUAL_RECHECK_PACKAGE.md` - runtime visual recheck request package; runtime remains HOLD.
+- `AT_REMAINING_IMPLEMENTATION_PUSH_READINESS.md` - docs-only push readiness checklist for remaining AT design package.
 - `PROVIDER_ROUTER_UPDATED_DESIGN.md` - updated provider routing design (primary/fallback/escalation).
 - `HERMES_SOCIAL_AWARENESS_FEATURE_CATALOG.md` - Social Awareness Layer feature catalog with XS stage gates.
 - `X_SEARCH_SHIKISHIMA_INTEGRATION_PLAN.md` - x_search read-only integration plan and Draft Outbox design.

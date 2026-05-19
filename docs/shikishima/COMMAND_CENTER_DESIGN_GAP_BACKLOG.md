@@ -72,10 +72,17 @@ Phase D (P3 — polish):
 | AT-04 | Visual recheck GO package | yes (docs) | AT_04_VISUAL_RECHECK_*.md |
 | AT-04b | AT-04 runtime visual recheck | HOLD | human GO + time_window |
 | AT-04c | State binding to snapshot | no | AgentTheaterPage.tsx |
-| AT-05 | CSS animation | no | CSS + AgentTheaterPage.tsx |
-| AT-06 | Slot worker status display | no | SlotStatusBar.tsx (new) |
-| AT-07 | Handoff animation | no | AgentTheaterPage.tsx |
+| AT-05 | Sprite asset plan / optional asset gate | design-ready | AT_05_SPRITE_ASSET_PLAN.md |
+| AT-06 | Slot worker status display | superseded | AT-08 Worker Status Panel |
+| AT-07 | Control room layout + handoff animation | yes | AgentTheaterPage.tsx + control room components |
 | AT-08 | Runtime visual recheck | pending human | — |
+| AT-08 | Worker Status Panel | yes | WorkerStatusPanel.tsx |
+| AT-09 | Resume Queue / Cooldown Panel | yes | ResumeQueuePanel.tsx |
+| AT-10 | Runaway Guard / Human-Gated Action Panel | design-ready | AT_10_RUNAWAY_GUARD_PANEL_DESIGN.md |
+| AT-11 | Worker Routing / Handoff Prompt Panel | design-ready | AT_11_WORKER_ROUTING_HANDOFF_PROMPT_PANEL_DESIGN.md |
+| AT-12 | Gate Dashboard / Future Gate Panel | design-ready | AT_12_GATE_DASHBOARD_DESIGN.md |
+| AT-13 | Final Visual Polish / Responsive Pass | design-ready | AT_13_FINAL_VISUAL_POLISH_PLAN.md |
+| AT-14 | Runtime Visual Recheck Package | design-ready / runtime HOLD | AT_14_RUNTIME_VISUAL_RECHECK_PACKAGE.md |
 | SLOT-09 | Worker status / cooldown / resume queue design | docs | SLOT_09_*.md |
 | AUTO-LEVEL-04 | Autonomous development through local evidence commit | policy | future UI display only |
 | AUTO-LEVEL-05 | Human-gated external action boundary | policy | future approval queue / Agent Theater display |
@@ -106,6 +113,22 @@ Phase F (Provider / Social):
   GHG-01 → GHG-08: Grok-Hermes activation
   XS-01 → XS-08: x_search social awareness
 ```
+
+---
+
+## Remaining AT Implementation Order
+
+1. AT-10 Runaway Guard / Human-Gated Action Panel
+2. AT-11 Worker Routing / Handoff Prompt Panel
+3. AT-12 Gate Dashboard / Future Gate Panel
+4. AT-13 Final Visual Polish / Responsive Pass
+5. AT-14 Runtime Visual Recheck Package
+6. AT-05 Sprite Asset Plan / optional later asset gate
+
+AT-05 may move earlier only if image or sprite work becomes necessary.
+Runtime visual recheck remains HOLD until a human time_window GO exists.
+Cursor integration remains optional/later.
+Level 5 actions remain human-gated.
 
 ---
 

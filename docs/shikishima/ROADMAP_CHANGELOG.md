@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.02.0
+- roadmapVersion: v4.03.0
 - lastUpdated: 2026-05-19
-- latestUpdate: AT-09 Resume Queue / Cooldown Panel implemented; typecheck PASS; runtime recheck HOLD
-- baselineCommit: fbaa0f5
+- latestUpdate: Remaining Agent Theater implementation design package recorded; runtime recheck HOLD
+- baselineCommit: 669b0f8
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,22 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.03.0 - Remaining Agent Theater Implementation Design Package
+
+- Added `AT_REMAINING_IMPLEMENTATION_DESIGN_PACKAGE.md`.
+- Added `AT_10_RUNAWAY_GUARD_PANEL_DESIGN.md`.
+- Added `AT_11_WORKER_ROUTING_HANDOFF_PROMPT_PANEL_DESIGN.md`.
+- Added `AT_12_GATE_DASHBOARD_DESIGN.md`.
+- Added `AT_13_FINAL_VISUAL_POLISH_PLAN.md`.
+- Added `AT_05_SPRITE_ASSET_PLAN.md`.
+- Added `AT_14_RUNTIME_VISUAL_RECHECK_PACKAGE.md`.
+- Added `AT_REMAINING_IMPLEMENTATION_PUSH_READINESS.md`.
+- Recorded priority order: AT-10 -> AT-11 -> AT-12 -> AT-13 -> AT-14 -> AT-05.
+- Confirmed ClaudeCode as likely UI implementation worker and Codex as push-readiness/review worker.
+- Confirmed Level 5 actions remain human-gated: push, runtime, OAuth, x_search, Obsidian write, external write, productionReady, execution.
+- Docs-only. No source changes, no runtime, no npm run dev, no OAuth, no x_search, no Obsidian write, no external API, no git push.
+- productionReady: false / execution: disabled / rawValuesReported: false.
 
 ## v4.02.0 - AT-09 Resume Queue and Cooldown Panel
 

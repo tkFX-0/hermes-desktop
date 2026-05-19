@@ -20,14 +20,25 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v4.02.0
-- latestUpdate: 2026-05-19 - AT-09 Resume Queue / Cooldown Panel implemented; typecheck PASS; runtime recheck HOLD
+- roadmapVersion: v4.03.0
+- latestUpdate: 2026-05-19 - Remaining Agent Theater implementation design package recorded; runtime recheck HOLD
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
-- current HEAD: origin/main=5055b6d; commits_ahead=1 (evidence docs, push pending after this commit)
+- current HEAD: origin/main=669b0f8; commits_ahead=1 after remaining AT design package commit
 - validation road: Gate 001-007 ✓; UI-01-14 PASS; shell design aligned; mobile foundation + responsive pages done
-- current next human action: push readiness review for AT-09 + AT-08 commits; runtime visual recheck GO (time_window required)
+- current next human action: push readiness review for remaining AT design package; then ClaudeCode implementation of AT-10
 - HOLD reason: productionReady false; execution disabled; Level 5 actions require explicit human GO
+
+## Remaining Agent Theater Update
+
+- AT-10: Runaway Guard / Human-Gated Action Panel design-ready
+- AT-11: Worker Routing / Handoff Prompt Panel design-ready
+- AT-12: Gate Dashboard / Future Gate Panel design-ready
+- AT-13: Final Visual Polish / Responsive Pass design-ready
+- AT-14: Runtime Visual Recheck Package design-ready; runtime HOLD
+- AT-05: Sprite Asset Plan recorded; image asset integration remains separately gated
+- priority order: AT-10 -> AT-11 -> AT-12 -> AT-13 -> AT-14 -> AT-05
+- implementation routing: ClaudeCode for UI, Codex for review/push readiness, Human for Level 5 GO
 
 ## SLOT-09 Worker Autonomy Update
 

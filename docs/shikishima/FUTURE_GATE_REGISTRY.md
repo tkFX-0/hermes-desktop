@@ -128,6 +128,27 @@ GATE-AUTO-01 (requires all above)
 | AT-08 | Runtime visual recheck (initial) | PASS (2026-05-18) | — |
 | AT-08b | AT-04 refined ghost runtime recheck | HOLD | human GO + time_window |
 
+| AT-09 | Resume Queue / Cooldown Panel | COMPLETE | pushed AT-09 implementation |
+| AT-10 | Runaway Guard / Human-Gated Action Panel | DESIGN-READY | ClaudeCode impl GO + Codex push readiness |
+| AT-11 | Worker Routing / Handoff Prompt Panel | DESIGN-READY | AT-10 review + impl GO |
+| AT-12 | Gate Dashboard / Future Gate Panel | DESIGN-READY | AT-11 review + impl GO |
+| AT-13 | Final Visual Polish / Responsive Pass | DESIGN-READY | AT-10/11/12 implementation review |
+| AT-14 | Runtime Visual Recheck Package | DESIGN-READY / HOLD | explicit runtime GO with date/time_window |
+| AT-05b | Sprite Asset Integration | HOLD | AT-05 asset plan + separate asset GO |
+
+## Remaining Agent Theater Priority Order
+
+1. AT-10 Runaway Guard / Human-Gated Action Panel
+2. AT-11 Worker Routing / Handoff Prompt Panel
+3. AT-12 Gate Dashboard / Future Gate Panel
+4. AT-13 Final Visual Polish / Responsive Pass
+5. AT-14 Runtime Visual Recheck Package
+6. AT-05 Sprite Asset Plan / optional later asset gate
+
+These gates are display-only design records. They do not approve runtime,
+push, OAuth, x_search, Obsidian write, external write, productionReady true,
+or execution enabled.
+
 ## Required Statement
 
 No gate in this registry is approved.
