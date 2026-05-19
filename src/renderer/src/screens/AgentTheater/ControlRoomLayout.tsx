@@ -6,17 +6,10 @@
  * Design spec: AT_07_CONTROL_ROOM_ENVIRONMENT_LAYOUT_EVIDENCE.md
  */
 
-import type { AgentId, AgentPoseMap } from "../../types/agent-theater-types";
+import type { AgentPoseMap } from "../../types/agent-theater-types";
 import { ControlRoomZone } from "./ControlRoomZone";
 import { HandoffLane } from "./HandoffLane";
 
-const AGENT_IDS: readonly AgentId[] = [
-  "shikishima",
-  "shizume",
-  "hajime",
-  "tsumugi",
-  "shirube",
-];
 
 // CSS-only night window panel
 function NightWindow(): React.JSX.Element {
@@ -76,6 +69,57 @@ function decisionBadgeColor(decision: string): string {
   if (decision === "GO_READY") return "#58a6ff";
   return "#f0883e";
 }
+
+// Room layout CSS: diamond arrangement with shikishima as central command station
+const ROOM_CSS = `
+.cr-room-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 14px 0;
+}
+.cr-room-top,
+.cr-room-bot {
+  display: flex;
+  justify-content: center;
+}
+.cr-room-top > *,
+.cr-room-bot > * {
+  width: min(220px, 100%);
+}
+.cr-room-mid {
+  display: grid;
+  grid-template-columns: 1fr 1.35fr 1fr;
+  gap: 10px;
+  align-items: center;
+}
+.cr-command-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.cr-command-label {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: #58a6ff;
+  opacity: 0.7;
+  text-align: center;
+}
+@media (max-width: 499px) {
+  .cr-room-top,
+  .cr-room-mid,
+  .cr-room-bot {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .cr-room-top > *,
+  .cr-room-bot > * { width: 100%; }
+  .cr-command-label { display: none; }
+}
+`;
 
 const STATIC_BADGES = [
   { key: "execution",       value: "disabled" },
@@ -172,18 +216,25 @@ export function ControlRoomLayout({ decision, poses, lang = "ja" }: ControlRoomL
       {/* Dot grid accent */}
       <DotGridStrip />
 
-      {/* Agent zone grid */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 160px), 1fr))",
-          gap: 10,
-          margin: "14px 0",
-        }}
-      >
-        {AGENT_IDS.map((id) => (
-          <ControlRoomZone key={id} agentId={id} pose={poses[id]} lang={lang} />
-        ))}
+      {/* Agent zone — room layout (diamond: hajime top, shikishima center, shirube bottom) */}
+      <style>{ROOM_CSS}</style>
+      <div className="cr-room-grid">
+        <div className="cr-room-top">
+          <ControlRoomZone agentId="hajime" pose={poses["hajime"]} lang={lang} />
+        </div>
+        <div className="cr-room-mid">
+          <ControlRoomZone agentId="shizume" pose={poses["shizume"]} lang={lang} />
+          <div className="cr-command-wrap">
+            <div className="cr-command-label">
+              {lang === "ja" ? "★ COMMAND" : "★ COMMAND"}
+            </div>
+            <ControlRoomZone agentId="shikishima" pose={poses["shikishima"]} lang={lang} />
+          </div>
+          <ControlRoomZone agentId="tsumugi" pose={poses["tsumugi"]} lang={lang} />
+        </div>
+        <div className="cr-room-bot">
+          <ControlRoomZone agentId="shirube" pose={poses["shirube"]} lang={lang} />
+        </div>
       </div>
 
       {/* Dot grid accent */}
