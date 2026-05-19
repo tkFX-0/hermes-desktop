@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.03.0
+- roadmapVersion: v4.04.0
 - lastUpdated: 2026-05-19
-- latestUpdate: Remaining Agent Theater implementation design package recorded; runtime recheck HOLD
-- baselineCommit: 669b0f8
+- latestUpdate: AT-10 Runaway Guard Panel implemented; typecheck PASS; runtime recheck HOLD
+- baselineCommit: d96d976
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,17 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.04.0 - AT-10 Runaway Guard / Human-Gated Action Panel
+
+- Added `GuardrailBadge.tsx`: compact badge for GuardedActionStatus (7 variants).
+- Added `HumanGateActionCard.tsx`: display-only card per guarded action.
+- Added `RunawayGuardPanel.tsx`: 9 guarded actions + Level 4/5 boundary + plain language taglines.
+- Added `GuardedActionStatus` type to agent-theater-types.ts.
+- Modified `AgentTheaterPage.tsx`: RUNAWAY GUARD section added.
+- No push/runtime/OAuth/execute buttons. Display-only.
+- typecheck PASS / vitest 806/807; runtime recheck HOLD.
+- productionReady: false / execution: disabled.
 
 ## v4.03.0 - Remaining Agent Theater Implementation Design Package
 

@@ -3,7 +3,7 @@
  * Display-only. Shows control room environment with 5 agent zones.
  * No execute/push/send buttons. Safety invariants via PageRightRail.
  * Design spec: AGENT_THEATER_IMPLEMENTATION_DESIGN.md
- * Phase: AT-09 (resume queue / cooldown panel)
+ * Phase: AT-10 (runaway guard / human-gated action panel)
  */
 
 import type { AgentPoseMap, PoseState, SlotStatus } from "../../types/agent-theater-types";
@@ -12,6 +12,7 @@ import { PageRightRail } from "../../components/Shell/PageRightRail";
 import { ControlRoomLayout } from "./ControlRoomLayout";
 import { WorkerStatusPanel } from "./WorkerStatusPanel";
 import { ResumeQueuePanel } from "./ResumeQueuePanel";
+import { RunawayGuardPanel } from "./RunawayGuardPanel";
 
 function allPoses(pose: PoseState): AgentPoseMap {
   return {
@@ -131,6 +132,14 @@ export function AgentTheaterPage({
               {lang === "ja" ? "再開キュー" : "RESUME QUEUE"}
             </p>
             <ResumeQueuePanel lang={lang} />
+          </section>
+
+          {/* Runaway guard / human-gated actions */}
+          <section aria-label={lang === "ja" ? "監視境界" : "Runaway guard"}>
+            <p style={SECTION_HEADING}>
+              {lang === "ja" ? "監視境界" : "RUNAWAY GUARD"}
+            </p>
+            <RunawayGuardPanel lang={lang} />
           </section>
         </div>
 

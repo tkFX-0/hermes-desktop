@@ -79,3 +79,12 @@ export interface ResumeTask {
   readonly stopReasonJa?: string;
   readonly stopReasonEn?: string;
 }
+
+export type GuardedActionStatus =
+  | "HUMAN_GO_REQUIRED"
+  | "READ_ONLY_GO"
+  | "LOCAL_GO_REQUIRED"
+  | "BLOCKED"
+  | "LOCKED_FALSE"
+  | "LOCKED_DISABLED"
+  | "DISABLED";

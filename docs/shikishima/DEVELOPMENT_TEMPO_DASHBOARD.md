@@ -20,13 +20,13 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v4.03.0
-- latestUpdate: 2026-05-19 - Remaining Agent Theater implementation design package recorded; runtime recheck HOLD
+- roadmapVersion: v4.04.0
+- latestUpdate: 2026-05-19 - AT-10 Runaway Guard Panel implemented; typecheck PASS; runtime recheck HOLD
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
-- current HEAD: origin/main=669b0f8; commits_ahead=1 after remaining AT design package commit
+- current HEAD: origin/main=d96d976; commits_ahead=1 after AT-10 commit
 - validation road: Gate 001-007 ✓; UI-01-14 PASS; shell design aligned; mobile foundation + responsive pages done
-- current next human action: push readiness review for remaining AT design package; then ClaudeCode implementation of AT-10
+- current next human action: push readiness review for AT-10; then AT-11 Worker Routing Panel
 - HOLD reason: productionReady false; execution disabled; Level 5 actions require explicit human GO
 
 ## Remaining Agent Theater Update
