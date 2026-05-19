@@ -7,7 +7,7 @@
 
 import type { AgentPoseMap, PoseState, SlotStatus } from "../../types/agent-theater-types";
 import type { LocalChatMessage } from "../../types/service-contracts";
-import { PixelRoomView } from "./PixelRoom/PixelRoomView";
+import { PixelRoomStage } from "./PixelRoomStage";
 import { RoomChat } from "./PixelRoom/RoomChat";
 
 function allPoses(pose: PoseState): AgentPoseMap {
@@ -48,7 +48,7 @@ export function AgentTheaterPage({
 
   return (
     <div style={{ padding: "var(--page-pd-v, 16px) var(--page-pd-h, 20px)", minHeight: 0, overflowX: "hidden" }}>
-      <PixelRoomView decision={decision} poses={poses} lang={lang} />
+      <PixelRoomStage decision={decision} poses={poses} lang={lang} />
       {onSend && (
         <RoomChat messages={messages} onSend={onSend} lang={lang} />
       )}
