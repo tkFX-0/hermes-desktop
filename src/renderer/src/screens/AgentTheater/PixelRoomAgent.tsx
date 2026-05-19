@@ -1,11 +1,11 @@
 /**
  * PixelRoomAgent — agent character in the 2.5D stage.
- * PXR-05C: stronger character identity, larger presence, role-specific accessories.
- * GhostSvg + animations. Absolutely positioned.
+ * PXR-05E: redesigned PixelGhostSprite characters + role-specific accessories.
+ * Absolutely positioned.
  */
 
 import type { AgentId, PoseState } from "../../types/agent-theater-types";
-import { GhostSvg } from "./GhostSvg";
+import { PixelGhostSprite } from "./PixelGhostSprite";
 
 const MONO = '"IBM Plex Mono", ui-monospace, monospace';
 
@@ -116,7 +116,7 @@ export function PixelRoomAgent({
           ].filter(Boolean).join(" "),
         }}
       >
-        <GhostSvg agentId={agentId} size={size} />
+        <PixelGhostSprite agentId={agentId} size={size} />
       </div>
 
       {/* Name + status tag */}
