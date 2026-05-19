@@ -329,6 +329,21 @@
   border: 1px solid rgba(248, 81, 73, 0.4);
 }
 
+.pxr-station-state.active {
+  color: #3fb950;
+  border: 1px solid rgba(63, 185, 80, 0.4);
+}
+
+.pxr-station-state.pass {
+  color: #3fb950;
+  border: 1px solid rgba(63, 185, 80, 0.4);
+}
+
+.pxr-station-state.think {
+  color: #58a6ff;
+  border: 1px solid rgba(88, 166, 255, 0.4);
+}
+
 /* ── Floor bottom perspective strip ── */
 .pxr-floor-strip {
   height: 24px;
@@ -396,6 +411,60 @@
 .pxr-blink {
   animation: pxr-blink 2.4s ease-in-out infinite;
 }
+
+/* ──────────────────────────────────────────
+   PXR-02 — Idle animations
+   All CSS-only. No state change. Display-only.
+   ────────────────────────────────────────── */
+
+/* Generic idle float (all agents) */
+@keyframes pxr-float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-3px); }
+}
+
+/* しきしま — slow command scan (subtle left-right) */
+@keyframes pxr-scan {
+  0%   { transform: translateY(-1px) rotate(-1.5deg); }
+  50%  { transform: translateY(-3px) rotate(1.5deg); }
+  100% { transform: translateY(-1px) rotate(-1.5deg); }
+}
+
+/* つむぐ — typing micro-bob */
+@keyframes pxr-type {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  20%       { transform: translateY(-2px) translateX(1px); }
+  40%       { transform: translateY(0px) translateX(-1px); }
+  60%       { transform: translateY(-1px) translateX(1px); }
+  80%       { transform: translateY(0px) translateX(0px); }
+}
+
+/* しるべ — pen tilt (writing motion) */
+@keyframes pxr-pen {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  30%       { transform: translateY(-2px) rotate(-2deg); }
+  60%       { transform: translateY(-1px) rotate(1deg); }
+}
+
+/* むすび — forward lean (studying map) */
+@keyframes pxr-lean {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50%       { transform: translateY(-2px) scale(1.015); }
+}
+
+/* しずめ on HOLD — freeze + subtle red pulse */
+@keyframes pxr-hold-pulse {
+  0%, 100% { filter: drop-shadow(0 0 3px rgba(248,81,73,0.4)); }
+  50%       { filter: drop-shadow(0 0 7px rgba(248,81,73,0.75)); }
+}
+
+/* ── Animation utility classes ── */
+.pxr-anim-float  { animation: pxr-float  3.8s ease-in-out infinite; }
+.pxr-anim-scan   { animation: pxr-scan   5.0s ease-in-out infinite; }
+.pxr-anim-type   { animation: pxr-type   0.9s ease-in-out infinite; }
+.pxr-anim-pen    { animation: pxr-pen    2.2s ease-in-out infinite; }
+.pxr-anim-lean   { animation: pxr-lean   4.2s ease-in-out infinite; }
+.pxr-anim-hold   { animation: pxr-hold-pulse 1.8s ease-in-out infinite; }
 
 /* ── Corner pillar accents ── */
 .pxr-pillar {

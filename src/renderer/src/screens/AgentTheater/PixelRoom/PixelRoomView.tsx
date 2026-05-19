@@ -7,6 +7,7 @@
  */
 
 import "./pixel-room.css";
+import type { AgentPoseMap } from "../../../types/agent-theater-types";
 import { AgentStation } from "./AgentStation";
 import { RoomHUD } from "./RoomHUD";
 
@@ -139,14 +140,31 @@ function GateLamp(): React.JSX.Element {
   );
 }
 
+/* ── PXR-03: decision → pose map ── */
+function derivePoses(decision: string): AgentPoseMap {
+  switch (decision) {
+    case "STOP":
+      return { shikishima: "hold_stop_blocked", shizume: "hold_stop_blocked", hajime: "hold_stop_blocked", tsumugi: "hold_stop_blocked", shirube: "hold_stop_blocked" };
+    case "PASS":
+    case "PASS_WITH_CAVEAT":
+      return { shikishima: "handoff_receive", shizume: "pass", hajime: "pass", tsumugi: "working", shirube: "working" };
+    case "GO_READY":
+      return { shikishima: "waiting_human_go", shizume: "working", hajime: "thinking", tsumugi: "working", shirube: "working" };
+    default:
+      return { shikishima: "waiting_human_go", shizume: "hold_stop_blocked", hajime: "idle", tsumugi: "idle", shirube: "idle" };
+  }
+}
+
 /* ── Props ── */
 export interface PixelRoomViewProps {
   readonly decision?: string;
+  readonly poses?: AgentPoseMap;
   readonly lang?: "ja" | "en";
 }
 
 /* ── Main room view ── */
-export function PixelRoomView({ decision = "HOLD", lang = "ja" }: PixelRoomViewProps): React.JSX.Element {
+export function PixelRoomView({ decision = "HOLD", poses, lang = "ja" }: PixelRoomViewProps): React.JSX.Element {
+  const agentPoses = poses ?? derivePoses(decision);
   return (
     <div className="pxr-root">
       {/* ── Room header ── */}
@@ -189,6 +207,7 @@ export function PixelRoomView({ decision = "HOLD", lang = "ja" }: PixelRoomViewP
                 roleJa="計画デスク"
                 roleEn="Plan Desk"
                 statusJa="idle"
+                poseState={agentPoses.hajime}
                 lang={lang}
               />
             </div>
@@ -204,6 +223,7 @@ export function PixelRoomView({ decision = "HOLD", lang = "ja" }: PixelRoomViewP
                   roleJa="安全ゲート"
                   roleEn="Safety Gate"
                   statusJa="HOLD"
+                  poseState={agentPoses.shizume}
                   variant="gate"
                   lang={lang}
                 />
@@ -218,6 +238,7 @@ export function PixelRoomView({ decision = "HOLD", lang = "ja" }: PixelRoomViewP
                   roleJa="司令席"
                   roleEn="Command"
                   statusJa="idle"
+                  poseState={agentPoses.shikishima}
                   variant="command"
                   lang={lang}
                 />
@@ -230,6 +251,7 @@ export function PixelRoomView({ decision = "HOLD", lang = "ja" }: PixelRoomViewP
                 roleJa="開発ベンチ"
                 roleEn="Dev Bench"
                 statusJa="idle"
+                poseState={agentPoses.tsumugi}
                 lang={lang}
               />
             </div>
@@ -242,6 +264,7 @@ export function PixelRoomView({ decision = "HOLD", lang = "ja" }: PixelRoomViewP
                 roleJa="記録棚"
                 roleEn="Record"
                 statusJa="idle"
+                poseState={agentPoses.shirube}
                 lang={lang}
               />
             </div>
