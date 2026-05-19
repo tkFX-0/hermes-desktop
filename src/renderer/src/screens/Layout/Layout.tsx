@@ -35,9 +35,8 @@ import type { LucideIcon } from "lucide-react";
 import { useI18n } from "../../components/useI18n";
 import { useTheme } from "../../components/theme-context";
 import { SafetyStrip } from "../../components/Shell/SafetyStrip";
-import { PixelRoomView } from "../AgentTheater/PixelRoom/PixelRoomView";
+import { AgentTheaterPage } from "../AgentTheater/AgentTheaterPage";
 import { OperatorPage } from "../Operator/OperatorPage";
-import { RoomChat } from "../AgentTheater/PixelRoom/RoomChat";
 import {
   toSafetyStripData,
   toOperatorPageData,
@@ -438,23 +437,10 @@ function Layout(): React.JSX.Element {
             />
 
             {/* Integrated scrollable body */}
-            <div style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: "16px 20px", display: "flex", flexDirection: "column", gap: 0 }}>
-              {/* 1. 3D Pixel Room */}
-              <PixelRoomView
+            <div style={{ flex: 1, minHeight: 0, overflowY: "auto" }}>
+              {/* 1. Room tabs (部屋 / 3D / カード) + Chat */}
+              <AgentTheaterPage
                 decision={toOperatorPageData(ccSafeSummary).decision}
-                lang="ja"
-              />
-
-              {/* 2. Operator status */}
-              <div style={{ marginTop: 16 }}>
-                <OperatorPage
-                  data={toOperatorPageData(ccSafeSummary)}
-                  lang="ja"
-                />
-              </div>
-
-              {/* 3. Chat */}
-              <RoomChat
                 messages={ccMessages}
                 onSend={(content) =>
                   setCcMessages((prev) => [
@@ -469,6 +455,14 @@ function Layout(): React.JSX.Element {
                 }
                 lang="ja"
               />
+
+              {/* 2. Operator status */}
+              <div style={{ padding: "0 20px 16px" }}>
+                <OperatorPage
+                  data={toOperatorPageData(ccSafeSummary)}
+                  lang="ja"
+                />
+              </div>
             </div>
 
             {/* Footer — safety disclaimer */}
