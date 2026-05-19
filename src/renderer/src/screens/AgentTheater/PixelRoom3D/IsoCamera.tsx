@@ -1,20 +1,19 @@
 /**
- * IsoCamera — fixed isometric OrthographicCamera.
- * Position: 45° overhead. No user interaction.
- * Free camera deferred to PXR-06.
+ * IsoCamera — fixed isometric camera setup hook.
+ * Uses useThree to call lookAt(0,0,0) after mount.
+ * PXR-05. No user interaction.
  */
 
-import { OrthographicCamera } from "@react-three/drei";
-import { CAM_POSITION, CAM_ZOOM } from "./room3d-constants";
+import { useEffect } from "react";
+import { useThree } from "@react-three/fiber";
 
-export function IsoCamera(): React.JSX.Element {
-  return (
-    <OrthographicCamera
-      makeDefault
-      position={CAM_POSITION}
-      zoom={CAM_ZOOM}
-      near={0.1}
-      far={200}
-    />
-  );
+export function IsoCamera(): null {
+  const { camera } = useThree();
+
+  useEffect(() => {
+    camera.lookAt(0, 0, 0);
+    camera.updateProjectionMatrix();
+  }, [camera]);
+
+  return null;
 }
