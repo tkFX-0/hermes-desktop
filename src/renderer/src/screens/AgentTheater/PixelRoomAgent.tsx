@@ -1,6 +1,6 @@
 /**
  * PixelRoomAgent — agent character in the 2.5D stage.
- * PXR-05B: larger ghost, stronger name tag, role badge.
+ * PXR-05C: stronger character identity, larger presence, role-specific accessories.
  * GhostSvg + animations. Absolutely positioned.
  */
 
@@ -25,6 +25,19 @@ const IDLE_ANIM: Record<AgentId, string> = {
   shirube:    "pxr-anim-pen",
 };
 
+/* Role identifiers matching sprite-sheet reference */
+const ROLE_DATA: Record<AgentId, {
+  icon: string;
+  accessory: string;  /* small accessory shown above ghost */
+  badge: string;      /* colored label */
+}> = {
+  shikishima: { icon: "🎧", accessory: "COMMAND",  badge: "管制デスク" },
+  shizume:    { icon: "⛑️",  accessory: "HOLD GATE", badge: "安全ゲート" },
+  hajime:     { icon: "🗺",  accessory: "PLANNING",  badge: "計画デスク" },
+  tsumugi:    { icon: "🔧",  accessory: "DEV BENCH", badge: "開発ベンチ" },
+  shirube:    { icon: "📚",  accessory: "ARCHIVE",   badge: "記録棚"   },
+};
+
 function poseAnim(id: AgentId, pose: PoseState): string {
   switch (pose) {
     case "hold_stop_blocked": return "pxr-anim-hold";
@@ -46,14 +59,6 @@ function poseLabel(pose: PoseState): { text: string; color: string } {
   }
 }
 
-const ROLE_ICONS: Record<AgentId, string> = {
-  shikishima: "🎧",
-  shizume:    "⛑️",
-  hajime:     "🗺",
-  tsumugi:    "🔧",
-  shirube:    "📚",
-};
-
 export interface PixelRoomAgentProps {
   readonly agentId: AgentId;
   readonly nameJa: string;
@@ -66,64 +71,83 @@ export interface PixelRoomAgentProps {
 }
 
 export function PixelRoomAgent({
-  agentId, nameJa, roleJa, pose, x, y, zIndex, size = 54,
+  agentId, nameJa, roleJa, pose, x, y, zIndex, size = 56,
 }: PixelRoomAgentProps): React.JSX.Element {
   const accent = ACCENT[agentId];
   const anim   = poseAnim(agentId, pose);
   const status = poseLabel(pose);
-  const icon   = ROLE_ICONS[agentId];
+  const role   = ROLE_DATA[agentId];
+  const isCommand = agentId === "shikishima";
+  const isGate    = agentId === "shizume";
 
   return (
     <div style={{
       position: "absolute",
       left: x, top: y, zIndex,
-      display: "flex", flexDirection: "column", alignItems: "center", gap: 3,
+      display: "flex", flexDirection: "column", alignItems: "center",
+      gap: 3,
       transform: "translateX(-50%)",
     }}>
-      {/* Role icon (small, above ghost) */}
+      {/* Accessory label */}
       <div style={{
-        background: `${accent}22`,
-        border: `1px solid ${accent}44`,
+        background: `${accent}20`,
+        border: `1.5px solid ${accent}50`,
         borderRadius: 10,
-        padding: "1px 6px",
-        fontFamily: MONO, fontSize: 7.5,
-        color: accent, letterSpacing: 0.5,
-        display: "flex", alignItems: "center", gap: 3,
+        padding: "2px 8px",
+        display: "flex", alignItems: "center", gap: 4,
+        boxShadow: `0 0 8px ${accent}20`,
       }}>
-        <span style={{ fontSize: 9 }} aria-hidden>{icon}</span>
-        {roleJa}
+        <span style={{ fontSize: 11 }} aria-hidden>{role.icon}</span>
+        <span style={{ fontFamily: MONO, fontSize: 7.5, color: accent, letterSpacing: 0.5, fontWeight: 700 }}>
+          {role.accessory}
+        </span>
       </div>
 
-      {/* Ghost with glow */}
+      {/* Ghost with glow effect */}
       <div
         className={anim}
         style={{
           display: "flex",
-          filter: `drop-shadow(0 0 8px ${accent}66) drop-shadow(0 4px 6px rgba(0,0,0,0.5))`,
+          filter: [
+            `drop-shadow(0 0 10px ${accent}77)`,
+            `drop-shadow(0 5px 8px rgba(0,0,0,0.6))`,
+            isGate && pose === "hold_stop_blocked" ? "drop-shadow(0 0 16px rgba(248,81,73,0.6))" : "",
+            isCommand ? "drop-shadow(0 0 12px rgba(88,166,255,0.5))" : "",
+          ].filter(Boolean).join(" "),
         }}
       >
         <GhostSvg agentId={agentId} size={size} />
       </div>
 
-      {/* Name tag */}
+      {/* Name + status tag */}
       <div style={{
-        display: "flex", flexDirection: "column", alignItems: "center", gap: 2,
-        background: "rgba(2,5,18,0.9)",
-        border: `1.5px solid ${accent}55`,
-        borderRadius: 4,
-        padding: "3px 9px",
+        display: "flex", flexDirection: "column", alignItems: "center", gap: 2.5,
+        background: "rgba(1,3,14,0.92)",
+        border: `2px solid ${accent}55`,
+        borderRadius: 5,
+        padding: "3px 10px",
         whiteSpace: "nowrap",
-        boxShadow: `0 0 8px ${accent}22`,
+        boxShadow: `0 0 10px ${accent}25`,
       }}>
-        <span style={{ fontFamily: MONO, fontSize: 10, fontWeight: 700, color: accent, letterSpacing: 1 }}>
+        {/* Name */}
+        <span style={{
+          fontFamily: MONO, fontSize: 11, fontWeight: 700,
+          color: accent, letterSpacing: 1,
+        }}>
           {nameJa}
         </span>
+        {/* Role */}
+        <span style={{ fontFamily: MONO, fontSize: 7.5, color: "#5566aa" }}>
+          {roleJa}
+        </span>
+        {/* Status */}
         <span style={{
           fontFamily: MONO, fontSize: 7.5,
           color: status.color,
           border: `1px solid ${status.color}44`,
-          borderRadius: 2,
-          padding: "0 5px",
+          borderRadius: 3,
+          padding: "0 6px",
+          background: `${status.color}10`,
         }}>
           {status.text}
         </span>
