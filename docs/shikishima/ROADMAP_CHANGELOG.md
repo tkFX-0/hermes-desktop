@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.14.0
+- roadmapVersion: v4.15.0
 - lastUpdated: 2026-05-19
-- latestUpdate: 実運用100% Master Design Package + Final Goal Lock Package 完成; Room Layout実装
+- latestUpdate: 3D Pixel Room Vision Design Package (PXR-00〜04) 完成
 - baselineCommit: aadea91
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,16 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.15.0 - 3D Pixel Room Vision Design Package (PXR-00)
+
+- `PXR_00_3D_PIXEL_ROOM_VISION.md`: しきしま 3D Pixel Room ビジョン。コンセプト・各エージェント座席・安全ガード融合・実装フェーズ。
+- `PXR_01_ISOMETRIC_ROOM_IMPLEMENTATION_PLAN.md`: PXR-01 CSS isometric 実装計画。Option A/B 比較・部屋レイアウト設計・ファイル構成。
+- `PXR_AGENT_MOTION_STATE_DESIGN.md`: エージェントモーション & ステート設計。全7状態・Pose・CSS アニメーション定義。
+- `PXR_SAFETY_GATE_VISUAL_MAPPING.md`: 安全ゲート → ビジュアル要素マッピング。レイヤー構造・HUD 設計。
+- `PXR_ASSET_AND_LICENSE_POLICY.md`: アセット & ライセンスポリシー。PXR-04 Gate 条件・代替手段・ライセンスチェックリスト。
+- docs-only。runtime 未起動。push 未実施。
+- canonical names 確定: むすび (旧: はじめ) / つむぐ (旧: つむぎ)。
 
 ## v4.14.0 - Final Goal Lock Package
 
