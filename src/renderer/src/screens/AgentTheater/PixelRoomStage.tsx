@@ -1,15 +1,12 @@
 /**
  * PixelRoomStage — CSS 2.5D pixel room stage.
+ * PXR-05B: larger stage, denser room, larger agents.
  * Reference: ３D部屋イメージ.png
  * Layered: floor, walls, desks, agents, props, HUD overlays.
- * Absolutely positioned room coordinates. z-index for depth.
  * No image assets. No Three.js. Display-only.
- * PXR-05A.
  */
 
 import type { AgentPoseMap, PoseState } from "../../types/agent-theater-types";
-
-// Import pixel-room.css for the pxr-anim-* animation classes
 import "./PixelRoom/pixel-room.css";
 
 import { PixelRoomSafetyHud } from "./PixelRoomSafetyHud";
@@ -28,47 +25,43 @@ import {
 import { PixelRoomHandoffRail } from "./PixelRoomHandoffRail";
 import { PixelRoomLogStrip } from "./PixelRoomLogStrip";
 
-/* ── Stage dimensions ── */
-const STAGE_W = 880;  // px (min-width)
-const STAGE_H = 440;  // px
+/* ── Stage dimensions (PXR-05B enlarged) ── */
+const STAGE_W = 920;
+const STAGE_H = 480;
 
 /*
- * Room coordinate layout (px in 880×440 stage):
+ * Room layout (px) — PXR-05B
  *
- * Back wall: top 0 → 202px (46% of STAGE_H)
- * Floor: 188px → 440px
+ * Back wall: top 0 → ~213px (44% of 480)
+ * Floor: ~195px → 480px
  *
- * Agents (centered on x):
- *   しずめ  : x=90,  y=275  (front-left, large)
- *   はじめ  : x=245, y=265  (front-center-left)
- *   しきしま: x=440, y=175  (back-center, smaller)
- *   つむぐ  : x=635, y=265  (front-center-right)
- *   しるべ  : x=790, y=270  (front-right)
+ * Agents (x = center, translateX(-50%) applied):
+ *   しずめ  : x=88,  y=290, size=56
+ *   むすび  : x=246, y=278, size=54
+ *   しきしま: x=460, y=185, size=54  (back-center)
+ *   つむぐ  : x=672, y=278, size=54
+ *   しるべ  : x=832, y=285, size=54
  *
- * Desks (x = center of agent, y = just below agent base):
- *   しずめ  desk: x-center=90,  y=315, width=110
- *   はじめ  desk: x-center=245, y=305, width=100
- *   しきしま desk: x-center=440, y=210, width=130
- *   つむぐ  desk: x-center=635, y=305, width=100
- *   しるべ  desk: x-center=790, y=310, width=110
+ * Desks (x = left edge, y = desk top):
+ *   しずめ  desk: x=32,  y=340, width=120
+ *   むすび  desk: x=190, y=328, width=112
+ *   しきしま desk: x=395, y=232, width=130
+ *   つむぐ  desk: x=616, y=328, width=112
+ *   しるべ  desk: x=776, y=334, width=120
  */
 
-/* ── z-index scheme ── */
 const Z = {
-  stars:        1,
-  floor:        2,
-  wall:         3,
-  wallProps:    4,
-  backDesk:     8,
-  backProps:    9,
-  backAgent:    10,
-  frontDesk:    15,
-  frontProps:   16,
-  frontAgent:   20,
-  hud:          100,
+  floor:      2,
+  wall:       3,
+  wallProps:  4,
+  backDesk:   8,
+  backProps:  9,
+  backAgent:  12,
+  frontDesk:  16,
+  frontProps: 18,
+  frontAgent: 22,
 } as const;
 
-/* ── Pose derivation ── */
 function derivePoses(decision: string): AgentPoseMap {
   switch (decision) {
     case "STOP":
@@ -82,110 +75,105 @@ function derivePoses(decision: string): AgentPoseMap {
   }
 }
 
-/* ── Props ── */
 export interface PixelRoomStageProps {
   readonly decision?: string;
   readonly poses?: AgentPoseMap;
   readonly lang?: "ja" | "en";
 }
 
-/* ── Main stage ── */
 export function PixelRoomStage({ decision = "HOLD", poses, lang = "ja" }: PixelRoomStageProps): React.JSX.Element {
   const p: AgentPoseMap = poses ?? derivePoses(decision);
 
   return (
     <div style={{
-      background: "#03060f",
+      background: "#01020a",
       borderRadius: 10,
-      border: "1px solid rgba(40,60,140,0.5)",
+      border: "1px solid rgba(40,60,140,0.55)",
       overflow: "hidden",
       display: "flex",
       flexDirection: "column",
     }}>
-      {/* ── Top safety HUD ── */}
+      {/* ── Top safety HUD (game-UI style) ── */}
       <PixelRoomSafetyHud decision={decision} lang={lang} />
 
-      {/* ── Room stage (scrollable wrapper for narrow screens) ── */}
+      {/* ── Room stage ── */}
       <div style={{ overflowX: "auto", flexShrink: 0 }}>
         <div style={{
           position: "relative",
           width: STAGE_W,
           height: STAGE_H,
-          background: "linear-gradient(180deg, #01030a 0%, #030812 45%, #04091a 100%)",
+          background: "linear-gradient(180deg, #01030b 0%, #030914 45%, #040b1c 100%)",
           overflow: "hidden",
         }}>
-
-          {/* ── Layer 1: Floor ── */}
+          {/* Layer: floor */}
           <PixelRoomFloor />
 
-          {/* ── Layer 2: Walls ── */}
+          {/* Layer: walls + window + panels */}
           <PixelRoomWalls />
 
-          {/* ── Back center: しきしま desk + monitor + lamp ── */}
-          <PixelRoomDesk kind="command" x={440 - 65} y={220} width={130} zIndex={Z.backDesk} />
-          <CommandMonitor x={440} y={145} zIndex={Z.backProps} decision={decision} />
-          <DeskLamp x={500} y={212} zIndex={Z.backProps} color="#58a6ff" />
-          <DeskLamp x={382} y={214} zIndex={Z.backProps} color="#58a6ff" />
-
-          {/* ── Back center agent: しきしま ── */}
+          {/* ─── BACK CENTER: しきしま ─── */}
+          {/* Desk */}
+          <PixelRoomDesk kind="command" x={395} y={240} width={130} zIndex={Z.backDesk} />
+          {/* Monitors */}
+          <CommandMonitor x={460} y={155} zIndex={Z.backProps} decision={decision} />
+          {/* Lamps */}
+          <DeskLamp x={530} y={232} zIndex={Z.backProps} color="#58a6ff" />
+          <DeskLamp x={390} y={234} zIndex={Z.backProps} color="#58a6ff" />
+          {/* Agent */}
           <PixelRoomAgent
             agentId="shikishima" nameJa="しきしま" roleJa="司令席"
-            pose={p.shikishima as PoseState} x={440} y={172} zIndex={Z.backAgent} size={46}
+            pose={p.shikishima as PoseState} x={460} y={183} zIndex={Z.backAgent} size={54}
           />
 
-          {/* ── Front-left: しずめ ── */}
-          <PixelRoomDesk kind="gate" x={90 - 55} y={318} width={110} zIndex={Z.frontDesk} />
-          <SafetyGate x={90} y={244} zIndex={Z.frontProps} />
-
+          {/* ─── FRONT LEFT: しずめ ─── */}
+          <PixelRoomDesk kind="gate" x={32} y={345} width={120} zIndex={Z.frontDesk} />
+          <SafetyGate x={88} y={252} zIndex={Z.frontProps} />
           <PixelRoomAgent
             agentId="shizume" nameJa="しずめ" roleJa="安全ゲート"
-            pose={p.shizume as PoseState} x={90} y={272} zIndex={Z.frontAgent} size={48}
+            pose={p.shizume as PoseState} x={92} y={288} zIndex={Z.frontAgent} size={56}
           />
 
-          {/* ── Front center-left: はじめ ── */}
-          <PixelRoomDesk kind="plan" x={245 - 50} y={308} width={100} zIndex={Z.frontDesk} />
-          <PlanBoard x={245} y={254} zIndex={Z.frontProps} />
-          <DeskLamp x={295} y={302} zIndex={Z.frontProps} color="#3fb950" />
-
+          {/* ─── FRONT CENTER-LEFT: むすび ─── */}
+          <PixelRoomDesk kind="plan" x={188} y={332} width={116} zIndex={Z.frontDesk} />
+          <PlanBoard x={246} y={270} zIndex={Z.frontProps} />
+          <DeskLamp x={300} y={326} zIndex={Z.frontProps} color="#3fb950" />
           <PixelRoomAgent
             agentId="hajime" nameJa="むすび" roleJa="計画デスク"
-            pose={p.hajime as PoseState} x={245} y={262} zIndex={Z.frontAgent} size={46}
+            pose={p.hajime as PoseState} x={246} y={276} zIndex={Z.frontAgent} size={54}
           />
 
-          {/* ── Front center-right: つむぐ ── */}
-          <PixelRoomDesk kind="dev" x={635 - 50} y={308} width={100} zIndex={Z.frontDesk} />
-          <ToolBox x={635} y={256} zIndex={Z.frontProps} />
-          <DeskLamp x={588} y={302} zIndex={Z.frontProps} color="#f0883e" />
-
+          {/* ─── FRONT CENTER-RIGHT: つむぐ ─── */}
+          <PixelRoomDesk kind="dev" x={618} y={332} width={116} zIndex={Z.frontDesk} />
+          <ToolBox x={672} y={272} zIndex={Z.frontProps} />
+          <DeskLamp x={620} y={326} zIndex={Z.frontProps} color="#f0883e" />
           <PixelRoomAgent
             agentId="tsumugi" nameJa="つむぐ" roleJa="開発ベンチ"
-            pose={p.tsumugi as PoseState} x={635} y={262} zIndex={Z.frontAgent} size={46}
+            pose={p.tsumugi as PoseState} x={676} y={276} zIndex={Z.frontAgent} size={54}
           />
 
-          {/* ── Front-right: しるべ ── */}
-          <PixelRoomDesk kind="record" x={790 - 55} y={314} width={110} zIndex={Z.frontDesk} />
-          <BookShelf x={790} y={250} zIndex={Z.frontProps} />
-
+          {/* ─── FRONT RIGHT: しるべ ─── */}
+          <PixelRoomDesk kind="record" x={776} y={340} width={120} zIndex={Z.frontDesk} />
+          <BookShelf x={836} y={264} zIndex={Z.frontProps} />
           <PixelRoomAgent
             agentId="shirube" nameJa="しるべ" roleJa="記録棚"
-            pose={p.shirube as PoseState} x={790} y={268} zIndex={Z.frontAgent} size={46}
+            pose={p.shirube as PoseState} x={836} y={282} zIndex={Z.frontAgent} size={54}
           />
 
         </div>
       </div>
 
-      {/* ── Handoff lane ── */}
+      {/* ── Handoff lane (prominent) ── */}
       <PixelRoomHandoffRail decision={decision} lang={lang} />
 
-      {/* ── Bottom log + gate panel ── */}
+      {/* ── Bottom: log + gate panel ── */}
       <PixelRoomLogStrip />
 
       {/* ── Bottom safety invariant strip ── */}
       <div style={{
         display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center",
-        padding: "6px 12px",
+        padding: "6px 14px",
         borderTop: "1px solid rgba(248,81,73,0.4)",
-        background: "rgba(2,3,10,0.97)",
+        background: "rgba(1,2,8,0.97)",
         flexShrink: 0,
         fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
       }}>
@@ -198,7 +186,7 @@ export function PixelRoomStage({ decision = "HOLD", poses, lang = "ja" }: PixelR
           { k: "Level 5",         v: "human GO", c: "#6680aa" },
         ].map((b) => (
           <span key={b.k} style={{
-            fontSize: 8, padding: "1px 6px", borderRadius: 2, whiteSpace: "nowrap",
+            fontSize: 8, padding: "1px 7px", borderRadius: 2, whiteSpace: "nowrap",
             color: b.c, border: `1px solid ${b.c}35`,
           }}>
             {b.k}: {b.v}

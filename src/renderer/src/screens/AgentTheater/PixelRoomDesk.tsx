@@ -1,7 +1,6 @@
 /**
- * PixelRoomDesk — CSS 3-face pseudo-3D desk for the pixel room stage.
- * Top face + front face + accent glow strip.
- * Positioned absolutely within the stage.
+ * PixelRoomDesk — CSS pseudo-3D desk with richer station identity.
+ * PXR-05B: wider, taller, more visible 3D faces.
  */
 
 export type DeskKind = "command" | "gate" | "plan" | "dev" | "record";
@@ -14,106 +13,115 @@ const DESK_ACCENT: Record<DeskKind, string> = {
   record:  "#b07fff",
 };
 
-const DESK_COLORS: Record<DeskKind, { top: string; front: string }> = {
-  command: { top: "#1a2545", front: "#0d1530" },
-  gate:    { top: "#2a1010", front: "#180808" },
-  plan:    { top: "#0e2018", front: "#080e0c" },
-  dev:     { top: "#1e1608", front: "#0e0c04" },
-  record:  { top: "#180e2a", front: "#0c0616" },
+const DESK_COLORS: Record<DeskKind, { top: string; front: string; side: string }> = {
+  command: { top: "#1a2550", front: "#0a1230", side: "#0d1a3c" },
+  gate:    { top: "#2a1010", front: "#150808", side: "#1a0c0c" },
+  plan:    { top: "#0e2018", front: "#060e0c", side: "#0a180e" },
+  dev:     { top: "#1e1608", front: "#0e0a04", side: "#160e04" },
+  record:  { top: "#180e2a", front: "#0c0616", side: "#120820" },
 };
 
 export interface PixelRoomDeskProps {
   readonly kind: DeskKind;
-  readonly x: number;      // left in px
-  readonly y: number;      // top in px
-  readonly width: number;  // px
+  readonly x: number;
+  readonly y: number;
+  readonly width: number;
   readonly zIndex: number;
 }
 
 export function PixelRoomDesk({ kind, x, y, width, zIndex }: PixelRoomDeskProps): React.JSX.Element {
   const accent = DESK_ACCENT[kind];
   const colors = DESK_COLORS[kind];
-  const topH   = Math.round(width * 0.1);  // top face height
-  const frontH = Math.round(width * 0.22); // front face height
+  const topH   = Math.round(width * 0.12);
+  const frontH = Math.round(width * 0.26);
+  const sideW  = Math.round(width * 0.06);
 
   return (
     <div
       aria-hidden
-      style={{
-        position: "absolute",
-        left: x,
-        top: y,
-        width,
-        zIndex,
-      }}
+      style={{ position: "absolute", left: x, top: y, width, zIndex }}
     >
       {/* Top face */}
       <div style={{
         width: "100%",
         height: topH,
-        background: colors.top,
-        border: `1px solid ${accent}55`,
+        background: `linear-gradient(180deg, ${colors.top}dd 0%, ${colors.top} 100%)`,
+        border: `1.5px solid ${accent}66`,
         borderBottom: "none",
-        borderRadius: "3px 3px 0 0",
-        boxShadow: `0 0 8px ${accent}22`,
-      }} />
-
-      {/* Accent glow strip */}
-      <div style={{
-        width: "80%",
-        height: 2,
-        margin: "0 auto",
-        background: accent,
-        boxShadow: `0 0 6px ${accent}`,
-        opacity: 0.6,
-      }} />
-
-      {/* Front face */}
-      <div style={{
-        width: "100%",
-        height: frontH,
-        background: colors.front,
-        border: `1px solid ${accent}33`,
-        borderTop: "none",
-        borderRadius: "0 0 2px 2px",
+        borderRadius: "4px 4px 0 0",
+        boxShadow: `0 0 10px ${accent}28, inset 0 1px 0 ${accent}22`,
         position: "relative",
         overflow: "hidden",
       }}>
-        {/* Front panel lines */}
+        {/* Surface gloss */}
         <div style={{
-          position: "absolute",
-          top: "30%", left: "8%", right: "8%",
-          height: 1,
-          background: `${accent}22`,
-        }} />
-        <div style={{
-          position: "absolute",
-          top: "65%", left: "8%", right: "8%",
-          height: 1,
-          background: `${accent}18`,
+          position: "absolute", inset: 0,
+          background: `linear-gradient(135deg, ${accent}12 0%, transparent 60%)`,
         }} />
       </div>
 
+      {/* Accent glow strip */}
+      <div style={{
+        width: "75%", height: 2, margin: "0 auto",
+        background: `linear-gradient(90deg, transparent, ${accent}, transparent)`,
+        boxShadow: `0 0 8px ${accent}`,
+        opacity: 0.75,
+      }} />
+
+      {/* Front face with side illusion */}
+      <div style={{ display: "flex" }}>
+        {/* Side face (3D depth illusion) */}
+        <div style={{
+          width: sideW,
+          height: frontH,
+          background: `linear-gradient(90deg, ${colors.side} 0%, ${colors.front} 100%)`,
+          border: `1px solid ${accent}28`,
+          borderTop: "none",
+          borderRight: "none",
+        }} />
+
+        {/* Front face */}
+        <div style={{
+          flex: 1,
+          height: frontH,
+          background: colors.front,
+          border: `1.5px solid ${accent}44`,
+          borderTop: "none",
+          borderLeft: "none",
+          borderRadius: `0 0 3px 0`,
+          position: "relative",
+          overflow: "hidden",
+        }}>
+          {/* Front panel detail lines */}
+          <div style={{ position: "absolute", top: "28%", left: "6%", right: "6%", height: 1, background: `${accent}28` }} />
+          <div style={{ position: "absolute", top: "62%", left: "6%", right: "6%", height: 1, background: `${accent}18` }} />
+          {/* Corner badge */}
+          <div style={{
+            position: "absolute", top: 4, right: 5,
+            fontFamily: '"IBM Plex Mono", monospace', fontSize: 5,
+            color: `${accent}88`, letterSpacing: 0.3,
+          }}>
+            {{ command: "CMD", gate: "GATE", plan: "PLAN", dev: "DEV", record: "REC" }[kind]}
+          </div>
+        </div>
+      </div>
+
       {/* Desk legs */}
-      <div style={{ display: "flex", justifyContent: "space-between", padding: "0 6px" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", padding: `0 ${sideW + 4}px` }}>
         {[0, 1].map((i) => (
           <div key={i} style={{
-            width: 4,
-            height: 8,
-            background: "#040810",
-            border: `1px solid ${accent}22`,
+            width: 5, height: 10,
+            background: "#020508",
+            border: `1px solid ${accent}18`,
           }} />
         ))}
       </div>
 
-      {/* Drop shadow for depth */}
+      {/* Cast shadow */}
       <div style={{
-        width: "90%",
-        height: 6,
-        margin: "0 auto",
-        background: "transparent",
-        boxShadow: `0 4px 12px rgba(0,0,0,0.7)`,
+        width: "80%", height: 8, margin: "0 auto",
         borderRadius: "50%",
+        background: `radial-gradient(ellipse, rgba(0,0,0,0.6) 0%, transparent 70%)`,
       }} />
     </div>
   );

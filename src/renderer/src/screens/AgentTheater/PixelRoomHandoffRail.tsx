@@ -1,17 +1,18 @@
 /**
- * PixelRoomHandoffRail — horizontal 5-step handoff workflow lane.
- * For the 2.5D pixel room stage.
- * Display-only. No clickable actions.
+ * PixelRoomHandoffRail — prominent 5-step handoff workflow lane.
+ * Reference: ３D部屋イメージ.png bottom handoff row.
+ * Larger cards, stronger colors. Display-only.
  */
 
 import React from "react";
 
 const MONO = '"IBM Plex Mono", ui-monospace, monospace';
+const SANS = '"Noto Sans JP", "Hiragino Sans", system-ui, sans-serif';
 
 const STEPS = [
   { num: 1, ja: "ユーザー依頼", en: "Request",     icon: "👤", status: "done"    },
   { num: 2, ja: "計画する",     en: "Plan",         icon: "🗺", status: "done"    },
-  { num: 3, ja: "安全チェック", en: "Safety",       icon: "🛡", status: "hold"    },
+  { num: 3, ja: "安全チェック", en: "Safety Check", icon: "🛡", status: "hold"    },
   { num: 4, ja: "実装する",     en: "Implement",    icon: "⚙️", status: "waiting" },
   { num: 5, ja: "記録する",     en: "Record",       icon: "📝", status: "waiting" },
 ] as const;
@@ -33,57 +34,103 @@ export function PixelRoomHandoffRail({ decision = "HOLD", lang = "ja" }: PixelRo
 
   return (
     <div style={{
-      display: "flex", alignItems: "center", gap: 0,
-      padding: "8px 14px",
-      background: "rgba(3,6,16,0.82)",
-      borderTop: "1px solid rgba(40,60,140,0.4)",
-      borderBottom: "1px solid rgba(40,60,140,0.4)",
-      overflowX: "auto", flexShrink: 0,
+      background: "rgba(2,4,16,0.9)",
+      borderTop: "2px solid rgba(40,60,140,0.5)",
+      borderBottom: "2px solid rgba(40,60,140,0.5)",
+      flexShrink: 0,
     }}>
-      {STEPS.map((step, i) => {
-        const color = stepColor(step.status, isStop);
-        const isDone = !isStop && step.status === "done";
-        return (
-          <React.Fragment key={step.num}>
-            <div style={{
-              display: "flex", flexDirection: "column", alignItems: "center", gap: 3,
-              padding: "5px 10px",
-              background: `${color}14`,
-              border: `1.5px solid ${color}44`,
-              borderRadius: 4,
-              minWidth: 72, flex: "0 0 auto",
-              position: "relative",
-            }}>
-              {isDone && (
-                <div style={{
-                  position: "absolute", top: -6, right: -6,
-                  width: 13, height: 13, borderRadius: "50%",
-                  background: "#3fb950", border: "1.5px solid #030a10",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: 6.5, color: "#030a10", fontWeight: 700,
-                }} aria-hidden>✓</div>
-              )}
+      {/* Section label */}
+      <div style={{
+        padding: "5px 14px 3px",
+        fontFamily: MONO, fontSize: 8, letterSpacing: 2,
+        color: "rgba(126,184,255,0.5)", textTransform: "uppercase",
+      }}>
+        {lang === "ja" ? "引き渡しフロー · HANDOFF FLOW" : "HANDOFF FLOW"}
+      </div>
+
+      {/* Steps row */}
+      <div style={{
+        display: "flex", alignItems: "center", gap: 0,
+        padding: "4px 14px 10px",
+        overflowX: "auto",
+      }}>
+        {STEPS.map((step, i) => {
+          const color = stepColor(step.status, isStop);
+          const isDone = !isStop && step.status === "done";
+
+          return (
+            <React.Fragment key={step.num}>
+              {/* Step card */}
               <div style={{
-                width: 20, height: 20, borderRadius: "50%",
-                border: `1.5px solid ${color}`,
-                background: `${color}22`,
-                display: "flex", alignItems: "center", justifyContent: "center",
-                fontFamily: MONO, fontSize: 9, fontWeight: 700, color,
-              }}>{step.num}</div>
-              <span style={{ fontSize: 10 }} aria-hidden>{step.icon}</span>
-              <span style={{ fontFamily: MONO, fontSize: 7.5, color, letterSpacing: 0.3, whiteSpace: "nowrap" }}>
-                {lang === "ja" ? step.ja : step.en}
-              </span>
-            </div>
-            {i < STEPS.length - 1 && (
-              <div style={{ display: "flex", alignItems: "center", flexShrink: 0, padding: "0 2px" }} aria-hidden>
-                <div style={{ width: 14, height: 1, background: `${color}66` }} />
-                <div style={{ width: 0, height: 0, borderTop: "4px solid transparent", borderBottom: "4px solid transparent", borderLeft: `5px solid ${stepColor(STEPS[i+1].status, isStop)}66` }} />
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 4,
+                padding: "8px 14px",
+                background: `${color}18`,
+                border: `2px solid ${color}55`,
+                borderRadius: 6,
+                minWidth: 84,
+                flex: "0 0 auto",
+                position: "relative",
+                boxShadow: `0 0 8px ${color}18`,
+              }}>
+                {/* Done badge */}
+                {isDone && (
+                  <div style={{
+                    position: "absolute", top: -7, right: -7,
+                    width: 15, height: 15, borderRadius: "50%",
+                    background: "#3fb950",
+                    border: "2px solid #01020a",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: 7.5, color: "#01020a", fontWeight: 800,
+                  }} aria-hidden>✓</div>
+                )}
+
+                {/* Number circle */}
+                <div style={{
+                  width: 26, height: 26, borderRadius: "50%",
+                  border: `2px solid ${color}`,
+                  background: `${color}28`,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  fontFamily: MONO, fontSize: 12, fontWeight: 800, color,
+                  boxShadow: `0 0 6px ${color}40`,
+                }}>
+                  {step.num}
+                </div>
+
+                {/* Icon */}
+                <span style={{ fontSize: 14 }} aria-hidden>{step.icon}</span>
+
+                {/* Label */}
+                <span style={{
+                  fontFamily: SANS, fontSize: 9,
+                  color: color,
+                  letterSpacing: 0.3,
+                  textAlign: "center",
+                  whiteSpace: "nowrap",
+                  fontWeight: 600,
+                }}>
+                  {lang === "ja" ? step.ja : step.en}
+                </span>
               </div>
-            )}
-          </React.Fragment>
-        );
-      })}
+
+              {/* Arrow connector */}
+              {i < STEPS.length - 1 && (
+                <div style={{ display: "flex", alignItems: "center", flexShrink: 0, padding: "0 3px" }} aria-hidden>
+                  <div style={{ width: 18, height: 1.5, background: `${stepColor(STEPS[i].status, isStop)}66` }} />
+                  <div style={{
+                    width: 0, height: 0,
+                    borderTop: "5px solid transparent",
+                    borderBottom: "5px solid transparent",
+                    borderLeft: `7px solid ${stepColor(STEPS[i+1].status, isStop)}66`,
+                  }} />
+                </div>
+              )}
+            </React.Fragment>
+          );
+        })}
+      </div>
     </div>
   );
 }
