@@ -24,6 +24,21 @@ separate_GO_required: yes — explicit "GHG-09a x_search GO"
 included_in_chat_test: false
 ```
 
+### XS-READ refinement
+
+```
+future_read_only_gate: XS-READ
+allowed_after_GO:      search/read/summarize/suggest/draft only
+still_forbidden:       post/reply/DM/like/follow/profile edit/send/social write
+oauth_status:          separate OAUTH-GO required when login is needed
+evidence_required:     source summary, query/topic scope, time window, no social write
+```
+
+Plain-language rule:
+
+SNSを読む・調べる・まとめる・下書きするのは将来GO対象。
+SNSに書く・返す・送る・反応するのは別GO必須。
+
 ---
 
 ## TTS (Text-to-Speech)

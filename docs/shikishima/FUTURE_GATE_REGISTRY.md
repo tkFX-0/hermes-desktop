@@ -28,6 +28,14 @@ This registry only defines the approval boundaries.
 | GATE-MIC-01 | microphone input | HOLD | separate mic Gate |
 | GATE-CAM-01 | camera input | HOLD | separate camera Gate |
 | GATE-AUTO-01 | autonomous command execution | HOLD | all above + autonomous Gate |
+| SLOT-09 | Worker Status / Cooldown / Resume Queue Design | COMPLETE (docs-only) | human review |
+| AUTO-LEVEL-04 | Autonomous Development up to Evidence Commit | HOLD | SLOT-09 review + scoped task GO |
+| AUTO-LEVEL-05 | Human-Gated External Action Boundary | HOLD | explicit human GO per action |
+| OAUTH-GO | Explicit OAuth Provider Gate | HOLD | provider/purpose/scopes/time_window/token policy |
+| XS-READ | x_search / Social Read-only Awareness Gate | HOLD | read-only human GO |
+| RUNTIME-GO | Runtime Start Human GO Gate | HOLD | date/time_window/command/stop/shutdown/evidence |
+| OBS-LOCAL | Obsidian Local Note Write Gate | HOLD | local Vault scope + content + redaction policy |
+| RUNAWAY-GUARD | Worker Runaway Prevention Gate | COMPLETE (docs-only) | human review |
 
 ## Gate Dependency Chain
 
@@ -51,6 +59,24 @@ GATE-CAM-01 (independent)
 
 GATE-AUTO-01 (requires all above)
 ```
+
+## Worker Autonomy and Human-Gated Actions (SLOT / AUTO series)
+
+| Gate ID | Capability | Current Status | Required Before |
+|---|---|---|---|
+| SLOT-09 | Worker status enum, cooldown state, resume queue schema | COMPLETE (docs-only) | human review |
+| AUTO-LEVEL-04 | Autonomous drafting, implementation, checks, evidence, local commit | HOLD | scoped task instruction + clean local checks |
+| AUTO-LEVEL-05 | Push, runtime, OAuth, x_search, external connection, productionReady, execution enabled | HOLD | explicit human GO per action |
+| RUNAWAY-GUARD | Max-step, cooldown, NEEDS_HUMAN, and audit requirements | COMPLETE (docs-only) | human review |
+
+## Human-Gated Future Action Gates
+
+| Gate ID | Capability | Current Status | Required Before |
+|---|---|---|---|
+| OAUTH-GO | Explicit OAuth provider connection | HOLD | provider/purpose/scopes/time_window/token storage/redaction policy |
+| XS-READ | x_search / social read-only awareness | HOLD | source/topic/time_window/read-only GO |
+| RUNTIME-GO | Runtime start | HOLD | date/time_window/command/stop/shutdown/evidence |
+| OBS-LOCAL | Obsidian local Markdown note read/write | HOLD | Vault path scope/target file/content/redaction policy |
 
 ## Grok-Hermes Provider Gates (GHG series)
 

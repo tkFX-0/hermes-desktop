@@ -76,6 +76,10 @@ Phase D (P3 — polish):
 | AT-06 | Slot worker status display | no | SlotStatusBar.tsx (new) |
 | AT-07 | Handoff animation | no | AgentTheaterPage.tsx |
 | AT-08 | Runtime visual recheck | pending human | — |
+| SLOT-09 | Worker status / cooldown / resume queue design | docs | SLOT_09_*.md |
+| AUTO-LEVEL-04 | Autonomous development through local evidence commit | policy | future UI display only |
+| AUTO-LEVEL-05 | Human-gated external action boundary | policy | future approval queue / Agent Theater display |
+| RUNAWAY-GUARD | Worker runaway prevention | docs | SLOT_09_RUNAWAY_PREVENTION_RULES.md |
 
 ---
 
@@ -93,6 +97,11 @@ Phase E (AT — Agent Theater):
   AT-03: pixel ghost assets
   AT-04 → AT-07: state/animation/slot
   AT-08: runtime visual recheck
+Phase E2 (Worker autonomy display):
+  SLOT-09: worker status enum + resume queue
+  AUTO-LEVEL-04: autonomous local worker flow display
+  AUTO-LEVEL-05: human-gated boundary display
+  RUNAWAY-GUARD: cooldown / NEEDS_HUMAN / stop logic display
 Phase F (Provider / Social):
   GHG-01 → GHG-08: Grok-Hermes activation
   XS-01 → XS-08: x_search social awareness

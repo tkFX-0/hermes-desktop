@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v3.99.0
+- roadmapVersion: v4.00.0
 - lastUpdated: 2026-05-19
-- latestUpdate: AT-07 dark control room layout implemented; runtime recheck HOLD
+- latestUpdate: SLOT-09 worker status and human-gated autonomy boundary recorded as docs-only policy
 - baselineCommit: f04a81c
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,20 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.00.0 - SLOT-09 Worker Status and Human-Gated Autonomy Boundary
+
+- Added `SLOT_09_WORKER_STATUS_AND_AUTONOMY_BOUNDARY.md`.
+- Added `SLOT_09_RUNAWAY_PREVENTION_RULES.md`.
+- Added `HUMAN_GATED_ACTIONS_PLAIN_LANGUAGE_GUIDE.md`.
+- Added `OBSIDIAN_LOCAL_NOTE_GATE_PLAN.md`.
+- Added `SOCIAL_AWARENESS_READ_ONLY_GATE_PLAN.md`.
+- Recorded `SLOT_WORKER_STATUS`: READY / BUSY / COOLDOWN / DEGRADED / BLOCKED / FAILED / NEEDS_HUMAN.
+- Confirmed autonomy target: Level 1-4 can be designed as autonomous worker flow; Level 5 is always human-gated.
+- Reserved gates: SLOT-09, AUTO-LEVEL-04, AUTO-LEVEL-05, OAUTH-GO, XS-READ, RUNTIME-GO, OBS-LOCAL, RUNAWAY-GUARD.
+- OAuth, runtime, x_search/social read, Obsidian local note write, git push, provider/external connection remain HOLD by default and need explicit human GO.
+- Docs-only. No source changes, no runtime, no OAuth, no x_search, no Obsidian write, no external API, no git push.
+- productionReady: false / execution: disabled / rawValuesReported: false.
 
 ## v3.99.0 - AT-07 Control Room Environment Layout
 

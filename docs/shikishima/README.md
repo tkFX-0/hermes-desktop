@@ -54,6 +54,11 @@ network flow.
 - `GROK_HERMES_PROVIDER_GATE.md` - GHG-00 through GHG-09 gate sequence for Grok-Hermes activation.
 - `GROK_HERMES_TOKEN_AND_AUTH_BOUNDARY.md` - auth.json token boundary rules.
 - `GROK_HERMES_TOOL_HOLD_REGISTRY.md` - all Hermes tool HOLD registry including web/messaging/cron/memory/computer_use(REJECT).
+- `SLOT_09_WORKER_STATUS_AND_AUTONOMY_BOUNDARY.md` - SLOT_WORKER_STATUS enum, Level 1-5 autonomy boundary, resume queue schema, and Level 5 human gate.
+- `SLOT_09_RUNAWAY_PREVENTION_RULES.md` - max-step, cooldown, NEEDS_HUMAN, and runaway prevention rules.
+- `HUMAN_GATED_ACTIONS_PLAIN_LANGUAGE_GUIDE.md` - simple Japanese guide for AUTO OK / HUMAN GO / READ-ONLY GO / HARD STOP.
+- `OBSIDIAN_LOCAL_NOTE_GATE_PLAN.md` - future OBS-LOCAL local Markdown note write gate.
+- `SOCIAL_AWARENESS_READ_ONLY_GATE_PLAN.md` - future XS-READ x_search/social read-only awareness gate.
 - `PROVIDER_ROUTER_UPDATED_DESIGN.md` - updated provider routing design (primary/fallback/escalation).
 - `HERMES_SOCIAL_AWARENESS_FEATURE_CATALOG.md` - Social Awareness Layer feature catalog with XS stage gates.
 - `X_SEARCH_SHIKISHIMA_INTEGRATION_PLAN.md` - x_search read-only integration plan and Draft Outbox design.

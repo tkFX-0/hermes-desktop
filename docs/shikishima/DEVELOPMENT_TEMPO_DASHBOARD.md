@@ -20,14 +20,24 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v3.99.0
-- latestUpdate: 2026-05-19 - AT-07 dark control room layout implemented; typecheck PASS; runtime recheck HOLD
+- roadmapVersion: v4.00.0
+- latestUpdate: 2026-05-19 - SLOT-09 worker status and human-gated autonomy boundary recorded as docs-only policy
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: origin/main=5055b6d; commits_ahead=1 (evidence docs, push pending after this commit)
 - validation road: Gate 001-007 ✓; UI-01-14 PASS; shell design aligned; mobile foundation + responsive pages done
-- current next human action: AT-04 visual recheck GO (date + time_window); then AT-06 Slot Worker Status polish
-- HOLD reason: productionReady false; execution disabled; AT-04 runtime recheck not yet issued
+- current next human action: push readiness review for AT-07 + SLOT-09 docs; later Agent Theater can display SLOT_WORKER_STATUS
+- HOLD reason: productionReady false; execution disabled; Level 5 actions require explicit human GO
+
+## SLOT-09 Worker Autonomy Update
+
+- SLOT_WORKER_STATUS: READY / BUSY / COOLDOWN / DEGRADED / BLOCKED / FAILED / NEEDS_HUMAN
+- autonomy target: Level 4 max for AI worker flow
+- Level 5: git push / runtime / OAuth / x_search / external connection / productionReady / execution enabled require human GO
+- OAuth: not permanently forbidden; OAUTH-GO required
+- x_search/social reading: future XS-READ read-only GO required
+- Obsidian local note write: future OBS-LOCAL GO required
+- runaway prevention: RUNAWAY-GUARD recorded
 
 ## Boundaries
 
