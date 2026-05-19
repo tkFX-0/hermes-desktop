@@ -7,6 +7,7 @@ status:                    IMPLEMENTATION_PASS_CANDIDATE
 worker:                    ClaudeCode
 runtime_visual_check:      HOLD — not performed (human GO required)
 human_visual_confirmation: HOLD
+animation_phase:           COMPLETE — HandoffCard CSS animation added (commit c79cba0)
 ```
 
 ## Why ClaudeCode Was Selected
@@ -34,9 +35,11 @@ tracked_dirty:    0
 | File | Change |
 |---|---|
 | `src/renderer/src/screens/AgentTheater/ControlRoomZone.tsx` | NEW — agent zone card with CSS ambient decoration |
-| `src/renderer/src/screens/AgentTheater/HandoffLane.tsx` | NEW — 6-step handoff flow lane |
+| `src/renderer/src/screens/AgentTheater/HandoffLane.tsx` | NEW → MODIFIED — 6-step handoff flow lane + CSS animation |
 | `src/renderer/src/screens/AgentTheater/ControlRoomLayout.tsx` | NEW — dark room wrapper with safety badges + zone grid |
 | `src/renderer/src/screens/AgentTheater/AgentTheaterPage.tsx` | MODIFIED — main column uses ControlRoomLayout |
+| `src/renderer/src/screens/AgentTheater/HandoffCard.tsx` | NEW — floating stage card with CSS enter + float animation |
+| `src/renderer/src/types/agent-theater-types.ts` | MODIFIED — added HandoffStage type |
 
 ---
 
@@ -52,13 +55,49 @@ tracked_dirty:    0
 
 ---
 
-## Handoff Lane
+## Handoff Lane + Animation
 
 ```
 steps:    6 (依頼 → 計画 → 安全確認 → 作業準備 → 記録 → GO待ち)
 active:   derived from decision prop
 blocked:  shown when STOP
 labels:   no execute/deploy/push/send labels
+```
+
+### HandoffCard (display-only stage indicator)
+
+```
+component:     HandoffCard.tsx
+position:      absolute; bottom: calc(100% + 4px); left 50%; translateX(-50%)
+parent:        position:relative step column div
+card_classes:  at-handoff-card (enter + float animation)
+circle_class:  at-active-step (pulse glow animation)
+```
+
+### CSS Keyframes
+
+| Keyframe | Effect |
+|---|---|
+| at-pulse-glow | Active step circle: subtle white glow 0→2px, 2s loop |
+| at-card-enter | Card entrance: opacity 0→1 + translateY 4→0, 0.25s |
+| at-card-float | Card float: translateY 0 → -2px → 0, 3s loop |
+
+### HandoffStage Mapping
+
+| decision | HandoffStage | active step | card label |
+|---|---|---|---|
+| STOP | stopped | 3 | STOP |
+| PASS / PASS_WITH_CAVEAT | recording | 5 | 記録中 |
+| GO_READY | waiting_human_go | 6 | GO待ち |
+| default / HOLD | hold_blocked | 6 | HOLD |
+
+### Reduced Motion
+
+```
+@media (prefers-reduced-motion: reduce) {
+  .at-active-step  { animation: none !important; }
+  .at-handoff-card { animation: none !important; }
+}
 ```
 
 ---
@@ -135,12 +174,19 @@ git_push_performed:    false
 ## Checks Run
 
 ```
-typecheck:web:    PASS
-vitest:           806 passed / 1 skipped
+typecheck:web:    PASS (both commits — dc2dcc5 layout + c79cba0 animation)
+vitest:           806 passed / 1 skipped (807 total, both passes)
 scoped_eslint:    not run (prettier warnings only — not a blocker)
 ```
 
 ---
+
+## Commits
+
+| Hash | Subject |
+|---|---|
+| dc2dcc5 | feat: add agent theater control room layout |
+| c79cba0 | feat: add agent theater control room handoff layout |
 
 ## Next Step
 
