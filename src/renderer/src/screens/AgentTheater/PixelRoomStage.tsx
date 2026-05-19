@@ -18,6 +18,8 @@ import {
 } from "./PixelRoomProps";
 import { PixelRoomHandoffRail }  from "./PixelRoomHandoffRail";
 import { PixelRoomLogStrip }     from "./PixelRoomLogStrip";
+import { PixelRoomHandoffPath }  from "./PixelRoomHandoffPath";
+import { PixelRoomWorkScene }    from "./PixelRoomWorkScene";
 
 /* ── Stage dimensions (PXR-05C) ── */
 const STAGE_W = 940;
@@ -167,6 +169,9 @@ export function PixelRoomStage({ decision = "HOLD", poses, lang = "ja" }: PixelR
           {/* Layer 2: Walls */}
           <PixelRoomWalls />
 
+          {/* Layer 3: Handoff path (below desks, above floor) */}
+          <PixelRoomHandoffPath decision={decision} zIndex={Z.carpet - 1} />
+
           {/* ── Station carpets (behind desks) ── */}
           {/* しきしま — blue command carpet */}
           <StationCarpet cx={470} cy={210} w={180} h={140} color="#58a6ff" zIndex={Z.backCarpet} />
@@ -220,6 +225,19 @@ export function PixelRoomStage({ decision = "HOLD", poses, lang = "ja" }: PixelR
           <PixelRoomAgent
             agentId="tsumugi" nameJa="つむぐ" roleJa="開発ベンチ"
             pose={p.tsumugi as PoseState} x={686} y={270} zIndex={Z.frontAgent} size={60}
+          />
+
+          {/* ── Work scene bubbles (above agents) ── */}
+          <PixelRoomWorkScene
+            poses={{
+              shikishima: p.shikishima as PoseState,
+              shizume:    p.shizume as PoseState,
+              hajime:     p.hajime as PoseState,
+              tsumugi:    p.tsumugi as PoseState,
+              shirube:    p.shirube as PoseState,
+            }}
+            lang={lang}
+            zIndex={Z.frontAgent + 5}
           />
 
           {/* ── FRONT RIGHT: しるべ ── */}
