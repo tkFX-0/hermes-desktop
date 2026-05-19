@@ -1,9 +1,7 @@
 /**
  * PixelGhostSprite — Pixel Room specific ghost character designs.
- * ViewBox 64×80. Larger, bolder, role-identity focused.
- * Inline SVG only. No image assets. No packages.
- * Designed for PixelRoomStage (60-70px render size).
- * PXR-05E Character Redesign.
+ * PXR-05E redesign: rounded bodies, unified face, role-faithful accessories.
+ * Inline SVG only. No image assets. Display-only.
  */
 
 import type { AgentId } from "../../types/agent-theater-types";
@@ -13,277 +11,181 @@ interface PixelGhostSpriteProps {
   readonly size?: number;
 }
 
-/* ── Shared body path (64×80 viewBox) ── */
+const BODY_FILL = "#edf2ff";
+const BODY_SHADOW = "#c4d4f0";
+const INK = "#1a2852";
+const MONO = '"IBM Plex Mono", monospace';
+
 const BODY_PATH =
-  "M32,7 C16,7 9,19 9,30 L9,46 Q14,56 20,47 Q26,57 32,47 Q38,57 44,47 Q50,56 55,46 L55,30 C55,19 48,7 32,7 Z";
+  "M32,12 C15,12 7,23 7,37 C7,51 14,58 20,55 Q23,63 27,55 Q30,63 32,57 Q34,63 37,55 Q41,63 44,55 C50,58 57,51 57,37 C57,23 49,12 32,12 Z";
 
-/* ─────────────────────────────────────────────────────────────── */
-/* しきしま — command controller                                     */
-/* ─────────────────────────────────────────────────────────────── */
-function ShikishimaSprite({ size }: { size: number }): React.JSX.Element {
+function GhostBase(): React.JSX.Element {
   return (
-    <svg width={size} height={Math.round(size * 1.25)} viewBox="0 0 64 80" fill="none" aria-hidden>
-      {/* Body */}
-      <path d={BODY_PATH} fill="#eef2ff" stroke="#2563eb" strokeWidth="2.5" strokeLinejoin="round" />
-      {/* Shoulder highlight */}
-      <path d="M14,16 Q24,10 40,16" fill="#dbeafe" opacity="0.7" />
-
-      {/* Headset arc */}
-      <path d="M11,26 Q11,6 32,6 Q53,6 53,26"
-        stroke="#1e3a8a" strokeWidth="3.5" fill="none" strokeLinecap="round" />
-      {/* Left ear cup */}
-      <rect x="6" y="22" width="7" height="10" rx="3.5" fill="#1e3a8a" />
-      {/* Right ear cup */}
-      <rect x="51" y="22" width="7" height="10" rx="3.5" fill="#1e3a8a" />
-      {/* Mic boom (right side) */}
-      <path d="M55,28 Q60,34 57,40" stroke="#1e3a8a" strokeWidth="2" fill="none" strokeLinecap="round" />
-      {/* Mic capsule */}
-      <circle cx="57" cy="40" r="2.5" fill="#1e3a8a" />
-      <circle cx="57" cy="40" r="1.2" fill="#60a5fa" />
-
-      {/* Eyes — attentive rectangles */}
-      <rect x="17" y="24" width="8" height="10" rx="2" fill="#1d4ed8" />
-      <rect x="39" y="24" width="8" height="10" rx="2" fill="#1d4ed8" />
-      {/* Eye highlights */}
-      <circle cx="20" cy="27" r="2" fill="#ffffff" />
-      <circle cx="42" cy="27" r="2" fill="#ffffff" />
-
-      {/* Smile */}
-      <path d="M22,38 Q32,44 42,38" stroke="#1d4ed8" strokeWidth="2" fill="none" strokeLinecap="round" />
-
-      {/* Cheeks */}
-      <circle cx="13" cy="36" r="4" fill="#fca5a5" opacity="0.5" />
-      <circle cx="51" cy="36" r="4" fill="#fca5a5" opacity="0.5" />
-
-      {/* Blue command flag (upper right) */}
-      <line x1="56" y1="8" x2="56" y2="34" stroke="#1e3a8a" strokeWidth="2" strokeLinecap="round" />
-      <path d="M56,9 H64 V22 H56 Z" fill="#2563eb" stroke="#1e40af" strokeWidth="1" />
-      <text x="57.5" y="18" fontSize="7" fontWeight="800" fill="#ffffff">し</text>
-
-      {/* Command badge on chest */}
-      <rect x="26" y="38" width="12" height="6" rx="1.5"
-        fill="none" stroke="#3b82f6" strokeWidth="1" opacity="0.6" />
-      <text x="28" y="43.5" fontSize="4.5" fill="#3b82f6" opacity="0.8">CMD</text>
-    </svg>
+    <>
+      <ellipse cx="33" cy="68" rx="17" ry="4" fill="rgba(40,60,200,0.09)" />
+      <path d={BODY_PATH} fill={BODY_SHADOW} transform="translate(1,1.5)" />
+      <path d={BODY_PATH} fill={BODY_FILL} />
+      <ellipse cx="29" cy="26" rx="15" ry="10" fill="rgba(255,255,255,0.38)" />
+    </>
   );
 }
 
-/* ─────────────────────────────────────────────────────────────── */
-/* しずめ — safety gate guard                                       */
-/* ─────────────────────────────────────────────────────────────── */
-function ShizumeSprite({ size }: { size: number }): React.JSX.Element {
+function GhostFace(): React.JSX.Element {
   return (
-    <svg width={size} height={Math.round(size * 1.25)} viewBox="0 0 64 80" fill="none" aria-hidden>
-      {/* Body */}
-      <path d={BODY_PATH} fill="#fffbeb" stroke="#d97706" strokeWidth="2.5" strokeLinejoin="round" />
-
-      {/* Safety helmet */}
-      <path d="M8,26 Q32,8 56,26" fill="#fde68a" stroke="#b45309" strokeWidth="2" />
-      <rect x="7" y="26" width="50" height="4" rx="2" fill="#b45309" />
-      {/* Helmet lamp */}
-      <circle cx="16" cy="22" r="5" fill="#facc15" stroke="#b45309" strokeWidth="1.5" />
-      <circle cx="16" cy="22" r="3" fill="#fef08a" />
-      {/* Lamp glow lines */}
-      <line x1="16" y1="16" x2="16" y2="13" stroke="#fde68a" strokeWidth="1" />
-      <line x1="20" y1="18" x2="23" y2="15" stroke="#fde68a" strokeWidth="1" />
-
-      {/* Eyes — serious half-lids */}
-      <line x1="18" y1="32" x2="24" y2="34" stroke="#1d4ed8" strokeWidth="3" strokeLinecap="round" />
-      <line x1="46" y1="32" x2="40" y2="34" stroke="#1d4ed8" strokeWidth="3" strokeLinecap="round" />
-      {/* Serious flat mouth */}
-      <line x1="24" y1="40" x2="40" y2="40" stroke="#1d4ed8" strokeWidth="2" strokeLinecap="round" />
-
-      {/* Cheeks */}
-      <circle cx="14" cy="38" r="3.5" fill="#fca5a5" opacity="0.5" />
-      <circle cx="50" cy="38" r="3.5" fill="#fca5a5" opacity="0.5" />
-
-      {/* HOLD sign with pole */}
-      <line x1="56" y1="10" x2="56" y2="40" stroke="#7c3f00" strokeWidth="2.5" strokeLinecap="round" />
-      <rect x="48" y="9" width="16" height="11" rx="2"
-        fill="#dc2626" stroke="#991b1b" strokeWidth="1.5" />
-      <text x="49.5" y="17.5" fontSize="5.5" fontWeight="900" fill="#ffffff" letterSpacing="0.3">HOLD</text>
-
-      {/* Safety vest diagonal lines */}
-      <path d="M10,40 L20,32 M54,40 L44,32"
-        stroke="#f59e0b" strokeWidth="2.5" strokeLinecap="round" opacity="0.75" />
-
-      {/* Whistle */}
-      <circle cx="32" cy="38" r="3.5" fill="#f59e0b" stroke="#b45309" strokeWidth="1" />
-      <line x1="32" y1="34" x2="32" y2="30" stroke="#b45309" strokeWidth="1.5" />
-    </svg>
+    <>
+      <rect x="19" y="27" width="10" height="12" rx="2.5" fill={INK} />
+      <rect x="20" y="28" width="3" height="3" rx="0.5" fill="white" opacity="0.9" />
+      <rect x="35" y="27" width="10" height="12" rx="2.5" fill={INK} />
+      <rect x="36" y="28" width="3" height="3" rx="0.5" fill="white" opacity="0.9" />
+      <ellipse cx="13" cy="38" rx="5.5" ry="4" fill="rgba(255,115,115,0.46)" />
+      <ellipse cx="51" cy="38" rx="5.5" ry="4" fill="rgba(255,115,115,0.46)" />
+      <path d="M22,42 Q32,51 42,42" stroke={INK} strokeWidth="2.2" fill="none" strokeLinecap="round" />
+    </>
   );
 }
 
-/* ─────────────────────────────────────────────────────────────── */
-/* はじめ / むすび — planning thinker                               */
-/* ─────────────────────────────────────────────────────────────── */
-function HajimeSprite({ size }: { size: number }): React.JSX.Element {
+function ShikishimaSprite(): React.JSX.Element {
   return (
-    <svg width={size} height={Math.round(size * 1.25)} viewBox="0 0 64 80" fill="none" aria-hidden>
-      {/* Body */}
-      <path d={BODY_PATH} fill="#f0fdf4" stroke="#16a34a" strokeWidth="2.5" strokeLinejoin="round" />
-
-      {/* Eyes — wide curious circles */}
-      <circle cx="21" cy="27" r="5.5" fill="#15803d" />
-      <circle cx="43" cy="27" r="5.5" fill="#15803d" />
-      <circle cx="22.5" cy="25.5" r="2" fill="#ffffff" />
-      <circle cx="44.5" cy="25.5" r="2" fill="#ffffff" />
-
-      {/* Open smile */}
-      <path d="M22,36 Q32,44 42,36" stroke="#15803d" strokeWidth="2" fill="none" strokeLinecap="round" />
-
-      {/* Cheeks (green tinted) */}
-      <circle cx="13" cy="34" r="4" fill="#86efac" opacity="0.55" />
-      <circle cx="51" cy="34" r="4" fill="#86efac" opacity="0.55" />
-
-      {/* Folded MAP (held left-side) */}
-      <path d="M2,30 L15,25 L24,30 L36,25 L45,30 V44 L36,48 L24,44 L15,48 L2,44 Z"
-        fill="#bbf7d0" stroke="#16a34a" strokeWidth="1.5" />
-      <path d="M15,25 V44 M24,30 V48 M36,25 V44"
-        stroke="#4ade80" strokeWidth="1" opacity="0.8" />
-      {/* Map dots */}
-      <circle cx="5" cy="41" r="2.5" fill="#15803d" />
-      <circle cx="20" cy="28" r="2" fill="#15803d" />
-      <circle cx="40" cy="28" r="2" fill="#15803d" />
-      {/* Map route */}
-      <path d="M5,41 C10,33 22,36 40,28"
-        stroke="#15803d" strokeWidth="1.5" fill="none" strokeDasharray="3 2" opacity="0.8" />
-
-      {/* Thought bubble */}
-      <circle cx="54" cy="12" r="6" fill="#ffffff" stroke="#16a34a" strokeWidth="1.5" />
-      <text x="52" y="15.5" fontSize="8" fontWeight="900" fill="#16a34a">?</text>
-      {/* Bubble connector dots */}
-      <circle cx="48" cy="18" r="1.5" fill="#16a34a" opacity="0.6" />
-      <circle cx="44" cy="22" r="1" fill="#16a34a" opacity="0.4" />
-    </svg>
+    <g>
+      <GhostBase />
+      <path d="M12,34 Q32,9 52,34" stroke="#1c2d5c" strokeWidth="4.5" fill="none" strokeLinecap="round" />
+      <ellipse cx="11" cy="35" rx="6" ry="7" fill="#1c2d5c" />
+      <ellipse cx="11" cy="35" rx="3.5" ry="4.5" fill="#2e4a90" />
+      <ellipse cx="53" cy="35" rx="6" ry="7" fill="#1c2d5c" />
+      <ellipse cx="53" cy="35" rx="3.5" ry="4.5" fill="#2e4a90" />
+      <GhostFace />
+      <path d="M6,39 Q4,50 13,54" stroke="#1c2d5c" strokeWidth="2" fill="none" strokeLinecap="round" />
+      <circle cx="13" cy="55" r="2.5" fill="#1c2d5c" />
+      <rect x="54" y="8" width="2" height="30" rx="1" fill="#223355" />
+      <rect x="56" y="8" width="12" height="9" rx="1.5" fill="#2255dd" />
+      <text x="62" y="15.5" textAnchor="middle" fontFamily={MONO} fontSize="5" fill="white" fontWeight="bold">
+        しき
+      </text>
+    </g>
   );
 }
 
-/* ─────────────────────────────────────────────────────────────── */
-/* つむぐ / つむぎ — developer / builder                            */
-/* ─────────────────────────────────────────────────────────────── */
-function TsumugiSprite({ size }: { size: number }): React.JSX.Element {
+function ShizumeSprite(): React.JSX.Element {
   return (
-    <svg width={size} height={Math.round(size * 1.25)} viewBox="0 0 64 80" fill="none" aria-hidden>
-      {/* Body */}
-      <path d={BODY_PATH} fill="#fff7ed" stroke="#ea580c" strokeWidth="2.5" strokeLinejoin="round" />
-
-      {/* Construction helmet */}
-      <path d="M8,26 Q32,8 56,26" fill="#facc15" stroke="#b45309" strokeWidth="2" />
-      <line x1="7" y1="26" x2="57" y2="26" stroke="#b45309" strokeWidth="2" />
-      {/* Helmet stripes */}
-      <line x1="20" y1="14" x2="20" y2="25" stroke="#b45309" strokeWidth="1.2" />
-      <line x1="32" y1="10" x2="32" y2="25" stroke="#b45309" strokeWidth="1.2" />
-      <line x1="44" y1="14" x2="44" y2="25" stroke="#b45309" strokeWidth="1.2" />
-
-      {/* Eyes — focused narrow ellipses */}
-      <ellipse cx="21" cy="30" rx="5" ry="3" fill="#ea580c" />
-      <ellipse cx="43" cy="30" rx="5" ry="3" fill="#ea580c" />
-      <ellipse cx="22" cy="29.5" rx="1.5" ry="1" fill="#ffffff" />
-      <ellipse cx="44" cy="29.5" rx="1.5" ry="1" fill="#ffffff" />
-
-      {/* Determined mouth */}
-      <line x1="24" y1="38" x2="40" y2="38" stroke="#ea580c" strokeWidth="2.5" strokeLinecap="round" />
-
-      {/* Cheeks */}
-      <circle cx="13" cy="36" r="3.5" fill="#fca5a5" opacity="0.5" />
-      <circle cx="51" cy="36" r="3.5" fill="#fca5a5" opacity="0.5" />
-
-      {/* Tool box (right side) */}
-      <rect x="47" y="28" width="14" height="11" rx="1.5"
-        fill="#92400e" stroke="#451a03" strokeWidth="1.5" />
-      {/* Box handle */}
-      <path d="M51,28 Q54,24 57,28" stroke="#451a03" strokeWidth="2" fill="none" strokeLinecap="round" />
-      {/* Box divider */}
-      <line x1="47" y1="33" x2="61" y2="33" stroke="#5c2d0a" strokeWidth="1" />
-
-      {/* Wrench (left) */}
-      <path d="M8,32 L18,22" stroke="#6b7280" strokeWidth="3" strokeLinecap="round" />
-      <path d="M15,19 Q20,15 24,18 Q21,22 17,22 Z"
-        fill="#6b7280" stroke="#374151" strokeWidth="1" />
-
-      {/* Keyboard hint at bottom */}
-      <rect x="19" y="42" width="26" height="5" rx="1.5"
-        fill="#1a0e00" stroke="#b45309" strokeWidth="1" />
-      <rect x="21" y="43.5" width="4" height="2" rx="0.5" fill="#b45309" opacity="0.6" />
-      <rect x="27" y="43.5" width="4" height="2" rx="0.5" fill="#b45309" opacity="0.6" />
-      <rect x="33" y="43.5" width="4" height="2" rx="0.5" fill="#b45309" opacity="0.6" />
-      <rect x="39" y="43.5" width="4" height="2" rx="0.5" fill="#b45309" opacity="0.6" />
-
-      {/* Orange flag */}
-      <line x1="0" y1="10" x2="0" y2="30" stroke="#ea580c" strokeWidth="2" strokeLinecap="round" />
-      <path d="M0,10 H8 V20 H0 Z" fill="#f97316" stroke="#ea580c" strokeWidth="1" />
-    </svg>
+    <g>
+      <GhostBase />
+      <ellipse cx="32" cy="14" rx="20" ry="8" fill="#192440" />
+      <path d="M12,14 Q32,5 52,14 L52,18 Q32,11 12,18 Z" fill="#243060" />
+      <rect x="10" y="19" width="44" height="5" rx="2.5" fill="#192440" />
+      <rect x="18" y="46" width="28" height="4" rx="1.5" fill="#f5c020" />
+      <rect x="18" y="52" width="28" height="3.5" rx="1.5" fill="#f5c020" />
+      <GhostFace />
+      <rect x="54" y="18" width="2" height="30" rx="1" fill="#443322" />
+      <rect x="56" y="18" width="12" height="9" rx="1.5" fill="#cc1111" />
+      <text x="62" y="25.5" textAnchor="middle" fontFamily={MONO} fontSize="4" fill="white" fontWeight="bold">
+        HOLD
+      </text>
+    </g>
   );
 }
 
-/* ─────────────────────────────────────────────────────────────── */
-/* しるべ — record / log keeper                                     */
-/* ─────────────────────────────────────────────────────────────── */
-function ShirubeSprite({ size }: { size: number }): React.JSX.Element {
+function HajimeSprite(): React.JSX.Element {
   return (
-    <svg width={size} height={Math.round(size * 1.25)} viewBox="0 0 64 80" fill="none" aria-hidden>
-      {/* Body */}
-      <path d={BODY_PATH} fill="#faf5ff" stroke="#9333ea" strokeWidth="2.5" strokeLinejoin="round" />
-
-      {/* Headphones arc */}
-      <path d="M11,28 Q11,6 32,6 Q53,6 53,28"
-        stroke="#7e22ce" strokeWidth="4" fill="none" strokeLinecap="round" />
-      {/* Left ear pad */}
-      <rect x="5" y="24" width="8" height="11" rx="4" fill="#9333ea" />
-      {/* Right ear pad */}
-      <rect x="51" y="24" width="8" height="11" rx="4" fill="#9333ea" />
-      {/* Mic/cable right */}
-      <path d="M56,32 Q60,38 57,44" stroke="#7e22ce" strokeWidth="2" fill="none" strokeLinecap="round" />
-      <circle cx="57" cy="44" r="2" fill="#9333ea" />
-
-      {/* Eyes — serene closed curves */}
-      <path d="M17,27 Q21,23 25,27" stroke="#9333ea" strokeWidth="3" fill="none" strokeLinecap="round" />
-      <path d="M39,27 Q43,23 47,27" stroke="#9333ea" strokeWidth="3" fill="none" strokeLinecap="round" />
-
-      {/* Gentle smile */}
-      <path d="M22,36 Q32,43 42,36" stroke="#9333ea" strokeWidth="2" fill="none" strokeLinecap="round" />
-
-      {/* Cheeks (purple tinted) */}
-      <circle cx="13" cy="34" r="4" fill="#d8b4fe" opacity="0.55" />
-      <circle cx="51" cy="34" r="4" fill="#d8b4fe" opacity="0.55" />
-
-      {/* Open log book (right side) */}
-      <path d="M44,28 H57 Q58,28 58,29.5 V44 H44 Z"
-        fill="#ffffff" stroke="#7e22ce" strokeWidth="1.5" />
-      <path d="M44,28 H31 Q30,28 30,29.5 V44 H44 Z"
-        fill="#ede9fe" stroke="#7e22ce" strokeWidth="1.5" />
-      {/* Page spine */}
-      <line x1="44" y1="28" x2="44" y2="44" stroke="#f97316" strokeWidth="2" />
-      {/* Log lines */}
-      <line x1="33" y1="32" x2="42" y2="32" stroke="#9333ea" strokeWidth="1" />
-      <line x1="33" y1="36" x2="42" y2="36" stroke="#9333ea" strokeWidth="1" />
-      <line x1="33" y1="40" x2="40" y2="40" stroke="#9333ea" strokeWidth="0.8" />
-      <line x1="47" y1="32" x2="56" y2="32" stroke="#9333ea" strokeWidth="1" />
-      <line x1="47" y1="36" x2="56" y2="36" stroke="#9333ea" strokeWidth="1" />
-      <line x1="47" y1="40" x2="54" y2="40" stroke="#9333ea" strokeWidth="0.8" />
-
-      {/* Pen (left hand) */}
-      <line x1="10" y1="30" x2="26" y2="44" stroke="#f97316" strokeWidth="2.5" strokeLinecap="round" />
-      <circle cx="10" cy="30" r="2.5" fill="#f97316" />
-
-      {/* Purple record flag */}
-      <line x1="0" y1="9" x2="0" y2="28" stroke="#7e22ce" strokeWidth="2" strokeLinecap="round" />
-      <path d="M0,9 H9 V18 H0 Z" fill="#a855f7" stroke="#7e22ce" strokeWidth="1" />
-    </svg>
+    <g>
+      <GhostBase />
+      <circle cx="50" cy="15" r="8" fill="rgba(220,228,255,0.82)" stroke={BODY_SHADOW} strokeWidth="1" />
+      <circle cx="43" cy="24" r="3.5" fill="rgba(220,228,255,0.82)" stroke={BODY_SHADOW} strokeWidth="0.8" />
+      <circle cx="40" cy="30" r="2" fill="rgba(220,228,255,0.82)" stroke={BODY_SHADOW} strokeWidth="0.8" />
+      <text x="50" y="19" textAnchor="middle" fontFamily={MONO} fontSize="9" fill={INK} fontWeight="bold">
+        ?
+      </text>
+      <GhostFace />
+      <rect x="12" y="48" width="24" height="16" rx="3" fill="#c8b458" />
+      <rect x="13" y="49" width="22" height="14" rx="2" fill="#d8c468" />
+      <path d="M15,53 Q18,51 21,53 Q24,55 27,53" stroke="#2e6020" strokeWidth="1.3" fill="none" />
+      <path d="M15,57 Q19,59 23,57" stroke="#2e6020" strokeWidth="1.3" fill="none" />
+      <path d="M15,61 Q18,59 22,61 Q25,63 29,61" stroke="#3a7030" strokeWidth="1.3" fill="none" />
+      <circle cx="18" cy="54" r="2" fill="#dd2020" />
+      <circle cx="26" cy="58" r="1.5" fill="#dd2020" />
+      <rect x="40" y="8" width="2" height="24" rx="1" fill="#1e4e1e" />
+      <rect x="42" y="8" width="12" height="9" rx="1.5" fill="#28a828" />
+      <text x="48" y="15.5" textAnchor="middle" fontFamily={MONO} fontSize="5" fill="white" fontWeight="bold">
+        はじ
+      </text>
+    </g>
   );
 }
 
-/* ── Sprite map ── */
-const SPRITE_MAP: Record<AgentId, (props: { size: number }) => React.JSX.Element> = {
+function TsumugiSprite(): React.JSX.Element {
+  return (
+    <g>
+      <GhostBase />
+      <ellipse cx="32" cy="16" rx="24" ry="5.5" fill="#d49000" />
+      <path d="M15,16 Q15,4 32,4 Q49,4 49,16" fill="#f5bc00" />
+      <path
+        d="M21,6 Q32,3 43,6 Q47,10 47,15 Q41,10 32,10 Q23,10 17,15 Q17,10 21,6"
+        fill="rgba(255,245,130,0.50)"
+      />
+      <rect x="30" y="4" width="4" height="12" rx="2" fill="#d49000" opacity="0.4" />
+      <GhostFace />
+      <rect x="42" y="51" width="17" height="12" rx="2" fill="#7a4820" />
+      <rect x="42" y="49" width="17" height="5" rx="1.5" fill="#8a5830" />
+      <path d="M47,49 Q50.5,44 54,49" stroke="#8a5830" strokeWidth="2.5" fill="none" />
+      <rect x="44" y="55" width="3" height="2" rx="0.5" fill="#c89040" />
+      <rect x="53" y="55" width="3" height="2" rx="0.5" fill="#c89040" />
+      <rect x="4" y="22" width="2" height="28" rx="1" fill="#a04800" />
+      <rect x="6" y="22" width="12" height="9" rx="1.5" fill="#f07000" />
+      <text x="12" y="29.5" textAnchor="middle" fontFamily={MONO} fontSize="5" fill="white" fontWeight="bold">
+        つむ
+      </text>
+    </g>
+  );
+}
+
+function ShirubeSprite(): React.JSX.Element {
+  return (
+    <g>
+      <GhostBase />
+      <path d="M12,34 Q32,9 52,34" stroke="#201848" strokeWidth="4.5" fill="none" strokeLinecap="round" />
+      <ellipse cx="11" cy="35" rx="6" ry="7" fill="#201848" />
+      <ellipse cx="11" cy="35" rx="3.5" ry="4.5" fill="#3828a0" />
+      <ellipse cx="53" cy="35" rx="6" ry="7" fill="#201848" />
+      <ellipse cx="53" cy="35" rx="3.5" ry="4.5" fill="#3828a0" />
+      <GhostFace />
+      <rect x="29" y="48" width="3" height="17" rx="1" fill="#201848" />
+      <rect x="11" y="49" width="18" height="15" rx="2" fill="#f8f4ec" />
+      <line x1="13" y1="53" x2="27" y2="53" stroke="rgba(140,140,140,0.6)" strokeWidth="0.9" />
+      <line x1="13" y1="57" x2="27" y2="57" stroke="rgba(140,140,140,0.6)" strokeWidth="0.9" />
+      <line x1="13" y1="61" x2="22" y2="61" stroke="rgba(140,140,140,0.6)" strokeWidth="0.9" />
+      <rect x="32" y="49" width="18" height="15" rx="2" fill="#f8f4ec" />
+      <line x1="34" y1="53" x2="48" y2="53" stroke="rgba(140,140,140,0.6)" strokeWidth="0.9" />
+      <line x1="34" y1="57" x2="48" y2="57" stroke="rgba(140,140,140,0.6)" strokeWidth="0.9" />
+      <line x1="34" y1="61" x2="44" y2="61" stroke="rgba(140,140,140,0.6)" strokeWidth="0.9" />
+      <path d="M41,59 L46,53 L47,54 L42,60 Z" fill="#2a2060" />
+      <circle cx="41" cy="60" r="1.2" fill="#2a2060" />
+      <rect x="54" y="8" width="2" height="26" rx="1" fill="#40206a" />
+      <rect x="56" y="8" width="12" height="9" rx="1.5" fill="#7040c0" />
+      <text x="62" y="15.5" textAnchor="middle" fontFamily={MONO} fontSize="5" fill="white" fontWeight="bold">
+        しる
+      </text>
+    </g>
+  );
+}
+
+const SPRITE_MAP: Record<AgentId, () => React.JSX.Element> = {
   shikishima: ShikishimaSprite,
-  shizume:    ShizumeSprite,
-  hajime:     HajimeSprite,
-  tsumugi:    TsumugiSprite,
-  shirube:    ShirubeSprite,
+  shizume: ShizumeSprite,
+  hajime: HajimeSprite,
+  tsumugi: TsumugiSprite,
+  shirube: ShirubeSprite,
 };
 
 export function PixelGhostSprite({ agentId, size = 64 }: PixelGhostSpriteProps): React.JSX.Element {
   const Sprite = SPRITE_MAP[agentId];
-  return <Sprite size={size} />;
+  return (
+    <svg
+      viewBox="0 0 64 80"
+      width={size}
+      height={Math.round(size * 1.25)}
+      aria-hidden
+      style={{ display: "block", overflow: "visible" }}
+    >
+      <Sprite />
+    </svg>
+  );
 }
