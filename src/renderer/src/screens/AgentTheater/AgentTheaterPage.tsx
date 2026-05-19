@@ -20,6 +20,7 @@ import { WorkerRoutingPanel } from "./WorkerRoutingPanel";
 import { GateDashboardPanel } from "./GateDashboardPanel";
 import { PixelRoomView } from "./PixelRoom/PixelRoomView";
 import { RoomChat } from "./PixelRoom/RoomChat";
+import { Room3DView } from "./PixelRoom3D/Room3DView";
 
 function allPoses(pose: PoseState): AgentPoseMap {
   return {
@@ -96,7 +97,7 @@ export interface AgentTheaterPageProps {
   readonly lang?: "ja" | "en";
 }
 
-type TheaterView = "card" | "room";
+type TheaterView = "card" | "room" | "3d";
 
 const TAB_STYLE_BASE: React.CSSProperties = {
   fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
@@ -137,35 +138,39 @@ export function AgentTheaterPage({
           {lang === "ja" ? "管制室 · THEATER" : "CONTROL ROOM · THEATER"}
         </p>
         <div style={{ display: "flex", gap: 4 }}>
-          <button
-            style={{
-              ...TAB_STYLE_BASE,
-              color: view === "room" ? "#e6edf3" : "#6e7681",
-              borderColor: view === "room" ? "#58a6ff" : "#21262d",
-              background: view === "room" ? "rgba(88,166,255,0.08)" : "transparent",
-            }}
-            onClick={() => setView("room")}
-          >
-            {lang === "ja" ? "部屋" : "ROOM"}
-          </button>
-          <button
-            style={{
-              ...TAB_STYLE_BASE,
-              color: view === "card" ? "#e6edf3" : "#6e7681",
-              borderColor: view === "card" ? "#58a6ff" : "#21262d",
-              background: view === "card" ? "rgba(88,166,255,0.08)" : "transparent",
-            }}
-            onClick={() => setView("card")}
-          >
-            {lang === "ja" ? "カード" : "CARD"}
-          </button>
+          {(["room", "3d", "card"] as const).map((v) => (
+            <button
+              key={v}
+              style={{
+                ...TAB_STYLE_BASE,
+                color: view === v ? "#e6edf3" : "#6e7681",
+                borderColor: view === v ? "#58a6ff" : "#21262d",
+                background: view === v ? "rgba(88,166,255,0.08)" : "transparent",
+              }}
+              onClick={() => setView(v)}
+            >
+              {v === "room" ? (lang === "ja" ? "部屋" : "ROOM")
+               : v === "3d" ? "3D"
+               : (lang === "ja" ? "カード" : "CARD")}
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* ROOM view */}
+      {/* ROOM view (CSS 2.5D) */}
       {view === "room" && (
         <>
           <PixelRoomView decision={decision} lang={lang} />
+          {onSend && (
+            <RoomChat messages={messages} onSend={onSend} lang={lang} />
+          )}
+        </>
+      )}
+
+      {/* 3D view (Three.js / R3F) */}
+      {view === "3d" && (
+        <>
+          <Room3DView decision={decision} lang={lang} />
           {onSend && (
             <RoomChat messages={messages} onSend={onSend} lang={lang} />
           )}
