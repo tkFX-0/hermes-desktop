@@ -237,7 +237,19 @@ function Layout(): React.JSX.Element {
       case "theater":
         return (
           <AgentTheaterPage
-            decision={toOperatorPageData(null).decision}
+            decision={toOperatorPageData(ccSafeSummary).decision}
+            messages={ccMessages}
+            onSend={(content) =>
+              setCcMessages((prev) => [
+                ...prev,
+                {
+                  id: `local-${Date.now()}`,
+                  role: "user" as const,
+                  content,
+                  timestampUnixMs: Date.now(),
+                },
+              ])
+            }
             lang="ja"
           />
         );

@@ -9,6 +9,7 @@
 
 import { useState } from "react";
 import type { AgentPoseMap, PoseState, SlotStatus } from "../../types/agent-theater-types";
+import type { LocalChatMessage } from "../../types/service-contracts";
 import { SlotStatusBar } from "./SlotStatusBar";
 import { PageRightRail } from "../../components/Shell/PageRightRail";
 import { ControlRoomLayout } from "./ControlRoomLayout";
@@ -18,6 +19,7 @@ import { RunawayGuardPanel } from "./RunawayGuardPanel";
 import { WorkerRoutingPanel } from "./WorkerRoutingPanel";
 import { GateDashboardPanel } from "./GateDashboardPanel";
 import { PixelRoomView } from "./PixelRoom/PixelRoomView";
+import { RoomChat } from "./PixelRoom/RoomChat";
 
 function allPoses(pose: PoseState): AgentPoseMap {
   return {
@@ -89,6 +91,8 @@ export interface AgentTheaterPageProps {
   readonly decision: string;
   readonly agentPoses?: AgentPoseMap;
   readonly slotStatuses?: readonly SlotStatus[];
+  readonly messages?: readonly LocalChatMessage[];
+  readonly onSend?: (content: string) => void;
   readonly lang?: "ja" | "en";
 }
 
@@ -111,6 +115,8 @@ export function AgentTheaterPage({
   decision,
   agentPoses,
   slotStatuses,
+  messages = [],
+  onSend,
   lang = "ja",
 }: AgentTheaterPageProps): React.JSX.Element {
   const poses = agentPoses ?? deriveAgentPoses(decision);
@@ -158,7 +164,12 @@ export function AgentTheaterPage({
 
       {/* ROOM view */}
       {view === "room" && (
-        <PixelRoomView decision={decision} lang={lang} />
+        <>
+          <PixelRoomView decision={decision} lang={lang} />
+          {onSend && (
+            <RoomChat messages={messages} onSend={onSend} lang={lang} />
+          )}
+        </>
       )}
 
       {/* CARD view */}
