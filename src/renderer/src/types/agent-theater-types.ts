@@ -31,3 +31,13 @@ export interface SlotStatus {
 }
 
 export type AgentPoseMap = Readonly<Record<AgentId, PoseState>>;
+
+export type HandoffStage =
+  | "request_received"
+  | "planning"
+  | "safety_check"
+  | "dev_prepare"
+  | "recording"
+  | "waiting_human_go"
+  | "hold_blocked"
+  | "stopped";
