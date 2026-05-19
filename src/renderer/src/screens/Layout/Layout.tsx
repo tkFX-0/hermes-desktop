@@ -146,7 +146,7 @@ const CC_DEFAULT_SETTINGS: LocalSettingsData = {
 function Layout(): React.JSX.Element {
   const { t } = useI18n();
   const { theme, setTheme } = useTheme();
-  const [view, setView] = useState<View>("chat");
+  const [view, setView] = useState<View>("controlCenter");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
   const [activeProfile, setActiveProfile] = useState("default");

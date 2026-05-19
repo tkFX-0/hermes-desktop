@@ -115,7 +115,7 @@ export function AgentTheaterPage({
 }: AgentTheaterPageProps): React.JSX.Element {
   const poses = agentPoses ?? deriveAgentPoses(decision);
   const slots = slotStatuses ?? DEFAULT_SLOTS;
-  const [view, setView] = useState<TheaterView>("card");
+  const [view, setView] = useState<TheaterView>("room");
 
   return (
     <div
@@ -134,17 +134,6 @@ export function AgentTheaterPage({
           <button
             style={{
               ...TAB_STYLE_BASE,
-              color: view === "card" ? "#e6edf3" : "#6e7681",
-              borderColor: view === "card" ? "#58a6ff" : "#21262d",
-              background: view === "card" ? "rgba(88,166,255,0.08)" : "transparent",
-            }}
-            onClick={() => setView("card")}
-          >
-            {lang === "ja" ? "カード" : "CARD"}
-          </button>
-          <button
-            style={{
-              ...TAB_STYLE_BASE,
               color: view === "room" ? "#e6edf3" : "#6e7681",
               borderColor: view === "room" ? "#58a6ff" : "#21262d",
               background: view === "room" ? "rgba(88,166,255,0.08)" : "transparent",
@@ -152,6 +141,17 @@ export function AgentTheaterPage({
             onClick={() => setView("room")}
           >
             {lang === "ja" ? "部屋" : "ROOM"}
+          </button>
+          <button
+            style={{
+              ...TAB_STYLE_BASE,
+              color: view === "card" ? "#e6edf3" : "#6e7681",
+              borderColor: view === "card" ? "#58a6ff" : "#21262d",
+              background: view === "card" ? "rgba(88,166,255,0.08)" : "transparent",
+            }}
+            onClick={() => setView("card")}
+          >
+            {lang === "ja" ? "カード" : "CARD"}
           </button>
         </div>
       </div>
