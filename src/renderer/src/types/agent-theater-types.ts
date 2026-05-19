@@ -50,3 +50,32 @@ export type SlotWorkerStatus =
   | "BLOCKED"
   | "FAILED"
   | "NEEDS_HUMAN";
+
+export type ResumeTaskStatus =
+  | "ACTIVE"
+  | "PAUSED"
+  | "COOLDOWN"
+  | "HANDOFF_READY"
+  | "NEEDS_HUMAN"
+  | "COMPLETED"
+  | "FAILED";
+
+export interface ResumeTask {
+  readonly taskId: string;
+  readonly titleJa: string;
+  readonly titleEn: string;
+  readonly worker: string;
+  readonly workerStatus: ResumeTaskStatus;
+  readonly autonomyLevel: 1 | 2 | 3 | 4 | 5;
+  readonly lastCompletedStepJa: string;
+  readonly lastCompletedStepEn: string;
+  readonly nextActionJa: string;
+  readonly nextActionEn: string;
+  readonly cooldownUntilLabel?: string;
+  readonly handoffCandidate?: string;
+  readonly evidenceFile?: string;
+  readonly gitHead?: string;
+  readonly humanGoRequired: boolean;
+  readonly stopReasonJa?: string;
+  readonly stopReasonEn?: string;
+}

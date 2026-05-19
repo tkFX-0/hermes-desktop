@@ -3,7 +3,7 @@
  * Display-only. Shows control room environment with 5 agent zones.
  * No execute/push/send buttons. Safety invariants via PageRightRail.
  * Design spec: AGENT_THEATER_IMPLEMENTATION_DESIGN.md
- * Phase: AT-08 (worker status panel + autonomy level legend)
+ * Phase: AT-09 (resume queue / cooldown panel)
  */
 
 import type { AgentPoseMap, PoseState, SlotStatus } from "../../types/agent-theater-types";
@@ -11,6 +11,7 @@ import { SlotStatusBar } from "./SlotStatusBar";
 import { PageRightRail } from "../../components/Shell/PageRightRail";
 import { ControlRoomLayout } from "./ControlRoomLayout";
 import { WorkerStatusPanel } from "./WorkerStatusPanel";
+import { ResumeQueuePanel } from "./ResumeQueuePanel";
 
 function allPoses(pose: PoseState): AgentPoseMap {
   return {
@@ -122,6 +123,14 @@ export function AgentTheaterPage({
               {lang === "ja" ? "ワーカー" : "WORKERS"}
             </p>
             <WorkerStatusPanel lang={lang} />
+          </section>
+
+          {/* Resume queue / cooldown panel */}
+          <section aria-label={lang === "ja" ? "再開キュー" : "Resume queue"}>
+            <p style={SECTION_HEADING}>
+              {lang === "ja" ? "再開キュー" : "RESUME QUEUE"}
+            </p>
+            <ResumeQueuePanel lang={lang} />
           </section>
         </div>
 

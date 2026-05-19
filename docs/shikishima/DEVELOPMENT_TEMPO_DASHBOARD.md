@@ -20,13 +20,13 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v4.01.0
-- latestUpdate: 2026-05-19 - AT-08 Slot Worker Status Panel implemented; typecheck PASS; runtime recheck HOLD
+- roadmapVersion: v4.02.0
+- latestUpdate: 2026-05-19 - AT-09 Resume Queue / Cooldown Panel implemented; typecheck PASS; runtime recheck HOLD
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: origin/main=5055b6d; commits_ahead=1 (evidence docs, push pending after this commit)
 - validation road: Gate 001-007 ✓; UI-01-14 PASS; shell design aligned; mobile foundation + responsive pages done
-- current next human action: push readiness review for AT-08 + AT-07 commits; runtime visual recheck GO (time_window required)
+- current next human action: push readiness review for AT-09 + AT-08 commits; runtime visual recheck GO (time_window required)
 - HOLD reason: productionReady false; execution disabled; Level 5 actions require explicit human GO
 
 ## SLOT-09 Worker Autonomy Update

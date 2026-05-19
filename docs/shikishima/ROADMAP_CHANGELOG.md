@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.01.0
+- roadmapVersion: v4.02.0
 - lastUpdated: 2026-05-19
-- latestUpdate: AT-08 Slot Worker Status Panel implemented; typecheck PASS; runtime recheck HOLD
-- baselineCommit: 0a528d6
+- latestUpdate: AT-09 Resume Queue / Cooldown Panel implemented; typecheck PASS; runtime recheck HOLD
+- baselineCommit: fbaa0f5
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,17 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.02.0 - AT-09 Resume Queue and Cooldown Panel
+
+- Added `CooldownBadge.tsx`: compact status badge for ResumeTaskStatus.
+- Added `ResumeTaskCard.tsx`: display-only card per paused/active/gated task.
+- Added `ResumeQueuePanel.tsx`: 4 sample task cards + safety badge strip + 5 plain language taglines.
+- Added `ResumeTaskStatus` type + `ResumeTask` interface to agent-theater-types.ts.
+- Modified `AgentTheaterPage.tsx`: new RESUME QUEUE section added below WORKERS.
+- No execute/push/send/OAuth buttons. Static sample data only.
+- typecheck PASS / vitest 806/807; runtime recheck HOLD.
+- productionReady: false / execution: disabled / rawValuesReported: false.
 
 ## v4.01.0 - AT-08 Slot Worker Status Panel
 
