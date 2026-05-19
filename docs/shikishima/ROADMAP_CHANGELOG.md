@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.12.0
+- roadmapVersion: v4.14.0
 - lastUpdated: 2026-05-19
-- latestUpdate: 100% Roadmap Design Package 作成; CC-01/02/UI-01/02 完了; 残Task全整理
-- baselineCommit: 75e690b
+- latestUpdate: 実運用100% Master Design Package + Final Goal Lock Package 完成; Room Layout実装
+- baselineCommit: aadea91
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,33 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.14.0 - Final Goal Lock Package
+
+- `SHIKISHIMA_FINAL_GOAL_LOCK.md`: Goal A/B/C 定義。「設計書のための設計書」の終止符。
+- `SHIKISHIMA_FINAL_IMPLEMENTATION_COMPLETION_MAP.md`: 実装済み/evidence残/BLOCKED/FUTURE 全マップ。
+- `SHIKISHIMA_FINAL_REMAINING_TASK_CHECKLIST.md`: Goal別残Task一覧表。
+- `SHIKISHIMA_FINAL_GO_HOLD_DECISION_SHEET.md`: Decision 1–4 人間判断シート。
+- `SHIKISHIMA_FINAL_LEVEL5_GATE_RUNBOOK.md`: Level 5 全操作 + 共通 GO 文フィールド。
+- `SHIKISHIMA_FINAL_100_ACCEPTANCE_TEMPLATE.md`: 最終受け入れ記録テンプレート。
+- docs-only。runtime 未起動。push 未実施。
+
+## v4.13.0 - 実運用100% Master Design Package
+
+- `SHIKISHIMA_REAL_OPERATION_100_MASTER_DESIGN.md`: Master design, Goal A/B/C, 安全不変条件。
+- `SHIKISHIMA_REAL_OPERATION_100_PHASE_ROADMAP.md`: Phase 0–10 詳細 roadmap。
+- `SHIKISHIMA_REAL_OPERATION_100_TASK_REGISTRY.md`: 全Task表 (DONE/HOLD/BLOCKED/FUTURE)。
+- `SHIKISHIMA_REAL_OPERATION_100_GO_HOLD_MATRIX.md`: Phase別 GO/HOLD 判断基準。
+- `SHIKISHIMA_REAL_OPERATION_100_DEFINITION_OF_DONE.md`: 100% の DoD + 受け入れ区分。
+- `SHIKISHIMA_REAL_OPERATION_100_HUMAN_REVIEW_CHECKLIST.md`: 人間レビュー用チェックシート。
+- `SHIKISHIMA_REAL_OPERATION_100_LEVEL5_APPROVAL_FORMS.md`: Level 5 承認フォーム全種。
+- `SHIKISHIMA_REAL_OPERATION_100_RUNTIME_VISUAL_RECHECK_PLAN.md`: runtime 観察計画。
+- `SHIKISHIMA_REAL_OPERATION_100_COMMAND_CHAT_PLAN.md`: CC-03 実送信計画。
+- `SHIKISHIMA_REAL_OPERATION_100_HERMES_BRIDGE_PLAN.md`: HB-01 WSL2 接続計画。
+- `SHIKISHIMA_REAL_OPERATION_100_X_SEARCH_READ_ONLY_PLAN.md`: XS-01 read-only 計画。
+- `SHIKISHIMA_REAL_OPERATION_100_STACKCHAN_VOICE_MIC_CAMERA_PLAN.md`: Phase 9 物理/音声計画。
+- `SHIKISHIMA_REAL_OPERATION_100_FINAL_ACCEPTANCE_PLAN.md`: 最終受け入れフロー。
+- docs-only。runtime 未起動。push 未実施。
 
 ## v4.12.0 - 100% Roadmap Design Package
 
