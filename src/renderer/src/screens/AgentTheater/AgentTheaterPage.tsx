@@ -4,8 +4,10 @@
  * No execute/push/send buttons. Safety invariants via PageRightRail.
  * Design spec: AGENT_THEATER_IMPLEMENTATION_DESIGN.md
  * Phase: AT-13 (final visual polish / responsive pass)
+ * PXR-01: added ROOM tab (CSS isometric pixel room).
  */
 
+import { useState } from "react";
 import type { AgentPoseMap, PoseState, SlotStatus } from "../../types/agent-theater-types";
 import { SlotStatusBar } from "./SlotStatusBar";
 import { PageRightRail } from "../../components/Shell/PageRightRail";
@@ -15,6 +17,7 @@ import { ResumeQueuePanel } from "./ResumeQueuePanel";
 import { RunawayGuardPanel } from "./RunawayGuardPanel";
 import { WorkerRoutingPanel } from "./WorkerRoutingPanel";
 import { GateDashboardPanel } from "./GateDashboardPanel";
+import { PixelRoomView } from "./PixelRoom/PixelRoomView";
 
 function allPoses(pose: PoseState): AgentPoseMap {
   return {
@@ -89,6 +92,21 @@ export interface AgentTheaterPageProps {
   readonly lang?: "ja" | "en";
 }
 
+type TheaterView = "card" | "room";
+
+const TAB_STYLE_BASE: React.CSSProperties = {
+  fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
+  fontSize: 11,
+  letterSpacing: 1.5,
+  padding: "5px 14px",
+  border: "1px solid #21262d",
+  borderRadius: 4,
+  cursor: "pointer",
+  background: "transparent",
+  textTransform: "uppercase" as const,
+  transition: "color 0.15s, border-color 0.15s, background 0.15s",
+};
+
 export function AgentTheaterPage({
   decision,
   agentPoses,
@@ -97,6 +115,7 @@ export function AgentTheaterPage({
 }: AgentTheaterPageProps): React.JSX.Element {
   const poses = agentPoses ?? deriveAgentPoses(decision);
   const slots = slotStatuses ?? DEFAULT_SLOTS;
+  const [view, setView] = useState<TheaterView>("card");
 
   return (
     <div
@@ -106,11 +125,44 @@ export function AgentTheaterPage({
         overflowX: "hidden",
       }}
     >
-      <p style={{ ...SECTION_HEADING, marginBottom: 20 }}>
-        {lang === "ja" ? "管制室 · THEATER" : "CONTROL ROOM · THEATER"}
-      </p>
+      {/* Page title + view tab toggle */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8, marginBottom: 20 }}>
+        <p style={{ ...SECTION_HEADING, margin: 0 }}>
+          {lang === "ja" ? "管制室 · THEATER" : "CONTROL ROOM · THEATER"}
+        </p>
+        <div style={{ display: "flex", gap: 4 }}>
+          <button
+            style={{
+              ...TAB_STYLE_BASE,
+              color: view === "card" ? "#e6edf3" : "#6e7681",
+              borderColor: view === "card" ? "#58a6ff" : "#21262d",
+              background: view === "card" ? "rgba(88,166,255,0.08)" : "transparent",
+            }}
+            onClick={() => setView("card")}
+          >
+            {lang === "ja" ? "カード" : "CARD"}
+          </button>
+          <button
+            style={{
+              ...TAB_STYLE_BASE,
+              color: view === "room" ? "#e6edf3" : "#6e7681",
+              borderColor: view === "room" ? "#58a6ff" : "#21262d",
+              background: view === "room" ? "rgba(88,166,255,0.08)" : "transparent",
+            }}
+            onClick={() => setView("room")}
+          >
+            {lang === "ja" ? "部屋" : "ROOM"}
+          </button>
+        </div>
+      </div>
 
-      <div className="cc-operator-grid">
+      {/* ROOM view */}
+      {view === "room" && (
+        <PixelRoomView decision={decision} lang={lang} />
+      )}
+
+      {/* CARD view */}
+      {view === "card" && <div className="cc-operator-grid">
         <div className="cc-operator-main" style={{ display: "flex", flexDirection: "column", gap: 24, minWidth: 0 }}>
           <section style={SECTION_BLOCK} aria-label={lang === "ja" ? "管制室" : "Control room"}>
             <ControlRoomLayout decision={decision} poses={poses} lang={lang} />
@@ -165,7 +217,7 @@ export function AgentTheaterPage({
         >
           <PageRightRail decision={decision} lang={lang} />
         </aside>
-      </div>
+      </div>}
     </div>
   );
 }

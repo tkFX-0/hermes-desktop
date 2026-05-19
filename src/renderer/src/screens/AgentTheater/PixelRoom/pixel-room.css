@@ -1,0 +1,424 @@
+/* PXR-01 — 2.5D Pixel Room Styles
+ * CSS-only isometric / pixel art control room.
+ * No image assets. No external packages. Display-only.
+ */
+
+/* ── Root container ── */
+.pxr-root {
+  position: relative;
+  background: #0d1117;
+  border-radius: 8px;
+  border: 1px solid #21262d;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+/* ── Room header bar ── */
+.pxr-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px 8px;
+  border-bottom: 1px solid #1c2333;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pxr-header-title {
+  font-size: 11px;
+  letter-spacing: 1.8px;
+  color: #58a6ff;
+  text-transform: uppercase;
+}
+
+.pxr-header-badge {
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 2px;
+  border: 1px solid #21262d;
+  color: #6e7681;
+  white-space: nowrap;
+}
+
+/* ── Back wall (top backdrop) ── */
+.pxr-wall-back {
+  position: relative;
+  min-height: 52px;
+  background: linear-gradient(180deg, #080d18 0%, #0d1117 100%);
+  border-bottom: 2px solid #161b22;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* Wall grid lines */
+.pxr-wall-back::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(28, 35, 51, 0.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(28, 35, 51, 0.5) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* Wall scanline effect */
+.pxr-wall-back::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0, 0, 0, 0.08) 3px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+  pointer-events: none;
+}
+
+/* ── Wall decorations container ── */
+.pxr-wall-decor {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 6px 10px;
+}
+
+/* ── Wall panel: pixel monitor / whiteboard ── */
+.pxr-wall-panel {
+  width: 58px;
+  height: 38px;
+  border: 1.5px solid #1c2333;
+  border-radius: 2px;
+  background: #040d21;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  padding: 3px;
+  flex-shrink: 0;
+}
+
+.pxr-wall-panel-cell {
+  border-radius: 1px;
+  border: 1px solid #1c2333;
+}
+
+.pxr-wall-panel-cell.lit-blue {
+  background: #0c1d3a;
+  box-shadow: inset 0 0 4px rgba(88, 166, 255, 0.3);
+}
+
+.pxr-wall-panel-cell.lit-amber {
+  background: #1a1000;
+  box-shadow: inset 0 0 4px rgba(245, 158, 11, 0.3);
+}
+
+/* ── Dot matrix strip ── */
+.pxr-dot-strip {
+  height: 6px;
+  background-image: radial-gradient(circle, #21262d 1px, transparent 1px);
+  background-size: 8px 8px;
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+
+/* ── Side wall strip (left/right edge accents) ── */
+.pxr-side-walls {
+  display: flex;
+  gap: 0;
+  flex: 1;
+  min-height: 0;
+  position: relative;
+}
+
+.pxr-wall-left-strip {
+  width: 10px;
+  flex-shrink: 0;
+  background: linear-gradient(90deg, #080c14 0%, #0d1117 100%);
+  border-right: 1px solid #161b22;
+  position: relative;
+  overflow: hidden;
+}
+
+.pxr-wall-left-strip::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(28, 35, 51, 0.4) 1px, transparent 1px);
+  background-size: 100% 28px;
+}
+
+.pxr-wall-right-strip {
+  width: 10px;
+  flex-shrink: 0;
+  background: linear-gradient(270deg, #080c14 0%, #0d1117 100%);
+  border-left: 1px solid #161b22;
+  position: relative;
+  overflow: hidden;
+}
+
+.pxr-wall-right-strip::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(28, 35, 51, 0.4) 1px, transparent 1px);
+  background-size: 100% 28px;
+}
+
+/* ── Main floor area ── */
+.pxr-floor-area {
+  flex: 1;
+  position: relative;
+  padding: 10px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background:
+    linear-gradient(180deg, #0d1117 0%, #0a0f1a 100%);
+  overflow: hidden;
+  min-width: 0;
+}
+
+/* Floor tile grid (perspective effect) */
+.pxr-floor-area::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(28, 35, 51, 0.25) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(28, 35, 51, 0.25) 1px, transparent 1px);
+  background-size: 40px 40px;
+  transform: perspective(300px) rotateX(12deg);
+  transform-origin: center bottom;
+  pointer-events: none;
+}
+
+/* ── Station diamond layout ── */
+.pxr-stations {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pxr-row-top,
+.pxr-row-bot {
+  display: flex;
+  justify-content: center;
+}
+
+.pxr-row-top > *,
+.pxr-row-bot > * {
+  width: min(200px, 100%);
+}
+
+.pxr-row-mid {
+  display: grid;
+  grid-template-columns: 1fr 1.35fr 1fr;
+  gap: 8px;
+  align-items: start;
+}
+
+/* ── Command center wrap (shikishima) ── */
+.pxr-command-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.pxr-command-label {
+  font-size: 8px;
+  letter-spacing: 3px;
+  color: #58a6ff;
+  opacity: 0.75;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* ── Agent station card ── */
+.pxr-station {
+  background: rgba(22, 27, 34, 0.85);
+  border: 1px solid #21262d;
+  border-radius: 5px;
+  padding: 8px 6px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  position: relative;
+  backdrop-filter: blur(4px);
+  transition: border-color 0.2s ease;
+}
+
+/* Station desk base */
+.pxr-station::after {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  left: 10%;
+  right: 10%;
+  height: 3px;
+  background: #161b22;
+  border-radius: 0 0 3px 3px;
+  border: 1px solid #21262d;
+  border-top: none;
+}
+
+/* Command station (shikishima) — glowing border */
+.pxr-station.pxr-command {
+  border-color: #1d3557;
+  background: rgba(13, 29, 55, 0.4);
+  box-shadow:
+    0 0 16px rgba(88, 166, 255, 0.1),
+    inset 0 0 8px rgba(88, 166, 255, 0.04);
+}
+
+.pxr-station.pxr-command::after {
+  background: #1d2f48;
+  border-color: #1d3557;
+}
+
+/* Gate station (shizume) — red accent */
+.pxr-station.pxr-gate {
+  border-color: #3d1a18;
+}
+
+.pxr-station.pxr-gate::after {
+  background: #2d1210;
+  border-color: #3d1a18;
+}
+
+/* ── Station name & labels ── */
+.pxr-station-name {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  color: #e6edf3;
+  text-align: center;
+}
+
+.pxr-station-role {
+  font-size: 8px;
+  letter-spacing: 0.5px;
+  color: #8b949e;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.pxr-station-state {
+  font-size: 8px;
+  padding: 1px 5px;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+.pxr-station-state.idle {
+  color: #8b949e;
+  border: 1px solid #30363d;
+}
+
+.pxr-station-state.hold {
+  color: #f85149;
+  border: 1px solid rgba(248, 81, 73, 0.4);
+}
+
+/* ── Floor bottom perspective strip ── */
+.pxr-floor-strip {
+  height: 24px;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  transform: perspective(200px) rotateX(28deg);
+  transform-origin: center top;
+  background-image:
+    linear-gradient(rgba(33, 38, 45, 0.6) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(33, 38, 45, 0.6) 1px, transparent 1px);
+  background-size: 40px 20px;
+  background-color: #0a0f1a;
+  border-top: 1px solid #161b22;
+  margin-top: 4px;
+}
+
+/* ── Safety HUD strip ── */
+.pxr-hud {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 7px 12px;
+  border-top: 1px solid rgba(248, 81, 73, 0.5);
+  background: rgba(8, 10, 18, 0.97);
+  flex-shrink: 0;
+}
+
+.pxr-hud-label {
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: #6e7681;
+  margin-right: 2px;
+}
+
+.pxr-hud-badge {
+  font-size: 9px;
+  padding: 2px 7px;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+.pxr-hud-badge.danger {
+  color: #f85149;
+  border: 1px solid rgba(248, 81, 73, 0.35);
+}
+
+.pxr-hud-badge.warn {
+  color: #d29922;
+  border: 1px solid rgba(210, 153, 34, 0.35);
+}
+
+.pxr-hud-badge.neutral {
+  color: #6e7681;
+  border: 1px solid #21262d;
+}
+
+/* ── Pixel blink animation ── */
+@keyframes pxr-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.35; }
+}
+
+.pxr-blink {
+  animation: pxr-blink 2.4s ease-in-out infinite;
+}
+
+/* ── Corner pillar accents ── */
+.pxr-pillar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  background: linear-gradient(90deg, #161b22, #1c2333);
+  z-index: 2;
+}
+
+.pxr-pillar.left  { left: 0; }
+.pxr-pillar.right { right: 0; }
+
+/* ── Responsive: narrow viewport ── */
+@media (max-width: 499px) {
+  .pxr-row-mid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .pxr-row-top > *,
+  .pxr-row-bot > * {
+    width: 100%;
+  }
+  .pxr-command-label { display: none; }
+}
