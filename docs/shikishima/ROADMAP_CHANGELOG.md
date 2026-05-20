@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.20.0
+- roadmapVersion: v4.21.0
 - lastUpdated: 2026-05-20
-- latestUpdate: DIS-00 Discord Bridge gate design package — DIS-00 to DIS-04 plans, token/permission policy, STOP conditions, gate registry updated
-- baselineCommit: 6bb93bd
+- latestUpdate: XACC-00 X Account Integration gate design package — XACC-00 to XACC-04 plans, OAuth 2.0 PKCE scope policy, token policy, STOP conditions
+- baselineCommit: bbd81cc
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,20 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.21.0 - X Account Integration Gate Design Package (XACC-00)
+
+- `XACC_00_X_ACCOUNT_INTEGRATION_GATE_DESIGN.md`: XACC-00 to XACC-05 gate sequence, OAuth 2.0 PKCE policy, dedicated sub-account recommendation, core rule (passwordは渡さない).
+- `XACC_01_READ_ONLY_AUTH_SCOPE_PLAN.md`: minimum read-only scopes (tweet.read / users.read), PKCE flow design, token storage design, GO form.
+- `XACC_02_READ_ONLY_EXECUTION_PLAN.md`: one controlled read-only run, rate limit policy, evidence format.
+- `XACC_03_DRAFT_ONLY_POST_PLAN.md`: Level 1-4 draft generation, no X write, content policy.
+- `XACC_04_HUMAN_GO_WRITE_PLAN.md`: Level 5 one-shot write, verbatim content policy, pre-send checklist.
+- `X_ACCOUNT_TOKEN_AND_SCOPE_POLICY.md`: password NEVER policy, token storage, scope table, rate limit, rotation policy, developer guidelines compliance.
+- `X_ACCOUNT_STOP_CONDITIONS.md`: universal + phase-specific STOP conditions, post-STOP procedure.
+- `X_ACCOUNT_SELF_AUDIT.md`: docs-only diff confirmed.
+- `FUTURE_GATE_REGISTRY.md`: XACC-00 to XACC-05 gate series added.
+- `LEVEL5_BLOCKED_TASKS.md`: XACC-04 and XACC-OAUTH blocked task entries added.
+- No token created. No OAuth. No X connection. No runtime. push pending GO.
 
 ## v4.20.0 - Discord Bridge Gate Design Package (DIS-00)
 

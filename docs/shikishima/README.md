@@ -89,6 +89,14 @@ network flow.
 - `DISCORD_TOKEN_AND_PERMISSION_POLICY.md` - Discord token never-commit policy, minimum permissions, channel restriction.
 - `DISCORD_BRIDGE_STOP_CONDITIONS.md` - Discord Bridge universal + phase-specific STOP conditions.
 - `DISCORD_BRIDGE_SELF_AUDIT.md` - DIS-00 docs-only diff self audit (all safety checks false).
+- `XACC_00_X_ACCOUNT_INTEGRATION_GATE_DESIGN.md` - XACC-00 X account integration gate design: XACC-00 to XACC-05 sequence, sub-account recommendation, OAuth 2.0 PKCE policy.
+- `XACC_01_READ_ONLY_AUTH_SCOPE_PLAN.md` - XACC-01 read-only scope plan (HOLD — tweet.read/users.read, no connection).
+- `XACC_02_READ_ONLY_EXECUTION_PLAN.md` - XACC-02 one controlled read-only execution plan (HOLD).
+- `XACC_03_DRAFT_ONLY_POST_PLAN.md` - XACC-03 draft-only post/reply plan (Level 1-4, no X write).
+- `XACC_04_HUMAN_GO_WRITE_PLAN.md` - XACC-04 human GO write plan (Level 5, one post/reply, verbatim).
+- `X_ACCOUNT_TOKEN_AND_SCOPE_POLICY.md` - X account password-never policy, token storage, scope table, rate limit, rotation.
+- `X_ACCOUNT_STOP_CONDITIONS.md` - X account universal + phase-specific STOP conditions.
+- `X_ACCOUNT_SELF_AUDIT.md` - XACC-00 docs-only diff self audit.
 - `SHIKISHIMA_100_PERCENT_ROADMAP_DESIGN.md` - Phase 1–10 フェーズ設計書; 100%までの全計画.
 - `SHIKISHIMA_REMAINING_TASK_REGISTRY_TO_100.md` - DONE/HOLD/BLOCKED/FUTURE 全Task表.
 - `SHIKISHIMA_LEVEL5_GATE_PLAN_TO_100.md` - Level 5 全操作一覧 + 承認フォームテンプレート.

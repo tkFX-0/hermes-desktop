@@ -20,8 +20,8 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v4.20.0
-- latestUpdate: 2026-05-20 - DIS-00 Discord Bridge gate design package created (8 docs). DIS-00〜DIS-04 + token/permission policy + STOP conditions. No bot, no token, no connection.
+- roadmapVersion: v4.21.0
+- latestUpdate: 2026-05-20 - XACC-00 X Account Integration gate design package created (8 docs). XACC-00〜XACC-04 + OAuth PKCE scope policy + token policy + STOP conditions. No token, no OAuth, no X connection.
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: origin/main=2af99cf

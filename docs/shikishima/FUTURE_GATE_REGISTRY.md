@@ -149,6 +149,17 @@ These gates are display-only design records. They do not approve runtime,
 push, OAuth, x_search, Obsidian write, external write, productionReady true,
 or execution enabled.
 
+## X Account Integration Gates (XACC series)
+
+| Gate ID | Capability | Current Status | Required Before |
+|---|---|---|---|
+| XACC-00 | X Account Integration design | DESIGN (docs-only) | — |
+| XACC-01 | Read-only OAuth scope setup | HOLD | explicit XACC-01 GO |
+| XACC-02 | Read-only execution (1 run) | HOLD | XACC-01 PASS + xacc_read_go |
+| XACC-03 | Draft-only post/reply (local) | HOLD (Level 1-4) | XACC-02 PASS |
+| XACC-04 | Human GO write (1 post/reply) | HOLD (Level 5) | XACC-03 PASS + xacc_write_go |
+| XACC-05 | Limited auto post | DEFERRED (Level 5+) | XACC-04 PASS + template/loop policy |
+
 ## Discord Bridge Gates (DIS series)
 
 | Gate ID | Capability | Current Status | Required Before |

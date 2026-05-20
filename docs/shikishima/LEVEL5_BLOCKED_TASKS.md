@@ -52,6 +52,34 @@ ClaudeCode が単独で実行することはできません。
 
 ---
 
+## XACC-04 — X 実投稿/返信 (Human GO Write)
+
+| 項目 | 内容 |
+|---|---|
+| 内容 | 承認済みXアカウントから1回だけ投稿または返信する |
+| 現状 | 設計書のみ (XACC_04_HUMAN_GO_WRITE_PLAN.md) |
+| 必要な GO | Level 5 — 外部SNSへの書き込み |
+| 必要な承認スコープ | account_type / action_type / exact_content (verbatim) / 送信回数1回 |
+| 参照 | `XACC_04_HUMAN_GO_WRITE_PLAN.md` |
+
+**ブロック理由:** X投稿/返信 = 外部サービスへの書き込み = Level 5
+
+---
+
+## XACC-OAUTH — X OAuth 認証フロー開始
+
+| 項目 | 内容 |
+|---|---|
+| 内容 | OAuth 2.0 PKCE フローを開始してアクセストークンを取得 |
+| 現状 | 未実施 (XACC_01_READ_ONLY_AUTH_SCOPE_PLAN.md のみ) |
+| 必要な GO | Level 5 — 外部サービス認証 |
+| 必要な承認スコープ | account_type / requested_scopes / callback_url / token_storage_method |
+| 参照 | `X_ACCOUNT_TOKEN_AND_SCOPE_POLICY.md` |
+
+**ブロック理由:** OAuth + token発行 = 外部サービス認証 = Level 5
+
+---
+
 ## DIS-03 — Discord 実返信 (Human GO Reply)
 
 | 項目 | 内容 |
