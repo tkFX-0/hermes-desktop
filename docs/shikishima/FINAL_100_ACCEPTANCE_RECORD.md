@@ -71,6 +71,7 @@ blockers for the readiness acceptance process.
 | OB-01: Obsidian local write | ONE_SHOT_PASS 2026-05-20 — gate restored to HOLD | No |
 | DIS-01: Discord read-only intake | ONE_SHOT_PASS 2026-05-21 — gate restored to HOLD | No |
 | DIS-03: Discord one-shot reply | ONE_SHOT_PASS 2026-05-21 — gate restored to HOLD | No |
+| SC-FACE-05: StackChan display-only face test (Option A) | ONE_SHOT_PASS 2026-05-21 — iPhone AVATAR menu 向き+表情変更確認 | No |
 | OA-01: OAuth any provider | HOLD | No |
 | SC-01: StackChan physical | HOLD | No |
 | PROD: productionReady true | HOLD | No |

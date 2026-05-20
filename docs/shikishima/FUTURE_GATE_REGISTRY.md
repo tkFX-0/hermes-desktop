@@ -28,7 +28,7 @@ This registry only defines the approval boundaries.
 | SC-FACE-03 | Custom firmware feasibility gate | RESEARCH COMPLETE — build/flash HOLD | SC-FACE-03 write GO with all required fields |
 | SC-FACE-04 | StackChan 320x240 face asset spec | SPEC | human review before asset/test work |
 | SC-RESTORE-01 | StackChan factory restore / rollback plan | PLAN | required before any firmware/display test |
-| SC-FACE-05 | StackChan display-only face test GO draft | HOLD | SC-FACE-04 + SC-RESTORE-01 review + explicit human GO |
+| SC-FACE-05 | StackChan display-only face test GO draft | ONE_SHOT_PASS 2026-05-21 (Option A) — gate restored to HOLD | next: Shikishima face asset for AVATAR menu |
 | GATE-SC-PHYS-01 | StackChan physical motion | HOLD | GATE-SC-DISP-01 + physical Gate |
 | GATE-SC-CONN-01 | StackChan serial/USB/Wi-Fi connection | HOLD | GATE-SC-PHYS-01 |
 | GATE-VOICE-01 | voice output | HOLD | separate voice Gate |
