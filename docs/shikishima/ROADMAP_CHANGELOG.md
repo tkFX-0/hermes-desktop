@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.19.0
+- roadmapVersion: v4.20.0
 - lastUpdated: 2026-05-20
-- latestUpdate: XS-01 read-only PASS (1/1 run, gate closed); post-100 gate readiness docs remote-reflected
-- baselineCommit: 2af99cf
+- latestUpdate: DIS-00 Discord Bridge gate design package — DIS-00 to DIS-04 plans, token/permission policy, STOP conditions, gate registry updated
+- baselineCommit: 6bb93bd
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,20 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.20.0 - Discord Bridge Gate Design Package (DIS-00)
+
+- `DIS_00_DISCORD_BRIDGE_GATE_DESIGN.md`: DIS-00 through DIS-04 gate sequence, one-channel policy, core rule (AIは作るところまで／鍵と発射ボタンは人間).
+- `DIS_01_DISCORD_READ_ONLY_INTAKE_PLAN.md`: read-only intake, required GO fields, MESSAGE_CONTENT privileged intent policy.
+- `DIS_02_DISCORD_DRAFT_RESPONSE_PLAN.md`: local draft response, Level 1-4 candidate, no Discord write.
+- `DIS_03_DISCORD_HUMAN_GO_REPLY_PLAN.md`: Level 5 one-shot reply plan, verbatim content policy, pre-send checklist.
+- `DIS_04_DISCORD_LIMITED_AUTO_REPLY_DEFERRED.md`: DEFERRED — future template-only auto-reply concept, preconditions listed.
+- `DISCORD_TOKEN_AND_PERMISSION_POLICY.md`: token never-commit policy, minimum permission table, channel restriction, MESSAGE_CONTENT intent requirements.
+- `DISCORD_BRIDGE_STOP_CONDITIONS.md`: universal + phase-specific STOP conditions, post-STOP procedure.
+- `DISCORD_BRIDGE_SELF_AUDIT.md`: docs-only diff confirmed, all safety checklist items false.
+- `FUTURE_GATE_REGISTRY.md`: DIS-00 to DIS-04 gate series added.
+- `LEVEL5_BLOCKED_TASKS.md`: DIS-03/DIS-BOT/DIS-CON/DIS-04 blocked task entries added.
+- No bot created. No token. No Discord connection. No runtime. No push (pending push GO).
 
 ## v4.19.0 - Post-100 Gate Completions: AT-14 PASS / XS-01 Read-Only PASS
 

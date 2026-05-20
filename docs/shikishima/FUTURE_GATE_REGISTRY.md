@@ -149,6 +149,16 @@ These gates are display-only design records. They do not approve runtime,
 push, OAuth, x_search, Obsidian write, external write, productionReady true,
 or execution enabled.
 
+## Discord Bridge Gates (DIS series)
+
+| Gate ID | Capability | Current Status | Required Before |
+|---|---|---|---|
+| DIS-00 | Discord Bridge design | DESIGN (docs-only) | — |
+| DIS-01 | Discord read-only intake (one channel) | HOLD | explicit DIS-01 read-only GO |
+| DIS-02 | Discord draft response (local only) | HOLD | DIS-01 PASS |
+| DIS-03 | Discord human GO reply (one message) | HOLD (Level 5) | DIS-02 PASS + explicit DIS-03 GO |
+| DIS-04 | Discord limited auto-reply (template only) | DEFERRED (Level 5+) | DIS-03 PASS + template/loop policy |
+
 ## Required Statement
 
 No gate in this registry is approved.
@@ -156,7 +166,7 @@ This registry only records approval boundaries.
 All capabilities listed remain HOLD.
 productionReady remains false.
 execution remains disabled.
-_Updated: 2026-05-18 — added GHG and XS gate series_
+_Updated: 2026-05-20 — added DIS series (Discord Bridge gates)_
 
 ---
 

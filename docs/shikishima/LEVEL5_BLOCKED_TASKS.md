@@ -50,6 +50,64 @@ ClaudeCode が単独で実行することはできません。
 
 ---
 
+---
+
+## DIS-03 — Discord 実返信 (Human GO Reply)
+
+| 項目 | 内容 |
+|---|---|
+| 内容 | 承認済みDiscordチャンネルへ1回だけメッセージを送信する |
+| 現状 | 設計書のみ (DIS-03_DISCORD_HUMAN_GO_REPLY_PLAN.md) |
+| 必要な GO | Level 5 — 外部サービスへの書き込み |
+| 必要な承認スコープ | server_id / channel_id / 正確なメッセージ内容 / 送信回数1回 / rollback方法 |
+| 参照 | `DIS_03_DISCORD_HUMAN_GO_REPLY_PLAN.md` |
+
+**ブロック理由:** Discordへの書き込み = 外部サービスへの書き込み = Level 5
+
+---
+
+## DIS-BOT — Discord Bot Token セットアップ
+
+| 項目 | 内容 |
+|---|---|
+| 内容 | Discord Developer Portal でBot作成、token取得、ローカル保存 |
+| 現状 | 未実施 (設計書 DISCORD_TOKEN_AND_PERMISSION_POLICY.md のみ) |
+| 必要な GO | Level 5 — token発行と外部サービス接続 |
+| 必要な承認スコープ | Bot作成GO / token storage policy / 専用チャンネル確認 |
+| 参照 | `DISCORD_TOKEN_AND_PERMISSION_POLICY.md` |
+
+**ブロック理由:** Botトークンは外部サービス認証情報 = Level 5
+
+---
+
+## DIS-CON — Discord Gateway 接続
+
+| 項目 | 内容 |
+|---|---|
+| 内容 | Discord Gateway への接続を開始 (read-only) |
+| 現状 | 未実施 (DIS-01 HOLD) |
+| 必要な GO | DIS-01 read-only GO + time_window |
+| 必要な承認スコープ | server_id / channel_id / intent設定 / 接続時間 |
+| 参照 | `DIS_01_DISCORD_READ_ONLY_INTAKE_PLAN.md` |
+
+**ブロック理由:** 外部サービス接続 = Level 5-ish
+
+---
+
+## DIS-04 — Discord 自動返信 (Limited Auto-reply)
+
+| 項目 | 内容 |
+|---|---|
+| 内容 | 定型文のみの限定的な自動返信 |
+| 現状 | DEFERRED — DIS-01/02/03 PASS後に検討 |
+| 必要な GO | Level 5+ + template whitelist + loop prevention |
+| 必要な承認スコープ | template一覧 / trigger条件 / rate limit / kill switch |
+| 参照 | `DIS_04_DISCORD_LIMITED_AUTO_REPLY_DEFERRED.md` |
+
+**ブロック理由:** 自動外部書き込み = Level 5+ / 現在 DEFERRED
+
+---
+
 ## 次アクション
 
 人間が以下を判断・承認したときに各タスクを開始できます：
@@ -58,7 +116,12 @@ ClaudeCode が単独で実行することはできません。
 |---|---|
 | CC-03 | 「CC-03 Command Chat 送信 GO: 送信先=[endpoint], scope=[...]」と明示 |
 | HB-01 | 「HB-01 Hermes Bridge GO: WSL2 command=[...], port=[...]」と明示 |
-| XS-01 | 「XS-READ GO: source=[...], topic=[...], read-only window=[...]」と明示 |
+| XS-01 (次回) | 「XS-READ GO: source=[...], topic=[...], read-only window=[...]」と明示 |
+| DIS-BOT | 「Discord Bot 作成 GO: 専用チャンネル=[...], token storage=[...]」と明示 |
+| DIS-01 | 「DIS-01 read-only GO: server=[...], channel=[...], time_window=[...]」と明示 |
+| DIS-03 | 「DIS-03 reply GO: exact_message=[...], channel=[...]」と明示 |
 
 AIは作るところまで。
 鍵と発射ボタンは人間。
+
+**更新:** 2026-05-20 — Discord Bridge (DIS series) 追加

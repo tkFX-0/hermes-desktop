@@ -20,8 +20,8 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v4.19.0
-- latestUpdate: 2026-05-20 - XS-01 read-only PASS (1/1 run, gate closed). Post-100 gate readiness docs (XS-01/HB-01/CC-03) remote-reflected.
+- roadmapVersion: v4.20.0
+- latestUpdate: 2026-05-20 - DIS-00 Discord Bridge gate design package created (8 docs). DIS-00〜DIS-04 + token/permission policy + STOP conditions. No bot, no token, no connection.
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: origin/main=2af99cf

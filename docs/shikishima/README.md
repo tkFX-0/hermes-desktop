@@ -81,6 +81,14 @@ network flow.
 - `HB_01_GATE_READINESS.md` - HB-01 Hermes/WSL gate readiness (HOLD — designReadyNoExecution, activation prerequisites listed).
 - `CC_03_GATE_READINESS.md` - CC-03 Command Chat real-send gate readiness (HOLD — local-only, real-send prerequisites listed).
 - `XS_01_READ_ONLY_EXECUTION_EVIDENCE_2026-05-20.md` - XS-01 read-only execution PASS evidence 2026-05-20 (1/1 run, gate closed; Android Halo design signal confirmed).
+- `DIS_00_DISCORD_BRIDGE_GATE_DESIGN.md` - DIS-00 Discord Bridge gate design: phase sequence DIS-00 to DIS-04, one-channel policy, core rule.
+- `DIS_01_DISCORD_READ_ONLY_INTAKE_PLAN.md` - DIS-01 read-only intake plan (HOLD — read channel only, no send).
+- `DIS_02_DISCORD_DRAFT_RESPONSE_PLAN.md` - DIS-02 draft response plan (Level 1-4, no Discord write).
+- `DIS_03_DISCORD_HUMAN_GO_REPLY_PLAN.md` - DIS-03 human GO reply plan (Level 5, one message, verbatim).
+- `DIS_04_DISCORD_LIMITED_AUTO_REPLY_DEFERRED.md` - DIS-04 limited auto-reply (DEFERRED — Level 5+, future candidate).
+- `DISCORD_TOKEN_AND_PERMISSION_POLICY.md` - Discord token never-commit policy, minimum permissions, channel restriction.
+- `DISCORD_BRIDGE_STOP_CONDITIONS.md` - Discord Bridge universal + phase-specific STOP conditions.
+- `DISCORD_BRIDGE_SELF_AUDIT.md` - DIS-00 docs-only diff self audit (all safety checks false).
 - `SHIKISHIMA_100_PERCENT_ROADMAP_DESIGN.md` - Phase 1–10 フェーズ設計書; 100%までの全計画.
 - `SHIKISHIMA_REMAINING_TASK_REGISTRY_TO_100.md` - DONE/HOLD/BLOCKED/FUTURE 全Task表.
 - `SHIKISHIMA_LEVEL5_GATE_PLAN_TO_100.md` - Level 5 全操作一覧 + 承認フォームテンプレート.
