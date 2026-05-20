@@ -75,6 +75,12 @@ network flow.
 - `SHIKISHIMA_FINAL_VERIFICATION_PROCESS_TO_100.md` - final verification process from current near-complete state to real-operation readiness 100%.
 - `PXR_POST_100_DEFER_RECORD.md` - records Pixel Room / character-design polish as post-100 deferred work.
 - `POST_100_CANDIDATE_GATE_PROCESS_DESIGN.md` - post-100 candidate process for PXR polish, AT-14 runtime visual confirmation, CC-03, HB-01, and XS-01 gates.
+- `FINAL_100_ACCEPTANCE_RECORD.md` - Shikishima real-operation readiness 100% acceptance record (PASS_WITH_CAVEAT, tk 2026-05-20).
+- `AT_14_ROOM_VISUAL_EVIDENCE.md` - AT-14 runtime visual confirmation PASS evidence (tk 2026-05-20).
+- `XS_01_GATE_READINESS.md` - XS-01 x_search read-only gate readiness (HOLD — not implemented, prerequisites listed).
+- `HB_01_GATE_READINESS.md` - HB-01 Hermes/WSL gate readiness (HOLD — designReadyNoExecution, activation prerequisites listed).
+- `CC_03_GATE_READINESS.md` - CC-03 Command Chat real-send gate readiness (HOLD — local-only, real-send prerequisites listed).
+- `XS_01_READ_ONLY_EXECUTION_EVIDENCE_2026-05-20.md` - XS-01 read-only execution PASS evidence 2026-05-20 (1/1 run, gate closed; Android Halo design signal confirmed).
 - `SHIKISHIMA_100_PERCENT_ROADMAP_DESIGN.md` - Phase 1–10 フェーズ設計書; 100%までの全計画.
 - `SHIKISHIMA_REMAINING_TASK_REGISTRY_TO_100.md` - DONE/HOLD/BLOCKED/FUTURE 全Task表.
 - `SHIKISHIMA_LEVEL5_GATE_PLAN_TO_100.md` - Level 5 全操作一覧 + 承認フォームテンプレート.

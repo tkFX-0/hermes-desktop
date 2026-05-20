@@ -20,13 +20,13 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v4.18.0
-- latestUpdate: 2026-05-20 - Post-100 candidate gate process defined.
+- roadmapVersion: v4.19.0
+- latestUpdate: 2026-05-20 - XS-01 read-only PASS (1/1 run, gate closed). Post-100 gate readiness docs (XS-01/HB-01/CC-03) remote-reflected.
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
-- current HEAD: origin/main=75e690b
-- validation road: Gate 001-007 ✓; AT-07〜AT-15 PASS; CC-01/02 PASS; UI-01/02 PASS; 100% Roadmap docs完成
-- current next human action: decide whether to issue AT-14 runtime visual confirmation GO as the first post-100 candidate.
+- current HEAD: origin/main=2af99cf
+- validation road: Gate 001-007 ✓; AT-07〜AT-15 PASS; CC-01/02 PASS; UI-01/02 PASS; 100% Roadmap docs完成; AT-14 runtime PASS; XS-01 read-only PASS
+- current next human action: issue PXR-POLISH-GO for Pixel Room polish, or HB-01 GO in home environment.
 - HOLD reason: productionReady false; execution disabled; Level 5 actions require explicit human GO
 
 ## Agent Theater — 完了済み
@@ -70,7 +70,7 @@ creating productivity pressure or autonomous acceleration.
 | UI-01 | ウィンドウサイズ記憶 / zoom 初期値設定 | 低 | Level 4 |
 | UI-02 | ダークモード / ライトモード切り替え完全対応 | 低 | Level 4 |
 | HB-01 | Hermes Bridge 接続 (WSL2 → desktop) | 高 | Level 5 |
-| XS-01 | x_search read-only Gate (XS-READ) 実装 | 低 | XS-READ GO |
+| XS-01 | x_search read-only Gate — readiness docs done / 1st run PASS / gate closed | 低 | 次回 xs_read_go 必要 |
 
 ## 次アクション
 

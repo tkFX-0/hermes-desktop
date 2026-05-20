@@ -27,11 +27,12 @@ It does NOT approve:
 | Task | Status | Document |
 |---|---|---|
 | T1: PXR post-100 defer | COMPLETE | `PXR_POST_100_DEFER_RECORD.md` |
-| T2: AT-14 Room visual evidence | CODE_VERIFIED | `AT_14_ROOM_VISUAL_EVIDENCE.md` |
+| T2: AT-14 Room visual evidence | PASS (runtime confirmed tk 2026-05-20) | `AT_14_ROOM_VISUAL_EVIDENCE.md` |
 | T3: CC live snapshot evidence | PASS | `CC_LIVE_SNAPSHOT_EVIDENCE.md` |
 | T4: UI/UX evidence | PASS | `UI_UX_EVIDENCE.md` |
 | T5: Phase 9 gate docs | COMPLETE | `PHASE_9_GATE_DOCS.md` |
-| T6: This acceptance record | PENDING human sign-off | this document |
+| T6: This acceptance record | COMPLETE (tk 2026-05-20) | this document |
+| T7: XS-01 read-only PASS | PASS — gate closed | `XS_01_READ_ONLY_EXECUTION_EVIDENCE_2026-05-20.md` |
 
 ---
 
@@ -66,12 +67,29 @@ blockers for the readiness acceptance process.
 |---|---|---|
 | CC-03: Command Chat real send | HOLD | No |
 | HB-01: Hermes Bridge WSL2 | HOLD | No |
-| XS-01: x_search read-only | HOLD | No |
+| XS-01: x_search read-only | PASS — gate closed 2026-05-20 | No |
 | OB-01: Obsidian local write | HOLD | No |
 | OA-01: OAuth any provider | HOLD | No |
 | SC-01: StackChan physical | HOLD | No |
 | PROD: productionReady true | HOLD | No |
 | EXEC: execution enabled | HOLD | No |
+
+---
+
+## Post-100 Gate Completions
+
+| Gate | Result | Evidence | Date |
+|---|---|---|---|
+| AT-14: runtime visual confirmation | PASS | `AT_14_ROOM_VISUAL_EVIDENCE.md` | 2026-05-20 |
+| XS-01: x_search read-only (1/1 run) | PASS | `XS_01_READ_ONLY_EXECUTION_EVIDENCE_2026-05-20.md` | 2026-05-20 |
+
+XS-01 gate is closed (1/1 run consumed). Next x_search requires a separate xs_read_go.
+AT-14 runtime visual confirmed by tk 2026-05-20 via npm run dev.
+
+HOLD maintained:
+- HB-01 Hermes/WSL: HOLD
+- CC-03 Command Chat real-send: HOLD
+- All other Level 5 gates: HOLD
 
 ---
 
