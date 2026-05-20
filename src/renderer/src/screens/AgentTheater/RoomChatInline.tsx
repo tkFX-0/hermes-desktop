@@ -14,36 +14,61 @@ interface RoomChatInlineProps {
   readonly lang?: "ja" | "en";
 }
 
-function Bubble({ message, lang = "ja" }: { message: LocalChatMessage; lang?: "ja" | "en" }): React.JSX.Element {
+function Bubble({
+  message,
+  lang = "ja",
+}: {
+  message: LocalChatMessage;
+  lang?: "ja" | "en";
+}): React.JSX.Element {
   const isUser = message.role === "user";
   const time = new Date(message.timestampUnixMs).toLocaleTimeString(
     lang === "ja" ? "ja-JP" : "en-US",
     { hour: "2-digit", minute: "2-digit" },
   );
   return (
-    <div style={{ display: "flex", flexDirection: "column" as const, alignItems: isUser ? "flex-end" : "flex-start", gap: 2 }}>
-      <div style={{
-        maxWidth: "85%",
-        padding: "6px 10px",
-        background: isUser ? "#1d3a6e" : "#161b22",
-        color: isUser ? "#cae0ff" : "#c9d1d9",
-        border: `1px solid ${isUser ? "#2a4a8a" : "#21262d"}`,
-        borderRadius: isUser ? "8px 8px 2px 8px" : "8px 8px 8px 2px",
-        fontFamily: '"Noto Sans JP", "Hiragino Sans", system-ui, sans-serif',
-        fontSize: 12,
-        lineHeight: 1.5,
-        wordBreak: "break-word" as const,
-      }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column" as const,
+        alignItems: isUser ? "flex-end" : "flex-start",
+        gap: 2,
+      }}
+    >
+      <div
+        style={{
+          maxWidth: "85%",
+          padding: "6px 10px",
+          background: isUser ? "#1d3a6e" : "#161b22",
+          color: isUser ? "#cae0ff" : "#c9d1d9",
+          border: `1px solid ${isUser ? "#2a4a8a" : "#21262d"}`,
+          borderRadius: isUser ? "8px 8px 2px 8px" : "8px 8px 8px 2px",
+          fontFamily: '"Noto Sans JP", "Hiragino Sans", system-ui, sans-serif',
+          fontSize: 12,
+          lineHeight: 1.5,
+          wordBreak: "break-word" as const,
+        }}
+      >
         {message.content}
       </div>
-      <span style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: 9, color: "#6e7681" }}>
+      <span
+        style={{
+          fontFamily: '"IBM Plex Mono", monospace',
+          fontSize: 9,
+          color: "#6e7681",
+        }}
+      >
         {isUser ? "you" : "しきしま"} · {time}
       </span>
     </div>
   );
 }
 
-export function RoomChatInline({ messages, onSend, lang = "ja" }: RoomChatInlineProps): React.JSX.Element {
+export function RoomChatInline({
+  messages,
+  onSend,
+  lang = "ja",
+}: RoomChatInlineProps): React.JSX.Element {
   const [historyOpen, setHistoryOpen] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -76,11 +101,21 @@ export function RoomChatInline({ messages, onSend, lang = "ja" }: RoomChatInline
           }}
         >
           {messages.length === 0 ? (
-            <span style={{ fontFamily: '"Noto Sans JP", system-ui, sans-serif', fontSize: 11, color: "#484f58", textAlign: "center" as const, padding: "16px 0" }}>
+            <span
+              style={{
+                fontFamily: '"Noto Sans JP", system-ui, sans-serif',
+                fontSize: 11,
+                color: "#484f58",
+                textAlign: "center" as const,
+                padding: "16px 0",
+              }}
+            >
               {lang === "ja" ? "まだメッセージはありません" : "No messages yet"}
             </span>
           ) : (
-            messages.map((msg) => <Bubble key={msg.id} message={msg} lang={lang} />)
+            messages.map((msg) => (
+              <Bubble key={msg.id} message={msg} lang={lang} />
+            ))
           )}
           <div ref={bottomRef} aria-hidden />
         </div>
@@ -106,7 +141,9 @@ export function RoomChatInline({ messages, onSend, lang = "ja" }: RoomChatInline
         <button
           type="button"
           onClick={() => setHistoryOpen((h) => !h)}
-          aria-label={historyOpen ? "チャット履歴を閉じる" : "チャット履歴を開く"}
+          aria-label={
+            historyOpen ? "チャット履歴を閉じる" : "チャット履歴を開く"
+          }
           style={{
             background: historyOpen ? "#161b22" : "none",
             border: "none",
@@ -130,7 +167,9 @@ export function RoomChatInline({ messages, onSend, lang = "ja" }: RoomChatInline
           <span>履歴</span>
           <span style={{ fontSize: 8 }}>{historyOpen ? "▲" : "▼"}</span>
           {messages.length > 0 && (
-            <span style={{ fontSize: 9, color: "#3fb950", marginTop: 1 }}>{messages.length}</span>
+            <span style={{ fontSize: 9, color: "#3fb950", marginTop: 1 }}>
+              {messages.length}
+            </span>
           )}
         </button>
       </div>
