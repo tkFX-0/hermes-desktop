@@ -12,6 +12,7 @@ import { RoomChatInline } from "./RoomChatInline";
 import { WorkerEnvironmentPanel } from "./WorkerEnvironmentPanel";
 import { XSearchAutomationPanel } from "./XSearchAutomationPanel";
 import { DiscordInboxPanel } from "./DiscordInboxPanel";
+import { DiscordDraftPanel } from "./DiscordDraftPanel";
 import { HumanGateStatusPanel } from "./HumanGateStatusPanel";
 
 function allPoses(pose: PoseState): AgentPoseMap {
@@ -61,6 +62,7 @@ export function AgentTheaterPage({
       <WorkerEnvironmentPanel lang={lang} />
       <XSearchAutomationPanel lang={lang} />
       <DiscordInboxPanel lang={lang} />
+      <DiscordDraftPanel lang={lang} />
       <HumanGateStatusPanel lang={lang} />
     </div>
   );
