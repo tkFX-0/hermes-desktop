@@ -83,11 +83,12 @@ ClaudeCode が単独で実行することはできません。
 | 項目 | 内容 |
 |---|---|
 | 内容 | OB-01 gate GO 後に Shikishima からの vault 直接書き込みを有効化 |
-| 現状 | HOLD — localWriteEnabled: false (型強制) |
-| 必要な GO | ob01_local_write_go |
+| 現状 | **ONE_SHOT_PASS** — 2026-05-20 one-shot test 成功 / OB01_DRY_RUN=true に復元済み |
+| 証跡 | `OB01_WRITE_EVIDENCE_2026-05-20.md` / `shikishima-library/30_Evidence/2026-05-20_ob01-local-write-test.md` |
+| 次回書き込み | 新規 ob01_local_write_go が必要 |
 | 参照 | `OBS_LIB_04_LOCAL_WRITE_GATE_POLICY.md` |
 
-**ブロック理由:** ローカルファイルシステム書き込み = OB-01 gate 必要
+**状態:** 30_Evidence/ へのパス疎通確認済み。次回はファイル内容 + GO 発行が必要。
 
 ---
 
@@ -109,12 +110,12 @@ ClaudeCode が単独で実行することはできません。
 | 項目 | 内容 |
 |---|---|
 | 内容 | しきしまが承認済み Vault フォルダにのみ Markdown を書き込む |
-| 現状 | HOLD (LIB_03_OBSIDIAN_LOCAL_WRITE_GATE.md) |
-| 必要な GO | ob01_local_write_go |
-| 必要な承認スコープ | vault_path / allowed_folders / note_type / rawValues check |
+| 現状 | **ONE_SHOT_PASS** — IPC 実装済み / 30_Evidence/ パス疎通確認済み / OB01_DRY_RUN=true 復元 |
+| 証跡 | `OB01_WRITE_EVIDENCE_2026-05-20.md` |
+| 次の GO | 実運用書き込みには新規 ob01_local_write_go |
 | 参照 | `LIB_03_OBSIDIAN_LOCAL_WRITE_GATE.md` |
 
-**ブロック理由:** ローカルファイルシステム書き込み = Level 5 相当
+**状態:** gate path 確認済み。実運用には内容確認 + GO 発行が必要。
 
 ---
 

@@ -159,7 +159,7 @@ or execution enabled.
 |---|---|---|---|
 | L4-CONFIRM | Level 4 final confirmation | PASS (2026-05-20) | — |
 | L5-READY | Level 5 transition readiness | DESIGN (2026-05-20) | L4-CONFIRM PASS |
-| L5-OB-01 | Obsidian local write | IPC IMPLEMENTED (OB01_DRY_RUN=true) — awaiting ob01_local_write_go | ob01_local_write_go |
+| L5-OB-01 | Obsidian local write | ONE_SHOT_PASS 2026-05-20 — gate restored to HOLD (OB01_DRY_RUN=true) | new ob01_local_write_go for next write |
 | L5-DIS-01 | Discord read-only intake | IPC IMPLEMENTED (DIS01_HOLD=true) — awaiting dis01_read_only_go | dis01_read_only_go |
 | L5-XS-AUTO | XS-AUTO one-shot read-only | HOLD | xs_auto_read_go |
 | L5-HB-01 | Hermes/WSL connection | HOLD | hb01_hermes_wsl_go |
@@ -180,7 +180,7 @@ or execution enabled.
 | OBS-LIB-01 | Vault path configuration | DESIGN | human vault setup |
 | OBS-LIB-02 | Markdown export | IMPLEMENTED (dry-run) | ob01_local_write_go for real write |
 | OBS-LIB-03 | Report image (PNG) export | HOLD | Electron capturePage + OB-01 |
-| OBS-LIB-04 | Local write gate activation | HOLD | ob01_local_write_go |
+| OBS-LIB-04 | Local write gate activation | ONE_SHOT_PASS 2026-05-20 — gate restored to HOLD | new ob01_local_write_go |
 | OBS-LIB-05 | Full Obsidian write operation | HOLD | OBS-LIB-04 PASS |
 | OBS-LIB-06 | Library index / RAG | HOLD | OBS-LIB-05 PASS + index GO |
 
