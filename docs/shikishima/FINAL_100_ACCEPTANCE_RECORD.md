@@ -2,7 +2,7 @@
 
 **date:** 2026-05-20
 **worker:** ClaudeCode
-**status:** EVIDENCE_COMPLETE — awaiting human final acceptance
+**status:** PASS_WITH_CAVEAT — human sign-off complete 2026-05-20
 
 ---
 
@@ -121,20 +121,31 @@ Real-operation readiness 100% means:
 
 ---
 
-## Human Acceptance Sign-Off (required)
+## Human Acceptance Sign-Off
 
-When the human reviewer is satisfied, fill in:
+Decision: PASS_WITH_CAVEAT
 
-```yaml
-final_acceptance:
-  reviewer:
-  date:
-  visual_check_completed: true/false
-  level_5_gates_understood_as_hold: true/false
-  deferred_items_understood: true/false
-  readiness_confirmed: true/false
-  notes: ""
-```
+Accepted Scope:
+- Shikishima real-operation readiness 100% is accepted as a controlled readiness state.
+- Level 1-4 implementation, UI, evidence, and safety gate documentation are accepted.
+- Level 5 actions remain HOLD and require separate explicit human GO.
+- productionReady remains false.
+- execution remains disabled.
+- rawValuesReported remains false.
+
+Caveat:
+- AT-14 / Room visual evidence is accepted as CODE_VERIFIED.
+- Full runtime human visual confirmation may be performed later under a separate
+  time_window GO if needed.
+- This acceptance does not approve runtime start, external writes, x_search,
+  OAuth, Hermes/WSL connection, Command Chat actual sending, StackChan physical
+  operation, voice, mic, camera, productionReady true, or execution enabled.
+
+Final Human Decision:
+- Accept controlled real-operation readiness 100% with Level 5 gates held.
+
+Reviewer: tk
+Date: 2026-05-20
 
 ---
 
