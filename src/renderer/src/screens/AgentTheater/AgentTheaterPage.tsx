@@ -9,6 +9,7 @@ import type { AgentPoseMap, PoseState, SlotStatus } from "../../types/agent-thea
 import type { LocalChatMessage } from "../../types/service-contracts";
 import { PixelRoomStage } from "./PixelRoomStage";
 import { RoomChat } from "./PixelRoom/RoomChat";
+import { WorkerEnvironmentPanel } from "./WorkerEnvironmentPanel";
 
 function allPoses(pose: PoseState): AgentPoseMap {
   return { shikishima: pose, shizume: pose, hajime: pose, tsumugi: pose, shirube: pose };
@@ -49,6 +50,7 @@ export function AgentTheaterPage({
   return (
     <div style={{ padding: "var(--page-pd-v, 16px) var(--page-pd-h, 20px)", minHeight: 0, overflowX: "hidden" }}>
       <PixelRoomStage decision={decision} poses={poses} lang={lang} />
+      <WorkerEnvironmentPanel lang={lang} />
       {onSend && (
         <RoomChat messages={messages} onSend={onSend} lang={lang} />
       )}

@@ -97,6 +97,13 @@ network flow.
 - `X_ACCOUNT_TOKEN_AND_SCOPE_POLICY.md` - X account password-never policy, token storage, scope table, rate limit, rotation.
 - `X_ACCOUNT_STOP_CONDITIONS.md` - X account universal + phase-specific STOP conditions.
 - `X_ACCOUNT_SELF_AUDIT.md` - XACC-00 docs-only diff self audit.
+- `WK_00_CONTROLLED_WORKER_ENVIRONMENT_DESIGN.md` - WK-00 controlled worker environment design: copy-only/human-bridge, Level 4 max AI, Level 5 human gate.
+- `WK_01_CODEX_WORKER_BOUNDARY.md` - WK-01 Codex worker boundary (human-mediated only, remote control HOLD).
+- `WK_02_CLAUDECODE_WORKER_BOUNDARY.md` - WK-02 ClaudeCode worker boundary (human-mediated only, MCP/hooks/daemon HOLD).
+- `WK_03_WORKER_TASK_QUEUE_PLAN.md` - WK-03 worker task queue states and transitions.
+- `WK_04_WORKER_PROMPT_EXPORT_PLAN.md` - WK-04 copy-only prompt export plan and safety statement.
+- `WK_WORKER_AUTOMATION_HOLD_POLICY.md` - full automation HOLD policy (auto-launch/remote control/MCP/hooks/daemon).
+- `WK_CONTROLLED_WORKER_ENVIRONMENT_EVIDENCE.md` - WK-00 implementation evidence (typecheck PASS, display-only, all safety flags false).
 - `SHIKISHIMA_100_PERCENT_ROADMAP_DESIGN.md` - Phase 1–10 フェーズ設計書; 100%までの全計画.
 - `SHIKISHIMA_REMAINING_TASK_REGISTRY_TO_100.md` - DONE/HOLD/BLOCKED/FUTURE 全Task表.
 - `SHIKISHIMA_LEVEL5_GATE_PLAN_TO_100.md` - Level 5 全操作一覧 + 承認フォームテンプレート.

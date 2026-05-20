@@ -52,6 +52,45 @@ ClaudeCode が単独で実行することはできません。
 
 ---
 
+## WK-05 — Worker 自動実行アダプター
+
+| 項目 | 内容 |
+|---|---|
+| 内容 | Shikishima が自動的に Codex / ClaudeCode を起動・実行する |
+| 現状 | HOLD (WK_WORKER_AUTOMATION_HOLD_POLICY.md) |
+| 必要な GO | WK-05 Gate GO + remote control / MCP / API token policy |
+| 参照 | `WK_WORKER_AUTOMATION_HOLD_POLICY.md` |
+
+**ブロック理由:** worker自動実行 = 実行制御の外部委譲 = Level 5
+
+---
+
+## WK-06 — Remote Control (Codex / ClaudeCode)
+
+| 項目 | 内容 |
+|---|---|
+| 内容 | Codex Remote Control または ClaudeCode CLI を Shikishima から制御 |
+| 現状 | HOLD |
+| 必要な GO | WK-05 PASS + WK-06 remote control GO |
+| 参照 | `WK_02_CLAUDECODE_WORKER_BOUNDARY.md` / `WK_01_CODEX_WORKER_BOUNDARY.md` |
+
+**ブロック理由:** remote shell/API制御 = Level 5
+
+---
+
+## WK-07 — MCP / Hook / Daemon 実行
+
+| 項目 | 内容 |
+|---|---|
+| 内容 | MCP接続・shell hook実行・daemon worker起動 |
+| 現状 | HOLD |
+| 必要な GO | WK-06 PASS + MCP/hook/daemon GO |
+| 参照 | `WK_WORKER_AUTOMATION_HOLD_POLICY.md` |
+
+**ブロック理由:** 任意コマンド実行 = Level 5
+
+---
+
 ## XACC-04 — X 実投稿/返信 (Human GO Write)
 
 | 項目 | 内容 |

@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.21.0
+- roadmapVersion: v4.22.0
 - lastUpdated: 2026-05-20
-- latestUpdate: XACC-00 X Account Integration gate design package — XACC-00 to XACC-04 plans, OAuth 2.0 PKCE scope policy, token policy, STOP conditions
-- baselineCommit: bbd81cc
+- latestUpdate: WK-00 Controlled Worker Environment — display-only UI (4 envs + queue + prompt preview) + 7 design docs. Codex/ClaudeCode are copy-only/human-bridge. Auto-execution HOLD.
+- baselineCommit: a4aaf0f
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,23 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.22.0 - Controlled Worker Environment Display (WK-00)
+
+- `WorkerEnvironmentPanel.tsx`: 4 worker environments (ClaudeCode/Codex/Human Gate/Future Adapter), execution mode chips, human-bridge notice. Display-only.
+- `WorkerTaskQueuePanel.tsx`: 5 example tasks with provider/level/status/mode. Display-only.
+- `WorkerPromptPreview.tsx`: copy-only prompt block. No send. Human bridge.
+- `WorkerEnvironmentCard.tsx`: individual environment card with status/mode/notes.
+- `worker-environment-types.ts`: WorkerProvider / WorkerEnvironmentStatus / WorkerExecutionMode / ControlledWorkerTask / ControlledWorkerEnvironment types.
+- `AgentTheaterPage.tsx`: WorkerEnvironmentPanel added below PixelRoomStage.
+- `WK_00_CONTROLLED_WORKER_ENVIRONMENT_DESIGN.md`: copy-only/human-bridge model, Level 4 max AI, Level 5 human gate.
+- `WK_01_CODEX_WORKER_BOUNDARY.md`: Codex human-mediated only, remote control HOLD.
+- `WK_02_CLAUDECODE_WORKER_BOUNDARY.md`: ClaudeCode human-mediated only, MCP/hooks/daemon HOLD.
+- `WK_03_WORKER_TASK_QUEUE_PLAN.md`: task states, transitions, no auto-retry, no auto-escalation.
+- `WK_04_WORKER_PROMPT_EXPORT_PLAN.md`: copy-only prompt contents, safety statement, human bridge.
+- `WK_WORKER_AUTOMATION_HOLD_POLICY.md`: full HOLD list — auto-launch/remote control/MCP/hooks/daemon/API tokens.
+- `WK_CONTROLLED_WORKER_ENVIRONMENT_EVIDENCE.md`: typecheck PASS, display-only verified, all safety flags false.
+- typecheck:web PASS. No package changes. No runtime. No push.
 
 ## v4.21.0 - X Account Integration Gate Design Package (XACC-00)
 

@@ -20,8 +20,8 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v4.21.0
-- latestUpdate: 2026-05-20 - XACC-00 X Account Integration gate design package created (8 docs). XACC-00〜XACC-04 + OAuth PKCE scope policy + token policy + STOP conditions. No token, no OAuth, no X connection.
+- roadmapVersion: v4.22.0
+- latestUpdate: 2026-05-20 - WK-00 Controlled Worker Environment display added to Agent Theater. 4 workers + queue + copy-only prompt preview. typecheck:web PASS. Codex/ClaudeCode: copy-only/human-bridge. Auto-execution HOLD.
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: origin/main=2af99cf

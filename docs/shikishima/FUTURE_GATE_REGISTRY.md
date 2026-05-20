@@ -149,6 +149,19 @@ These gates are display-only design records. They do not approve runtime,
 push, OAuth, x_search, Obsidian write, external write, productionReady true,
 or execution enabled.
 
+## Controlled Worker Environment Gates (WK series)
+
+| Gate ID | Capability | Current Status | Required Before |
+|---|---|---|---|
+| WK-00 | Controlled Worker Environment display | IMPLEMENTED (display-only) | — |
+| WK-01 | Codex Worker copy-only use | DESIGN | explicit use GO |
+| WK-02 | ClaudeCode Worker copy-only use | DESIGN | explicit use GO |
+| WK-03 | Worker Task Queue | IMPLEMENTED (display-only) | — |
+| WK-04 | Prompt Export (copy-only) | IMPLEMENTED (display-only) | — |
+| WK-05 | Worker Auto-execution Adapter | HOLD | remote control / MCP / API token policy |
+| WK-06 | Remote Control (Codex / ClaudeCode) | HOLD | WK-05 PASS + remote control GO |
+| WK-07 | MCP / Hook / Daemon execution | HOLD | WK-06 PASS + MCP/hook/daemon GO |
+
 ## X Account Integration Gates (XACC series)
 
 | Gate ID | Capability | Current Status | Required Before |
