@@ -8,7 +8,7 @@
 import type { AgentPoseMap, PoseState, SlotStatus } from "../../types/agent-theater-types";
 import type { LocalChatMessage } from "../../types/service-contracts";
 import { PixelRoomStage } from "./PixelRoomStage";
-import { RoomChat } from "./PixelRoom/RoomChat";
+import { RoomChatInline } from "./RoomChatInline";
 import { WorkerEnvironmentPanel } from "./WorkerEnvironmentPanel";
 import { XSearchAutomationPanel } from "./XSearchAutomationPanel";
 
@@ -50,10 +50,12 @@ export function AgentTheaterPage({
 
   return (
     <div style={{ padding: "var(--page-pd-v, 16px) var(--page-pd-h, 20px)", minHeight: 0, overflowX: "hidden" }}>
-      <PixelRoomStage decision={decision} poses={poses} lang={lang} />
-      {onSend && (
-        <RoomChat messages={messages} onSend={onSend} lang={lang} />
-      )}
+      <div style={{ position: "relative" as const }}>
+        <PixelRoomStage decision={decision} poses={poses} lang={lang} />
+        {onSend && (
+          <RoomChatInline messages={messages} onSend={onSend} lang={lang} />
+        )}
+      </div>
       <WorkerEnvironmentPanel lang={lang} />
       <XSearchAutomationPanel lang={lang} />
     </div>
