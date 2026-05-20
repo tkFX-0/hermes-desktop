@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.27.0
+- roadmapVersion: v4.28.0
 - lastUpdated: 2026-05-20
-- latestUpdate: StackChan SC-PC-02 firmware write evidence recorded; SC-FACE-01 official face capability check HOLD.
-- baselineCommit: c8f3ea1
+- latestUpdate: OB-01/DIS-01 IPC implementation; prettier fix; GO forms prepared; AT-10 Human Gate Panel.
+- baselineCommit: 3813c1e
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,20 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.28.0 - OB-01 / DIS-01 IPC + GO Forms + AT-10 Human Gate Panel
+
+- `src/main/library-export.ts`: OB-01 IPC handler. `OB01_DRY_RUN=true` (dry-run until explicit GO). 30_Evidence/ only with path containment check.
+- `src/main/discord-intake.ts`: DIS-01 IPC handler. `DIS01_HOLD=true` (no API call until explicit GO). Channel 1498670816366428208. Token read from env, never logged.
+- `DiscordInboxPanel.tsx`: DIS-01 UI panel (HOLD status, Read button returns HOLD).
+- `LibraryMarkdownPreview.tsx`: "Export dry-run (OB-01)" button added.
+- `RoomChatInline.tsx`: prettier formatting fix (display-only).
+- `OB01_LOCAL_WRITE_GO_FORM_2026-05-20.md`: OB-01 GO form template prepared.
+- `DIS01_READ_ONLY_GO_FORM_2026-05-20.md`: DIS-01 GO form template prepared.
+- `SC_FACE_01_CONFIRMATION_FORM_2026-05-20.md`: iPhone face check form.
+- `AT-10 HumanGateStatusPanel.tsx`: Level 5 gate status display panel (display-only).
+- typecheck:web PASS / typecheck:node PASS on all source changes.
+- No runtime. No external API. No push without explicit GO.
 
 ## v4.27.0 - StackChan PC Setup Evidence / Face Capability Check
 

@@ -131,7 +131,7 @@ GATE-AUTO-01 (requires all above)
 | AT-08b | AT-04 refined ghost runtime recheck | HOLD | human GO + time_window |
 
 | AT-09 | Resume Queue / Cooldown Panel | COMPLETE | pushed AT-09 implementation |
-| AT-10 | Runaway Guard / Human-Gated Action Panel | DESIGN-READY | ClaudeCode impl GO + Codex push readiness |
+| AT-10 | Runaway Guard / Human-Gated Action Panel | IMPLEMENTED (display-only) | — |
 | AT-11 | Worker Routing / Handoff Prompt Panel | DESIGN-READY | AT-10 review + impl GO |
 | AT-12 | Gate Dashboard / Future Gate Panel | DESIGN-READY | AT-11 review + impl GO |
 | AT-13 | Final Visual Polish / Responsive Pass | DESIGN-READY | AT-10/11/12 implementation review |
@@ -157,8 +157,8 @@ or execution enabled.
 |---|---|---|---|
 | L4-CONFIRM | Level 4 final confirmation | PASS (2026-05-20) | — |
 | L5-READY | Level 5 transition readiness | DESIGN (2026-05-20) | L4-CONFIRM PASS |
-| L5-OB-01 | Obsidian local write | HOLD | ob01_local_write_go |
-| L5-DIS-01 | Discord read-only intake | HOLD | dis01_read_only_go |
+| L5-OB-01 | Obsidian local write | IPC IMPLEMENTED (OB01_DRY_RUN=true) — awaiting ob01_local_write_go | ob01_local_write_go |
+| L5-DIS-01 | Discord read-only intake | IPC IMPLEMENTED (DIS01_HOLD=true) — awaiting dis01_read_only_go | dis01_read_only_go |
 | L5-XS-AUTO | XS-AUTO one-shot read-only | HOLD | xs_auto_read_go |
 | L5-HB-01 | Hermes/WSL connection | HOLD | hb01_hermes_wsl_go |
 | L5-CC-03 | Command Chat one-shot | HOLD | cc03_real_send_go |
@@ -233,7 +233,7 @@ or execution enabled.
 | Gate ID | Capability | Current Status | Required Before |
 |---|---|---|---|
 | DIS-00 | Discord Bridge design | DESIGN (docs-only) | — |
-| DIS-01 | Discord read-only intake (one channel) | HOLD | explicit DIS-01 read-only GO |
+| DIS-01 | Discord read-only intake (one channel) | IPC IMPLEMENTED (DIS01_HOLD=true) | explicit DIS-01 read-only GO |
 | DIS-02 | Discord draft response (local only) | HOLD | DIS-01 PASS |
 | DIS-03 | Discord human GO reply (one message) | HOLD (Level 5) | DIS-02 PASS + explicit DIS-03 GO |
 | DIS-04 | Discord limited auto-reply (template only) | DEFERRED (Level 5+) | DIS-03 PASS + template/loop policy |

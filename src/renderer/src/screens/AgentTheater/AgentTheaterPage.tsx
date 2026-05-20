@@ -12,6 +12,7 @@ import { RoomChatInline } from "./RoomChatInline";
 import { WorkerEnvironmentPanel } from "./WorkerEnvironmentPanel";
 import { XSearchAutomationPanel } from "./XSearchAutomationPanel";
 import { DiscordInboxPanel } from "./DiscordInboxPanel";
+import { HumanGateStatusPanel } from "./HumanGateStatusPanel";
 
 function allPoses(pose: PoseState): AgentPoseMap {
   return { shikishima: pose, shizume: pose, hajime: pose, tsumugi: pose, shirube: pose };
@@ -60,6 +61,7 @@ export function AgentTheaterPage({
       <WorkerEnvironmentPanel lang={lang} />
       <XSearchAutomationPanel lang={lang} />
       <DiscordInboxPanel lang={lang} />
+      <HumanGateStatusPanel lang={lang} />
     </div>
   );
 }
