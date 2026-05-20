@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.29.0
-- lastUpdated: 2026-05-20
-- latestUpdate: SC-FACE-01 recorded as PARTIAL_HOLD; SC-FACE-02 PC face customization plan and SC-FACE-03 custom firmware feasibility gate added.
-- baselineCommit: ca9971a
+- roadmapVersion: v4.30.0
+- lastUpdated: 2026-05-21
+- latestUpdate: DIS-01 one-shot read PASS + gate restored to HOLD. SC-FACE-03 feasibility research complete. FINAL_100 post-100 completions updated.
+- baselineCommit: 310ccbe
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,13 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.30.0 - DIS-01 ONE_SHOT_PASS + SC-FACE-03 Research + FINAL_100 Updated
+
+- `DIS01_READ_EVIDENCE_2026-05-21.md`: DIS-01 one-shot Discord read PASS. 10 messages from channel 1498670816366428208. DIS01_HOLD restored to true.
+- `SC_FACE_03_FEASIBILITY_RESEARCH_2026-05-21.md`: SC-FACE-03 research complete. Source: meganetaaan/stack-chan + m5stack-avatar. Build via PlatformIO. Restore via M5Burner. Verdict: FEASIBLE. Build/flash remains HOLD.
+- `FINAL_100_ACCEPTANCE_RECORD.md`: Post-100 completions updated — OB-01, DIS-01, AT-15, SC-PC-02, SC-FACE-03 added.
+- Baseline: origin/main = 310ccbe. All safety flags unchanged.
 
 ## v4.29.0 - StackChan Face Capability PARTIAL / PC Face Customization Plan
 

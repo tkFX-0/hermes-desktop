@@ -68,7 +68,8 @@ blockers for the readiness acceptance process.
 | CC-03: Command Chat real send | HOLD | No |
 | HB-01: Hermes Bridge WSL2 | HOLD | No |
 | XS-01: x_search read-only | PASS — gate closed 2026-05-20 | No |
-| OB-01: Obsidian local write | HOLD | No |
+| OB-01: Obsidian local write | ONE_SHOT_PASS 2026-05-20 — gate restored to HOLD | No |
+| DIS-01: Discord read-only intake | ONE_SHOT_PASS 2026-05-21 — gate restored to HOLD | No |
 | OA-01: OAuth any provider | HOLD | No |
 | SC-01: StackChan physical | HOLD | No |
 | PROD: productionReady true | HOLD | No |
@@ -81,15 +82,18 @@ blockers for the readiness acceptance process.
 | Gate | Result | Evidence | Date |
 |---|---|---|---|
 | AT-14: runtime visual confirmation | PASS | `AT_14_ROOM_VISUAL_EVIDENCE.md` | 2026-05-20 |
-| XS-01: x_search read-only (1/1 run) | PASS | `XS_01_READ_ONLY_EXECUTION_EVIDENCE_2026-05-20.md` | 2026-05-20 |
-
-XS-01 gate is closed (1/1 run consumed). Next x_search requires a separate xs_read_go.
-AT-14 runtime visual confirmed by tk 2026-05-20 via npm run dev.
+| XS-01: x_search read-only (1/1 run) | PASS — gate closed | `XS_01_READ_ONLY_EXECUTION_EVIDENCE_2026-05-20.md` | 2026-05-20 |
+| OB-01: Obsidian local write (1/1 write) | ONE_SHOT_PASS — gate restored to HOLD | `OB01_WRITE_EVIDENCE_2026-05-20.md` | 2026-05-20 |
+| DIS-01: Discord read-only intake (1/1 read) | ONE_SHOT_PASS — gate restored to HOLD | `DIS01_READ_EVIDENCE_2026-05-21.md` | 2026-05-21 |
+| AT-15: post-session visual confirmation | PASS | `AT_15_VISUAL_CONFIRMATION_EVIDENCE_2026-05-20.md` | 2026-05-20 |
+| SC-PC-02: StackChan firmware write evidence | PASS_CANDIDATE | `SC_PC_02_FIRMWARE_WRITE_EVIDENCE.md` | 2026-05-20 |
+| SC-FACE-03: custom firmware feasibility | RESEARCH COMPLETE — build/flash HOLD | `SC_FACE_03_FEASIBILITY_RESEARCH_2026-05-21.md` | 2026-05-21 |
 
 HOLD maintained:
 - HB-01 Hermes/WSL: HOLD
 - CC-03 Command Chat real-send: HOLD
-- All other Level 5 gates: HOLD
+- DIS-03 Discord reply: HOLD
+- All remaining Level 5 gates: HOLD
 
 ---
 
