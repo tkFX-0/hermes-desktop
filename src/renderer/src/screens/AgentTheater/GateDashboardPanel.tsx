@@ -1,259 +1,90 @@
 /**
- * GateDashboardPanel - display-only future/human-gated capability dashboard.
- * Gate state is visible only. No gate toggles, no action buttons, no API calls.
- * Design spec: AT_12_GATE_DASHBOARD_PANEL_EVIDENCE.md
+ * GateDashboardPanel (AT-12) — compact gate status dashboard.
+ * Groups all active gates by series. Color-coded status. Display-only.
+ * Design spec: FUTURE_GATE_REGISTRY.md — AT-12
  */
 
-import type { GateDashboardItem } from "../../types/agent-theater-types";
-import { GateStatusCard } from "./GateStatusCard";
+interface GateEntry { readonly id: string; readonly status: string; readonly color: string }
+interface GateGroup { readonly series: string; readonly gates: readonly GateEntry[] }
 
-const GATE_ITEMS: readonly GateDashboardItem[] = [
-  {
-    gateId: "PUSH-GO",
-    title: "git push",
-    status: "NEEDS_HUMAN",
-    category: "push",
-    plainLabel: "git push は人間GO",
-    currentState: "waiting for explicit push GO",
-    requiredHumanAction: "commit hash + scope approval",
-    allowedNow: ["review", "readiness"],
-    forbiddenNow: ["auto-push", "extra commit"],
-    autonomyLevel: 5,
-    evidenceTarget: "push readiness report",
-  },
-  {
-    gateId: "RUNTIME-GO",
-    title: "runtime start",
-    status: "NEEDS_HUMAN",
-    category: "runtime",
-    plainLabel: "runtime起動はtime_window付きGO",
-    currentState: "HOLD",
-    requiredHumanAction: "date / time_window / command / stop conditions",
-    allowedNow: ["request draft"],
-    forbiddenNow: ["npm run dev", "port open"],
-    autonomyLevel: 5,
-    evidenceTarget: "runtime request report",
-  },
-  {
-    gateId: "OAUTH-GO",
-    title: "OAuth provider connection",
-    status: "HOLD",
-    category: "auth",
-    plainLabel: "OAuth連携はprovider/scope/token policy付きGO",
-    currentState: "HOLD",
-    requiredHumanAction: "provider / purpose / scopes / token policy",
-    allowedNow: ["plan", "review"],
-    forbiddenNow: ["login", "token read"],
-    autonomyLevel: 5,
-    evidenceTarget: "OAuth GO record",
-  },
-  {
-    gateId: "XS-READ",
-    title: "x_search / social read",
-    status: "FUTURE",
-    category: "social",
-    plainLabel: "x_search/SNS読み取りはread-only GO",
-    currentState: "future read-only gate",
-    requiredHumanAction: "source / topic / read-only window",
-    allowedNow: ["policy docs"],
-    forbiddenNow: ["post", "reply", "DM"],
-    autonomyLevel: 5,
-    evidenceTarget: "XS-READ evidence",
-  },
-  {
-    gateId: "OBS-LOCAL",
-    title: "Obsidian local note",
-    status: "FUTURE",
-    category: "local_note",
-    plainLabel: "Obsidian local noteはlocal GO",
-    currentState: "future local note gate",
-    requiredHumanAction: "vault scope / folder / file / content rule",
-    allowedNow: ["template", "plan"],
-    forbiddenNow: ["write now", "sync/API"],
-    autonomyLevel: 5,
-    evidenceTarget: "OBS-LOCAL record",
-  },
-  {
-    gateId: "EXTERNAL-WRITE",
-    title: "external write",
-    status: "BLOCKED",
-    category: "external_write",
-    plainLabel: "外部書き込みは明示GOなし禁止",
-    currentState: "blocked by default",
-    requiredHumanAction: "separate service-specific GO",
-    allowedNow: ["draft only"],
-    forbiddenNow: ["send", "post", "purchase"],
-    autonomyLevel: 5,
-    evidenceTarget: "external action gate",
-  },
-  {
-    gateId: "PRODUCTION-READY",
-    title: "productionReady",
-    status: "LOCKED_FALSE",
-    category: "production",
-    plainLabel: "productionReady=false 維持",
-    currentState: "false",
-    requiredHumanAction: "separate production readiness gate",
-    allowedNow: ["display false"],
-    forbiddenNow: ["set true"],
-    autonomyLevel: 5,
-    evidenceTarget: "production readiness review",
-  },
-  {
-    gateId: "EXECUTION-ENABLE",
-    title: "execution",
-    status: "LOCKED_DISABLED",
-    category: "execution",
-    plainLabel: "execution=disabled 維持",
-    currentState: "disabled",
-    requiredHumanAction: "separate execution enable gate",
-    allowedNow: ["display disabled"],
-    forbiddenNow: ["enable execution"],
-    autonomyLevel: 5,
-    evidenceTarget: "execution gate review",
-  },
-  {
-    gateId: "STACKCHAN-PHYSICAL",
-    title: "StackChan physical",
-    status: "HOLD",
-    category: "device",
-    plainLabel: "物理動作は別Gate",
-    currentState: "not approved",
-    requiredHumanAction: "device arrival + physical test GO",
-    allowedNow: ["display preview"],
-    forbiddenNow: ["connect", "move"],
-    autonomyLevel: 5,
-    evidenceTarget: "physical device evidence",
-  },
-  {
-    gateId: "VOICE-CAMERA-MIC",
-    title: "voice / camera / mic",
-    status: "HOLD",
-    category: "media",
-    plainLabel: "voice/camera/micは別Gate",
-    currentState: "not approved",
-    requiredHumanAction: "separate media permission GO",
-    allowedNow: ["policy display"],
-    forbiddenNow: ["record", "listen", "speak"],
-    autonomyLevel: 5,
-    evidenceTarget: "media permission evidence",
-  },
-  {
-    gateId: "SPRITE-ASSET",
-    title: "sprite / image asset",
-    status: "FUTURE",
-    category: "asset",
-    plainLabel: "画像/sprite assetはAT-05後",
-    currentState: "future optional asset gate",
-    requiredHumanAction: "asset plan + license/originality review",
-    allowedNow: ["CSS/SVG display"],
-    forbiddenNow: ["commit PNG", "external URL"],
-    autonomyLevel: 4,
-    evidenceTarget: "AT-05 asset plan",
-  },
-  {
-    gateId: "RUNTIME-VISUAL-RECHECK",
-    title: "runtime visual recheck",
-    status: "NEEDS_HUMAN",
-    category: "review",
-    plainLabel: "目視確認はtime_window GO",
-    currentState: "HOLD",
-    requiredHumanAction: "date / time_window / observation scope",
-    allowedNow: ["checklist prep"],
-    forbiddenNow: ["start runtime"],
-    autonomyLevel: 5,
-    evidenceTarget: "AT-14 evidence",
-  },
-] as const;
-
-const SUMMARY_BADGES = [
-  { key: "productionReady", value: "false", color: "#8b949e" },
-  { key: "execution", value: "disabled", color: "#8b949e" },
-  { key: "rawValuesReported", value: "false", color: "#8b949e" },
-  { key: "runtime", value: "HOLD", color: "#f59e0b" },
-  { key: "external write", value: "blocked", color: "#f85149" },
-  { key: "Level 5", value: "human GO", color: "#f0883e" },
-] as const;
-
-const PANEL_LABEL: React.CSSProperties = {
-  fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-  fontSize: 12,
-  letterSpacing: 1.2,
-  color: "#6e7681",
-  marginBottom: 10,
-  textTransform: "uppercase" as const,
-};
-
-const TAGLINE_STYLE: React.CSSProperties = {
-  fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-  fontSize: 11,
-  color: "#8b949e",
-  fontStyle: "italic",
-  lineHeight: 1.4,
-};
+const GATE_GROUPS: readonly GateGroup[] = [
+  { series: "DIS", gates: [
+    { id: "DIS-01", status: "ONE_SHOT_PASS", color: "#3fb950" },
+    { id: "DIS-02", status: "IMPLEMENTED",   color: "#58a6ff" },
+    { id: "DIS-03", status: "HOLD",          color: "#f0883e" },
+    { id: "DIS-04", status: "DEFERRED",      color: "#6e7681" },
+  ]},
+  { series: "OB / LIB", gates: [
+    { id: "OB-01",       status: "ONE_SHOT_PASS", color: "#3fb950" },
+    { id: "OBS-LIB-02",  status: "DRY-RUN IMPL",  color: "#58a6ff" },
+    { id: "OBS-LIB-04",  status: "ONE_SHOT_PASS", color: "#3fb950" },
+    { id: "OBS-LIB-05",  status: "HOLD",          color: "#f0883e" },
+  ]},
+  { series: "XS / AUTO", gates: [
+    { id: "XS-01",       status: "PASS (closed)", color: "#3fb950" },
+    { id: "XS-AUTO-00",  status: "DISPLAY",       color: "#58a6ff" },
+    { id: "XS-AUTO-03",  status: "HOLD",          color: "#f0883e" },
+  ]},
+  { series: "SC", gates: [
+    { id: "SC-PC-02",    status: "PASS_CAND",  color: "#58a6ff" },
+    { id: "SC-FACE-01",  status: "PARTIAL",    color: "#f0883e" },
+    { id: "SC-FACE-03",  status: "RESEARCH",   color: "#58a6ff" },
+    { id: "SC-DISP-01",  status: "HOLD",       color: "#f0883e" },
+  ]},
+  { series: "AT", gates: [
+    { id: "AT-09",  status: "COMPLETE",    color: "#3fb950" },
+    { id: "AT-10",  status: "IMPLEMENTED", color: "#58a6ff" },
+    { id: "AT-11",  status: "IMPLEMENTED", color: "#58a6ff" },
+    { id: "AT-12",  status: "IMPLEMENTED", color: "#58a6ff" },
+    { id: "AT-15",  status: "PASS",        color: "#3fb950" },
+  ]},
+  { series: "HB / CC", gates: [
+    { id: "HB-01", status: "HOLD", color: "#f0883e" },
+    { id: "CC-03", status: "HOLD", color: "#f0883e" },
+  ]},
+  { series: "Critical", gates: [
+    { id: "productionReady", status: "HOLD", color: "#f85149" },
+    { id: "execution",       status: "HOLD", color: "#f85149" },
+  ]},
+];
 
 interface GateDashboardPanelProps {
   readonly lang?: "ja" | "en";
 }
 
 export function GateDashboardPanel({ lang = "ja" }: GateDashboardPanelProps): React.JSX.Element {
+  const allGates = GATE_GROUPS.flatMap((g) => g.gates);
+  const passCount = allGates.filter((g) => g.color === "#3fb950").length;
+
   return (
-    <div
-      style={{
-        background: "#0d1117",
-        border: "1px solid #21262d",
-        borderRadius: 8,
-        padding: "16px",
-        minWidth: 0,
-      }}
-    >
-      <p style={PANEL_LABEL}>
-        {lang === "ja" ? "GATE DASHBOARD · 未来ゲート" : "GATE DASHBOARD · FUTURE GATES"}
-      </p>
+    <div style={{ display: "flex", flexDirection: "column" as const, gap: 12, marginTop: 16 }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, flexWrap: "wrap" as const, borderBottom: "1px solid #21262d", paddingBottom: 8 }}>
+        <span style={{ fontFamily: '"IBM Plex Mono", ui-monospace, monospace', fontSize: 12, fontWeight: 700, color: "#c9d1d9" }}>
+          {lang === "ja" ? "ゲート ダッシュボード · AT-12" : "Gate Dashboard · AT-12"}
+        </span>
+        <div style={{ display: "flex", gap: 6 }}>
+          <span style={{ fontFamily: '"IBM Plex Mono", ui-monospace, monospace', fontSize: 10, color: "#3fb950", border: "1px solid #3fb95044", borderRadius: 2, padding: "2px 6px" }}>{passCount} PASS</span>
+          <span style={{ fontFamily: '"IBM Plex Mono", ui-monospace, monospace', fontSize: 10, color: "#6e7681", border: "1px solid #6e768144", borderRadius: 2, padding: "2px 6px" }}>{allGates.length} total</span>
+        </div>
+      </div>
 
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 14 }}>
-        {SUMMARY_BADGES.map((badge) => (
-          <span
-            key={badge.key}
-            style={{
-              fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-              fontSize: 11,
-              color: badge.color,
-              border: `1px solid ${badge.color}`,
-              borderRadius: 2,
-              padding: "1px 5px",
-              whiteSpace: "nowrap" as const,
-            }}
-          >
-            {badge.key}: {badge.value}
-          </span>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(190px, 1fr))", gap: 8 }}>
+        {GATE_GROUPS.map((group) => (
+          <div key={group.series} style={{ background: "#161b22", border: "1px solid #21262d", borderRadius: 4, padding: "8px 12px", display: "flex", flexDirection: "column" as const, gap: 4 }}>
+            <span style={{ fontFamily: '"IBM Plex Mono", ui-monospace, monospace', fontSize: 10, fontWeight: 700, color: "#8b949e", borderBottom: "1px solid #21262d", paddingBottom: 4, marginBottom: 2 }}>{group.series}</span>
+            {group.gates.map((gate) => (
+              <div key={gate.id} style={{ display: "flex", justifyContent: "space-between", gap: 4 }}>
+                <span style={{ fontFamily: '"IBM Plex Mono", ui-monospace, monospace', fontSize: 9, color: "#6e7681" }}>{gate.id}</span>
+                <span style={{ fontFamily: '"IBM Plex Mono", ui-monospace, monospace', fontSize: 9, color: gate.color }}>{gate.status}</span>
+              </div>
+            ))}
+          </div>
         ))}
       </div>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 260px), 1fr))",
-          gap: 10,
-          marginBottom: 14,
-        }}
-      >
-        {GATE_ITEMS.map((item) => (
-          <GateStatusCard key={item.gateId} item={item} />
-        ))}
-      </div>
-
-      <div style={{ height: 1, background: "#21262d", marginBottom: 8 }} />
-
-      <div style={{ display: "flex", flexDirection: "column" as const, gap: 3 }}>
-        <span style={TAGLINE_STYLE}>
-          {lang === "ja" ? "Gateは見える化だけ。ONにする操作はここではしない。" : "Gates are visible only. Nothing is enabled here."}
-        </span>
-        <span style={TAGLINE_STYLE}>
-          {lang === "ja" ? "AIは作るところまで。" : "AI builds, not deploys."}
-        </span>
-        <span style={TAGLINE_STYLE}>
-          {lang === "ja" ? "鍵と発射ボタンは人間。" : "Humans hold the keys and the launch button."}
+      <div style={{ background: "#161b22", border: "1px solid #6e768133", borderRadius: 4, padding: "8px 12px" }}>
+        <span style={{ fontFamily: '"IBM Plex Sans", "Inter", system-ui, sans-serif', fontSize: 11, color: "#8b949e" }}>
+          {lang === "ja" ? "表示のみ。各ゲートの実行には個別の human GO が必要です。" : "Display only. Each gate requires individual human GO to execute."}
         </span>
       </div>
     </div>

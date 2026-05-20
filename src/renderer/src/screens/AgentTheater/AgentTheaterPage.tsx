@@ -1,8 +1,8 @@
 /**
  * AgentTheaterPage — unified pixel room control center.
- * Single view: PixelRoomView (night ops room) + RoomChat.
+ * Single view: PixelRoomStage + panels (AT-10/11/12/13).
  * No tab switching. Display-only. No execute/push/send buttons.
- * PXR-01~05: tabs removed, single unified room.
+ * AT-13: visual polish — consistent section spacing, responsive panels wrapper.
  */
 
 import type { AgentPoseMap, PoseState, SlotStatus } from "../../types/agent-theater-types";
@@ -13,6 +13,8 @@ import { WorkerEnvironmentPanel } from "./WorkerEnvironmentPanel";
 import { XSearchAutomationPanel } from "./XSearchAutomationPanel";
 import { DiscordInboxPanel } from "./DiscordInboxPanel";
 import { DiscordDraftPanel } from "./DiscordDraftPanel";
+import { WorkerRoutingPanel } from "./WorkerRoutingPanel";
+import { GateDashboardPanel } from "./GateDashboardPanel";
 import { HumanGateStatusPanel } from "./HumanGateStatusPanel";
 
 function allPoses(pose: PoseState): AgentPoseMap {
@@ -42,6 +44,16 @@ export interface AgentTheaterPageProps {
   readonly lang?: "ja" | "en";
 }
 
+// AT-13: section divider for visual separation
+function SectionDivider({ label }: { label: string }): React.JSX.Element {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "8px 0 0" }}>
+      <span style={{ fontFamily: '"IBM Plex Mono", ui-monospace, monospace', fontSize: 9, color: "#30363d", letterSpacing: "0.08em", textTransform: "uppercase" as const }}>{label}</span>
+      <div style={{ flex: 1, height: 1, background: "#21262d" }} />
+    </div>
+  );
+}
+
 export function AgentTheaterPage({
   decision,
   agentPoses,
@@ -53,16 +65,29 @@ export function AgentTheaterPage({
 
   return (
     <div style={{ padding: "var(--page-pd-v, 16px) var(--page-pd-h, 20px)", minHeight: 0, overflowX: "hidden" }}>
+      {/* Room + Chat */}
       <div style={{ position: "relative" as const }}>
         <PixelRoomStage decision={decision} poses={poses} lang={lang} />
-        {onSend && (
-          <RoomChatInline messages={messages} onSend={onSend} lang={lang} />
-        )}
+        {onSend && <RoomChatInline messages={messages} onSend={onSend} lang={lang} />}
       </div>
+
+      {/* Worker section */}
+      <SectionDivider label="worker" />
       <WorkerEnvironmentPanel lang={lang} />
+      <WorkerRoutingPanel lang={lang} />
+
+      {/* Search section */}
+      <SectionDivider label="search" />
       <XSearchAutomationPanel lang={lang} />
+
+      {/* Discord section */}
+      <SectionDivider label="discord" />
       <DiscordInboxPanel lang={lang} />
       <DiscordDraftPanel lang={lang} />
+
+      {/* Gate section */}
+      <SectionDivider label="gates" />
+      <GateDashboardPanel lang={lang} />
       <HumanGateStatusPanel lang={lang} />
     </div>
   );
