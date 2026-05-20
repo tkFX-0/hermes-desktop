@@ -237,7 +237,7 @@ or execution enabled.
 | DIS-00 | Discord Bridge design | DESIGN (docs-only) | — |
 | DIS-01 | Discord read-only intake (one channel) | IPC IMPLEMENTED (DIS01_HOLD=true) | explicit DIS-01 read-only GO |
 | DIS-02 | Discord draft response (local only) | IMPLEMENTED (display-only, copy-only) | — |
-| DIS-03 | Discord human GO reply (one message) | HOLD (Level 5) | DIS-02 PASS + explicit DIS-03 GO |
+| DIS-03 | Discord human GO reply (one message) | ONE_SHOT_PASS 2026-05-21 — gate restored to HOLD | new dis03_reply_go for next send |
 | DIS-04 | Discord limited auto-reply (template only) | DEFERRED (Level 5+) | DIS-03 PASS + template/loop policy |
 
 ## Required Statement

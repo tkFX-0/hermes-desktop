@@ -70,6 +70,7 @@ blockers for the readiness acceptance process.
 | XS-01: x_search read-only | PASS — gate closed 2026-05-20 | No |
 | OB-01: Obsidian local write | ONE_SHOT_PASS 2026-05-20 — gate restored to HOLD | No |
 | DIS-01: Discord read-only intake | ONE_SHOT_PASS 2026-05-21 — gate restored to HOLD | No |
+| DIS-03: Discord one-shot reply | ONE_SHOT_PASS 2026-05-21 — gate restored to HOLD | No |
 | OA-01: OAuth any provider | HOLD | No |
 | SC-01: StackChan physical | HOLD | No |
 | PROD: productionReady true | HOLD | No |
