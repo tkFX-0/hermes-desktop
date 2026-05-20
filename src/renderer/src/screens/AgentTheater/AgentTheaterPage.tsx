@@ -16,6 +16,7 @@ import { DiscordDraftPanel } from "./DiscordDraftPanel";
 import { WorkerRoutingPanel } from "./WorkerRoutingPanel";
 import { GateDashboardPanel } from "./GateDashboardPanel";
 import { HumanGateStatusPanel } from "./HumanGateStatusPanel";
+import { AutonomousOperationPanel } from "./AutonomousOperationPanel";
 
 function allPoses(pose: PoseState): AgentPoseMap {
   return { shikishima: pose, shizume: pose, hajime: pose, tsumugi: pose, shirube: pose };
@@ -89,6 +90,10 @@ export function AgentTheaterPage({
       <SectionDivider label="gates" />
       <GateDashboardPanel lang={lang} />
       <HumanGateStatusPanel lang={lang} />
+
+      {/* Autonomous readiness section */}
+      <SectionDivider label="autonomous readiness" />
+      <AutonomousOperationPanel />
     </div>
   );
 }
