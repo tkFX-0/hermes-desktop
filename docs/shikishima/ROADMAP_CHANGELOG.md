@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.26.0
+- roadmapVersion: v4.27.0
 - lastUpdated: 2026-05-20
-- latestUpdate: L4 final confirmation PASS + L5 transition package (7 docs). Gate opening order, GO templates (12 gates), runbook, master STOP conditions. Level 5 all HOLD.
+- latestUpdate: StackChan SC-PC-02 firmware write evidence recorded; SC-FACE-01 official face capability check HOLD.
 - baselineCommit: c8f3ea1
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,14 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.27.0 - StackChan PC Setup Evidence / Face Capability Check
+
+- `SC_PC_02_FIRMWARE_WRITE_EVIDENCE.md`: records StackChan / CoreS3 M5Burner, COM5, StackChan-UserDemo, baud 1500000, firmware write, reboot, screen visible, iPhone reconnect, and COM5 still visible as PASS candidate evidence.
+- `SC_FACE_01_OFFICIAL_FACE_CAPABILITY_CHECK.md`: records official app / Factory Firmware face capability check as HOLD until iPhone face-menu confirmation.
+- `FUTURE_GATE_REGISTRY.md`: adds SC-PC-02 and SC-FACE-01 gate records.
+- Additional Burn, Erase, Firmware Exporter Start, custom firmware, Shikishima auto-control, physical motion automation, voice/mic/camera remain HOLD.
+- Docs-only. No runtime. No additional firmware operation. No external API. No push.
 
 ## v4.26.0 - Level 4 Confirmed / Level 5 Transition Package
 

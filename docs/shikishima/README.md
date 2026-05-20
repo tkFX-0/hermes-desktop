@@ -44,6 +44,8 @@ network flow.
 - `ROADMAP_CHANGELOG.md` - visible roadmap update history.
 - `PHASE_45_TO_60_APPROVAL_QUEUE_UI_EVIDENCE.md` - Phase 45 to 60 Approval Queue UI evidence and safety boundary.
 - `PHASE_60_TO_75_STACKCHAN_DISPLAY_PREPARATION_EVIDENCE.md` - Phase 60 to 75 StackChan / Face Terminal display preparation evidence.
+- `SC_PC_02_FIRMWARE_WRITE_EVIDENCE.md` - StackChan / CoreS3 M5Burner firmware write and reconnect evidence.
+- `SC_FACE_01_OFFICIAL_FACE_CAPABILITY_CHECK.md` - official app / Factory Firmware face capability check record.
 - `PHASE_75_TO_90_DRAFT_OUTBOX_SAFETY_EVIDENCE.md` - Phase 75 to 90 Draft Outbox / external action safety evidence.
 - `PHASE_REVIEW_MATRIX.md` - Phase 0-10 documentation/execution review state.
 - `SHIKISHIMA_FINAL_VISION.md` - final vision draft.

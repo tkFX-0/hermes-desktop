@@ -20,13 +20,13 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v4.26.0
-- latestUpdate: 2026-05-20 - L4 final confirmation PASS. L5 transition package (7 docs). Gate opening order #1–13. GO templates (12 gates). Runbook. Master STOP conditions. Level 5 all HOLD. StackChan delegated to Codex.
+- roadmapVersion: v4.27.0
+- latestUpdate: 2026-05-20 - SC-PC-02 firmware write evidence recorded as PASS candidate; SC-FACE-01 official face capability check remains HOLD.
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: origin/main=2af99cf
 - validation road: Gate 001-007 ✓; AT-07〜AT-15 PASS; CC-01/02 PASS; UI-01/02 PASS; 100% Roadmap docs完成; AT-14 runtime PASS; XS-01 read-only PASS
-- current next human action: issue PXR-POLISH-GO for Pixel Room polish, or HB-01 GO in home environment.
+- current next human action: manually confirm official app face/expression menu for SC-FACE-01 without additional Burn.
 - HOLD reason: productionReady false; execution disabled; Level 5 actions require explicit human GO
 
 ## Agent Theater — 完了済み
