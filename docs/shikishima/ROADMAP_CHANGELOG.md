@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.16.0
+- roadmapVersion: v4.17.0
 - lastUpdated: 2026-05-20
-- latestUpdate: PXR-05A 3D タブ設計書完成 (Three.js/R3F 方針確定)
+- latestUpdate: Final verification process fixed; PXR polish deferred to post-100
 - baselineCommit: aadea91
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,14 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.17.0 - Final Verification Process / PXR Post-100 Defer
+
+- `SHIKISHIMA_FINAL_VERIFICATION_PROCESS_TO_100.md`: defines the remaining process to real-operation readiness 100%.
+- `PXR_POST_100_DEFER_RECORD.md`: records Pixel Room / character-design polish as post-100 deferred work.
+- Final critical path is now evidence and acceptance: AT-14 visual evidence, Control Center live snapshot evidence, UI/UX evidence, Phase 9 gate docs, final acceptance.
+- Level 5 gates remain HOLD and are not required to claim pre-operation readiness 100%.
+- No runtime start, no external action, no productionReady true, no execution enabled.
 
 ## v4.16.0 - PXR-05A 3D タブ設計書
 
