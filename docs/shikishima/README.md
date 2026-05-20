@@ -110,6 +110,12 @@ network flow.
 - `XS_AUTO_03_EVIDENCE_AND_RATE_LIMIT_POLICY.md` - XS-AUTO-03 per-run evidence schema and 429 rate limit policy.
 - `XS_AUTO_04_STOP_CONDITIONS.md` - XS-AUTO-04 universal + phase-specific STOP conditions.
 - `XS_AUTO_SELF_AUDIT.md` - XS-AUTO-00 implementation self audit (typecheck PASS, all safety flags false).
+- `LIB_00_EXTERNAL_LIBRARY_DESIGN.md` - LIB-00 external library design: Obsidian Vault as 正本, 5フェーズ展開, agent 役割分担.
+- `LIB_01_MARKDOWN_VAULT_STRUCTURE.md` - LIB-01 shikishima-library/ vault structure plan (10 folders, naming rules).
+- `LIB_02_NOTE_TEMPLATES.md` - LIB-02 note templates: Research / Development / Evidence / Decision / Handoff (5 types with rawValues policy).
+- `LIB_03_OBSIDIAN_LOCAL_WRITE_GATE.md` - LIB-03 Obsidian local write gate (HOLD — OB-01 GO required, rawValues pre-write checklist).
+- `LIB_04_INDEX_AND_RAG_PLAN.md` - LIB-04 vault index display + RAG search plan (both HOLD — future phases).
+- `LIB_SELF_AUDIT.md` - LIB-00 docs-only self audit (obsidian_connected false, local_write HOLD).
 - `SHIKISHIMA_100_PERCENT_ROADMAP_DESIGN.md` - Phase 1–10 フェーズ設計書; 100%までの全計画.
 - `SHIKISHIMA_REMAINING_TASK_REGISTRY_TO_100.md` - DONE/HOLD/BLOCKED/FUTURE 全Task表.
 - `SHIKISHIMA_LEVEL5_GATE_PLAN_TO_100.md` - Level 5 全操作一覧 + 承認フォームテンプレート.

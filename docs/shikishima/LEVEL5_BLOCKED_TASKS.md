@@ -52,6 +52,33 @@ ClaudeCode が単独で実行することはできません。
 
 ---
 
+## LIB-03 — Obsidian ローカル書き込み (OB-01)
+
+| 項目 | 内容 |
+|---|---|
+| 内容 | しきしまが承認済み Vault フォルダにのみ Markdown を書き込む |
+| 現状 | HOLD (LIB_03_OBSIDIAN_LOCAL_WRITE_GATE.md) |
+| 必要な GO | ob01_local_write_go |
+| 必要な承認スコープ | vault_path / allowed_folders / note_type / rawValues check |
+| 参照 | `LIB_03_OBSIDIAN_LOCAL_WRITE_GATE.md` |
+
+**ブロック理由:** ローカルファイルシステム書き込み = Level 5 相当
+
+---
+
+## LIB-05 — Vault Index / RAG 検索
+
+| 項目 | 内容 |
+|---|---|
+| 内容 | Vault 索引表示 / embedding / ベクトル検索 |
+| 現状 | HOLD — LIB-03 PASS 後 |
+| 必要な GO | lib04_index_go + 別途 RAG GO |
+| 参照 | `LIB_04_INDEX_AND_RAG_PLAN.md` |
+
+**ブロック理由:** ファイルシステム read + cloud upload 候補 = Level 5
+
+---
+
 ## XS-AUTO-03 — 単発スケジュール x_search 実行
 
 | 項目 | 内容 |

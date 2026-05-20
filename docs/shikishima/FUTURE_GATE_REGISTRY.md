@@ -149,6 +149,17 @@ These gates are display-only design records. They do not approve runtime,
 push, OAuth, x_search, Obsidian write, external write, productionReady true,
 or execution enabled.
 
+## External Library Gates (LIB series)
+
+| Gate ID | Capability | Current Status | Required Before |
+|---|---|---|---|
+| LIB-00 | External library design | DESIGN (docs-only) | — |
+| LIB-01 | Vault structure | DESIGN | human vault creation |
+| LIB-02 | Note templates | DESIGN | — |
+| LIB-03 | Obsidian local write (OB-01) | HOLD | ob01_local_write_go |
+| LIB-04 | Vault index display | HOLD | LIB-03 PASS + index GO |
+| LIB-05 | RAG search | HOLD | LIB-04 PASS + RAG GO |
+
 ## X Search Automation Gates (XS-AUTO series)
 
 | Gate ID | Capability | Current Status | Required Before |

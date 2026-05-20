@@ -20,8 +20,8 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v4.23.0
-- latestUpdate: 2026-05-20 - XS-AUTO-00 read-only patrol display added. 5 watchlist items (all HOLD) + gate sequence + status summary. typecheck:web PASS. scheduler/OAuth/recurring patrol HOLD.
+- roadmapVersion: v4.24.0
+- latestUpdate: 2026-05-20 - LIB-00 external library design package. Obsidian Vault structure + 5 note templates + OB-01 gate + index/RAG plan. docs-only. No Obsidian connection.
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: origin/main=2af99cf

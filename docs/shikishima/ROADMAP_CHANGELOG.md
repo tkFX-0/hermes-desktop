@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.23.0
+- roadmapVersion: v4.24.0
 - lastUpdated: 2026-05-20
-- latestUpdate: XS-AUTO-00 read-only patrol display (5 watchlist items + gate sequence + status). typecheck PASS. scheduler/OAuth/recurring patrol all HOLD.
+- latestUpdate: LIB-00 external library design — Obsidian Vault structure, 5 note templates, OB-01 local write gate plan, index/RAG plan. docs-only.
 - baselineCommit: 84d85f9
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,18 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.24.0 - LIB-00 External Library Design Package
+
+- `LIB_00_EXTERNAL_LIBRARY_DESIGN.md`: Obsidian/Markdown as 正本、GitHub docs as 証跡、app as 管制室。5フェーズ展開。Agent 役割分担。
+- `LIB_01_MARKDOWN_VAULT_STRUCTURE.md`: shikishima-library/ 10フォルダ構成。Naming規則。Phase 1-3 vault creation policy。
+- `LIB_02_NOTE_TEMPLATES.md`: 5テンプレート (Research / Development / Evidence / Decision / Handoff)。各 frontmatter + rawValues policy。
+- `LIB_03_OBSIDIAN_LOCAL_WRITE_GATE.md`: OB-01 gate plan。前提フェーズ。rawValues pre-write checklist。STOP conditions。
+- `LIB_04_INDEX_AND_RAG_PLAN.md`: Phase 4 vault index display design + Phase 5 RAG search concept。all HOLD。
+- `LIB_SELF_AUDIT.md`: docs-only confirmed。obsidian_connected/local_write_performed false。
+- `FUTURE_GATE_REGISTRY.md`: LIB-00 to LIB-05 gate series added。
+- `LEVEL5_BLOCKED_TASKS.md`: LIB-03 / LIB-05 blocked task entries added。
+- docs-only diff。No runtime。No Obsidian connection。No push。
 
 ## v4.23.0 - XS-AUTO-00 Read-only Patrol Display
 
