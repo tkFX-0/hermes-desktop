@@ -25,7 +25,7 @@ This registry only defines the approval boundaries.
 | SC-PC-02 | StackChan PC firmware write evidence | PASS_CANDIDATE | human review of `SC_PC_02_FIRMWARE_WRITE_EVIDENCE.md` |
 | SC-FACE-01 | Official app face capability check | PARTIAL_HOLD | SC-FACE-02 PC face customization plan |
 | SC-FACE-02 | PC face customization plan | PLAN | human review before firmware/source research |
-| SC-FACE-03 | Custom firmware feasibility gate | HOLD | source/build/restore/recovery review |
+| SC-FACE-03 | Custom firmware feasibility gate | RESEARCH COMPLETE — build/flash HOLD | SC-FACE-03 write GO with all required fields |
 | GATE-SC-PHYS-01 | StackChan physical motion | HOLD | GATE-SC-DISP-01 + physical Gate |
 | GATE-SC-CONN-01 | StackChan serial/USB/Wi-Fi connection | HOLD | GATE-SC-PHYS-01 |
 | GATE-VOICE-01 | voice output | HOLD | separate voice Gate |
