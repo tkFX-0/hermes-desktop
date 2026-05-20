@@ -74,6 +74,7 @@ network flow.
 - `AT_13_FINAL_VISUAL_POLISH_EVIDENCE.md` - AT-13 implementation evidence and responsive check results.
 - `SHIKISHIMA_FINAL_VERIFICATION_PROCESS_TO_100.md` - final verification process from current near-complete state to real-operation readiness 100%.
 - `PXR_POST_100_DEFER_RECORD.md` - records Pixel Room / character-design polish as post-100 deferred work.
+- `POST_100_CANDIDATE_GATE_PROCESS_DESIGN.md` - post-100 candidate process for PXR polish, AT-14 runtime visual confirmation, CC-03, HB-01, and XS-01 gates.
 - `SHIKISHIMA_100_PERCENT_ROADMAP_DESIGN.md` - Phase 1–10 フェーズ設計書; 100%までの全計画.
 - `SHIKISHIMA_REMAINING_TASK_REGISTRY_TO_100.md` - DONE/HOLD/BLOCKED/FUTURE 全Task表.
 - `SHIKISHIMA_LEVEL5_GATE_PLAN_TO_100.md` - Level 5 全操作一覧 + 承認フォームテンプレート.

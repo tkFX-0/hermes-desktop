@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.17.0
+- roadmapVersion: v4.18.0
 - lastUpdated: 2026-05-20
-- latestUpdate: Final verification process fixed; PXR polish deferred to post-100
+- latestUpdate: Post-100 candidate gate process defined
 - baselineCommit: aadea91
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,13 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.18.0 - Post-100 Candidate Gate Process
+
+- `POST_100_CANDIDATE_GATE_PROCESS_DESIGN.md`: defines post-100 candidate process for Pixel Room polish, AT-14 runtime visual confirmation, CC-03 Command Chat real-send gate, HB-01 Hermes/WSL gate, and XS-01 x_search read-only gate.
+- Records recommended order: AT-14 first, then Pixel Room polish, XS-01, HB-01, and CC-03.
+- Confirms each gate needs explicit human GO and separate evidence.
+- No runtime start, no x_search, no Hermes/WSL, no Command Chat send, no external write, no productionReady true, no execution enabled.
 
 ## v4.17.0 - Final Verification Process / PXR Post-100 Defer
 

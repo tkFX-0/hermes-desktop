@@ -20,13 +20,13 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v4.17.0
-- latestUpdate: 2026-05-20 - Final verification process fixed; PXR polish deferred to post-100.
+- roadmapVersion: v4.18.0
+- latestUpdate: 2026-05-20 - Post-100 candidate gate process defined.
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: origin/main=75e690b
 - validation road: Gate 001-007 ✓; AT-07〜AT-15 PASS; CC-01/02 PASS; UI-01/02 PASS; 100% Roadmap docs完成
-- current next human action: AT-14 runtime visual recheck GO, then Control Center live snapshot evidence.
+- current next human action: decide whether to issue AT-14 runtime visual confirmation GO as the first post-100 candidate.
 - HOLD reason: productionReady false; execution disabled; Level 5 actions require explicit human GO
 
 ## Agent Theater — 完了済み
