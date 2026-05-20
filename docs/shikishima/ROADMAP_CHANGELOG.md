@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.31.0
+- roadmapVersion: v4.32.0
 - lastUpdated: 2026-05-21
-- latestUpdate: StackChan SC-FACE-04 face asset spec, SC-RESTORE-01 rollback plan, and SC-FACE-05 display-only GO draft added.
-- baselineCommit: 7396760
+- latestUpdate: SC-FACE-05 ONE_SHOT_PASS (Option A). Shikishima core next gate review + Level 5 priority order documented.
+- baselineCommit: 08d2dfc
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,13 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.32.0 - SC-FACE-05 PASS + Shikishima Core Level 5 Priority Review
+
+- `SC_FACE_05_DISPLAY_ONLY_TEST_EVIDENCE_2026-05-21.md`: SC-FACE-05 Option A (iPhone AVATAR menu) confirmed PASS by tk. Direction + expression change confirmed. Firmware write not required. Gate restored to HOLD.
+- `SHIKISHIMA_CORE_NEXT_GATE_REVIEW_2026-05-21.md`: Shikishima core next gate review. Recommended: productionReady precheck before HB-01/CC-03/XACC.
+- `LEVEL5_CORE_GATE_PRIORITY_2026-05-21.md`: Gate priority order — XS-AUTO-03 → CC-03 → HB-01 → XACC-01 → productionReady GO. Completion estimate: ~70%.
+- StackChan work deferred. Shikishima core focus from here.
 
 ## v4.31.0 - StackChan Face Asset Spec / Restore Plan / Display Test Draft
 
