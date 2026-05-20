@@ -15,7 +15,7 @@ const VAULT_ROOT = join(
 const ALLOWED_SUBFOLDER = "30_Evidence";
 const ALLOWED_ROOT = normalize(join(VAULT_ROOT, ALLOWED_SUBFOLDER));
 
-// DRY_RUN = true until explicit OB-01 GO
+// OB-01 one-shot write executed 2026-05-20 — gate restored to HOLD posture
 const OB01_DRY_RUN = true;
 
 export interface LibraryWriteRequest {
