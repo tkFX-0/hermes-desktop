@@ -431,6 +431,34 @@ interface HermesAPI {
     logFile?: string,
     lines?: number,
   ) => Promise<{ content: string; path: string }>;
+
+  // OB-01: Library evidence write (dry-run until explicit GO)
+  shikishimaLibraryWrite: (req: {
+    filename: string;
+    content: string;
+  }) => Promise<{
+    success: boolean;
+    redactedPath?: string;
+    error?: string;
+    dryRun: boolean;
+    ob01Status: "HOLD" | "ACTIVE";
+  }>;
+
+  // DIS-01: Discord read-only intake (HOLD until explicit GO)
+  shikishimaDiscordRead: (limit?: number) => Promise<{
+    success: boolean;
+    messages?: Array<{
+      id: string;
+      authorName: string;
+      contentPreview: string;
+      timestamp: string;
+    }>;
+    error?: string;
+    channelIdConfirmed: string;
+    readCount: number;
+    rawTokenReported: false;
+    dis01Status: "HOLD" | "ACTIVE";
+  }>;
 }
 
 interface IchikishimaControlCenterAPI {

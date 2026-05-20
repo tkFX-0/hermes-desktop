@@ -119,6 +119,9 @@ import {
   triggerCronJob,
 } from "./cronjobs";
 import { getAppLocale, setAppLocale } from "./locale";
+import { writeEvidenceNote } from "./library-export";
+import type { LibraryWriteRequest } from "./library-export";
+import { readDiscordChannel } from "./discord-intake";
 
 process.on("uncaughtException", (err) => {
   console.error("[MAIN UNCAUGHT]", err);
@@ -748,6 +751,16 @@ function setupIPC(): void {
   // Log viewer
   ipcMain.handle("read-logs", (_event, logFile?: string, lines?: number) =>
     readLogs(logFile, lines),
+  );
+
+  // OB-01: Library evidence write (dry-run until explicit GO)
+  ipcMain.handle("shikishima-library-write", (_event, req: LibraryWriteRequest) =>
+    writeEvidenceNote(req),
+  );
+
+  // DIS-01: Discord read-only intake (HOLD until explicit GO)
+  ipcMain.handle("shikishima-discord-read", (_event, limit?: number) =>
+    readDiscordChannel(limit),
   );
 }
 

@@ -1,9 +1,10 @@
 /**
- * LibraryMarkdownPreview — generated Markdown preview (dry-run).
- * Shows frontmatter + body template. No file write occurs here.
+ * LibraryMarkdownPreview — generated Markdown preview with dry-run export.
+ * Shows frontmatter + body template. Actual write requires OB-01 GO.
  * Design spec: OBS_LIB_02_MARKDOWN_EXPORT_PLAN.md
  */
 
+import { useState } from "react";
 import type { LibraryItem } from "../../types/library-export-types";
 import { generateMarkdown, generateFilename } from "./libraryExportTemplates";
 
@@ -12,9 +13,30 @@ interface LibraryMarkdownPreviewProps {
   readonly lang?: "ja" | "en";
 }
 
+type ExportState =
+  | { phase: "idle" }
+  | { phase: "running" }
+  | { phase: "done"; redactedPath: string; ob01Status: "HOLD" | "ACTIVE" }
+  | { phase: "error"; error: string };
+
 export function LibraryMarkdownPreview({ item, lang = "ja" }: LibraryMarkdownPreviewProps): React.JSX.Element {
   const filename = generateFilename(item);
   const markdown = generateMarkdown(item);
+  const [exportState, setExportState] = useState<ExportState>({ phase: "idle" });
+
+  async function handleExport(): Promise<void> {
+    setExportState({ phase: "running" });
+    try {
+      const result = await window.hermesAPI.shikishimaLibraryWrite({ filename, content: markdown });
+      if (result.success && result.redactedPath) {
+        setExportState({ phase: "done", redactedPath: result.redactedPath, ob01Status: result.ob01Status });
+      } else {
+        setExportState({ phase: "error", error: result.error ?? "unknown" });
+      }
+    } catch (e) {
+      setExportState({ phase: "error", error: (e as Error).message });
+    }
+  }
 
   return (
     <div
@@ -65,6 +87,46 @@ export function LibraryMarkdownPreview({ item, lang = "ja" }: LibraryMarkdownPre
       >
         {markdown}
       </pre>
+
+      {/* Export button + result */}
+      <div style={{ display: "flex", flexDirection: "column" as const, gap: 6 }}>
+        <button
+          onClick={() => void handleExport()}
+          disabled={exportState.phase === "running"}
+          style={{
+            alignSelf: "flex-start" as const,
+            fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
+            fontSize: 11,
+            color: exportState.phase === "running" ? "#6e7681" : "#c9d1d9",
+            background: "#161b22",
+            border: "1px solid #30363d",
+            borderRadius: 4,
+            padding: "5px 12px",
+            cursor: exportState.phase === "running" ? "wait" : "pointer",
+          }}
+        >
+          {exportState.phase === "running"
+            ? (lang === "ja" ? "確認中..." : "Checking...")
+            : (lang === "ja" ? "Export dry-run (OB-01)" : "Export dry-run (OB-01)")}
+        </button>
+
+        {exportState.phase === "done" && (
+          <div style={{ background: "#0d2119", border: "1px solid #3fb95044", borderRadius: 3, padding: "6px 10px", display: "flex", flexWrap: "wrap" as const, gap: 8 }}>
+            <span style={{ fontFamily: '"IBM Plex Mono", ui-monospace, monospace', fontSize: 10, color: "#3fb950" }}>
+              dry-run OK: {exportState.redactedPath}
+            </span>
+            <span style={{ fontFamily: '"IBM Plex Mono", ui-monospace, monospace', fontSize: 10, color: "#f0883e" }}>
+              OB-01: {exportState.ob01Status}
+            </span>
+          </div>
+        )}
+
+        {exportState.phase === "error" && (
+          <span style={{ fontFamily: '"IBM Plex Mono", ui-monospace, monospace', fontSize: 10, color: "#f85149" }}>
+            error: {exportState.error}
+          </span>
+        )}
+      </div>
 
       {/* Write gate notice */}
       <span style={{ fontFamily: '"IBM Plex Sans", "Inter", system-ui, sans-serif', fontSize: 10, color: "#6e7681", lineHeight: 1.4 }}>
