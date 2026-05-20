@@ -1,15 +1,19 @@
 /**
  * PixelGhostSprite — kawaii ghost characters for Pixel Room.
- * Design reference: Shikishima character sheet (approved visual spec, image #8/#9).
- * PNG未使用 — inline SVG only. Display-only. No image assets.
- * ViewBox 0 0 64 80.
+ * PXR-05E fidelity pass v4 — "compact-cute" design matching the approved sheet:
+ *   • body: near-circle (44×44px) + short wispy tail
+ *   • eyes: SMALL pixel squares (8×10px) — not dominant
+ *   • cheeks: LARGE ovals (rx=7.5 ry=5.5) — main cuteness signal
+ *   • smile: wide happy arc (span 26px)
+ *   • accessories: bigger, clearer
+ * ViewBox 0 0 64 80. Inline SVG only. No image assets.
  *
- * Character summary:
- *   しきしま : navy headset + mic boom + blue "しき" flag
- *   しずめ   : dark flat cap (NOT yellow hardhat) + yellow vest + red HOLD sign
- *   はじめ   : no hat + green terrain map + "?" thought bubble
- *   つむぎ   : yellow hard hat + brown toolbox + wrench
- *   しるべ   : dark headphones + open logbook + pen
+ * Character reference (design sheet #1-#10):
+ *   しきしま #1/#6 : headset + mic + blue flag
+ *   しずめ   #2/#7 : flat cap + vest + HOLD sign
+ *   はじめ   #3/#8 : green map spread + "?" bubble
+ *   つむぎ   #4/#9 : yellow hardhat + toolbox + wrench
+ *   しるべ   #5/#10: headphones + open logbook + pen
  */
 
 import type { AgentId } from "../../types/agent-theater-types";
@@ -20,46 +24,45 @@ interface PixelGhostSpriteProps {
 }
 
 /* ── Palette ── */
-const WHITE = "#f6fbff";
-const SHADOW = "#c5d8ff";
-const INK = "#102052";
+const WHITE = "#f0f4ff";
+const SHADOW = "#becce8";
+const INK = "#0e1e4a";
 const BLUSH = "#ff9090";
 const MONO = '"IBM Plex Mono", monospace';
 
 /*
- * Shared body path (64×80 viewBox).
- * Round on top (y=9), 3-bump ghost tail at bottom (~y=63).
- * Width: x=10 to x=56.
+ * Rounder body path — near-circle 44×44px (x=10-54, y=8-52) + 3 short bumps.
+ * Wider than the previous path for more "pudgy mascot" feel.
  */
 const BODY_PATH =
-  "M32,9 C18,9 10,19 10,34 C10,45 15,53 22,54 Q25,62 29,55 Q32,63 35,55 Q39,62 42,54 C50,53 56,45 56,34 C56,19 46,9 32,9 Z";
+  "M32,8 C16,8 10,17 10,31 C10,45 17,52 23,52 Q26,61 29,54 Q32,64 35,54 Q38,61 41,52 C47,52 54,45 54,31 C54,17 48,8 32,8 Z";
 
-/* ── Shared body component ── */
+/* ── Shared body ── */
 function Body({ edge }: { readonly edge: string }): React.JSX.Element {
   return (
     <>
       {/* Floor shadow */}
-      <ellipse cx="34" cy="70" rx="20" ry="4.5" fill="rgba(0,0,0,0.18)" />
+      <ellipse cx="33" cy="70" rx="19" ry="4" fill="rgba(0,0,0,0.20)" />
       {/* Drop shadow */}
       <path
         d={BODY_PATH}
         fill={SHADOW}
-        transform="translate(1.6,2)"
-        opacity="0.82"
+        transform="translate(1.4,1.6)"
+        opacity="0.80"
       />
       {/* Main white body */}
       <path
         d={BODY_PATH}
         fill={WHITE}
         stroke={edge}
-        strokeWidth="1.9"
+        strokeWidth="1.6"
         strokeLinejoin="round"
       />
-      {/* Upper-left highlight arc */}
+      {/* Upper-left gloss arc — three-dimensional round feel */}
       <path
-        d="M22,15 C16,20 14,28 15,36"
-        stroke="rgba(255,255,255,0.85)"
-        strokeWidth="4.5"
+        d="M19,13 C13,19 11,29 13,38"
+        stroke="rgba(255,255,255,0.78)"
+        strokeWidth="5.5"
         strokeLinecap="round"
       />
     </>
@@ -67,10 +70,11 @@ function Body({ edge }: { readonly edge: string }): React.JSX.Element {
 }
 
 /*
- * Shared face component.
- * mood="smile" : open square pixel eyes, big curve smile (default)
- * mood="focus" : open eyes, slightly flatter smile (determined look)
- * mood="calm"  : closed-arc eyes, gentle smile (relaxed)
+ * Compact-cute face.
+ *   smile  : open eyes (8×10px square) — small, not dominant
+ *   focus  : open eyes, flatter mouth (determined)
+ *   calm   : closed gentle arcs (relaxed / transcribing)
+ * Cheeks are always the largest face element.
  */
 function Face({
   mood = "smile",
@@ -83,63 +87,63 @@ function Face({
       {mood === "calm" ? (
         <>
           <path
-            d="M19,32 Q24,27 29,32"
+            d="M20,27 Q25,23 30,27"
             stroke={INK}
-            strokeWidth="3.5"
+            strokeWidth="3.2"
             fill="none"
             strokeLinecap="round"
           />
           <path
-            d="M37,32 Q42,27 47,32"
+            d="M37,27 Q42,23 47,27"
             stroke={INK}
-            strokeWidth="3.5"
+            strokeWidth="3.2"
             fill="none"
             strokeLinecap="round"
           />
         </>
       ) : (
         <>
-          {/* Left eye */}
-          <rect x="19" y="27" width="10" height="12" rx="2.5" fill={INK} />
+          {/* Left eye — compact pixel square */}
+          <rect x="20" y="22" width="8" height="10" rx="2" fill={INK} />
           <rect
-            x="20"
-            y="28"
-            width="3"
-            height="3"
-            rx="0.5"
+            x="21"
+            y="23"
+            width="2.5"
+            height="2.5"
+            rx="0.4"
             fill="white"
-            opacity="0.9"
+            opacity="0.92"
           />
           {/* Right eye */}
-          <rect x="37" y="27" width="10" height="12" rx="2.5" fill={INK} />
+          <rect x="37" y="22" width="8" height="10" rx="2" fill={INK} />
           <rect
             x="38"
-            y="28"
-            width="3"
-            height="3"
-            rx="0.5"
+            y="23"
+            width="2.5"
+            height="2.5"
+            rx="0.4"
             fill="white"
-            opacity="0.9"
+            opacity="0.92"
           />
         </>
       )}
-      {/* Cheeks */}
-      <ellipse cx="13" cy="38" rx="5.5" ry="4" fill={BLUSH} opacity="0.55" />
-      <ellipse cx="51" cy="38" rx="5.5" ry="4" fill={BLUSH} opacity="0.55" />
+      {/* Cheeks — large, warm pink, the "cuteness" anchor */}
+      <ellipse cx="13" cy="33" rx="7.5" ry="5.5" fill={BLUSH} opacity="0.62" />
+      <ellipse cx="51" cy="33" rx="7.5" ry="5.5" fill={BLUSH} opacity="0.62" />
       {/* Smile */}
       {mood === "focus" ? (
         <path
-          d="M24,43 Q32,47 40,43"
+          d="M22,37 Q32,44 42,37"
           stroke={INK}
-          strokeWidth="2.2"
+          strokeWidth="2.5"
           fill="none"
           strokeLinecap="round"
         />
       ) : (
         <path
-          d="M22,42 Q32,51 42,42"
+          d="M19,37 Q32,50 45,37"
           stroke={INK}
-          strokeWidth="2.2"
+          strokeWidth="2.5"
           fill="none"
           strokeLinecap="round"
         />
@@ -149,9 +153,8 @@ function Face({
 }
 
 /*
- * Mini flag helper.
- * x,y = top-left of stick.  Stick: 2.5×34px.  Flag rect: 17×12px.
- * Text at 5.8px — readable from ~60px render distance.
+ * Flag on a pole — 20×14px rect, 6.5px bold text.
+ * pole goes from (x,y) downward 36px; flag extends rightward from x+2.
  */
 function MiniFlag({
   x,
@@ -168,17 +171,14 @@ function MiniFlag({
 }): React.JSX.Element {
   return (
     <>
-      {/* Flagpole */}
-      <rect x={x} y={y} width="2.5" height="34" rx="1" fill={pole} />
-      {/* Flag rectangle */}
-      <rect x={x + 2} y={y + 1} width="17" height="12" rx="1.5" fill={color} />
-      {/* Flag text — centered in rect */}
+      <rect x={x} y={y} width="2.5" height="36" rx="1" fill={pole} />
+      <rect x={x + 2} y={y + 1} width="20" height="14" rx="2" fill={color} />
       <text
-        x={x + 10.5}
-        y={y + 10}
+        x={x + 12}
+        y={y + 12}
         textAnchor="middle"
         fontFamily={MONO}
-        fontSize="5.8"
+        fontSize="6.5"
         fill="white"
         fontWeight="900"
       >
@@ -190,307 +190,308 @@ function MiniFlag({
 
 /* ──────────────────────────────────────────────────────────────────
    1. しきしま — Commander
-   Navy headset (thick band + oval pads) + mic boom + blue "しき" flag
+   Navy headset (thick band + large oval pads) + mic boom + blue "しき" flag.
+   Alert, monitoring, awaiting human GO.
 ────────────────────────────────────────────────────────────────── */
 function ShikishimaSprite(): React.JSX.Element {
   return (
     <g>
       <Body edge="#4f8dff" />
-      {/* Headset band (arches high over head) */}
+      {/* Headset band — thick arc high over head */}
       <path
-        d="M11,35 Q13,9 33,9 Q52,9 55,35"
+        d="M10,30 Q13,6 33,6 Q52,6 54,30"
         stroke="#142858"
-        strokeWidth="5.2"
+        strokeWidth="5.5"
         fill="none"
         strokeLinecap="round"
       />
-      {/* Left earpad — outer */}
-      <ellipse cx="10" cy="36" rx="7.5" ry="9.5" fill="#142858" />
-      {/* Left earpad — inner highlight */}
-      <ellipse cx="10" cy="36" rx="4.5" ry="6" fill="#2e4898" />
-      {/* Right earpad — outer */}
-      <ellipse cx="54" cy="36" rx="7.5" ry="9.5" fill="#142858" />
-      {/* Right earpad — inner highlight */}
-      <ellipse cx="54" cy="36" rx="4.5" ry="6" fill="#2e4898" />
       <Face />
-      {/* Mic boom arm */}
+      {/* Left earpad — large oval on top of face edge */}
+      <ellipse cx="9" cy="31" rx="9" ry="11" fill="#142858" />
+      <ellipse cx="9" cy="31" rx="5.2" ry="6.5" fill="#2e4898" />
+      {/* Right earpad */}
+      <ellipse cx="55" cy="31" rx="9" ry="11" fill="#142858" />
+      <ellipse cx="55" cy="31" rx="5.2" ry="6.5" fill="#2e4898" />
+      {/* Mic boom */}
       <path
-        d="M5,42 Q3,55 14,59"
+        d="M4,38 Q2,54 15,58"
         stroke="#142858"
-        strokeWidth="2.5"
+        strokeWidth="2.8"
         fill="none"
         strokeLinecap="round"
       />
-      {/* Mic capsule */}
-      <rect x="11" y="57" width="9" height="5.5" rx="2.5" fill="#142858" />
-      {/* Blue "しき" flag */}
-      <MiniFlag x={55} y={12} color="#1f57df" text="しき" />
+      <rect x="12" y="56" width="11" height="7" rx="3.5" fill="#142858" />
+      {/* Blue "しき" flag (right, past earpad) */}
+      <MiniFlag x={55} y={8} color="#1f57df" text="しき" />
     </g>
   );
 }
 
 /* ──────────────────────────────────────────────────────────────────
    2. しずめ — Safety Gate
-   Dark flat officer cap + yellow vest stripes + red HOLD sign flag
-   NOTE: flat cap (NOT yellow hardhat — see design sheet reference)
+   Dark flat officer cap + yellow vest stripes + whistle + red HOLD sign.
+   Determined, safety-checking (focus mood).
 ────────────────────────────────────────────────────────────────── */
 function ShizumeSprite(): React.JSX.Element {
   return (
     <g>
       <Body edge="#f0b429" />
-      {/* Flat cap — dome (dark navy) */}
-      <path d="M13,22 Q31,4 51,22" fill="#172448" />
+      {/* Flat cap dome — dark navy */}
+      <path d="M11,20 Q31,2 53,20" fill="#172448" />
       {/* Cap dome highlight */}
-      <path d="M17,18 Q32,7 48,18" fill="#263d78" />
-      {/* Cap brim (wide, flat) */}
-      <rect x="9" y="22" width="46" height="5.5" rx="2.5" fill="#172448" />
-      {/* Yellow safety vest — 2 horizontal stripes on body */}
-      <rect x="16" y="47" width="32" height="5" rx="2" fill="#f8bf1a" />
-      <rect x="16" y="54" width="32" height="4.5" rx="2" fill="#f8bf1a" />
+      <path d="M15,16 Q32,5 49,16" fill="#263d78" />
+      {/* Cap brim — wide, clearly indoor officer cap */}
+      <rect x="8" y="20" width="48" height="7" rx="3" fill="#172448" />
+      {/* Yellow safety vest — 2 bold horizontal stripes */}
+      <rect x="13" y="44" width="38" height="6.5" rx="2.5" fill="#f8bf1a" />
+      <rect x="13" y="52" width="38" height="6" rx="2.5" fill="#f8bf1a" />
       {/* Vest diagonal accent stripes */}
       <path
-        d="M18,44 L26,58 M46,44 L38,58"
+        d="M15,41 L24,59 M49,41 L40,59"
         stroke="#f8bf1a"
-        strokeWidth="4.5"
+        strokeWidth="5.5"
         strokeLinecap="round"
-        opacity="0.6"
+        opacity="0.52"
       />
       <Face mood="focus" />
-      {/* Whistle (gold circle + cord) */}
+      {/* Whistle — large gold circle */}
       <circle
         cx="32"
-        cy="47"
-        r="4.5"
+        cy="45"
+        r="6"
         fill="#f8bf1a"
         stroke="#9d6700"
-        strokeWidth="1.3"
+        strokeWidth="1.6"
       />
-      <circle cx="32" cy="47" r="2" fill="#ffe889" />
+      <circle cx="32" cy="45" r="2.8" fill="#ffe889" />
+      {/* Whistle cord */}
       <path
-        d="M30,45 Q25,41 22,37"
+        d="M30,43 Q25,38 22,34"
         stroke="#172448"
-        strokeWidth="2"
+        strokeWidth="2.5"
         fill="none"
         strokeLinecap="round"
       />
       {/* Red HOLD sign flag */}
-      <MiniFlag x={55} y={16} color="#dc1f1f" text="HOLD" pole="#552222" />
+      <MiniFlag x={55} y={12} color="#dc1f1f" text="HOLD" pole="#552222" />
     </g>
   );
 }
 
 /* ──────────────────────────────────────────────────────────────────
    3. はじめ / むすび — Planning
-   No hat + green terrain map (route dots) + "?" thought bubble
+   No hat. Large "?" thought bubble + green terrain map spread wide.
+   Character is actively studying / planning.
 ────────────────────────────────────────────────────────────────── */
 function HajimeSprite(): React.JSX.Element {
   return (
     <g>
       <Body edge="#5bbf6a" />
-      {/* Thought bubble — large circle (upper right) */}
+      {/* "?" thought bubble — large, upper right */}
       <circle
-        cx="49"
-        cy="15"
-        r="9.5"
-        fill="rgba(228,236,255,0.92)"
+        cx="50"
+        cy="11"
+        r="11"
+        fill="rgba(222,232,255,0.90)"
         stroke="#b9caff"
-        strokeWidth="1.3"
+        strokeWidth="1.4"
       />
-      {/* Bubble connector dots */}
       <circle
-        cx="42"
-        cy="25"
-        r="4"
-        fill="rgba(228,236,255,0.92)"
+        cx="43"
+        cy="22"
+        r="5"
+        fill="rgba(222,232,255,0.90)"
         stroke="#b9caff"
-        strokeWidth="0.9"
+        strokeWidth="1.1"
       />
       <circle
         cx="39"
-        cy="31"
-        r="2.5"
-        fill="rgba(228,236,255,0.92)"
+        cy="29"
+        r="3"
+        fill="rgba(222,232,255,0.90)"
         stroke="#b9caff"
-        strokeWidth="0.8"
+        strokeWidth="0.9"
       />
-      {/* "?" inside bubble — large enough to read at distance */}
       <text
-        x="49"
-        y="20"
+        x="50"
+        y="16"
         textAnchor="middle"
         fontFamily={MONO}
-        fontSize="11"
+        fontSize="13"
         fill={INK}
         fontWeight="900"
       >
         ?
       </text>
       <Face />
-      {/* Green terrain map (folded, large) */}
+      {/* Green terrain map — full-width, character spreads it open */}
       <path
-        d="M11,47 L23,42 L36,47 L50,42 L56,47 L56,63 L44,68 L31,63 L18,68 L11,63 Z"
+        d="M6,43 L20,37 L37,43 L54,37 L60,43 L60,62 L46,68 L29,62 L13,68 L6,62 Z"
         fill="#c8d96a"
         stroke="#4d8b35"
-        strokeWidth="1.6"
+        strokeWidth="1.8"
       />
       {/* Map fold lines */}
       <path
-        d="M23,42 V62 M36,47 V67 M50,42 V62"
+        d="M20,37 V61 M37,43 V67 M54,37 V61"
         stroke="#7da64a"
-        strokeWidth="1.2"
+        strokeWidth="1.3"
       />
       {/* Route path */}
       <path
-        d="M15,60 Q24,53 35,58 Q44,63 52,53"
+        d="M10,57 Q21,50 33,55 Q44,61 54,51"
         stroke="#2f7f44"
-        strokeWidth="2"
+        strokeWidth="2.2"
         fill="none"
-        strokeDasharray="3.5 2.5"
+        strokeDasharray="4 2.5"
       />
-      {/* Route dots — red, large enough to see */}
-      <circle cx="18" cy="59" r="3.2" fill="#e03838" />
-      <circle cx="48" cy="55" r="2.8" fill="#e03838" />
+      {/* Route dots — large red markers */}
+      <circle cx="13" cy="56" r="4" fill="#e03838" />
+      <circle cx="50" cy="52" r="3.5" fill="#e03838" />
     </g>
   );
 }
 
 /* ──────────────────────────────────────────────────────────────────
    4. つむぎ — Developer / Builder
-   Yellow hard hat (dome + brim + ribs) + brown toolbox + wrench
+   Yellow hard hat + brown toolbox (right) + wrench (left).
+   Ready to build, determined (focus mood).
 ────────────────────────────────────────────────────────────────── */
 function TsumugiSprite(): React.JSX.Element {
   return (
     <g>
       <Body edge="#f0a020" />
-      {/* Hard hat dome — yellow */}
+      {/* Hard hat dome */}
       <path
-        d="M14,22 Q16,5 32,5 Q48,5 50,22"
+        d="M12,22 Q15,3 32,3 Q49,3 52,22"
         fill="#f5bd12"
         stroke="#b87500"
-        strokeWidth="1.4"
+        strokeWidth="1.5"
+      />
+      {/* Hat dome highlight */}
+      <path
+        d="M19,5 Q32,2 45,5 Q50,10 50,19 Q43,13 32,13 Q21,13 14,19 Q14,10 19,5"
+        fill="rgba(255,245,130,0.45)"
       />
       {/* Hat brim */}
-      <rect x="9" y="22" width="46" height="5.5" rx="2.7" fill="#d98a00" />
+      <rect x="8" y="22" width="48" height="7" rx="3" fill="#d98a00" />
       {/* Dome vertical ribs */}
       <path
-        d="M23,8 V22 M32,5 V22 M41,8 V22"
+        d="M22,6 V22 M32,3 V22 M42,6 V22"
         stroke="#b87500"
-        strokeWidth="1.5"
-        opacity="0.7"
+        strokeWidth="2"
+        opacity="0.60"
       />
       <Face mood="focus" />
-      {/* Toolbox (right side, large) */}
-      <rect x="42" y="49" width="19" height="14" rx="2.5" fill="#7a4820" />
-      <rect x="42" y="47" width="19" height="6" rx="2" fill="#936130" />
-      {/* Toolbox handle */}
+      {/* Toolbox — large, right side */}
+      <rect x="39" y="45" width="22" height="17" rx="3" fill="#7a4820" />
+      <rect x="39" y="43" width="22" height="8" rx="2.5" fill="#936130" />
+      {/* Handle */}
       <path
-        d="M47,47 Q51.5,40 56,47"
+        d="M44,43 Q50,35 56,43"
         stroke="#936130"
-        strokeWidth="3"
+        strokeWidth="4"
         fill="none"
       />
       {/* Clasps */}
-      <rect x="45" y="56" width="4.5" height="3" rx="1" fill="#d9a049" />
-      <rect x="54" y="56" width="4.5" height="3" rx="1" fill="#d9a049" />
-      {/* Wrench (left side) */}
+      <rect x="42" y="55" width="6" height="4.5" rx="1.5" fill="#d9a049" />
+      <rect x="54" y="55" width="6" height="4.5" rx="1.5" fill="#d9a049" />
+      {/* Wrench — left side */}
       <path
-        d="M8,49 L19,38"
+        d="M4,44 L19,29"
         stroke="#56616f"
-        strokeWidth="3.8"
+        strokeWidth="5"
         strokeLinecap="round"
       />
-      <path d="M17,34 Q22,30 27,33 Q24,39 18,38 Z" fill="#56616f" />
-      {/* Orange "つむ" flag */}
-      <MiniFlag x={55} y={20} color="#f07000" text="つむ" pole="#a04800" />
+      <path d="M17,25 Q23,20 29,23 Q26,30 19,29 Z" fill="#56616f" />
     </g>
   );
 }
 
 /* ──────────────────────────────────────────────────────────────────
    5. しるべ — Record Keeper
-   Dark headphones (thick band + oval pads) + open logbook + pen
+   Dark headphones + large open logbook (held open) + pen.
+   Calm, transcribing (calm mood with gentle closed-arc eyes).
 ────────────────────────────────────────────────────────────────── */
 function ShirubeSprite(): React.JSX.Element {
   return (
     <g>
       <Body edge="#6c82ff" />
-      {/* Headphone band (same arc as しきしま but darker purple) */}
+      {/* Headphone band — same style as しきしま, darker purple */}
       <path
-        d="M11,35 Q13,9 33,9 Q52,9 55,35"
+        d="M10,30 Q13,6 33,6 Q52,6 54,30"
         stroke="#18224d"
-        strokeWidth="5.2"
+        strokeWidth="5.5"
         fill="none"
         strokeLinecap="round"
       />
-      {/* Left earpad — outer */}
-      <ellipse cx="10" cy="36" rx="7.5" ry="10" fill="#18224d" />
-      {/* Left earpad — inner highlight */}
-      <ellipse cx="10" cy="36" rx="4.5" ry="6.5" fill="#4557b8" />
-      {/* Right earpad — outer */}
-      <ellipse cx="54" cy="36" rx="7.5" ry="10" fill="#18224d" />
-      {/* Right earpad — inner highlight */}
-      <ellipse cx="54" cy="36" rx="4.5" ry="6.5" fill="#4557b8" />
       <Face mood="calm" />
-      {/* Open logbook — two pages + spine */}
+      {/* Left earpad — slightly larger than しきしま for distinction */}
+      <ellipse cx="9" cy="31" rx="9" ry="12" fill="#18224d" />
+      <ellipse cx="9" cy="31" rx="5.2" ry="7.5" fill="#4557b8" />
+      {/* Right earpad */}
+      <ellipse cx="55" cy="31" rx="9" ry="12" fill="#18224d" />
+      <ellipse cx="55" cy="31" rx="5.2" ry="7.5" fill="#4557b8" />
+      {/* Open logbook — large, held open across body */}
       {/* Spine */}
-      <rect x="29" y="47" width="4.5" height="19" rx="1.5" fill="#18224d" />
+      <rect x="29" y="45" width="6" height="22" rx="2" fill="#18224d" />
       {/* Left page */}
-      <rect x="10" y="48" width="19" height="17" rx="2" fill="#f7f1e7" />
+      <rect x="7" y="46" width="22" height="20" rx="2.5" fill="#f7f1e7" />
       <line
-        x1="12"
-        y1="53"
+        x1="10"
+        y1="52"
         x2="27"
-        y2="53"
-        stroke="rgba(60,60,100,0.45)"
-        strokeWidth="1.3"
+        y2="52"
+        stroke="rgba(50,50,90,0.52)"
+        strokeWidth="1.5"
       />
       <line
-        x1="12"
-        y1="57"
+        x1="10"
+        y1="58"
         x2="27"
-        y2="57"
-        stroke="rgba(60,60,100,0.45)"
-        strokeWidth="1.3"
+        y2="58"
+        stroke="rgba(50,50,90,0.52)"
+        strokeWidth="1.5"
       />
       <line
-        x1="12"
-        y1="61"
-        x2="22"
-        y2="61"
-        stroke="rgba(60,60,100,0.35)"
-        strokeWidth="1.1"
+        x1="10"
+        y1="64"
+        x2="20"
+        y2="64"
+        stroke="rgba(50,50,90,0.38)"
+        strokeWidth="1.2"
       />
       {/* Right page */}
-      <rect x="33" y="48" width="19" height="17" rx="2" fill="#f7f1e7" />
+      <rect x="35" y="46" width="22" height="20" rx="2.5" fill="#f7f1e7" />
       <line
-        x1="35"
-        y1="53"
+        x1="38"
+        y1="52"
+        x2="55"
+        y2="52"
+        stroke="rgba(50,50,90,0.52)"
+        strokeWidth="1.5"
+      />
+      <line
+        x1="38"
+        y1="58"
+        x2="55"
+        y2="58"
+        stroke="rgba(50,50,90,0.52)"
+        strokeWidth="1.5"
+      />
+      <line
+        x1="38"
+        y1="64"
         x2="50"
-        y2="53"
-        stroke="rgba(60,60,100,0.45)"
-        strokeWidth="1.3"
+        y2="64"
+        stroke="rgba(50,50,90,0.38)"
+        strokeWidth="1.2"
       />
-      <line
-        x1="35"
-        y1="57"
-        x2="50"
-        y2="57"
-        stroke="rgba(60,60,100,0.45)"
-        strokeWidth="1.3"
-      />
-      <line
-        x1="35"
-        y1="61"
-        x2="46"
-        y2="61"
-        stroke="rgba(60,60,100,0.35)"
-        strokeWidth="1.1"
-      />
-      {/* Pen (writing on right page) — diagonal stroke */}
-      <path d="M41,59 L47,51 L49,53 L43,61 Z" fill="#2a2060" />
-      <circle cx="41.5" cy="59.5" r="1.8" fill="#2a2060" />
-      {/* Purple "しる" flag */}
-      <MiniFlag x={55} y={12} color="#7040c0" text="しる" pole="#40206a" />
+      {/* Pen — writing on right page */}
+      <path d="M47,61 L54,53 L56,55 L49,63 Z" fill="#2a2060" />
+      <circle cx="47.5" cy="61.5" r="2.2" fill="#2a2060" />
+      {/* Purple "しる" flag (right side) */}
+      <MiniFlag x={55} y={8} color="#7040c0" text="しる" pole="#40206a" />
     </g>
   );
 }
