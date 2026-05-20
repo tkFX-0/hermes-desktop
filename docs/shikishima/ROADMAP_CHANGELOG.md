@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.25.0
+- roadmapVersion: v4.26.0
 - lastUpdated: 2026-05-20
-- latestUpdate: OBS-LIB-00 Library tab added — Markdown preview, article-style report preview, dry-run queue, vault settings. typecheck PASS. local write HOLD.
-- baselineCommit: 84d85f9
+- latestUpdate: L4 final confirmation PASS + L5 transition package (7 docs). Gate opening order, GO templates (12 gates), runbook, master STOP conditions. Level 5 all HOLD.
+- baselineCommit: c8f3ea1
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,18 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.26.0 - Level 4 Confirmed / Level 5 Transition Package
+
+- `LEVEL_4_FINAL_CONFIRMATION_RECORD.md`: Level 1–4 all PASS. Evidence chain documented. Level 5 HOLD.
+- `LEVEL_5_TRANSITION_READINESS_PACKAGE.md`: All Level 5 action catalog (14 items), pre-conditions, key principles.
+- `LEVEL_5_GATE_OPENING_ORDER.md`: Recommended order #1–#13, risk classification (Low→Critical), usage guide.
+- `A_LIMITED_OPERATION_TO_LEVEL5_RUNBOOK.md`: 10-step A限定運用 daily flow. One gate per session. Rules. Checklist.
+- `LEVEL_5_STOP_CONDITIONS_MASTER.md`: Universal + gate-specific STOP conditions. Post-STOP procedure.
+- `LEVEL_5_HUMAN_GO_TEMPLATE.md`: 12 ready-to-fill GO templates (OB-01/DIS-01/DIS-03/XS-AUTO/HB-01/CC-03/StackChan×2/XACC×2/productionReady/execution).
+- `LEVEL_4_TO_LEVEL_5_SELF_AUDIT.md`: docs-only diff confirmed. All safety flags false.
+- StackChan setup: delegated to Codex. Shikishima core only.
+- docs-only. No runtime. No push.
 
 ## v4.25.0 - OBS-LIB-00 Obsidian Local Library Export (Library Tab)
 

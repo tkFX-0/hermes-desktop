@@ -8,6 +8,32 @@ ClaudeCode が単独で実行することはできません。
 
 ---
 
+## L5-PROD — productionReady true
+
+| 項目 | 内容 |
+|---|---|
+| 内容 | productionReady を true にする |
+| 現状 | HOLD — TypeScript literal type で false に固定 |
+| 必要な GO | productionReady_go (全 Level 5 gate PASS 後) |
+| 参照 | `LEVEL_5_HUMAN_GO_TEMPLATE.md` |
+
+**ブロック理由:** アプリの実運用姿勢への不可逆シフト = Critical
+
+---
+
+## L5-EXEC — execution enabled
+
+| 項目 | 内容 |
+|---|---|
+| 内容 | execution を enabled にする |
+| 現状 | HOLD — TypeScript literal type で "disabled" に固定 |
+| 必要な GO | execution_go (productionReady true + 全 Level 5 PASS 後) |
+| 参照 | `LEVEL_5_HUMAN_GO_TEMPLATE.md` |
+
+**ブロック理由:** 自律エージェント実行 = 最後のゲート / Critical
+
+---
+
 ## CC-03 — Command Chat 実送信
 
 | 項目 | 内容 |

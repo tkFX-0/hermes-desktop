@@ -123,6 +123,13 @@ network flow.
 - `OBS_LIB_04_LOCAL_WRITE_GATE_POLICY.md` - OBS-LIB-04 dry-run vs real write, ob01_local_write_go, no automatic background write.
 - `OBS_LIB_STOP_CONDITIONS.md` - OBS-LIB universal + category-specific STOP conditions.
 - `OBS_LIB_IMPLEMENTATION_EVIDENCE.md` - OBS-LIB-00 implementation evidence (typecheck PASS, local write HOLD, all safety false).
+- `LEVEL_4_FINAL_CONFIRMATION_RECORD.md` - Level 4 final confirmation PASS (Level 1–4 evidence chain, Level 5 HOLD).
+- `LEVEL_5_TRANSITION_READINESS_PACKAGE.md` - Level 5 transition readiness (14-action catalog, pre-conditions, key principles).
+- `LEVEL_5_GATE_OPENING_ORDER.md` - Recommended Level 5 gate opening order #1–#13 with risk classification.
+- `A_LIMITED_OPERATION_TO_LEVEL5_RUNBOOK.md` - 10-step A限定運用→Level 5 daily runbook (one gate per session).
+- `LEVEL_5_STOP_CONDITIONS_MASTER.md` - Master STOP conditions (universal + gate-specific + post-STOP procedure).
+- `LEVEL_5_HUMAN_GO_TEMPLATE.md` - 12 ready-to-fill GO templates for all Level 5 gates.
+- `LEVEL_4_TO_LEVEL_5_SELF_AUDIT.md` - L4→L5 transition self audit (docs-only, all safety false).
 - `SHIKISHIMA_100_PERCENT_ROADMAP_DESIGN.md` - Phase 1–10 フェーズ設計書; 100%までの全計画.
 - `SHIKISHIMA_REMAINING_TASK_REGISTRY_TO_100.md` - DONE/HOLD/BLOCKED/FUTURE 全Task表.
 - `SHIKISHIMA_LEVEL5_GATE_PLAN_TO_100.md` - Level 5 全操作一覧 + 承認フォームテンプレート.

@@ -20,8 +20,8 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v4.25.0
-- latestUpdate: 2026-05-20 - OBS-LIB-00 Library tab + Markdown/report preview + dry-run queue. typecheck PASS. local write HOLD. New tab: 記録庫.
+- roadmapVersion: v4.26.0
+- latestUpdate: 2026-05-20 - L4 final confirmation PASS. L5 transition package (7 docs). Gate opening order #1–13. GO templates (12 gates). Runbook. Master STOP conditions. Level 5 all HOLD. StackChan delegated to Codex.
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: origin/main=2af99cf

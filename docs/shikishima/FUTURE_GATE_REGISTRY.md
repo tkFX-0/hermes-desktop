@@ -149,6 +149,25 @@ These gates are display-only design records. They do not approve runtime,
 push, OAuth, x_search, Obsidian write, external write, productionReady true,
 or execution enabled.
 
+## Level 4 / Level 5 Transition Gates
+
+| Gate ID | Capability | Current Status | Required Before |
+|---|---|---|---|
+| L4-CONFIRM | Level 4 final confirmation | PASS (2026-05-20) | — |
+| L5-READY | Level 5 transition readiness | DESIGN (2026-05-20) | L4-CONFIRM PASS |
+| L5-OB-01 | Obsidian local write | HOLD | ob01_local_write_go |
+| L5-DIS-01 | Discord read-only intake | HOLD | dis01_read_only_go |
+| L5-XS-AUTO | XS-AUTO one-shot read-only | HOLD | xs_auto_read_go |
+| L5-HB-01 | Hermes/WSL connection | HOLD | hb01_hermes_wsl_go |
+| L5-CC-03 | Command Chat one-shot | HOLD | cc03_real_send_go |
+| L5-DIS-03 | Discord one-shot reply | HOLD | dis03_reply_go |
+| L5-SC-DISP | StackChan display-only | HOLD | stackchan_display_go |
+| L5-XACC-R | X account read-only OAuth | HOLD | xacc_read_go |
+| L5-XACC-W | X write / post / reply | HOLD | xacc_write_go |
+| L5-SC-PHYS | StackChan physical/motion | HOLD | stackchan_motion_go |
+| L5-PROD | productionReady true | HOLD (Critical) | all Level 5 + productionReady_go |
+| L5-EXEC | execution enabled | HOLD (Critical) | productionReady true + execution_go |
+
 ## Obsidian Local Library Gates (OBS-LIB series)
 
 | Gate ID | Capability | Current Status | Required Before |
