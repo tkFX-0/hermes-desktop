@@ -79,6 +79,37 @@ blockers for the readiness acceptance process.
 
 ---
 
+## Post-100 Autonomous Operation Preparation (2026-05-21)
+
+The autonomous operation preparation package adds display-only UI and review
+templates only.
+
+```text
+estimated_completion: 35-40% risk-weighted
+human_supervised_v1: possible after review
+limited_autonomous_v2: not ready
+productionReady: false
+execution: disabled
+rawValuesReported: false
+```
+
+Prepared for future human review:
+
+- XS-AUTO-03 GO form, dry-run plan, and evidence template
+- CC-03 GO form, dry-run plan, and evidence template
+- HB-01 GO form, dry-run plan, and evidence template
+- XACC-01 decision form and evidence template
+- BLOCKER-005 review form and evidence template
+- LMO session design and evidence template
+- productionReady and execution enabled draft forms marked DO NOT USE YET
+- Agent Theater display-only Autonomous Operation Readiness panel
+
+This update does not approve Level 5 execution, productionReady true, execution
+enabled, x_search, Discord action, Obsidian write, Hermes/WSL, Command Chat, X
+OAuth, StackChan operation, or external API write.
+
+---
+
 ## Post-100 Gate Completions
 
 | Gate | Result | Evidence | Date |

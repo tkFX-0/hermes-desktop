@@ -20,13 +20,13 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v4.31.0
-- latestUpdate: 2026-05-21 - SC-FACE-04 320x240 face asset spec, SC-RESTORE-01 rollback plan, and SC-FACE-05 display-only GO draft added.
+- roadmapVersion: v4.34.0
+- latestUpdate: 2026-05-21 - Autonomous operation readiness panel, Lv5 GO forms, evidence templates, and dry-run plans prepared without Lv5 execution.
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: origin/main=2af99cf
 - validation road: Gate 001-007 ✓; AT-07〜AT-15 PASS; CC-01/02 PASS; UI-01/02 PASS; 100% Roadmap docs完成; AT-14 runtime PASS; XS-01 read-only PASS
-- current next human action: review StackChan face asset spec and restore plan before any future display-only test GO.
+- current next human action: review push readiness, then choose one next gate only: XS-AUTO-03 or CC-03. Do not approve productionReady yet.
 - HOLD reason: productionReady false; execution disabled; Level 5 actions require explicit human GO
 
 ## Agent Theater — 完了済み

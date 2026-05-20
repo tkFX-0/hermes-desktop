@@ -1,5 +1,42 @@
 # Level 5 Blocked Tasks — hermes-desktop
 
+## 2026-05-21 Autonomous Operation Preparation Addendum
+
+Status remains HOLD for all Level 5 actions.
+
+Prepared but not approved:
+
+- XS-AUTO-03 GO form / evidence template / dry-run plan
+- CC-03 GO form / evidence template / dry-run plan
+- HB-01 GO form / evidence template / dry-run plan
+- XACC-01 decision form
+- BLOCKER-005 human review form
+- LMO session design
+- productionReady GO draft marked DO NOT USE YET
+- execution enabled GO draft marked DO NOT USE YET
+- Agent Theater Autonomous Operation Readiness panel
+
+Still blocked without explicit human GO:
+
+- x_search execution
+- Discord read/send
+- Obsidian additional write
+- Hermes/WSL connection
+- Command Chat send
+- X OAuth/API
+- StackChan operation
+- external API write
+- productionReady true
+- execution enabled
+
+Safety invariants:
+
+```text
+productionReady: false
+execution: disabled
+rawValuesReported: false
+```
+
 **作成:** 2026-05-19
 **更新:** 2026-05-19
 

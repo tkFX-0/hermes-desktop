@@ -51,6 +51,14 @@ network flow.
 - `SC_FACE_04_320X240_FACE_ASSET_SPEC.md` - 320x240 face asset specification for future StackChan display work.
 - `SC_RESTORE_01_FACTORY_RESTORE_ROLLBACK_PLAN.md` - factory restore and rollback plan required before firmware/display tests.
 - `SC_FACE_05_DISPLAY_ONLY_TEST_GO_DRAFT.md` - future one-shot display-only face test GO draft.
+- `PUSH_READINESS_AUTONOMOUS_INVENTORY_2026-05-21.md` - autonomous operation preparation baseline and push readiness inventory.
+- `AUTONOMOUS_OPERATION_DRY_RUN_MATRIX.md` - dry-run matrix for Lv5 GO forms and evidence templates.
+- `XS_AUTO_03_GO_FORM_2026-05-21.md` - draft XS-AUTO-03 one-shot read-only GO form.
+- `CC_03_GO_FORM_2026-05-21.md` - draft CC-03 one-shot Command Chat GO form.
+- `HB_01_GO_FORM_2026-05-21.md` - draft HB-01 controlled Hermes/WSL GO form.
+- `XACC_01_DECISION_FORM_2026-05-21.md` - draft X account decision form.
+- `PRODUCTION_READY_GO_FORM_DRAFT_2026-05-21.md` - draft-only productionReady GO form. Do not use yet.
+- `EXECUTION_ENABLED_GO_FORM_DRAFT_2026-05-21.md` - draft-only execution enabled GO form. Do not use yet.
 - `PHASE_75_TO_90_DRAFT_OUTBOX_SAFETY_EVIDENCE.md` - Phase 75 to 90 Draft Outbox / external action safety evidence.
 - `PHASE_REVIEW_MATRIX.md` - Phase 0-10 documentation/execution review state.
 - `SHIKISHIMA_FINAL_VISION.md` - final vision draft.
