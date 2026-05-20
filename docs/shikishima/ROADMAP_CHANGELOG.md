@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.28.0
+- roadmapVersion: v4.29.0
 - lastUpdated: 2026-05-20
-- latestUpdate: OB-01/DIS-01 IPC implementation; prettier fix; GO forms prepared; AT-10 Human Gate Panel.
-- baselineCommit: 3813c1e
+- latestUpdate: SC-FACE-01 recorded as PARTIAL_HOLD; SC-FACE-02 PC face customization plan and SC-FACE-03 custom firmware feasibility gate added.
+- baselineCommit: ca9971a
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,15 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.29.0 - StackChan Face Capability PARTIAL / PC Face Customization Plan
+
+- `SC_FACE_01_OFFICIAL_FACE_CAPABILITY_CHECK.md`: records iPhone app connection as PASS, observed iPhone menus as AVATAR / MONITORING CAMERA / MOTION / DANCE, and official face capability as PARTIAL_HOLD.
+- `SC_FACE_02_PC_FACE_CUSTOMIZATION_PLAN.md`: defines PC-side Shikishima face customization plan, 320 x 240 canvas assumption, expression states, and implementation candidates.
+- `SC_FACE_03_CUSTOM_FIRMWARE_FEASIBILITY_GATE.md`: defines the future custom firmware feasibility gate and required recovery/build checks.
+- iPhone app is treated as simple operation / avatar confirmation only; full Shikishima face replacement moves to PC-side research.
+- Additional Burn, Erase, Firmware Exporter Start, custom firmware write, motion/dance, camera, voice/mic, and Shikishima auto-control remain HOLD.
+- Docs-only. No runtime. No firmware operation. No external API. No push.
 
 ## v4.28.0 - OB-01 / DIS-01 IPC + GO Forms + AT-10 Human Gate Panel
 

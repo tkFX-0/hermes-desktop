@@ -23,7 +23,9 @@ This registry only defines the approval boundaries.
 | GATE-PUSH-01 | git push from UI | HOLD | separate explicit per-push GO |
 | GATE-SC-DISP-01 | StackChan display-only (face terminal) | HOLD | display Gate + safety review |
 | SC-PC-02 | StackChan PC firmware write evidence | PASS_CANDIDATE | human review of `SC_PC_02_FIRMWARE_WRITE_EVIDENCE.md` |
-| SC-FACE-01 | Official app face capability check | HOLD | iPhone official app menu confirmation |
+| SC-FACE-01 | Official app face capability check | PARTIAL_HOLD | SC-FACE-02 PC face customization plan |
+| SC-FACE-02 | PC face customization plan | PLAN | human review before firmware/source research |
+| SC-FACE-03 | Custom firmware feasibility gate | HOLD | source/build/restore/recovery review |
 | GATE-SC-PHYS-01 | StackChan physical motion | HOLD | GATE-SC-DISP-01 + physical Gate |
 | GATE-SC-CONN-01 | StackChan serial/USB/Wi-Fi connection | HOLD | GATE-SC-PHYS-01 |
 | GATE-VOICE-01 | voice output | HOLD | separate voice Gate |

@@ -46,6 +46,8 @@ network flow.
 - `PHASE_60_TO_75_STACKCHAN_DISPLAY_PREPARATION_EVIDENCE.md` - Phase 60 to 75 StackChan / Face Terminal display preparation evidence.
 - `SC_PC_02_FIRMWARE_WRITE_EVIDENCE.md` - StackChan / CoreS3 M5Burner firmware write and reconnect evidence.
 - `SC_FACE_01_OFFICIAL_FACE_CAPABILITY_CHECK.md` - official app / Factory Firmware face capability check record.
+- `SC_FACE_02_PC_FACE_CUSTOMIZATION_PLAN.md` - PC-side Shikishima face customization plan for StackChan / CoreS3.
+- `SC_FACE_03_CUSTOM_FIRMWARE_FEASIBILITY_GATE.md` - custom firmware feasibility gate for StackChan face deployment.
 - `PHASE_75_TO_90_DRAFT_OUTBOX_SAFETY_EVIDENCE.md` - Phase 75 to 90 Draft Outbox / external action safety evidence.
 - `PHASE_REVIEW_MATRIX.md` - Phase 0-10 documentation/execution review state.
 - `SHIKISHIMA_FINAL_VISION.md` - final vision draft.

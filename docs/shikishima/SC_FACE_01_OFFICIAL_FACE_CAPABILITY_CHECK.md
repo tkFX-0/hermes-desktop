@@ -1,34 +1,53 @@
 # SC-FACE-01 Official Face Capability Check
 
 date: 2026-05-20
-result: HOLD
+result: PARTIAL_HOLD
 decision: HOLD
 execution: disabled
 productionReady: false
 rawValuesReported: false
 
 This document records the official-app / Factory Firmware face capability check
-boundary for StackChan / CoreS3.
+for StackChan / CoreS3 after SC-PC-02 firmware write evidence.
 
 No additional Burn was performed for this check.
 No Erase was performed.
 Firmware Exporter Start was not performed.
 No custom firmware was installed.
 No Shikishima automatic control was enabled.
+No physical motion automation was performed.
+Voice / mic / camera were not used.
 
 ---
 
 ## Purpose
 
 Determine how far face, expression, or display changes can go using only the
-official app / Factory Firmware path.
+official iPhone app / Factory Firmware / StackChan-UserDemo path.
 
-This check must distinguish:
+This check distinguishes:
 
-- official preset expression changes
+- official app connection
+- simple iPhone-side avatar operation
+- preset expression support
 - custom image upload support
 - 320 x 240 image constraints
-- whether custom firmware is required
+- whether PC-side firmware or avatar implementation work is likely required
+
+---
+
+## Confirmed Context
+
+SC-PC-02 is already recorded as PASS_CANDIDATE:
+
+- M5Burner used
+- StackChan-UserDemo written
+- COM5 confirmed
+- baud rate 1500000 confirmed
+- reboot completed
+- screen visible
+- iPhone reconnect completed
+- COM5 remained visible
 
 ---
 
@@ -36,81 +55,86 @@ This check must distinguish:
 
 | Check | Result | Notes |
 |---|---|---|
-| official_app_face_menu | unconfirmed | requires iPhone app screen confirmation |
-| preset_expression_change | unconfirmed | do not assume PASS |
-| custom_image_upload | unconfirmed | do not upload image without separate GO |
-| screen_size_hint | unconfirmed | expected display target may be 320 x 240, but must be confirmed |
-| stackchan_display_changed | unconfirmed | no new display change test performed in this task |
-| iphone_connection_preserved | confirmed_before_face_check | reconnect was already confirmed after firmware write |
-| com5_preserved | confirmed_before_face_check | COM5 remained visible after firmware write |
-| custom_firmware_required | unknown | depends on official app capability result |
+| official_app_connected | PASS | iPhone app connection is available after firmware write and reconnect. |
+| available_ios_menus | PARTIAL | AVATAR, MONITORING CAMERA, MOTION, DANCE were observed. |
+| official_app_face_menu | PARTIAL | AVATAR exists, but appears to be simple operation rather than full face replacement. |
+| preset_expression_change | UNKNOWN / LIMITED | Full preset expression mapping was not confirmed. |
+| custom_image_upload | FAIL / UNKNOWN | No confirmed iPhone-side custom face image upload path. |
+| screen_size_hint | UNKNOWN | No confirmed 320 x 240 image requirement shown in the iPhone app. |
+| stackchan_display_changed | UNKNOWN | No safe face-change display confirmation was recorded. |
+| iphone_connection_preserved | PASS | iPhone reconnect was preserved before this face capability conclusion. |
+| com5_preserved | PASS | COM5 remained visible before this face capability conclusion. |
+| custom_firmware_required | LIKELY | Full Shikishima face replacement likely requires PC-side firmware/avatar investigation. |
 
 Result:
 
 ```text
-SC-FACE-01: HOLD
+SC-FACE-01: PARTIAL_HOLD
 ```
 
-Reason:
+Conclusion:
 
-The official app face/expression menu has not yet been visually confirmed in
-this repo evidence. Further confirmation should be performed manually without
-additional Burn or custom firmware.
+The iPhone app is useful for connection and simple operation checks. The
+observed AVATAR path is not enough evidence for full Shikishima face replacement.
+Proper face customization should move to a PC-side investigation gate covering
+StackChan-UserDemo, m5stack-avatar, CoreS3 display constraints, and possible
+custom firmware feasibility.
 
 ---
 
-## Next Manual Check Template
-
-Human should check the official iPhone app and report only redacted results:
+## Available iPhone Menus Observed
 
 ```text
-official_app_face_menu: PASS / FAIL
-preset_expression_change: PASS / FAIL
-custom_image_upload: PASS / FAIL
-screen_size_hint: PASS / FAIL / UNKNOWN
-stackchan_display_changed: PASS / FAIL
-iphone_connection_preserved: PASS / FAIL
-com5_preserved: PASS / FAIL
-custom_firmware_required: YES / NO / UNKNOWN
+AVATAR
+MONITORING CAMERA
+MOTION
+DANCE
 ```
 
-Do not report:
+Safety note:
 
-- raw device ID
-- serial-like identifiers
-- Wi-Fi SSID/password
-- token
-- local-only path
-- private network value
+- MOTION was not executed.
+- DANCE was not executed.
+- MONITORING CAMERA was not used.
+- AVATAR was treated as simple face/avatar confirmation only.
 
 ---
 
-## Forbidden During SC-FACE-01
+## Safety Boundary
 
-- firmware re-write
-- erase
-- Firmware Exporter Start
-- custom firmware installation
-- Shikishima face actual deployment
-- automatic control
-- physical motion control
-- voice / mic / camera integration
-- external API write
+```text
+additional_burn_performed: false
+erase_performed: false
+firmware_exporter_start_performed: false
+custom_firmware_written: false
+shikishima_auto_control: false
+physical_motion_automation: false
+voice_mic_camera_used: false
+monitoring_camera_used: false
+motion_dance_used: false
+external_api_write: false
+productionReady: false
+execution: disabled
+rawValuesReported: false
+```
+
+Do not report raw device IDs, serial-like identifiers, Wi-Fi secrets, tokens,
+or local-only values in future evidence.
 
 ---
 
 ## Next Recommended Gate
 
-If official app supports custom or preset face changes:
+Primary next gate:
 
 ```text
-SC-FACE-02 320x240 face asset spec
+SC-FACE-02 PC Face Customization Plan
 ```
 
-If official app does not support the needed changes:
+Follow-up feasibility gate:
 
 ```text
-SC-FACE-03 custom firmware feasibility
+SC-FACE-03 Custom Firmware Feasibility Gate
 ```
 
 Both remain HOLD until separate human GO.
