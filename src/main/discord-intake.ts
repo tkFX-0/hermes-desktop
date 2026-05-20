@@ -19,7 +19,7 @@ const ITSUKISHIMA_ENV_PATH = join(
 const APPROVED_CHANNEL_ID = "1498670816366428208";
 const MAX_READ_COUNT = 10;
 
-// DIS01_HOLD = true until explicit human GO
+// DIS-01 one-shot read executed 2026-05-21 — gate restored to HOLD posture
 const DIS01_HOLD = true;
 
 export interface DiscordMessage {

@@ -160,7 +160,7 @@ or execution enabled.
 | L4-CONFIRM | Level 4 final confirmation | PASS (2026-05-20) | — |
 | L5-READY | Level 5 transition readiness | DESIGN (2026-05-20) | L4-CONFIRM PASS |
 | L5-OB-01 | Obsidian local write | ONE_SHOT_PASS 2026-05-20 — gate restored to HOLD (OB01_DRY_RUN=true) | new ob01_local_write_go for next write |
-| L5-DIS-01 | Discord read-only intake | IPC IMPLEMENTED (DIS01_HOLD=true) — awaiting dis01_read_only_go | dis01_read_only_go |
+| L5-DIS-01 | Discord read-only intake | ONE_SHOT_PASS 2026-05-21 — gate restored to HOLD (DIS01_HOLD=true) | new dis01_read_only_go for next read |
 | L5-XS-AUTO | XS-AUTO one-shot read-only | HOLD | xs_auto_read_go |
 | L5-HB-01 | Hermes/WSL connection | HOLD | hb01_hermes_wsl_go |
 | L5-CC-03 | Command Chat one-shot | HOLD | cc03_real_send_go |
