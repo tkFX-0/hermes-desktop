@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.22.0
+- roadmapVersion: v4.23.0
 - lastUpdated: 2026-05-20
-- latestUpdate: WK-00 Controlled Worker Environment — display-only UI (4 envs + queue + prompt preview) + 7 design docs. Codex/ClaudeCode are copy-only/human-bridge. Auto-execution HOLD.
-- baselineCommit: a4aaf0f
+- latestUpdate: XS-AUTO-00 read-only patrol display (5 watchlist items + gate sequence + status). typecheck PASS. scheduler/OAuth/recurring patrol all HOLD.
+- baselineCommit: 84d85f9
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,21 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.23.0 - XS-AUTO-00 Read-only Patrol Display
+
+- `XSearchAutomationPanel.tsx`: status summary row (XS-01 PASS/closed, next HOLD, scheduler/OAuth/write-actions), 5 watchlist cards, gate sequence, evidence notice. No search/connect/OAuth/post buttons.
+- `XSearchWatchlistCard.tsx`: watchlist item card with status, risk, run count, required GO form.
+- `XSearchPatrolQueuePanel.tsx`: XS-AUTO-00 to XS-AUTO-05 gate sequence display.
+- `x-search-automation-types.ts`: XSearchWatchlistStatus / XSearchScheduleMode / XSearchGatePhase / XSearchWatchlistItem / XSearchPatrolSummary.
+- `AgentTheaterPage.tsx`: XSearchAutomationPanel added below WorkerEnvironmentPanel.
+- `XS_AUTO_00_READ_ONLY_AUTOMATION_GATE_DESIGN.md`: gate sequence, core rule, all phases HOLD.
+- `XS_AUTO_01_WATCHLIST_AND_QUERY_POLICY.md`: 5 watch items, schema, forbidden query types.
+- `XS_AUTO_02_PATROL_SCHEDULER_HOLD_PLAN.md`: scheduler HOLD, allowed future modes, required GO fields.
+- `XS_AUTO_03_EVIDENCE_AND_RATE_LIMIT_POLICY.md`: per-run evidence schema, 429 STOP policy, gate auto-close.
+- `XS_AUTO_04_STOP_CONDITIONS.md`: universal + phase-specific STOP conditions.
+- `XS_AUTO_SELF_AUDIT.md`: typecheck PASS, all safety flags false.
+- typecheck:web PASS. No package changes. No x_search. No OAuth. No push.
 
 ## v4.22.0 - Controlled Worker Environment Display (WK-00)
 

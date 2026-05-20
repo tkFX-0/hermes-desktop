@@ -20,8 +20,8 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v4.22.0
-- latestUpdate: 2026-05-20 - WK-00 Controlled Worker Environment display added to Agent Theater. 4 workers + queue + copy-only prompt preview. typecheck:web PASS. Codex/ClaudeCode: copy-only/human-bridge. Auto-execution HOLD.
+- roadmapVersion: v4.23.0
+- latestUpdate: 2026-05-20 - XS-AUTO-00 read-only patrol display added. 5 watchlist items (all HOLD) + gate sequence + status summary. typecheck:web PASS. scheduler/OAuth/recurring patrol HOLD.
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: origin/main=2af99cf

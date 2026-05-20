@@ -52,6 +52,45 @@ ClaudeCode が単独で実行することはできません。
 
 ---
 
+## XS-AUTO-03 — 単発スケジュール x_search 実行
+
+| 項目 | 内容 |
+|---|---|
+| 内容 | ウォッチリスト項目を1回だけ自動実行 |
+| 現状 | HOLD (XS_AUTO_02_PATROL_SCHEDULER_HOLD_PLAN.md) |
+| 必要な GO | xs_auto_read_go |
+| 参照 | `XS_AUTO_02_PATROL_SCHEDULER_HOLD_PLAN.md` |
+
+**ブロック理由:** スケジューラー起動 = 外部自動実行 = Level 5-ish
+
+---
+
+## XS-AUTO-04 — 定期 x_search パトロール
+
+| 項目 | 内容 |
+|---|---|
+| 内容 | ウォッチリスト定期自動巡回 |
+| 現状 | HOLD — 将来Gate |
+| 必要な GO | xs_auto_schedule_go + review checkpoint |
+| 参照 | `XS_AUTO_02_PATROL_SCHEDULER_HOLD_PLAN.md` |
+
+**ブロック理由:** 継続的外部アクセス = Level 5
+
+---
+
+## XS-OAUTH — X アカウント OAuth / x_search 認証
+
+| 項目 | 内容 |
+|---|---|
+| 内容 | X API OAuth 認証 + 認証済み x_search |
+| 現状 | HOLD (XACC-01 先行) |
+| 必要な GO | XACC-01 PASS + XS-AUTH GO |
+| 参照 | `XACC_01_READ_ONLY_AUTH_SCOPE_PLAN.md` |
+
+**ブロック理由:** OAuth = 外部サービス認証 = Level 5
+
+---
+
 ## WK-05 — Worker 自動実行アダプター
 
 | 項目 | 内容 |

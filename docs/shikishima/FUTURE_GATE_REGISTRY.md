@@ -149,6 +149,17 @@ These gates are display-only design records. They do not approve runtime,
 push, OAuth, x_search, Obsidian write, external write, productionReady true,
 or execution enabled.
 
+## X Search Automation Gates (XS-AUTO series)
+
+| Gate ID | Capability | Current Status | Required Before |
+|---|---|---|---|
+| XS-AUTO-00 | Read-only automation design | DESIGN (display-only) | — |
+| XS-AUTO-01 | Watchlist definition | DESIGN | explicit GO |
+| XS-AUTO-02 | Scheduler HOLD plan | DESIGN (HOLD) | xs_auto_schedule_go |
+| XS-AUTO-03 | One-shot scheduled read-only run | HOLD | xs_auto_read_go |
+| XS-AUTO-04 | Recurring patrol | HOLD | xs_auto_schedule_go + review checkpoint |
+| XS-AUTO-05 | X account integration | HOLD — separate XACC gate | XACC-01 PASS |
+
 ## Controlled Worker Environment Gates (WK series)
 
 | Gate ID | Capability | Current Status | Required Before |

@@ -104,6 +104,12 @@ network flow.
 - `WK_04_WORKER_PROMPT_EXPORT_PLAN.md` - WK-04 copy-only prompt export plan and safety statement.
 - `WK_WORKER_AUTOMATION_HOLD_POLICY.md` - full automation HOLD policy (auto-launch/remote control/MCP/hooks/daemon).
 - `WK_CONTROLLED_WORKER_ENVIRONMENT_EVIDENCE.md` - WK-00 implementation evidence (typecheck PASS, display-only, all safety flags false).
+- `XS_AUTO_00_READ_ONLY_AUTOMATION_GATE_DESIGN.md` - XS-AUTO-00 read-only automation gate design (XS-AUTO-00 to XS-AUTO-05 phases, core rule, all HOLD).
+- `XS_AUTO_01_WATCHLIST_AND_QUERY_POLICY.md` - XS-AUTO-01 watchlist definition (5 items, schema, forbidden query types, all HOLD).
+- `XS_AUTO_02_PATROL_SCHEDULER_HOLD_PLAN.md` - XS-AUTO-02 scheduler HOLD plan (future modes, required GO fields).
+- `XS_AUTO_03_EVIDENCE_AND_RATE_LIMIT_POLICY.md` - XS-AUTO-03 per-run evidence schema and 429 rate limit policy.
+- `XS_AUTO_04_STOP_CONDITIONS.md` - XS-AUTO-04 universal + phase-specific STOP conditions.
+- `XS_AUTO_SELF_AUDIT.md` - XS-AUTO-00 implementation self audit (typecheck PASS, all safety flags false).
 - `SHIKISHIMA_100_PERCENT_ROADMAP_DESIGN.md` - Phase 1–10 フェーズ設計書; 100%までの全計画.
 - `SHIKISHIMA_REMAINING_TASK_REGISTRY_TO_100.md` - DONE/HOLD/BLOCKED/FUTURE 全Task表.
 - `SHIKISHIMA_LEVEL5_GATE_PLAN_TO_100.md` - Level 5 全操作一覧 + 承認フォームテンプレート.
