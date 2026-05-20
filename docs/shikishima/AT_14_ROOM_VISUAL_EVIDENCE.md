@@ -1,8 +1,8 @@
 # AT-14 Room Visual Evidence
 
 **date:** 2026-05-20
-**worker:** ClaudeCode + human visual confirmation required
-**status:** CODE_VERIFIED — human visual confirmation pending
+**worker:** ClaudeCode + tk (human visual confirmation)
+**status:** PASS — human visual confirmation complete 2026-05-20
 
 ---
 
@@ -103,13 +103,16 @@ When the app is open, confirm:
 
 ---
 
-## Runtime State at Time of Code Verification
+## Runtime State at Time of Visual Confirmation
 
 ```yaml
-app_running:     true  # npm run dev launched earlier in this session
-port:            5174  # port 5173 was in use
+app_running:     true  # npm run dev — AT-14 GO by tk 2026-05-20
+port:            5173
 decision:        HOLD  # default state
-commits_ahead:   13
+commits_ahead:   0     # post-push
+confirmed_by:    tk
+confirmed_date:  2026-05-20
+shutdown:        Ctrl+C (scope complete)
 ```
 
 ---
@@ -118,7 +121,7 @@ commits_ahead:   13
 
 ```yaml
 code_verification:  PASS
-human_visual:       PENDING (human must confirm checklist above)
+human_visual:       PASS  # tk confirmed 2026-05-20 via npm run dev
 ```
 
 ---
