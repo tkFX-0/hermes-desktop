@@ -14,4 +14,5 @@ export default {
   research: "リサーチ",
   controlCenter: "管制センター",
   mobileConsole: "モバイル",
+  library: "記録庫",
 } as const;

@@ -52,6 +52,32 @@ ClaudeCode が単独で実行することはできません。
 
 ---
 
+## OBS-LIB-04 — Obsidian ローカル書き込み有効化
+
+| 項目 | 内容 |
+|---|---|
+| 内容 | OB-01 gate GO 後に Shikishima からの vault 直接書き込みを有効化 |
+| 現状 | HOLD — localWriteEnabled: false (型強制) |
+| 必要な GO | ob01_local_write_go |
+| 参照 | `OBS_LIB_04_LOCAL_WRITE_GATE_POLICY.md` |
+
+**ブロック理由:** ローカルファイルシステム書き込み = OB-01 gate 必要
+
+---
+
+## OBS-LIB-05 — ライブラリ自動書き込みループ
+
+| 項目 | 内容 |
+|---|---|
+| 内容 | バックグラウンドで自動的に vault に書き込む |
+| 現状 | HOLD — 自動書き込み禁止 |
+| 必要な GO | OBS-LIB-04 PASS + 別途自動書き込み GO |
+| 参照 | `OBS_LIB_04_LOCAL_WRITE_GATE_POLICY.md` |
+
+**ブロック理由:** 自動書き込みループ = Level 5+
+
+---
+
 ## LIB-03 — Obsidian ローカル書き込み (OB-01)
 
 | 項目 | 内容 |

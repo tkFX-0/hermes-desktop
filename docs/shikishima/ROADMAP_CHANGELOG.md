@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.24.0
+- roadmapVersion: v4.25.0
 - lastUpdated: 2026-05-20
-- latestUpdate: LIB-00 external library design — Obsidian Vault structure, 5 note templates, OB-01 local write gate plan, index/RAG plan. docs-only.
+- latestUpdate: OBS-LIB-00 Library tab added — Markdown preview, article-style report preview, dry-run queue, vault settings. typecheck PASS. local write HOLD.
 - baselineCommit: 84d85f9
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,21 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.25.0 - OBS-LIB-00 Obsidian Local Library Export (Library Tab)
+
+- New sidebar tab: 記録庫 / Library (BookOpen icon, i18n ja/en/zh-CN added).
+- `LibraryExportPage.tsx`: full-page layout — safety strip, vault settings, 2-col (queue + preview).
+- `LibrarySettingsPanel.tsx`: redacted vault path, dry-run: ON, local write: HOLD, category folders.
+- `LibraryExportQueuePanel.tsx` + `LibraryItemCard.tsx`: 5 example items (research/evidence×2/dev/handoff).
+- `LibraryMarkdownPreview.tsx`: generated frontmatter + body (dry-run). File name preview.
+- `LibraryReportPreview.tsx`: article-style HTML/React — category badge, title, summary card, safety footer. PNG: OBS-LIB-03.
+- `libraryExportTemplates.ts`: generateMarkdown() + generateFilename().
+- `libraryReportTemplate.ts`: generateReportData() for report preview.
+- `library-export-types.ts`: all types. localWriteEnabled: false and dryRunOnly: true are literal types.
+- `Layout.tsx`: library view + BookOpen icon + i18n key.
+- `OBS_LIB_00–04`, `OBS_LIB_STOP_CONDITIONS`, `OBS_LIB_IMPLEMENTATION_EVIDENCE`: 7 design docs.
+- typecheck:web PASS. No package changes. No local write. No cloud sync. No push.
 
 ## v4.24.0 - LIB-00 External Library Design Package
 

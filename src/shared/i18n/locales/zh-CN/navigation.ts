@@ -14,4 +14,5 @@ export default {
   research: "Research",
   controlCenter: "Control Center",
   mobileConsole: "移动端",
+  library: "资料库",
 } as const;

@@ -20,8 +20,8 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v4.24.0
-- latestUpdate: 2026-05-20 - LIB-00 external library design package. Obsidian Vault structure + 5 note templates + OB-01 gate + index/RAG plan. docs-only. No Obsidian connection.
+- roadmapVersion: v4.25.0
+- latestUpdate: 2026-05-20 - OBS-LIB-00 Library tab + Markdown/report preview + dry-run queue. typecheck PASS. local write HOLD. New tab: 記録庫.
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: origin/main=2af99cf

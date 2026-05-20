@@ -30,12 +30,13 @@ import {
   Timer,
   Download,
 } from "../../assets/icons";
-import { BarChart2, LayoutDashboard, Smartphone, Sun, Moon, Monitor } from "lucide-react";
+import { BarChart2, LayoutDashboard, Smartphone, Sun, Moon, Monitor, BookOpen } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useI18n } from "../../components/useI18n";
 import { useTheme } from "../../components/theme-context";
 import { SafetyStrip } from "../../components/Shell/SafetyStrip";
 import { AgentTheaterPage } from "../AgentTheater/AgentTheaterPage";
+import { LibraryExportPage } from "../Library/LibraryExportPage";
 import { OperatorPage } from "../Operator/OperatorPage";
 import {
   toSafetyStripData,
@@ -67,7 +68,8 @@ type View =
   | "settings"
   | "research"
   | "controlCenter"
-  | "mobileConsole";
+  | "mobileConsole"
+  | "library";
 
 const NAV_ITEMS: { view: View; icon: LucideIcon; labelKey: string }[] = [
   {
@@ -96,6 +98,11 @@ const NAV_ITEMS: { view: View; icon: LucideIcon; labelKey: string }[] = [
     view: "research",
     icon: BarChart2 as LucideIcon,
     labelKey: "navigation.research",
+  },
+  {
+    view: "library",
+    icon: BookOpen as LucideIcon,
+    labelKey: "navigation.library",
   },
 ];
 
@@ -498,6 +505,18 @@ function Layout(): React.JSX.Element {
             }}
           >
             <MobileConsoleApp />
+          </div>
+        )}
+        {view === "library" && (
+          <div
+            style={{
+              display: "flex",
+              flex: 1,
+              flexDirection: "column",
+              overflow: "hidden",
+            }}
+          >
+            <LibraryExportPage lang="ja" />
           </div>
         )}
       </main>

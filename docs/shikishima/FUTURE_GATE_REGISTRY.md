@@ -149,6 +149,18 @@ These gates are display-only design records. They do not approve runtime,
 push, OAuth, x_search, Obsidian write, external write, productionReady true,
 or execution enabled.
 
+## Obsidian Local Library Gates (OBS-LIB series)
+
+| Gate ID | Capability | Current Status | Required Before |
+|---|---|---|---|
+| OBS-LIB-00 | Local library design + UI preview | IMPLEMENTED | — |
+| OBS-LIB-01 | Vault path configuration | DESIGN | human vault setup |
+| OBS-LIB-02 | Markdown export | IMPLEMENTED (dry-run) | ob01_local_write_go for real write |
+| OBS-LIB-03 | Report image (PNG) export | HOLD | Electron capturePage + OB-01 |
+| OBS-LIB-04 | Local write gate activation | HOLD | ob01_local_write_go |
+| OBS-LIB-05 | Full Obsidian write operation | HOLD | OBS-LIB-04 PASS |
+| OBS-LIB-06 | Library index / RAG | HOLD | OBS-LIB-05 PASS + index GO |
+
 ## External Library Gates (LIB series)
 
 | Gate ID | Capability | Current Status | Required Before |

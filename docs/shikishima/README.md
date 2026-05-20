@@ -116,6 +116,13 @@ network flow.
 - `LIB_03_OBSIDIAN_LOCAL_WRITE_GATE.md` - LIB-03 Obsidian local write gate (HOLD — OB-01 GO required, rawValues pre-write checklist).
 - `LIB_04_INDEX_AND_RAG_PLAN.md` - LIB-04 vault index display + RAG search plan (both HOLD — future phases).
 - `LIB_SELF_AUDIT.md` - LIB-00 docs-only self audit (obsidian_connected false, local_write HOLD).
+- `OBS_LIB_00_OBSIDIAN_LOCAL_LIBRARY_DESIGN.md` - OBS-LIB-00 Obsidian local library design (管制室/記録庫/証跡分離, phase plan).
+- `OBS_LIB_01_LOCAL_VAULT_CONNECTION_PLAN.md` - OBS-LIB-01 local vault path policy (redacted display, no cloud, OB-01 gate).
+- `OBS_LIB_02_MARKDOWN_EXPORT_PLAN.md` - OBS-LIB-02 Markdown export schema, frontmatter, categories, rawValues rules.
+- `OBS_LIB_03_REPORT_IMAGE_EXPORT_PLAN.md` - OBS-LIB-03 article-style PNG plan (HTML/React now; PNG via Electron capturePage HOLD).
+- `OBS_LIB_04_LOCAL_WRITE_GATE_POLICY.md` - OBS-LIB-04 dry-run vs real write, ob01_local_write_go, no automatic background write.
+- `OBS_LIB_STOP_CONDITIONS.md` - OBS-LIB universal + category-specific STOP conditions.
+- `OBS_LIB_IMPLEMENTATION_EVIDENCE.md` - OBS-LIB-00 implementation evidence (typecheck PASS, local write HOLD, all safety false).
 - `SHIKISHIMA_100_PERCENT_ROADMAP_DESIGN.md` - Phase 1–10 フェーズ設計書; 100%までの全計画.
 - `SHIKISHIMA_REMAINING_TASK_REGISTRY_TO_100.md` - DONE/HOLD/BLOCKED/FUTURE 全Task表.
 - `SHIKISHIMA_LEVEL5_GATE_PLAN_TO_100.md` - Level 5 全操作一覧 + 承認フォームテンプレート.

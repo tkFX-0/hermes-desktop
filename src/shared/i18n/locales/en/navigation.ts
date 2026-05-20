@@ -14,4 +14,5 @@ export default {
   research: "Research",
   controlCenter: "Control Center",
   mobileConsole: "Mobile Console",
+  library: "Library",
 } as const;
