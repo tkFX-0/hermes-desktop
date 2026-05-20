@@ -20,13 +20,13 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v4.29.0
-- latestUpdate: 2026-05-20 - SC-FACE-01 recorded as PARTIAL_HOLD; iPhone app has AVATAR / MONITORING CAMERA / MOTION / DANCE, full Shikishima face customization moves to PC-side SC-FACE-02 planning.
+- roadmapVersion: v4.31.0
+- latestUpdate: 2026-05-21 - SC-FACE-04 320x240 face asset spec, SC-RESTORE-01 rollback plan, and SC-FACE-05 display-only GO draft added.
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: origin/main=2af99cf
 - validation road: Gate 001-007 ✓; AT-07〜AT-15 PASS; CC-01/02 PASS; UI-01/02 PASS; 100% Roadmap docs完成; AT-14 runtime PASS; XS-01 read-only PASS
-- current next human action: review SC-FACE-02 PC face customization plan; keep MOTION / DANCE / camera / additional Burn / custom firmware HOLD.
+- current next human action: review StackChan face asset spec and restore plan before any future display-only test GO.
 - HOLD reason: productionReady false; execution disabled; Level 5 actions require explicit human GO
 
 ## Agent Theater — 完了済み

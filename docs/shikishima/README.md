@@ -48,6 +48,9 @@ network flow.
 - `SC_FACE_01_OFFICIAL_FACE_CAPABILITY_CHECK.md` - official app / Factory Firmware face capability check record.
 - `SC_FACE_02_PC_FACE_CUSTOMIZATION_PLAN.md` - PC-side Shikishima face customization plan for StackChan / CoreS3.
 - `SC_FACE_03_CUSTOM_FIRMWARE_FEASIBILITY_GATE.md` - custom firmware feasibility gate for StackChan face deployment.
+- `SC_FACE_04_320X240_FACE_ASSET_SPEC.md` - 320x240 face asset specification for future StackChan display work.
+- `SC_RESTORE_01_FACTORY_RESTORE_ROLLBACK_PLAN.md` - factory restore and rollback plan required before firmware/display tests.
+- `SC_FACE_05_DISPLAY_ONLY_TEST_GO_DRAFT.md` - future one-shot display-only face test GO draft.
 - `PHASE_75_TO_90_DRAFT_OUTBOX_SAFETY_EVIDENCE.md` - Phase 75 to 90 Draft Outbox / external action safety evidence.
 - `PHASE_REVIEW_MATRIX.md` - Phase 0-10 documentation/execution review state.
 - `SHIKISHIMA_FINAL_VISION.md` - final vision draft.

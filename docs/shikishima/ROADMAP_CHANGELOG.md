@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.30.0
+- roadmapVersion: v4.31.0
 - lastUpdated: 2026-05-21
-- latestUpdate: DIS-01 one-shot read PASS + gate restored to HOLD. SC-FACE-03 feasibility research complete. FINAL_100 post-100 completions updated.
-- baselineCommit: 310ccbe
+- latestUpdate: StackChan SC-FACE-04 face asset spec, SC-RESTORE-01 rollback plan, and SC-FACE-05 display-only GO draft added.
+- baselineCommit: 7396760
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,14 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.31.0 - StackChan Face Asset Spec / Restore Plan / Display Test Draft
+
+- `SC_FACE_04_320X240_FACE_ASSET_SPEC.md`: defines 320x240 canvas, 300x220 safe area, expression states, asset options, and original/copyright-safe face direction.
+- `SC_RESTORE_01_FACTORY_RESTORE_ROLLBACK_PLAN.md`: records the factory restore / rollback plan required before any future firmware/display test.
+- `SC_FACE_05_DISPLAY_ONLY_TEST_GO_DRAFT.md`: prepares a future one-shot display-only test GO form; no approval is granted.
+- Burn, Erase, Firmware Exporter Start, custom firmware build/write, StackChan control, MOTION/DANCE, monitoring camera, voice/mic/camera remain HOLD.
+- Docs-only. No runtime. No firmware operation. No external API. No push.
 
 ## v4.30.0 - DIS-01 ONE_SHOT_PASS + SC-FACE-03 Research + FINAL_100 Updated
 
