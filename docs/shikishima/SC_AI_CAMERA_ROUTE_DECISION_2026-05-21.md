@@ -13,11 +13,11 @@ output and one still image AI comment. It does not approve execution.
 ## Voice
 
 ```text
-recommended_route: A capability check first; SC-AI-01 execution GO is not ready yet
-Route A: iPhone app / StackChan World manual voice capability check
+recommended_route: A settings inspection first; SC-AI-01 execution GO is not ready yet
+Route A: iPhone app / StackChan World Agent setting / VoiceSetting / LLM / language inspection
 Route B: PC/local bridge exact text only, if documented safe path exists
 Route C: custom firmware only if required, but HOLD
-current_readiness: HOLD until exact/fixed speech output is confirmed
+current_readiness: PARTIAL_ROUTE_A_MENU_PRESENT; HOLD until exact/fixed speech output is confirmed
 ```
 
 ## Camera
@@ -51,4 +51,15 @@ next: SC-AI-00A voice menu capability check
 voice_status: SC-AI-01 execution GO not ready until fixed speech route is confirmed
 camera_status: deferred; SC-CAM-01 GO form remains draft-only
 rule: choose one gate only, with explicit human GO
+```
+
+## Voice Route A Observation
+
+```text
+agent_setting_menu: present
+llm_model_menu: present
+language_menu: present
+voice_setting_menu: present
+mcp_menu: present
+safe_next_step: inspect settings labels only; do not trigger speech or enter tokens
 ```

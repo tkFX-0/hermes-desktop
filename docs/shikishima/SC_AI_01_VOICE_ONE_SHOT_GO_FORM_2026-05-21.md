@@ -14,7 +14,7 @@ Current readiness:
 ```text
 ready_for_execution_go: false
 reason: exact/fixed text speech route has not been confirmed
-required_first: SC-AI-00A iPhone voice menu/capability check or documented PC bridge route
+required_first: SC-AI-00A iPhone Agent setting / VoiceSetting inspection or documented PC bridge route
 ```
 
 ## Required Human Fields
@@ -68,7 +68,13 @@ Default exact text:
 ```text
 route_a_iphone_menu_checked:
 voice_menu_exists:
+agent_setting_menu:
+llm_model_menu:
+language_menu:
+voice_setting_menu:
+mcp_menu:
 exact_or_fixed_text_possible:
+token_or_secret_entry_required:
 route_b_documented_speech_api:
 custom_firmware_required:
 ready_for_one_shot_go:

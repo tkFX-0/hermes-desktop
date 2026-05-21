@@ -21,7 +21,7 @@ external API, productionReady true, or execution enabled is approved here.
 ### Route A - iPhone / StackChan World
 
 ```text
-iphone_voice_output: UNCONFIRMED
+iphone_voice_output: MENU_PRESENT_UNCONFIRMED_OUTPUT
 arbitrary_text_speech: UNCONFIRMED
 voice_output_trigger_once: NOT_READY
 firmware_write_required: false for menu inspection
@@ -33,6 +33,8 @@ phrase without firmware changes.
 Current decision:
 
 - Route A remains first priority.
+- Human observed Agent setting, LLM model, language, VoiceSetting-like menu,
+  and MCP-like menu entries in the app.
 - Fixed text speech has not been proven.
 - Codex cannot confirm the iPhone menu without the human operating the app.
 - SC-AI-01 execution GO is not ready until the app can trigger one exact or
@@ -72,12 +74,12 @@ Erase: HOLD
 
 ```text
 voice:
-  iphone_voice_output: UNCONFIRMED
+  iphone_voice_output: MENU_PRESENT_UNCONFIRMED_OUTPUT
   arbitrary_text_speech: UNCONFIRMED
   pc_text_to_speech_possible: UNCONFIRMED
   current_firmware_support: UNCONFIRMED
   custom_firmware_required: POSSIBLE
-  safest_next_route: Route A voice menu/capability check only; Route B if Route A cannot speak fixed text
+  safest_next_route: Route A VoiceSetting / Agent setting inspection only; Route B if Route A cannot speak fixed text
 ```
 
 ---
@@ -97,6 +99,8 @@ next_gate: SC-AI-00A iPhone voice menu/capability check, then SC-AI-01 if fixed 
 ```text
 sc_ai_01_fixed_text_voice_go_ready: false
 blocking_confirmation:
+  - inspect VoiceSetting without triggering speech
+  - confirm whether Agent setting / LLM / language settings can be saved safely
   - confirm whether iPhone app can trigger speech once
   - confirm whether exact or acceptable fixed text can be selected
   - confirm whether current UserDemo exposes a documented speech route
@@ -112,6 +116,9 @@ blocking_confirmation:
 route_a_iphone_menu_checked: false
 human_check_needed: true
 check_only:
+  - Agent setting / LLM model / language
+  - VoiceSetting
+  - MCP menu entries
   - Voice / Talk / Speak / Chat / TTS / Text / Message / AI / LLM
   - 読み上げ / 発話 / 会話 / 音声
 do_not_press_if:
@@ -119,4 +126,20 @@ do_not_press_if:
   - it asks for microphone
   - it starts motion/dance
   - it asks for firmware update/write
+  - it requests token/secret entry
+```
+
+---
+
+## Current Human Observation
+
+```text
+agent_setting_menu: present
+llm_model_menu: present
+language_menu: present
+voice_setting_menu: present
+mcp_menu: present
+speech_output_confirmed: false
+exact_text_input_confirmed: false
+token_or_secret_entry_required: unknown
 ```
