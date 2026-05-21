@@ -475,8 +475,8 @@ interface HermesAPI {
 
   stackchanStatus: () => Promise<{
     connected: boolean;
-    tools: string[];
-    error?: string;
+    stackchanIp: string;
+    voicevoxReady: boolean;
   }>;
 
   stackchanSay: (text: string) => Promise<{

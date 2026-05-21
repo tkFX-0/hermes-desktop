@@ -12,8 +12,18 @@ import * as crypto from "crypto";
 const STACKCHAN_IP = "192.168.1.75";
 const STACKCHAN_WS_PORT = 8080;
 const VOICEVOX_URL = "http://localhost:50021";
-const VOICEVOX_SPEAKER = 1;
+const VOICEVOX_SPEAKER = 1; // ずんだもん。変更する場合は .env.local に STACKCHAN_SPEAKER=N を追加
 const PCM_CHUNK_SAMPLES = 960; // 60ms at 16kHz
+
+// Grok返答のテキストから感情を推定してpet-fwのface_modeを返す
+function detectEmotion(text: string): string {
+  const t = text;
+  if (/嬉しい|よかった|ありがとう|おめでとう|素晴らしい|最高|楽し/.test(t)) return "happy";
+  if (/ごめん|申し訳|残念|悲しい|難し|できません/.test(t)) return "sad";
+  if (/考え|調べ|確認|分析|検討|えーと/.test(t)) return "thinking";
+  if (/驚|びっくり|えっ|まさか|信じられ/.test(t)) return "surprised";
+  return "normal";
+}
 
 export interface StackchanLocalStatus {
   connected: boolean;
@@ -182,11 +192,15 @@ export async function stackchanSayLocal(text: string): Promise<{ ok: boolean; er
   try {
     const wav = await voicevoxSynthesize(text);
     const pcm = wavToPcm16k(wav);
+    const emotion = detectEmotion(text);
 
     const sock = await connectWs();
-    wsSendText(sock, JSON.stringify({ type: "state", value: "speaking" }));
 
-    await new Promise<void>((resolve) => setTimeout(resolve, 80));
+    // 表情を先に設定してから発話
+    wsSendText(sock, JSON.stringify({ type: "face_mode", value: emotion }));
+    await new Promise<void>((r) => setTimeout(r, 50));
+    wsSendText(sock, JSON.stringify({ type: "state", value: "speaking" }));
+    await new Promise<void>((r) => setTimeout(r, 80));
 
     const chunkBytes = PCM_CHUNK_SAMPLES * 2;
     for (let i = 0; i < pcm.length; i += chunkBytes) {
@@ -194,8 +208,9 @@ export async function stackchanSayLocal(text: string): Promise<{ ok: boolean; er
       await new Promise<void>((r) => setTimeout(r, 35));
     }
 
-    await new Promise<void>((resolve) => setTimeout(resolve, 300));
+    await new Promise<void>((r) => setTimeout(r, 300));
     wsSendText(sock, JSON.stringify({ type: "state", value: "idle" }));
+    wsSendText(sock, JSON.stringify({ type: "face_mode", value: "normal" }));
     sock.destroy();
 
     return { ok: true };

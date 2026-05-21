@@ -680,11 +680,11 @@ const hermesAPI = {
     note: string;
   }> => ipcRenderer.invoke("shikishima-grok-quota"),
 
-  // StackChan MCP — XiaoZhi cloud bridge
+  // StackChan — local pet-fw (ws:8080) + VOICEVOX
   stackchanStatus: (): Promise<{
     connected: boolean;
-    tools: string[];
-    error?: string;
+    stackchanIp: string;
+    voicevoxReady: boolean;
   }> => ipcRenderer.invoke("stackchan-status"),
 
   stackchanSay: (text: string): Promise<{

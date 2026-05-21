@@ -12,6 +12,7 @@ interface RoomChatInlineProps {
   readonly onSend: (content: string) => void | Promise<void>;
   readonly lang?: "ja" | "en";
   readonly stackchanOnline?: boolean;
+  readonly voicevoxReady?: boolean;
 }
 
 function Bubble({ message, lang = "ja" }: { message: LocalChatMessage; lang?: "ja" | "en" }): React.JSX.Element {
@@ -50,7 +51,7 @@ function Bubble({ message, lang = "ja" }: { message: LocalChatMessage; lang?: "j
   );
 }
 
-export function RoomChatInline({ messages, onSend, lang = "ja", stackchanOnline = false }: RoomChatInlineProps): React.JSX.Element {
+export function RoomChatInline({ messages, onSend, lang = "ja", stackchanOnline = false, voicevoxReady = false }: RoomChatInlineProps): React.JSX.Element {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -68,24 +69,30 @@ export function RoomChatInline({ messages, onSend, lang = "ja", stackchanOnline 
         flexDirection: "column",
       }}
     >
-      {/* Input bar + StackChan status badge */}
+      {/* Input bar + StackChan / VOICEVOX status badges */}
       <div style={{ borderBottom: messages.length > 0 ? "1px solid #21262d" : "none" }}>
         <ChatInputBar onSend={onSend} lang={lang} />
-        <div style={{ display: "flex", alignItems: "center", gap: 5, padding: "3px 12px 4px" }}>
-          <span
-            title={stackchanOnline ? "StackChan connected" : "StackChan offline"}
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: "50%",
+        <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "3px 12px 5px" }}>
+          {/* StackChan badge */}
+          <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+            <span style={{
+              width: 6, height: 6, borderRadius: "50%", flexShrink: 0, display: "inline-block",
               background: stackchanOnline ? "#3fb950" : "#484f58",
-              display: "inline-block",
-              flexShrink: 0,
-            }}
-          />
-          <span style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: 9, color: stackchanOnline ? "#3fb950" : "#484f58" }}>
-            {stackchanOnline ? "StackChan" : "StackChan offline"}
-          </span>
+            }} />
+            <span style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: 9, color: stackchanOnline ? "#3fb950" : "#484f58" }}>
+              StackChan{stackchanOnline ? "" : " offline"}
+            </span>
+          </div>
+          {/* VOICEVOX badge */}
+          <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+            <span style={{
+              width: 6, height: 6, borderRadius: "50%", flexShrink: 0, display: "inline-block",
+              background: voicevoxReady ? "#58a6ff" : "#484f58",
+            }} />
+            <span style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: 9, color: voicevoxReady ? "#58a6ff" : "#484f58" }}>
+              VOICEVOX{voicevoxReady ? "" : " offline"}
+            </span>
+          </div>
         </div>
       </div>
 
