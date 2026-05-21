@@ -20,8 +20,8 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v4.37.0
-- latestUpdate: 2026-05-21 - XS-AUTO-03 GO package ready. XS-AUTO (read-only) vs XACC (X OAuth) distinction documented. XACC-01 remains HOLD.
+- roadmapVersion: v4.38.0
+- latestUpdate: 2026-05-21 - StackChan AI voice and camera comment one-shot readiness docs prepared without device/API action.
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: 7ba1afd (origin/main=7653135, 9 commits ahead)

@@ -63,6 +63,11 @@ network flow.
 - `SC_AI_VOICE_INTEGRATION_ROADMAP.md` - StackChan AI voice route roadmap for fixed text one-shot planning.
 - `SC_AI_CAMERA_COMMENT_ROADMAP.md` - StackChan one still image AI comment route roadmap and privacy boundary.
 - `SC_STACKCHAN_DO_NOT_OPEN_YET.md` - StackChan capabilities that remain HOLD.
+- `SC_AI_00_VOICE_CAPABILITY_CHECK.md` - StackChan voice route capability check for SC-AI-01.
+- `SC_CAM_00_CAMERA_COMMENT_CAPABILITY_CHECK.md` - StackChan one-still-image camera comment route check.
+- `SC_AI_01_VOICE_ONE_SHOT_GO_FORM_2026-05-21.md` - draft fixed-text StackChan voice one-shot GO form.
+- `SC_CAM_01_CAMERA_COMMENT_ONE_SHOT_GO_FORM_2026-05-21.md` - draft camera still image comment one-shot GO form.
+- `SC_AI_CAMERA_ROUTE_DECISION_2026-05-21.md` - route decision for voice and camera one-shot planning.
 - `PUSH_READINESS_AUTONOMOUS_INVENTORY_2026-05-21.md` - autonomous operation preparation baseline and push readiness inventory.
 - `AUTONOMOUS_OPERATION_DRY_RUN_MATRIX.md` - dry-run matrix for Lv5 GO forms and evidence templates.
 - `XS_AUTO_03_GO_FORM_2026-05-21.md` - draft XS-AUTO-03 one-shot read-only GO form.

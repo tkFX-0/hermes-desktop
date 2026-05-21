@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.37.0
+- roadmapVersion: v4.38.0
 - lastUpdated: 2026-05-21
-- latestUpdate: XS-AUTO-03 GO package ready. XS-AUTO (read-only research) vs XACC (X OAuth) distinction documented. First topic: StackChan voice integration. XACC-01 remains HOLD.
-- baselineCommit: 7ba1afd
+- latestUpdate: StackChan AI voice and camera comment one-shot readiness docs prepared. No device/API action approved.
+- baselineCommit: 24bd570
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,15 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.38.0 - StackChan AI Voice + Camera Comment Readiness
+
+- `SC_AI_00_VOICE_CAPABILITY_CHECK.md`: records voice route candidates for iPhone app, PC/local bridge, and custom firmware HOLD.
+- `SC_CAM_00_CAMERA_COMMENT_CAPABILITY_CHECK.md`: records camera one-still-image route candidates and privacy boundary.
+- `SC_AI_01_VOICE_ONE_SHOT_GO_FORM_2026-05-21.md` and `SC_CAM_01_CAMERA_COMMENT_ONE_SHOT_GO_FORM_2026-05-21.md`: draft-only GO forms. Not approved.
+- `SC_AI_01_VOICE_ONE_SHOT_EVIDENCE_TEMPLATE.md` and `SC_CAM_01_CAMERA_COMMENT_ONE_SHOT_EVIDENCE_TEMPLATE.md`: one-shot evidence templates with gate-restored-HOLD fields.
+- `SC_AI_CAMERA_ROUTE_DECISION_2026-05-21.md`: recommends Route A first for both voice and camera, with Route B only after safe path confirmation and Route C firmware HOLD.
+- No Burn, Erase, Firmware Exporter Start, custom firmware write, device control, motion/dance, camera monitoring, microphone, external API, productionReady true, execution enabled, or git push was performed.
 
 ## v4.37.0 - XS-AUTO-03 GO Package Ready + XS-AUTO vs XACC Distinction
 
