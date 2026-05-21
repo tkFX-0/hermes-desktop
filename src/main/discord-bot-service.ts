@@ -49,13 +49,18 @@ async function pollCommandChannel(): Promise<void> {
 
   const messages = result.messages
     .filter((m) => !_lastMessageId || m.id > _lastMessageId)
+    .filter((m) => !m.isBot) // ignore bot messages (prevents self-loop)
     .reverse(); // oldest first
 
   for (const msg of messages) {
     _lastMessageId = msg.id;
     if (_handler) {
       await _handler(msg, async (text) => {
-        await sendDiscordMessage(commandChannelId, text);
+        const sent = await sendDiscordMessage(commandChannelId, text);
+        // After sending, advance lastMessageId past our own reply to prevent self-loop
+        if (sent.success && sent.messageId) {
+          _lastMessageId = sent.messageId;
+        }
       });
     }
   }
@@ -71,6 +76,16 @@ export function startDiscordBot(handler: CommandHandler): { ok: boolean; reason?
 
   _handler = handler;
   _running = true;
+
+  // Seed _lastMessageId with the latest message already in the channel
+  // so we don't re-process old messages on startup
+  readDiscordChannel(commandChannelId, 1).then((seed) => {
+    if (seed.success && seed.messages && seed.messages.length > 0) {
+      _lastMessageId = seed.messages[0].id;
+      console.log("[DiscordBot] seeded lastMessageId:", _lastMessageId);
+    }
+  }).catch(() => {/* ignore seed failure */});
+
   _timer = setInterval(() => {
     pollCommandChannel().catch((e) =>
       console.error("[DiscordBot] poll error:", e),

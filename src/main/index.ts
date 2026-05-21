@@ -1076,8 +1076,15 @@ app.whenReady().then(() => {
   startDailyResearchPipeline();
   startNewsWatcher();
 
-  // Discord Bot — Grok 4.3 command handler (DIS-01 GO 2026-05-21)
-  startDiscordBot(shikishimaGrokHandler);
+  // Discord Bot — Grok 4.3 + StackChan speak on reply
+  const discordHandlerWithStackchan: import("./discord-bot-service").CommandHandler = async (msg, reply) => {
+    await shikishimaGrokHandler(msg, async (text) => {
+      await reply(text);
+      // StackChan also speaks the reply (fire-and-forget)
+      stackchanSayLocal(text.slice(0, 300)).catch(() => {/* offline — silent */});
+    });
+  };
+  startDiscordBot(discordHandlerWithStackchan);
 
   // StackChan — local status check (pet-fw ws:8080 + VOICEVOX)
   startStackchanLocalStatusCheck();

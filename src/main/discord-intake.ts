@@ -25,6 +25,7 @@ export interface DiscordMessage {
   authorName: string; // username only — no discriminator, no snowflake
   contentPreview: string; // truncated at 200 chars
   timestamp: string;
+  isBot: boolean;
 }
 
 export interface DiscordIntakeResult {
@@ -129,7 +130,7 @@ export async function readDiscordChannel(
     if (statusCode === 200) {
       const raw = JSON.parse(data) as Array<{
         id: string;
-        author: { username: string };
+        author: { username: string; bot?: boolean };
         content: string;
         timestamp: string;
       }>;
@@ -138,6 +139,7 @@ export async function readDiscordChannel(
         authorName: m.author.username,
         contentPreview: m.content.slice(0, 200),
         timestamp: m.timestamp,
+        isBot: m.author.bot === true,
       }));
       return {
         success: true,
