@@ -122,8 +122,10 @@ import { getAppLocale, setAppLocale } from "./locale";
 import { writeEvidenceNote } from "./library-export";
 import type { LibraryWriteRequest } from "./library-export";
 import { readDiscordChannel } from "./discord-intake";
-import { publishResearchReport } from "./research-pipeline";
+import { publishResearchReport, startDailyResearchPipeline } from "./research-pipeline";
 import type { ResearchReportInput } from "./research-report-generator";
+import { startNewsWatcher, stopNewsWatcher } from "./news-watcher";
+import { grokChat, checkXPremiumQuota } from "./shikishima-grok-chat";
 
 process.on("uncaughtException", (err) => {
   console.error("[MAIN UNCAUGHT]", err);
@@ -773,6 +775,18 @@ function setupIPC(): void {
     "shikishima-research-publish",
     (_event, input: ResearchReportInput) => publishResearchReport(input),
   );
+
+  // GROK CHAT: Shikishima conversation via Grok 4.3 + xai-oauth (X Premium)
+  ipcMain.handle(
+    "shikishima-grok-chat",
+    (_event, message: string) => grokChat(message),
+  );
+
+  // GROK QUOTA: Check X Premium xai-oauth status
+  ipcMain.handle(
+    "shikishima-grok-quota",
+    () => checkXPremiumQuota(),
+  );
 }
 
 function buildMenu(): void {
@@ -963,6 +977,10 @@ app.whenReady().then(() => {
       .catch((err) => { console.error("[Phase2C] start failed:", err); });
   }
 
+  // Shikishima Research Pipeline — daily 08:00 JST + breaking news watcher
+  startDailyResearchPipeline();
+  startNewsWatcher();
+
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
@@ -972,6 +990,7 @@ app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     stopGateway();
     stopClaw3d();
+    stopNewsWatcher();
     app.quit();
   }
 });

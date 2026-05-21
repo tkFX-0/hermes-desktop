@@ -58,10 +58,17 @@ export function runHermesResearch(query: string): Promise<HermesResearchResult> 
   });
 }
 
-// Daily research topics — rotated through or run all on demand
+// Daily research topics — Grok analyzes X and produces structured report
 export const DAILY_RESEARCH_TOPICS = [
-  "x_searchで XAUUSD gold EA prop firm ATFunded 2026 の最新情報を5件取得して日本語で要約して",
-  "x_searchで StackChan VOICEVOX ttsQuestV3 音声統合 2026 の最新情報を5件取得して日本語で要約して",
-  "x_searchで FX prop firm challenge XAUUSD kill zone scalping 2026 の最新ツイートを5件日本語で要約して",
-  "x_searchで gold trading EA Silver Bullet funded account 2026 の最新情報を5件取得して日本語で要約して",
+  // FX / EA / Prop firm
+  "x_searchで XAUUSD gold EA prop firm ATFunded 2026 の最新動向を5件調査し、トレード戦略上の示唆とともに日本語でレポートして",
+  "x_searchで FX kill zone scalping Silver Bullet NY London 2026 のトレーダー投稿を5件取得し、市場動向を日本語で分析して",
+  "x_searchで gold XAUUSD 相場分析 週次トレンド 2026 を5件調査し、テクニカル・ファンダメンタル両面から日本語でレポートして",
+  "x_searchで prop firm challenge rule change FTMO ATFunded 2026 の最新情報を5件取得して日本語で要約して",
+  // StackChan / AI
+  "x_searchで StackChan VOICEVOX ttsQuestV3 音声統合 MCP 2026 の最新実装情報を5件取得して日本語で要約して",
+  "x_searchで StackChan CoreS3 LLM 音声対話 Discord Bot 2026 の最新開発動向を5件日本語でレポートして",
+  // 日本・世界トレンド
+  "x_searchで 日本トレンド AI LLM エージェント 2026 の今週の注目トピックを5件取得して日本語で要約して",
+  "x_searchで global AI agent news breakthrough 2026 の今週の重要ニュースを5件取得して日本語で要約して",
 ];

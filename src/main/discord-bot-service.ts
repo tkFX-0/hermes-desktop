@@ -1,4 +1,4 @@
-// Discord Bot Service — command intake + report delivery
+// Discord Bot Service — command intake + Grok 4.3 response + report delivery
 // Poll-based (no discord.js dependency). Safe to start/stop from Electron main process.
 
 import {
@@ -7,6 +7,7 @@ import {
   getDiscordChannelIds,
   type DiscordMessage,
 } from "./discord-intake";
+import { grokChat } from "./shikishima-grok-chat";
 
 export type CommandHandler = (
   message: DiscordMessage,
@@ -98,3 +99,15 @@ export async function sendReport(content: string): Promise<{ ok: boolean; error?
 }
 
 export { getState as getDiscordBotState };
+
+// Grok 4.3 default handler — used when DIS-01 HOLD is released
+// Routes Discord commands → Grok 4.3 (Shikishima persona) → Discord reply
+export const shikishimaGrokHandler: CommandHandler = async (msg, reply) => {
+  // Ignore bot messages and empty content
+  if (!msg.contentPreview.trim() || msg.authorName === "Shikishima") return;
+
+  const result = await grokChat(msg.contentPreview);
+  if (result.success && result.reply) {
+    await reply(result.reply.slice(0, 2000));
+  }
+};
