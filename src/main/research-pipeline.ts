@@ -8,6 +8,7 @@ import { getDiscordChannelIds } from "./discord-intake";
 import { renderArticleHtml } from "./research-article-html";
 import { captureHtmlAsPng } from "./research-screenshot";
 import { sendPngToDiscord } from "./research-discord-image";
+import { runHermesResearch, DAILY_RESEARCH_TOPICS } from "./hermes-research-runner";
 
 export interface PipelineResult {
   readonly success: boolean;
@@ -85,21 +86,43 @@ export async function publishResearchReport(
   };
 }
 
+// Build ResearchReportInput from Hermes x_search output
+async function buildInputFromHermes(topicIndex = 0): Promise<ResearchReportInput | null> {
+  const query = DAILY_RESEARCH_TOPICS[topicIndex % DAILY_RESEARCH_TOPICS.length];
+  const result = await runHermesResearch(query);
+  if (!result.success || !result.content) return null;
+
+  const date = new Date().toISOString().slice(0, 10);
+  return {
+    date,
+    title: `Shikishima Daily Research — ${date}`,
+    topics: ["X-Research", "Grok-4.3", "xai-oauth"],
+    gateId: "XS-AUTO-03",
+    findings: result.content,
+    keyPoints: [],
+    sources: ["X (Twitter) via Hermes x_search + Grok 4.3", "xai-oauth / X Premium"],
+  };
+}
+
 // Daily scheduler — call startDailyResearchPipeline() from Electron main
 // Runs at the specified JST hour (default 08:00 JST = UTC+9)
 let _schedulerTimer: ReturnType<typeof setInterval> | null = null;
+let _topicIndex = 0;
 
 export function startDailyResearchPipeline(
-  reportFn: () => Promise<ResearchReportInput | null>,
+  reportFn?: () => Promise<ResearchReportInput | null>,
   targetJSTHour = 8,
 ): void {
   if (_schedulerTimer) return;
+
+  // Default to Hermes x_search if no custom reportFn provided
+  const fn = reportFn ?? (() => buildInputFromHermes(_topicIndex++));
 
   _schedulerTimer = setInterval(
     () => {
       const nowJST = new Date(Date.now() + 9 * 60 * 60 * 1000);
       if (nowJST.getUTCHours() === targetJSTHour && nowJST.getUTCMinutes() < 5) {
-        reportFn()
+        fn()
           .then((input) => {
             if (input) return publishResearchReport(input);
             return null;
