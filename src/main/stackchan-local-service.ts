@@ -12,7 +12,8 @@ import * as crypto from "crypto";
 const STACKCHAN_IP = "192.168.1.75";
 const STACKCHAN_WS_PORT = 8080;
 const VOICEVOX_URL = "http://localhost:50021";
-const VOICEVOX_SPEAKER = 1; // ずんだもん。変更する場合は .env.local に STACKCHAN_SPEAKER=N を追加
+const VOICEVOX_SPEAKER = 1;   // 話者ID。変更: .env.local に STACKCHAN_SPEAKER=N
+const VOICEVOX_SPEED = 1.2;   // 話す速度。1.0=標準 / 1.2=やや速め / 0.8=ゆっくり
 const DEFAULT_FACE = "normal"; // pet-fw face_mode デフォルト
 const PCM_CHUNK_SAMPLES = 960; // 60ms at 16kHz
 
@@ -30,6 +31,9 @@ export interface StackchanLocalStatus {
   connected: boolean;
   stackchanIp: string;
   voicevoxReady: boolean;
+  styleId?: string;
+  affectionLevel?: string;
+  battery?: number;
 }
 
 let _voicevoxReady = false;
@@ -71,9 +75,15 @@ function httpGet(url: string): Promise<Buffer> {
 async function voicevoxSynthesize(text: string): Promise<Buffer> {
   const queryUrl = `${VOICEVOX_URL}/audio_query?text=${encodeURIComponent(text)}&speaker=${VOICEVOX_SPEAKER}`;
   const queryBuf = await httpPost(queryUrl, "", "application/json");
+
+  // Adjust speed and pitch
+  const query = JSON.parse(queryBuf.toString("utf8")) as Record<string, unknown>;
+  query["speedScale"] = VOICEVOX_SPEED;
+  // query["pitchScale"] = 0.05; // 声のピッチ上げたい場合
+
   const wavBuf = await httpPost(
     `${VOICEVOX_URL}/synthesis?speaker=${VOICEVOX_SPEAKER}`,
-    queryBuf,
+    JSON.stringify(query),
     "application/json",
   );
   return wavBuf;
@@ -253,7 +263,23 @@ export async function checkStackchanLocalStatus(): Promise<StackchanLocalStatus>
     connected = true;
   } catch { /* offline */ }
 
-  return { connected, stackchanIp: STACKCHAN_IP, voicevoxReady: _voicevoxReady };
+  // Fetch StackChan status info (face style, affection, battery)
+  let styleId: string | undefined;
+  let affectionLevel: string | undefined;
+  let battery: number | undefined;
+  if (connected) {
+    try {
+      const statusBuf = await httpGet(`http://${STACKCHAN_IP}/status`);
+      const st = JSON.parse(statusBuf.toString("utf8")) as {
+        styleId?: string; affectionLevel?: string; batteryLevel?: number;
+      };
+      styleId = st.styleId;
+      affectionLevel = st.affectionLevel;
+      battery = st.batteryLevel;
+    } catch { /* ignore */ }
+  }
+
+  return { connected, stackchanIp: STACKCHAN_IP, voicevoxReady: _voicevoxReady, styleId, affectionLevel, battery };
 }
 
 export function startStackchanLocalStatusCheck(): void {

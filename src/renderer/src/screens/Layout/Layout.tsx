@@ -137,16 +137,23 @@ function Layout(): React.JSX.Element {
   );
   const [stackchanOnline, setStackchanOnline] = useState(false);
   const [voicevoxReady, setVoicevoxReady] = useState(false);
+  const [stackchanStyle, setStackchanStyle] = useState<string | undefined>(undefined);
+  const [stackchanBattery, setStackchanBattery] = useState<number | undefined>(undefined);
 
-  // StackChan + VOICEVOX status polling — 10s interval
+  // StackChan + VOICEVOX status polling — 15s interval
   useEffect(() => {
     const check = (): void => {
       window.hermesAPI.stackchanStatus()
-        .then((s) => { setStackchanOnline(s.connected); setVoicevoxReady(s.voicevoxReady); })
+        .then((s) => {
+          setStackchanOnline(s.connected);
+          setVoicevoxReady(s.voicevoxReady);
+          setStackchanStyle(s.styleId);
+          setStackchanBattery(s.battery);
+        })
         .catch(() => { setStackchanOnline(false); setVoicevoxReady(false); });
     };
     check();
-    const id = setInterval(check, 10000);
+    const id = setInterval(check, 15000);
     return () => clearInterval(id);
   }, []);
 
@@ -465,6 +472,8 @@ function Layout(): React.JSX.Element {
                 messages={ccMessages}
                 stackchanOnline={stackchanOnline}
                 voicevoxReady={voicevoxReady}
+                stackchanStyle={stackchanStyle}
+                stackchanBattery={stackchanBattery}
                 onSend={async (content) => {
                   // Add user message immediately
                   const userMsg: LocalChatMessage = {

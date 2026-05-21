@@ -1,0 +1,152 @@
+{
+  "ipcBinding": {
+    "rpcLogicalName": "controlCenter.readonly.getAppSnapshot",
+    "payloadSchemaVersion": "v1"
+  },
+  "statusCards": [
+    "READY_FOR_LOCAL_PILOT",
+    "READY_FOR_LOCAL_FULL_LOOP",
+    "CONTROL_CENTER_V1_DESIGN_READY",
+    "SHADOW_MODE_READY",
+    "REVIEW_MODE_READY",
+    "APPROVAL_QUEUE_READY",
+    "AUDIT_LOG_READY",
+    "HERMES_BRIDGE_READY",
+    "NEEDS_USER_APPROVAL"
+  ],
+  "approvalQueueSummary": {
+    "total": 8,
+    "pending": 2,
+    "held": 1,
+    "approved": 3,
+    "rejected": 1,
+    "highRisk": 1,
+    "latestUpdatedAt": "2099-05-03T09:30:00.000Z",
+    "parseWarnings": []
+  },
+  "auditLogSummary": {
+    "total": 42,
+    "readEvents": 18,
+    "writeEvents": 8,
+    "blockedEvents": 6,
+    "approvalEvents": 5,
+    "reviewEvents": 3,
+    "highRiskEvents": 2,
+    "latestTimestamp": "2099-05-03T09:31:12.000Z",
+    "parseFailures": 0
+  },
+  "latestReports": {
+    "docRelativePaths": {
+      "morningReview": "docs/ichikishima/MORNING_REVIEW_REPORT.md",
+      "goalCompletion": "docs/ichikishima/GOAL_COMPLETION_REPORT.md",
+      "bridgeFinalReview": "docs/ichikishima/HERMES_BRIDGE_FINAL_REVIEW.md",
+      "nextGoals": "docs/ichikishima/NEXT_GOALS.md"
+    },
+    "latestApprovalReportId": "rep-sample-00000000-0000-4000-8000-000000000099"
+  },
+  "readiness": {
+    "ichikishimaCards": [
+      "READY_FOR_LOCAL_FULL_LOOP",
+      "SHADOW_MODE_READY",
+      "REVIEW_MODE_READY"
+    ],
+    "localFullLoopReady": true,
+    "controlCenterDesignReady": true,
+    "hermesBridgePilot": {
+      "ready": true,
+      "label": "READY_FOR_HERMES_BRIDGE_PILOT_DRY_RUN",
+      "blockersCount": 0,
+      "requiredHumanReviewsCount": 1,
+      "allowedApisCount": 5,
+      "forbiddenApisCount": 4
+    },
+    "statusNotes": [
+      "sandbox sample only — Hermes runtime is not attached"
+    ]
+  },
+  "nextGoals": [
+    {
+      "ordinal": 2,
+      "title": "Control Center App Shell read-only UI（Renderer · getAppSnapshot のみ）"
+    },
+    {
+      "ordinal": 3,
+      "title": "Hermes Bridge Pilot（実本体なし）"
+    }
+  ],
+  "riskSummary": [
+    "decision=hold_review",
+    "riskLevel=medium",
+    "blocked_ops_approx:2"
+  ],
+  "disabledActions": [
+    "runCommand",
+    "writeAnyFile",
+    "deleteFile_unbounded",
+    "fetchUrl",
+    "gitPush",
+    "readEnv",
+    "connectMT5",
+    "updateMemoryDb"
+  ],
+  "requiresUserApproval": true,
+  "canExecuteDangerousActions": false,
+  "appFoundationPreview": {
+    "productionReady": false,
+    "controlledPilotStation": "waiting_for_live_executable_metadata",
+    "realHermesProcessStatus": "not_running_not_production_ready",
+    "wsl2WrapperStation": "design_pending_execution_forbidden",
+    "ideToolsStation": "cursor_composer_codex_development_only",
+    "normalOperationsVision": "future_app_only_management_via_control_center",
+    "controlCenterRoomIds": [
+      "hermes_room",
+      "ichikishima_room",
+      "approval_room",
+      "audit_room",
+      "memory_room",
+      "controlled_pilot_room",
+      "visualization_room",
+      "system_room"
+    ],
+    "readonlyIpcHints": [
+      "controlCenter.readonly.getAppSnapshot",
+      "controlCenter.readonly.getRooms",
+      "controlCenter.readonly.getAgentTeamSummary",
+      "controlCenter.readonly.getVisualizationModel"
+    ],
+    "agentTeamStation": "dry_run_only_scheduler_disabled_development_outline",
+    "pathResolutionUi": {
+      "pathResolutionRuntimeMode": "electron_development",
+      "snapshotSourceLabel": "development_snapshot_dev_only_source",
+      "pathResolutionStatus": "dev_repo_layout_ok",
+      "pendingPackagingResolution": false,
+      "safeSummaryLines": [
+        "Development snapshot / dev-only source.",
+        "Packaged path resolution: not applicable in dev layout.",
+        "productionReady:false — not production verified."
+      ]
+    }
+  },
+  "appShellParityPreview": {
+    "note": "static mock only — Renderer ControlCenterAppShell の agentTeam / viz / memory セクションに近い短文",
+    "agentTeamSummary": {
+      "schedulerEnabled": false,
+      "blockerCountApprox": 0,
+      "warningCountApprox": 1,
+      "agents": [
+        { "id": "supervisor", "labelJa": "Supervisor（dry-run メタ）" }
+      ]
+    },
+    "visualizationModel": {
+      "nodeCount": 2,
+      "footerNote": "static shell — live data は Electron Renderer の getAppSnapshot のみ"
+    },
+    "memorySummary": {
+      "candidateApproxCount": 0,
+      "safeSummaryLines": [
+        "memory 本文は read-only shell では出さない",
+        "SQLite 本番接続はこのサンプルに無い"
+      ]
+    }
+  }
+}

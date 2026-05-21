@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ichikishima Control Center V1 — Static Read-only Shell</title>
+    <meta
+      name="description"
+      content="read-only demonstration shell — no app / IPC / network"
+    />
+    <link rel="stylesheet" href="control-center-v1-static-shell.css" />
+  </head>
+  <body>
+    <section class="banner" aria-labelledby="banner-sec-heading">
+      <div id="banner-sec-heading" class="banner-label">Security posture</div>
+      <ul class="security-list">
+        <li>Read-only mode（表示のみ）</li>
+        <li>Dangerous actions disabled（実行配線無し）</li>
+        <li>No external network（fetch / CDN / telemetry 不使用）</li>
+        <li>No Hermes runtime（本体未接続）</li>
+        <li>No filesystem access from UI（表示は JSON ソースのみ）</li>
+        <li>No secrets displayed（サンプルに秘密値を載せない）</li>
+        <li>No approval execution（承認自動実行無し）</li>
+        <li>
+          Electron Renderer「Control Center」画面: preload
+          <code>getAppSnapshot</code> のみ・失敗時は明示エラー（空オブジェクトで成功扱いにしない）
+        </li>
+        <li>
+          packaged <code>projectRoot</code> — resolver + smoke 設計は文書済み。実アプリ短命 smoke / Signoff で
+          <code>pendingPackagingResolution</code> を false にできる（未実施時は pending）
+        </li>
+        <li>
+          Do not load sensitive JSON.／Read-only mock viewer／No execution／No external
+          network.
+        </li>
+      </ul>
+      <p class="muted" style="margin-top: 0.75rem">
+        JSON の運用:
+        <a
+          href="../CONTROL_CENTER_STATIC_SHELL_JSON_GUIDELINES.md"
+          class="muted-link"
+          >CONTROL_CENTER_STATIC_SHELL_JSON_GUIDELINES.md</a
+        >
+        （ドラッグ＆ドロップは信頼できる Snapshot のみ）。
+      </p>
+    </section>
+
+    <h1>Ichikishima Control Center</h1>
+    <p id="hdr-mode" class="sub">
+      initializing… — Read-only Static Shell
+    </p>
+    <p class="muted">
+      埋め込みサンプル: <kbd>ipcBinding</kbd>=
+      <code id="ipc-inline-label">controlCenter.readonly.getAppSnapshot / v1</code>
+      — Canonical:<code>control-center-v1-snapshot.sample.json</code>（人手同期）。
+    </p>
+
+    <div id="error-pane" role="alert" aria-live="polite"></div>
+    <p class="muted" style="margin: 0 0 1rem">
+      検証失敗・JSON 破損時は上の error pane に短文のみ（stack trace
+      全文や raw exception は出さない）。空オブジェクトで成功扱いにはしない（Renderer と同方針）。
+    </p>
+
+    <div class="load-panel">
+      <span class="load-panel-label"
+        >ローカルのみ: 別の Snapshot JSON を表示（読取のみ）</span
+      >
+      <label class="load-panel-label" style="margin-top: 0.65rem">
+        JSON ファイル
+        <input
+          id="cc-file-picker"
+          type="file"
+          accept=".json,application/json"
+          class="file-input-reset"
+          aria-describedby="file-help"
+        />
+      </label>
+      <p id="file-help" class="muted" style="margin: 0.25rem 0 0">
+        外部への fetch / 実行系への接続なし。<code>file://</code>で開いた場合も
+        JSON は FileReader で読込みます。
+      </p>
+      <label class="load-panel-label" style="margin-top: 0.55rem">
+        JSON 貼り付け（<code>getControlCenterReadonlyData</code> と同shape）
+      </label>
+      <textarea
+        id="cc-paste-json"
+        class="paste-src"
+        spellcheck="false"
+        aria-label="Snapshot JSON を貼り付け"
+        placeholder='{"ipcBinding":{ … } } '
+      ></textarea>
+      <div class="row-controls">
+        <button type="button" id="cc-parse-paste-btn" class="btn-parse">
+          JSON を適用して表示のみ更新（ローカル・実行なし）
+        </button>
+      </div>
+    </div>
+
+    <section class="panel">
+      <h2>Status cards</h2>
+      <div id="mount-status-cards" class="cards" aria-live="polite"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Hermes room</h2>
+      <div id="mount-hermes-room"></div>
+      <h2 class="sub" style="margin-top: 0.85rem">Bridge pilot readiness（要約）</h2>
+      <div id="mount-bridge-mini"></div>
+      <p class="muted">
+        blocked 操作の近似: <strong>riskSummary</strong> 行を参照。
+      </p>
+    </section>
+
+    <section class="panel">
+      <h2>Ichikishima room</h2>
+      <div id="mount-ichikishima-room"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Approval room（サマリのみ）</h2>
+      <div id="mount-approval"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Audit room（サマリのみ）</h2>
+      <div id="mount-audit"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Memory room（短文サマリ）</h2>
+      <p class="muted">
+        Renderer App Shell と同じく memory 本文・DB 接続は出さない。<code>appShellParityPreview</code> が無い場合はプレースホルダ。
+      </p>
+      <div id="mount-memory-shell"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Agent Team room</h2>
+      <p class="muted">
+        scheduler <strong>disabled</strong>・自動実行なし。詳細は Electron 側
+        <code>getAppSnapshot</code> を正とする。
+      </p>
+      <div id="mount-agent-team-shell"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Visualization / System room</h2>
+      <p class="muted">
+        ノード数・フッタ短文のみ。座標・ログ全文は出さない。
+      </p>
+      <div id="mount-viz-shell"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Reports（相対パス・IDのみ）</h2>
+      <div id="mount-reports"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Risk digest</h2>
+      <div id="mount-risk"></div>
+    </section>
+
+    <section class="panel">
+      <h2>App Management Foundation（preview）</h2>
+      <p class="muted">
+        Cursor / Composer2 / Codex は <strong>development only</strong>。
+        <strong>WSL2 Wrapper</strong> は <strong>design pending · execution forbidden</strong>。<strong
+          >Controlled Pilot</strong
+        >
+        は <strong>実機値待ち</strong
+        >（executablePath / argv / cwd / signoff 未確定）。<strong>Real Hermes</strong> は
+        <strong>not running / not production ready</strong
+        >。実行ボタンは本パネルには置かず、下部 Pipeline もすべて disabled のみ。
+      </p>
+      <div id="mount-app-foundation" aria-live="polite"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Next goals</h2>
+      <div id="mount-next-goals"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Pipelines — すべて disabled（V1 read-only）</h2>
+      <p class="muted">
+        クリックでも Hermes／Zone／実行系へは進みません。<code>V1では実行しない</code>
+      </p>
+      <div class="pipeline-row">
+        <button type="button" class="pipeline" disabled title="V1 read-onlyでは実行しない — Local Pilot は未配線">
+          Run Local Pilot
+        </button>
+        <button type="button" class="pipeline" disabled title="V1 read-onlyでは実行しない — Hermes Bridge Pilot は未配線">
+          Run Hermes Bridge Pilot
+        </button>
+        <button type="button" class="pipeline" disabled title="V1 read-onlyでは実行しない">
+          Review Latest Report
+        </button>
+        <button type="button" class="pipeline" disabled title="V1 read-onlyでは実行しない">
+          Generate Approval Report
+        </button>
+        <button type="button" class="pipeline" disabled title="V1 read-onlyでは実行しない">
+          Create Memory Candidates
+        </button>
+        <button type="button" class="pipeline" disabled title="V1 read-onlyでは実行しない">
+          Stop All
+        </button>
+      </div>
+    </section>
+
+    <p class="footer-note">
+      本ページは開発用静的 Shell です。<code>&lt;script src&gt;</code>外部 CDN
+      は使いません。Pipeline 実行・IPC・HTTP サーバ・Electron
+      ウィンドウはこの Goal では実装していません。このビューだけでは安全性を保証しましたとは言えません。
+    </p>
+
+    <!-- Canonical sample 本体: control-center-v1-snapshot.sample.json と同一構造 -->
+    <script id="cc-embedded-sample-json" type="application/json">
+{
+  "ipcBinding": {
+    "rpcLogicalName": "controlCenter.readonly.getAppSnapshot",
+    "payloadSchemaVersion": "v1"
+  },
+  "statusCards": [
+    "READY_FOR_LOCAL_PILOT",
+    "READY_FOR_LOCAL_FULL_LOOP",
+    "CONTROL_CENTER_V1_DESIGN_READY",
+    "SHADOW_MODE_READY",
+    "REVIEW_MODE_READY",
+    "APPROVAL_QUEUE_READY",
+    "AUDIT_LOG_READY",
+    "HERMES_BRIDGE_READY",
+    "NEEDS_USER_APPROVAL"
+  ],
+  "approvalQueueSummary": {
+    "total": 8,
+    "pending": 2,
+    "held": 1,
+    "approved": 3,
+    "rejected": 1,
+    "highRisk": 1,
+    "latestUpdatedAt": "2099-05-03T09:30:00.000Z",
+    "parseWarnings": []
+  },
+  "auditLogSummary": {
+    "total": 42,
+    "readEvents": 18,
+    "writeEvents": 8,
+    "blockedEvents": 6,
+    "approvalEvents": 5,
+    "reviewEvents": 3,
+    "highRiskEvents": 2,
+    "latestTimestamp": "2099-05-03T09:31:12.000Z",
+    "parseFailures": 0
+  },
+  "latestReports": {
+    "docRelativePaths": {
+      "morningReview": "docs/ichikishima/MORNING_REVIEW_REPORT.md",
+      "goalCompletion": "docs/ichikishima/GOAL_COMPLETION_REPORT.md",
+      "bridgeFinalReview": "docs/ichikishima/HERMES_BRIDGE_FINAL_REVIEW.md",
+      "nextGoals": "docs/ichikishima/NEXT_GOALS.md"
+    },
+    "latestApprovalReportId": "rep-sample-00000000-0000-4000-8000-000000000099"
+  },
+  "readiness": {
+    "ichikishimaCards": [
+      "READY_FOR_LOCAL_FULL_LOOP",
+      "SHADOW_MODE_READY",
+      "REVIEW_MODE_READY"
+    ],
+    "localFullLoopReady": true,
+    "controlCenterDesignReady": true,
+    "hermesBridgePilot": {
+      "ready": true,
+      "label": "READY_FOR_HERMES_BRIDGE_PILOT_DRY_RUN",
+      "blockersCount": 0,
+      "requiredHumanReviewsCount": 1,
+      "allowedApisCount": 5,
+      "forbiddenApisCount": 4
+    },
+    "statusNotes": [
+      "sandbox sample only — Hermes runtime is not attached"
+    ]
+  },
+  "nextGoals": [
+    {
+      "ordinal": 2,
+      "title": "Control Center App Shell read-only UI（Renderer · getAppSnapshot のみ）"
+    },
+    {
+      "ordinal": 3,
+      "title": "Hermes Bridge Pilot（実本体なし）"
+    }
+  ],
+  "riskSummary": [
+    "decision=hold_review",
+    "riskLevel=medium",
+    "blocked_ops_approx:2"
+  ],
+  "disabledActions": [
+    "runCommand",
+    "writeAnyFile",
+    "deleteFile_unbounded",
+    "fetchUrl",
+    "gitPush",
+    "readEnv",
+    "connectMT5",
+    "updateMemoryDb"
+  ],
+  "requiresUserApproval": true,
+  "canExecuteDangerousActions": false,
+  "appFoundationPreview": {
+    "productionReady": false,
+    "controlledPilotStation": "waiting_for_live_executable_metadata",
+    "realHermesProcessStatus": "not_running_not_production_ready",
+    "wsl2WrapperStation": "design_pending_execution_forbidden",
+    "ideToolsStation": "cursor_composer_codex_development_only",
+    "normalOperationsVision": "future_app_only_management_via_control_center",
+    "controlCenterRoomIds": [
+      "hermes_room",
+      "ichikishima_room",
+      "approval_room",
+      "audit_room",
+      "memory_room",
+      "controlled_pilot_room",
+      "visualization_room",
+      "system_room"
+    ],
+    "readonlyIpcHints": [
+      "controlCenter.readonly.getAppSnapshot",
+      "controlCenter.readonly.getRooms",
+      "controlCenter.readonly.getAgentTeamSummary",
+      "controlCenter.readonly.getVisualizationModel"
+    ],
+    "agentTeamStation": "dry_run_only_scheduler_disabled_development_outline",
+    "pathResolutionUi": {
+      "pathResolutionRuntimeMode": "electron_development",
+      "snapshotSourceLabel": "development_snapshot_dev_only_source",
+      "pathResolutionStatus": "dev_repo_layout_ok",
+      "pendingPackagingResolution": false,
+      "safeSummaryLines": [
+        "Development snapshot / dev-only source.",
+        "Packaged path resolution: not applicable in dev layout.",
+        "productionReady:false — not production verified."
+      ]
+    }
+  },
+  "appShellParityPreview": {
+    "note": "static mock only — Renderer ControlCenterAppShell の agentTeam / viz / memory セクションに近い短文",
+    "agentTeamSummary": {
+      "schedulerEnabled": false,
+      "blockerCountApprox": 0,
+      "warningCountApprox": 1,
+      "agents": [
+        { "id": "supervisor", "labelJa": "Supervisor（dry-run メタ）" }
+      ]
+    },
+    "visualizationModel": {
+      "nodeCount": 2,
+      "footerNote": "static shell — live data は Electron Renderer の getAppSnapshot のみ"
+    },
+    "memorySummary": {
+      "candidateApproxCount": 0,
+      "safeSummaryLines": [
+        "memory 本文は read-only shell では出さない",
+        "SQLite 本番接続はこのサンプルに無い"
+      ]
+    }
+  }
+}
+    </script>
+    <script src="control-center-v1-static-shell.js" defer></script>
+  </body>
+</html>

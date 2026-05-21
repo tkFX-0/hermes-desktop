@@ -13,6 +13,8 @@ interface RoomChatInlineProps {
   readonly lang?: "ja" | "en";
   readonly stackchanOnline?: boolean;
   readonly voicevoxReady?: boolean;
+  readonly stackchanStyle?: string;
+  readonly stackchanBattery?: number;
 }
 
 function Bubble({ message, lang = "ja" }: { message: LocalChatMessage; lang?: "ja" | "en" }): React.JSX.Element {
@@ -51,7 +53,7 @@ function Bubble({ message, lang = "ja" }: { message: LocalChatMessage; lang?: "j
   );
 }
 
-export function RoomChatInline({ messages, onSend, lang = "ja", stackchanOnline = false, voicevoxReady = false }: RoomChatInlineProps): React.JSX.Element {
+export function RoomChatInline({ messages, onSend, lang = "ja", stackchanOnline = false, voicevoxReady = false, stackchanStyle, stackchanBattery }: RoomChatInlineProps): React.JSX.Element {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -80,7 +82,9 @@ export function RoomChatInline({ messages, onSend, lang = "ja", stackchanOnline 
               background: stackchanOnline ? "#3fb950" : "#484f58",
             }} />
             <span style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: 9, color: stackchanOnline ? "#3fb950" : "#484f58" }}>
-              StackChan{stackchanOnline ? "" : " offline"}
+              {stackchanOnline
+                ? `StackChan${stackchanStyle ? ` [${stackchanStyle}]` : ""}${stackchanBattery !== undefined ? ` 🔋${stackchanBattery}%` : ""}`
+                : "StackChan offline"}
             </span>
           </div>
           {/* VOICEVOX badge */}

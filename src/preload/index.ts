@@ -685,6 +685,9 @@ const hermesAPI = {
     connected: boolean;
     stackchanIp: string;
     voicevoxReady: boolean;
+    styleId?: string;
+    affectionLevel?: string;
+    battery?: number;
   }> => ipcRenderer.invoke("stackchan-status"),
 
   stackchanSay: (text: string): Promise<{

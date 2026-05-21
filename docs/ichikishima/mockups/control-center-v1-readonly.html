@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ichikishima Control Center V1 — read-only mock（静的）</title>
+    <style>
+      :root {
+        font-family: system-ui, sans-serif;
+        color: #e8e8e8;
+        background: #1a1b22;
+      }
+      body {
+        margin: 0;
+        padding: 1rem 1.5rem 3rem;
+        max-width: 960px;
+      }
+      h1 {
+        font-size: 1.35rem;
+        margin: 0 0 0.25rem;
+      }
+      .sub {
+        color: #98a2b3;
+        font-size: 0.85rem;
+        margin-bottom: 1rem;
+      }
+      .ribbon {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+      }
+      .badge {
+        background: #2d3748;
+        border-radius: 4px;
+        padding: 0.2rem 0.55rem;
+        font-size: 0.72rem;
+        letter-spacing: 0.02em;
+      }
+      .badge.warn {
+        background: #744210;
+      }
+      section {
+        margin-top: 1.25rem;
+        padding: 0.85rem;
+        border: 1px solid #374151;
+        border-radius: 6px;
+        background: #22232c;
+      }
+      section h2 {
+        margin: 0 0 0.5rem;
+        font-size: 0.95rem;
+      }
+      dl.grid {
+        display: grid;
+        grid-template-columns: 10rem 1fr;
+        gap: 0.25rem 0.75rem;
+        font-size: 0.85rem;
+        margin: 0;
+      }
+      dt {
+        color: #9ca3af;
+      }
+      ul.compact {
+        margin: 0;
+        padding-left: 1.25rem;
+        font-size: 0.85rem;
+      }
+      .actions {
+        margin-top: 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      button {
+        font: inherit;
+        padding: 0.45rem 0.65rem;
+        border-radius: 4px;
+        border: 1px solid #4b5563;
+        background: #374151;
+        color: #d1d5db;
+      }
+      button[disabled] {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+      .foot {
+        margin-top: 2rem;
+        font-size: 0.72rem;
+        color: #6b7280;
+      }
+      code {
+        font-size: 0.82em;
+        background: #111827;
+        padding: 0.1rem 0.35rem;
+        border-radius: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Ichikishima Control Center</h1>
+    <p class="sub">
+      Mode: <strong>READ_ONLY_MOCK</strong> — 実行・IPC・ネットワークなし。ダミーデータです。
+    </p>
+
+    <p class="sub">
+      <code>ipcBinding</code>:
+      rpcLogicalName = controlCenter.readonly.getAppSnapshot / payloadSchemaVersion = v1
+    </p>
+
+    <div class="ribbon" aria-label="status cards mock">
+      <span class="badge">READY_FOR_LOCAL_FULL_LOOP（例）</span>
+      <span class="badge warn">SHADOW_MODE_READY（例）</span>
+      <span class="badge">APPROVAL_QUEUE_READY（例）</span>
+      <span class="badge">HERMES_BRIDGE_READY（例）</span>
+    </div>
+
+    <section aria-labelledby="approval-h">
+      <h2 id="approval-h">Approval queue（サマリのみ）</h2>
+      <dl class="grid">
+        <dt>pending</dt>
+        <dd>—</dd>
+        <dt>held</dt>
+        <dd>—</dd>
+        <dt>approved</dt>
+        <dd>—</dd>
+        <dt>high risk</dt>
+        <dd>—</dd>
+      </dl>
+      <p class="sub">
+        Queue 項目の本文・commands・URL は表示しません（契約）。
+      </p>
+    </section>
+
+    <section aria-labelledby="audit-h">
+      <h2 id="audit-h">Audit log（サマリのみ）</h2>
+      <dl class="grid">
+        <dt>total</dt>
+        <dd>—</dd>
+        <dt>blocked</dt>
+        <dd>—</dd>
+        <dt>latest</dt>
+        <dd>—</dd>
+      </dl>
+    </section>
+
+    <section aria-labelledby="reports-h">
+      <h2 id="reports-h">Report refs（相対パスのみ）</h2>
+      <ul class="compact">
+        <li><code>docs/ichikishima/MORNING_REVIEW_REPORT.md</code></li>
+        <li><code>docs/ichikishima/GOAL_COMPLETION_REPORT.md</code></li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="pipelines-h">
+      <h2 id="pipelines-h">Pipelines — すべて disabled（V1）</h2>
+      <div class="actions">
+        <button type="button" disabled aria-disabled="true">
+          Run Local Pilot
+        </button>
+        <button type="button" disabled aria-disabled="true">
+          Run Hermes Bridge Pilot
+        </button>
+        <button type="button" disabled aria-disabled="true">
+          Stop All
+        </button>
+        <button type="button" disabled aria-disabled="true">
+          Generate Approval Report
+        </button>
+      </div>
+    </section>
+
+    <p class="foot">
+      静的ファイルのみ。外部 CDN なし。client script なし。実アプリへ未接続。requiresUserApproval:
+      true / canExecuteDangerousActions: false（本番 Snapshot でも同様を要求）。
+    </p>
+  </body>
+</html>

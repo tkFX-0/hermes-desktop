@@ -46,6 +46,8 @@ export interface AgentTheaterPageProps {
   readonly lang?: "ja" | "en";
   readonly stackchanOnline?: boolean;
   readonly voicevoxReady?: boolean;
+  readonly stackchanStyle?: string;
+  readonly stackchanBattery?: number;
 }
 
 // AT-13: section divider for visual separation
@@ -66,6 +68,8 @@ export function AgentTheaterPage({
   lang = "ja",
   stackchanOnline = false,
   voicevoxReady = false,
+  stackchanStyle,
+  stackchanBattery,
 }: AgentTheaterPageProps): React.JSX.Element {
   const poses = agentPoses ?? deriveAgentPoses(decision);
 
@@ -74,7 +78,7 @@ export function AgentTheaterPage({
       {/* Room + Chat */}
       <div style={{ position: "relative" as const }}>
         <PixelRoomStage decision={decision} poses={poses} lang={lang} />
-        {onSend && <RoomChatInline messages={messages} onSend={onSend} lang={lang} stackchanOnline={stackchanOnline} voicevoxReady={voicevoxReady} />}
+        {onSend && <RoomChatInline messages={messages} onSend={onSend} lang={lang} stackchanOnline={stackchanOnline} voicevoxReady={voicevoxReady} stackchanStyle={stackchanStyle} stackchanBattery={stackchanBattery} />}
       </div>
 
       {/* Worker section */}

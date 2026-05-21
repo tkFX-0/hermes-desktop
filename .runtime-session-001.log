@@ -1,0 +1,53 @@
+
+> shikishima-desktop@0.2.3 dev
+> electron-vite dev
+
+[36mvite v7.3.1 [32mbuilding ssr environment for development...[36m[39m
+transforming...
+[32m✓[39m 145 modules transformed.
+rendering chunks...
+[2mout/main/[22m[36mindex.js  [39m[1m[2m393.13 kB[22m[1m[22m
+[32m✓ built in 601ms[39m
+[32m
+electron main process built successfully[39m
+[90m
+-----
+[39m
+[36mvite v7.3.1 [32mbuilding ssr environment for development...[36m[39m
+transforming...
+[32m✓[39m 8 modules transformed.
+rendering chunks...
+[2mout/preload/[22m[36mindex.js  [39m[1m[2m20.98 kB[22m[1m[22m
+[32m✓ built in 31ms[39m
+[32m
+electron preload scripts built successfully[39m
+[90m
+-----
+[39m
+[32mdev server running for the electron renderer process at:
+[39m
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5173[22m/[39m
+[2m  [32m➜[39m  [1mNetwork[22m[2m: use [22m[1m--host[22m[2m to expose[22m
+[32m
+starting electron app...
+[39m
+
+🌐 i18next is made possible by our own product, Locize — consider powering your project with managed localization (AI, CDN, integrations): https://locize.com 💙
+(electron) 'console-message' arguments are deprecated and will be removed. Please use Event<WebContentsConsoleMessageEventParams> object instead.
+[RENDERER ERROR] Connecting to 'http://localhost:8765/api/status' violates the following Content Security Policy directive: "default-src 'self'". Note that 'connect-src' was not explicitly set, so 'default-src' is used as a fallback. The action has been blocked. (http://localhost:5173/src/screens/Research/Research.tsx:9)
+[RENDERER ERROR] Fetch API cannot load http://localhost:8765/api/status. Refused to connect because it violates the document's Content Security Policy. (http://localhost:5173/src/screens/Research/Research.tsx:9)
+[RENDERER ERROR] Connecting to 'http://localhost:8765/api/status' violates the following Content Security Policy directive: "default-src 'self'". Note that 'connect-src' was not explicitly set, so 'default-src' is used as a fallback. The action has been blocked. (http://localhost:5173/src/screens/Research/Research.tsx:9)
+[RENDERER ERROR] Fetch API cannot load http://localhost:8765/api/status. Refused to connect because it violates the document's Content Security Policy. (http://localhost:5173/src/screens/Research/Research.tsx:9)
+[RENDERER ERROR] Framing 'http://localhost:8765/' violates the following Content Security Policy directive: "default-src 'self'". The request has been blocked. Note that 'frame-src' was not explicitly set, so 'default-src' is used as a fallback.
+ (http://localhost:5173/@fs/C:/Users/81903/Desktop/%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB/hermes-desktop/node_modules/.vite/deps/react-dom_client.js?v=48f8c309:9714)
+[LOAD FAIL] -30 ERR_BLOCKED_BY_CSP
+(node:44556) electron: Failed to load URL: http://localhost:8765/ with error: ERR_BLOCKED_BY_CSP
+(Use `electron --trace-warnings ...` to show where the warning was created)
+[RENDERER ERROR] Connecting to 'http://localhost:8765/api/status' violates the following Content Security Policy directive: "default-src 'self'". Note that 'connect-src' was not explicitly set, so 'default-src' is used as a fallback. The action has been blocked. (http://localhost:5173/src/screens/Research/Research.tsx:9)
+[RENDERER ERROR] Fetch API cannot load http://localhost:8765/api/status. Refused to connect because it violates the document's Content Security Policy. (http://localhost:5173/src/screens/Research/Research.tsx:9)
+[RENDERER ERROR] Connecting to 'http://localhost:8765/api/status' violates the following Content Security Policy directive: "default-src 'self'". Note that 'connect-src' was not explicitly set, so 'default-src' is used as a fallback. The action has been blocked. (http://localhost:5173/src/screens/Research/Research.tsx:9)
+[RENDERER ERROR] Fetch API cannot load http://localhost:8765/api/status. Refused to connect because it violates the document's Content Security Policy. (http://localhost:5173/src/screens/Research/Research.tsx:9)
+[RENDERER ERROR] Framing 'http://localhost:8765/' violates the following Content Security Policy directive: "default-src 'self'". The request has been blocked. Note that 'frame-src' was not explicitly set, so 'default-src' is used as a fallback.
+ (http://localhost:5173/@fs/C:/Users/81903/Desktop/%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB/hermes-desktop/node_modules/.vite/deps/react-dom_client.js?v=48f8c309:9714)
+[LOAD FAIL] -30 ERR_BLOCKED_BY_CSP
+(node:44556) electron: Failed to load URL: http://localhost:8765/ with error: ERR_BLOCKED_BY_CSP
