@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.34.0
+- roadmapVersion: v4.36.0
 - lastUpdated: 2026-05-21
-- latestUpdate: Autonomous operation readiness panel, Lv5 GO forms, evidence templates, and dry-run plans prepared. No Lv5 execution approved.
-- baselineCommit: ef67acb
+- latestUpdate: Discord Bot local setup (DIS-BOT-00/01/02) PASS. Naming correction: XACC-01 Discord → DIS-BOT series. XACC-01 remains HOLD.
+- baselineCommit: 86b8381
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,27 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.36.0 - Discord Bot Local Setup PASS + Naming Correction (DIS-BOT series)
+
+- `DIS_BOT_00_LOCAL_TOKEN_SETUP_EVIDENCE_2026-05-21.md`: Bot Token ローカル保存 PASS。token_committed=false / env_file_gitignored=true。
+- `DIS_BOT_01_CHANNEL_ACCESS_EVIDENCE_2026-05-21.md`: しきしま指示・しきしまレポート 両チャンネルアクセス PASS。
+- `DIS_BOT_02_TEST_MESSAGE_EVIDENCE_2026-05-21.md`: しきしまレポートへテスト送信 PASS (msg_id: 1506871078742528072)。gate restored to HOLD。
+- `FUTURE_GATE_REGISTRY.md`: DIS-BOT-00〜04 シリーズ追加。DIS-03 HOLD復帰。命名修正。
+- `LEVEL5_BLOCKED_TASKS.md`: DIS-BOT エントリ PASS に更新。次ステップ DIS-BOT-03 poll GO。
+- `src/main/discord-intake.ts`: トークンソース `.env.local` / `sendDiscordMessage()` / `getDiscordChannelIds()` 追加。
+- `src/main/discord-bot-service.ts`: 新規作成 — polling loop / command routing / sendReport()。
+- typecheck:node PASS / typecheck:web PASS。
+- **命名修正:** `XACC-01 Discord` という誤った名称を `DIS-BOT-*` に修正。XACC-01 (X Account OAuth) は HOLD 維持。
+- DIS01_HOLD=true 維持。productionReady: false。execution: disabled。rawValuesReported: false。
+
+## v4.35.0 - StackChan X Issue Reference Intake / AI Voice + Camera Roadmaps
+
+- `SC_REF_01_STACKCHAN_X_ISSUE_REFERENCE_INTAKE.md`: records the user-provided X issue summary as reference intake only. No X browsing, login, or API use.
+- `SC_AI_VOICE_INTEGRATION_ROADMAP.md`: plans SC-AI-00/01 voice route checks and fixed-text one-shot speech. Cron, mic always-on, STT conversation, cloud TTS, Discord Bot speech push, and firmware write remain HOLD.
+- `SC_AI_CAMERA_COMMENT_ROADMAP.md`: plans SC-CAM-00/01 one still image to one AI comment. Continuous monitoring, identity recognition, stream recording, and cloud vision routes remain HOLD.
+- `SC_STACKCHAN_DO_NOT_OPEN_YET.md`: records the StackChan capabilities that must not open yet.
+- Burn, Erase, Firmware Exporter Start, custom firmware write, servo motion, motion/dance, camera monitoring, microphone, external API, productionReady true, and execution enabled remain HOLD.
 
 ## v4.34.0 - Autonomous Operation Readiness Panel + Overnight Gate Package
 

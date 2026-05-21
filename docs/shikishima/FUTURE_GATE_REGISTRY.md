@@ -29,6 +29,13 @@ This registry only defines the approval boundaries.
 | SC-FACE-04 | StackChan 320x240 face asset spec | SPEC | human review before asset/test work |
 | SC-RESTORE-01 | StackChan factory restore / rollback plan | PLAN | required before any firmware/display test |
 | SC-FACE-05 | StackChan display-only face test GO draft | ONE_SHOT_PASS 2026-05-21 (Option A) — gate restored to HOLD | next: Shikishima face asset for AVATAR menu |
+| SC-REF-01 | StackChan X issue reference intake | REFERENCE_INTAKE | SC-AI-01 route check |
+| SC-AI-00 | StackChan AI voice capability check | PLAN / HOLD | SC-AI-01 fixed text one-shot GO |
+| SC-AI-01 | StackChan fixed text voice one-shot | HOLD | explicit voice one-shot GO |
+| SC-CAM-00 | StackChan camera comment capability check | PLAN / HOLD | SC-CAM-01 still image comment GO |
+| SC-CAM-01 | StackChan one still image AI comment | HOLD | explicit camera one-shot GO + privacy confirmation |
+| SC-AI-LOOP | StackChan autonomous conversation loop | HOLD | future policy; not approved |
+| SC-CAM-MONITOR | StackChan continuous camera monitoring | HOLD | future policy; not approved |
 | GATE-SC-PHYS-01 | StackChan physical motion | HOLD | GATE-SC-DISP-01 + physical Gate |
 | GATE-SC-CONN-01 | StackChan serial/USB/Wi-Fi connection | HOLD | GATE-SC-PHYS-01 |
 | GATE-VOICE-01 | voice output | HOLD | separate voice Gate |
@@ -244,8 +251,20 @@ XS-AUTO, CC-03, HB-01, XACC, productionReady, or execution gates._
 | DIS-00 | Discord Bridge design | DESIGN (docs-only) | — |
 | DIS-01 | Discord read-only intake (one channel) | IPC IMPLEMENTED (DIS01_HOLD=true) | explicit DIS-01 read-only GO |
 | DIS-02 | Discord draft response (local only) | IMPLEMENTED (display-only, copy-only) | — |
-| DIS-03 | Discord human GO reply (one message) | ONE_SHOT_PASS 2026-05-21 — gate restored to HOLD | new dis03_reply_go for next send |
+| DIS-03 | Discord human GO reply (one message) | HOLD | dis03_reply_go (別途 GO 必要) |
 | DIS-04 | Discord limited auto-reply (template only) | DEFERRED (Level 5+) | DIS-03 PASS + template/loop policy |
+
+## Discord Bot Local Setup Gates (DIS-BOT series)
+
+_Note: DIS-BOT シリーズは Discord Bot のローカルセットアップ証跡。DIS シリーズ (Bridge read/reply) および XACC シリーズ (X Account OAuth) とは別カテゴリ。_
+
+| Gate ID | Capability | Current Status | Required Before |
+|---|---|---|---|
+| DIS-BOT-00 | Discord Bot local token setup | ONE_SHOT_PASS 2026-05-21 | 証跡: DIS_BOT_00_LOCAL_TOKEN_SETUP_EVIDENCE_2026-05-21.md |
+| DIS-BOT-01 | Discord Bot channel access check | ONE_SHOT_PASS 2026-05-21 | 証跡: DIS_BOT_01_CHANNEL_ACCESS_EVIDENCE_2026-05-21.md |
+| DIS-BOT-02 | Discord Bot test message send | ONE_SHOT_PASS 2026-05-21 — gate restored to HOLD | new dis_bot_02_send_go for next send |
+| DIS-BOT-03 | Discord Bot command receive (polling) | HOLD (DIS01_HOLD=true) | explicit dis_bot_03_poll_go |
+| DIS-BOT-04 | Discord Bot command → agent routing | HOLD | DIS-BOT-03 PASS + routing GO |
 
 ## Required Statement
 
@@ -254,7 +273,7 @@ This registry only records approval boundaries.
 All capabilities listed remain HOLD.
 productionReady remains false.
 execution remains disabled.
-_Updated: 2026-05-20 — added DIS series (Discord Bridge gates)_
+_Updated: 2026-05-21 — added DIS-BOT series (Discord Bot local setup); corrected XACC-01 Discord misnaming; DIS-03 restored to HOLD_
 
 ---
 

@@ -759,8 +759,10 @@ function setupIPC(): void {
   );
 
   // DIS-01: Discord read-only intake (HOLD until explicit GO)
-  ipcMain.handle("shikishima-discord-read", (_event, limit?: number) =>
-    readDiscordChannel(limit),
+  ipcMain.handle(
+    "shikishima-discord-read",
+    (_event, channelId: string, limit?: number) =>
+      readDiscordChannel(channelId, limit),
   );
 }
 

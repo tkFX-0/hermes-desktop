@@ -20,14 +20,14 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v4.34.0
-- latestUpdate: 2026-05-21 - Autonomous operation readiness panel, Lv5 GO forms, evidence templates, and dry-run plans prepared without Lv5 execution.
+- roadmapVersion: v4.36.0
+- latestUpdate: 2026-05-21 - Discord Bot local setup PASS (DIS-BOT-00/01/02). Naming correction: XACC-01 Discord → DIS-BOT series. XACC-01 (X OAuth) remains HOLD.
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
-- current HEAD: origin/main=2af99cf
-- validation road: Gate 001-007 ✓; AT-07〜AT-15 PASS; CC-01/02 PASS; UI-01/02 PASS; 100% Roadmap docs完成; AT-14 runtime PASS; XS-01 read-only PASS
-- current next human action: review push readiness, then choose one next gate only: XS-AUTO-03 or CC-03. Do not approve productionReady yet.
-- HOLD reason: productionReady false; execution disabled; Level 5 actions require explicit human GO
+- current HEAD: 86b8381 (origin/main=7653135, 8 commits ahead)
+- validation road: Gate 001-007 ✓; AT-07〜AT-15 PASS; CC-01/02 PASS; UI-01/02 PASS; 100% Roadmap docs完成; AT-14 runtime PASS; XS-01 read-only PASS; HB-01 WSL2 PASS; DIS-BOT-00/01/02 PASS
+- current next human action: Google Calendar credentials.json 取得 → Google Calendar OAuth 実装 GO
+- HOLD reason: productionReady false; execution disabled; DIS01_HOLD=true; XACC-01 HOLD; Google Calendar OAuth 未設定
 
 ## Agent Theater — 完了済み
 

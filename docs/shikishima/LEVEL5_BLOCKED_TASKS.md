@@ -25,6 +25,8 @@ Still blocked without explicit human GO:
 - Command Chat send
 - X OAuth/API
 - StackChan operation
+- StackChan voice output, microphone, camera monitoring, servo motion, Cron speech,
+  cloud TTS, Discord Bot integration, and firmware write
 - external API write
 - productionReady true
 - execution enabled
@@ -294,12 +296,16 @@ ClaudeCode が単独で実行することはできません。
 | 項目 | 内容 |
 |---|---|
 | 内容 | Discord Developer Portal でBot作成、token取得、ローカル保存 |
-| 現状 | 未実施 (設計書 DISCORD_TOKEN_AND_PERMISSION_POLICY.md のみ) |
-| 必要な GO | Level 5 — token発行と外部サービス接続 |
-| 必要な承認スコープ | Bot作成GO / token storage policy / 専用チャンネル確認 |
+| 現状 | **DIS-BOT-00/01/02 PASS** — 2026-05-21 完了。証跡3件あり。 |
+| 証跡 | `DIS_BOT_00_LOCAL_TOKEN_SETUP_EVIDENCE_2026-05-21.md` |
+| 証跡 | `DIS_BOT_01_CHANNEL_ACCESS_EVIDENCE_2026-05-21.md` |
+| 証跡 | `DIS_BOT_02_TEST_MESSAGE_EVIDENCE_2026-05-21.md` |
+| 次の GO | コマンド受信ポーリング開始には `dis_bot_03_poll_go` が必要 |
 | 参照 | `DISCORD_TOKEN_AND_PERMISSION_POLICY.md` |
 
-**ブロック理由:** Botトークンは外部サービス認証情報 = Level 5
+**状態:** Bot Token ローカル保存・チャンネルアクセス・テスト送信 PASS。DIS01_HOLD 維持中。
+
+**命名注意:** この作業は XACC-01 ではなく DIS-BOT シリーズ。XACC-01 (X Account OAuth) は引き続き HOLD。
 
 ---
 
@@ -340,7 +346,7 @@ ClaudeCode が単独で実行することはできません。
 | CC-03 | 「CC-03 Command Chat 送信 GO: 送信先=[endpoint], scope=[...]」と明示 |
 | HB-01 | 「HB-01 Hermes Bridge GO: WSL2 command=[...], port=[...]」と明示 |
 | XS-01 (次回) | 「XS-READ GO: source=[...], topic=[...], read-only window=[...]」と明示 |
-| DIS-BOT | 「Discord Bot 作成 GO: 専用チャンネル=[...], token storage=[...]」と明示 |
+| DIS-BOT-03 | 「DIS-BOT-03 poll GO: command_channel=[...], interval=[...], time_window=[...]」と明示 |
 | DIS-01 | 「DIS-01 read-only GO: server=[...], channel=[...], time_window=[...]」と明示 |
 | DIS-03 | 「DIS-03 reply GO: exact_message=[...], channel=[...]」と明示 |
 

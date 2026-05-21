@@ -1,5 +1,5 @@
 ﻿# Shikishima Roadmap Docs
-date_updated: 2026-05-18
+date_updated: 2026-05-21
 
 This directory contains static documentation for the Shikishima plan.
 
@@ -39,6 +39,9 @@ network flow.
 
 ## Files
 
+- `DIS_BOT_00_LOCAL_TOKEN_SETUP_EVIDENCE_2026-05-21.md` - Discord Bot token setup PASS evidence (DIS-BOT-00).
+- `DIS_BOT_01_CHANNEL_ACCESS_EVIDENCE_2026-05-21.md` - Discord Bot channel access PASS evidence (DIS-BOT-01).
+- `DIS_BOT_02_TEST_MESSAGE_EVIDENCE_2026-05-21.md` - Discord Bot test message ONE_SHOT_PASS evidence (DIS-BOT-02).
 - `REAL_OPERATION_ROADMAP.html` - static browser roadmap.
 - `REAL_OPERATION_ROADMAP.md` - Markdown roadmap.
 - `ROADMAP_CHANGELOG.md` - visible roadmap update history.
@@ -51,6 +54,10 @@ network flow.
 - `SC_FACE_04_320X240_FACE_ASSET_SPEC.md` - 320x240 face asset specification for future StackChan display work.
 - `SC_RESTORE_01_FACTORY_RESTORE_ROLLBACK_PLAN.md` - factory restore and rollback plan required before firmware/display tests.
 - `SC_FACE_05_DISPLAY_ONLY_TEST_GO_DRAFT.md` - future one-shot display-only face test GO draft.
+- `SC_REF_01_STACKCHAN_X_ISSUE_REFERENCE_INTAKE.md` - user-provided StackChan X issue reference intake and classification.
+- `SC_AI_VOICE_INTEGRATION_ROADMAP.md` - StackChan AI voice route roadmap for fixed text one-shot planning.
+- `SC_AI_CAMERA_COMMENT_ROADMAP.md` - StackChan one still image AI comment route roadmap and privacy boundary.
+- `SC_STACKCHAN_DO_NOT_OPEN_YET.md` - StackChan capabilities that remain HOLD.
 - `PUSH_READINESS_AUTONOMOUS_INVENTORY_2026-05-21.md` - autonomous operation preparation baseline and push readiness inventory.
 - `AUTONOMOUS_OPERATION_DRY_RUN_MATRIX.md` - dry-run matrix for Lv5 GO forms and evidence templates.
 - `XS_AUTO_03_GO_FORM_2026-05-21.md` - draft XS-AUTO-03 one-shot read-only GO form.
