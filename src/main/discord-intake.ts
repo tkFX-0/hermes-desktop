@@ -15,8 +15,8 @@ const ENV_LOCAL_PATH = join(
   ".env.local",
 );
 
-// DIS-01 command-read gate — requires explicit human GO to activate polling
-const DIS01_HOLD = true;
+// DIS-01 command-read gate — GO issued 2026-05-21
+const DIS01_HOLD = false;
 
 const MAX_READ_COUNT = 10;
 

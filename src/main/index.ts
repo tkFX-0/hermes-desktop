@@ -126,6 +126,7 @@ import { publishResearchReport, startDailyResearchPipeline } from "./research-pi
 import type { ResearchReportInput } from "./research-report-generator";
 import { startNewsWatcher, stopNewsWatcher } from "./news-watcher";
 import { grokChat, checkXPremiumQuota } from "./shikishima-grok-chat";
+import { startDiscordBot, stopDiscordBot, shikishimaGrokHandler } from "./discord-bot-service";
 
 process.on("uncaughtException", (err) => {
   console.error("[MAIN UNCAUGHT]", err);
@@ -981,6 +982,9 @@ app.whenReady().then(() => {
   startDailyResearchPipeline();
   startNewsWatcher();
 
+  // Discord Bot — Grok 4.3 command handler (DIS-01 GO 2026-05-21)
+  startDiscordBot(shikishimaGrokHandler);
+
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
@@ -991,6 +995,7 @@ app.on("window-all-closed", () => {
     stopGateway();
     stopClaw3d();
     stopNewsWatcher();
+    stopDiscordBot();
     app.quit();
   }
 });
