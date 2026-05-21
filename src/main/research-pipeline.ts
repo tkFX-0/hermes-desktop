@@ -4,7 +4,10 @@
 
 import { generateResearchReport, type ResearchReportInput } from "./research-report-generator";
 import { writeResearchReport } from "./research-report-writer";
-import { sendDiscordMessage, getDiscordChannelIds } from "./discord-intake";
+import { getDiscordChannelIds } from "./discord-intake";
+import { renderArticleHtml } from "./research-article-html";
+import { captureHtmlAsPng } from "./research-screenshot";
+import { sendPngToDiscord } from "./research-discord-image";
 
 export interface PipelineResult {
   readonly success: boolean;
@@ -33,16 +36,27 @@ export async function publishResearchReport(
   const report = generateResearchReport(input);
   const { reportChannelId } = getDiscordChannelIds();
 
-  // Discord send
+  // Discord send — PNG image
   let discordResult: PipelineResult["discord"];
   if (reportChannelId) {
-    const sent = await sendDiscordMessage(reportChannelId, report.discordContent);
-    discordResult = {
-      sent: sent.success,
-      messageId: sent.messageId,
-      error: sent.error,
-      channelId: reportChannelId,
-    };
+    try {
+      const html = renderArticleHtml(input);
+      const png = await captureHtmlAsPng(html);
+      const filename = `shikishima-research-${report.date}.png`;
+      const sent = await sendPngToDiscord(reportChannelId, png, filename);
+      discordResult = {
+        sent: sent.success,
+        messageId: sent.messageId,
+        error: sent.error,
+        channelId: reportChannelId,
+      };
+    } catch (e) {
+      discordResult = {
+        sent: false,
+        error: e instanceof Error ? e.message : "screenshot_failed",
+        channelId: reportChannelId,
+      };
+    }
   } else {
     discordResult = {
       sent: false,
