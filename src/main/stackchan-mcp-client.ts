@@ -5,7 +5,34 @@
  * Auto-reconnects every 10s when offline.
  */
 
-const XIAOZHI_MCP_URL = "wss://api.XiaoZhi.me/mcp/?device_id=441BF6E1E1E4";
+import { readFileSync, existsSync } from "fs";
+import { join } from "path";
+import { homedir } from "os";
+
+const ENV_LOCAL_PATH = join(
+  homedir(), "Desktop", "プロジェクトファイル", "hermes-desktop", ".env.local",
+);
+
+function readXiaozhiToken(): string | null {
+  try {
+    if (!existsSync(ENV_LOCAL_PATH)) return null;
+    const content = readFileSync(ENV_LOCAL_PATH, "utf-8");
+    for (const line of content.split("\n")) {
+      const trimmed = line.trim();
+      if (trimmed.startsWith("#") || !trimmed.includes("=")) continue;
+      const eq = trimmed.indexOf("=");
+      const key = trimmed.substring(0, eq).trim();
+      if (key === "XIAOZHI_TOKEN") return trimmed.substring(eq + 1).trim() || null;
+    }
+  } catch { /* ignore */ }
+  return null;
+}
+
+function buildMcpUrl(): string {
+  const token = readXiaozhiToken();
+  const base = "wss://api.XiaoZhi.me/mcp/?device_id=441BF6E1E1E4";
+  return token ? `${base}&token=${token}` : base;
+}
 const RECONNECT_INTERVAL_MS = 10_000;
 const RPC_TIMEOUT_MS = 15_000;
 
@@ -139,7 +166,7 @@ export function connect(): void {
   _tools = [];
 
   try {
-    _ws = new WS_CTOR(XIAOZHI_MCP_URL);
+    _ws = new WS_CTOR(buildMcpUrl());
   } catch (e) {
     console.warn("[StackChan MCP] Failed to create socket:", e);
     scheduleReconnect();
