@@ -5,7 +5,7 @@
  * Auto-reconnects every 10s when offline.
  */
 
-const XIAOZHI_MCP_URL = "wss://api.XiaoZhi.me/mcp/?device_id=441BF6EE1E1E4";
+const XIAOZHI_MCP_URL = "wss://api.XiaoZhi.me/mcp/?device_id=441BF6E1E1E4";
 const RECONNECT_INTERVAL_MS = 10_000;
 const RPC_TIMEOUT_MS = 15_000;
 
