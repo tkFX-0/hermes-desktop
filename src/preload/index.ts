@@ -679,6 +679,23 @@ const hermesAPI = {
     available: boolean;
     note: string;
   }> => ipcRenderer.invoke("shikishima-grok-quota"),
+
+  // StackChan MCP — XiaoZhi cloud bridge
+  stackchanStatus: (): Promise<{
+    connected: boolean;
+    tools: string[];
+    error?: string;
+  }> => ipcRenderer.invoke("stackchan-status"),
+
+  stackchanSay: (text: string): Promise<{
+    ok: boolean;
+    error?: string;
+  }> => ipcRenderer.invoke("stackchan-say", text),
+
+  stackchanFace: (emotion: string): Promise<{
+    ok: boolean;
+    error?: string;
+  }> => ipcRenderer.invoke("stackchan-face", emotion),
 };
 
 if (process.contextIsolated) {

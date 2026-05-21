@@ -472,6 +472,22 @@ interface HermesAPI {
     available: boolean;
     note: string;
   }>;
+
+  stackchanStatus: () => Promise<{
+    connected: boolean;
+    tools: string[];
+    error?: string;
+  }>;
+
+  stackchanSay: (text: string) => Promise<{
+    ok: boolean;
+    error?: string;
+  }>;
+
+  stackchanFace: (emotion: string) => Promise<{
+    ok: boolean;
+    error?: string;
+  }>;
 }
 
 interface IchikishimaControlCenterAPI {

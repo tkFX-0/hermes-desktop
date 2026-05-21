@@ -135,6 +135,19 @@ function Layout(): React.JSX.Element {
   const [ccSafeSummary, setCcSafeSummary] = useState<SafeSnapshotSummary>(
     () => holdSummary(0, "unavailable"),
   );
+  const [stackchanOnline, setStackchanOnline] = useState(false);
+
+  // StackChan status polling — 5s interval (auto-connects when device powers on)
+  useEffect(() => {
+    const check = (): void => {
+      window.hermesAPI.stackchanStatus()
+        .then((s) => setStackchanOnline(s.connected))
+        .catch(() => setStackchanOnline(false));
+    };
+    check();
+    const id = setInterval(check, 5000);
+    return () => clearInterval(id);
+  }, []);
 
   // Re-check remote mode on tab switch (picks up Settings changes)
   useEffect(() => {
@@ -449,6 +462,7 @@ function Layout(): React.JSX.Element {
               <AgentTheaterPage
                 decision={toOperatorPageData(ccSafeSummary).decision}
                 messages={ccMessages}
+                stackchanOnline={stackchanOnline}
                 onSend={async (content) => {
                   // Add user message immediately
                   const userMsg: LocalChatMessage = {
@@ -483,6 +497,10 @@ function Layout(): React.JSX.Element {
                           : m,
                       ),
                     );
+                    // StackChan: speak the reply (fire-and-forget, no-op when offline)
+                    if (result.success) {
+                      window.hermesAPI.stackchanSay(reply).catch(() => {/* offline — silent */});
+                    }
                   } catch (e) {
                     setCcMessages((prev) =>
                       prev.map((m) =>

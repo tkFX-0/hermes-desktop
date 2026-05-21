@@ -11,6 +11,7 @@ interface RoomChatInlineProps {
   readonly messages: readonly LocalChatMessage[];
   readonly onSend: (content: string) => void | Promise<void>;
   readonly lang?: "ja" | "en";
+  readonly stackchanOnline?: boolean;
 }
 
 function Bubble({ message, lang = "ja" }: { message: LocalChatMessage; lang?: "ja" | "en" }): React.JSX.Element {
@@ -49,7 +50,7 @@ function Bubble({ message, lang = "ja" }: { message: LocalChatMessage; lang?: "j
   );
 }
 
-export function RoomChatInline({ messages, onSend, lang = "ja" }: RoomChatInlineProps): React.JSX.Element {
+export function RoomChatInline({ messages, onSend, lang = "ja", stackchanOnline = false }: RoomChatInlineProps): React.JSX.Element {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -67,9 +68,25 @@ export function RoomChatInline({ messages, onSend, lang = "ja" }: RoomChatInline
         flexDirection: "column",
       }}
     >
-      {/* Input bar — always at top of this component */}
+      {/* Input bar + StackChan status badge */}
       <div style={{ borderBottom: messages.length > 0 ? "1px solid #21262d" : "none" }}>
         <ChatInputBar onSend={onSend} lang={lang} />
+        <div style={{ display: "flex", alignItems: "center", gap: 5, padding: "3px 12px 4px" }}>
+          <span
+            title={stackchanOnline ? "StackChan connected" : "StackChan offline"}
+            style={{
+              width: 6,
+              height: 6,
+              borderRadius: "50%",
+              background: stackchanOnline ? "#3fb950" : "#484f58",
+              display: "inline-block",
+              flexShrink: 0,
+            }}
+          />
+          <span style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: 9, color: stackchanOnline ? "#3fb950" : "#484f58" }}>
+            {stackchanOnline ? "StackChan" : "StackChan offline"}
+          </span>
+        </div>
       </div>
 
       {/* History — always visible below input, scrollable */}

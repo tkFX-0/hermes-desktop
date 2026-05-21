@@ -129,6 +129,13 @@ import type { ResearchReportInput } from "./research-report-generator";
 import { startNewsWatcher, stopNewsWatcher } from "./news-watcher";
 import { grokChat, checkXPremiumQuota } from "./shikishima-grok-chat";
 import { startDiscordBot, stopDiscordBot, shikishimaGrokHandler } from "./discord-bot-service";
+import {
+  connect as stackchanConnect,
+  disconnect as stackchanDisconnect,
+  getStatus as getStackchanStatus,
+  stackchanSay,
+  stackchanFace,
+} from "./stackchan-mcp-client";
 
 process.on("uncaughtException", (err) => {
   console.error("[MAIN UNCAUGHT]", err);
@@ -869,6 +876,11 @@ function setupIPC(): void {
     "shikishima-grok-quota",
     () => checkXPremiumQuota(),
   );
+
+  // STACKCHAN: status check and say/face commands via XiaoZhi MCP bridge
+  ipcMain.handle("stackchan-status", () => getStackchanStatus());
+  ipcMain.handle("stackchan-say", (_event, text: string) => stackchanSay(text));
+  ipcMain.handle("stackchan-face", (_event, emotion: string) => stackchanFace(emotion));
 }
 
 function buildMenu(): void {
@@ -1067,6 +1079,9 @@ app.whenReady().then(() => {
   // Discord Bot — Grok 4.3 command handler (DIS-01 GO 2026-05-21)
   startDiscordBot(shikishimaGrokHandler);
 
+  // StackChan MCP — connect to XiaoZhi cloud bridge (auto-reconnects when device online)
+  stackchanConnect();
+
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
@@ -1092,4 +1107,5 @@ app.on("before-quit", () => {
   }
   stopGateway();
   stopClaw3d();
+  stackchanDisconnect();
 });

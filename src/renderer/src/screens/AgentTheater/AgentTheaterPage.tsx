@@ -44,6 +44,7 @@ export interface AgentTheaterPageProps {
   readonly messages?: readonly LocalChatMessage[];
   readonly onSend?: (content: string) => void;
   readonly lang?: "ja" | "en";
+  readonly stackchanOnline?: boolean;
 }
 
 // AT-13: section divider for visual separation
@@ -62,6 +63,7 @@ export function AgentTheaterPage({
   messages = [],
   onSend,
   lang = "ja",
+  stackchanOnline = false,
 }: AgentTheaterPageProps): React.JSX.Element {
   const poses = agentPoses ?? deriveAgentPoses(decision);
 
@@ -70,7 +72,7 @@ export function AgentTheaterPage({
       {/* Room + Chat */}
       <div style={{ position: "relative" as const }}>
         <PixelRoomStage decision={decision} poses={poses} lang={lang} />
-        {onSend && <RoomChatInline messages={messages} onSend={onSend} lang={lang} />}
+        {onSend && <RoomChatInline messages={messages} onSend={onSend} lang={lang} stackchanOnline={stackchanOnline} />}
       </div>
 
       {/* Worker section */}
