@@ -241,11 +241,13 @@ export async function checkStackchanLocalStatus(): Promise<StackchanLocalStatus>
     _voicevoxReady = false;
   }
 
-  // Check StackChan WebSocket — set normal face on first connect
+  // Check StackChan WebSocket — set normal face + center pose (suppresses autonomous dance)
   let connected = false;
   try {
     const sock = await connectWs();
     wsSendText(sock, JSON.stringify({ type: "face_mode", value: DEFAULT_FACE }));
+    wsSendText(sock, JSON.stringify({ type: "state", value: "idle" }));
+    wsSendText(sock, JSON.stringify({ type: "motion", name: "center" }));
     await new Promise<void>((r) => setTimeout(r, 100));
     sock.destroy();
     connected = true;
