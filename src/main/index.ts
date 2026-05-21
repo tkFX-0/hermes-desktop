@@ -122,6 +122,8 @@ import { getAppLocale, setAppLocale } from "./locale";
 import { writeEvidenceNote } from "./library-export";
 import type { LibraryWriteRequest } from "./library-export";
 import { readDiscordChannel } from "./discord-intake";
+import { publishResearchReport } from "./research-pipeline";
+import type { ResearchReportInput } from "./research-report-generator";
 
 process.on("uncaughtException", (err) => {
   console.error("[MAIN UNCAUGHT]", err);
@@ -763,6 +765,13 @@ function setupIPC(): void {
     "shikishima-discord-read",
     (_event, channelId: string, limit?: number) =>
       readDiscordChannel(channelId, limit),
+  );
+
+  // RESEARCH-PIPELINE: Generate article → Discord + Obsidian 40_Research/
+  // User GO: "永久記憶としてレポート作成を許可"
+  ipcMain.handle(
+    "shikishima-research-publish",
+    (_event, input: ResearchReportInput) => publishResearchReport(input),
   );
 }
 
