@@ -16,16 +16,16 @@ export interface GrokChatResult {
   error?: string;
 }
 
-// Persona is set in ~/.hermes/SOUL.md — no need to include in prompt
+// Persona is set in ~/.hermes/SOUL.md — no need to include in prompt.
+// -Q (quiet): suppresses banner/spinner/TUI so only response + session info is printed.
 export function grokChat(userMessage: string): Promise<GrokChatResult> {
   const start = Date.now();
-  const prompt = userMessage;
 
   return new Promise((resolve) => {
     execFile(
       "wsl",
       ["-d", "Ubuntu", "--", "bash", "-c",
-        `~/.local/bin/hermes chat -q ${JSON.stringify(prompt)} -m grok-4.3 --provider xai-oauth --yolo 2>&1`],
+        `~/.local/bin/hermes chat -Q -q ${JSON.stringify(userMessage)} -m grok-4.3 --provider xai-oauth --yolo 2>&1`],
       { timeout: TIMEOUT_MS, maxBuffer: 1024 * 1024 * 2 },
       (err, stdout) => {
         const durationMs = Date.now() - start;
@@ -34,15 +34,14 @@ export function grokChat(userMessage: string): Promise<GrokChatResult> {
           return;
         }
 
-        const clean = stdout
-          .replace(/\x1B\[[0-9;]*[mGKHF]/g, "")
-          .replace(/[╭╮╰╯│─┊⚕]/g, "")
-          .trim();
-
-        const lines = clean.split("\n");
-        const resumeIdx = lines.findIndex((l) => l.includes("Resume this session"));
-        const body = (resumeIdx > 0 ? lines.slice(0, resumeIdx) : lines)
-          .filter((l) => !l.match(/^(Query:|Session:|Duration:|Messages:|Initializing|tip\)|────)/))
+        // -Q stdout: response text only.
+        // 2>&1 merges stderr (session_id:, model name, etc.) with stdout.
+        // Strip ANSI, then filter out all metadata lines.
+        const clean = stdout.replace(/\x1B\[[0-9;]*[mGKHF]/g, "");
+        const body = clean
+          .split("\n")
+          .filter((l) => !l.trim().match(/^(session_id:|Session:|Duration:|Messages:|Resume this session|Initializing|────)/))
+          .map((l) => l.trimEnd())
           .join("\n")
           .trim();
 
