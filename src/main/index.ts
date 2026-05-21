@@ -135,6 +135,8 @@ import {
   checkStackchanLocalStatus,
   startStackchanLocalStatusCheck,
   stopStackchanLocalStatusCheck,
+  setVoicevoxSpeed,
+  getVoicevoxSpeed,
 } from "./stackchan-local-service";
 
 process.on("uncaughtException", (err) => {
@@ -881,6 +883,8 @@ function setupIPC(): void {
   ipcMain.handle("stackchan-status", () => checkStackchanLocalStatus());
   ipcMain.handle("stackchan-say", (_event, text: string) => stackchanSayLocal(text));
   ipcMain.handle("stackchan-face", (_event, emotion: string) => stackchanFaceLocal(emotion));
+  ipcMain.handle("stackchan-set-speed", (_event, speed: number) => { setVoicevoxSpeed(speed); return getVoicevoxSpeed(); });
+  ipcMain.handle("stackchan-get-speed", () => getVoicevoxSpeed());
 }
 
 function buildMenu(): void {

@@ -12,8 +12,13 @@ import * as crypto from "crypto";
 const STACKCHAN_IP = "192.168.1.75";
 const STACKCHAN_WS_PORT = 8080;
 const VOICEVOX_URL = "http://localhost:50021";
-const VOICEVOX_SPEAKER = 1;   // 話者ID。変更: .env.local に STACKCHAN_SPEAKER=N
-const VOICEVOX_SPEED = 1.2;   // 話す速度。1.0=標準 / 1.2=やや速め / 0.8=ゆっくり
+const VOICEVOX_SPEAKER = 1;     // 話者ID。変更: .env.local に STACKCHAN_SPEAKER=N
+let _voicevoxSpeed = 1.2;       // 話す速度（UI から変更可能）
+
+export function setVoicevoxSpeed(speed: number): void {
+  _voicevoxSpeed = Math.max(0.5, Math.min(2.0, speed));
+}
+export function getVoicevoxSpeed(): number { return _voicevoxSpeed; }
 const DEFAULT_FACE = "normal"; // pet-fw face_mode デフォルト
 const PCM_CHUNK_SAMPLES = 960; // 60ms at 16kHz
 
@@ -78,7 +83,7 @@ async function voicevoxSynthesize(text: string): Promise<Buffer> {
 
   // Adjust speed and pitch
   const query = JSON.parse(queryBuf.toString("utf8")) as Record<string, unknown>;
-  query["speedScale"] = VOICEVOX_SPEED;
+  query["speedScale"] = _voicevoxSpeed;
   // query["pitchScale"] = 0.05; // 声のピッチ上げたい場合
 
   const wavBuf = await httpPost(

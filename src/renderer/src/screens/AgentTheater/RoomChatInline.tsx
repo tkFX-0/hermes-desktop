@@ -3,7 +3,7 @@
  * Layout: 入力バー → 履歴リスト（常時表示・最新が下）
  */
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { ChatInputBar } from "../../components/Shell/ChatInputBar";
 import type { LocalChatMessage } from "../../types/service-contracts";
 
@@ -55,6 +55,16 @@ function Bubble({ message, lang = "ja" }: { message: LocalChatMessage; lang?: "j
 
 export function RoomChatInline({ messages, onSend, lang = "ja", stackchanOnline = false, voicevoxReady = false, stackchanStyle, stackchanBattery }: RoomChatInlineProps): React.JSX.Element {
   const bottomRef = useRef<HTMLDivElement>(null);
+  const [speed, setSpeed] = useState(1.2);
+
+  useEffect(() => {
+    window.hermesAPI.stackchanGetSpeed().then(setSpeed).catch(() => {});
+  }, []);
+
+  const handleSpeedChange = (v: number): void => {
+    setSpeed(v);
+    window.hermesAPI.stackchanSetSpeed(v).catch(() => {});
+  };
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -97,6 +107,24 @@ export function RoomChatInline({ messages, onSend, lang = "ja", stackchanOnline 
               VOICEVOX{voicevoxReady ? "" : " offline"}
             </span>
           </div>
+          {/* Speed slider */}
+          {voicevoxReady && (
+            <div style={{ display: "flex", alignItems: "center", gap: 4, marginLeft: 4 }}>
+              <span style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: 9, color: "#8b949e" }}>
+                速度
+              </span>
+              <input
+                type="range" min={0.5} max={2.0} step={0.1} value={speed}
+                onChange={(e) => handleSpeedChange(Number(e.target.value))}
+                style={{ width: 60, height: 4, accentColor: "#58a6ff", cursor: "pointer" }}
+                title={`話す速度: ${speed.toFixed(1)}x`}
+              />
+              <span style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: 9, color: "#58a6ff", minWidth: 24 }}>
+                {speed.toFixed(1)}x
+              </span>
+            </div>
+          )}
+
         </div>
       </div>
 

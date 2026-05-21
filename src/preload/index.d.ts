@@ -491,6 +491,9 @@ interface HermesAPI {
     ok: boolean;
     error?: string;
   }>;
+
+  stackchanSetSpeed: (speed: number) => Promise<number>;
+  stackchanGetSpeed: () => Promise<number>;
 }
 
 interface IchikishimaControlCenterAPI {

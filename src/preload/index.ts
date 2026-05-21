@@ -699,6 +699,12 @@ const hermesAPI = {
     ok: boolean;
     error?: string;
   }> => ipcRenderer.invoke("stackchan-face", emotion),
+
+  stackchanSetSpeed: (speed: number): Promise<number> =>
+    ipcRenderer.invoke("stackchan-set-speed", speed),
+
+  stackchanGetSpeed: (): Promise<number> =>
+    ipcRenderer.invoke("stackchan-get-speed"),
 };
 
 if (process.contextIsolated) {
