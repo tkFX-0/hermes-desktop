@@ -281,25 +281,32 @@ function createTray(): void {
   const menu = Menu.buildFromTemplate([
     {
       label: "しきしまを開く",
+      click: () => { mainWindow?.show(); mainWindow?.focus(); },
+    },
+    { type: "separator" },
+    {
+      label: "Ollama 起動",
       click: () => {
-        mainWindow?.show();
-        mainWindow?.focus();
+        const { spawn } = require("child_process") as typeof import("child_process");
+        spawn("ollama", ["serve"], { detached: true, stdio: "ignore" }).unref();
+      },
+    },
+    {
+      label: "Ollama 停止",
+      click: () => {
+        const { exec } = require("child_process") as typeof import("child_process");
+        exec("taskkill /IM ollama.exe /F");
       },
     },
     { type: "separator" },
     {
       label: "リサーチレポートを今すぐ送信",
-      click: () => {
-        startDailyResearchPipeline();
-      },
+      click: () => { startDailyResearchPipeline(); },
     },
     { type: "separator" },
     {
       label: "終了",
-      click: () => {
-        app.isQuitting = true;
-        app.quit();
-      },
+      click: () => { app.isQuitting = true; app.quit(); },
     },
   ]);
 
