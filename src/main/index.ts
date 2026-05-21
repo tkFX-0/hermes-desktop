@@ -5,6 +5,8 @@ import {
   ipcMain,
   Menu,
   Notification,
+  Tray,
+  nativeImage,
 } from "electron";
 import { join } from "path";
 import { readFileSync, writeFileSync, existsSync } from "fs";
@@ -137,8 +139,18 @@ process.on("unhandledRejection", (reason) => {
 });
 
 let mainWindow: BrowserWindow | null = null;
+let tray: Tray | null = null;
 let currentChatAbort: (() => void) | null = null;
 let phase2cInstance: Phase2cStartResult | null = null;
+
+// Extend app with quit flag to distinguish tray-hide vs real quit
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace Electron {
+    interface App { isQuitting: boolean }
+  }
+}
+app.isQuitting = false;
 
 // UI-01: window bounds persistence
 interface WindowBounds { x: number; y: number; width: number; height: number; }
@@ -208,6 +220,19 @@ function createWindow(): void {
     mainWindow!.show();
   });
 
+  // Minimize → hide to tray
+  mainWindow.on("minimize", () => {
+    mainWindow?.hide();
+  });
+
+  // Close button → hide to tray (not quit)
+  mainWindow.on("close", (e) => {
+    if (!app.isQuitting) {
+      e.preventDefault();
+      mainWindow?.hide();
+    }
+  });
+
   // UI-01: save bounds on resize/move so they survive restarts
   mainWindow.on("resize", () => { if (mainWindow) saveWindowBounds(mainWindow); });
   mainWindow.on("move",   () => { if (mainWindow) saveWindowBounds(mainWindow); });
@@ -246,6 +271,58 @@ function createWindow(): void {
   } else {
     mainWindow.loadFile(join(__dirname, "../renderer/index.html"));
   }
+}
+
+function createTray(): void {
+  const img = nativeImage.createFromPath(join(__dirname, "../../resources/icon.png"));
+  tray = new Tray(img.resize({ width: 16, height: 16 }));
+  tray.setToolTip("しきしま — Shikishima");
+
+  const menu = Menu.buildFromTemplate([
+    {
+      label: "しきしまを開く",
+      click: () => {
+        mainWindow?.show();
+        mainWindow?.focus();
+      },
+    },
+    { type: "separator" },
+    {
+      label: "リサーチレポートを今すぐ送信",
+      click: () => {
+        // Trigger one-shot research outside of scheduled time
+        import("./research-pipeline")
+          .then(({ startDailyResearchPipeline }) => startDailyResearchPipeline())
+          .catch(console.error);
+      },
+    },
+    { type: "separator" },
+    {
+      label: "終了",
+      click: () => {
+        app.isQuitting = true;
+        app.quit();
+      },
+    },
+  ]);
+
+  tray.setContextMenu(menu);
+
+  // Left-click toggles window
+  tray.on("click", () => {
+    if (mainWindow?.isVisible()) {
+      mainWindow.hide();
+    } else {
+      mainWindow?.show();
+      mainWindow?.focus();
+    }
+  });
+
+  // Double-click always shows
+  tray.on("double-click", () => {
+    mainWindow?.show();
+    mainWindow?.focus();
+  });
 }
 
 function setupIPC(): void {
@@ -970,6 +1047,7 @@ app.whenReady().then(() => {
   buildMenu();
   setupIPC();
   createWindow();
+  createTray();
   setupUpdater();
 
   if (MOBILE_CONSOLE_PHASE_2C_ENABLED) {
@@ -991,11 +1069,13 @@ app.whenReady().then(() => {
 });
 
 app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
+  // On Windows/Linux: keep running in tray unless explicitly quitting
+  if (process.platform !== "darwin" && app.isQuitting) {
     stopGateway();
     stopClaw3d();
     stopNewsWatcher();
     stopDiscordBot();
+    tray?.destroy();
     app.quit();
   }
 });
