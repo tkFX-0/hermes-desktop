@@ -16,14 +16,10 @@ export interface GrokChatResult {
   error?: string;
 }
 
-// System persona for Shikishima
-const SHIKISHIMA_PERSONA = `あなたはしきしまです。ユーザーのAIパートナーとして、
-FXトレード分析・StackChan音声統合・日常サポートを行います。
-日本語で簡潔に答えてください。`;
-
-export function grokChat(userMessage: string, persona = SHIKISHIMA_PERSONA): Promise<GrokChatResult> {
+// Persona is set in ~/.hermes/SOUL.md — no need to include in prompt
+export function grokChat(userMessage: string): Promise<GrokChatResult> {
   const start = Date.now();
-  const prompt = `${persona}\n\nユーザー: ${userMessage}`;
+  const prompt = userMessage;
 
   return new Promise((resolve) => {
     execFile(
