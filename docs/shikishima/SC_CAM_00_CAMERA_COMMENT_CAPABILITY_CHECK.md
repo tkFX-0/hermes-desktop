@@ -1,8 +1,8 @@
 # SC-CAM-00 Camera Comment Capability Check
 
 date: 2026-05-21
-status: ROUTE_CHECK_DRAFT
-result: PARTIAL
+status: ROUTE_CHECK_UPDATED
+result: PARTIAL_READY_FOR_GO_REVIEW
 decision: HOLD
 execution: disabled
 productionReady: false
@@ -28,6 +28,13 @@ continuous_stream_required: false for manual one-shot
 ```
 
 The safest initial route is a human-provided, privacy-confirmed still image.
+
+Current decision:
+
+- Route A is the recommended first route.
+- The user should manually provide one safe still image or screenshot.
+- Codex/Shikishima must not start continuous monitoring or upload images without
+  a separate explicit GO.
 
 ### Route B - PC / Local Capture
 
@@ -69,8 +76,22 @@ camera:
 ## Result
 
 ```text
-result: PARTIAL
-reason: camera menu route exists conceptually, but one-shot still workflow needs human GO
+result: PARTIAL_READY_FOR_GO_REVIEW
+reason: camera menu route exists conceptually, and a human-provided still image is the safest next path
 next_gate: SC-CAM-01 camera still image one-shot comment GO form review
 ```
 
+---
+
+## Next GO Proposal Status
+
+```text
+sc_cam_01_camera_comment_go_ready: true
+recommended_route: Route A
+required_before_run:
+  - one safe still image selected by human
+  - privacy confirmation
+  - no person identification
+  - no continuous monitoring
+  - no recording
+```

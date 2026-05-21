@@ -10,6 +10,14 @@ rawValuesReported: false
 This form is a draft for one AI comment about one human-approved StackChan
 camera still image. It is not approval.
 
+Current readiness:
+
+```text
+ready_for_human_go_review: true
+recommended_route: Route A
+reason: human-provided one still image avoids continuous monitoring
+```
+
 ## Required Human Fields
 
 ```text
@@ -56,4 +64,3 @@ Default question:
 - AI attempts identity recognition
 - external upload/API starts without GO
 - raw token/secret/local-only value appears
-

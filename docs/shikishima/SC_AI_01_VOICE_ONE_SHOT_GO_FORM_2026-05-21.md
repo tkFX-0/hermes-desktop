@@ -1,13 +1,21 @@
 # SC-AI-01 Voice One-shot GO Form
 
 date: 2026-05-21
-status: DRAFT / NOT APPROVED
+status: DRAFT / NOT APPROVED / ROUTE NOT CONFIRMED
 decision: HOLD
 execution: disabled
 productionReady: false
 rawValuesReported: false
 
 This form is a draft for one fixed StackChan voice output. It is not approval.
+
+Current readiness:
+
+```text
+ready_for_execution_go: false
+reason: exact/fixed text speech route has not been confirmed
+required_first: SC-AI-00A iPhone voice menu/capability check or documented PC bridge route
+```
 
 ## Required Human Fields
 
@@ -54,4 +62,3 @@ Default exact text:
 - firmware change is requested
 - connection becomes unstable
 - raw token/secret/local-only value appears
-
