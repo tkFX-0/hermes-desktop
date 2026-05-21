@@ -130,12 +130,12 @@ import { startNewsWatcher, stopNewsWatcher } from "./news-watcher";
 import { grokChat, checkXPremiumQuota } from "./shikishima-grok-chat";
 import { startDiscordBot, stopDiscordBot, shikishimaGrokHandler } from "./discord-bot-service";
 import {
-  connect as stackchanConnect,
-  disconnect as stackchanDisconnect,
-  getStatus as getStackchanStatus,
-  stackchanSay,
-  stackchanFace,
-} from "./stackchan-mcp-client";
+  stackchanSayLocal,
+  stackchanFaceLocal,
+  checkStackchanLocalStatus,
+  startStackchanLocalStatusCheck,
+  stopStackchanLocalStatusCheck,
+} from "./stackchan-local-service";
 
 process.on("uncaughtException", (err) => {
   console.error("[MAIN UNCAUGHT]", err);
@@ -877,10 +877,10 @@ function setupIPC(): void {
     () => checkXPremiumQuota(),
   );
 
-  // STACKCHAN: status check and say/face commands via XiaoZhi MCP bridge
-  ipcMain.handle("stackchan-status", () => getStackchanStatus());
-  ipcMain.handle("stackchan-say", (_event, text: string) => stackchanSay(text));
-  ipcMain.handle("stackchan-face", (_event, emotion: string) => stackchanFace(emotion));
+  // STACKCHAN: local WebSocket (pet-fw ws:8080) + VOICEVOX TTS
+  ipcMain.handle("stackchan-status", () => checkStackchanLocalStatus());
+  ipcMain.handle("stackchan-say", (_event, text: string) => stackchanSayLocal(text));
+  ipcMain.handle("stackchan-face", (_event, emotion: string) => stackchanFaceLocal(emotion));
 }
 
 function buildMenu(): void {
@@ -1079,8 +1079,8 @@ app.whenReady().then(() => {
   // Discord Bot — Grok 4.3 command handler (DIS-01 GO 2026-05-21)
   startDiscordBot(shikishimaGrokHandler);
 
-  // StackChan MCP — connect to XiaoZhi cloud bridge (auto-reconnects when device online)
-  stackchanConnect();
+  // StackChan — local status check (pet-fw ws:8080 + VOICEVOX)
+  startStackchanLocalStatusCheck();
 
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
@@ -1107,5 +1107,5 @@ app.on("before-quit", () => {
   }
   stopGateway();
   stopClaw3d();
-  stackchanDisconnect();
+  stopStackchanLocalStatusCheck();
 });
