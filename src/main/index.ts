@@ -290,10 +290,7 @@ function createTray(): void {
     {
       label: "リサーチレポートを今すぐ送信",
       click: () => {
-        // Trigger one-shot research outside of scheduled time
-        import("./research-pipeline")
-          .then(({ startDailyResearchPipeline }) => startDailyResearchPipeline())
-          .catch(console.error);
+        startDailyResearchPipeline();
       },
     },
     { type: "separator" },

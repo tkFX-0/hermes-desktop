@@ -449,17 +449,52 @@ function Layout(): React.JSX.Element {
               <AgentTheaterPage
                 decision={toOperatorPageData(ccSafeSummary).decision}
                 messages={ccMessages}
-                onSend={(content) =>
-                  setCcMessages((prev) => [
-                    ...prev,
-                    {
-                      id: `local-${Date.now()}`,
-                      role: "user" as const,
-                      content,
-                      timestampUnixMs: Date.now(),
-                    },
-                  ])
-                }
+                onSend={async (content) => {
+                  // Add user message immediately
+                  const userMsg: LocalChatMessage = {
+                    id: `user-${Date.now()}`,
+                    role: "user" as const,
+                    content,
+                    timestampUnixMs: Date.now(),
+                  };
+                  setCcMessages((prev) => [...prev, userMsg]);
+                  // thinking state managed via placeholder message
+
+                  // Add "thinking" placeholder
+                  const thinkingId = `thinking-${Date.now()}`;
+                  setCcMessages((prev) => [...prev, {
+                    id: thinkingId,
+                    role: "assistant" as const,
+                    content: "…",
+                    timestampUnixMs: Date.now(),
+                  }]);
+
+                  // Send to Grok 4.3 via xai-oauth
+                  try {
+                    const result = await window.hermesAPI.shikishimaGrokChat(content);
+                    const reply = result.success
+                      ? result.reply
+                      : `[エラー] ${result.error ?? "応答なし"}`;
+                    // Replace thinking placeholder with real reply
+                    setCcMessages((prev) =>
+                      prev.map((m) =>
+                        m.id === thinkingId
+                          ? { ...m, id: `grok-${Date.now()}`, content: reply }
+                          : m,
+                      ),
+                    );
+                  } catch (e) {
+                    setCcMessages((prev) =>
+                      prev.map((m) =>
+                        m.id === thinkingId
+                          ? { ...m, id: `err-${Date.now()}`, content: `[接続エラー] ${e instanceof Error ? e.message : String(e)}` }
+                          : m,
+                      ),
+                    );
+                  } finally {
+                    // complete
+                  }
+                }}
                 lang="ja"
               />
 

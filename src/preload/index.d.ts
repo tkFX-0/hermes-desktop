@@ -459,6 +459,19 @@ interface HermesAPI {
     rawTokenReported: false;
     dis01Status: "HOLD" | "ACTIVE";
   }>;
+
+  // Shikishima Grok Chat — Grok 4.3 via xai-oauth (X Premium)
+  shikishimaGrokChat: (message: string) => Promise<{
+    success: boolean;
+    reply: string;
+    durationMs: number;
+    error?: string;
+  }>;
+
+  shikishimaGrokQuota: () => Promise<{
+    available: boolean;
+    note: string;
+  }>;
 }
 
 interface IchikishimaControlCenterAPI {

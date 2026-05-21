@@ -665,6 +665,20 @@ const hermesAPI = {
     rawTokenReported: false;
     dis01Status: "HOLD" | "ACTIVE";
   }> => ipcRenderer.invoke("shikishima-discord-read", limit),
+
+  // Shikishima Grok Chat — Grok 4.3 via xai-oauth (X Premium)
+  shikishimaGrokChat: (message: string): Promise<{
+    success: boolean;
+    reply: string;
+    durationMs: number;
+    error?: string;
+  }> => ipcRenderer.invoke("shikishima-grok-chat", message),
+
+  // Grok quota status
+  shikishimaGrokQuota: (): Promise<{
+    available: boolean;
+    note: string;
+  }> => ipcRenderer.invoke("shikishima-grok-quota"),
 };
 
 if (process.contextIsolated) {
