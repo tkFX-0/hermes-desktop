@@ -35,6 +35,8 @@ This registry only defines the approval boundaries.
 | SC-AI-02 | StackChan text dialogue one-shot | DRAFT / HOLD | explicit text-only dialogue GO |
 | SC-AI-03 | Local LLM bridge | PLAN / HOLD | local runtime/model GO |
 | SC-AI-04 | Future Grok conversation route | FUTURE / HOLD | XACC/Grok route GO |
+| SC-MCP-00 | XiaoZhi MCP route safety check | HOLD | endpoint/token/tool policy review |
+| SC-MCP-01 | XiaoZhi MCP one-shot route test | HOLD | explicit MCP GO with token policy |
 | SC-CAM-00 | StackChan camera comment capability check | PLAN / HOLD | SC-CAM-01 still image comment GO |
 | SC-CAM-01 | StackChan one still image AI comment | HOLD | explicit camera one-shot GO + privacy confirmation |
 | SC-AI-LOOP | StackChan autonomous conversation loop | HOLD | future policy; not approved |

@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.39.0
+- roadmapVersion: v4.40.0
 - lastUpdated: 2026-05-21
-- latestUpdate: StackChan text-dialogue-first and local LLM / future Grok route plans prepared. No API addition or execution approved.
-- baselineCommit: b5d20fd
+- latestUpdate: XiaoZhi MCP route observed and gated as external token WebSocket route. No connection approved.
+- baselineCommit: 7474836
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,14 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.40.0 - XiaoZhi MCP Route Safety Gate
+
+- `SC_MCP_00_XIAOZHI_ROUTE_SAFETY_CHECK.md`: records observed XiaoZhi MCP endpoint shape and token presence without recording the token.
+- `SC_MCP_01_XIAOZHI_ONE_SHOT_GO_FORM_2026-05-21.md`: draft-only GO form for one controlled MCP route test.
+- `SC_MCP_01_XIAOZHI_ONE_SHOT_EVIDENCE_TEMPLATE.md`: evidence template for capability-list-only or future fixed speech one-shot.
+- XiaoZhi MCP remains HOLD because it is an external WebSocket route with token authentication and possible tool execution.
+- No MCP connection, token output, tool execution, speech, microphone, camera, motion/dance, firmware write, external write, productionReady true, or execution enabled was approved.
 
 ## v4.39.0 - StackChan Text Dialogue First / Local LLM / Future Grok Route Plan
 
