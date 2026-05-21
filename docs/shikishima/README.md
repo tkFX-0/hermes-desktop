@@ -66,6 +66,10 @@ network flow.
 - `SC_AI_00_VOICE_CAPABILITY_CHECK.md` - StackChan voice route capability check for SC-AI-01.
 - `SC_CAM_00_CAMERA_COMMENT_CAPABILITY_CHECK.md` - StackChan one-still-image camera comment route check.
 - `SC_AI_01_VOICE_ONE_SHOT_GO_FORM_2026-05-21.md` - draft fixed-text StackChan voice one-shot GO form.
+- `SC_AI_02_TEXT_DIALOGUE_FIRST_ARCHITECTURE.md` - text dialogue first architecture before voice/mic/camera.
+- `SC_AI_02_TEXT_DIALOGUE_ONE_SHOT_GO_FORM_2026-05-21.md` - draft text-only one-shot dialogue GO form.
+- `SC_AI_03_LOCAL_LLM_BRIDGE_PLAN.md` - local LLM bridge plan without new API or install.
+- `SC_AI_04_FUTURE_GROK_CONVERSATION_ROUTE_PLAN.md` - future Grok-backed conversation route plan.
 - `SC_CAM_01_CAMERA_COMMENT_ONE_SHOT_GO_FORM_2026-05-21.md` - draft camera still image comment one-shot GO form.
 - `SC_AI_CAMERA_ROUTE_DECISION_2026-05-21.md` - route decision for voice and camera one-shot planning.
 - `PUSH_READINESS_AUTONOMOUS_INVENTORY_2026-05-21.md` - autonomous operation preparation baseline and push readiness inventory.

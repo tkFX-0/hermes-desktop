@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.38.0
+- roadmapVersion: v4.39.0
 - lastUpdated: 2026-05-21
-- latestUpdate: StackChan AI voice and camera comment one-shot readiness docs prepared. No device/API action approved.
-- baselineCommit: 24bd570
+- latestUpdate: StackChan text-dialogue-first and local LLM / future Grok route plans prepared. No API addition or execution approved.
+- baselineCommit: b5d20fd
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,14 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.39.0 - StackChan Text Dialogue First / Local LLM / Future Grok Route Plan
+
+- `SC_AI_02_TEXT_DIALOGUE_FIRST_ARCHITECTURE.md`: defines text dialogue as the first practical milestone before voice, mic, camera, or motion.
+- `SC_AI_02_TEXT_DIALOGUE_ONE_SHOT_GO_FORM_2026-05-21.md`: draft-only form for one prompt and one text answer.
+- `SC_AI_03_LOCAL_LLM_BRIDGE_PLAN.md`: plans local LLM routes such as already-running Ollama-compatible or LM Studio endpoints, with no install/run approval.
+- `SC_AI_04_FUTURE_GROK_CONVERSATION_ROUTE_PLAN.md`: records the future Grok-backed conversation route through Shikishima agent gates.
+- No API addition, OAuth, x_search execution, external write, voice output, microphone, camera, firmware write, motion/dance, productionReady true, or execution enabled was approved.
 
 ## v4.38.0 - StackChan AI Voice + Camera Comment Readiness
 

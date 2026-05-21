@@ -32,6 +32,9 @@ This registry only defines the approval boundaries.
 | SC-REF-01 | StackChan X issue reference intake | REFERENCE_INTAKE | SC-AI-01 route check |
 | SC-AI-00 | StackChan AI voice capability check | PLAN / HOLD | SC-AI-01 fixed text one-shot GO |
 | SC-AI-01 | StackChan fixed text voice one-shot | HOLD | explicit voice one-shot GO |
+| SC-AI-02 | StackChan text dialogue one-shot | DRAFT / HOLD | explicit text-only dialogue GO |
+| SC-AI-03 | Local LLM bridge | PLAN / HOLD | local runtime/model GO |
+| SC-AI-04 | Future Grok conversation route | FUTURE / HOLD | XACC/Grok route GO |
 | SC-CAM-00 | StackChan camera comment capability check | PLAN / HOLD | SC-CAM-01 still image comment GO |
 | SC-CAM-01 | StackChan one still image AI comment | HOLD | explicit camera one-shot GO + privacy confirmation |
 | SC-AI-LOOP | StackChan autonomous conversation loop | HOLD | future policy; not approved |
