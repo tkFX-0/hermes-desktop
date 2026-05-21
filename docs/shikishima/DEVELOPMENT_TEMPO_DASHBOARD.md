@@ -20,14 +20,14 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v4.36.0
-- latestUpdate: 2026-05-21 - Discord Bot local setup PASS (DIS-BOT-00/01/02). Naming correction: XACC-01 Discord → DIS-BOT series. XACC-01 (X OAuth) remains HOLD.
+- roadmapVersion: v4.37.0
+- latestUpdate: 2026-05-21 - XS-AUTO-03 GO package ready. XS-AUTO (read-only) vs XACC (X OAuth) distinction documented. XACC-01 remains HOLD.
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
-- current HEAD: 86b8381 (origin/main=7653135, 8 commits ahead)
-- validation road: Gate 001-007 ✓; AT-07〜AT-15 PASS; CC-01/02 PASS; UI-01/02 PASS; 100% Roadmap docs完成; AT-14 runtime PASS; XS-01 read-only PASS; HB-01 WSL2 PASS; DIS-BOT-00/01/02 PASS
-- current next human action: Google Calendar credentials.json 取得 → Google Calendar OAuth 実装 GO
-- HOLD reason: productionReady false; execution disabled; DIS01_HOLD=true; XACC-01 HOLD; Google Calendar OAuth 未設定
+- current HEAD: 7ba1afd (origin/main=7653135, 9 commits ahead)
+- validation road: Gate 001-007 ✓; AT-07〜AT-15 PASS; CC-01/02 PASS; UI-01/02 PASS; 100% Roadmap docs完成; AT-14 runtime PASS; XS-01 read-only PASS; HB-01 WSL2 PASS; DIS-BOT-00/01/02 PASS; XS-AUTO-03 GO PACKAGE READY
+- current next human action: XS-AUTO-03 GO フォームに time_window_jst / search_topic / exact_queries を記入して GO
+- HOLD reason: productionReady false; execution disabled; XS-AUTO-03 GO 待ち; XACC-01 HOLD; DIS01_HOLD=true
 
 ## Agent Theater — 完了済み
 

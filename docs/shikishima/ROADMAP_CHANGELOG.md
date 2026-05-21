@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.36.0
+- roadmapVersion: v4.37.0
 - lastUpdated: 2026-05-21
-- latestUpdate: Discord Bot local setup (DIS-BOT-00/01/02) PASS. Naming correction: XACC-01 Discord → DIS-BOT series. XACC-01 remains HOLD.
-- baselineCommit: 86b8381
+- latestUpdate: XS-AUTO-03 GO package ready. XS-AUTO (read-only research) vs XACC (X OAuth) distinction documented. First topic: StackChan voice integration. XACC-01 remains HOLD.
+- baselineCommit: 7ba1afd
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,18 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.37.0 - XS-AUTO-03 GO Package Ready + XS-AUTO vs XACC Distinction
+
+- `XS_AUTO_03_GO_FORM_2026-05-21.md`: 拡充。XS-AUTO / XACC 区別を明記。source_scope / STOP conditions 追加。
+- `XS_AUTO_03_EVIDENCE_TEMPLATE.md`: 拡充。x_oauth_used / x_api_used / login_required / findings / safety 全フィールド追加。
+- `XS_AUTO_SOURCE_POLICY.md`: 新規。Allowed / Restricted / Forbidden ソース分類。FACT / MANUAL_REPORTED / ESTIMATED / UNKNOWN データ分類。
+- `XS_AUTO_03_QUERY_PACK_DRAFT.md`: 新規。6 テーマ (StackChan voice / TTS / Discord Bot / camera / Shikishima safety)。全テーマ X OAuth 不要。
+- `XS_AUTO_03_ONE_SHOT_EXECUTION_PLAN.md`: 新規。8 ステップ実行フロー。Source scope 判断ツリー。First topic = StackChan voice integration。
+- `FUTURE_GATE_REGISTRY.md`: XS-AUTO シリーズに区別注記追加。XS-AUTO-03 GO PACKAGE READY に更新。
+- `LEVEL5_BLOCKED_TASKS.md`: XS-AUTO-03 エントリ GO PACKAGE READY に更新。
+- XS-AUTO = read-only 調査 / X OAuth 不要 / XACC-01 HOLD 維持。
+- productionReady: false / execution: disabled / rawValuesReported: false。
 
 ## v4.36.0 - Discord Bot Local Setup PASS + Naming Correction (DIS-BOT series)
 

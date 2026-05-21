@@ -207,14 +207,31 @@ or execution enabled.
 
 ## X Search Automation Gates (XS-AUTO series)
 
+_XS-AUTO = X/Web 上の情報を read-only で調査・要約する。X OAuth / API 不要。_
+_XACC = 自分の X アカウントを OAuth / API 接続する。XACC-01 HOLD。_
+
 | Gate ID | Capability | Current Status | Required Before |
 |---|---|---|---|
 | XS-AUTO-00 | Read-only automation design | DESIGN (display-only) | — |
 | XS-AUTO-01 | Watchlist definition | DESIGN | explicit GO |
 | XS-AUTO-02 | Scheduler HOLD plan | DESIGN (HOLD) | xs_auto_schedule_go |
-| XS-AUTO-03 | One-shot scheduled read-only run | HOLD | xs_auto_read_go |
+| XS-AUTO-03 | One-shot read-only research (human GO) | GO PACKAGE READY 2026-05-21 | human xs_auto_03_go (time_window + topic + queries) |
 | XS-AUTO-04 | Recurring patrol | HOLD | xs_auto_schedule_go + review checkpoint |
 | XS-AUTO-05 | X account integration | HOLD — separate XACC gate | XACC-01 PASS |
+
+### XS-AUTO-03 GO Package (2026-05-21)
+
+| ファイル | 内容 |
+|---|---|
+| `XS_AUTO_03_GO_FORM_2026-05-21.md` | Human GO フォーム (DRAFT / 未承認) |
+| `XS_AUTO_03_EVIDENCE_TEMPLATE.md` | 実行後証跡テンプレート |
+| `XS_AUTO_SOURCE_POLICY.md` | ソース分類ポリシー (FACT/MANUAL_REPORTED/ESTIMATED/UNKNOWN) |
+| `XS_AUTO_03_QUERY_PACK_DRAFT.md` | クエリテーマ 6 件 (StackChan voice/TTS/camera/Discord/Safety) |
+| `XS_AUTO_03_ONE_SHOT_EXECUTION_PLAN.md` | 1 回実行フロー + STOP conditions |
+
+**First recommended topic:** StackChan voice integration / speech push API / Discord Bot integration
+**Source:** user-provided X post text (OAuth 不要)
+**XACC-01:** HOLD 維持
 
 _2026-05-21 overnight readiness update: GO forms, evidence templates, dry-run
 plans, and display-only autonomous readiness panel prepared. This does not open

@@ -171,16 +171,20 @@ ClaudeCode が単独で実行することはできません。
 
 ---
 
-## XS-AUTO-03 — 単発スケジュール x_search 実行
+## XS-AUTO-03 — X リサーチ One-shot 実行
 
 | 項目 | 内容 |
 |---|---|
-| 内容 | ウォッチリスト項目を1回だけ自動実行 |
-| 現状 | HOLD (XS_AUTO_02_PATROL_SCHEDULER_HOLD_PLAN.md) |
-| 必要な GO | xs_auto_read_go |
-| 参照 | `XS_AUTO_02_PATROL_SCHEDULER_HOLD_PLAN.md` |
+| 内容 | X/Web 上の情報を read-only で 1 回調査・要約する |
+| 現状 | **GO PACKAGE READY** — 2026-05-21 準備完了 |
+| 必要な GO | human xs_auto_03_go (time_window + topic + exact_queries を記入) |
+| ソース | 公開情報 / ユーザー提供テキスト / 公開 URL |
+| X OAuth | 不要 (XS-AUTO は read-only / XACC-01 は HOLD) |
+| 参照 | `XS_AUTO_03_GO_FORM_2026-05-21.md` / `XS_AUTO_03_ONE_SHOT_EXECUTION_PLAN.md` |
 
-**ブロック理由:** スケジューラー起動 = 外部自動実行 = Level 5-ish
+**次のアクション:** GO フォームの `time_window_jst` / `search_topic` / `exact_queries` を記入して GO
+
+**命名注意:** XS-AUTO (read-only 調査) と XACC (X Account OAuth) は別ゲート。XACC-01 は HOLD。
 
 ---
 

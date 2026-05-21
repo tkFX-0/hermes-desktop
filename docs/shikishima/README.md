@@ -39,6 +39,11 @@ network flow.
 
 ## Files
 
+- `XS_AUTO_03_GO_FORM_2026-05-21.md` - XS-AUTO-03 human GO form (DRAFT / not approved). Fill time_window + topic + queries to activate.
+- `XS_AUTO_03_EVIDENCE_TEMPLATE.md` - XS-AUTO-03 post-run evidence template.
+- `XS_AUTO_SOURCE_POLICY.md` - X research source classification policy (XS-AUTO vs XACC distinction).
+- `XS_AUTO_03_QUERY_PACK_DRAFT.md` - 6 research query themes (StackChan voice/TTS/Discord/camera/safety).
+- `XS_AUTO_03_ONE_SHOT_EXECUTION_PLAN.md` - One-shot execution flow + source scope decision tree.
 - `DIS_BOT_00_LOCAL_TOKEN_SETUP_EVIDENCE_2026-05-21.md` - Discord Bot token setup PASS evidence (DIS-BOT-00).
 - `DIS_BOT_01_CHANNEL_ACCESS_EVIDENCE_2026-05-21.md` - Discord Bot channel access PASS evidence (DIS-BOT-01).
 - `DIS_BOT_02_TEST_MESSAGE_EVIDENCE_2026-05-21.md` - Discord Bot test message ONE_SHOT_PASS evidence (DIS-BOT-02).
