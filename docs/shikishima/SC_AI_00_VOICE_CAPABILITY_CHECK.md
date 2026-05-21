@@ -34,6 +34,7 @@ Current decision:
 
 - Route A remains first priority.
 - Fixed text speech has not been proven.
+- Codex cannot confirm the iPhone menu without the human operating the app.
 - SC-AI-01 execution GO is not ready until the app can trigger one exact or
   acceptable fixed phrase without firmware changes.
 
@@ -50,6 +51,8 @@ Route B needs a documented safe request path before one-shot execution.
 Current decision:
 
 - Route B is second priority.
+- Current Shikishima source keeps StackChan voice/camera/mic display-only and
+  does not expose a confirmed StackChan speech push API.
 - No serial/API command may be attempted until the command surface is documented
   and constrained to one exact text output.
 
@@ -96,6 +99,24 @@ sc_ai_01_fixed_text_voice_go_ready: false
 blocking_confirmation:
   - confirm whether iPhone app can trigger speech once
   - confirm whether exact or acceptable fixed text can be selected
+  - confirm whether current UserDemo exposes a documented speech route
   - confirm no firmware write is requested
   - confirm no motion/dance/microphone loop starts
+```
+
+---
+
+## Human Check Request
+
+```text
+route_a_iphone_menu_checked: false
+human_check_needed: true
+check_only:
+  - Voice / Talk / Speak / Chat / TTS / Text / Message / AI / LLM
+  - 読み上げ / 発話 / 会話 / 音声
+do_not_press_if:
+  - it would speak immediately
+  - it asks for microphone
+  - it starts motion/dance
+  - it asks for firmware update/write
 ```

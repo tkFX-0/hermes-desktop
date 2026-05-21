@@ -23,11 +23,12 @@ current_readiness: HOLD until exact/fixed speech output is confirmed
 ## Camera
 
 ```text
-recommended_route: A first
+recommended_route: deferred
 Route A: iPhone app shows camera; human manually provides one safe still image
 Route B: PC one-frame capture only if a safe no-stream path is confirmed
 Route C: custom firmware only if required, but HOLD
 current_readiness: SC-CAM-01 GO form is ready for human review
+priority: deferred until voice route is settled
 ```
 
 ## Explicit Non-Approvals
@@ -46,8 +47,8 @@ external_api_write: false
 ## Next Recommended Gate
 
 ```text
-next: SC-CAM-01 still image comment one-shot route check, or SC-AI-00A voice menu capability check
+next: SC-AI-00A voice menu capability check
 voice_status: SC-AI-01 execution GO not ready until fixed speech route is confirmed
-camera_status: SC-CAM-01 GO form ready for human review
+camera_status: deferred; SC-CAM-01 GO form remains draft-only
 rule: choose one gate only, with explicit human GO
 ```

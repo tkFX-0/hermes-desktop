@@ -62,3 +62,14 @@ Default exact text:
 - firmware change is requested
 - connection becomes unstable
 - raw token/secret/local-only value appears
+
+## Pre-GO Route Confirmation
+
+```text
+route_a_iphone_menu_checked:
+voice_menu_exists:
+exact_or_fixed_text_possible:
+route_b_documented_speech_api:
+custom_firmware_required:
+ready_for_one_shot_go:
+```

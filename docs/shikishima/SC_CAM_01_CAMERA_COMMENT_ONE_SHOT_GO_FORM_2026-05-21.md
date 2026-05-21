@@ -1,7 +1,7 @@
 # SC-CAM-01 Camera Comment One-shot GO Form
 
 date: 2026-05-21
-status: DRAFT / NOT APPROVED
+status: DRAFT / NOT APPROVED / DEFERRED
 decision: HOLD
 execution: disabled
 productionReady: false
@@ -13,9 +13,10 @@ camera still image. It is not approval.
 Current readiness:
 
 ```text
-ready_for_human_go_review: true
+ready_for_human_go_review: deferred
 recommended_route: Route A
 reason: human-provided one still image avoids continuous monitoring
+priority: after SC-AI voice route is settled
 ```
 
 ## Required Human Fields
