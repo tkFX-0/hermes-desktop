@@ -13,6 +13,7 @@ const STACKCHAN_IP = "192.168.1.75";
 const STACKCHAN_WS_PORT = 8080;
 const VOICEVOX_URL = "http://localhost:50021";
 const VOICEVOX_SPEAKER = 1; // ずんだもん。変更する場合は .env.local に STACKCHAN_SPEAKER=N を追加
+const DEFAULT_FACE = "normal"; // pet-fw face_mode デフォルト
 const PCM_CHUNK_SAMPLES = 960; // 60ms at 16kHz
 
 // Grok返答のテキストから感情を推定してpet-fwのface_modeを返す
@@ -210,7 +211,7 @@ export async function stackchanSayLocal(text: string): Promise<{ ok: boolean; er
 
     await new Promise<void>((r) => setTimeout(r, 300));
     wsSendText(sock, JSON.stringify({ type: "state", value: "idle" }));
-    wsSendText(sock, JSON.stringify({ type: "face_mode", value: "normal" }));
+    wsSendText(sock, JSON.stringify({ type: "face_mode", value: DEFAULT_FACE }));
     sock.destroy();
 
     return { ok: true };
@@ -240,10 +241,12 @@ export async function checkStackchanLocalStatus(): Promise<StackchanLocalStatus>
     _voicevoxReady = false;
   }
 
-  // Check StackChan WebSocket
+  // Check StackChan WebSocket — set normal face on first connect
   let connected = false;
   try {
     const sock = await connectWs();
+    wsSendText(sock, JSON.stringify({ type: "face_mode", value: DEFAULT_FACE }));
+    await new Promise<void>((r) => setTimeout(r, 100));
     sock.destroy();
     connected = true;
   } catch { /* offline */ }
