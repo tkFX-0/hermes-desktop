@@ -17,6 +17,7 @@ import { WorkerRoutingPanel } from "./WorkerRoutingPanel";
 import { GateDashboardPanel } from "./GateDashboardPanel";
 import { HumanGateStatusPanel } from "./HumanGateStatusPanel";
 import { AutonomousOperationPanel } from "./AutonomousOperationPanel";
+import { AIUsageCockpitPanel } from "./AIUsageCockpitPanel";
 
 function allPoses(pose: PoseState): AgentPoseMap {
   return { shikishima: pose, shizume: pose, hajime: pose, tsumugi: pose, shirube: pose };
@@ -94,6 +95,10 @@ export function AgentTheaterPage({
       {/* Autonomous readiness section */}
       <SectionDivider label="autonomous readiness" />
       <AutonomousOperationPanel />
+
+      {/* AI usage section */}
+      <SectionDivider label="ai usage" />
+      <AIUsageCockpitPanel lang={lang} />
     </div>
   );
 }
