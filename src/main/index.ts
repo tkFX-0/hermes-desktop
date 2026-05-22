@@ -128,6 +128,7 @@ import { publishResearchReport, startDailyResearchPipeline } from "./research-pi
 import type { ResearchReportInput } from "./research-report-generator";
 import { startNewsWatcher, stopNewsWatcher } from "./news-watcher";
 import { grokChat, checkXPremiumQuota } from "./shikishima-grok-chat";
+import { claudeCodeTask, isCodingTask } from "./claude-code-service";
 import { startDiscordBot, stopDiscordBot, shikishimaGrokHandler } from "./discord-bot-service";
 import {
   stackchanSayLocal,
@@ -879,6 +880,12 @@ function setupIPC(): void {
     () => checkXPremiumQuota(),
   );
 
+  // CLAUDE CODE: coding tasks via claude CLI (Pro subscription, no API key)
+  ipcMain.handle(
+    "claude-code-task",
+    (_event, prompt: string) => claudeCodeTask(prompt),
+  );
+
   // STACKCHAN: local WebSocket (pet-fw ws:8080) + VOICEVOX TTS
   ipcMain.handle("stackchan-status", () => checkStackchanLocalStatus());
   ipcMain.handle("stackchan-say", (_event, text: string) => stackchanSayLocal(text));
@@ -1080,13 +1087,26 @@ app.whenReady().then(() => {
   startDailyResearchPipeline();
   startNewsWatcher();
 
-  // Discord Bot — Grok 4.3 + StackChan speak + memo log
+  // Discord Bot — smart routing: coding → Claude Code / general → Grok + StackChan
   const discordHandlerWithStackchan: import("./discord-bot-service").CommandHandler = async (msg, reply) => {
-    await shikishimaGrokHandler(msg, async (text) => {
-      await reply(text);
-      // StackChan speaks the reply (fire-and-forget)
-      stackchanSayLocal(text.slice(0, 300)).catch(() => {});
-    });
+    const content = msg.contentPreview.trim();
+    if (!content) return;
+
+    if (isCodingTask(content)) {
+      // Coding task → Claude Code (Pro subscription, no API key)
+      await reply("🔧 コーディングタスクを Claude Code に送ります...");
+      const result = await claudeCodeTask(content);
+      const response = result.success
+        ? result.output.slice(0, 1900)
+        : `[Claude Code エラー] ${result.error}`;
+      await reply(response);
+    } else {
+      // General → Grok 4.3 + StackChan speak
+      await shikishimaGrokHandler(msg, async (text) => {
+        await reply(text);
+        stackchanSayLocal(text.slice(0, 300)).catch(() => {});
+      });
+    }
   };
   startDiscordBot(discordHandlerWithStackchan);
 
