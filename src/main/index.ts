@@ -123,7 +123,7 @@ import {
 import { getAppLocale, setAppLocale } from "./locale";
 import { writeEvidenceNote } from "./library-export";
 import type { LibraryWriteRequest } from "./library-export";
-import { readDiscordChannel } from "./discord-intake";
+import { readDiscordChannel, sendDiscordMessage, getDiscordChannelIds } from "./discord-intake";
 import { publishResearchReport, startDailyResearchPipeline } from "./research-pipeline";
 import type { ResearchReportInput } from "./research-report-generator";
 import { startNewsWatcher, stopNewsWatcher } from "./news-watcher";
@@ -1080,12 +1080,21 @@ app.whenReady().then(() => {
   startDailyResearchPipeline();
   startNewsWatcher();
 
-  // Discord Bot — Grok 4.3 + StackChan speak on reply
+  // Discord Bot — Grok 4.3 + StackChan speak + memo log
   const discordHandlerWithStackchan: import("./discord-bot-service").CommandHandler = async (msg, reply) => {
     await shikishimaGrokHandler(msg, async (text) => {
       await reply(text);
-      // StackChan also speaks the reply (fire-and-forget)
-      stackchanSayLocal(text.slice(0, 300)).catch(() => {/* offline — silent */});
+      // StackChan speaks the reply (fire-and-forget)
+      stackchanSayLocal(text.slice(0, 300))
+        .then((r) => {
+          if (!r.ok) return;
+          // Log to #しきしま関連メモ when StackChan speaks
+          const { memoChannelId } = getDiscordChannelIds();
+          if (!memoChannelId) return;
+          const now = new Date().toLocaleTimeString("ja-JP", { timeZone: "Asia/Tokyo", hour: "2-digit", minute: "2-digit" });
+          sendDiscordMessage(memoChannelId, `🔊 **[StackChan ${now}]** ${text.slice(0, 200)}`).catch(() => {});
+        })
+        .catch(() => {});
     });
   };
   startDiscordBot(discordHandlerWithStackchan);

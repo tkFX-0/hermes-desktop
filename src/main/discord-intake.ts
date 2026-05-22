@@ -220,12 +220,14 @@ export async function sendDiscordMessage(
 export function getDiscordChannelIds(): {
   commandChannelId: string;
   reportChannelId: string;
+  memoChannelId: string;
   guildId: string;
 } {
   const env = readEnvLocal();
   return {
     commandChannelId: env["DISCORD_COMMAND_CHANNEL_ID"] ?? "",
     reportChannelId: env["DISCORD_REPORT_CHANNEL_ID"] ?? "",
+    memoChannelId: env["DISCORD_MEMO_CHANNEL_ID"] ?? "",
     guildId: env["DISCORD_GUILD_ID"] ?? "",
   };
 }

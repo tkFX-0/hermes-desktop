@@ -52,13 +52,15 @@ async function pollBreakingNews(): Promise<void> {
   const newItems = paragraphs.filter(isNew);
   if (newItems.length === 0) return;
 
-  const { reportChannelId } = getDiscordChannelIds();
-  if (!reportChannelId) return;
+  // 速報ニュース → #しきしま関連メモ（レポートと分離）
+  const { memoChannelId, reportChannelId } = getDiscordChannelIds();
+  const targetChannelId = memoChannelId || reportChannelId;
+  if (!targetChannelId) return;
 
   const body = newItems.slice(0, 3).join("\n\n");
   const msg = `**[しきしま速報]** ${new Date().toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" })}\n\n${body}`;
 
-  await sendDiscordMessage(reportChannelId, msg.slice(0, 2000));
+  await sendDiscordMessage(targetChannelId, msg.slice(0, 2000));
 }
 
 export function startNewsWatcher(): void {
