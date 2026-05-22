@@ -52,9 +52,8 @@ async function pollBreakingNews(): Promise<void> {
   const newItems = paragraphs.filter(isNew);
   if (newItems.length === 0) return;
 
-  // 速報ニュース → #しきしま関連メモ（レポートと分離）
-  const { memoChannelId, reportChannelId } = getDiscordChannelIds();
-  const targetChannelId = memoChannelId || reportChannelId;
+  const { reportChannelId } = getDiscordChannelIds();
+  const targetChannelId = reportChannelId;
   if (!targetChannelId) return;
 
   const body = newItems.slice(0, 3).join("\n\n");
