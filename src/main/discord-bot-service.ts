@@ -1,13 +1,14 @@
-// Discord Bot Service — command intake + Grok 4.3 response + report delivery
+// Discord Bot Service — command intake + 5-agent routing + report delivery
 // Poll-based (no discord.js dependency). Safe to start/stop from Electron main process.
 
 import {
   readDiscordChannel,
-  sendDiscordMessage,
   getDiscordChannelIds,
   type DiscordMessage,
 } from "./discord-intake";
 import { grokChat } from "./shikishima-grok-chat";
+import { dispatchToAgent, agentLabel } from "./agent-router";
+import { prepareDiscordReplyDraft } from "./shikishima-core";
 
 export type CommandHandler = (
   message: DiscordMessage,
@@ -56,11 +57,15 @@ async function pollCommandChannel(): Promise<void> {
     _lastMessageId = msg.id;
     if (_handler) {
       await _handler(msg, async (text) => {
-        const sent = await sendDiscordMessage(commandChannelId, text);
-        // After sending, advance lastMessageId past our own reply to prevent self-loop
-        if (sent.success && sent.messageId) {
-          _lastMessageId = sent.messageId;
-        }
+        const draft = prepareDiscordReplyDraft({
+          responseId: `discord-${msg.id}`,
+          agentId: "shikishima",
+          fullResponse: text,
+          reasoningLevel: "standard",
+          actionId: "DISCORD-BOT-REPLY-DRAFT",
+          evidencePath: "docs/shikishima/DISCORD_REPLY_DRAFT_EVIDENCE.md",
+        });
+        console.log("[DiscordBot] reply draft prepared:", draft.preflight.gate.decision);
       });
     }
   }
@@ -109,20 +114,42 @@ export async function sendReport(content: string): Promise<{ ok: boolean; error?
   if (!reportChannelId) {
     return { ok: false, error: "DISCORD_REPORT_CHANNEL_ID not set in .env.local" };
   }
-  const result = await sendDiscordMessage(reportChannelId, content);
-  return { ok: result.success, error: result.error };
+  const draft = prepareDiscordReplyDraft({
+    responseId: `discord-report-${Date.now()}`,
+    agentId: "shirube",
+    fullResponse: content,
+    reasoningLevel: "standard",
+    actionId: "DISCORD-REPORT-DRAFT",
+    evidencePath: "docs/shikishima/DISCORD_REPORT_DRAFT_EVIDENCE.md",
+  });
+  return { ok: false, error: draft.preflight.gate.decision };
 }
 
 export { getState as getDiscordBotState };
 
-// Grok 4.3 default handler — used when DIS-01 HOLD is released
-// Routes Discord commands → Grok 4.3 (Shikishima persona) → Discord reply
+// Grok 4.3 default handler — simple wrapper (used where 5-agent not needed)
 export const shikishimaGrokHandler: CommandHandler = async (msg, reply) => {
-  // Ignore bot messages and empty content
   if (!msg.contentPreview.trim() || msg.authorName === "Shikishima") return;
-
   const result = await grokChat(msg.contentPreview);
   if (result.success && result.reply) {
     await reply(result.reply.slice(0, 2000));
   }
+};
+
+// 5-agent handler — routes Discord commands to appropriate agent
+// Agent 1: Grok conversation / Agent 2: Claude Code / Agent 3: Hermes Research
+// Agent 4: Grok FX analysis / Agent 5: Grok deep analysis
+export const shikishima5AgentHandler: CommandHandler = async (msg, onReply) => {
+  const content = msg.contentPreview.trim();
+  if (!content || msg.authorName === "Shikishima") return;
+
+  const result = await dispatchToAgent(content);
+  const label = agentLabel(result.agentId);
+  const body = result.success
+    ? result.reply
+    : `[エラー] ${result.error ?? "不明なエラー"}`;
+
+  // Prefix reply with agent label for transparency
+  const fullReply = `${label} ${body}`;
+  await onReply(fullReply.slice(0, 2000));
 };

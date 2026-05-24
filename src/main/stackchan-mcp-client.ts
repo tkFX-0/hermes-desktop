@@ -78,7 +78,7 @@ let _ws: ElectronWS | null = null;
 let _ready = false;
 let _tools: string[] = [];
 let _msgId = 100; // start high so broker's id:0,1 don't collide with ours
-let _pending = new Map<number, {
+const _pending = new Map<number, {
   resolve: (v: unknown) => void;
   reject: (e: Error) => void;
   timer: ReturnType<typeof setTimeout>;

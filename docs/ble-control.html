@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>StackChan BLE Control</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: sans-serif; background: #111; color: #eee; min-height: 100vh; padding: 16px; }
+h1 { text-align: center; font-size: 20px; margin-bottom: 4px; }
+.sub { text-align: center; font-size: 12px; color: #888; margin-bottom: 16px; }
+
+.card { background: #222; border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+.card h2 { font-size: 14px; color: #aaa; margin-bottom: 12px; }
+
+#connectBtn {
+  display: block; width: 100%; padding: 14px;
+  background: #1e88e5; color: #fff; border: none;
+  border-radius: 10px; font-size: 16px; cursor: pointer;
+}
+#connectBtn.connected { background: #43a047; }
+#connectBtn.disconnected { background: #e53935; }
+#status { text-align: center; font-size: 12px; color: #888; margin-top: 8px; }
+
+.slider-row { margin-bottom: 12px; }
+.slider-row label { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px; }
+input[type=range] { width: 100%; accent-color: #1e88e5; height: 6px; cursor: pointer; }
+
+.btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.cmd-btn {
+  padding: 12px; background: #333; border: none;
+  border-radius: 8px; color: #eee; font-size: 14px;
+  cursor: pointer; transition: background 0.1s;
+}
+.cmd-btn:active { background: #1e88e5; }
+.cmd-btn.accent { background: #7b1fa2; }
+.cmd-btn.accent:active { background: #9c27b0; }
+
+.joystick-wrap { display: flex; justify-content: center; padding: 8px 0; }
+#joystick {
+  width: 200px; height: 200px; background: #1a1a1a;
+  border-radius: 50%; border: 2px solid #444;
+  position: relative; touch-action: none; cursor: pointer;
+}
+#stick {
+  width: 60px; height: 60px; background: #1e88e5;
+  border-radius: 50%; position: absolute;
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+  transition: background 0.1s;
+}
+#joystick:active #stick, #joystick.active #stick { background: #42a5f5; }
+.joy-label { text-align: center; font-size: 11px; color: #666; margin-top: 4px; }
+</style>
+</head>
+<body>
+
+<h1>🤖 StackChan BLE</h1>
+<p class="sub">Chrome (Android / PC) 専用 | iOS Safari 非対応</p>
+
+<div class="card">
+  <button id="connectBtn" onclick="toggleConnect()">🔵 StackChan に接続</button>
+  <p id="status">未接続</p>
+</div>
+
+<div class="card">
+  <h2>🕹️ ジョイスティック (Pan + Tilt 同時)</h2>
+  <div class="joystick-wrap">
+    <div id="joystick">
+      <div id="stick"></div>
+    </div>
+  </div>
+  <p class="joy-label">← 左右: Pan &nbsp;|&nbsp; 上下: Tilt →</p>
+</div>
+
+<div class="card">
+  <h2>🎚️ スライダー</h2>
+  <div class="slider-row">
+    <label><span>Pan (左右)</span><span id="panVal">0°</span></label>
+    <input type="range" id="panSlider" min="-90" max="90" value="0" oninput="onPan(this.value)">
+  </div>
+  <div class="slider-row">
+    <label><span>Tilt (上下)</span><span id="tiltVal">0°</span></label>
+    <input type="range" id="tiltSlider" min="-30" max="40" value="0" oninput="onTilt(this.value)">
+  </div>
+</div>
+
+<div class="card">
+  <h2>🎬 動作シーケンス</h2>
+  <div class="btn-grid">
+    <button class="cmd-btn" onclick="sendCmd('center')">⦿ センター</button>
+    <button class="cmd-btn accent" onclick="sendCmd('spin')">🌀 スピン</button>
+    <button class="cmd-btn" onclick="sendCmd('nod')">👆 うなずき</button>
+    <button class="cmd-btn" onclick="sendCmd('shake')">↔ 首振り</button>
+    <button class="cmd-btn" onclick="sendCmd('look_around')">👀 見回す</button>
+    <button class="cmd-btn accent" onclick="sendCmd('dance')">💃 ダンス</button>
+    <button class="cmd-btn" onclick="sendCmd('look_left')">← 左を向く</button>
+    <button class="cmd-btn" onclick="sendCmd('look_right')">→ 右を向く</button>
+    <button class="cmd-btn" onclick="sendCmd('look_up')">↑ 上を向く</button>
+    <button class="cmd-btn" onclick="sendCmd('look_down')">↓ 下を向く</button>
+  </div>
+</div>
+
+<div class="card">
+  <h2>🎭 クイックアクション</h2>
+  <div class="btn-grid">
+    <button class="cmd-btn accent" onclick="sendDance()">🕺 ダンス</button>
+    <button class="cmd-btn" onclick="servoCenter()">⦿ センター</button>
+    <button class="cmd-btn" onclick="servoPreset('greet')">👋 あいさつ</button>
+    <button class="cmd-btn" onclick="servoPreset('think')">🤔 考え中</button>
+    <button class="cmd-btn" onclick="servoPreset('shy')">😊 はにかみ</button>
+    <button class="cmd-btn accent" onclick="servoPreset('excited')">🎉 興奮</button>
+  </div>
+</div>
+
+<script>
+const SVC  = '4fafc201-1fb5-459e-8fcc-c5c9c331914b';
+const PAN  = 'beb5483e-36e1-4688-b7f5-ea07361b26a8';
+const TILT = 'beb5483e-36e1-4688-b7f5-ea07361b26a9';
+const CMD  = 'beb5483e-36e1-4688-b7f5-ea07361b26aa';
+
+let device, panChar, tiltChar, cmdChar;
+
+async function toggleConnect() {
+  if (device?.gatt?.connected) {
+    device.gatt.disconnect();
+    return;
+  }
+  try {
+    setStatus('スキャン中…');
+    device = await navigator.bluetooth.requestDevice({
+      filters: [{ name: 'StackChan-SC' }],
+      optionalServices: [SVC]
+    });
+    device.addEventListener('gattserverdisconnected', onDisconnect);
+    const server  = await device.gatt.connect();
+    const service = await server.getPrimaryService(SVC);
+    panChar  = await service.getCharacteristic(PAN);
+    tiltChar = await service.getCharacteristic(TILT);
+    cmdChar  = await service.getCharacteristic(CMD);
+    onConnected();
+  } catch(e) {
+    setStatus('エラー: ' + e.message);
+  }
+}
+
+function onConnected() {
+  const btn = document.getElementById('connectBtn');
+  btn.textContent = '🟢 切断する';
+  btn.className = 'connected';
+  setStatus('接続済み: ' + (device.name || 'StackChan-SC'));
+}
+function onDisconnect() {
+  const btn = document.getElementById('connectBtn');
+  btn.textContent = '🔵 StackChan に接続';
+  btn.className = 'disconnected';
+  setStatus('切断されました');
+  panChar = tiltChar = cmdChar = null;
+}
+function setStatus(t) { document.getElementById('status').textContent = t; }
+
+async function writeByte(char, val) {
+  if (!char) return;
+  const buf = new Int8Array([Math.round(val)]);
+  await char.writeValueWithoutResponse(buf.buffer).catch(()=>{});
+}
+async function writeStr(char, str) {
+  if (!char) return;
+  const enc = new TextEncoder();
+  await char.writeValueWithoutResponse(enc.encode(str)).catch(()=>{});
+}
+
+let lastPan = 0, lastTilt = 0, sendTimer = null;
+function scheduleSend() {
+  clearTimeout(sendTimer);
+  sendTimer = setTimeout(() => {
+    writeByte(panChar,  lastPan);
+    writeByte(tiltChar, lastTilt);
+  }, 40);
+}
+
+function onPan(v) {
+  lastPan = parseInt(v);
+  document.getElementById('panVal').textContent = v + '°';
+  scheduleSend();
+}
+function onTilt(v) {
+  lastTilt = parseInt(v);
+  document.getElementById('tiltVal').textContent = v + '°';
+  scheduleSend();
+}
+function sendCmd(cmd) { writeStr(cmdChar, cmd); }
+
+async function sendDance() { writeStr(cmdChar, 'dance'); }
+
+function servoCenter() {
+  onPan(0); onTilt(0);
+  document.getElementById('panSlider').value  = 0;
+  document.getElementById('tiltSlider').value = 0;
+}
+
+const SERVO_PRESETS = {
+  greet:   { pan: 0,   tilt: 30 },   // 上を向いてあいさつ
+  think:   { pan: -25, tilt: 25 },   // 右上を見て考え中
+  shy:     { pan: -35, tilt: 10 },   // 少し横を向いてはにかみ
+  excited: { pan: 0,   tilt: -15 },  // 少し下を向いて興奮
+};
+
+function servoPreset(name) {
+  const p = SERVO_PRESETS[name];
+  if (!p) return;
+  lastPan = p.pan; lastTilt = p.tilt;
+  document.getElementById('panSlider').value  = p.pan;
+  document.getElementById('tiltSlider').value = p.tilt;
+  document.getElementById('panVal').textContent  = p.pan  + '°';
+  document.getElementById('tiltVal').textContent = p.tilt + '°';
+  writeByte(panChar,  p.pan);
+  writeByte(tiltChar, p.tilt);
+}
+
+// ─── ジョイスティック ──────────────────────────────────────────────────────────
+const joy   = document.getElementById('joystick');
+const stick = document.getElementById('stick');
+const R = 70;  // 最大半径(px)
+
+function joyMove(cx, cy) {
+  const rect = joy.getBoundingClientRect();
+  const ox = cx - rect.left - rect.width/2;
+  const oy = cy - rect.top  - rect.height/2;
+  const dist = Math.sqrt(ox*ox + oy*oy);
+  const scale = dist > R ? R/dist : 1;
+  const sx = ox * scale, sy = oy * scale;
+
+  stick.style.left = (50 + sx/rect.width*100)  + '%';
+  stick.style.top  = (50 + sy/rect.height*100) + '%';
+  stick.style.transition = 'none';
+
+  const pan  = Math.round(sx / R * 90);
+  const tilt = Math.round(-sy / R * 35);
+
+  document.getElementById('panSlider').value  = pan;
+  document.getElementById('tiltSlider').value = tilt;
+  document.getElementById('panVal').textContent  = pan  + '°';
+  document.getElementById('tiltVal').textContent = tilt + '°';
+
+  lastPan = pan; lastTilt = tilt;
+  scheduleSend();
+}
+
+function joyRelease() {
+  stick.style.left = '50%';
+  stick.style.top  = '50%';
+  stick.style.transition = 'left 0.2s, top 0.2s';
+  joy.classList.remove('active');
+  onPan(0); onTilt(0);
+  document.getElementById('panSlider').value = 0;
+  document.getElementById('tiltSlider').value = 0;
+}
+
+joy.addEventListener('touchstart', e => { e.preventDefault(); joy.classList.add('active'); });
+joy.addEventListener('touchmove',  e => { e.preventDefault(); joyMove(e.touches[0].clientX, e.touches[0].clientY); });
+joy.addEventListener('touchend',   e => { e.preventDefault(); joyRelease(); });
+joy.addEventListener('mousedown',  e => { joy.classList.add('active'); document.addEventListener('mousemove', onMouse); document.addEventListener('mouseup', onMouseUp); });
+function onMouse(e)   { joyMove(e.clientX, e.clientY); }
+function onMouseUp()  { joyRelease(); document.removeEventListener('mousemove', onMouse); document.removeEventListener('mouseup', onMouseUp); }
+</script>
+</body>
+</html>

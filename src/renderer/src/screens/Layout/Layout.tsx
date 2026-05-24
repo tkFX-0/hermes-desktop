@@ -508,9 +508,17 @@ function Layout(): React.JSX.Element {
                           : m,
                       ),
                     );
-                    // StackChan: speak the reply (fire-and-forget, no-op when offline)
+                    // StackChan/Discord outputs are prepared as display-only drafts until human GO.
                     if (result.success) {
-                      window.hermesAPI.stackchanSay(reply).catch(() => {/* offline — silent */});
+                      window.hermesAPI.shikishimaChannelOutputDraft({
+                        responseId: `grok-${Date.now()}`,
+                        agentId: "shikishima",
+                        modelId: "grok-chat-renderer",
+                        fullResponse: reply,
+                        spokenResponse: reply,
+                        reasoningLevel: "standard",
+                        evidenceFile: "docs/shikishima/CHANNEL_OUTPUT_DRAFT_EVIDENCE.md",
+                      }).catch(() => {/* draft failure is non-blocking */});
                     }
                   } catch (e) {
                     setCcMessages((prev) =>

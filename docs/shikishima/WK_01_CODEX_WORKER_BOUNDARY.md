@@ -1,8 +1,8 @@
 # WK-01 Codex Worker Boundary
 
-**date:** 2026-05-20
-**worker:** ClaudeCode
-**status:** DESIGN — docs only, no Codex launch
+**date:** 2026-05-22 (updated)
+**worker:** ClaudeCode → Shikishima 5-Agent
+**status:** ACTIVE — auto-routing via codex-service.ts (GO by user 2026-05-22)
 
 ---
 

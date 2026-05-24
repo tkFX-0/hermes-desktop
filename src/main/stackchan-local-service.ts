@@ -9,11 +9,19 @@ import * as http from "http";
 import * as net from "net";
 import * as crypto from "crypto";
 
-const STACKCHAN_IP = "192.168.1.75";
+const STACKCHAN_HOST = process.env.STACKCHAN_HOST ?? process.env.STACKCHAN_IP ?? "127.0.0.1";
 const STACKCHAN_WS_PORT = 8080;
+const STACKCHAN_CONTROL_TOKEN = process.env.STACKCHAN_CONTROL_TOKEN ?? "";
 const VOICEVOX_URL = "http://localhost:50021";
-const VOICEVOX_SPEAKER = 1;     // 話者ID。変更: .env.local に STACKCHAN_SPEAKER=N
-let _voicevoxSpeed = 1.2;       // 話す速度（UI から変更可能）
+
+type StackchanLedPreset = "off" | "blue" | "pass" | "hold" | "stop" | "dance";
+let _voicevoxSpeaker = 1;       // 話者ID (0–100)。UIから変更可能
+let _voicevoxSpeed = 1.2;       // 話す速度（UIから変更可能）
+
+export function setVoicevoxSpeaker(speakerId: number): void {
+  _voicevoxSpeaker = Math.max(0, Math.min(100, Math.round(speakerId)));
+}
+export function getVoicevoxSpeaker(): number { return _voicevoxSpeaker; }
 
 export function setVoicevoxSpeed(speed: number): void {
   _voicevoxSpeed = Math.max(0.5, Math.min(2.0, speed));
@@ -78,7 +86,7 @@ function httpGet(url: string): Promise<Buffer> {
 }
 
 async function voicevoxSynthesize(text: string): Promise<Buffer> {
-  const queryUrl = `${VOICEVOX_URL}/audio_query?text=${encodeURIComponent(text)}&speaker=${VOICEVOX_SPEAKER}`;
+  const queryUrl = `${VOICEVOX_URL}/audio_query?text=${encodeURIComponent(text)}&speaker=${_voicevoxSpeaker}`;
   const queryBuf = await httpPost(queryUrl, "", "application/json");
 
   // Adjust speed and pitch
@@ -87,7 +95,7 @@ async function voicevoxSynthesize(text: string): Promise<Buffer> {
   // query["pitchScale"] = 0.05; // 声のピッチ上げたい場合
 
   const wavBuf = await httpPost(
-    `${VOICEVOX_URL}/synthesis?speaker=${VOICEVOX_SPEAKER}`,
+    `${VOICEVOX_URL}/synthesis?speaker=${_voicevoxSpeaker}`,
     JSON.stringify(query),
     "application/json",
   );
@@ -156,6 +164,14 @@ function wsSendText(sock: net.Socket, text: string): void {
   sock.write(Buffer.concat([header, mask, masked]));
 }
 
+function withStackchanToken<T extends Record<string, unknown>>(payload: T): T & { token?: string } {
+  return STACKCHAN_CONTROL_TOKEN ? { ...payload, token: STACKCHAN_CONTROL_TOKEN } : payload;
+}
+
+function wsSendJson(sock: net.Socket, payload: Record<string, unknown>): void {
+  wsSendText(sock, JSON.stringify(withStackchanToken(payload)));
+}
+
 function wsSendBinary(sock: net.Socket, data: Buffer): void {
   const mask = crypto.randomBytes(4);
   const masked = Buffer.alloc(data.length);
@@ -171,14 +187,14 @@ function wsSendBinary(sock: net.Socket, data: Buffer): void {
 function connectWs(): Promise<net.Socket> {
   return new Promise((resolve, reject) => {
     const key = crypto.randomBytes(16).toString("base64");
-    const sock = net.createConnection({ host: STACKCHAN_IP, port: STACKCHAN_WS_PORT });
+    const sock = net.createConnection({ host: STACKCHAN_HOST, port: STACKCHAN_WS_PORT });
     sock.setTimeout(5000);
     sock.on("timeout", () => reject(new Error("WS connect timeout")));
     sock.on("error", reject);
     sock.once("connect", () => {
       sock.write([
         "GET / HTTP/1.1",
-        `Host: ${STACKCHAN_IP}:${STACKCHAN_WS_PORT}`,
+        `Host: ${STACKCHAN_HOST}:${STACKCHAN_WS_PORT}`,
         "Upgrade: websocket",
         "Connection: Upgrade",
         `Sec-WebSocket-Key: ${key}`,
@@ -213,9 +229,9 @@ export async function stackchanSayLocal(text: string): Promise<{ ok: boolean; er
     const sock = await connectWs();
 
     // 表情を先に設定してから発話
-    wsSendText(sock, JSON.stringify({ type: "face_mode", value: emotion }));
+    wsSendJson(sock, { type: "face_mode", value: emotion });
     await new Promise<void>((r) => setTimeout(r, 50));
-    wsSendText(sock, JSON.stringify({ type: "state", value: "speaking" }));
+    wsSendJson(sock, { type: "state", value: "speaking" });
     await new Promise<void>((r) => setTimeout(r, 80));
 
     const chunkBytes = PCM_CHUNK_SAMPLES * 2;
@@ -225,8 +241,8 @@ export async function stackchanSayLocal(text: string): Promise<{ ok: boolean; er
     }
 
     await new Promise<void>((r) => setTimeout(r, 300));
-    wsSendText(sock, JSON.stringify({ type: "state", value: "idle" }));
-    wsSendText(sock, JSON.stringify({ type: "face_mode", value: DEFAULT_FACE }));
+    wsSendJson(sock, { type: "state", value: "idle" });
+    wsSendJson(sock, { type: "face_mode", value: DEFAULT_FACE });
     sock.destroy();
 
     return { ok: true };
@@ -238,8 +254,34 @@ export async function stackchanSayLocal(text: string): Promise<{ ok: boolean; er
 export async function stackchanFaceLocal(emotion: string): Promise<{ ok: boolean; error?: string }> {
   try {
     const sock = await connectWs();
-    wsSendText(sock, JSON.stringify({ type: "face_mode", value: emotion }));
+    wsSendJson(sock, { type: "face_mode", value: emotion });
     await new Promise<void>((r) => setTimeout(r, 200));
+    sock.destroy();
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, error: (e as Error).message };
+  }
+}
+
+export async function stackchanDanceLocal(): Promise<{ ok: boolean; error?: string }> {
+  try {
+    const sock = await connectWs();
+    wsSendJson(sock, { type: "dance" });
+    await new Promise<void>((r) => setTimeout(r, 150));
+    sock.destroy();
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, error: (e as Error).message };
+  }
+}
+
+export async function stackchanLedLocal(
+  preset: StackchanLedPreset,
+): Promise<{ ok: boolean; error?: string }> {
+  try {
+    const sock = await connectWs();
+    wsSendJson(sock, { type: "led", preset });
+    await new Promise<void>((r) => setTimeout(r, 150));
     sock.destroy();
     return { ok: true };
   } catch (e) {
@@ -256,13 +298,10 @@ export async function checkStackchanLocalStatus(): Promise<StackchanLocalStatus>
     _voicevoxReady = false;
   }
 
-  // Check StackChan WebSocket — set normal face + center pose (suppresses autonomous dance)
+  // Check StackChan WebSocket without changing face, state, or servo position.
   let connected = false;
   try {
     const sock = await connectWs();
-    wsSendText(sock, JSON.stringify({ type: "face_mode", value: DEFAULT_FACE }));
-    wsSendText(sock, JSON.stringify({ type: "state", value: "idle" }));
-    wsSendText(sock, JSON.stringify({ type: "motion", name: "center" }));
     await new Promise<void>((r) => setTimeout(r, 100));
     sock.destroy();
     connected = true;
@@ -274,7 +313,7 @@ export async function checkStackchanLocalStatus(): Promise<StackchanLocalStatus>
   let battery: number | undefined;
   if (connected) {
     try {
-      const statusBuf = await httpGet(`http://${STACKCHAN_IP}/status`);
+      const statusBuf = await httpGet(`http://${STACKCHAN_HOST}/status`);
       const st = JSON.parse(statusBuf.toString("utf8")) as {
         styleId?: string; affectionLevel?: string; batteryLevel?: number;
       };
@@ -284,7 +323,14 @@ export async function checkStackchanLocalStatus(): Promise<StackchanLocalStatus>
     } catch { /* ignore */ }
   }
 
-  return { connected, stackchanIp: STACKCHAN_IP, voicevoxReady: _voicevoxReady, styleId, affectionLevel, battery };
+  return {
+    connected,
+    stackchanIp: STACKCHAN_HOST ? "configured" : "not_configured",
+    voicevoxReady: _voicevoxReady,
+    styleId,
+    affectionLevel,
+    battery,
+  };
 }
 
 export function startStackchanLocalStatusCheck(): void {
@@ -296,4 +342,64 @@ export function startStackchanLocalStatusCheck(): void {
 
 export function stopStackchanLocalStatusCheck(): void {
   if (_statusCheckTimer) { clearInterval(_statusCheckTimer); _statusCheckTimer = null; }
+}
+
+// 撫でモード実装 (StackChan表情・モーション・音声)
+export async function stackchanPetMode(mode: 1 | 2 | 3): Promise<{ ok: boolean; error?: string }> {
+  try {
+    const sock = await connectWs();
+    let text = "";
+    let face = "normal";
+    let motion = "center";
+
+    if (mode === 1) {
+      // 肯定うなずきモード
+      text = "ふふ、嬉しい";
+      face = "happy";
+      motion = "nod";
+    } else if (mode === 2) {
+      // 首振り照れモード
+      text = "ちょっとくすぐったい…";
+      face = "shy";
+      // firmware handleMove() supports "shake"; "head_shake" is ignored.
+      motion = "shake";
+    } else if (mode === 3) {
+      // 首かしげ甘えモード
+      text = "もっと…？";
+      face = "sweet";
+      // firmware has no "tilt" alias; use the closest supported one-shot pose.
+      motion = "look_up";
+    }
+
+    wsSendJson(sock, { type: "face_mode", value: face });
+    await new Promise<void>((r) => setTimeout(r, 100));
+    // firmware は "move" type のみ対応。"motion" type はハンドラなしで無視される
+    wsSendJson(sock, { type: "move", action: motion });
+    await new Promise<void>((r) => setTimeout(r, 300));
+
+    // 前の発話字幕が残らないよう明示的にクリア (旧字幕が再描画されるのを防止)
+    wsSendJson(sock, { type: "subtitle", text: "" });
+    await new Promise<void>((r) => setTimeout(r, 30));
+
+    // 音声再生 (SayLocalの簡易版)
+    const wav = await voicevoxSynthesize(text);
+    const pcm = wavToPcm16k(wav);
+    wsSendJson(sock, { type: "state", value: "speaking" });
+    // ペット発話テキストを字幕として表示
+    wsSendJson(sock, { type: "subtitle", text: text.slice(0, 20) });
+    const chunkBytes = PCM_CHUNK_SAMPLES * 2;
+    for (let i = 0; i < pcm.length; i += chunkBytes) {
+      wsSendBinary(sock, pcm.slice(i, i + chunkBytes));
+      await new Promise<void>((r) => setTimeout(r, 35));
+    }
+    await new Promise<void>((r) => setTimeout(r, 400));
+    wsSendJson(sock, { type: "state", value: "idle" });
+    wsSendJson(sock, { type: "face_mode", value: DEFAULT_FACE });
+    // firmware は "move" type のみ対応。center = servoMove(0,0)
+    wsSendJson(sock, { type: "move", action: "center" });
+    sock.destroy();
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, error: (e as Error).message };
+  }
 }

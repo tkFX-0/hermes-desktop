@@ -1,8 +1,8 @@
 # WK-02 ClaudeCode Worker Boundary
 
-**date:** 2026-05-20
-**worker:** ClaudeCode
-**status:** DESIGN — docs only
+**date:** 2026-05-22 (updated)
+**worker:** Shikishima 5-Agent (Agent 2)
+**status:** ACTIVE — auto-routing via claude-code-service.ts (GO by user 2026-05-21)
 
 ---
 

@@ -25,7 +25,21 @@ export default defineConfig(
     },
     rules: {
       ...eslintPluginReactHooks.configs.recommended.rules,
-      ...eslintPluginReactRefresh.configs.vite.rules
+      ...eslintPluginReactRefresh.configs.vite.rules,
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/no-unused-vars': ['error', {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_'
+      }],
+      'react-hooks/set-state-in-effect': 'off',
+      'no-control-regex': 'off'
+    }
+  },
+  {
+    files: ['src/renderer/src/screens/AgentTheater/PixelRoom3D/**/*.{ts,tsx}'],
+    rules: {
+      'react/no-unknown-property': 'off'
     }
   },
   eslintConfigPrettier

@@ -650,6 +650,9 @@ const hermesAPI = {
     ob01Status: "HOLD" | "ACTIVE";
   }> => ipcRenderer.invoke("shikishima-library-write", req),
 
+  shikishimaResearchPublish: (input: unknown): Promise<unknown> =>
+    ipcRenderer.invoke("shikishima-research-publish", input),
+
   // DIS-01: Discord read-only intake (HOLD until explicit GO)
   shikishimaDiscordRead: (limit?: number): Promise<{
     success: boolean;
@@ -674,11 +677,48 @@ const hermesAPI = {
     error?: string;
   }> => ipcRenderer.invoke("shikishima-grok-chat", message),
 
+  shikishimaChannelOutputDraft: (req: {
+    responseId?: string;
+    agentId?: "shikishima" | "shizume" | "hajime" | "tsumugi" | "shirube" | "chihaya";
+    modelId?: string;
+    fullResponse: string;
+    spokenResponse?: string;
+    reasoningLevel?: "quick" | "standard" | "deep" | "critical";
+    evidenceFile?: string;
+  }): Promise<unknown> => ipcRenderer.invoke("shikishima-channel-output-draft", req),
+
   // Grok quota status
   shikishimaGrokQuota: (): Promise<{
     available: boolean;
     note: string;
   }> => ipcRenderer.invoke("shikishima-grok-quota"),
+
+  claudeCodeTask: (prompt: string): Promise<unknown> =>
+    ipcRenderer.invoke("claude-code-task", prompt),
+
+  agentDispatch: (message: string): Promise<unknown> =>
+    ipcRenderer.invoke("agent-dispatch", message),
+
+  agentRoute: (message: string): Promise<unknown> =>
+    ipcRenderer.invoke("agent-route", message),
+
+  agentDefinitions: (): Promise<unknown> =>
+    ipcRenderer.invoke("agent-definitions"),
+
+  groqAvailability: (): Promise<unknown> =>
+    ipcRenderer.invoke("groq-availability"),
+
+  geminiAvailability: (): Promise<unknown> =>
+    ipcRenderer.invoke("gemini-availability"),
+
+  memoryGetLong: (): Promise<unknown> =>
+    ipcRenderer.invoke("memory-get-long"),
+
+  memoryGetMedium: (): Promise<unknown> =>
+    ipcRenderer.invoke("memory-get-medium"),
+
+  memoryAddFact: (category: string, key: string, value: string): Promise<boolean> =>
+    ipcRenderer.invoke("memory-add-fact", category, key, value),
 
   // StackChan — local pet-fw (ws:8080) + VOICEVOX
   stackchanStatus: (): Promise<{
@@ -705,6 +745,18 @@ const hermesAPI = {
 
   stackchanGetSpeed: (): Promise<number> =>
     ipcRenderer.invoke("stackchan-get-speed"),
+
+  stackchanSetSpeaker: (speakerId: number): Promise<number> =>
+    ipcRenderer.invoke("stackchan-set-speaker", speakerId),
+
+  stackchanGetSpeaker: (): Promise<number> =>
+    ipcRenderer.invoke("stackchan-get-speaker"),
+
+  sttState: (): Promise<unknown> =>
+    ipcRenderer.invoke("stt-state"),
+
+  sttCheckWhisper: (): Promise<boolean> =>
+    ipcRenderer.invoke("stt-check-whisper"),
 };
 
 if (process.contextIsolated) {

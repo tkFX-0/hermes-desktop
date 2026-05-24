@@ -98,7 +98,7 @@ describe("checkRedaction", () => {
   });
 
   it("returns omit for LAN IP pattern", () => {
-    expect(checkRedaction(["server at 192.168.1.12:3030"])).toBe("omit");
+    expect(checkRedaction(["server at 192.168.99.12:3030"])).toBe("omit");
   });
 
   it("returns omit for API key-like pattern", () => {

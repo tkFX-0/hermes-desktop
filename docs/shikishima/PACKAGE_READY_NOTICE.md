@@ -1,4 +1,4 @@
-# パッケージ版 準備完了ガイド
+﻿# パッケージ版 準備完了ガイド
 
 ## 現在の状態
 
@@ -14,7 +14,7 @@ CI/CD: GitHub pushで自動実行
 ### 即時起動 (現在)
 
 ```powershell
-cd "C:\Users\81903\Desktop\プロジェクトファイル\hermes-desktop"
+cd "[repo-root]"
 .\node_modules\.bin\electron.cmd .
 ```
 
@@ -31,7 +31,7 @@ cd "C:\Users\81903\Desktop\プロジェクトファイル\hermes-desktop"
 
 ```powershell
 # 管理者として実行、またはDeveloper Mode有効化後:
-cd "C:\Users\81903\Desktop\プロジェクトファイル\hermes-desktop"
+cd "[repo-root]"
 npm run build:win
 # → dist/shikishima-desktop-0.2.3-setup.exe が生成される
 ```

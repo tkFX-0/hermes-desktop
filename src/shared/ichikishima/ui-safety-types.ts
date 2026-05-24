@@ -33,7 +33,7 @@ export type ButtonCategory =
   | "forbidden";
 
 /** The safe default for any new button not yet explicitly categorized. */
-export const DEFAULT_BUTTON_CATEGORY: "copy-only" = "copy-only";
+export const DEFAULT_BUTTON_CATEGORY = "copy-only" as const;
 
 // ─── Locked Settings ─────────────────────────────────────────────────────────
 

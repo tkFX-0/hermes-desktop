@@ -16,6 +16,20 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+*.log
+*.log.bak
+*.pid
+
+# Local runtime state
+.shikishima-memory/
+.webhook-cache.json
+.agents/other_agent_intro.txt
+
+# Local verification/build snapshots
+dist-check/
+
+# Local image drafts; promote through an explicit asset gate only
+スタックチャン顔/
 
 # Environment files
 .env
@@ -41,7 +55,18 @@ sandbox/
 release/
 .claude/worktrees
 
+# Firmware local build artifacts
+docs/firmware/**/.pio/
+
+# Firmware credentials — never commit
+docs/firmware/**/credentials.h
+docs/firmware/**/sc_credentials.h
+
 # Tauri
 **/src-tauri/target/
 **/src-tauri/gen/
 **/src-tauri/WixTools/
+
+# Python cache
+__pycache__/
+**/__pycache__/

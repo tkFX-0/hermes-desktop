@@ -69,7 +69,7 @@ export type PositiveLampState = "PASS" | "PASS_WITH_CAVEAT" | "GO_READY";
  * States that must never be shown when data source is unavailable.
  * Any STALE / UNKNOWN / ERROR must fall back to HOLD.
  */
-export const HOLD_FALLBACK: "HOLD" = "HOLD";
+export const HOLD_FALLBACK = "HOLD" as const;
 
 // ─── Page Contract ───────────────────────────────────────────────────────────
 

@@ -90,7 +90,7 @@ Source code references (ICHIKISHIMA_READONLY_DOC_PATHS) must be updated first.
 
 ## E. Root-Level PowerShell Scripts (Not Repo Files)
 
-These are in the USER HOME directory (`C:\Users\81903\`), not in the repo.
+These are in the local user home directory, not in the repo.
 Listed for awareness only; not repo candidates.
 
 | Item | Notes |

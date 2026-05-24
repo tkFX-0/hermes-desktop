@@ -18,6 +18,8 @@ import { GateDashboardPanel } from "./GateDashboardPanel";
 import { HumanGateStatusPanel } from "./HumanGateStatusPanel";
 import { AutonomousOperationPanel } from "./AutonomousOperationPanel";
 import { AIUsageCockpitPanel } from "./AIUsageCockpitPanel";
+// ShikishimaAgentPanel: 一時無効化 (クラッシュ調査中)
+// import { ShikishimaAgentPanel } from "./ShikishimaAgentPanel";
 
 function allPoses(pose: PoseState): AgentPoseMap {
   return { shikishima: pose, shizume: pose, hajime: pose, tsumugi: pose, shirube: pose };

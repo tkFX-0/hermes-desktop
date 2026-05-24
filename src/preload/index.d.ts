@@ -444,6 +444,8 @@ interface HermesAPI {
     ob01Status: "HOLD" | "ACTIVE";
   }>;
 
+  shikishimaResearchPublish: (input: unknown) => Promise<unknown>;
+
   // DIS-01: Discord read-only intake (HOLD until explicit GO)
   shikishimaDiscordRead: (limit?: number) => Promise<{
     success: boolean;
@@ -468,10 +470,30 @@ interface HermesAPI {
     error?: string;
   }>;
 
+  shikishimaChannelOutputDraft: (req: {
+    responseId?: string;
+    agentId?: "shikishima" | "shizume" | "hajime" | "tsumugi" | "shirube" | "chihaya";
+    modelId?: string;
+    fullResponse: string;
+    spokenResponse?: string;
+    reasoningLevel?: "quick" | "standard" | "deep" | "critical";
+    evidenceFile?: string;
+  }) => Promise<unknown>;
+
   shikishimaGrokQuota: () => Promise<{
     available: boolean;
     note: string;
   }>;
+
+  claudeCodeTask: (prompt: string) => Promise<unknown>;
+  agentDispatch: (message: string) => Promise<unknown>;
+  agentRoute: (message: string) => Promise<unknown>;
+  agentDefinitions: () => Promise<unknown>;
+  groqAvailability: () => Promise<unknown>;
+  geminiAvailability: () => Promise<unknown>;
+  memoryGetLong: () => Promise<unknown>;
+  memoryGetMedium: () => Promise<unknown>;
+  memoryAddFact: (category: string, key: string, value: string) => Promise<boolean>;
 
   stackchanStatus: () => Promise<{
     connected: boolean;
@@ -494,6 +516,10 @@ interface HermesAPI {
 
   stackchanSetSpeed: (speed: number) => Promise<number>;
   stackchanGetSpeed: () => Promise<number>;
+  stackchanSetSpeaker: (speakerId: number) => Promise<number>;
+  stackchanGetSpeaker: () => Promise<number>;
+  sttState: () => Promise<unknown>;
+  sttCheckWhisper: () => Promise<boolean>;
 }
 
 interface IchikishimaControlCenterAPI {

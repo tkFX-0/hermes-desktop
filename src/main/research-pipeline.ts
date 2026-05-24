@@ -10,6 +10,8 @@ import { captureHtmlAsPng } from "./research-screenshot";
 import { sendPngToDiscord } from "./research-discord-image";
 import { runHermesResearch, DAILY_RESEARCH_TOPICS } from "./hermes-research-runner";
 
+const RESEARCH_PIPELINE_HOLD = true;
+
 export interface PipelineResult {
   readonly success: boolean;
   readonly report: {
@@ -34,6 +36,26 @@ export interface PipelineResult {
 export async function publishResearchReport(
   input: ResearchReportInput,
 ): Promise<PipelineResult> {
+  if (RESEARCH_PIPELINE_HOLD) {
+    return {
+      success: false,
+      report: {
+        title: input.title,
+        filename: "held-by-human-gate.md",
+        date: input.date,
+      },
+      discord: {
+        sent: false,
+        error: "NEEDS_HUMAN",
+        channelId: "",
+      },
+      obsidian: {
+        written: false,
+        error: "NEEDS_HUMAN",
+      },
+      rawValuesReported: false,
+    };
+  }
   const report = generateResearchReport(input);
   const { reportChannelId } = getDiscordChannelIds();
 
@@ -113,6 +135,10 @@ export function startDailyResearchPipeline(
   reportFn?: () => Promise<ResearchReportInput | null>,
   targetJSTHour = 8,
 ): void {
+  if (RESEARCH_PIPELINE_HOLD) {
+    console.log("[ResearchPipeline] HOLD until explicit human GO");
+    return;
+  }
   if (_schedulerTimer) return;
 
   // Default to Hermes x_search if no custom reportFn provided

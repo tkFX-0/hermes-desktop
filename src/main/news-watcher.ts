@@ -1,73 +1,83 @@
-// Breaking News Watcher — 速報検知
-// Polls X via Hermes x_search every N minutes.
-// Sends immediately to Discord if new headlines detected.
-// Topics: Japan/world trending news + FX/gold market alerts.
+// Breaking News Watcher — Lv3-A
+// Grokクォータゼロ運用: Groq (llama-3.3-70b) でFX市場コメンタリーを生成
+// 60分ごとに自動投稿 → 「頼んでいないのに情報が届く」= Lv3の核心
 
-import { runHermesResearch } from "./hermes-research-runner";
 import { sendDiscordMessage, getDiscordChannelIds } from "./discord-intake";
+import { groqChat } from "./groq-service";
 
-const POLL_INTERVAL_MS = 15 * 60 * 1000; // 15 minutes
-const MAX_CACHE = 200; // headline fingerprints to remember
-
-const BREAKING_QUERIES = [
-  "x_searchで今日の日本と世界のトレンドニュースを5件確認して、新しい重要ニュースがあれば教えて",
-  "x_searchで XAUUSD gold 相場 急変動 breaking 2026 最新情報を教えて",
-  "x_searchで FX prop firm 規約変更 重要お知らせ 2026 最新情報を教えて",
-];
+const POLL_INTERVAL_MS = 60 * 60 * 1000; // 60分
+const MAX_CACHE = 100;
 
 let _watcherTimer: ReturnType<typeof setInterval> | null = null;
-let _seenFingerprints = new Set<string>();
-let _queryIndex = 0;
+const _seenFingerprints = new Set<string>();
+let _tickCount = 0;
 
-function fingerprint(text: string): string {
-  // Simple hash of first 120 chars to detect new content
-  return text.trim().slice(0, 120).replace(/\s+/g, " ");
-}
-
-function isNew(content: string): boolean {
-  const fp = fingerprint(content);
+// 速報性チェック (同じ内容の重複投稿防止)
+function isNew(text: string): boolean {
+  const fp = text.trim().slice(0, 100).replace(/\s+/g, " ");
   if (_seenFingerprints.has(fp)) return false;
   _seenFingerprints.add(fp);
   if (_seenFingerprints.size > MAX_CACHE) {
-    // evict oldest (Set preserves insertion order)
     const first = _seenFingerprints.values().next().value;
     if (first) _seenFingerprints.delete(first);
   }
   return true;
 }
 
+// Groqによるマーケットコメンタリー生成 (クォータゼロ)
+async function generateMarketCommentary(): Promise<string | null> {
+  // 時間帯に応じてクエリを変える
+  const hourJST = new Date(Date.now() + 9 * 60 * 60 * 1000).getUTCHours();
+  let focus = "XAUUSD gold の現在の相場環境と注目ポイント";
+  if (hourJST >= 21 || hourJST < 3)  focus = "NYセッション中のXAUUSD gold 動向と注目ポイント";
+  if (hourJST >= 15 && hourJST < 21) focus = "ロンドンセッションのFX gold 動向";
+  if (hourJST >= 8  && hourJST < 15) focus = "東京セッションのドル円・gold 動向";
+
+  const prompt =
+    `FXプロップトレーダー向けに ${focus} を簡潔に教えて。` +
+    `XAUUSD・ドル円・主要経済指標の観点で、今注意すべき点を3行以内で。` +
+    `「しきしま速報」として自然な日本語で書いて。`;
+
+  const result = await groqChat(prompt, "llama-3.3-70b-versatile");
+  if (!result.success || !result.reply) return null;
+  return result.reply.trim();
+}
+
 async function pollBreakingNews(): Promise<void> {
-  const query = BREAKING_QUERIES[_queryIndex % BREAKING_QUERIES.length];
-  _queryIndex++;
+  _tickCount++;
 
-  const result = await runHermesResearch(query);
-  if (!result.success || !result.content) return;
+  const commentary = await generateMarketCommentary();
+  if (!commentary) {
+    console.log("[NewsWatcher] Groq応答なし (スキップ)");
+    return;
+  }
 
-  // Split response into paragraphs and check each for novelty
-  const paragraphs = result.content
-    .split(/\n{2,}/)
-    .map((p) => p.trim())
-    .filter((p) => p.length > 40);
-
-  const newItems = paragraphs.filter(isNew);
-  if (newItems.length === 0) return;
+  if (!isNew(commentary)) {
+    console.log("[NewsWatcher] 前回と類似内容 (スキップ)");
+    return;
+  }
 
   const { reportChannelId } = getDiscordChannelIds();
-  const targetChannelId = reportChannelId;
-  if (!targetChannelId) return;
+  if (!reportChannelId) return;
 
-  const body = newItems.slice(0, 3).join("\n\n");
-  const msg = `**[しきしま速報]** ${new Date().toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" })}\n\n${body}`;
+  const timeStr = new Date().toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
+  const msg = `🕯️ **しるべ** — 市場速報 ${timeStr}\n\n${commentary}`;
 
-  await sendDiscordMessage(targetChannelId, msg.slice(0, 2000));
+  await sendDiscordMessage(reportChannelId, msg.slice(0, 2000));
+  console.log(`[NewsWatcher] 投稿完了 (tick #${_tickCount})`);
 }
 
 export function startNewsWatcher(): void {
   if (_watcherTimer) return;
+
+  // 起動時に即座に1回実行
+  pollBreakingNews().catch((e) => console.error("[NewsWatcher] init error:", e));
+
   _watcherTimer = setInterval(() => {
     pollBreakingNews().catch((e) => console.error("[NewsWatcher]", e));
   }, POLL_INTERVAL_MS);
-  console.log("[NewsWatcher] started — polling every 15min");
+
+  console.log("[NewsWatcher] 起動 — 60分ごとにGroqでFX速報 (Grokクォータゼロ)");
 }
 
 export function stopNewsWatcher(): void {
