@@ -2,8 +2,8 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import { dirname, resolve } from "path";
 
 const DEFAULT_POLICY_PATH = resolve(process.cwd(), ".shikishima-memory", "secretary-profile-policy.json");
-const DEFAULT_SAFE_FALLBACK = "いまは安全に言い換えて確認中です。";
-const DEFAULT_REPLACEMENT = "別の言い方にします。";
+const DEFAULT_SAFE_FALLBACK = "\u3044\u307e\u306f\u5b89\u5168\u306b\u8a00\u3044\u63db\u3048\u3066\u78ba\u8a8d\u4e2d\u3067\u3059\u3002";
+const DEFAULT_REPLACEMENT = "\u5225\u306e\u8a00\u3044\u65b9\u306b\u3057\u307e\u3059\u3002";
 
 export function createDefaultSecretaryProfilePolicy() {
   return {

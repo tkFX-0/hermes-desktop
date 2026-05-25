@@ -1,15 +1,15 @@
 import { describe, expect, it } from "vitest";
+import { runSecretaryOneShot } from "../scripts/shikishima-secretary-one-shot.mjs";
 
 describe("shikishima secretary one-shot script", () => {
   it("runs dry-run without voice, camera, microphone, or external write", async () => {
-    const { runSecretaryOneShot } = await import("../scripts/shikishima-secretary-one-shot.mjs");
     const result = await runSecretaryOneShot([
       "--agent",
       "shikishima",
       "--prompt-summary",
       "status",
       "--answer",
-      "短く答えます。",
+      "\u77ed\u304f\u7b54\u3048\u307e\u3059\u3002",
     ]);
 
     expect(result.ok).toBe(true);
@@ -23,11 +23,10 @@ describe("shikishima secretary one-shot script", () => {
   });
 
   it("can call supplied speak adapter only when execute and voice are set", async () => {
-    const { runSecretaryOneShot } = await import("../scripts/shikishima-secretary-one-shot.mjs");
     let called = false;
     const result = await runSecretaryOneShot([
       "--answer",
-      "発話します。",
+      "\u767a\u8a71\u3057\u307e\u3059\u3002",
       "--voice",
       "--execute",
     ], {
@@ -42,4 +41,3 @@ describe("shikishima secretary one-shot script", () => {
     expect(result.voiceExecuted).toBe(true);
   });
 });
-

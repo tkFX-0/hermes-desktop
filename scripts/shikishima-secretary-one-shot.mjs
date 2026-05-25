@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import { prepareSecretarySpeech } from "./shikishima-secretary-filter.mjs";
 import { stackchanSay } from "./shikishima-stackchan.mjs";
 
@@ -66,9 +64,16 @@ export async function runSecretaryOneShot(argv = process.argv.slice(2), {
   };
 }
 
-if (import.meta.url === `file://${process.argv[1].replace(/\\/g, "/")}`) {
-  const result = await runSecretaryOneShot();
-  console.log(JSON.stringify(result, null, 2));
-  process.exit(result.ok ? 0 : 1);
+const invokedScript = process.argv[1] ? `file://${process.argv[1].replace(/\\/g, "/")}` : "";
+if (import.meta.url === invokedScript) {
+  runSecretaryOneShot()
+    .then((result) => {
+      console.log(JSON.stringify(result, null, 2));
+      process.exit(result.ok ? 0 : 1);
+    })
+    .catch((error) => {
+      console.error(error);
+      process.exit(1);
+    });
 }
 
