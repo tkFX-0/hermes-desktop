@@ -1,6 +1,6 @@
 /**
  * StackChan Local Service
- * Pipeline: VOICEVOX (localhost:50021) → 16kHz PCM → WebSocket (ws://stackchan:8080)
+ * Pipeline: VOICEVOX (localhost:50021) -> 16kHz PCM -> WebSocket (ws://stackchan:8080)
  * Firmware: stackchan-pet-fw v0.1.0
  * Confirmed working: 2026-05-22
  */
@@ -15,8 +15,8 @@ const STACKCHAN_CONTROL_TOKEN = process.env.STACKCHAN_CONTROL_TOKEN ?? "";
 const VOICEVOX_URL = "http://localhost:50021";
 
 type StackchanLedPreset = "off" | "blue" | "pass" | "hold" | "stop" | "dance";
-let _voicevoxSpeaker = 1;       // 話者ID (0–100)。UIから変更可能
-let _voicevoxSpeed = 1.2;       // 話す速度（UIから変更可能）
+let _voicevoxSpeaker = 1;       // Speaker ID (0-100). UI can change this.
+let _voicevoxSpeed = 1.2;       // Speech speed. UI can change this.
 
 export function setVoicevoxSpeaker(speakerId: number): void {
   _voicevoxSpeaker = Math.max(0, Math.min(100, Math.round(speakerId)));
@@ -27,16 +27,16 @@ export function setVoicevoxSpeed(speed: number): void {
   _voicevoxSpeed = Math.max(0.5, Math.min(2.0, speed));
 }
 export function getVoicevoxSpeed(): number { return _voicevoxSpeed; }
-const DEFAULT_FACE = "normal"; // pet-fw face_mode デフォルト
+const DEFAULT_FACE = "normal"; // pet-fw face_mode default
 const PCM_CHUNK_SAMPLES = 960; // 60ms at 16kHz
 
-// Grok返答のテキストから感情を推定してpet-fwのface_modeを返す
+// Infer pet-fw face_mode from Grok/secretary response text.
 function detectEmotion(text: string): string {
   const t = text;
-  if (/嬉しい|よかった|ありがとう|おめでとう|素晴らしい|最高|楽し/.test(t)) return "happy";
-  if (/ごめん|申し訳|残念|悲しい|難し|できません/.test(t)) return "sad";
-  if (/考え|調べ|確認|分析|検討|えーと/.test(t)) return "thinking";
-  if (/驚|びっくり|えっ|まさか|信じられ/.test(t)) return "surprised";
+  if (/(?:\u5b09\u3057\u3044|\u3088\u304b\u3063\u305f|\u3042\u308a\u304c\u3068\u3046|\u304a\u3081\u3067\u3068\u3046|\u7d20\u6674\u3089\u3057\u3044|\u6700\u9ad8|\u697d\u3057\u3044)/u.test(t)) return "happy";
+  if (/(?:\u3054\u3081\u3093|\u7533\u3057\u8a33|\u6b8b\u5ff5|\u60b2\u3057\u3044|\u96e3\u3057\u3044|\u3067\u304d\u307e\u305b\u3093)/u.test(t)) return "sad";
+  if (/(?:\u8003\u3048|\u8abf\u3079|\u78ba\u8a8d|\u5206\u6790|\u691c\u8a3c|\u3048\u30fc\u3068)/u.test(t)) return "thinking";
+  if (/(?:\u9a5a|\u3073\u3063\u304f\u308a|\u3048\u3063|\u307e\u3055\u304b|\u4fe1\u3058\u3089\u308c)/u.test(t)) return "surprised";
   return "normal";
 }
 
@@ -92,7 +92,7 @@ async function voicevoxSynthesize(text: string): Promise<Buffer> {
   // Adjust speed and pitch
   const query = JSON.parse(queryBuf.toString("utf8")) as Record<string, unknown>;
   query["speedScale"] = _voicevoxSpeed;
-  // query["pitchScale"] = 0.05; // 声のピッチ上げたい場合
+  // query["pitchScale"] = 0.05; // Raise pitch slightly when needed.
 
   const wavBuf = await httpPost(
     `${VOICEVOX_URL}/synthesis?speaker=${_voicevoxSpeaker}`,
@@ -126,7 +126,7 @@ function wavToPcm16k(wav: Buffer): Buffer {
     }
   }
 
-  // Stereo → mono
+  // Stereo -> mono
   let mono: Int16Array;
   if (nChannels === 2) {
     mono = new Int16Array(rawSamples / 2);
@@ -228,7 +228,7 @@ export async function stackchanSayLocal(text: string): Promise<{ ok: boolean; er
 
     const sock = await connectWs();
 
-    // 表情を先に設定してから発話
+    // Set face before speech starts.
     wsSendJson(sock, { type: "face_mode", value: emotion });
     await new Promise<void>((r) => setTimeout(r, 50));
     wsSendJson(sock, { type: "state", value: "speaking" });
@@ -344,7 +344,7 @@ export function stopStackchanLocalStatusCheck(): void {
   if (_statusCheckTimer) { clearInterval(_statusCheckTimer); _statusCheckTimer = null; }
 }
 
-// 撫でモード実装 (StackChan表情・モーション・音声)
+// Pet mode implementation (face, motion, voice)
 export async function stackchanPetMode(mode: 1 | 2 | 3): Promise<{ ok: boolean; error?: string }> {
   try {
     const sock = await connectWs();
@@ -353,39 +353,37 @@ export async function stackchanPetMode(mode: 1 | 2 | 3): Promise<{ ok: boolean; 
     let motion = "center";
 
     if (mode === 1) {
-      // 肯定うなずきモード
-      text = "ふふ、嬉しい";
+      // Positive nod mode
+      text = "\u3075\u3075\u3001\u5b09\u3057\u3044";
       face = "happy";
       motion = "nod";
     } else if (mode === 2) {
-      // 首振り照れモード
-      text = "ちょっとくすぐったい…";
+      // Ticklish shake mode
+      text = "\u3061\u3087\u3063\u3068\u304f\u3059\u3050\u3063\u305f\u3044\u2026";
       face = "shy";
-      // firmware handleMove() supports "shake"; "head_shake" is ignored.
       motion = "shake";
     } else if (mode === 3) {
-      // 首かしげ甘えモード
-      text = "もっと…？";
+      // Sweet upward-glance mode
+      text = "\u3082\u3063\u3068\u2026\uff1f";
       face = "sweet";
-      // firmware has no "tilt" alias; use the closest supported one-shot pose.
       motion = "look_up";
     }
 
     wsSendJson(sock, { type: "face_mode", value: face });
     await new Promise<void>((r) => setTimeout(r, 100));
-    // firmware は "move" type のみ対応。"motion" type はハンドラなしで無視される
+    // Firmware only handles the "move" type. The "motion" type is ignored.
     wsSendJson(sock, { type: "move", action: motion });
     await new Promise<void>((r) => setTimeout(r, 300));
 
-    // 前の発話字幕が残らないよう明示的にクリア (旧字幕が再描画されるのを防止)
+    // Clear previous subtitles before speaking.
     wsSendJson(sock, { type: "subtitle", text: "" });
     await new Promise<void>((r) => setTimeout(r, 30));
 
-    // 音声再生 (SayLocalの簡易版)
+    // Voice playback (simplified SayLocal path).
     const wav = await voicevoxSynthesize(text);
     const pcm = wavToPcm16k(wav);
     wsSendJson(sock, { type: "state", value: "speaking" });
-    // ペット発話テキストを字幕として表示
+    // Display pet speech as subtitle.
     wsSendJson(sock, { type: "subtitle", text: text.slice(0, 20) });
     const chunkBytes = PCM_CHUNK_SAMPLES * 2;
     for (let i = 0; i < pcm.length; i += chunkBytes) {
@@ -395,7 +393,7 @@ export async function stackchanPetMode(mode: 1 | 2 | 3): Promise<{ ok: boolean; 
     await new Promise<void>((r) => setTimeout(r, 400));
     wsSendJson(sock, { type: "state", value: "idle" });
     wsSendJson(sock, { type: "face_mode", value: DEFAULT_FACE });
-    // firmware は "move" type のみ対応。center = servoMove(0,0)
+    // Firmware only handles the "move" type. center = servoMove(0,0).
     wsSendJson(sock, { type: "move", action: "center" });
     sock.destroy();
     return { ok: true };
@@ -403,3 +401,4 @@ export async function stackchanPetMode(mode: 1 | 2 | 3): Promise<{ ok: boolean; 
     return { ok: false, error: (e as Error).message };
   }
 }
+
