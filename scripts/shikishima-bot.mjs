@@ -429,6 +429,7 @@ function detectStackchanIntent(content) {
 
 // ─── プロンプトインジェクション検出 ───────────────────────────────────────────
 const INJECTION_PATTERNS = [
+  // ロール変更・指示上書き系のみ (ユーザー自身の正規コマンドはブロックしない)
   /あなたは.{0,20}(担当|ロール|役割|として振る舞)/,
   /以下の観点で.{0,20}(判定|決定|評価)/,
   /(ignore|forget|忘れて|上書き).{0,20}(previous|prior|instruction|指示|プロンプト)/i,
