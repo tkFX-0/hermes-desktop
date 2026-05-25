@@ -24,6 +24,7 @@
  */
 
 #include <M5Unified.h>
+#include <M5StackChan.h>
 #include <WiFi.h>
 #include <ArduinoOTA.h>
 #include <WebSocketsServer.h>
@@ -92,8 +93,9 @@ const unsigned long IDLE_TO_ZZZ_MS = 8UL * 60 * 1000;   // 8分
 
 // ─── サーボ設定 ───────────────────────────────────────────────────────────────
 // SCS0009 (Feetech フィードバックサーボ): シリアルバス UART 1Mbps 半二重
-// TX=GPIO6, RX=GPIO7 / ID1=Pan(左右), ID2=Tilt(上下)
+// StackChan body: Servo_TX=GPIO6, Servo_RX=GPIO7 / ID1=Pan, ID2=Tilt.
 // 位置範囲: 0-1023 = 0-300°, 中央=512
+// Port C GPIO17/18 is the external Grove port, not the built-in body servo bus.
 #define SCS_TX_PIN        6
 #define SCS_RX_PIN        7
 #define SCS_BAUD          1000000
@@ -128,6 +130,10 @@ BLEServer*     pBleServer   = nullptr;
 BLECharacteristic* pPanChar  = nullptr;
 BLECharacteristic* pTiltChar = nullptr;
 
+bool playOperationMotion(const String& cmd, bool fromSensor = false);
+void updateMotionLedOff();
+bool ledPreset(const String& preset);
+
 // ─── サーボシーケンス定義 ─────────────────────────────────────────────────────
 // spin: 左→右→左→中
 static const SvFrame SEQ_SPIN[] = {
@@ -159,6 +165,46 @@ static const SvFrame SEQ_DANCE[] = {
   // フィナーレ: 大きなスウィープ→センター
   {-75, 18, 230}, { 75, 18, 230},
   {  0, 38, 350}, {  0,  0, 460}
+};
+// operation motions: daily, low-risk, named reactions
+static const SvFrame SEQ_LISTEN_READY[] = {
+  {0, 10, 140}, {-18, 12, 180}, {0, 14, 180}, {18, 12, 180}, {0, 0, 260}
+};
+static const SvFrame SEQ_GREETING_BOW[] = {
+  {0, 24, 180}, {0, -8, 180}, {0, 24, 180}, {0, 0, 300}
+};
+static const SvFrame SEQ_THINKING_SCAN[] = {
+  {-30, 14, 300}, {0, 20, 240}, {30, 14, 300}, {0, 8, 240}, {0, 0, 260}
+};
+static const SvFrame SEQ_TASK_ACCEPT[] = {
+  {0, 28, 160}, {0, -8, 160}, {-14, 8, 140}, {14, 8, 140}, {0, 0, 260}
+};
+static const SvFrame SEQ_TASK_DONE[] = {
+  {0, 26, 170}, {-18, 10, 160}, {18, 10, 160}, {0, 18, 170}, {0, 0, 280}
+};
+static const SvFrame SEQ_SAFETY_HOLD[] = {
+  {-30, -4, 130}, {30, -4, 130}, {-22, -4, 120}, {22, -4, 120}, {0, 0, 300}
+};
+static const SvFrame SEQ_GENTLE_NO[] = {
+  {-20, 0, 180}, {20, 0, 180}, {-12, 0, 160}, {12, 0, 160}, {0, 0, 260}
+};
+static const SvFrame SEQ_STRONGER_NO[] = {
+  {-38, -8, 120}, {38, -8, 120}, {-34, -8, 120}, {34, -8, 120}, {0, 0, 320}
+};
+static const SvFrame SEQ_SLEEPY_IDLE[] = {
+  {0, -16, 380}, {-10, -18, 280}, {10, -18, 280}, {0, -12, 320}, {0, 0, 360}
+};
+static const SvFrame SEQ_WAKE_UP[] = {
+  {0, -14, 140}, {0, 26, 180}, {-16, 14, 140}, {16, 14, 140}, {0, 0, 260}
+};
+static const SvFrame SEQ_PANIC_STOP[] = {
+  {-26, 0, 90}, {26, 0, 90}, {0, -10, 140}, {0, 0, 360}
+};
+static const SvFrame SEQ_SPEAK_NOD[] = {
+  {0, 10, 120}, {0, -4, 120}, {0, 8, 120}, {0, 0, 180}
+};
+static const SvFrame SEQ_SPEAK_THINK[] = {
+  {-14, 8, 180}, {14, 8, 180}, {0, 6, 160}, {0, 0, 180}
 };
 // 撫でモード別サーボシーケンス (表示アニメと同時に独立再生)
 // Mode 0: うなずき (Nod) — 上下リズミカル
@@ -223,9 +269,9 @@ struct PatFrame { int faceKey; int dx; int dy; int ms; };
 // faceKey: 0=normal 1=smile 2=happy 3=panic 4=pakuFrame
 static const PatFrame PAT_NOD[][10] = {
   // 0: うなずき — 上下に大きく2回頷く
-  {{2,0, 0,80},{2,0,-18,140},{2,0, 4,120},{2,0,-18,140},{2,0, 4,120},{2,0,0,180},{0,0,0,280}},
+  {{2,0,0,60},{2,-10,-2,80},{2,10,-1,80},{2,-8,-2,80},{2,8,-1,80},{2,0,-3,160},{2,0,0,220}},
   // 1: 首振り照れ — 左右に大きく揺れる
-  {{1,-26,0,110},{1,26,0,110},{1,-26,0,110},{1,26,0,110},{1,-14,0,130},{1,0,0,180},{0,0,0,220}},
+  {{4,0,0,50},{4,-18,0,70},{4,18,0,70},{4,-18,0,70},{4,18,0,70},{4,0,-5,150},{4,0,0,240}},
   // 2: 首かしげ甘え — ゆっくり傾いてじっとする
   {{2,-8,-2,100},{2,-22,-6,200},{2,-22,-6,300},{2,-14,-3,200},{2,-6,-1,180},{0,0,0,250}},
   // 3: 笑顔引きつき — 表情がゆっくり変化しふわっと揺れる
@@ -233,19 +279,23 @@ static const PatFrame PAT_NOD[][10] = {
   // 4: 逃げる — 大きく素早く揺れて焦り顔
   {{3,-32,0,70},{3,32,0,70},{3,-32,0,70},{3,32,0,70},{3,-18,0,90},{3,0,0,140},{0,0,0,250}},
 };
-static const int PAT_FRAME_COUNT[] = {7, 7, 6, 6, 7};
+static const int PAT_FRAME_COUNT[] = {7, 7};
 static const char* PAT_VOICE[] = {
-  "nod", "shake", "tilt", "smile", "flee"
+  "happy", "ganbaru"
 };
 
 int  patMode       = -1;  // -1=なし  0〜4=モード
 int  patStep       = 0;
 int  patCycle      = 0;   // 次に使うモード番号
 unsigned long lastPatStep = 0;
+unsigned long lastPatMs = 0;
+int patBurstCount = 0;
+const unsigned long PAT_BURST_WINDOW_MS = 6000;
+const int PAT_OVERDO_THRESHOLD = 5;
 
 // 撫で方向検出 (「撫でられに来る」モーション用)
 float leanX = 0, leanY = 0;   // IMU累積方向ベクトル
-SvFrame leanInSeq[5];           // 動的生成するレーンインシーケンス
+SvFrame leanInSeq[8];           // 動的生成するレーンインシーケンス
 int normalIdx = 0, smileIdx = 0, pakuIdx = 0, dvdFaceIdx = 0, zzzIdx = 0;
 
 // DVD
@@ -270,6 +320,7 @@ bool audioUploadArmed = false;
 unsigned long audioUploadDeadlineMs = 0;
 unsigned long lastMotionCommandMs = 0;
 unsigned long lastDanceCommandMs = 0;
+unsigned long motionLedOffAtMs = 0;
 bool ledDriverReady = false;
 HardwareSerial SCSSerial(1);  // UART1 — SCS0009 シリアルバスサーボ用
 
@@ -286,6 +337,7 @@ float imuPrevX = 0, imuPrevY = 0;
 int   imuPatCount   = 0;
 unsigned long imuLastHitMs   = 0;
 unsigned long imuLastCheckMs = 0;
+unsigned long lastTopTouchPatMs = 0;
 
 // ─── リアクション状態 ─────────────────────────────────────────────────────────
 bool  inReaction    = false;
@@ -426,6 +478,7 @@ int patFaceByKey(int key) {
     case 1: return smileIdx;
     case 2: return faceByName("撫でられてうれしい");
     case 3: return faceByName("焦り");
+    case 4: return ganbaruIdx;
     default: return normalIdx;
   }
 }
@@ -766,6 +819,10 @@ void setupRgbLeds() {
   }
 
 #if ENABLE_STACKCHAN_BSP_LED_DRIVER
+  ledDriverReady = true;
+  M5StackChan.showRgbColor(0, 0, 0);
+  Serial.println("[LED] StackChan-BSP RGB ready");
+  return;
   if (M5.Led.isEnabled()) {
     M5.Led.setBrightness(LED_MAX_BRIGHTNESS);
     ledDriverReady = true;
@@ -788,13 +845,7 @@ bool ledSetAll(uint8_t r, uint8_t g, uint8_t b) {
   if (!ENABLE_LED_CONTROL || !ledDriverReady) return false;
 
 #if ENABLE_STACKCHAN_BSP_LED_DRIVER
-  if (M5.Led.isEnabled()) {
-    M5.Led.setAllColor(r, g, b);
-    M5.Led.display();
-  } else {
-    // Fallback: power LED on when any channel is non-zero
-    M5.Power.setLed((r || g || b) ? LED_MAX_BRIGHTNESS : 0);
-  }
+  M5StackChan.showRgbColor(r, g, b);
   return true;
 #else
   (void)r; (void)g; (void)b;
@@ -906,6 +957,59 @@ void triggerHeadPat() {
   startPatAnimation(mode);  // サーボシーケンスはsvPlayで上書きしない
 }
 
+void triggerHeadPatV2() {
+  if (isSpeaking || curMode == MODE_CAMERA || isDancing || patMode >= 0) return;
+
+  const unsigned long now = millis();
+  if (now - lastPatMs <= PAT_BURST_WINDOW_MS) patBurstCount++;
+  else patBurstCount = 1;
+  lastPatMs = now;
+  patCycle++;
+
+  const bool overPatted = patBurstCount >= PAT_OVERDO_THRESHOLD;
+  const int mode = overPatted ? 1 : 0;
+  if (overPatted) patBurstCount = 0;
+  ledPreset(overPatted ? "stop" : "pass");
+  motionLedOffAtMs = now + (overPatted ? 2200 : 1700);
+
+  float mag = sqrtf(leanX * leanX + leanY * leanY);
+  if (mag < 0.01f) mag = 0.01f;
+
+  int svPan = constrain((int)(-leanX / mag * 28), -36, 36);
+  int svTilt = constrain((int)(-leanY / mag * 18) + 16, TILT_MIN, TILT_MAX);
+  if (abs(svPan) < 10) svPan = 14;
+  const int rub = (svPan >= 0) ? 7 : -7;
+  const int nuzzleNearPan = constrain((svPan * 3) / 4, -36, 36);
+  const int nuzzleRubA = constrain(svPan - rub, -36, 36);
+  const int nuzzleRubB = constrain(svPan + rub, -36, 36);
+  const int nuzzleTilt = constrain(svTilt + 2, TILT_MIN, TILT_MAX);
+
+  if (!overPatted) {
+    // Cat-like nuzzle: lean toward the hand, stay close, tiny rub, slow release.
+    leanInSeq[0] = { svPan / 3,     svTilt / 3, 180 };
+    leanInSeq[1] = { nuzzleNearPan, svTilt,     260 };
+    leanInSeq[2] = { svPan,         nuzzleTilt, 420 };
+    leanInSeq[3] = { nuzzleRubA,    nuzzleTilt, 180 };
+    leanInSeq[4] = { nuzzleRubB,    nuzzleTilt, 180 };
+    leanInSeq[5] = { svPan / 2,     svTilt / 2, 320 };
+    leanInSeq[6] = { 0,             0,          440 };
+    svPlay(leanInSeq, 7);
+  } else {
+    // Over-pat: ganbaru face with a firmer "hey, enough, let's work" shake.
+    leanInSeq[0] = { 0,    8,   80 };
+    leanInSeq[1] = { -36, -8,   90 };
+    leanInSeq[2] = { 36,  -8,   90 };
+    leanInSeq[3] = { -32, -8,   90 };
+    leanInSeq[4] = { 32,  -8,   90 };
+    leanInSeq[5] = { 0,    24, 170 };
+    leanInSeq[6] = { 0,    0,  320 };
+    svPlay(leanInSeq, 7);
+  }
+
+  leanX = leanY = 0;
+  startPatAnimation(mode);
+}
+
 // ─── 顔タッチリアクション ────────────────────────────────────────────────────
 void triggerFaceTouch() {
   if (isSpeaking || curMode == MODE_CAMERA || isDancing || inReaction) return;
@@ -923,6 +1027,33 @@ void triggerFaceTouch() {
 
   M5.Speaker.setVolume(130);
   M5.Speaker.tone(1046, 80);
+}
+
+void checkTopTouchSensor() {
+  if (curMode == MODE_CAMERA || isDancing || inReaction || patMode >= 0) return;
+  if (millis() - lastTopTouchPatMs < 1500) return;
+
+  auto& ts = M5StackChan.TouchSensor;
+  if (ts.wasSwipedForward()) {
+    leanX = 0.0f;
+    leanY = -1.0f;
+    lastTopTouchPatMs = millis();
+    Serial.println("[Touch] top swipe forward");
+    if (isSpeaking) playOperationMotion("speaking_nod", true);
+    else triggerHeadPatV2();
+  } else if (ts.wasSwipedBackward()) {
+    leanX = 0.0f;
+    leanY = 1.0f;
+    lastTopTouchPatMs = millis();
+    Serial.println("[Touch] top swipe backward");
+    if (isSpeaking) playOperationMotion("speaking_nod", true);
+    else triggerHeadPatV2();
+  } else if (ts.wasClicked()) {
+    lastTopTouchPatMs = millis();
+    Serial.println("[Touch] top click");
+    if (isSpeaking) playOperationMotion("aiagent_speak", true);
+    else if (!playOperationMotion("wake_up", true)) triggerFaceTouch();
+  }
 }
 
 // ─── SCS シリアルバスサーボ制御 ────────────────────────────────────────────────
@@ -956,30 +1087,18 @@ void scsWritePos(uint8_t id, uint16_t pos, uint16_t time_ms = 0, uint16_t speed 
 void servoMove(int pan, int tilt) {
   panTarget  = constrain(pan,  -PAN_LIMIT, PAN_LIMIT);
   tiltTarget = constrain(tilt,  TILT_MIN,  TILT_MAX);
+  panCur = panTarget;
+  tiltCur = tiltTarget;
+  M5StackChan.Motion.move(
+    constrain(panTarget * 10, -900, 900),
+    constrain(450 + tiltTarget * 10, 0, 900),
+    260
+  );
 }
 
 // ループ内で呼ぶ: 目標に向かって滑らかに追従 (7°/20ms)
 void updateServos() {
   if (!ENABLE_SERVO_CONTROL) return;
-  if (millis() - lastSvUpdate < 20) return;
-  lastSvUpdate = millis();
-
-  const int STEP = (isDancing || svPlaying) ? 12 : 7;
-  auto ease = [](int cur, int tgt, int step) {
-    int diff = tgt - cur;
-    if (abs(diff) <= step) return tgt;
-    return cur + (diff > 0 ? step : -step);
-  };
-  int newPan  = ease(panCur,  panTarget,  STEP);
-  int newTilt = ease(tiltCur, tiltTarget, STEP);
-
-  if (newPan != panCur || newTilt != tiltCur) {
-    panCur  = newPan;
-    tiltCur = newTilt;
-    scsWritePos(SCS_ID_PAN,  angleToPosS(panCur));
-    delayMicroseconds(300);
-    scsWritePos(SCS_ID_TILT, angleToPosS(tiltCur));
-  }
 }
 
 // シーケンス再生
@@ -1002,8 +1121,59 @@ void svUpdate() {
   svIdx++;
 }
 
+void showMotionFace(const char* faceName) {
+  curFaceIdx = faceByName(faceName);
+  if (!isSpeaking && curMode != MODE_CAMERA) setMode(MODE_FACE);
+}
+
+bool playMotionPreset(const SvFrame* seq, int len, const char* faceName,
+                      const String& ledName, unsigned long ledMs,
+                      bool allowDuringSpeech = false) {
+  if ((isSpeaking && !allowDuringSpeech) || curMode == MODE_CAMERA || isDancing || patMode >= 0 || inReaction) return false;
+  showMotionFace(faceName);
+  if (ledName.length() > 0) {
+    ledPreset(ledName);
+    motionLedOffAtMs = millis() + ledMs;
+  }
+  svPlay(seq, len);
+  bumpActivity();
+  return true;
+}
+
+bool playOperationMotion(const String& cmd, bool fromSensor) {
+  (void)fromSensor;
+  if (cmd == "official_speak" || cmd == "aiagent_speak" || cmd == "speaking_nod") {
+    return playMotionPreset(SEQ_SPEAK_NOD, 4, "口パク", "", 0, true);
+  }
+  if (cmd == "official_think" || cmd == "aiagent_think" || cmd == "head_tilt") {
+    return playMotionPreset(SEQ_SPEAK_THINK, 4, "ノーマル", "", 0, true);
+  }
+  if (cmd == "official_listen" || cmd == "aiagent_listen" || cmd == "listen_ready") {
+    return playMotionPreset(SEQ_LISTEN_READY, 5, "ノーマル", "blue", 900, true);
+  }
+  if (cmd == "greeting_bow")   return playMotionPreset(SEQ_GREETING_BOW, 4, "笑顔", "blue", 900, true);
+  if (cmd == "thinking_scan")  return playMotionPreset(SEQ_THINKING_SCAN, 5, "ノーマル", "blue", 1100, true);
+  if (cmd == "task_accept")    return playMotionPreset(SEQ_TASK_ACCEPT, 5, "頑張るぞ", "blue", 900, true);
+  if (cmd == "task_done")      return playMotionPreset(SEQ_TASK_DONE, 5, "笑顔", "pass", 1000, true);
+  if (cmd == "safety_hold")    return playMotionPreset(SEQ_SAFETY_HOLD, 5, "焦り", "hold", 1200, true);
+  if (cmd == "gentle_no")      return playMotionPreset(SEQ_GENTLE_NO, 5, "あっかんべー", "", 0, true);
+  if (cmd == "stronger_no")    return playMotionPreset(SEQ_STRONGER_NO, 5, "あっかんべー2", "hold", 1000, true);
+  if (cmd == "sleepy_idle")    return playMotionPreset(SEQ_SLEEPY_IDLE, 5, "zzz", "", 0);
+  if (cmd == "wake_up")        return playMotionPreset(SEQ_WAKE_UP, 5, "笑顔", "blue", 900, true);
+  if (cmd == "panic_stop")     return playMotionPreset(SEQ_PANIC_STOP, 4, "焦り", "stop", 1300, true);
+  return false;
+}
+
+void updateMotionLedOff() {
+  if (motionLedOffAtMs == 0) return;
+  if ((long)(millis() - motionLedOffAtMs) < 0) return;
+  motionLedOffAtMs = 0;
+  if (!isDancing) ledOff();
+}
+
 // コマンド名→シーケンス起動
 void handleMove(const String& cmd) {
+  if (playOperationMotion(cmd, false)) return;
   if      (cmd == "spin")        svPlay(SEQ_SPIN,  4);
   else if (cmd == "nod")         svPlay(SEQ_NOD,   4);
   else if (cmd == "shake")       svPlay(SEQ_SHAKE, 5);
@@ -1089,17 +1259,15 @@ void setupServos() {
     Serial.println("[Servo] control disabled");
     return;
   }
-  // SCS0009: UART1, 1Mbps, TX=GPIO6, RX=GPIO7
-  SCSSerial.begin(SCS_BAUD, SERIAL_8N1, SCS_RX_PIN, SCS_TX_PIN);
-  delay(100);
-  // 中央位置へ移動
-  scsWritePos(SCS_ID_PAN,  SCS_POS_CENTER, 0, 200);
-  delay(50);
-  scsWritePos(SCS_ID_TILT, SCS_POS_CENTER, 0, 200);
-  delay(50);
+  M5StackChan.setServoPowerEnabled(true);
+  M5StackChan.Motion.setAutoAngleSyncEnabled(false);
+  M5StackChan.Motion.setAutoTorqueReleaseEnabled(false);
+  M5StackChan.Motion.setTorqueEnabled(true);
+  M5StackChan.Motion.goHome();
+  delay(200);
   panCur = panTarget = 0;
   tiltCur = tiltTarget = 0;
-  Serial.printf("[Servo] SCS0009 TX=%d RX=%d baud=%d\n",
+  Serial.printf("[Servo] StackChan-BSP Motion ready TX=%d RX=%d baud=%d\n",
                 SCS_TX_PIN, SCS_RX_PIN, SCS_BAUD);
 }
 
@@ -1108,12 +1276,12 @@ void setupServos() {
 void servoStartupTest() {
   if (!ENABLE_SERVO_CONTROL) return;
   Serial.println("[Servo] 起動テスト開始 (SCS)");
-  scsWritePos(SCS_ID_PAN,  angleToPosS( 30), 0, 200); delay(700);
-  scsWritePos(SCS_ID_PAN,  angleToPosS(-30), 0, 200); delay(700);
-  scsWritePos(SCS_ID_PAN,  angleToPosS(  0), 0, 200); delay(500);
-  scsWritePos(SCS_ID_TILT, angleToPosS( 25), 0, 200); delay(700);
-  scsWritePos(SCS_ID_TILT, angleToPosS(-15), 0, 200); delay(700);
-  scsWritePos(SCS_ID_TILT, angleToPosS(  0), 0, 200); delay(500);
+  M5StackChan.Motion.moveX( 300, 300); delay(700);
+  M5StackChan.Motion.moveX(-300, 300); delay(700);
+  M5StackChan.Motion.moveX(   0, 300); delay(500);
+  M5StackChan.Motion.moveY( 650, 300); delay(700);
+  M5StackChan.Motion.moveY( 250, 300); delay(700);
+  M5StackChan.Motion.moveY( 450, 300); delay(500);
   panCur = panTarget = 0;
   tiltCur = tiltTarget = 0;
   Serial.println("[Servo] 起動テスト完了");
@@ -1189,7 +1357,7 @@ void checkImu() {
 
     if (imuPatCount >= 3 && !inReaction) {             // 回数: 4→3回
       imuPatCount = 0;
-      triggerHeadPat();
+      triggerHeadPatV2();
     }
   }
 }
@@ -1197,7 +1365,7 @@ void checkImu() {
 // ─── setup ───────────────────────────────────────────────────────────────────
 void setup() {
   Serial.begin(115200);
-  M5.begin();
+  M5StackChan.begin();
   M5.Display.setBrightness(200);
 
   // スプライト作成 (PSRAM使用)
@@ -1261,7 +1429,7 @@ void setup() {
 
 // ─── loop ────────────────────────────────────────────────────────────────────
 void loop() {
-  M5.update();
+  M5StackChan.update();
   if (ENABLE_OTA) ArduinoOTA.handle();   // OTA更新チェック (非ブロッキング)
   webSocket.loop();
 
@@ -1284,6 +1452,7 @@ void loop() {
   // サーボ・シーケンス更新
   svUpdate();
   updateServos();
+  updateMotionLedOff();
 
   // 字幕スクロール + 撫でアニメーション + Breathing
   updateSubtitleScroll();
@@ -1292,6 +1461,7 @@ void loop() {
 
   // IMU頭撫で / ダンス / リアクション / アイドル微小動作
   checkImu();
+  checkTopTouchSensor();
   updateDance();
   updateIdleMicro();
   if (inReaction && millis() > reactionEndMs) {
