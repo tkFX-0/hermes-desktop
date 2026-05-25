@@ -124,13 +124,13 @@ let _kzAlerted = new Set();
 
 export function checkKillZoneAlert(sendFn) {
   const { h, m } = jstNow();
+  // 今日の日付キーで1日1回のみアラート送信 (分単位キーだと15分間連投になるため修正)
+  const today = new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString().slice(0, 10);
   for (const kz of KILL_ZONES) {
     const minsLeft = minsUntil(kz.startH, kz.startM, h, m);
-    const key      = `${kz.name}-${Math.floor(Date.now() / 60000)}`;
+    const key      = `${kz.name}-${today}`;
     if (minsLeft <= 15 && minsLeft > 0 && !_kzAlerted.has(key)) {
       _kzAlerted.add(key);
-      // 古いアラートをクリア (1000件超えたら)
-      if (_kzAlerted.size > 1000) _kzAlerted = new Set();
       sendFn(`📈 **ちはや** — ⏰ キルゾーン ${minsLeft}分前: **${kz.name}** (${kz.desc})`);
     }
   }
