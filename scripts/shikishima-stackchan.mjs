@@ -16,6 +16,7 @@ import {
   recordTalk, recordPat, getRelationship, checkAbsence,
   shouldKamatte, recordKamatte, getMilestoneReaction, getFamiliarityLevel,
 } from "./shikishima-relationship.mjs";
+import { prepareSecretarySpeech } from "./shikishima-secretary-filter.mjs";
 
 // ─── 設定 ─────────────────────────────────────────────────────────────────────
 const _ENV_PATH = process.env.SHIKISHIMA_ENV_PATH || resolve(process.cwd(), ".env.local");
@@ -259,10 +260,10 @@ function analyzeText(text) {
 
 // 感情 → サーボモーション対応表
 const EMOTION_MOTION_MAP = {
-  happy:     "nod",         // 喜び → うなずき
-  agree:     "nod",         // 了解 → うなずき
+  happy:     "task_done",   // 喜び → うれしい完了モーション
+  agree:     "task_accept", // 了解 → 受け取りモーション
   sad:       "look_down",   // 悲しみ → うつむく
-  thinking:  "look_up",     // 考え中 → 上を向く
+  thinking:  "thinking_scan", // 考え中 → 公式/AIagent風の見回し
   surprised: "shake",       // 驚き → 首振り
   ganbaru:   "spin",        // 頑張る → くるっと回転
   normal:    null,          // 通常 → モーションなし
@@ -273,8 +274,12 @@ const EMOTION_MOTION_MAP = {
 function normalizeMoveAction(action) {
   const aliases = {
     head_shake: "shake",
-    head_tilt: "look_up",
-    tilt: "look_up",
+    head_tilt: "aiagent_think",
+    tilt: "aiagent_think",
+    talk: "aiagent_speak",
+    speak: "aiagent_speak",
+    official: "official_speak",
+    aiagent: "aiagent_speak",
   };
   return aliases[action] ?? action;
 }
@@ -350,9 +355,12 @@ export async function stackchanLed(preset = "blue") {
 export async function stackchanSay(text, opts = {}) {
   if (!_enabled) return { ok: true, skipped: "disabled" };
   try {
-    const wav = await voicevoxSynthesize(text);
+    const speech = prepareSecretarySpeech(text, { maxSpeechChars: opts.maxSpeechChars });
+    if (!speech.spokenAllowed) return { ok: false, blockedReason: speech.blockedReason ?? "speech_policy_blocked" };
+    const safeText = speech.spokenText;
+    const wav = await voicevoxSynthesize(safeText);
     const pcm = wavToPcm16k(wav);
-    const emotion = detectEmotion(text);
+    const emotion = detectEmotion(safeText);
     const sock = await connectWs();
 
     // 感情に対応するサーボモーションを発話前に送信 (skipMotion=true の場合は省略)
@@ -366,11 +374,11 @@ export async function stackchanSay(text, opts = {}) {
     wsSendJson(sock, { type: "face_mode", value: emotion });
     await delay(50);
     wsSendJson(sock, { type: "state", value: "speaking" });
-    wsSendJson(sock, { type: "subtitle", text: text.slice(0, 28) });
+    wsSendJson(sock, { type: "subtitle", text: safeText.slice(0, 28) });
     await delay(80);
 
     // F9: 長文途中うなずき — PCM送信と並行して別接続で送信 (skipMotion時は省略)
-    const analysis = analyzeText(text);
+    const analysis = analyzeText(safeText);
     const midNodTimer = (!opts.skipMotion && analysis.midPoints.length > 0)
       ? (async () => {
           for (const ms of analysis.midPoints) {
@@ -397,14 +405,14 @@ export async function stackchanSay(text, opts = {}) {
     sock.destroy();
 
     // F6: 会話カウント記録 — マイルストーン達成時はサーボモーションなし (連鎖コメント防止)
-    const rel = recordTalk(text.length * 80);
+    const rel = recordTalk(safeText.length * 80);
     for (const ms of rel.triggered) {
       const msg = getMilestoneReaction(ms);
       if (msg) setTimeout(() => stackchanSay(msg, { skipMotion: true }).catch(() => {}), 1500);
     }
 
-    console.log(`[StackChan] 発話完了: "${text.slice(0, 30)}"`);
-    return { ok: true };
+    console.log(`[StackChan] 発話完了: "${safeText.slice(0, 30)}"`);
+    return { ok: true, speechPolicyChanged: speech.changed };
   } catch (e) {
     console.warn(`[StackChan] 発話失敗: ${e.message}`);
     return { ok: false, error: e.message };
@@ -568,7 +576,10 @@ export async function stackchanSayAsAgent(agentId, text, mood = "speak") {
 
   if (!_enabled) return { ok: true, skipped: "disabled" };
   try {
-    const wav = await voicevoxSynthesize(text);
+    const speech = prepareSecretarySpeech(text);
+    if (!speech.spokenAllowed) return { ok: false, blockedReason: speech.blockedReason ?? "speech_policy_blocked" };
+    const safeText = speech.spokenText;
+    const wav = await voicevoxSynthesize(safeText);
     const pcm = wavToPcm16k(wav);
     // PCM長から再生時間を推定: samples = pcm.length / 2 (16bit), rate = 16000Hz
     const estimatedPlaybackMs = Math.round((pcm.length / 2) / 16000 * 1000);
@@ -590,7 +601,7 @@ export async function stackchanSayAsAgent(agentId, text, mood = "speak") {
     } else if (quirk === "look_upleft") {
       wsSendJson(sock, { type: "move", action: "look_up" });
       await delay(Math.round(500 / spd));
-    } else if (quirk === "look_down_num" && /[0-9０-９]/.test(text)) {
+    } else if (quirk === "look_down_num" && /[0-9０-９]/.test(safeText)) {
       wsSendJson(sock, { type: "move", action: "look_down" });
       await delay(Math.round(300 / spd));
     } else if (quirk === "head_tilt_often") {
@@ -599,7 +610,7 @@ export async function stackchanSayAsAgent(agentId, text, mood = "speak") {
     }
 
     // 感情テキスト解析からモーション自動送信
-    const autoEmotion = detectEmotion(text);
+    const autoEmotion = detectEmotion(safeText);
     const autoMotion  = EMOTION_MOTION_MAP[autoEmotion] ?? null;
     if (autoMotion) {
       wsSendJson(sock, { type: "move", action: autoMotion });
@@ -608,11 +619,11 @@ export async function stackchanSayAsAgent(agentId, text, mood = "speak") {
     wsSendJson(sock, { type: "face_mode", value: face });
     await delay(60);
     wsSendJson(sock, { type: "state", value: "speaking" });
-    wsSendJson(sock, { type: "subtitle", text: text.slice(0, 28) });
+    wsSendJson(sock, { type: "subtitle", text: safeText.slice(0, 28) });
     await delay(80);
 
     // F9/F10: 発話中うなずきタイミング
-    const { midPoints } = analyzeText(text);
+    const { midPoints } = analyzeText(safeText);
     let midIdx = 0;
     const chunkBytes = PCM_CHUNK_SAMPLES * 2;
     let elapsed = 0;
@@ -653,8 +664,8 @@ export async function stackchanSayAsAgent(agentId, text, mood = "speak") {
       }, danceDelay);
     }
 
-    console.log(`[StackChan] ${agentId}(${face}): "${text.slice(0, 30)}"`);
-    return { ok: true };
+    console.log(`[StackChan] ${agentId}(${face}): "${safeText.slice(0, 30)}"`);
+    return { ok: true, speechPolicyChanged: speech.changed };
   } catch (e) {
     console.warn(`[StackChan] 発話失敗: ${e.message}`);
     return { ok: false, error: e.message };
