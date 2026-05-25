@@ -13,6 +13,9 @@ import { homedir } from "os";
 
 // ─── 二重起動防止ロック ────────────────────────────────────────────────────────
 const PID_FILE = join(homedir(), "Desktop", "プロジェクトファイル", "hermes-desktop", ".shikishima-bot.pid");
+function cleanupPidFile() {
+  try { unlinkSync(PID_FILE); } catch { /* ignore */ }
+}
 
 (function acquireLock() {
   if (existsSync(PID_FILE)) {
@@ -27,10 +30,9 @@ const PID_FILE = join(homedir(), "Desktop", "プロジェクトファイル", "h
     console.warn(`[LOCK] 古いPIDファイルを削除します (PID: ${oldPid} は終了済み)`);
   }
   writeFileSync(PID_FILE, String(process.pid));
-  const cleanup = () => { try { unlinkSync(PID_FILE); } catch { /* ignore */ } };
-  process.on("exit", cleanup);
-  process.on("SIGINT",  () => { cleanup(); process.exit(0); });
-  process.on("SIGTERM", () => { cleanup(); process.exit(0); });
+  process.on("exit", cleanupPidFile);
+  process.on("SIGINT",  () => { cleanupPidFile(); process.exit(0); });
+  process.on("SIGTERM", () => { cleanupPidFile(); process.exit(0); });
   console.log(`[LOCK] 起動ロック取得 (PID: ${process.pid})`);
 })();
 
@@ -50,6 +52,7 @@ for (const dir of REQUIRED_DIRS) {
 import {
   buildFullContext, updateProfile, detectAndSaveEvent,
   saveHandoff, logAgentDecision, saveConversationSummary,
+  addFact,
 } from "./shikishima-memory.mjs";
 import {
   createTask, getOpenTasks, getHoldTasks,
@@ -827,6 +830,19 @@ function startSessionLogger() {
   }, 60_000);
   console.log("🕯️ セッションロガー起動 — 毎晩21:00 JSTにログ保存");
 }
+
+// 終了時に記憶を保存 (SIGTERM/SIGINT でも引き継ぎノートを残す)
+// PID lock IIFE で登録したハンドラーをgraceful版に置き換える
+async function gracefulShutdown(signal) {
+  console.log(`[Bot] ${signal} 受信 — 記憶を保存して終了します`);
+  try { await flushSessionLog(); } catch { /* ignore */ }
+  cleanupPidFile();
+  process.exit(0);
+}
+process.removeAllListeners("SIGINT");
+process.removeAllListeners("SIGTERM");
+process.on("SIGINT",  () => gracefulShutdown("SIGINT"));
+process.on("SIGTERM", () => gracefulShutdown("SIGTERM"));
 
 // ─── Lv5-B: 毎日9時 進捗トラッキング (はじめ) ───────────────────────────────
 
@@ -1629,6 +1645,26 @@ async function poll(channelId, token) {
         const out = await sendReply(channelId, token, "chihaya", chihayaReply);
         if (out?.id) lastMessageId = out.id;
         await stackchanSay(chihayaReply.replace(/[*#_`\n]/g, " ").slice(0, 80)).catch(() => {});
+        continue;
+      }
+
+      // MEM: !remember <key>: <value> — 長期記憶に明示的に保存
+      const rememberMatch = content.match(/^!remember\s+(.+?):\s*(.+)/s);
+      if (rememberMatch) {
+        const key   = rememberMatch[1].trim().slice(0, 40);
+        const value = rememberMatch[2].trim().slice(0, 120);
+        addFact("user_instruction", key, value);
+        const out = await sendReply(channelId, token, "shirube",
+          `🕯️ **しるべ** — 記憶しました\n\`${key}\`: ${value}`);
+        if (out?.id) lastMessageId = out.id;
+        continue;
+      }
+      // MEM: !memory — 現在の長期記憶を表示
+      if (/^!memory$/.test(content.trim())) {
+        const ctx = buildFullContext();
+        const out = await sendReply(channelId, token, "shirube",
+          `🕯️ **しるべ** — 現在の記憶\n\`\`\`\n${ctx || "(記憶なし)"}\n\`\`\``);
+        if (out?.id) lastMessageId = out.id;
         continue;
       }
 
