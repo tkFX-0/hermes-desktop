@@ -29,6 +29,8 @@ pnpm-debug.log*
 dist-check/
 
 # Local image drafts; promote through an explicit asset gate only
+Note記録用/
+３D部屋イメージ/
 スタックチャン顔/
 
 # Environment files
