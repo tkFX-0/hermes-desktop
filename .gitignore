@@ -57,6 +57,9 @@ release/
 
 # Firmware local build artifacts
 docs/firmware/**/.pio/
+docs/firmware/*backup*.bin
+docs/firmware/*_backup_*.bin
+docs/logs/
 
 # Firmware credentials — never commit
 docs/firmware/**/credentials.h
