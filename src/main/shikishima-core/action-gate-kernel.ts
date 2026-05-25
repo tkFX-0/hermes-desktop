@@ -38,6 +38,7 @@ export interface ActionGateRequest {
   evidencePath: string;
   rollbackOrDisableMethod: string;
   humanGoTicket?: HumanGoTicket;
+  criticalStateTransitionReady?: boolean;
 }
 
 export interface ActionGateResult {
@@ -100,10 +101,33 @@ export function evaluateActionGate(request: ActionGateRequest): ActionGateResult
     };
   }
 
+  if (hasValidTicket(request)) {
+    if (
+      (request.actionKind === "production_ready" || request.actionKind === "execution_enable") &&
+      request.criticalStateTransitionReady !== true
+    ) {
+      return {
+        decision: "DENY",
+        reason: "critical_state_transition_not_ready",
+        redactedSummary: request.targetSummary,
+        requiredGoFields: REQUIRED_GO_FIELDS,
+        approvedRunCount: 0,
+      };
+    }
+
+    return {
+      decision: "APPROVED_ONE_SHOT",
+      reason: "valid_human_go_ticket",
+      redactedSummary: request.targetSummary,
+      requiredGoFields: [],
+      approvedRunCount: request.humanGoTicket?.allowedRunCount ?? 0,
+    };
+  }
+
   if (request.actionKind === "production_ready" || request.actionKind === "execution_enable") {
     return {
       decision: "DENY",
-      reason: "critical_gate_not_implemented",
+      reason: "critical_gate_requires_valid_human_go_ticket",
       redactedSummary: request.targetSummary,
       requiredGoFields: REQUIRED_GO_FIELDS,
       approvedRunCount: 0,
@@ -118,16 +142,6 @@ export function evaluateActionGate(request: ActionGateRequest): ActionGateResult
       redactedSummary: request.targetSummary,
       requiredGoFields: [],
       approvedRunCount: 0,
-    };
-  }
-
-  if (hasValidTicket(request)) {
-    return {
-      decision: "APPROVED_ONE_SHOT",
-      reason: "valid_human_go_ticket",
-      redactedSummary: request.targetSummary,
-      requiredGoFields: [],
-      approvedRunCount: request.humanGoTicket?.allowedRunCount ?? 0,
     };
   }
 

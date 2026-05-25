@@ -16,6 +16,7 @@ export interface PreflightInput {
   requestedEffects?: readonly string[];
   allowedRunCount?: number;
   humanGoTicket?: HumanGoTicket;
+  criticalStateTransitionReady?: boolean;
 }
 
 export interface PreflightResult {
@@ -73,6 +74,7 @@ export function createActionPreflight(input: PreflightInput): PreflightResult {
     evidencePath: input.evidencePath,
     rollbackOrDisableMethod: "restore gate to HOLD",
     humanGoTicket: input.humanGoTicket,
+    criticalStateTransitionReady: input.criticalStateTransitionReady,
   };
 
   return {

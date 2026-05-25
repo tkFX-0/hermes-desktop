@@ -4,10 +4,18 @@ export interface ProfileCorrection {
   updatedAt: string;
 }
 
+export interface ForbiddenPhraseRule {
+  phrase: string;
+  reason: string;
+  severity: "soft" | "hard";
+  replacement: string;
+}
+
 export interface ProfilePolicy {
   identityProfile: string;
   speakingStyle: string;
   forbiddenPhrases: readonly string[];
+  forbiddenPhraseRules: readonly ForbiddenPhraseRule[];
   forbiddenTopics: readonly string[];
   requiredDisclaimers: readonly string[];
   stackchanSpeechStyle: string;
@@ -24,11 +32,19 @@ export interface ProfileComplianceResult {
   blockedTopics: readonly string[];
 }
 
+export interface PhrasePolicyResult {
+  text: string;
+  changed: boolean;
+  blockedPhrases: readonly string[];
+  replacements: readonly string[];
+}
+
 export function createDefaultProfilePolicy(nowLabel = "2026-05-24"): ProfilePolicy {
   return {
     identityProfile: "Shikishima agent team controller",
     speakingStyle: "warm, concise, Japanese-first, safety-aware",
     forbiddenPhrases: [],
+    forbiddenPhraseRules: [],
     forbiddenTopics: [],
     requiredDisclaimers: [
       "Level 5 actions require explicit human GO",
@@ -56,16 +72,25 @@ export function addForbiddenPhraseCorrection(
   phrase: string,
   reason: string,
   nowLabel = "2026-05-24",
+  replacement = "別の言い方にします。",
+  severity: ForbiddenPhraseRule["severity"] = "hard",
 ): ProfilePolicy {
   const normalizedPhrase = phrase.trim();
   if (!normalizedPhrase) return policy;
 
   const forbiddenPhrases = new Set(policy.forbiddenPhrases);
   forbiddenPhrases.add(normalizedPhrase);
+  const existingRules = policy.forbiddenPhraseRules.filter(
+    (rule) => rule.phrase.toLowerCase() !== normalizedPhrase.toLowerCase(),
+  );
 
   return {
     ...policy,
     forbiddenPhrases: Array.from(forbiddenPhrases),
+    forbiddenPhraseRules: [
+      ...existingRules,
+      { phrase: normalizedPhrase, reason, severity, replacement },
+    ],
     lastUserCorrections: [
       ...policy.lastUserCorrections,
       { phrase: normalizedPhrase, reason, updatedAt: nowLabel },
@@ -93,6 +118,44 @@ export function checkProfileCompliance(
   };
 }
 
+function escapeRegExp(text: string): string {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+export function applyProfilePhrasePolicy(text: string, policy: ProfilePolicy): PhrasePolicyResult {
+  let filtered = text;
+  const blockedPhrases: string[] = [];
+  const replacements: string[] = [];
+
+  const rulesByPhrase = new Map<string, ForbiddenPhraseRule>();
+  for (const phrase of policy.forbiddenPhrases) {
+    rulesByPhrase.set(phrase.toLowerCase(), {
+      phrase,
+      reason: "legacy forbidden phrase",
+      severity: "hard",
+      replacement: "別の言い方にします。",
+    });
+  }
+  for (const rule of policy.forbiddenPhraseRules) {
+    rulesByPhrase.set(rule.phrase.toLowerCase(), rule);
+  }
+
+  for (const rule of rulesByPhrase.values()) {
+    const pattern = new RegExp(escapeRegExp(rule.phrase), "gi");
+    if (!pattern.test(filtered)) continue;
+    blockedPhrases.push(rule.phrase);
+    replacements.push(rule.replacement);
+    filtered = filtered.replace(pattern, rule.replacement);
+  }
+
+  return {
+    text: filtered,
+    changed: filtered !== text,
+    blockedPhrases,
+    replacements,
+  };
+}
+
 export function buildProfileInstruction(policy: ProfilePolicy): string {
   const corrections = policy.lastUserCorrections
     .map((correction) => `- Do not say "${correction.phrase}" (${correction.reason})`)
@@ -106,6 +169,10 @@ export function buildProfileInstruction(policy: ProfilePolicy): string {
     `discord_reply_style: ${policy.discordReplyStyle}`,
     `fx_style: ${policy.fxStyle}`,
     "priority: hard safety > current human correction > profile > memory > persona > model defaults",
+    "[Forbidden phrase contract]",
+    ...policy.forbiddenPhraseRules.map(
+      (rule) => `- ${rule.severity}: "${rule.phrase}" -> "${rule.replacement}" (${rule.reason})`,
+    ),
     corrections ? "[Current human corrections]\n" + corrections : "[Current human corrections]\n- none",
     "[Required disclaimers]",
     ...policy.requiredDisclaimers.map((item) => `- ${item}`),

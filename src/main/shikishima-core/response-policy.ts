@@ -1,6 +1,6 @@
 import type { ShikishimaAgentId, ReasoningLevelLabel } from "./model-assignment-registry";
 import type { ProfilePolicy } from "./profile-policy";
-import { checkProfileCompliance } from "./profile-policy";
+import { applyProfilePhrasePolicy, checkProfileCompliance } from "./profile-policy";
 
 export interface ResponsePolicyInput {
   responseId: string;
@@ -27,6 +27,8 @@ export interface ResponsePolicyResult {
   requiresHumanGo: boolean;
   redactionPassed: boolean;
   profileCompliancePassed: boolean;
+  phrasePolicyChanged: boolean;
+  phrasePolicyReplacements: readonly string[];
   blockedReason?: string;
 }
 
@@ -74,13 +76,18 @@ export function createResponsePolicy(input: ResponsePolicyInput): ResponsePolicy
       requiresHumanGo: true,
       redactionPassed,
       profileCompliancePassed: false,
+      phrasePolicyChanged: false,
+      phrasePolicyReplacements: [],
       blockedReason: "raw_error_like_text",
     };
   }
 
-  const limitedSpeech = limitSpeech(redactedSpoken, maxSpeechChars);
+  const phrasePolicy = input.profilePolicy
+    ? applyProfilePhrasePolicy(redactedSpoken, input.profilePolicy)
+    : { text: redactedSpoken, changed: false, blockedPhrases: [], replacements: [] };
+  const limitedSpeech = limitSpeech(phrasePolicy.text, maxSpeechChars);
   const profileCompliance = input.profilePolicy
-    ? checkProfileCompliance(`${redactedFull}\n${limitedSpeech}`, input.profilePolicy)
+    ? checkProfileCompliance(redactedFull, input.profilePolicy)
     : { ok: true };
 
   return {
@@ -96,6 +103,8 @@ export function createResponsePolicy(input: ResponsePolicyInput): ResponsePolicy
     requiresHumanGo: true,
     redactionPassed,
     profileCompliancePassed: profileCompliance.ok,
+    phrasePolicyChanged: phrasePolicy.changed,
+    phrasePolicyReplacements: phrasePolicy.replacements,
     blockedReason: profileCompliance.ok ? undefined : "profile_policy_blocked",
   };
 }

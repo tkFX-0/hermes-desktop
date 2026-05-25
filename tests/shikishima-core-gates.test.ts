@@ -72,7 +72,7 @@ describe("action gate kernel", () => {
     expect(result.approvedRunCount).toBe(1);
   });
 
-  it("denies productionReady and execution enable as critical unimplemented gates", () => {
+  it("denies productionReady and execution enable without a valid human GO ticket", () => {
     for (const actionKind of ["production_ready", "execution_enable"] as const) {
       const result = evaluateActionGate({
         actionId: actionKind,
@@ -90,6 +90,40 @@ describe("action gate kernel", () => {
       });
       expect(result.decision).toBe("DENY");
     }
+  });
+
+  it("can approve productionReady and execution transition drafts with valid GO plus readiness", () => {
+    const ticket: HumanGoTicket = {
+      ticketId: "go-lv5",
+      approvedByHuman: true,
+      gateId: "SC-LV5:production_ready",
+      exactAction: "approve secretary productionReady transition draft",
+      timeWindowJst: "2026-05-25 15:00-15:10",
+      allowedRunCount: 1,
+      target: "secretary lifecycle",
+      forbiddenActions: ["external_write_without_go"],
+      stopConditions: ["raw values appear"],
+      evidenceFile: "docs/shikishima/evidence.md",
+      afterActionHoldRequired: true,
+    };
+    const result = evaluateActionGate({
+      actionId: "SC-LV5:production_ready",
+      actionKind: "production_ready",
+      actor: "system",
+      source: "human",
+      riskLevel: "critical",
+      requestedEffects: ["critical_state_change"],
+      targetSummary: "productionReady transition",
+      rawValuePolicy: "redacted_only",
+      requiresHumanGo: true,
+      allowedRunCount: 1,
+      evidencePath: "docs/shikishima/evidence.md",
+      rollbackOrDisableMethod: "manual rollback",
+      humanGoTicket: ticket,
+      criticalStateTransitionReady: true,
+    });
+
+    expect(result.decision).toBe("APPROVED_ONE_SHOT");
   });
 });
 
