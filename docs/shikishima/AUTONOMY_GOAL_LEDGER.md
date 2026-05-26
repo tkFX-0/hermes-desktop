@@ -34,8 +34,8 @@ git_push: separate human GO only
 
 ```text
 branch: main
-HEAD: dd8ea2c
-origin/main: dd8ea2c
+HEAD: 0886936
+origin/main: 0886936
 commits_ahead: 0
 ledger_updated: 2026-05-26
 Master Spec: PUSHED
@@ -52,6 +52,8 @@ Worker Task Contract Preview: PUSHED
 Goal Runner Dry-run: PUSHED
 Goal Runner Dry-run Report Fixtures: PUSHED
 Human Gate Report Fixtures: PUSHED
+Human Gate Display Target Design: PUSHED
+Human Gate Queue Display Target Contract: PUSHED
 ```
 
 Current safety state:
@@ -69,6 +71,7 @@ UI_connection: HOLD
 IPC_connection: HOLD
 actual_execution_runner: HOLD
 actual_human_gate_queue_mutation: HOLD
+HUMAN_GATE_QUEUE.md modified as data output: false
 ```
 
 ---
@@ -125,8 +128,10 @@ Meaning:
 | Goal Runner Dry-run | PUSHED | `168a6eb` | `feat: add goal runner dry-run`; dry-run-only layer |
 | Goal Runner Dry-run Report Fixtures | PUSHED | `300dc3b` | `feat: add goal runner dry-run report fixtures`; redacted report helpers |
 | Human Gate Report Fixtures | PUSHED | `dd8ea2c` | `feat: add human gate report fixtures`; human-review report helpers |
+| Human Gate Display Target Design | PUSHED | `de35026` | `docs: design human gate display targets`; docs-only |
+| Human Gate Queue Display Target Contract | PUSHED | `0886936` | `feat: add human gate queue display target contract`; pure contract |
 
-Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate):
+Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → Queue display target):
 
 ```text
 cbcf2e1 docs: define worker task contract foundation
@@ -138,6 +143,9 @@ c3dc402 docs: record goal runner dry-run ledger status
 300dc3b feat: add goal runner dry-run report fixtures
 b0392b8 docs: record goal runner report fixture ledger status
 dd8ea2c feat: add human gate report fixtures
+acbbe4e docs: record human gate report fixture ledger status
+de35026 docs: design human gate display targets
+0886936 feat: add human gate queue display target contract
 ```
 
 Current pipeline (fixture-only; no execution):
@@ -147,7 +155,30 @@ WorkerTaskContract
   → dryRunGoalContract()
   → createGoalRunnerDryRunReport()
   → createHumanGateReportFromDryRunReport()
+  → createHumanGateQueueDisplayTargetItem()
+  → renderHumanGateQueueDisplayTargetMarkdownPreview()
 ```
+
+### Human Gate Queue Display Target Contract boundary (not queue mutation)
+
+Human Gate Queue Display Target Contract is pure contract/helper only.
+
+```text
+maps HumanGateReport to repo-local queue display target items
+does not mutate HUMAN_GATE_QUEUE.md
+does not write queue documents
+markdown preview returns string only
+not an execution runner
+not a UI integration
+not an IPC route
+not a preload exposure
+not an actual Human Gate Queue mutation
+```
+
+Implementation: `src/shared/human-gate-queue-display-target/`.
+Future display target: `docs/shikishima/HUMAN_GATE_QUEUE.md` (read-only reference; no data writes in this layer).
+
+Full test evidence at push: vitest 1028 passed / 1 skipped (2026-05-26 push GO).
 
 ### Human Gate Report Fixtures boundary (not UI / IPC / queue mutation)
 
@@ -215,9 +246,9 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (ledger maintenance complete through Human Gate Report Fixtures)
+active_goal: none (ledger maintenance complete through Human Gate Queue Display Target Contract)
 status: PASS
-last_completed_goal: shikishima.autonomy-ledger-record-human-gate-report-fixtures
+last_completed_goal: shikishima.push-queue-display-target-contract-and-record-ledger
 external_effects: none
 actual_obsidian_write: false
 ```
@@ -228,7 +259,7 @@ actual_obsidian_write: false
 
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
-| 1 | `/goal shikishima.human-gate-display-target-design` | TODO | Human Gate Report Fixtures PUSHED | design-only GO |
+| 1 | `/goal shikishima.control-center-human-gate-display-contract` | TODO | Queue Display Target Contract PUSHED | design/contract GO |
 | 2 | Goal A6: selected handler integration planning/implementation | HOLD | A5 PUSHED | source-change GO |
 | 3 | Goal C: Memory Scope / Persona / Model Trace Foundation | TODO | Master Spec | source-change GO |
 | 4 | Goal D: Discord-first Command Intake | HOLD | Guard integration | Discord read/send gate |
@@ -241,21 +272,22 @@ actual_obsidian_write: false
 Next recommended goal detail:
 
 ```text
-/goal shikishima.human-gate-display-target-design
+/goal shikishima.control-center-human-gate-display-contract
 
-Design where Human Gate reports should be displayed or handed off.
+Define read-only Control Center display contract for Human Gate queue display target items.
 
 Still no UI implementation.
 Still no IPC/preload connection.
 Still no runtime start.
 Still no execution runner.
 Still no external write.
+Still no actual Human Gate Queue mutation.
 ```
 
 Alternative acceptable next goal:
 
 ```text
-/goal shikishima.human-gate-queue-display-preplan
+/goal shikishima.human-gate-queue-markdown-render-contract
 ```
 
 Remaining explicit HOLD (do not infer approval):
