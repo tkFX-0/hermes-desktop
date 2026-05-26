@@ -34,9 +34,9 @@ git_push: separate human GO only
 
 ```text
 branch: main
-HEAD: (see git; local not pushed)
-origin/main: eeef990
-commits_ahead: 2 after ledger commit (929de9f + ledger docs; not pushed)
+HEAD: f4a2bd9 (local; not pushed)
+origin/main: ce17852
+commits_ahead: 1 after ledger commit (iphone feat + ledger docs; not pushed)
 ledger_updated: 2026-05-26
 Master Spec: PUSHED
 Goal A1 route registry: PUSHED
@@ -54,7 +54,8 @@ Goal Runner Dry-run Report Fixtures: PUSHED
 Human Gate Report Fixtures: PUSHED
 Human Gate Display Target Design: PUSHED
 Human Gate Queue Display Target Contract: PUSHED
-Control Center Human Gate Display Contract: LOCAL PASS / NOT PUSHED
+Control Center Human Gate Display Contract: PUSHED
+iPhone Human Gate Display Contract: LOCAL PASS / NOT PUSHED
 ```
 
 Current safety state:
@@ -131,9 +132,10 @@ Meaning:
 | Human Gate Report Fixtures | PUSHED | `dd8ea2c` | `feat: add human gate report fixtures`; human-review report helpers |
 | Human Gate Display Target Design | PUSHED | `de35026` | `docs: design human gate display targets`; docs-only |
 | Human Gate Queue Display Target Contract | PUSHED | `0886936` | `feat: add human gate queue display target contract`; pure contract |
-| Control Center Human Gate Display Contract | LOCAL PASS / NOT PUSHED | `929de9f` | `feat: add control center human gate display contract`; display-only pure contract |
+| Control Center Human Gate Display Contract | PUSHED | `929de9f` | `feat: add control center human gate display contract`; display-only pure contract |
+| iPhone Human Gate Display Contract | LOCAL PASS / NOT PUSHED | `f4a2bd9` | `feat: add iphone human gate display contract`; mobile display-only pure contract |
 
-Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → Queue display target):
+Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → display contracts):
 
 ```text
 cbcf2e1 docs: define worker task contract foundation
@@ -149,6 +151,8 @@ acbbe4e docs: record human gate report fixture ledger status
 de35026 docs: design human gate display targets
 0886936 feat: add human gate queue display target contract
 eeef990 docs: record human gate queue display target ledger status
+929de9f feat: add control center human gate display contract
+ce17852 docs: record control center human gate display contract ledger status
 ```
 
 Current pipeline (fixture-only; no execution):
@@ -161,7 +165,34 @@ WorkerTaskContract
   → createHumanGateQueueDisplayTargetItem()
   → renderHumanGateQueueDisplayTargetMarkdownPreview()
   → createControlCenterHumanGateDisplayItem()
+  → createIphoneHumanGateDisplayItem()
 ```
+
+### iPhone Human Gate Display Contract boundary (not UI / network / IPC)
+
+iPhone Human Gate Display Contract is pure display contract only.
+
+```text
+pure display contract only
+not UI implementation
+not IPC/preload connection
+not runtime
+not same-LAN server activation
+not network exposure
+not queue mutation
+not approval automation
+displayOnly: true
+mobileReady: true
+uiConnected: false
+ipcConnected: false
+networkExposed: false
+actualQueueMutation: false
+```
+
+Implementation: `src/shared/iphone-human-gate-display/`.
+Maps `HumanGateQueueDisplayTargetItem` to future iPhone Private Console read-only view models only.
+
+Local test evidence: vitest 1052 passed / 1 skipped (2026-05-26; not pushed).
 
 ### Control Center Human Gate Display Contract boundary (not UI / IPC)
 
@@ -183,7 +214,7 @@ actualQueueMutation: false
 Implementation: `src/shared/control-center-human-gate-display/`.
 Maps `HumanGateQueueDisplayTargetItem` to future Control Center panel view models only.
 
-Local test evidence: vitest 1040 passed / 1 skipped (2026-05-26; not pushed).
+Full test evidence at push: vitest 1040 passed / 1 skipped (2026-05-26 push GO).
 
 ### Human Gate Queue Display Target Contract boundary (not queue mutation)
 
@@ -272,9 +303,9 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (Control Center display contract local PASS; push pending)
+active_goal: none (iPhone display contract local PASS; push pending)
 status: PASS
-last_completed_goal: shikishima.push-ledger-and-control-center-human-gate-display-contract
+last_completed_goal: shikishima.push-control-center-display-contract-and-add-iphone-display-contract
 external_effects: none
 actual_obsidian_write: false
 ```
@@ -285,8 +316,8 @@ actual_obsidian_write: false
 
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
-| 1 | `/goal shikishima.push-control-center-human-gate-display-contract-and-ledger` | TODO | Control Center display contract LOCAL PASS | Push GO |
-| 2 | `/goal shikishima.iphone-console-human-gate-display-contract` | TODO | Control Center contract PUSHED | design/contract GO |
+| 1 | `/goal shikishima.push-iphone-display-contract-and-ledger-then-plan-readonly-ui` | TODO | iPhone display contract LOCAL PASS | Push GO |
+| 2 | `/goal shikishima.readonly-ui-display-plan` | TODO | iPhone contract PUSHED | design-only GO |
 | 3 | Goal A6: selected handler integration planning/implementation | HOLD | A5 PUSHED | source-change GO |
 | 4 | Goal C: Memory Scope / Persona / Model Trace Foundation | TODO | Master Spec | source-change GO |
 | 5 | Goal D: Discord-first Command Intake | HOLD | Guard integration | Discord read/send gate |
@@ -299,9 +330,9 @@ actual_obsidian_write: false
 Next recommended goal detail:
 
 ```text
-/goal shikishima.push-control-center-human-gate-display-contract-and-ledger
+/goal shikishima.push-iphone-display-contract-and-ledger-then-plan-readonly-ui
 
-Push 929de9f (and ledger docs) with full_tests; compressed ledger record optional.
+Push f4a2bd9 (and ledger docs) with full_tests; then readonly UI display plan (docs-only).
 ```
 
 Alternative acceptable next goal:
