@@ -1,12 +1,49 @@
 import { describe, expect, it } from "vitest";
 import { listExternalActionRoutes } from "./external-action-route-registry";
 import { createExternalActionGuard } from "./create-external-action-guard";
+import type {
+  ExternalActionGuardDecision,
+  ExternalEffectType
+} from "./external-action-types";
 
 function decisionFor(routeId: string) {
   return createExternalActionGuard({
     routeId,
     actor: "test"
   });
+}
+
+const dangerousEffectTypes: ExternalEffectType[] = [
+  "external_write",
+  "local_file_write",
+  "repo_write",
+  "shell_exec",
+  "runtime_start",
+  "device_audio",
+  "device_motion",
+  "mic_stt",
+  "camera",
+  "production_gate",
+  "execution_gate"
+];
+
+function expectCompleteDecision(decision: ExternalActionGuardDecision) {
+  expect(typeof decision.routeId).toBe("string");
+  expect(typeof decision.effectType).toBe("string");
+  expect(typeof decision.decision).toBe("string");
+  expect(typeof decision.effectMayRun).toBe("boolean");
+  expect(typeof decision.requiresHumanGo).toBe("boolean");
+  expect(typeof decision.requiresEvidence).toBe("boolean");
+  expect(Array.isArray(decision.requiredEvidence)).toBe(true);
+  expect(decision.requiredEvidence).toContain("routeId");
+  expect(decision.requiredEvidence).toContain("actor");
+  expect(decision.requiredEvidence).toContain("effectType");
+  expect(decision.requiredEvidence).toContain("decision");
+  expect(typeof decision.reason).toBe("string");
+  expect(decision.reason.length).toBeGreaterThan(0);
+  expect(decision.productionReady).toBe(false);
+  expect(decision.execution).toBe("disabled");
+  expect(decision.rawValuesReported).toBe(false);
 }
 
 describe("createExternalActionGuard", () => {
@@ -30,6 +67,16 @@ describe("createExternalActionGuard", () => {
     expect(decision.requiresHumanGo).toBe(true);
   });
 
+  it("returns complete decision fields for every registered route", () => {
+    for (const route of listExternalActionRoutes()) {
+      expectCompleteDecision(decisionFor(route.routeId));
+    }
+  });
+
+  it("returns complete decision fields for unknown routes", () => {
+    expectCompleteDecision(decisionFor("new.unclassified.route"));
+  });
+
   it("records human GO references without enabling execution", () => {
     const decision = createExternalActionGuard({
       routeId: "discord.send",
@@ -40,6 +87,19 @@ describe("createExternalActionGuard", () => {
     expect(decision.decision).toBe("SAFETY_HOLD");
     expect(decision.effectMayRun).toBe(false);
     expect(decision.reason).toContain("does not enable execution");
+  });
+
+  it("does not allow requestedRunCount to enable execution", () => {
+    const decision = createExternalActionGuard({
+      routeId: "discord.send",
+      actor: "test",
+      humanGoReference: "GO-EXAMPLE",
+      requestedRunCount: 1,
+      reason: "coverage hardening"
+    });
+
+    expect(decision.decision).toBe("SAFETY_HOLD");
+    expect(decision.effectMayRun).toBe(false);
   });
 
   it("keeps Discord send on SAFETY_HOLD", () => {
@@ -148,6 +208,103 @@ describe("createExternalActionGuard", () => {
     for (const route of listExternalActionRoutes()) {
       const decision = decisionFor(route.routeId);
       if (decision.decision === "DESIGN_HOLD") {
+        expect(decision.effectMayRun, route.routeId).toBe(false);
+      }
+    }
+  });
+
+  it("keeps every dangerous effect type effectMayRun false", () => {
+    for (const route of listExternalActionRoutes()) {
+      const decision = decisionFor(route.routeId);
+      if (dangerousEffectTypes.includes(route.effectType)) {
+        expect(decision.effectMayRun, route.routeId).toBe(false);
+      }
+    }
+  });
+
+  it("keeps external_write routes blocked", () => {
+    for (const route of listExternalActionRoutes()) {
+      const decision = decisionFor(route.routeId);
+      if (route.effectType === "external_write") {
+        expect(decision.effectMayRun, route.routeId).toBe(false);
+      }
+    }
+  });
+
+  it("keeps local_file_write routes blocked unless explicitly draft/read-only by design", () => {
+    for (const route of listExternalActionRoutes()) {
+      const decision = decisionFor(route.routeId);
+      if (
+        route.effectType === "local_file_write" &&
+        !["DRAFT_ONLY", "READ_ONLY"].includes(route.defaultActionMode)
+      ) {
+        expect(decision.effectMayRun, route.routeId).toBe(false);
+      }
+    }
+  });
+
+  it("keeps repo_write routes blocked", () => {
+    for (const route of listExternalActionRoutes()) {
+      const decision = decisionFor(route.routeId);
+      if (route.effectType === "repo_write") {
+        expect(decision.effectMayRun, route.routeId).toBe(false);
+      }
+    }
+  });
+
+  it("keeps shell_exec routes blocked", () => {
+    for (const route of listExternalActionRoutes()) {
+      const decision = decisionFor(route.routeId);
+      if (route.effectType === "shell_exec") {
+        expect(decision.effectMayRun, route.routeId).toBe(false);
+      }
+    }
+  });
+
+  it("keeps runtime_start routes blocked", () => {
+    for (const route of listExternalActionRoutes()) {
+      const decision = decisionFor(route.routeId);
+      if (route.effectType === "runtime_start") {
+        expect(decision.effectMayRun, route.routeId).toBe(false);
+      }
+    }
+  });
+
+  it("keeps device audio, motion, mic, and camera routes blocked", () => {
+    const deviceEffectTypes: ExternalEffectType[] = [
+      "device_audio",
+      "device_motion",
+      "mic_stt",
+      "camera"
+    ];
+
+    for (const route of listExternalActionRoutes()) {
+      const decision = decisionFor(route.routeId);
+      if (deviceEffectTypes.includes(route.effectType)) {
+        expect(decision.effectMayRun, route.routeId).toBe(false);
+      }
+    }
+  });
+
+  it("keeps production and execution gates blocked", () => {
+    for (const route of listExternalActionRoutes()) {
+      const decision = decisionFor(route.routeId);
+      if (["production_gate", "execution_gate"].includes(route.effectType)) {
+        expect(decision.effectMayRun, route.routeId).toBe(false);
+      }
+    }
+  });
+
+  it("does not implement one-shot execution enablement", () => {
+    for (const route of listExternalActionRoutes()) {
+      const decision = createExternalActionGuard({
+        routeId: route.routeId,
+        actor: "test",
+        humanGoReference: "GO-EXAMPLE",
+        requestedRunCount: 1
+      });
+
+      if (route.defaultActionMode !== "READ_ONLY" || route.requiresHumanGo) {
         expect(decision.effectMayRun, route.routeId).toBe(false);
       }
     }
