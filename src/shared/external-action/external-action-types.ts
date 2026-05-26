@@ -50,3 +50,26 @@ export type ExternalActionRouteRecord = {
   requiresHumanGo: boolean;
   notes: string;
 };
+
+export type ExternalActionGuardRequest = {
+  routeId: string;
+  actor: string;
+  sourceSurface?: ExternalSourceSurface;
+  humanGoReference?: string;
+  requestedRunCount?: number;
+  reason?: string;
+};
+
+export type ExternalActionGuardDecision = {
+  routeId: string;
+  decision: ExternalActionMode;
+  effectType: ExternalEffectType;
+  effectMayRun: boolean;
+  requiresHumanGo: boolean;
+  requiresEvidence: boolean;
+  requiredEvidence: string[];
+  reason: string;
+  productionReady: false;
+  execution: "disabled";
+  rawValuesReported: false;
+};
