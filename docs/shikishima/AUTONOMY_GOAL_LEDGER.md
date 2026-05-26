@@ -34,8 +34,8 @@ git_push: separate human GO only
 
 ```text
 branch: main
-HEAD: 168a6eb
-origin/main: 168a6eb
+HEAD: 300dc3b
+origin/main: 300dc3b
 commits_ahead: 0
 ledger_updated: 2026-05-26
 Master Spec: PUSHED
@@ -50,6 +50,7 @@ Worker Task Contract Types: PUSHED
 Worker Task Contract Fixture Registry: PUSHED
 Worker Task Contract Preview: PUSHED
 Goal Runner Dry-run: PUSHED
+Goal Runner Dry-run Report Fixtures: PUSHED
 ```
 
 Current safety state:
@@ -63,6 +64,9 @@ runtime_started: false
 Discord_send: false
 Obsidian_actual_write: HOLD
 StackChan_connection: false
+UI_connection: HOLD
+IPC_connection: HOLD
+actual_execution_runner: HOLD
 ```
 
 ---
@@ -117,8 +121,9 @@ Meaning:
 | Worker Task Contract Fixture Registry | PUSHED | `e34444f` | `test: add worker task contract fixture registry` |
 | Worker Task Contract Preview | PUSHED | `2bcd087` | `feat: add worker task contract preview`; preview-only helper |
 | Goal Runner Dry-run | PUSHED | `168a6eb` | `feat: add goal runner dry-run`; dry-run-only layer |
+| Goal Runner Dry-run Report Fixtures | PUSHED | `300dc3b` | `feat: add goal runner dry-run report fixtures`; redacted report helpers |
 
-Pushed commit chain (Worker Task Contract → Goal Runner):
+Pushed commit chain (Worker Task Contract → Goal Runner → Report Fixtures):
 
 ```text
 cbcf2e1 docs: define worker task contract foundation
@@ -126,7 +131,29 @@ cbcf2e1 docs: define worker task contract foundation
 e34444f test: add worker task contract fixture registry
 2bcd087 feat: add worker task contract preview
 168a6eb feat: add goal runner dry-run
+c3dc402 docs: record goal runner dry-run ledger status
+300dc3b feat: add goal runner dry-run report fixtures
 ```
+
+### Goal Runner Dry-run Report Fixtures boundary (not UI / IPC / execution)
+
+Goal Runner Dry-run Report Fixtures are dry-run report only.
+
+```text
+dry-run report only
+redacted report helper only
+not an execution runner
+not a UI integration
+not an IPC route
+not a preload exposure
+not a runtime feature
+not an external write feature
+```
+
+Implementation: `src/shared/goal-runner-dry-run/goal-runner-dry-run-report.ts` builds human-readable reports from `dryRunGoalContract()` results only.
+No UI, IPC, preload, shell, runtime, or external write wiring.
+
+Full test evidence at push: vitest 992 passed / 1 skipped (2026-05-26 push GO).
 
 ### Goal Runner Dry-run boundary (not an execution runner)
 
@@ -152,9 +179,9 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (ledger maintenance complete for Worker Task Contract + Goal Runner Dry-run)
+active_goal: none (ledger maintenance complete through Goal Runner Dry-run Report Fixtures)
 status: PASS
-last_completed_goal: shikishima.autonomy-ledger-record-goal-runner-dry-run
+last_completed_goal: shikishima.autonomy-ledger-record-goal-runner-report-fixtures
 external_effects: none
 actual_obsidian_write: false
 ```
@@ -165,7 +192,7 @@ actual_obsidian_write: false
 
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
-| 1 | `/goal shikishima.goal-runner-dry-run-report-fixtures` | TODO | Goal Runner Dry-run PUSHED | source-change GO |
+| 1 | `/goal shikishima.human-gate-report-fixtures` | TODO | Goal Runner Dry-run Report Fixtures PUSHED | source-change GO |
 | 2 | Goal A6: selected handler integration planning/implementation | HOLD | A5 PUSHED | source-change GO |
 | 3 | Goal C: Memory Scope / Persona / Model Trace Foundation | TODO | Master Spec | source-change GO |
 | 4 | Goal D: Discord-first Command Intake | HOLD | Guard integration | Discord read/send gate |
@@ -178,11 +205,14 @@ actual_obsidian_write: false
 Next recommended goal detail:
 
 ```text
-/goal shikishima.goal-runner-dry-run-report-fixtures
+/goal shikishima.human-gate-report-fixtures
 
-Use existing Worker Task Contract fixtures and Goal Runner dry-run to generate structured report fixtures.
+Use existing Goal Runner dry-run report fixtures to define human-readable Human Gate report objects.
+
+Still no UI connection.
+Still no IPC/preload connection.
 Still no execution runner.
-Still no IPC/preload/UI connection.
+Still no Obsidian actual write.
 ```
 
 Remaining explicit HOLD (do not infer approval):
@@ -194,6 +224,8 @@ runtime start: HOLD
 Obsidian actual write: HOLD
 Discord send: HOLD
 StackChan connection: HOLD
+UI connection: HOLD
+IPC/preload connection: HOLD
 productionReady true: HOLD
 execution enabled: HOLD
 ```
@@ -207,6 +239,8 @@ execution enabled: HOLD
 | Discord send | external write | Discord Send GO |
 | Obsidian actual write | local write | Obsidian Write GO |
 | StackChan connection | device/network effect | StackChan Connection GO |
+| UI connection | renderer/preload exposure | UI integration GO |
+| IPC/preload connection | main/preload bridge | IPC integration GO |
 | Runtime observation | runtime start | Runtime GO |
 | productionReady true | release gate | ProductionReady GO |
 | execution enabled | execution gate | Execution Enablement GO |
