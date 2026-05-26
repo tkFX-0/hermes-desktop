@@ -34,14 +34,35 @@ git_push: separate human GO only
 
 ```text
 branch: main
-origin/main: 7287359
-commits_ahead_at_ledger_start: 0
+HEAD: 168a6eb
+origin/main: 168a6eb
+commits_ahead: 0
+ledger_updated: 2026-05-26
 Master Spec: PUSHED
 Goal A1 route registry: PUSHED
 Goal A2 createExternalActionGuard: PUSHED
 Goal A3 structured HOLD coverage: PUSHED
 Goal A4 IPC integration plan: PUSHED
 Goal A5 guard preview: PUSHED
+Goal A6 real handler integration: HOLD
+Worker Task Contract Foundation: PUSHED
+Worker Task Contract Types: PUSHED
+Worker Task Contract Fixture Registry: PUSHED
+Worker Task Contract Preview: PUSHED
+Goal Runner Dry-run: PUSHED
+```
+
+Current safety state:
+
+```text
+decision: HOLD
+productionReady: false
+execution: disabled
+rawValuesReported: false
+runtime_started: false
+Discord_send: false
+Obsidian_actual_write: HOLD
+StackChan_connection: false
 ```
 
 ---
@@ -87,14 +108,53 @@ Meaning:
 | A5 guard preview | PUSHED | `7287359` | shared non-executing preview helper |
 | A6 real handler integration | HOLD | not started | requires separate goal and review |
 
+### Goal B: Worker Task Contract + Goal Runner Dry-run
+
+| Subgoal | Status | Commit / Evidence | Notes |
+|---|---|---|---|
+| Worker Task Contract Foundation | PUSHED | `cbcf2e1` | `docs: define worker task contract foundation` |
+| Worker Task Contract Types | PUSHED | `52e2b6c` | `feat: add worker task contract types` |
+| Worker Task Contract Fixture Registry | PUSHED | `e34444f` | `test: add worker task contract fixture registry` |
+| Worker Task Contract Preview | PUSHED | `2bcd087` | `feat: add worker task contract preview`; preview-only helper |
+| Goal Runner Dry-run | PUSHED | `168a6eb` | `feat: add goal runner dry-run`; dry-run-only layer |
+
+Pushed commit chain (Worker Task Contract → Goal Runner):
+
+```text
+cbcf2e1 docs: define worker task contract foundation
+52e2b6c feat: add worker task contract types
+e34444f test: add worker task contract fixture registry
+2bcd087 feat: add worker task contract preview
+168a6eb feat: add goal runner dry-run
+```
+
+### Goal Runner Dry-run boundary (not an execution runner)
+
+Goal Runner Dry-run is dry-run only.
+
+```text
+It is not an execution runner.
+It does not execute commands.
+It does not start runtime.
+It does not write external services.
+It does not enable git push automation.
+It does not enable productionReady.
+It does not enable execution.
+```
+
+Implementation: `src/shared/goal-runner-dry-run/` calls `previewWorkerTaskContract()` only.
+No IPC, preload, UI, shell, or worker execution wiring.
+
+Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
+
 ---
 
 ## 4. Active Goal
 
 ```text
-active_goal: shikishima.autonomy-ledger-foundation
-status: IN_PROGRESS
-purpose: create repo-local Goal Queue, Runner Protocol, and Human Gate Queue
+active_goal: none (ledger maintenance complete for Worker Task Contract + Goal Runner Dry-run)
+status: PASS
+last_completed_goal: shikishima.autonomy-ledger-record-goal-runner-dry-run
 external_effects: none
 actual_obsidian_write: false
 ```
@@ -105,8 +165,8 @@ actual_obsidian_write: false
 
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
-| 1 | Goal A6: selected handler integration planning/implementation | TODO | A5 PUSHED | source-change GO |
-| 2 | Goal B: Worker Task Contract Foundation | TODO | Master Spec | source-change GO |
+| 1 | `/goal shikishima.goal-runner-dry-run-report-fixtures` | TODO | Goal Runner Dry-run PUSHED | source-change GO |
+| 2 | Goal A6: selected handler integration planning/implementation | HOLD | A5 PUSHED | source-change GO |
 | 3 | Goal C: Memory Scope / Persona / Model Trace Foundation | TODO | Master Spec | source-change GO |
 | 4 | Goal D: Discord-first Command Intake | HOLD | Guard integration | Discord read/send gate |
 | 5 | Goal E: Report Draft / Evidence Pipeline | TODO | Ledger foundation | local write guard |
@@ -114,6 +174,29 @@ actual_obsidian_write: false
 | 7 | Goal G: Runtime Observation Gate | HOLD | Runtime request policy | Runtime GO |
 | 8 | Goal H: StackChan Re-entry Gate | HOLD | Guard + device-specific gates | StackChan GO |
 | 9 | Goal I: Semi-autonomous Operation Loop | DEFERRED | all prior goals | Continuous Autonomy GO |
+
+Next recommended goal detail:
+
+```text
+/goal shikishima.goal-runner-dry-run-report-fixtures
+
+Use existing Worker Task Contract fixtures and Goal Runner dry-run to generate structured report fixtures.
+Still no execution runner.
+Still no IPC/preload/UI connection.
+```
+
+Remaining explicit HOLD (do not infer approval):
+
+```text
+Goal A6 real handler integration: HOLD
+actual execution runner: HOLD
+runtime start: HOLD
+Obsidian actual write: HOLD
+Discord send: HOLD
+StackChan connection: HOLD
+productionReady true: HOLD
+execution enabled: HOLD
+```
 
 ---
 
