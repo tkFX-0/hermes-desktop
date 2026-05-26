@@ -34,8 +34,8 @@ git_push: separate human GO only
 
 ```text
 branch: main
-HEAD: 300dc3b
-origin/main: 300dc3b
+HEAD: dd8ea2c
+origin/main: dd8ea2c
 commits_ahead: 0
 ledger_updated: 2026-05-26
 Master Spec: PUSHED
@@ -51,6 +51,7 @@ Worker Task Contract Fixture Registry: PUSHED
 Worker Task Contract Preview: PUSHED
 Goal Runner Dry-run: PUSHED
 Goal Runner Dry-run Report Fixtures: PUSHED
+Human Gate Report Fixtures: PUSHED
 ```
 
 Current safety state:
@@ -67,6 +68,7 @@ StackChan_connection: false
 UI_connection: HOLD
 IPC_connection: HOLD
 actual_execution_runner: HOLD
+actual_human_gate_queue_mutation: HOLD
 ```
 
 ---
@@ -122,8 +124,9 @@ Meaning:
 | Worker Task Contract Preview | PUSHED | `2bcd087` | `feat: add worker task contract preview`; preview-only helper |
 | Goal Runner Dry-run | PUSHED | `168a6eb` | `feat: add goal runner dry-run`; dry-run-only layer |
 | Goal Runner Dry-run Report Fixtures | PUSHED | `300dc3b` | `feat: add goal runner dry-run report fixtures`; redacted report helpers |
+| Human Gate Report Fixtures | PUSHED | `dd8ea2c` | `feat: add human gate report fixtures`; human-review report helpers |
 
-Pushed commit chain (Worker Task Contract → Goal Runner → Report Fixtures):
+Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate):
 
 ```text
 cbcf2e1 docs: define worker task contract foundation
@@ -133,7 +136,40 @@ e34444f test: add worker task contract fixture registry
 168a6eb feat: add goal runner dry-run
 c3dc402 docs: record goal runner dry-run ledger status
 300dc3b feat: add goal runner dry-run report fixtures
+b0392b8 docs: record goal runner report fixture ledger status
+dd8ea2c feat: add human gate report fixtures
 ```
+
+Current pipeline (fixture-only; no execution):
+
+```text
+WorkerTaskContract
+  → dryRunGoalContract()
+  → createGoalRunnerDryRunReport()
+  → createHumanGateReportFromDryRunReport()
+```
+
+### Human Gate Report Fixtures boundary (not UI / IPC / queue mutation)
+
+Human Gate Report Fixtures are fixture/helper only.
+
+```text
+fixture/helper only
+human-review report object only
+not an execution runner
+not a UI integration
+not an IPC route
+not a preload exposure
+not a runtime feature
+not an external write feature
+not an actual Human Gate Queue mutation
+not an approval automation feature
+```
+
+Implementation: `src/shared/human-gate-report/` builds redacted human-review objects from Goal Runner dry-run reports only.
+No UI, IPC, preload, shell, runtime, external write, or Human Gate Queue mutation wiring.
+
+Full test evidence at push: vitest 1010 passed / 1 skipped (2026-05-26 push GO).
 
 ### Goal Runner Dry-run Report Fixtures boundary (not UI / IPC / execution)
 
@@ -179,9 +215,9 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (ledger maintenance complete through Goal Runner Dry-run Report Fixtures)
+active_goal: none (ledger maintenance complete through Human Gate Report Fixtures)
 status: PASS
-last_completed_goal: shikishima.autonomy-ledger-record-goal-runner-report-fixtures
+last_completed_goal: shikishima.autonomy-ledger-record-human-gate-report-fixtures
 external_effects: none
 actual_obsidian_write: false
 ```
@@ -192,7 +228,7 @@ actual_obsidian_write: false
 
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
-| 1 | `/goal shikishima.human-gate-report-fixtures` | TODO | Goal Runner Dry-run Report Fixtures PUSHED | source-change GO |
+| 1 | `/goal shikishima.human-gate-display-target-design` | TODO | Human Gate Report Fixtures PUSHED | design-only GO |
 | 2 | Goal A6: selected handler integration planning/implementation | HOLD | A5 PUSHED | source-change GO |
 | 3 | Goal C: Memory Scope / Persona / Model Trace Foundation | TODO | Master Spec | source-change GO |
 | 4 | Goal D: Discord-first Command Intake | HOLD | Guard integration | Discord read/send gate |
@@ -205,14 +241,21 @@ actual_obsidian_write: false
 Next recommended goal detail:
 
 ```text
-/goal shikishima.human-gate-report-fixtures
+/goal shikishima.human-gate-display-target-design
 
-Use existing Goal Runner dry-run report fixtures to define human-readable Human Gate report objects.
+Design where Human Gate reports should be displayed or handed off.
 
-Still no UI connection.
+Still no UI implementation.
 Still no IPC/preload connection.
+Still no runtime start.
 Still no execution runner.
-Still no Obsidian actual write.
+Still no external write.
+```
+
+Alternative acceptable next goal:
+
+```text
+/goal shikishima.human-gate-queue-display-preplan
 ```
 
 Remaining explicit HOLD (do not infer approval):
@@ -226,6 +269,7 @@ Discord send: HOLD
 StackChan connection: HOLD
 UI connection: HOLD
 IPC/preload connection: HOLD
+actual Human Gate Queue mutation: HOLD
 productionReady true: HOLD
 execution enabled: HOLD
 ```
@@ -241,6 +285,7 @@ execution enabled: HOLD
 | StackChan connection | device/network effect | StackChan Connection GO |
 | UI connection | renderer/preload exposure | UI integration GO |
 | IPC/preload connection | main/preload bridge | IPC integration GO |
+| actual Human Gate Queue mutation | queue write/approval automation | Human Gate Queue mutation GO |
 | Runtime observation | runtime start | Runtime GO |
 | productionReady true | release gate | ProductionReady GO |
 | execution enabled | execution gate | Execution Enablement GO |
