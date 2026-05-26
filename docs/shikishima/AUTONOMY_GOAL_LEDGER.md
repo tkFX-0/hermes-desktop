@@ -34,9 +34,9 @@ git_push: separate human GO only
 
 ```text
 branch: main
-HEAD: db47381 (local; not pushed)
-origin/main: 1f20f0a
-commits_ahead: 1 after ledger commit (render feat + ledger docs; not pushed)
+HEAD: (local; not pushed — Discord render contracts)
+origin/main: 0d7a5c7
+commits_ahead: local implementation commits only (not pushed)
 ledger_updated: 2026-05-26
 Master Spec: PUSHED
 Goal A1 route registry: PUSHED
@@ -57,7 +57,19 @@ Human Gate Queue Display Target Contract: PUSHED
 Control Center Human Gate Display Contract: PUSHED
 iPhone Human Gate Display Contract: PUSHED
 Human Gate Read-only UI Integration Plan: PUSHED
-Control Center Human Gate Display Render Contract: LOCAL PASS / NOT PUSHED
+Control Center Human Gate Display Render Contract: PUSHED
+Discord Human Gate Message Render Contract: LOCAL PASS / NOT PUSHED
+Discord Human Gate Digest Render Contract: LOCAL PASS / NOT PUSHED
+iPhone Human Gate Display Render Contract: LOCAL PASS / NOT PUSHED
+```
+
+Preferred operator display direction:
+
+```text
+Discord is the primary operator viewing surface.
+Control Center is fallback/debug/read-only local surface.
+Ledger remains the source of truth.
+Actual Discord send remains HOLD.
 ```
 
 Current safety state:
@@ -137,7 +149,10 @@ Meaning:
 | Control Center Human Gate Display Contract | PUSHED | `929de9f` | `feat: add control center human gate display contract`; display-only pure contract |
 | iPhone Human Gate Display Contract | PUSHED | `f4a2bd9` | `feat: add iphone human gate display contract`; mobile display-only pure contract |
 | Human Gate Read-only UI Integration Plan | PUSHED | `1f20f0a` | `docs: plan human gate readonly ui integration`; docs-only |
-| Control Center Human Gate Display Render Contract | LOCAL PASS / NOT PUSHED | `db47381` | `feat: add control center human gate display render contract`; pure render model |
+| Control Center Human Gate Display Render Contract | PUSHED | `db47381` | `feat: add control center human gate display render contract`; pure render model |
+| Discord Human Gate Message Render Contract | LOCAL PASS / NOT PUSHED | (local) | `feat: add discord human gate message render contract`; draft/preview only |
+| Discord Human Gate Digest Render Contract | LOCAL PASS / NOT PUSHED | (local) | `feat: add discord human gate digest render contract`; digest draft/preview only |
+| iPhone Human Gate Display Render Contract | LOCAL PASS / NOT PUSHED | (local) | `feat: add iphone human gate display render contract`; mobile render model only |
 
 Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → display contracts):
 
@@ -173,7 +188,12 @@ WorkerTaskContract
   → renderHumanGateQueueDisplayTargetMarkdownPreview()
   → createControlCenterHumanGateDisplayItem()
   → createControlCenterHumanGateDisplayRenderModel()
+  → createDiscordHumanGateMessageDraft()
+  → renderDiscordHumanGateMessagePreview()
+  → createDiscordHumanGateDigestDraft()
+  → renderDiscordHumanGateDigestPreview()
   → createIphoneHumanGateDisplayItem()
+  → createIphoneHumanGateDisplayRenderModel()
   → (future read-only UI — not implemented)
 ```
 
@@ -197,7 +217,55 @@ layout: human-gate-review-panel
 Implementation: `src/shared/control-center-human-gate-display-render/`.
 Maps `ControlCenterHumanGateDisplayItem` to read-only Control Center panel render models only.
 
-Local test evidence: vitest 1065 passed / 1 skipped (2026-05-26; not pushed).
+Local test evidence: vitest 1065 passed / 1 skipped (2026-05-26; pushed with `0d7a5c7`).
+
+### Discord Human Gate Message Render Contract boundary (not send / webhook / bot)
+
+Discord Human Gate Message Render Contract is pure draft/preview only.
+
+```text
+pure render contract only
+not Discord send
+not webhook
+not bot runtime
+not token read
+not external API write
+draftOnly: true
+sendReady: false
+discordSend: false
+```
+
+Implementation: `src/shared/discord-human-gate-message-render/`.
+Maps `HumanGateQueueDisplayTargetItem` to Discord-ready message drafts and preview strings only.
+
+### Discord Human Gate Digest Render Contract boundary (not send)
+
+Discord Human Gate Digest Render Contract summarizes message drafts into digest previews only.
+
+```text
+accepts DiscordHumanGateMessageDraft[] only
+no Discord send
+no webhook
+no bot runtime
+no token read
+```
+
+Implementation: `src/shared/discord-human-gate-digest-render/`.
+
+### iPhone Human Gate Display Render Contract boundary (not UI / network / IPC)
+
+iPhone Human Gate Display Render Contract is pure mobile render model only.
+
+```text
+pure render contract only
+not UI implementation
+not renderer wiring
+not IPC/preload connection
+displayOnly: true
+mobileReady: true
+```
+
+Implementation: `src/shared/iphone-human-gate-display-render/`.
 
 ### iPhone Human Gate Display Contract boundary (not UI / network / IPC)
 
@@ -347,7 +415,7 @@ actual_obsidian_write: false
 
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
-| 1 | `/goal shikishima.push-control-center-render-contract-and-add-iphone-render-contract` | TODO | Control Center render contract LOCAL PASS | Push GO |
+| 1 | `/goal shikishima.push-discord-display-contracts-and-plan-discord-send-gate` | TODO | Discord render contracts LOCAL PASS | Push GO + docs-only send gate plan |
 | 2 | `/goal shikishima.readonly-ui-display-plan` | DONE | pushed as 1f20f0a | — |
 | 3 | Goal A6: selected handler integration planning/implementation | HOLD | A5 PUSHED | source-change GO |
 | 4 | Goal C: Memory Scope / Persona / Model Trace Foundation | TODO | Master Spec | source-change GO |
@@ -361,15 +429,10 @@ actual_obsidian_write: false
 Next recommended goal detail:
 
 ```text
-/goal shikishima.push-control-center-render-contract-and-add-iphone-render-contract
+/goal shikishima.push-discord-display-contracts-and-plan-discord-send-gate
 
-Push db47381 (and ledger docs) with full_tests; then iPhone display render contract (pure TS).
-```
-
-Alternative acceptable next goal:
-
-```text
-/goal shikishima.human-gate-queue-markdown-render-contract
+Push local Discord message/digest (+ iPhone render if included) commits with full_tests;
+then create docs-only Discord send gate plan (no actual send).
 ```
 
 Remaining explicit HOLD (do not infer approval):
