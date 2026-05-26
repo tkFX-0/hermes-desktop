@@ -34,9 +34,9 @@ git_push: separate human GO only
 
 ```text
 branch: main
-HEAD: 0886936
-origin/main: 0886936
-commits_ahead: 0
+HEAD: (see git; local not pushed)
+origin/main: eeef990
+commits_ahead: 2 after ledger commit (929de9f + ledger docs; not pushed)
 ledger_updated: 2026-05-26
 Master Spec: PUSHED
 Goal A1 route registry: PUSHED
@@ -54,6 +54,7 @@ Goal Runner Dry-run Report Fixtures: PUSHED
 Human Gate Report Fixtures: PUSHED
 Human Gate Display Target Design: PUSHED
 Human Gate Queue Display Target Contract: PUSHED
+Control Center Human Gate Display Contract: LOCAL PASS / NOT PUSHED
 ```
 
 Current safety state:
@@ -130,6 +131,7 @@ Meaning:
 | Human Gate Report Fixtures | PUSHED | `dd8ea2c` | `feat: add human gate report fixtures`; human-review report helpers |
 | Human Gate Display Target Design | PUSHED | `de35026` | `docs: design human gate display targets`; docs-only |
 | Human Gate Queue Display Target Contract | PUSHED | `0886936` | `feat: add human gate queue display target contract`; pure contract |
+| Control Center Human Gate Display Contract | LOCAL PASS / NOT PUSHED | `929de9f` | `feat: add control center human gate display contract`; display-only pure contract |
 
 Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → Queue display target):
 
@@ -146,6 +148,7 @@ dd8ea2c feat: add human gate report fixtures
 acbbe4e docs: record human gate report fixture ledger status
 de35026 docs: design human gate display targets
 0886936 feat: add human gate queue display target contract
+eeef990 docs: record human gate queue display target ledger status
 ```
 
 Current pipeline (fixture-only; no execution):
@@ -157,7 +160,30 @@ WorkerTaskContract
   → createHumanGateReportFromDryRunReport()
   → createHumanGateQueueDisplayTargetItem()
   → renderHumanGateQueueDisplayTargetMarkdownPreview()
+  → createControlCenterHumanGateDisplayItem()
 ```
+
+### Control Center Human Gate Display Contract boundary (not UI / IPC)
+
+Control Center Human Gate Display Contract is pure display contract only.
+
+```text
+pure display contract only
+not UI implementation
+not IPC/preload connection
+not runtime
+not queue mutation
+not approval automation
+displayOnly: true
+uiConnected: false
+ipcConnected: false
+actualQueueMutation: false
+```
+
+Implementation: `src/shared/control-center-human-gate-display/`.
+Maps `HumanGateQueueDisplayTargetItem` to future Control Center panel view models only.
+
+Local test evidence: vitest 1040 passed / 1 skipped (2026-05-26; not pushed).
 
 ### Human Gate Queue Display Target Contract boundary (not queue mutation)
 
@@ -246,9 +272,9 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (ledger maintenance complete through Human Gate Queue Display Target Contract)
+active_goal: none (Control Center display contract local PASS; push pending)
 status: PASS
-last_completed_goal: shikishima.push-queue-display-target-contract-and-record-ledger
+last_completed_goal: shikishima.push-ledger-and-control-center-human-gate-display-contract
 external_effects: none
 actual_obsidian_write: false
 ```
@@ -259,29 +285,23 @@ actual_obsidian_write: false
 
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
-| 1 | `/goal shikishima.control-center-human-gate-display-contract` | TODO | Queue Display Target Contract PUSHED | design/contract GO |
-| 2 | Goal A6: selected handler integration planning/implementation | HOLD | A5 PUSHED | source-change GO |
-| 3 | Goal C: Memory Scope / Persona / Model Trace Foundation | TODO | Master Spec | source-change GO |
-| 4 | Goal D: Discord-first Command Intake | HOLD | Guard integration | Discord read/send gate |
-| 5 | Goal E: Report Draft / Evidence Pipeline | TODO | Ledger foundation | local write guard |
-| 6 | Goal F: One-shot External Operation Gate | HOLD | Guard + evidence pipeline | one-shot GO |
-| 7 | Goal G: Runtime Observation Gate | HOLD | Runtime request policy | Runtime GO |
-| 8 | Goal H: StackChan Re-entry Gate | HOLD | Guard + device-specific gates | StackChan GO |
-| 9 | Goal I: Semi-autonomous Operation Loop | DEFERRED | all prior goals | Continuous Autonomy GO |
+| 1 | `/goal shikishima.push-control-center-human-gate-display-contract-and-ledger` | TODO | Control Center display contract LOCAL PASS | Push GO |
+| 2 | `/goal shikishima.iphone-console-human-gate-display-contract` | TODO | Control Center contract PUSHED | design/contract GO |
+| 3 | Goal A6: selected handler integration planning/implementation | HOLD | A5 PUSHED | source-change GO |
+| 4 | Goal C: Memory Scope / Persona / Model Trace Foundation | TODO | Master Spec | source-change GO |
+| 5 | Goal D: Discord-first Command Intake | HOLD | Guard integration | Discord read/send gate |
+| 6 | Goal E: Report Draft / Evidence Pipeline | TODO | Ledger foundation | local write guard |
+| 7 | Goal F: One-shot External Operation Gate | HOLD | Guard + evidence pipeline | one-shot GO |
+| 8 | Goal G: Runtime Observation Gate | HOLD | Runtime request policy | Runtime GO |
+| 9 | Goal H: StackChan Re-entry Gate | HOLD | Guard + device-specific gates | StackChan GO |
+| 10 | Goal I: Semi-autonomous Operation Loop | DEFERRED | all prior goals | Continuous Autonomy GO |
 
 Next recommended goal detail:
 
 ```text
-/goal shikishima.control-center-human-gate-display-contract
+/goal shikishima.push-control-center-human-gate-display-contract-and-ledger
 
-Define read-only Control Center display contract for Human Gate queue display target items.
-
-Still no UI implementation.
-Still no IPC/preload connection.
-Still no runtime start.
-Still no execution runner.
-Still no external write.
-Still no actual Human Gate Queue mutation.
+Push 929de9f (and ledger docs) with full_tests; compressed ledger record optional.
 ```
 
 Alternative acceptable next goal:
