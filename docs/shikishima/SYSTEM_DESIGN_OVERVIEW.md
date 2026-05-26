@@ -1,33 +1,74 @@
 # しきしまエージェント — 内部設計全体概要
 
-作成日: 2026-05-26
-用途: GPT / 外部設計審査用のシステム概要、穴レビュー、デバッグ準備
-対象: Shikishima Desktop / Hermes Desktop repository
-基準: roadmap v4.40.0 系 + 2026-05-26 local HEAD state
+## 0. 文書の目的と安全境界
 
-この文書は設計審査とデバッグ準備のための資料です。
-runtime 起動、StackChan 操作、Discord / X / Obsidian / 外部 API 実行、productionReady 変更、execution 有効化を承認するものではありません。
+この文書は、しきしまエージェントの内部設計を GPT / 外部レビュアーへ渡すための設計審査資料である。
+対象は Shikishima Desktop / Hermes Desktop の全体アーキテクチャ、安全ゲート、外部操作経路、現在の設計上の穴、デバッグ準備である。
+
+この文書は実行承認ではない。
+
+```text
+git_push: NOT_APPROVED
+runtime_start: NOT_APPROVED
+Discord_send: HOLD
+Obsidian_write: HOLD
+StackChan_connection: HOLD
+external_API_write: HOLD
+productionReady: false
+execution: disabled
+rawValuesReported: false
+```
+
+StackChan は本書では一旦 HOLD として扱う。StackChan firmware / motion / voice / STT / camera / network device operation は、別 GO があるまで進めない。
 
 ---
 
-## 1. 現在の検証済み Git 状態
+## 1. 現在の検証済みGit状態
 
-2026-05-26 JST の作業前確認:
+### 1.1 作業前状態
+
+前回の `SYSTEM_DESIGN_OVERVIEW.md` 作成前に確認された状態:
 
 ```text
-branch: main
-local_HEAD: 6a317730c441ae7f97273edda88ba57e944622b2
-origin_main: 8ee65fb5c2297536ce17dc5f9071e50165f11c34
-commits_ahead_before_this_doc: 5
-staged_before_this_doc: 0
-tracked_dirty_before_this_doc: 0
-untracked_before_this_doc:
-  docs/shikishima/SYSTEM_DESIGN_OVERVIEW.md
+before_this_doc:
+  branch: main
+  HEAD: 6a317730c441ae7f97273edda88ba57e944622b2
+  origin/main: 8ee65fb5c2297536ce17dc5f9071e50165f11c34
+  commits_ahead: 5
+  staged: 0
+  tracked_dirty: 0
 ```
 
-origin/main..HEAD の既存 local commits:
+### 1.2 この文書作成後の状態
+
+前回の設計書 commit 後、今回の修復前に確認された状態:
 
 ```text
+after_previous_commit:
+  branch: main
+  HEAD: 8df19990650d553fb0d7baf42655acbd7818e0fc
+  origin/main: 8ee65fb5c2297536ce17dc5f9071e50165f11c34
+  commits_ahead: 6
+  staged: 0
+  tracked_dirty: 0
+  latest_commit: 8df1999 docs: finalize shikishima system design overview
+```
+
+この修復 task が commit を作成した場合、commit 自身の hash は文書内容へ事前固定できない。
+そのため、修復 commit の正確な hash は task final report と `git log -1` を canonical source とする。
+
+```text
+after_repair_commit:
+  expected_commits_ahead: 7
+  exact_HEAD: see final report / git log -1
+```
+
+### 1.3 origin/main..HEAD ローカルコミット一覧
+
+今回の修復前に存在した local commits:
+
+```text
+8df1999 docs: finalize shikishima system design overview
 6a31773 feat: add stackchan sleepy screen sway
 326ddce docs: record secretary guard dry run evidence
 794493c docs: record secretary routine dry run evidence
@@ -35,160 +76,304 @@ origin/main..HEAD の既存 local commits:
 2c19660 docs: summarize secretary remaining work
 ```
 
-本設計書の作成前に、`SYSTEM_DESIGN_OVERVIEW.md` は未追跡かつ文字化けした内容として存在していたため、UTF-8 Markdown の審査用文書として再作成する。
+注意:
+
+```text
+roadmapVersion: v4.40.0系を基準。
+ただし local HEAD は origin/main より複数コミット先行しており、
+pushPending / Gate 004 表記は最新ローカル状態と不一致の可能性がある。
+```
 
 ---
 
 ## 2. プロジェクト概要
 
-しきしまデスクトップは、Windows 上で動作する Electron + TypeScript 製の AI 安全コントロールセンターである。
+しきしまデスクトップは、Electron + TypeScript 製の AI 安全コントロールセンターである。
 
-主目的:
+主な目的:
 
 - AI エージェントの自律開発、記録、外部連携を段階的に扱う。
-- 外部操作は `HOLD` を初期状態とし、人間の明示 GO がある場合だけ一段ずつ開ける。
-- StackChan、Discord、Hermes / x_search、Obsidian、Command Chat などの外部接点を一つの安全境界で管理する。
-- productionReady と execution enabled は最終 gate として扱い、通常開発や検収では反転しない。
+- 外部操作は `HOLD` を初期状態とし、人間の明示 GO なしでは実行しない。
+- Discord / Obsidian / StackChan / Hermes / x_search / GitHub push / productionReady / execution enabled を gate で分離する。
+- 「作る」「確認する」「記録する」と、「外へ送る」「動かす」「本番化する」を明確に分ける。
 
-現在の安全状態:
+現在の中心課題:
 
-```text
-productionReady: false
-execution: disabled
-rawValuesReported: false
-SHIKISHIMA_SHADOW_MODE: true
-StackChan: HOLD
-git_push_performed_by_this_task: false
-```
+- Discord-first の実運用に合わせた設計整理。
+- Electron 側の位置づけを Local Status Board / Safety Monitor として再定義。
+- agent / provider / model / memory / persona / safety decision を追跡可能にする Model Trace の導入。
+- StackChan は一旦 HOLD に戻し、しきしま本体設計を先に整理する。
 
 ---
 
 ## 3. 技術スタック
 
-### Renderer
-
-| 領域 | 主な技術 | 用途 |
+| 領域 | 技術 | 用途 |
 |---|---|---|
-| UI | React 19 / TypeScript | 画面、Agent Theater、Control Center |
-| Styling | Tailwind CSS 4 | レイアウト、パネル、ステータス表示 |
-| Markdown | react-markdown / remark-gfm | チャット、記録表示 |
-| Build | Vite / electron-vite | renderer / main のビルド |
-
-### Main Process
-
-| 領域 | 主な技術 | 用途 |
-|---|---|---|
-| Shell | Electron | デスクトップアプリ |
-| Runtime | Node.js / TypeScript | IPC、外部連携、ゲート管理 |
-| Persistence | better-sqlite3 / JSON | セッション、記憶、設定 |
-| Update | electron-updater | アプリ更新 |
-
-### AI / Worker / External Integrations
-
-| 系統 | 用途 | 現在の扱い |
-|---|---|---|
-| Groq / Claude / Gemini / Grok | エージェント応答、計画、分析 | ゲート下で使用 |
-| Hermes Research / x_search | live research / social read | read-only GO gate |
-| ClaudeCode | Shikishima core 実装 worker | 人間 GO / task 境界 |
-| Codex | StackChan / scoped review worker | StackChan scope で使用 |
-| Discord | read / draft / one-shot evidence | HOLD 復帰が原則 |
-| StackChan | 顔、音声、モーション、秘書化 | 本文書では HOLD |
+| Desktop shell | Electron | Windows desktop app |
+| Main process | Node.js / TypeScript | IPC, gate, integrations |
+| Renderer | React / TypeScript | UI, Agent Theater, status panels |
+| Styling | Tailwind CSS | layout / dashboard |
+| Persistence | JSON / better-sqlite3 | session, memory, local state |
+| AI gateway | Hermes / Groq / Claude / Gemini / Grok | response generation / research |
+| Hardware integration | StackChan CoreS3 | HOLD in this document |
+| Docs / evidence | Markdown | gates, review, audit trail |
 
 ---
 
-## 4. 高レベルアーキテクチャ
+## 4. 現在の一次操作面: Discord-first 方針
+
+実運用上、ユーザーが最も確認しやすい一次操作面は Discord に移っている。
+
+```text
+Discord:
+  practical_primary_command_surface: true
+  read: conditional / gate required
+  send: HOLD
+
+Electron:
+  reclassified_as: Local Status Board / Safety Monitor
+  role:
+    - status snapshot
+    - gate visibility
+    - draft review
+    - local debugging
+    - emergency HOLD visibility
+```
+
+重要:
+
+- Discord が一次操作面になっても、Discord send は HOLD のまま。
+- Discord 上で見られることと、Discord へ自動送信することは別 gate。
+- Electron は不要になったのではなく、外部操作の状態・証跡・安全境界を可視化する役割へ寄せる。
+
+---
+
+## 5. 全体アーキテクチャ
 
 ```mermaid
 flowchart TD
-  User["Human operator"] --> Renderer["Electron Renderer / React UI"]
-  Renderer --> Preload["Preload contextBridge"]
-  Preload --> Main["Electron Main Process"]
+  User["Human / Discord / Local UI"] --> Entry["Command Surface"]
+  Entry --> Router["Agent Router"]
+  Router --> Agents["5+1 Agents"]
+  Agents --> Model["Provider / Model Layer"]
+  Agents --> Memory["Scoped Memory Layer"]
+  Agents --> Safety["Safety Gate / Preflight"]
 
-  Main --> Router["Agent Router"]
-  Router --> Agents["6 Agent Personas"]
-  Agents --> Hermes["Hermes / AI Gateway"]
-  Agents --> Memory["4-layer Memory"]
+  Safety --> Draft["Draft / Evidence / HOLD"]
+  Safety -. human GO only .-> External["External Effects"]
 
-  Main --> Safety["Safety Gate Kernel / Preflight"]
-  Safety --> Drafts["Draft / Evidence / HOLD Result"]
+  External --> Discord["Discord read/send"]
+  External --> Obsidian["Obsidian/local write"]
+  External --> StackChan["StackChan device"]
+  External --> XSearch["x_search/social read"]
+  External --> Runtime["runtime/bridge/shell"]
+  External --> Repo["git push/repo write"]
 
-  Main -. gated .-> Discord["Discord Intake / Bot"]
-  Main -. gated .-> StackChan["StackChan Services"]
-  Main -. gated .-> Research["Hermes Research / x_search"]
-  Main -. gated .-> Library["Library / Obsidian Local Write"]
-  Main -. gated .-> Bridge["Hermes Bridge / Shell / Network Pilot"]
-
-  Safety --> Invariants["productionReady=false / execution=disabled / rawValuesReported=false"]
+  Entry --> Status["Electron Local Status Board"]
+  Status --> Safety
 ```
 
 設計原則:
 
-- Renderer から外部効果を直接起こさない。
-- Preload は Main の限定 API だけを公開する。
-- Main 側の外部操作候補は preflight / gate を通す。
-- すべての Level 5 操作は、人間 GO、証跡、停止条件、復旧条件を必要とする。
+- Entry surface は複数でも、external effect は gate で一元管理する。
+- Renderer / Discord / worker から直接外部効果を起こさない。
+- すべての external effect は action mode と safety decision を持つ。
 
 ---
 
-## 5. エージェント構成
+## 6. 5+1エージェントシステム
 
-| ID | 名前 | 役割 | 主な担当 |
+| Agent ID | 名前 | 主担当 | 現在の注意点 |
 |---|---|---|---|
-| `shikishima` | しきしま | 管制塔 / ユーザー窓口 | 全体判断、応答統合 |
-| `shizume` | しずめ | 安全 gate / STOP 判断 | HOLD、REJECT、暴走防止 |
-| `tsumugi` | つむぎ | 実装 / worker 接続 | ClaudeCode / Codex task 化 |
-| `hajime` | はじめ | 設計 / 企画 / ロードマップ | 段階設計、順序決め |
-| `shirube` | しるべ | 記録 / 証跡 / 知識 | docs、handoff、evidence |
-| `chihaya` | ちはや | FX / XAUUSD / EA 分析 | market thesis、ポジション案 |
+| `shikishima` | しきしま | 管制 / ユーザー窓口 | final decision と GO を混同しない |
+| `shizume` | しずめ | safety / gate / STOP | Level 5 境界の最終確認 |
+| `tsumugi` | つむぎ | implementation / worker task | ClaudeCode / Codex routing の明確化 |
+| `hajime` | はじめ | planning / roadmap | 計画と実行承認を分離 |
+| `shirube` | しるべ | record / evidence | evidence と実行結果を混同しない |
+| `chihaya` | ちはや | FX / market analysis | financial action と analysis を分離 |
 
-ルーティングは `src/main/agent-router.ts` が中心。
-直接呼びかけ、安全系、実装系、計画系、記録系、FX 系などをキーワードと文脈で振り分ける。
+現在の課題:
 
-審査ポイント:
-
-- キーワードベース分類だけでは、複合依頼の誤分類が起きうる。
-- StackChan と Shikishima core の worker routing を混同しない必要がある。
-- FX / external write / productionReady / execution enabled は、どのエージェント経由でも gate を迂回してはならない。
+- エージェントの AI 割当と fallback がユーザーから見えにくい。
+- どの agent が、どの model で、どの記憶 profile を使って返答したか追えない。
+- 討論モードでは「提案者」「反対者」「安全判定者」「最終 human GO」の責務を分離する必要がある。
 
 ---
 
-## 6. 記憶とプロフィール設計
+## 7. AIモデル割当とModel Traceの課題
 
-記憶は概ね 4 層で扱う。
+Current issue:
 
-| 層 | 内容 | リスク |
+```text
+The user cannot reliably confirm which agent, provider, model, fallback,
+memory profile, persona profile, and safety decision produced a response.
+```
+
+これにより、以下の問題が起きる。
+
+- StackChan への回答品質や推論レベルを後から検証できない。
+- しきしま / つむぎ / しずめの責務がログ上で混ざる。
+- fallback が起きた時に、想定より弱い model が回答したことに気づけない。
+- safety decision が HOLD だったのか、単なる文面上の注意だったのか不明になる。
+
+Required future schema:
+
+```json
+{
+  "agentId": "tsumugi",
+  "provider": "claude",
+  "model": "claude-sonnet",
+  "fallbackUsed": false,
+  "routeReason": "implementation_request",
+  "memoryProfile": "shikishima-development",
+  "personaProfile": "tsumugi-dev",
+  "sourceChannel": "discord",
+  "safetyDecision": "HOLD",
+  "actionMode": "draft_only"
+}
+```
+
+推奨:
+
+- 全応答に redacted Model Trace を付与できるようにする。
+- Discord 表示では短縮 trace、Electron status board では詳細 trace。
+- StackChan 発話時は trace を発話しないが、evidence へ残す。
+
+---
+
+## 8. 記憶システムとMemory Scopeの課題
+
+現在の記憶は、長期記憶・中期記憶・短期文脈・persona / profile の複合で動く。
+
+設計上の穴:
+
+```text
+FX / EA / propfirm / jobsearch memories must not be injected into
+Shikishima development by default.
+```
+
+Default active profile:
+
+```yaml
+activeMemoryProfile: shikishima-development
+activeNamespaces:
+  - shikishima
+  - discord-ops
+  - codex
+  - claude-code
+blockedByDefault:
+  - fx-trading
+  - mql-ea
+  - propfirm
+  - jobsearch
+```
+
+必要な改善:
+
+- task ごとに memory namespace を明示する。
+- FX / EA / propfirm / jobsearch の記憶は opt-in にする。
+- StackChan 秘書化では生活監視・秘書記憶を別 namespace にする。
+- memory injection 結果を redacted snapshot として検証可能にする。
+
+---
+
+## 9. Persona反映と指示遵守の課題
+
+Current issue:
+
+```text
+Persona is currently too prose-based and must become testable constraints.
+```
+
+ユーザーが「発してほしくない」と伝えても改善されない原因候補:
+
+- persona が自然文の方針で、テスト可能な禁止ルールになっていない。
+- persistent memory と user preference の優先順位が曖昧。
+- StackChan 発話用の短縮・音声整形後に、phrase policy が再適用されていない。
+- Discord 返信、Electron UI、StackChan speech で異なる prompt assembly が使われている可能性がある。
+
+改善案:
+
+- persona を `tone`, `allowed_phrases`, `blocked_phrases`, `required_checks` に分割。
+- forbidden phrase test を追加。
+- StackChan speech 前に `voiceSafePhrasePolicy` を通す。
+- user correction を long-term memory ではなく preference policy として扱う。
+
+---
+
+## 10. Discord運用設計
+
+Discord は実用上の一次操作面だが、write は HOLD。
+
+| 操作 | 現在状態 | 備考 |
 |---|---|---|
-| Persistent | チーム構成、安全ルール、基本プロフィール | 古いプロフィールが応答を固定化する可能性 |
-| Long-term | 重要事実、ユーザー方針、マイルストーン | 禁止フレーズ更新が反映されない可能性 |
-| Medium-term | 直近セッション要約 | 誤要約が次回判断に混ざる可能性 |
-| Short-term | 現在会話の直近文脈 | 長い作業で脱落する可能性 |
+| Discord read | conditional | read-only GO / evidence 必須 |
+| Discord draft | DRAFT_ONLY | 人間確認前提 |
+| Discord send | SAFETY_HOLD | one-shot GO なしでは不可 |
+| Discord auto-reply | NOT_APPROVED | retry loop / daemon 禁止 |
+| Discord bot polling | SAFETY_HOLD | SHADOW_MODE / explicit runtime GO |
 
-プロフィール固定化 / 発してほしくない表現が改善されない原因候補:
+必要な安全条件:
 
-1. persistent context に古い口調・禁止されていない表現が残っている。
-2. long-term memory に過去の方針が残り、新しい禁止ルールより強く作用している。
-3. agent persona と profile policy の優先順位が明文化されていない。
-4. renderer / main / external worker のどこで最終 prompt が組まれるかが分散している。
-5. StackChan 発話用の文短縮・音声向け整形で、禁止ルールが再適用されていない可能性がある。
-
-デバッグ準備:
-
-- prompt assembly の最終形を redacted snapshot として保存できるようにする。
-- persona / memory / user preference / safety rule の優先順位表を作る。
-- 禁止フレーズと置換ルールを agent 共通 policy に寄せる。
-- StackChan 発話前に「voice-safe phrase policy」を一度通す。
+- send count を証跡化。
+- token をログに出さない。
+- retry loop なし。
+- gate restored HOLD を after-action verification に含める。
+- Discord-first でも external write は人間 GO。
 
 ---
 
-## 7. Safety Gate / SHADOW_MODE
+## 11. Obsidian / レポート出力設計
 
-重要な実装箇所:
+Obsidian / local report write は local write であり、無害なログではない。
 
-| ファイル | 役割 |
-|---|---|
-| `src/main/shikishima-core/preflight-factory.ts` | `createActionPreflight()` の生成 |
-| `src/main/shikishima-core/action-gate-kernel.ts` | action decision / risk / critical action policy |
-| `src/main/index.ts` | IPC 登録、`SHIKISHIMA_SHADOW_MODE` |
+| 操作 | 現在状態 | 必要 gate |
+|---|---|---|
+| report draft | DRAFT_ONLY | no external write |
+| local markdown write | SAFETY_HOLD | OBS-LOCAL GO |
+| Obsidian sync | NOT_APPROVED | separate cloud/sync GO |
+| arbitrary path write | NOT_APPROVED | disallowed |
+
+必要条件:
+
+- vault path scope。
+- target folder / filename rule。
+- raw secret exclusion。
+- dry-run と actual write の分離。
+- write 後 evidence。
+
+---
+
+## 12. StackChan統合状態
+
+StackChan は現在 HOLD。
+
+```text
+StackChan face/display: design or partial UI only
+StackChan voice: HOLD
+StackChan motion: HOLD
+StackChan STT: HOLD
+StackChan network/device connection: NOT_APPROVED unless separate GO
+```
+
+分類:
+
+| 領域 | 状態 | 備考 |
+|---|---|---|
+| face/display | SAFETY_HOLD | design / partial firmware history exists |
+| voice | SAFETY_HOLD | one-shot GO なしでは不可 |
+| motion/dance | SAFETY_HOLD | 実機操作は別 GO |
+| touch/pat sensor | SAFETY_HOLD | motion module と連動するため別 gate |
+| STT / microphone | SAFETY_HOLD | privacy gate 必須 |
+| camera | SAFETY_HOLD | one-shot / continuous を分離 |
+| continuous monitoring | NOT_APPROVED | 秘書化 roadmap の後段 |
+
+この文書では StackChan を再開しない。StackChan は、しきしま本体の設計審査が終わるまで一旦 HOLD とする。
+
+---
+
+## 13. Safety Gate / SHADOW_MODE / External Effect Registry
 
 主要 invariant:
 
@@ -196,271 +381,242 @@ flowchart TD
 productionReady: false
 execution: disabled
 rawValuesReported: false
-decision: HOLD by default
-humanGoApprovalRequired: true for Level 5
+SHADOW_MODE: true
+decision_default: HOLD
+human_go_required_for_level5: true
 ```
 
-`SHIKISHIMA_SHADOW_MODE = true` は、起動時の自動サービス稼働を抑止するための全体ブレーキである。
+External Effect Registry:
 
-HOLD 対象の代表:
+| Route | Effect Type | Current Status | Safety Gate Required | Approved Now |
+|---|---|---|---|---|
+| Discord read | external_read | design/limited | yes | conditional |
+| Discord send | external_write | HOLD | yes | no |
+| Obsidian write | local_write | HOLD | yes | no |
+| StackChan face | device_display | HOLD | yes | no |
+| StackChan voice | device_audio | HOLD | yes | no |
+| StackChan motion | device_motion | HOLD | yes | no |
+| StackChan STT | mic/stt | HOLD | yes | no |
+| GitHub push | repo_write | HOLD | yes | no |
+| x_search | external_read | HOLD unless separate GO | yes | no |
+| productionReady change | release_gate | NOT_APPROVED | yes | no |
+| execution enablement | execution_gate | NOT_APPROVED | yes | no |
 
-- Discord Bot polling
-- StackChan status loop / speech / face / STT server
-- daily research pipeline
-- Hermes bridge / network pilot
-- Command Chat send
-- x_search / social read
-- Obsidian write
-- productionReady true
-- execution enabled
-
-審査ポイント:
-
-- SHADOW_MODE は「自動起動」を止めるが、手動 IPC 呼び出しまで必ず止めるとは限らない。
-- Renderer / preload 経由で呼べる外部操作候補は、Main 側でも個別に gate 確認が必要。
-- gate 結果が draft なのか実行なのか、UI ラベルと戻り値で一致させる必要がある。
-
----
-
-## 8. 外部操作経路の穴レビュー
-
-### 8.1 StackChan
-
-現在の扱い:
+HOLD label definitions:
 
 ```text
-StackChan: HOLD
-firmware / device operation: HOLD
-motion / dance / camera / mic / voice loop: HOLD
-additional burn / erase / firmware exporter start: HOLD
+IMPLEMENTED:
+  source exists and local checks may pass.
+
+WIRED:
+  UI/IPC/model path exists, but external effect may still be blocked.
+
+DRAFT_ONLY:
+  produces draft / plan / evidence only.
+
+SAFETY_HOLD:
+  designed or partially implemented but intentionally blocked.
+
+DESIGN_HOLD:
+  not yet designed enough to implement.
+
+NOT_APPROVED:
+  requires explicit human GO and is not approved now.
+
+DEPRECATED_FOR_PRIMARY_OPERATION:
+  no longer the primary operational path, but may remain useful as status/debug UI.
 ```
 
-関係ファイル:
+---
 
-- `src/main/stackchan-local-service.ts`
-- `src/main/stackchan-stt-service.ts`
-- `src/preload/index.ts`
-- `docs/firmware/shikishima_cores3/`
+## 14. IPC / 内部経路レビュー
 
-現在のローカル HEAD には StackChan sleepy screen sway 実装 commit が含まれるが、本設計審査では StackChan 追加操作は行わない。
+審査対象:
 
-穴候補:
+- preload exposed API。
+- renderer から main へ invoke できる handler。
+- main から外部へ出る read/write/runtime/device path。
+- worker 経由で file / shell / network に触れる経路。
 
-- preload が `stackchanSay` / `stackchanFace` などを公開しているため、Main 側の gate が薄いと UI から発話・表情操作が進みうる。
-- VOICEVOX / WebSocket / firmware control は外部効果なので、one-shot GO と session GO を分ける必要がある。
-- camera / microphone / continuous monitoring は、通常の「音声出力」より強い privacy gate を必要とする。
+主な穴候補:
 
-必要なデバッグ準備:
+- `SHADOW_MODE` が自動起動だけを止め、手動 IPC を止めきらない可能性。
+- draft-only UI なのに main 側 handler が実行可能な可能性。
+- StackChan / Discord / Obsidian / Hermes Bridge の gate が別実装でばらつく可能性。
+- sourceChannel が Discord の場合、Electron の status board に反映されない可能性。
 
-- StackChan callable IPC 一覧を作る。
-- 各 IPC が draft-only / one-shot / runtime session / firmware operation のどれか分類する。
-- StackChan HOLD 時の戻り値を統一する。
+必要なレビュー:
 
-### 8.2 Discord
+- `preload/index.ts` の公開 API 一覧。
+- `ipcMain.handle` / `ipcMain.on` の外部効果分類。
+- すべての external effect に `safetyDecision`, `actionMode`, `evidencePath` を持たせる。
 
-関係ファイル:
+---
 
-- `src/main/discord-intake.ts`
-- `src/main/discord-bot-service.ts`
+## 15. 現在のHOLD / 未設計 / 実装済み分類
 
-穴候補:
+| 項目 | 分類 | コメント |
+|---|---|---|
+| Agent routing | IMPLEMENTED | model trace が不足 |
+| Persona policy | WIRED | testable constraints 化が必要 |
+| Memory network | WIRED | namespace scoping が必要 |
+| Discord-first operation | WIRED | send は HOLD |
+| Electron dashboard | DEPRECATED_FOR_PRIMARY_OPERATION | Local Status Board として維持 |
+| Obsidian local write | SAFETY_HOLD | exact GO required |
+| StackChan voice | SAFETY_HOLD | one-shot GO required |
+| StackChan motion | SAFETY_HOLD | device operation GO required |
+| StackChan STT/camera | SAFETY_HOLD | privacy gate required |
+| x_search | SAFETY_HOLD | read-only GO required |
+| FX position proposal | DESIGN_HOLD | advice/action boundary required |
+| Agent debate mode | DESIGN_HOLD | roles and final judge not fixed |
+| productionReady true | NOT_APPROVED | critical gate |
+| execution enabled | NOT_APPROVED | critical gate |
 
-- read-only と write / reply の境界が曖昧になると、draft のつもりが送信に変わる。
-- token 読み取り、ログ出力、エラー出力で raw token が漏れるリスク。
-- bot polling は SHADOW_MODE と別に、手動開始経路も確認が必要。
+---
 
-必要なデバッグ準備:
+## 16. 設計上の穴レビュー
 
-- `DIS01_HOLD` / reply gate / one-shot send count の現在値を証跡化。
-- retry loop が存在しないことをテストで確認。
-- message send は必ず exact GO reference と evidence path を必要にする。
+### 16.1 Agent / Model consistency
 
-### 8.3 Hermes Bridge / Command / Shell / Network
+問題:
 
-関係ファイル候補:
+- agent と provider/model/fallback の紐づきがユーザーに見えない。
+- StackChan 返答時に推論レベルが適切だったか検証できない。
 
-- `src/main/ichikishima/hermes/`
-- `src/main/hermes-research-runner.ts`
-- `src/main/research-pipeline.ts`
-- `src/main/claw3d.ts`
+対策:
 
-穴候補:
+- Model Trace を全応答へ付与。
+- Discord には short trace、Electron には full trace。
+- StackChan speech は trace を話さず、evidence に残す。
 
-- `execute_shell` / `network_http` 型の payload は非常に強い外部効果を持つ。
-- npm / git / dev server / process spawn は、runtime start や external write と同等に gate 対象。
-- `claw3d.ts` のような helper が、開発便利機能として gate を迂回しないか確認が必要。
+### 16.2 Persona / blocked phrases
 
-必要なデバッグ準備:
+問題:
 
-- renderer から呼べる shell/network/dev-server 系 IPC の棚卸し。
-- `npm run dev` / runtime start / bridge connect は RUNTIME-GO のみ。
-- shell command は evidence + time_window + stop condition なしでは実行不可にする。
+- 発してほしくない語が、memory / persona / voice output のどこかで再混入する。
 
-### 8.4 Obsidian / Library Export
+対策:
 
-関係ファイル:
+- persona を testable constraints に分割。
+- speech output 直前の phrase filter。
+- correction memory と preference policy を分ける。
 
-- `src/main/library-export.ts`
-- `src/main/shikishima-core/secretary-*`
+### 16.3 Autonomy / automation
 
-穴候補:
+問題:
 
-- local write は外部 API ではないが、永続的なファイル変更である。
-- arbitrary path write にならないよう、scope 固定と path redaction が必要。
-- dry-run と actual write の境界を UI と戻り値で明確にする。
+- 自律開発・記録・外部操作の境界が曖昧だと、便利機能が実行機能へ滑る。
 
-### 8.5 X / x_search / Grok
+対策:
 
-穴候補:
+- Level 1-4 は local work / evidence / commit まで。
+- Level 5 は push / runtime / external write / OAuth / productionReady / execution。
+- retry loop / daemon / auto escalation 禁止。
 
-- social read と social write を混同しない。
-- x_search は read-only GO であり、post / reply / DM / like / follow は別 GO または HARD STOP。
-- Grok / X OAuth は token / scope / storage policy を明示しない限り開始しない。
+### 16.4 Real-time read/write
 
-### 8.6 productionReady / execution enabled
+問題:
 
-最重要 gate:
+- real-time read は許可されても write は別 gate。
+- Discord-first 化により read と send の境界が重要になる。
+
+対策:
+
+- read-only GO と write GO を別 docs / 別 evidence にする。
+- send count と gate restored HOLD を必須化。
+
+### 16.5 FX / trading
+
+問題:
+
+- FX 優位性・方向性・AI ポジション案は、financial action と誤解されやすい。
+
+対策:
+
+- analysis / thesis / simulation / action を分離。
+- order placement / account operation は NOT_APPROVED。
+- market memory は Shikishima development へ default injection しない。
+
+### 16.6 Debate mode
+
+問題:
+
+- エージェント討論で誰が結論を出すか曖昧。
+
+対策:
+
+- proposer / critic / safety judge / recorder / human final GO を分ける。
+- しずめの HOLD を上書きできる agent を置かない。
+
+---
+
+## 17. デバッグ準備チェックリスト
+
+- [ ] single source of truth for agent model assignment.
+- [ ] Model Trace schema implemented in draft/status layer.
+- [ ] Memory namespace filter implemented.
+- [ ] Persona policy converted to testable constraints.
+- [ ] StackChan HOLD displayed consistently.
+- [ ] Discord send remains HOLD.
+- [ ] Obsidian write remains HOLD.
+- [ ] productionReady remains false.
+- [ ] execution remains disabled.
+- [ ] preload API surface audited.
+- [ ] IPC handlers classified by external effect.
+- [ ] SHADOW_MODE coverage tested against manual IPC paths.
+- [ ] raw token / LAN IP / local path / device ID redaction tested.
+- [ ] runtime start remains time_window GO only.
+- [ ] no push without explicit push GO.
+
+---
+
+## 18. GPT審査ポイント
+
+GPT / 外部レビュアーには、以下を確認してもらう。
+
+1. Discord-first 化に対して、安全 gate が十分か。
+2. Electron を Local Status Board / Safety Monitor に再分類する方針は妥当か。
+3. Model Trace schema で、agent / provider / model / memory / persona / safety の追跡は足りるか。
+4. Memory Scope の default blocked namespaces は適切か。
+5. Persona を testable constraints 化する粒度は妥当か。
+6. StackChan HOLD と Shikishima core の設計整理が分離できているか。
+7. External Effect Registry に漏れている route はないか。
+8. productionReady / execution enabled が通常の「完了」と混同されないか。
+9. FX / market analysis と financial action の境界は十分か。
+10. Agent debate mode の安全設計に抜けがないか。
+
+---
+
+## 19. 次の推奨タスク
+
+推奨順:
+
+1. `IPC_EXTERNAL_SURFACE_AUDIT`
+   - preload / ipcMain handler / external effect route を棚卸し。
+
+2. `MODEL_TRACE_SCHEMA_IMPLEMENTATION_PLAN`
+   - agent / provider / model / fallback / memory / persona / safety decision を表示可能にする。
+
+3. `MEMORY_SCOPE_POLICY_IMPLEMENTATION_PLAN`
+   - Shikishima development と FX / EA / jobsearch 記憶を分離。
+
+4. `PERSONA_CONSTRAINT_TEST_PLAN`
+   - 発話禁止、口調、StackChan speech policy をテスト可能にする。
+
+5. `DISCORD_FIRST_OPERATION_SAFETY_REVIEW`
+   - Discord read/draft/send の gate と evidence を再確認。
+
+6. `STACKCHAN_RESTART_GATE_DRAFT`
+   - StackChan を再開する場合の別 GO 文書を作る。今は HOLD。
+
+この文書の結論:
 
 ```text
-productionReady true: critical Level 5
-execution enabled: critical Level 5
-```
-
-穴候補:
-
-- docs 上の "ready" 表記が、コード上の `productionReady` と混同される。
-- assistant / agent が「実装完了」を「本番化」と誤認する。
-- execution enabled を UI toggle で置くと誤操作のリスクが高い。
-
-必要な方針:
-
-- productionReady と execution enabled は、UI では状態表示のみ。
-- 変更は別 gate、別 commit、別 evidence、別 human GO。
-
----
-
-## 9. StackChan 章 — HOLD 固定版
-
-StackChan は一旦 HOLD とする。
-
-HOLD の意味:
-
-- 追加 firmware build / upload をしない。
-- Burn / Erase / Firmware Exporter Start をしない。
-- servo / dance / motion 実機操作をしない。
-- camera / microphone / always-on monitoring を開始しない。
-- voice loop / autonomous conversation を開始しない。
-- StackChan を productionReady 判定の根拠にしない。
-
-既存の進捗:
-
-- CoreS3 firmware 実験、LED、servo、sleepy screen sway などの実装履歴がある。
-- 実機の目視確認・動作調整は進んだが、本設計審査では再開しない。
-- StackChan 秘書化ロードマップは別 docs に分離し、Shikishima core の安全設計レビューと混ぜない。
-
-審査観点:
-
-- StackChan は「顔・声・出力装置」であり、しきしま本体の判断・記憶・外部操作 gate と分離する。
-- しきしまから StackChan へ送るテキストは、voice-safe / persona-safe / privacy-safe policy を通す。
-- camera / mic を使う場合は one-shot と continuous を別 gate にする。
-
----
-
-## 10. デバッグ準備チェックリスト
-
-### 10.1 設計とコードの同期
-
-- [ ] docs の agent role と `src/main/agent-definitions.ts` の ID / role が一致している。
-- [ ] `agent-router.ts` の優先順位が docs と矛盾していない。
-- [ ] persona / profile / memory policy の優先順位が明文化されている。
-- [ ] StackChan を HOLD として扱う docs と UI 表示が一致している。
-
-### 10.2 Gate coverage
-
-- [ ] preload で公開された API が全て棚卸しされている。
-- [ ] 外部 read / write / runtime / firmware / shell / network の分類表がある。
-- [ ] `createActionPreflight()` を通らない外部操作候補がないか確認済み。
-- [ ] SHADOW_MODE が自動起動だけでなく手動 IPC の誤実行も止める設計になっている。
-
-### 10.3 Raw value / secret control
-
-- [ ] token / API key / raw LAN IP / raw device ID / raw local path を docs に残さない。
-- [ ] evidence では redacted value のみ使う。
-- [ ] error log に raw token が出ない。
-
-### 10.4 Runtime / automation
-
-- [ ] runtime start は time_window, command, shutdown, evidence が必須。
-- [ ] recurring automation / daemon / polling は明示 gate なしで開始しない。
-- [ ] retry loop と auto-escalation は禁止。
-
-### 10.5 Secretary / autonomous operation
-
-- [ ] one-shot, bounded session, continuous monitoring を別 gate にする。
-- [ ] external write executor は draft / dry-run / actual write を明確に分ける。
-- [ ] status snapshot は redacted で、raw values を含めない。
-
----
-
-## 11. GPT 審査依頼ポイント
-
-GPT / 外部レビュアーには、以下を重点的に確認してほしい。
-
-1. `SHIKISHIMA_SHADOW_MODE` と `createActionPreflight()` だけでは捕捉できない外部操作経路がないか。
-2. preload exposed API から、実行系 IPC を直接呼べる穴がないか。
-3. StackChan HOLD と Shikishima core の safety gate が混線していないか。
-4. Discord / x_search / Obsidian / Hermes Bridge の read/write 境界が明確か。
-5. productionReady / execution enabled の表記が、実装完了や検収完了と混同されないか。
-6. 記憶・プロフィール・persona policy の優先順位が、発話禁止や口調修正を確実に反映できるか。
-7. FX / market position proposal が external action や financial advice と誤解されない gate 表現になっているか。
-8. エージェント討論モードで、最終判断者と安全 gate の責任が曖昧にならないか。
-
----
-
-## 12. 推奨される次の実装前タスク
-
-1. **Preload / IPC External Surface Audit**
-   - preload 公開 API と main handler を一覧化し、draft / read-only / write / runtime / firmware に分類。
-
-2. **Profile / Phrase Policy Debug**
-   - 禁止フレーズ、persona、memory の優先順位を固定し、StackChan 発話前にも適用。
-
-3. **Agent AI Assignment Consistency Review**
-   - 各 agent の primary / fallback model と task scope を docs + code で照合。
-
-4. **Secretary Status Snapshot Redaction Test**
-   - raw token / LAN IP / local path / device ID が snapshot に出ないことを検証。
-
-5. **External Gate Table**
-   - Discord, Obsidian, x_search, Hermes Bridge, Command Chat, StackChan, FX publishing を一枚表にまとめる。
-
-6. **Discussion Mode Safety Design**
-   - agent 討論モードで、提案、反対、判定、最終 human GO の役割を固定。
-
----
-
-## 13. 本設計書の結論
-
-現在の Shikishima は、機能実装の量よりも安全境界と外部操作経路の整理が重要な段階にある。
-
-結論:
-
-```text
-Shikishima core:
-  design review and debug preparation: READY
+SYSTEM_DESIGN_OVERVIEW:
+  repaired_for_review: true
+  stackchan: HOLD
+  discord_first: reflected
   productionReady: false
   execution: disabled
-
-StackChan:
-  HOLD
-  no new firmware/device operation in this review
-
-External actions:
-  gated
-  no autonomous write / runtime / OAuth / social write
-
-Next:
-  audit IPC / gate coverage before opening further Level 5 paths
+  push: not approved
 ```
-
-この文書は、GPT 審査に渡すための最終版設計概要であり、実行承認ではない。
