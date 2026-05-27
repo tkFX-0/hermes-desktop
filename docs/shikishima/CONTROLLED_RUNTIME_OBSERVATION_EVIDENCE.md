@@ -133,3 +133,12 @@ Recommend operator open sidebar "navigation.statusBoard" entry and confirm IPC-l
 ```text
 /goalmacro shikishima.final-core-acceptance
 ```
+
+---
+
+## 10. Follow-up
+
+```text
+Follow-up visual confirmation recorded in STATUS_BOARD_VISUAL_CONFIRMATION_EVIDENCE.md
+Rally 8.5 resolved the visual caveat (human operator PASS, 2026-05-27).
+```
