@@ -30,7 +30,16 @@ import {
   Timer,
   Download,
 } from "../../assets/icons";
-import { BarChart2, LayoutDashboard, Smartphone, Sun, Moon, Monitor, BookOpen } from "lucide-react";
+import {
+  BarChart2,
+  LayoutDashboard,
+  Smartphone,
+  Sun,
+  Moon,
+  Monitor,
+  BookOpen,
+  Activity
+} from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useI18n } from "../../components/useI18n";
 import { useTheme } from "../../components/theme-context";
@@ -38,6 +47,7 @@ import { SafetyStrip } from "../../components/Shell/SafetyStrip";
 import { AgentTheaterPage } from "../AgentTheater/AgentTheaterPage";
 import { LibraryExportPage } from "../Library/LibraryExportPage";
 import { OperatorPage } from "../Operator/OperatorPage";
+import { RuntimeStatusBoardPage } from "../RuntimeStatusBoard";
 import {
   toSafetyStripData,
   toOperatorPageData,
@@ -68,6 +78,7 @@ type View =
   | "settings"
   | "research"
   | "controlCenter"
+  | "statusBoard"
   | "mobileConsole"
   | "library";
 
@@ -76,6 +87,11 @@ const NAV_ITEMS: { view: View; icon: LucideIcon; labelKey: string }[] = [
     view: "controlCenter",
     icon: LayoutDashboard as LucideIcon,
     labelKey: "navigation.controlCenter",
+  },
+  {
+    view: "statusBoard",
+    icon: Activity as LucideIcon,
+    labelKey: "navigation.statusBoard",
   },
   {
     view: "mobileConsole",
@@ -565,6 +581,19 @@ function Layout(): React.JSX.Element {
                 このUIから外部実行は発生しません
               </span>
             </div>
+          </div>
+        )}
+        {view === "statusBoard" && (
+          <div
+            style={{
+              display: "flex",
+              flex: 1,
+              flexDirection: "column",
+              overflow: "hidden",
+              minHeight: 0,
+            }}
+          >
+            <RuntimeStatusBoardPage />
           </div>
         )}
         {view === "mobileConsole" && (

@@ -1,0 +1,88 @@
+.rsb-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  color: #e6edf3;
+  background: #0d1117;
+  min-height: 100%;
+  overflow-y: auto;
+}
+
+.rsb-header h1 {
+  margin: 0 0 8px;
+  font-size: 1.25rem;
+}
+
+.rsb-readonly-banner,
+.rsb-fallback-banner {
+  margin: 0 0 8px;
+  font-size: 0.875rem;
+}
+
+.rsb-fallback-banner {
+  color: #f0883e;
+}
+
+.rsb-refresh {
+  margin-top: 8px;
+  padding: 6px 12px;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  background: #21262d;
+  color: #e6edf3;
+  cursor: pointer;
+}
+
+.rsb-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.rsb-chip {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  border: 1px solid #30363d;
+}
+
+.rsb-chip-ready {
+  background: #1f3d2a;
+}
+
+.rsb-chip-hold {
+  background: #3d2c1f;
+}
+
+.rsb-chip-blocked {
+  background: #3d1f1f;
+}
+
+.rsb-chip-neutral {
+  background: #21262d;
+}
+
+.rsb-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.rsb-card {
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 12px;
+  background: #161b22;
+}
+
+.rsb-card h2 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+
+.rsb-routes ul,
+.rsb-safety ul {
+  margin: 0;
+  padding-left: 20px;
+}
