@@ -34,8 +34,8 @@ git_push: separate human GO only
 
 ```text
 branch: main
-HEAD: (local; operator handoff daily queue preview — not pushed)
-origin/main: 161bfd4
+HEAD: (local; operator review mvp finalize rally 1 — not pushed)
+origin/main: 14ce978
 commits_ahead: implementation + ledger (not pushed)
 ledger_updated: 2026-05-26
 Master Spec: PUSHED
@@ -83,7 +83,10 @@ Operator Handoff Fixtures: PUSHED
 Operator Handoff Markdown Snapshot: PUSHED
 Real Goal-name Operator Handoff Fixtures: PUSHED
 Operator Handoff Snapshot Index: PUSHED
-Operator Handoff Daily Queue Preview: LOCAL PASS / NOT PUSHED
+Operator Handoff Daily Queue Preview: PUSHED
+Operator Handoff Discord Digest: LOCAL PASS
+Final Operator Review Bundle: LOCAL PASS
+Operator Review MVP Finalize Rally 1: LOCAL PASS / NOT PUSHED
 ```
 
 Preferred operator display direction:
@@ -92,6 +95,8 @@ Preferred operator display direction:
 Discord is the primary operator viewing surface.
 Operator Handoff Assembly provides one-call HumanGateReport → OperatorHandoffSession preview.
 Operator Handoff Markdown Snapshot renders assembly into one Discord paste-ready Markdown artifact.
+Final Operator Review Bundle summarizes Snapshot Index, Daily Queue Preview, and Discord Digest.
+Operator Handoff Discord Digest compresses daily queue into Discord-friendly digest.
 Operator Handoff Daily Queue Preview summarizes snapshot index into today's judgment-waiting queue.
 Operator Handoff Snapshot Index summarizes multiple markdown snapshots for operator review.
 Real Goal-name fixtures stabilize production-like handoff output with realistic Shikishima goalName strings.
@@ -257,7 +262,10 @@ Meaning:
 | Operator Handoff Markdown Snapshot | PUSHED | `f33c894` | `feat: add operator handoff markdown snapshot`; Discord paste-ready |
 | Real Goal-name Operator Handoff Fixtures | PUSHED | `2484223` | `test: add real goal operator handoff fixtures`; production-like goalName |
 | Operator Handoff Snapshot Index | PUSHED | `161bfd4` | `feat: add operator handoff snapshot index`; multi-handoff listing |
-| Operator Handoff Daily Queue Preview | LOCAL PASS / NOT PUSHED | (local) | `feat: add operator handoff daily queue preview`; today's queue |
+| Operator Handoff Daily Queue Preview | PUSHED | `14ce978` | `feat: add operator handoff daily queue preview`; today's queue |
+| Operator Handoff Discord Digest | LOCAL PASS | (local) | `feat: add operator handoff discord digest`; compact digest |
+| Final Operator Review Bundle | LOCAL PASS | (local) | `feat: add final operator review bundle`; final review package |
+| Operator Review MVP Finalize Rally 1 | LOCAL PASS / NOT PUSHED | (local) | Rally 1: digest + final bundle |
 
 Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → display contracts):
 
@@ -342,6 +350,10 @@ WorkerTaskContract
   → createOperatorHandoffSnapshotIndexMarkdown()
   → createOperatorHandoffDailyQueuePreview()
   → createOperatorHandoffDailyQueuePreviewMarkdown()
+  → createOperatorHandoffDiscordDigest()
+  → createOperatorHandoffDiscordDigestMarkdown()
+  → createFinalOperatorReviewBundle()
+  → createFinalOperatorReviewBundleMarkdown()
   → (future Discord Send Executor — NOT IMPLEMENTED; see DISCORD_SEND_EXECUTOR_DESIGN.md)
   → (future one-shot Discord send attempt — HOLD)
   → (future post-send evidence + gate restored HOLD)
@@ -824,6 +836,43 @@ execution: disabled
 
 Implementation: `src/shared/operator-handoff-daily-queue-preview/`.
 
+### Operator Handoff Discord Digest boundary (not Discord send)
+
+Operator Handoff Discord Digest compresses daily queue preview for Discord paste.
+
+```text
+digestOnly | markdownOnly | review-only
+maxItems / maxLength truncation supported
+productionReady: false
+execution: disabled
+```
+
+Implementation: `src/shared/operator-handoff-discord-digest/`.
+
+### Final Operator Review Bundle boundary (not execution)
+
+Final Operator Review Bundle packages index + daily queue + digest for human review.
+
+```text
+bundleOnly | review-only | conservative status
+READY_FOR_HUMAN_REVIEW is not send / queue / next goal auto-approval
+productionReady: false
+execution: disabled
+```
+
+Implementation: `src/shared/final-operator-review-bundle/`.
+
+### Operator Review MVP Finalize Rally 1 boundary
+
+Rally 1 finalizes preview-only Operator Review MVP path through final bundle.
+
+```text
+Operator Review MVP: preview-only complete (Rally 1 local)
+Discord send: HOLD until Rally 3/4
+External execution: HOLD until Rally 5
+Runtime: HOLD until Rally 7
+```
+
 ### iPhone Human Gate Display Contract boundary (not UI / network / IPC)
 
 iPhone Human Gate Display Contract is pure display contract only.
@@ -959,10 +1008,10 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (operator handoff daily queue preview local PASS; push pending)
+active_goal: none (operator review mvp finalize rally 1 local PASS; push pending)
 status: PASS
-last_completed_goal: shikishima.push-snapshot-index-and-add-operator-handoff-daily-queue-preview
-external_effects: git push only (operator handoff snapshot index commits)
+last_completed_goal: shikishima.operator-review-mvp-finalize
+external_effects: git push only (operator handoff daily queue preview commits)
 actual_obsidian_write: false
 ```
 
@@ -972,7 +1021,7 @@ actual_obsidian_write: false
 
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
-| 1 | `/goal shikishima.push-daily-queue-preview-and-add-operator-handoff-discord-digest` | TODO | Daily Queue Preview LOCAL PASS | Push GO + discord digest |
+| 1 | `/goalmacro shikishima.queue-operation-mvp` | TODO | Operator Review MVP Rally 1 LOCAL PASS | Push Rally 1 + queue operation MVP |
 | 2 | `/goal shikishima.push-discord-send-executor-design-and-add-discord-send-executor-preimplementation-review` | DEFERRED | Executor design PUSHED | Safety design path paused |
 | 2 | `/goal shikishima.readonly-ui-display-plan` | DONE | pushed as 1f20f0a | — |
 | 3 | Goal A6: selected handler integration planning/implementation | HOLD | A5 PUSHED | source-change GO |
@@ -987,9 +1036,9 @@ actual_obsidian_write: false
 Next recommended goal detail:
 
 ```text
-/goal shikishima.push-daily-queue-preview-and-add-operator-handoff-discord-digest
+/goalmacro shikishima.queue-operation-mvp
 
-Push daily queue preview + ledger; add operator handoff discord digest for paste-ready summary.
+Push operator review mvp finalize rally 1 artifacts; begin queue operation MVP macro.
 ```
 
 Remaining explicit HOLD (do not infer approval):
