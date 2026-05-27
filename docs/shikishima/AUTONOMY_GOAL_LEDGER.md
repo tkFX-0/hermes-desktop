@@ -115,8 +115,10 @@ Runtime Status Board Main Provider: PUSHED
 Runtime Status Board Preload API: PUSHED
 Runtime Status Board Renderer View: PUSHED
 IPC Renderer Read-only Status Board Evidence: PUSHED
-Controlled Runtime Observation Rally 8: LOCAL PASS_WITH_CAVEAT / NOT PUSHED
-Controlled Runtime Observation Evidence: LOCAL PASS_WITH_CAVEAT
+Controlled Runtime Observation Rally 8: PASS (visual caveat resolved by Rally 8.5)
+Controlled Runtime Observation Evidence: PUSHED
+Status Board Visual Confirmation Rally 8.5: LOCAL PASS / PUSH PENDING
+Status Board Visual Confirmation Evidence: LOCAL PASS
 ```
 
 Preferred operator display direction:
@@ -1054,13 +1056,28 @@ Rally 8 verified controlled local Electron observation session.
 command: .\node_modules\.bin\electron.cmd .
 prebuild: npm run build (out/ gitignored)
 app_started: true
-visual_status_board: operator confirmation recommended (PASS_WITH_CAVEAT)
+visual_status_board: PASS (Rally 8.5 human operator confirmation)
 productionReady: false
 execution: disabled
 no Discord send / token / network / external write
 ```
 
 Evidence: `docs/shikishima/CONTROLLED_RUNTIME_OBSERVATION_EVIDENCE.md`.
+
+### Status Board Visual Confirmation boundary (Rally 8.5)
+
+Rally 8.5 resolved the Rally 8 visual caveat.
+
+```text
+human_operator_confirmed: true
+ipc_snapshot_loaded: true
+refresh_getSnapshot_only: true
+no send / execute / mutate / token / command controls
+productionReady: false
+execution: disabled
+```
+
+Evidence: `docs/shikishima/STATUS_BOARD_VISUAL_CONFIRMATION_EVIDENCE.md`.
 
 ### iPhone Human Gate Display Contract boundary (not UI / network / IPC)
 
@@ -1197,10 +1214,10 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (controlled runtime observation rally 8 PASS_WITH_CAVEAT; docs local)
-status: PASS_WITH_CAVEAT
-last_completed_goal: shikishima.push-rally7-and-controlled-runtime-observation
-external_effects: git push Rally 7 (218633d); controlled Electron observation session
+active_goal: none (status board visual confirmation rally 8.5 PASS; docs push pending)
+status: PASS
+last_completed_goal: shikishima.status-board-visual-confirmation
+external_effects: human visual Status Board confirmation; Rally 8 caveat resolved
 actual_obsidian_write: false
 ```
 
@@ -1210,9 +1227,10 @@ actual_obsidian_write: false
 
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
-| 1 | `/goalmacro shikishima.final-core-acceptance` | TODO | Rally 8 observation PASS_WITH_CAVEAT | Final acceptance GO |
+| 1 | `/goalmacro shikishima.final-core-acceptance` | TODO | Rally 8.5 PASS | Final acceptance GO |
 | 1b | `/goalmacro shikishima.discord-one-shot-send-completion` | TODO | env optional | SHIKISHIMA_DISCORD_* + one-shot send |
-| 1c | `/goalmacro shikishima.push-rally7-and-controlled-runtime-observation` | DONE (PASS_WITH_CAVEAT) | Rally 7 PUSHED | operator visual confirm optional |
+| 1c | `/goalmacro shikishima.status-board-visual-confirmation` | DONE (PASS) | Rally 8 caveat resolved | — |
+| 1d | `/goalmacro shikishima.push-rally7-and-controlled-runtime-observation` | DONE | Rally 7 PUSHED | — |
 | 1d | `/goalmacro shikishima.ipc-renderer-readonly-status-board` | DONE | Rally 6 PUSHED | — |
 | 1d | `/goalmacro shikishima.runtime-readonly-status-board` | DONE | Rally 5 PUSHED | — |
 | 1d | `/goalmacro shikishima.external-action-guard-controlled-autonomy` | DONE | Rally 4 PUSHED | — |
