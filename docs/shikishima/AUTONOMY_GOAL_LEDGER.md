@@ -87,8 +87,13 @@ Operator Handoff Daily Queue Preview: PUSHED
 Operator Handoff Discord Digest: LOCAL PASS
 Final Operator Review Bundle: LOCAL PASS
 Operator Review MVP Finalize Rally 1: PUSHED
-Queue Operation MVP Rally 2: LOCAL PASS / NOT PUSHED
-Human Gate Queue Operation Contract: LOCAL PASS
+Queue Operation MVP Rally 2: PUSHED
+Human Gate Queue Operation Contract: PUSHED
+Discord Send Unlock 1 Executor Dry-run Rally 3: LOCAL PASS / NOT PUSHED
+Discord Send Executor Dry-run Contract: LOCAL PASS
+Discord Send Executor Intent Builders: LOCAL PASS
+Discord Send Mock Transport: LOCAL PASS
+Discord Send Executor Dry-run Evidence: LOCAL PASS
 ```
 
 Preferred operator display direction:
@@ -270,7 +275,12 @@ Meaning:
 | Final Operator Review Bundle | LOCAL PASS | (local) | `feat: add final operator review bundle`; final review package |
 | Operator Review MVP Finalize Rally 1 | PUSHED | `5212fcd` | Rally 1: digest + final bundle |
 | Human Gate Queue Operation Contract | LOCAL PASS | (local) | `feat: add human gate queue operation contract` |
-| Queue Operation MVP Rally 2 | LOCAL PASS / NOT PUSHED | (local) | controlled HUMAN_GATE_QUEUE.md mutation |
+| Queue Operation MVP Rally 2 | PUSHED | `db60a4d` | controlled HUMAN_GATE_QUEUE.md mutation |
+| Discord Send Unlock 1 Executor Dry-run Rally 3 | LOCAL PASS / NOT PUSHED | (local) | executor dry-run / mock transport only |
+| Discord Send Executor Dry-run Contract | LOCAL PASS | (local) | `feat: add discord send executor dry run` |
+| Discord Send Executor Intent Builders | LOCAL PASS | (local) | bundle + digest intent helpers |
+| Discord Send Mock Transport | LOCAL PASS | (local) | mock transport; actualSendCount 0 |
+| Discord Send Executor Dry-run Evidence | LOCAL PASS | (local) | `docs: record discord send executor dry run evidence` |
 
 Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → display contracts):
 
@@ -899,6 +909,31 @@ execution: disabled
 Implementation: `src/shared/human-gate-queue-operation/`.
 Evidence: `docs/shikishima/HUMAN_GATE_QUEUE_OPERATION_MVP_EVIDENCE.md`.
 
+### Discord Send Unlock 1 Executor Dry-run boundary (Rally 3 — no actual send)
+
+Rally 3 prepares Discord send execution without sending.
+
+```text
+FinalOperatorReviewBundle | OperatorHandoffDiscordDigest
+  → DiscordSendExecutorIntent
+  → DiscordSendExecutorDryRun
+  → executeDiscordSendMockTransport
+  → would-send evidence
+
+no Discord send
+no webhook, bot, token, or network call
+no external API write
+no runtime start
+no UI/IPC
+mock transport simulates send readiness with actualSendCount 0
+productionReady: false
+execution: disabled
+Actual one-shot Discord send remains Rally 4
+```
+
+Implementation: `src/shared/discord-send-executor-dry-run/`.
+Evidence: `docs/shikishima/DISCORD_SEND_EXECUTOR_DRY_RUN_EVIDENCE.md`.
+
 ### iPhone Human Gate Display Contract boundary (not UI / network / IPC)
 
 iPhone Human Gate Display Contract is pure display contract only.
@@ -1034,10 +1069,10 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (queue operation mvp rally 2 local PASS; push pending)
+active_goal: none (discord send unlock 1 rally 3 local PASS; push pending)
 status: PASS
-last_completed_goal: shikishima.queue-operation-mvp
-external_effects: git push Rally 1 + controlled HUMAN_GATE_QUEUE.md mutation (Rally 2)
+last_completed_goal: shikishima.discord-send-unlock-1-executor-dry-run
+external_effects: git push Rally 2 (db60a4d); Rally 3 local only
 actual_obsidian_write: false
 ```
 
@@ -1047,7 +1082,8 @@ actual_obsidian_write: false
 
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
-| 1 | `/goalmacro shikishima.discord-send-unlock-1-executor-dry-run` | TODO | Queue Operation MVP Rally 2 LOCAL PASS | Push Rally 2 + Discord unlock 1 |
+| 1 | `/goalmacro shikishima.discord-send-unlock-2-one-shot-send` | TODO | Discord Send Unlock 1 Rally 3 LOCAL PASS | Push Rally 3 + one-shot send GO |
+| 1b | `/goalmacro shikishima.discord-send-unlock-1-executor-dry-run` | DONE | Rally 2 PUSHED | — |
 | 2 | `/goal shikishima.push-discord-send-executor-design-and-add-discord-send-executor-preimplementation-review` | DEFERRED | Executor design PUSHED | Safety design path paused |
 | 2 | `/goal shikishima.readonly-ui-display-plan` | DONE | pushed as 1f20f0a | — |
 | 3 | Goal A6: selected handler integration planning/implementation | HOLD | A5 PUSHED | source-change GO |
@@ -1062,9 +1098,9 @@ actual_obsidian_write: false
 Next recommended goal detail:
 
 ```text
-/goalmacro shikishima.discord-send-unlock-1-executor-dry-run
+/goalmacro shikishima.discord-send-unlock-2-one-shot-send
 
-Push queue operation mvp rally 2 artifacts; begin Discord send unlock 1 (executor dry-run only).
+Push discord send unlock 1 rally 3 artifacts; one-shot actual Discord send (Rally 4).
 ```
 
 Remaining explicit HOLD (do not infer approval):
