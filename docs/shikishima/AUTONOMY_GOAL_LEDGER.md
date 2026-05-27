@@ -34,9 +34,9 @@ git_push: separate human GO only
 
 ```text
 branch: main
-HEAD: (local; queue mutation plan — not pushed)
-origin/main: d73b88d
-commits_ahead: docs-only (not pushed)
+HEAD: (local; queue mutation preflight — not pushed)
+origin/main: b430344
+commits_ahead: implementation + ledger (not pushed)
 ledger_updated: 2026-05-26
 Master Spec: PUSHED
 Goal A1 route registry: PUSHED
@@ -64,7 +64,8 @@ iPhone Human Gate Display Render Contract: PUSHED
 Discord Send Gate Plan: PUSHED
 Discord Send Preflight Contract: PUSHED
 Human Gate Queue Markdown Render Contract: PUSHED
-Human Gate Queue Mutation Plan: LOCAL PASS / NOT PUSHED
+Human Gate Queue Mutation Plan: PUSHED
+Human Gate Queue Mutation Preflight Contract: LOCAL PASS / NOT PUSHED
 ```
 
 Preferred operator display direction:
@@ -72,9 +73,12 @@ Preferred operator display direction:
 ```text
 Discord is the primary operator viewing surface.
 Queue Markdown Render Contract is PUSHED.
-Queue mutation plan is docs-only.
+Queue mutation plan is PUSHED.
+Queue mutation preflight uses HumanGateQueueMarkdownRenderModel as canonical input.
+READY_CANDIDATE is not mutation approval.
+fileWriteReady remains false.
+mayMutateNow remains false.
 Actual HUMAN_GATE_QUEUE.md mutation remains HOLD.
-Queue mutation preflight remains future.
 Queue one-shot append remains HOLD.
 Queue rewrite / cleanup remains NOT_APPROVED.
 Preflight: READY_CANDIDATE is not send approval; sendReady remains false.
@@ -171,7 +175,8 @@ Meaning:
 | Discord Send Gate Plan | PUSHED | `f903776` | `docs: plan discord send gate`; docs-only; send remains HOLD |
 | Discord Send Preflight Contract | PUSHED | `4b9bb74` | `feat: add discord send preflight contract`; Intent/Result separate from draft |
 | Human Gate Queue Markdown Render Contract | PUSHED | `7474049` | `feat: add human gate queue markdown render contract`; canonical input = display target |
-| Human Gate Queue Mutation Plan | LOCAL PASS / NOT PUSHED | (local) | `docs: plan human gate queue mutation gate`; docs-only; append remains HOLD |
+| Human Gate Queue Mutation Plan | PUSHED | `0b46912` | `docs: plan human gate queue mutation gate`; docs-only; append remains HOLD |
+| Human Gate Queue Mutation Preflight Contract | LOCAL PASS / NOT PUSHED | (local) | `feat: add human gate queue mutation preflight contract`; Intent/Result separate from render |
 
 Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → display contracts):
 
@@ -218,6 +223,9 @@ WorkerTaskContract
   → renderDiscordSendPreflightPreview()
   → createHumanGateQueueMarkdownRenderModel()
   → renderHumanGateQueueMarkdownPreview()
+  → createHumanGateQueueMutationPreflightIntentFromMarkdownRenderModel()
+  → evaluateHumanGateQueueMutationPreflight()
+  → renderHumanGateQueueMutationPreflightPreview()
   → (future one-shot queue append gate — NOT IMPLEMENTED)
   → (future read-only UI — not implemented)
 ```
@@ -358,6 +366,24 @@ queue-mutation-preflight recommended next
 
 Implementation doc: `docs/shikishima/HUMAN_GATE_QUEUE_MUTATION_PLAN.md`.
 
+### Human Gate Queue Mutation Preflight Contract boundary (not file write / append)
+
+Human Gate Queue Mutation Preflight Contract is pure preflight only.
+
+```text
+canonical input: HumanGateQueueMarkdownRenderModel (from HumanGateQueueDisplayTargetItem)
+not canonical: Discord digest
+HumanGateQueueMutationPreflightIntent = future append request shape (not approved)
+HumanGateQueueMutationPreflightResult = HOLD / BLOCKED / READY_CANDIDATE (no write)
+READY_CANDIDATE != mutation approval
+fileWriteReady: false
+mayMutateNow: false
+humanGateQueueDocModified: false
+no fs import
+```
+
+Implementation: `src/shared/human-gate-queue-mutation-preflight/`.
+
 ### iPhone Human Gate Display Contract boundary (not UI / network / IPC)
 
 iPhone Human Gate Display Contract is pure display contract only.
@@ -493,10 +519,10 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (queue mutation plan local PASS; push pending)
+active_goal: none (queue mutation preflight local PASS; push pending)
 status: PASS
-last_completed_goal: shikishima.push-queue-markdown-render-and-add-human-gate-queue-mutation-plan
-external_effects: git push only (queue markdown render commits)
+last_completed_goal: shikishima.push-human-gate-queue-mutation-plan-and-add-queue-mutation-preflight-contract
+external_effects: git push only (queue mutation plan docs)
 actual_obsidian_write: false
 ```
 
@@ -506,7 +532,7 @@ actual_obsidian_write: false
 
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
-| 1 | `/goal shikishima.push-human-gate-queue-mutation-plan-and-add-queue-mutation-preflight-contract` | TODO | Queue Mutation Plan LOCAL PASS | Push GO + pure preflight contract |
+| 1 | `/goal shikishima.push-queue-mutation-preflight-and-add-discord-send-readiness-digest` | TODO | Queue Mutation Preflight LOCAL PASS | Push GO + cross-surface readiness digest |
 | 2 | `/goal shikishima.readonly-ui-display-plan` | DONE | pushed as 1f20f0a | — |
 | 3 | Goal A6: selected handler integration planning/implementation | HOLD | A5 PUSHED | source-change GO |
 | 4 | Goal C: Memory Scope / Persona / Model Trace Foundation | TODO | Master Spec | source-change GO |
@@ -520,9 +546,9 @@ actual_obsidian_write: false
 Next recommended goal detail:
 
 ```text
-/goal shikishima.push-human-gate-queue-mutation-plan-and-add-queue-mutation-preflight-contract
+/goal shikishima.push-queue-mutation-preflight-and-add-discord-send-readiness-digest
 
-Push HUMAN_GATE_QUEUE_MUTATION_PLAN.md + ledger; add pure queue-mutation-preflight contract (no fs write).
+Push queue-mutation-preflight contract + ledger; add cross-surface readiness digest (strings only; no send/append).
 ```
 
 Remaining explicit HOLD (do not infer approval):
