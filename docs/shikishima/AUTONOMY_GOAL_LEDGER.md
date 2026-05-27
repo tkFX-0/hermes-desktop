@@ -89,11 +89,16 @@ Final Operator Review Bundle: LOCAL PASS
 Operator Review MVP Finalize Rally 1: PUSHED
 Queue Operation MVP Rally 2: PUSHED
 Human Gate Queue Operation Contract: PUSHED
-Discord Send Unlock 1 Executor Dry-run Rally 3: LOCAL PASS / NOT PUSHED
-Discord Send Executor Dry-run Contract: LOCAL PASS
-Discord Send Executor Intent Builders: LOCAL PASS
-Discord Send Mock Transport: LOCAL PASS
-Discord Send Executor Dry-run Evidence: LOCAL PASS
+Discord Send Unlock 1 Executor Dry-run Rally 3: PUSHED
+Discord Send Executor Dry-run Contract: PUSHED
+Discord Send Executor Intent Builders: PUSHED
+Discord Send Mock Transport: PUSHED
+Discord Send Executor Dry-run Evidence: PUSHED
+Discord Send Unlock 2 One-shot Send Rally 4: LOCAL PASS / NOT PUSHED (send HOLD — credentials)
+Discord One-shot Send Contract: LOCAL PASS
+Discord One-shot Send Tool: LOCAL PASS
+Discord One-shot Actual Send: HOLD (env not configured)
+Discord One-shot Send Evidence: LOCAL PASS
 ```
 
 Preferred operator display direction:
@@ -276,11 +281,13 @@ Meaning:
 | Operator Review MVP Finalize Rally 1 | PUSHED | `5212fcd` | Rally 1: digest + final bundle |
 | Human Gate Queue Operation Contract | LOCAL PASS | (local) | `feat: add human gate queue operation contract` |
 | Queue Operation MVP Rally 2 | PUSHED | `db60a4d` | controlled HUMAN_GATE_QUEUE.md mutation |
-| Discord Send Unlock 1 Executor Dry-run Rally 3 | LOCAL PASS / NOT PUSHED | (local) | executor dry-run / mock transport only |
-| Discord Send Executor Dry-run Contract | LOCAL PASS | (local) | `feat: add discord send executor dry run` |
-| Discord Send Executor Intent Builders | LOCAL PASS | (local) | bundle + digest intent helpers |
-| Discord Send Mock Transport | LOCAL PASS | (local) | mock transport; actualSendCount 0 |
-| Discord Send Executor Dry-run Evidence | LOCAL PASS | (local) | `docs: record discord send executor dry run evidence` |
+| Discord Send Unlock 1 Executor Dry-run Rally 3 | PUSHED | `8ca01e5` | executor dry-run / mock transport only |
+| Discord Send Executor Dry-run Contract | PUSHED | `fb648fe` | `feat: add discord send executor dry run` |
+| Discord Send Unlock 2 One-shot Send Rally 4 | LOCAL PASS / NOT PUSHED | (local) | one-shot send; actual send HOLD until env |
+| Discord One-shot Send Contract | LOCAL PASS | (local) | `feat: add discord one shot send executor` |
+| Discord One-shot Send Tool | LOCAL PASS | (local) | `tools/shikishima-discord-one-shot-send.mjs` |
+| Discord One-shot Actual Send | HOLD | (local) | missing SHIKISHIMA_DISCORD_* env vars |
+| Discord One-shot Send Evidence | LOCAL PASS | (local) | `docs: record discord one shot send evidence` |
 
 Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → display contracts):
 
@@ -934,6 +941,30 @@ Actual one-shot Discord send remains Rally 4
 Implementation: `src/shared/discord-send-executor-dry-run/`.
 Evidence: `docs/shikishima/DISCORD_SEND_EXECUTOR_DRY_RUN_EVIDENCE.md`.
 
+### Discord Send Unlock 2 One-shot Send boundary (Rally 4)
+
+Rally 4 authorizes exactly one supervised Discord REST send when preflight and local credentials pass.
+
+```text
+DiscordSendExecutorDryRunResult
+  → DiscordOneShotSendPreflight
+  → bot_token_rest POST (one request)
+  → redacted after-send evidence
+  → gate restored HOLD
+
+no webhook
+no bot runtime
+no gateway
+no auto retry / auto reply
+productionReady: false
+execution: disabled
+```
+
+Implementation: `src/shared/discord-send-one-shot/`, `tools/shikishima-discord-one-shot-send.mjs`.
+Evidence: `docs/shikishima/DISCORD_ONE_SHOT_SEND_EVIDENCE.md`.
+
+Current send status: HOLD until `SHIKISHIMA_DISCORD_BOT_TOKEN`, `SHIKISHIMA_DISCORD_OPERATOR_REVIEW_CHANNEL_ID`, and `SHIKISHIMA_DISCORD_OPERATOR_REVIEW_TARGET_LABEL` are set locally.
+
 ### iPhone Human Gate Display Contract boundary (not UI / network / IPC)
 
 iPhone Human Gate Display Contract is pure display contract only.
@@ -1069,10 +1100,10 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (discord send unlock 1 rally 3 local PASS; push pending)
-status: PASS
-last_completed_goal: shikishima.discord-send-unlock-1-executor-dry-run
-external_effects: git push Rally 2 (db60a4d); Rally 3 local only
+active_goal: none (discord send unlock 2 rally 4 local PASS; one-shot send HOLD)
+status: PASS_WITH_CAVEAT
+last_completed_goal: shikishima.discord-send-unlock-2-one-shot-send
+external_effects: git push Rally 3 (8ca01e5); Rally 4 local only; no network send
 actual_obsidian_write: false
 ```
 
@@ -1082,8 +1113,9 @@ actual_obsidian_write: false
 
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
-| 1 | `/goalmacro shikishima.discord-send-unlock-2-one-shot-send` | TODO | Discord Send Unlock 1 Rally 3 LOCAL PASS | Push Rally 3 + one-shot send GO |
-| 1b | `/goalmacro shikishima.discord-send-unlock-1-executor-dry-run` | DONE | Rally 2 PUSHED | — |
+| 1 | `/goalmacro shikishima.external-action-guard-controlled-autonomy` | TODO | Rally 4 contract/tool LOCAL PASS | Push Rally 4 + resume one-shot send |
+| 1b | `/goalmacro shikishima.discord-send-unlock-2-one-shot-send` | DONE (send HOLD) | Rally 3 PUSHED | Set SHIKISHIMA_DISCORD_* env + re-run tool |
+| 1c | `/goalmacro shikishima.discord-send-unlock-1-executor-dry-run` | DONE | Rally 2 PUSHED | — |
 | 2 | `/goal shikishima.push-discord-send-executor-design-and-add-discord-send-executor-preimplementation-review` | DEFERRED | Executor design PUSHED | Safety design path paused |
 | 2 | `/goal shikishima.readonly-ui-display-plan` | DONE | pushed as 1f20f0a | — |
 | 3 | Goal A6: selected handler integration planning/implementation | HOLD | A5 PUSHED | source-change GO |
@@ -1098,9 +1130,10 @@ actual_obsidian_write: false
 Next recommended goal detail:
 
 ```text
-/goalmacro shikishima.discord-send-unlock-2-one-shot-send
+/goalmacro shikishima.external-action-guard-controlled-autonomy
 
-Push discord send unlock 1 rally 3 artifacts; one-shot actual Discord send (Rally 4).
+Push rally 4 artifacts; integrate one-shot send under External Action Guard.
+Resume actual send after SHIKISHIMA_DISCORD_* env is configured locally.
 ```
 
 Remaining explicit HOLD (do not infer approval):
