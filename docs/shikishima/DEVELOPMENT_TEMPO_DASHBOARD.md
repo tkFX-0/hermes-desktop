@@ -26,9 +26,9 @@ creating productivity pressure or autonomous acceleration.
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: local ahead (Rally 10 HOLD + Rally 10.5 forensics; not pushed)
 - autonomy core: Rally 1-9 ACCEPTED_AS_FINAL_CORE_100
-- stackchan: Baseline HOLD; forensics plan prepared
-- current next human action: checklist → baseline observation retry (read-only, screen visible)
-- HOLD reason: productionReady false; execution disabled; StackChan control HOLD; baseline incomplete
+- stackchan: Baseline PASS (retry); control HOLD
+- current next human action: Rally 11 StackChan Safety Readiness GO
+- HOLD reason: productionReady false; execution disabled; StackChan active control HOLD
 
 ## Agent Theater — 完了済み
 

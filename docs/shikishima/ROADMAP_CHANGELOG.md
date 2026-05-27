@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.44.0
+- roadmapVersion: v4.45.0
 - lastUpdated: 2026-05-28
-- latestUpdate: StackChan custom firmware forensics plan (docs-only). Baseline observation remains HOLD. No device connection.
+- latestUpdate: StackChan baseline observation retry PASS (read-only human enums). StackChan control remains HOLD.
 - baselineCommit: 9c1a228
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,12 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.45.0 - StackChan Baseline Observation Retry (PASS)
+
+- `STACKCHAN_BASELINE_OBSERVATION_RETRY_EVIDENCE.md`: human read-only observation PASS.
+- Face visible, custom firmware confirmed (redacted), no commands sent from Shikishima.
+- Next: StackChan Safety Readiness (Rally 11). Active control still HOLD.
 
 ## v4.44.0 - StackChan Custom Firmware Forensics Plan (Rally 10.5)
 

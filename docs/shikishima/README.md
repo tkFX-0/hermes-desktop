@@ -34,7 +34,8 @@ Current state:
 - rawValuesReported: false
 - finalShikishimaCore: ACCEPTED_AS_FINAL_CORE_100 (2026-05-27; guarded scope — see `FINAL_CORE_ACCEPTANCE.md`)
 - completionRoom: DE_SCOPED (use Status Board + `FINAL_CORE_ACCEPTANCE.md`)
-- nextPhase: StackChan Phase 0 prep (docs) → Baseline Observation (not started; control HOLD)
+- stackchanBaseline: PASS (retry, read-only; control still HOLD)
+- nextPhase: StackChan Safety Readiness (Rally 11)
 
 These documents are not execution approval. They do not enable WSL, Hermes,
 wrapper, dummy wrapper, RunPod, StackChan, packaged smoke, or any external
@@ -65,6 +66,7 @@ network flow.
 - `STACKCHAN_CUSTOM_FIRMWARE_CHECKLIST.md` - human read-only checklist.
 - `STACKCHAN_RECOVERY_DECISION_TREE.md` - recovery routing (no flash without separate GO).
 - `STACKCHAN_BASELINE_OBSERVATION_RETRY_GO_DRAFT.md` - baseline retry GO template.
+- `STACKCHAN_BASELINE_OBSERVATION_RETRY_EVIDENCE.md` - Rally 10 retry PASS evidence.
 - `COMPLETION_ROOM_DESCOPE_RECORD.md` - Completion Room de-scope (not an active app page).
 - `COMPLETION_ROOM_OBSOLETE_CANDIDATES.md` - de-scope discovery and related Room disambiguation.
 - `PHASE_45_TO_60_APPROVAL_QUEUE_UI_EVIDENCE.md` - Phase 45 to 60 Approval Queue UI evidence and safety boundary.

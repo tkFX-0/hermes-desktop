@@ -103,4 +103,8 @@ Follow-up:
 A custom firmware forensics plan has been prepared.
 See STACKCHAN_CUSTOM_FIRMWARE_FORENSICS_PLAN.md and related checklists.
 No device connection, firmware write, motion command, voice/mic/camera, network call, or external write was performed in Rally 10.5.
+
+Follow-up retry evidence recorded in STACKCHAN_BASELINE_OBSERVATION_RETRY_EVIDENCE.md.
+No device command, firmware write, motion command, voice/mic/camera, token read, or external write was performed.
+Rally 10 retry result: PASS (human read-only enums, 2026-05-28).
 ```

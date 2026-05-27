@@ -126,9 +126,9 @@ StackChan Safety Boundary: LOCAL (prep)
 StackChan Baseline Observation GO Draft: LOCAL (not active GO)
 Completion Room De-scope: PUSHED
 Completion Room: DE_SCOPED (Status Board + Final Core docs replace)
-StackChan Baseline Observation Rally 10: HOLD / LOCAL NOT PUSHED
-StackChan Baseline Observation Evidence: LOCAL HOLD
-StackChan Custom Firmware Forensics Plan Rally 10.5: LOCAL PASS / NOT PUSHED
+StackChan Baseline Observation Rally 10: PASS (retry) / LOCAL NOT PUSHED
+StackChan Baseline Observation Retry Evidence: LOCAL PASS
+StackChan Custom Firmware Forensics Plan Rally 10.5: PUSHED
 ```
 
 Preferred operator display direction:
@@ -324,8 +324,9 @@ Meaning:
 | Final Shikishima Core Acceptance Rally 9 | ACCEPTED_AS_FINAL_CORE_100 | `9c1a228` | Core 100%; StackChan next phase |
 | StackChan Phase 0 Readiness Prep | PUSHED | `ce6bdc8` | docs-only; no device connection |
 | Completion Room De-scope / Prune Prep | PUSHED | `dce1fe4` | Completion Room de-scoped in docs |
-| StackChan Baseline Observation Rally 10 | HOLD | (local) | read-only session; re-observation needed |
-| StackChan Custom Firmware Forensics Rally 10.5 | LOCAL PASS | (local) | docs-only; no device access |
+| StackChan Baseline Observation Rally 10 | PASS (retry) | (local) | human read-only enums; face visible |
+| StackChan Baseline Observation Retry | PASS | (local) | supersedes Rally 10 HOLD for baseline gate |
+| StackChan Custom Firmware Forensics Rally 10.5 | PUSHED | `1dc77f8` | docs-only; no device access |
 
 Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → display contracts):
 
@@ -1257,15 +1258,15 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (stackchan custom firmware forensics rally 10.5 LOCAL PASS; not pushed)
+active_goal: none (stackchan baseline observation retry PASS; evidence local)
 status: ACCEPTED_AS_FINAL_CORE_100
-last_completed_goal: shikishima.stackchan-custom-firmware-forensics-plan
-external_effects: read-only observation attempt; no motion/firmware/voice/mic/camera
+last_completed_goal: shikishima.stackchan-baseline-observation-retry
+external_effects: human read-only observation recorded; no Shikishima device commands
 actual_obsidian_write: false
 final_shikishima_core: 100% (unchanged)
 stackchan_connection: false
 stackchan_control: HOLD
-stackchan_baseline: HOLD (re-observation when display/power confirmed)
+stackchan_baseline: PASS (retry; read-only visual)
 ```
 
 ---
@@ -1275,9 +1276,9 @@ stackchan_baseline: HOLD (re-observation when display/power confirmed)
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
 | 0 | `/goalmacro shikishima.stackchan-phase0-readiness-prep` | DONE (LOCAL) | Core 100% | push prep docs optional |
-| 1 | `/goalmacro shikishima.stackchan-baseline-observation-retry` | TODO | Rally 10.5 prep | checklist + screen visible |
-| 1a | `/goalmacro shikishima.stackchan-safety-readiness` | TODO | Baseline PASS | blocked until Rally 10 PASS |
-| 1b | `/goalmacro shikishima.stackchan-custom-firmware-forensics-plan` | DONE (LOCAL) | Rally 10 HOLD | — |
+| 1 | `/goalmacro shikishima.stackchan-safety-readiness` | TODO | Baseline retry PASS | Rally 11 GO |
+| 1a | `/goalmacro shikishima.stackchan-baseline-observation-retry` | DONE (PASS) | Rally 10.5 | — |
+| 1b | `/goalmacro shikishima.stackchan-custom-firmware-forensics-plan` | DONE | `1dc77f8` | — |
 | 1b | `/goalmacro shikishima.discord-one-shot-send-completion` | TODO | env optional | SHIKISHIMA_DISCORD_* + one-shot send |
 | 1c | `/goalmacro shikishima.final-core-acceptance` | DONE (ACCEPTED_AS_FINAL_CORE_100) | Rally 8.5 PUSHED | — |
 | 1d | `/goalmacro shikishima.status-board-visual-confirmation` | DONE (PASS) | Rally 8 caveat resolved | — |
