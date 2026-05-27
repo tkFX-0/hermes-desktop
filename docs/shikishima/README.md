@@ -61,6 +61,10 @@ network flow.
 - `STACKCHAN_BASELINE_OBSERVATION_GO_DRAFT.md` - Rally 10 GO template (not active GO).
 - `STACKCHAN_BASELINE_OBSERVATION_EVIDENCE_TEMPLATE.md` - Rally 10 evidence template.
 - `FINAL_CORE_TO_STACKCHAN_HANDOFF.md` - Core 100 → StackChan handoff rules.
+- `STACKCHAN_CUSTOM_FIRMWARE_FORENSICS_PLAN.md` - Rally 10.5 forensics (no device access).
+- `STACKCHAN_CUSTOM_FIRMWARE_CHECKLIST.md` - human read-only checklist.
+- `STACKCHAN_RECOVERY_DECISION_TREE.md` - recovery routing (no flash without separate GO).
+- `STACKCHAN_BASELINE_OBSERVATION_RETRY_GO_DRAFT.md` - baseline retry GO template.
 - `COMPLETION_ROOM_DESCOPE_RECORD.md` - Completion Room de-scope (not an active app page).
 - `COMPLETION_ROOM_OBSOLETE_CANDIDATES.md` - de-scope discovery and related Room disambiguation.
 - `PHASE_45_TO_60_APPROVAL_QUEUE_UI_EVIDENCE.md` - Phase 45 to 60 Approval Queue UI evidence and safety boundary.

@@ -20,14 +20,15 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v4.43.0
-- latestUpdate: 2026-05-27 - Completion Room de-scoped (docs-only, not pushed).
+- roadmapVersion: v4.44.0
+- latestUpdate: 2026-05-28 - StackChan custom firmware forensics plan (docs-only, local).
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
-- current HEAD: 9c1a228 (origin/main aligned); Phase 0 prep local commit ahead (not pushed)
+- current HEAD: local ahead (Rally 10 HOLD + Rally 10.5 forensics; not pushed)
 - autonomy core: Rally 1-9 ACCEPTED_AS_FINAL_CORE_100
-- current next human action: push Phase 0 prep → StackChan Baseline Observation GO (human present)
-- HOLD reason: productionReady false; execution disabled; Discord send HOLD; StackChan control HOLD
+- stackchan: Baseline HOLD; forensics plan prepared
+- current next human action: checklist → baseline observation retry (read-only, screen visible)
+- HOLD reason: productionReady false; execution disabled; StackChan control HOLD; baseline incomplete
 
 ## Agent Theater — 完了済み
 

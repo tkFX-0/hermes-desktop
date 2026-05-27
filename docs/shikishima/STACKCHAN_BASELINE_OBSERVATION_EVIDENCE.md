@@ -93,3 +93,14 @@ Re-run /goalmacro shikishima.stackchan-baseline-observation when:
 - human can confirm face/display and official app reachability read-only
 Then: StackChan Safety Readiness (Rally 11) if PASS
 ```
+
+---
+
+## Follow-up (Rally 10.5)
+
+```text
+Follow-up:
+A custom firmware forensics plan has been prepared.
+See STACKCHAN_CUSTOM_FIRMWARE_FORENSICS_PLAN.md and related checklists.
+No device connection, firmware write, motion command, voice/mic/camera, network call, or external write was performed in Rally 10.5.
+```

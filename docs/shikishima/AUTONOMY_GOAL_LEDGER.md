@@ -128,6 +128,7 @@ Completion Room De-scope: PUSHED
 Completion Room: DE_SCOPED (Status Board + Final Core docs replace)
 StackChan Baseline Observation Rally 10: HOLD / LOCAL NOT PUSHED
 StackChan Baseline Observation Evidence: LOCAL HOLD
+StackChan Custom Firmware Forensics Plan Rally 10.5: LOCAL PASS / NOT PUSHED
 ```
 
 Preferred operator display direction:
@@ -324,6 +325,7 @@ Meaning:
 | StackChan Phase 0 Readiness Prep | PUSHED | `ce6bdc8` | docs-only; no device connection |
 | Completion Room De-scope / Prune Prep | PUSHED | `dce1fe4` | Completion Room de-scoped in docs |
 | StackChan Baseline Observation Rally 10 | HOLD | (local) | read-only session; re-observation needed |
+| StackChan Custom Firmware Forensics Rally 10.5 | LOCAL PASS | (local) | docs-only; no device access |
 
 Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → display contracts):
 
@@ -1255,9 +1257,9 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (stackchan baseline observation rally 10 HOLD; evidence local)
+active_goal: none (stackchan custom firmware forensics rally 10.5 LOCAL PASS; not pushed)
 status: ACCEPTED_AS_FINAL_CORE_100
-last_completed_goal: shikishima.stackchan-baseline-observation
+last_completed_goal: shikishima.stackchan-custom-firmware-forensics-plan
 external_effects: read-only observation attempt; no motion/firmware/voice/mic/camera
 actual_obsidian_write: false
 final_shikishima_core: 100% (unchanged)
@@ -1273,8 +1275,9 @@ stackchan_baseline: HOLD (re-observation when display/power confirmed)
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
 | 0 | `/goalmacro shikishima.stackchan-phase0-readiness-prep` | DONE (LOCAL) | Core 100% | push prep docs optional |
-| 1 | `/goalmacro shikishima.stackchan-baseline-observation` | HOLD | Rally 10 incomplete | re-run when screen/power visible |
+| 1 | `/goalmacro shikishima.stackchan-baseline-observation-retry` | TODO | Rally 10.5 prep | checklist + screen visible |
 | 1a | `/goalmacro shikishima.stackchan-safety-readiness` | TODO | Baseline PASS | blocked until Rally 10 PASS |
+| 1b | `/goalmacro shikishima.stackchan-custom-firmware-forensics-plan` | DONE (LOCAL) | Rally 10 HOLD | — |
 | 1b | `/goalmacro shikishima.discord-one-shot-send-completion` | TODO | env optional | SHIKISHIMA_DISCORD_* + one-shot send |
 | 1c | `/goalmacro shikishima.final-core-acceptance` | DONE (ACCEPTED_AS_FINAL_CORE_100) | Rally 8.5 PUSHED | — |
 | 1d | `/goalmacro shikishima.status-board-visual-confirmation` | DONE (PASS) | Rally 8 caveat resolved | — |

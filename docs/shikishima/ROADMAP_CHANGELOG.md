@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.43.0
-- lastUpdated: 2026-05-27
-- latestUpdate: Completion Room de-scoped; Status Board + Final Core docs remain canonical. No new Completion Room UI.
+- roadmapVersion: v4.44.0
+- lastUpdated: 2026-05-28
+- latestUpdate: StackChan custom firmware forensics plan (docs-only). Baseline observation remains HOLD. No device connection.
 - baselineCommit: 9c1a228
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,13 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.44.0 - StackChan Custom Firmware Forensics Plan (Rally 10.5)
+
+- `STACKCHAN_CUSTOM_FIRMWARE_FORENSICS_PLAN.md`: docs-only investigation path after Rally 10 HOLD.
+- `STACKCHAN_CUSTOM_FIRMWARE_CHECKLIST.md`, `STACKCHAN_RECOVERY_DECISION_TREE.md`, baseline retry GO draft.
+- No StackChan connection, firmware write, motion, voice, mic, camera, or recovery execution approved.
+- `worker-task-contract-preview @ 2bcd087` noted as older design reference only — not for direct merge to current main.
 
 ## v4.43.0 - Completion Room De-scope
 
