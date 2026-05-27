@@ -34,9 +34,9 @@ git_push: separate human GO only
 
 ```text
 branch: main
-HEAD: (local; discord send executor design — not pushed)
-origin/main: 3fc496c
-commits_ahead: docs-only (not pushed)
+HEAD: (local; discord review packet assembly — not pushed)
+origin/main: 1eda4c9
+commits_ahead: implementation + ledger (not pushed)
 ledger_updated: 2026-05-26
 Master Spec: PUSHED
 Goal A1 route registry: PUSHED
@@ -74,16 +74,21 @@ Discord Review Packet Contract: PUSHED
 Discord Send Execution Plan: PUSHED
 Discord Send Execution Preflight Contract: PUSHED
 Discord One-Shot Send GO Template: PUSHED
-Discord Send Executor Design: LOCAL PASS / NOT PUSHED
+Discord Send Executor Design: PUSHED
+Discord Review Packet Assembly Contract: LOCAL PASS / NOT PUSHED
 ```
 
 Preferred operator display direction:
 
 ```text
 Discord is the primary operator viewing surface.
-Discord Send Executor Design is docs-only.
+Assembly connects HumanGateStatusSnapshot, DiscordOperatorBrief, DiscordSendPreflightResult, DiscordBriefSendPreflightJoin, and DiscordReviewPacket.
+Assembly creates Discord review preview for human operation.
+Assembly is review-only / draft-only / display-only.
+Assembly does not send Discord.
+Assembly does not implement executor.
+Discord Send Executor Design is docs-only (safety design paused; executor path HOLD).
 Executor design does not implement send.
-Executor design does not approve send.
 Future executor implementation requires separate Human GO.
 Future actual Discord send requires separate Human GO.
 One-Shot Send GO Template is docs-only.
@@ -222,7 +227,8 @@ Meaning:
 | Discord Send Execution Plan | PUSHED | `06efb9c` | `docs: plan discord send execution`; docs-only; send remains HOLD |
 | Discord Send Execution Preflight Contract | PUSHED | `7cfddf5` | `feat: add discord send execution preflight contract`; execution candidate only |
 | Discord One-Shot Send GO Template | PUSHED | `3fc496c` | `docs: add discord one shot send go template`; human GO wording only |
-| Discord Send Executor Design | LOCAL PASS / NOT PUSHED | (local) | `docs: design discord send executor`; future executor architecture only |
+| Discord Send Executor Design | PUSHED | `1eda4c9` | `docs: design discord send executor`; future executor architecture only |
+| Discord Review Packet Assembly Contract | LOCAL PASS / NOT PUSHED | (local) | `feat: add discord review packet assembly contract`; Goal→Discord review bundle |
 
 Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → display contracts):
 
@@ -285,6 +291,8 @@ WorkerTaskContract
   → createDiscordSendExecutionPreflightIntent()
   → evaluateDiscordSendExecutionPreflight()
   → renderDiscordSendExecutionPreflightPreview()
+  → createDiscordReviewPacketAssembly()
+  → createDiscordReviewPacketAssemblyPreview()
   → (future Discord Send Executor — NOT IMPLEMENTED; see DISCORD_SEND_EXECUTOR_DESIGN.md)
   → (future one-shot Discord send attempt — HOLD)
   → (future post-send evidence + gate restored HOLD)
@@ -615,6 +623,25 @@ execution: disabled
 
 Implementation doc: `docs/shikishima/DISCORD_SEND_EXECUTOR_DESIGN.md`.
 
+### Discord Review Packet Assembly Contract boundary (not send / executor)
+
+Discord Review Packet Assembly Contract wires snapshot + send preflight into a final Discord review preview.
+
+```text
+assemblyOnly: true
+reviewOnly: true
+draftOnly: true
+input: HumanGateStatusSnapshot + DiscordSendPreflightResult
+no Discord send
+no executor
+no queue mutation
+REVIEW_READY_CANDIDATE is not send approval
+productionReady: false
+execution: disabled
+```
+
+Implementation: `src/shared/discord-review-packet-assembly/`.
+
 ### iPhone Human Gate Display Contract boundary (not UI / network / IPC)
 
 iPhone Human Gate Display Contract is pure display contract only.
@@ -750,10 +777,10 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (discord send executor design local PASS; push pending)
+active_goal: none (discord review packet assembly local PASS; push pending)
 status: PASS
-last_completed_goal: shikishima.push-discord-one-shot-send-go-template-and-add-discord-send-executor-design
-external_effects: git push only (one-shot send go template docs)
+last_completed_goal: shikishima.push-discord-send-executor-design-and-add-discord-review-packet-assembly-contract
+external_effects: git push only (discord send executor design docs)
 actual_obsidian_write: false
 ```
 
@@ -763,7 +790,8 @@ actual_obsidian_write: false
 
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
-| 1 | `/goal shikishima.push-discord-send-executor-design-and-add-discord-send-executor-preimplementation-review` | TODO | Send Executor Design LOCAL PASS | Push GO + preimplementation review (docs) |
+| 1 | `/goal shikishima.push-discord-review-packet-assembly-and-add-operator-handoff-session-contract` | TODO | Review Packet Assembly LOCAL PASS | Push GO + operator handoff session contract |
+| 2 | `/goal shikishima.push-discord-send-executor-design-and-add-discord-send-executor-preimplementation-review` | DEFERRED | Executor design PUSHED | Safety design path paused |
 | 2 | `/goal shikishima.readonly-ui-display-plan` | DONE | pushed as 1f20f0a | — |
 | 3 | Goal A6: selected handler integration planning/implementation | HOLD | A5 PUSHED | source-change GO |
 | 4 | Goal C: Memory Scope / Persona / Model Trace Foundation | TODO | Master Spec | source-change GO |
@@ -777,9 +805,9 @@ actual_obsidian_write: false
 Next recommended goal detail:
 
 ```text
-/goal shikishima.push-discord-send-executor-design-and-add-discord-send-executor-preimplementation-review
+/goal shikishima.push-discord-review-packet-assembly-and-add-operator-handoff-session-contract
 
-Push send executor design + ledger; add docs-only preimplementation review (no executor code).
+Push review packet assembly + ledger; add operator handoff session contract (practical ops).
 ```
 
 Remaining explicit HOLD (do not infer approval):
