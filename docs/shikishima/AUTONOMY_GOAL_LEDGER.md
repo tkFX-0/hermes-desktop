@@ -117,8 +117,10 @@ Runtime Status Board Renderer View: PUSHED
 IPC Renderer Read-only Status Board Evidence: PUSHED
 Controlled Runtime Observation Rally 8: PASS (visual caveat resolved by Rally 8.5)
 Controlled Runtime Observation Evidence: PUSHED
-Status Board Visual Confirmation Rally 8.5: LOCAL PASS / PUSH PENDING
-Status Board Visual Confirmation Evidence: LOCAL PASS
+Status Board Visual Confirmation Rally 8.5: PUSHED
+Status Board Visual Confirmation Evidence: PUSHED
+Final Shikishima Core Acceptance Rally 9: ACCEPTED_AS_FINAL_CORE_100
+Final Core Acceptance Evidence: LOCAL (push pending)
 ```
 
 Preferred operator display direction:
@@ -309,7 +311,9 @@ Meaning:
 | External Action Guard Controlled Autonomy Rally 5 | PUSHED | `274183f` | guard + proposal layer |
 | Runtime Read-only Status Board Rally 6 | PUSHED | `7600359` | read-only status board contract |
 | IPC Renderer Read-only Status Board Rally 7 | PUSHED | `218633d` | IPC + preload + renderer read-only |
-| Controlled Runtime Observation Rally 8 | PASS_WITH_CAVEAT / NOT PUSHED | (local) | Electron lifecycle verified; visual UI caveat |
+| Controlled Runtime Observation Rally 8 | PUSHED | `5c5ab8f`+ | controlled Electron observation |
+| Status Board Visual Confirmation Rally 8.5 | PUSHED | `8046271` | human visual; Rally 8 caveat resolved |
+| Final Shikishima Core Acceptance Rally 9 | ACCEPTED_AS_FINAL_CORE_100 | (local) | Core 100%; StackChan next phase |
 
 Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → display contracts):
 
@@ -1079,6 +1083,19 @@ execution: disabled
 
 Evidence: `docs/shikishima/STATUS_BOARD_VISUAL_CONFIRMATION_EVIDENCE.md`.
 
+### Final Shikishima Core Acceptance boundary (Rally 9)
+
+Rally 9 formally accepts Final Shikishima Core as 100% complete (guarded scope).
+
+```text
+accepted: operator review, queue, Discord path (HOLD send), guard, status board, IPC, runtime + visual
+excluded: productionReady true, execution enabled, StackChan, Cursor Automations, actual Discord send
+productionReady: false
+execution: disabled
+```
+
+Evidence: `docs/shikishima/FINAL_CORE_ACCEPTANCE.md`, `FINAL_CORE_ACCEPTANCE_EVIDENCE.md`.
+
 ### iPhone Human Gate Display Contract boundary (not UI / network / IPC)
 
 iPhone Human Gate Display Contract is pure display contract only.
@@ -1214,11 +1231,12 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (status board visual confirmation rally 8.5 PASS; docs push pending)
-status: PASS
-last_completed_goal: shikishima.status-board-visual-confirmation
-external_effects: human visual Status Board confirmation; Rally 8 caveat resolved
+active_goal: none (final shikishima core acceptance rally 9 ACCEPTED_AS_FINAL_CORE_100)
+status: ACCEPTED_AS_FINAL_CORE_100
+last_completed_goal: shikishima.final-core-acceptance
+external_effects: docs-only acceptance record; no runtime / send / StackChan
 actual_obsidian_write: false
+final_shikishima_core: 100% (guarded scope; productionReady false; execution disabled)
 ```
 
 ---
@@ -1227,9 +1245,10 @@ actual_obsidian_write: false
 
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
-| 1 | `/goalmacro shikishima.final-core-acceptance` | TODO | Rally 8.5 PASS | Final acceptance GO |
+| 1 | `/goalmacro shikishima.stackchan-baseline-observation` | TODO | Core 100% accepted | StackChan baseline GO |
 | 1b | `/goalmacro shikishima.discord-one-shot-send-completion` | TODO | env optional | SHIKISHIMA_DISCORD_* + one-shot send |
-| 1c | `/goalmacro shikishima.status-board-visual-confirmation` | DONE (PASS) | Rally 8 caveat resolved | — |
+| 1c | `/goalmacro shikishima.final-core-acceptance` | DONE (ACCEPTED_AS_FINAL_CORE_100) | Rally 8.5 PUSHED | — |
+| 1d | `/goalmacro shikishima.status-board-visual-confirmation` | DONE (PASS) | Rally 8 caveat resolved | — |
 | 1d | `/goalmacro shikishima.push-rally7-and-controlled-runtime-observation` | DONE | Rally 7 PUSHED | — |
 | 1d | `/goalmacro shikishima.ipc-renderer-readonly-status-board` | DONE | Rally 6 PUSHED | — |
 | 1d | `/goalmacro shikishima.runtime-readonly-status-board` | DONE | Rally 5 PUSHED | — |
@@ -1250,9 +1269,9 @@ actual_obsidian_write: false
 Next recommended goal detail:
 
 ```text
-/goalmacro shikishima.final-core-acceptance
+/goalmacro shikishima.stackchan-baseline-observation
 
-Push Rally 7 artifacts; observe runtime read-only with productionReady false and execution disabled.
+Final Shikishima Core 100% accepted (Rally 9). Next: StackChan baseline observation with guards HOLD.
 Alternative if env configured: /goalmacro shikishima.discord-one-shot-send-completion
 ```
 

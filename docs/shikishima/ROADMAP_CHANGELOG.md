@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.40.0
-- lastUpdated: 2026-05-21
-- latestUpdate: XiaoZhi MCP route observed and gated as external token WebSocket route. No connection approved.
-- baselineCommit: 7474836
+- roadmapVersion: v4.41.0
+- lastUpdated: 2026-05-27
+- latestUpdate: Final Shikishima Core accepted as 100% (guarded scope). StackChan next phase. Not productionReady. Not execution enabled.
+- baselineCommit: 8046271
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,14 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.41.0 - Final Shikishima Core Acceptance (Rally 9)
+
+- `FINAL_CORE_ACCEPTANCE.md`: formal acceptance of Final Shikishima Core 100% (guarded review/display/decision-control scope).
+- `FINAL_CORE_100_SUMMARY.md`: concise complete / HOLD / excluded / next-phase summary.
+- `FINAL_CORE_ACCEPTANCE_EVIDENCE.md`: verification record at `origin/main` 8046271.
+- Core 100 does not approve productionReady true, execution enabled, Discord actual send completion, StackChan operation, or Cursor Automations.
+- Next documented phase: StackChan Baseline Observation.
 
 ## v4.40.0 - XiaoZhi MCP Route Safety Gate
 
