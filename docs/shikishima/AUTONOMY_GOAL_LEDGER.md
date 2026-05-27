@@ -119,8 +119,8 @@ Controlled Runtime Observation Rally 8: PASS (visual caveat resolved by Rally 8.
 Controlled Runtime Observation Evidence: PUSHED
 Status Board Visual Confirmation Rally 8.5: PUSHED
 Status Board Visual Confirmation Evidence: PUSHED
-Final Shikishima Core Acceptance Rally 9: ACCEPTED_AS_FINAL_CORE_100
-Final Core Acceptance Evidence: LOCAL (push pending)
+Final Shikishima Core Acceptance Rally 9: ACCEPTED_AS_FINAL_CORE_100 / PUSHED
+Final Core Acceptance Evidence: PUSHED
 ```
 
 Preferred operator display direction:
@@ -313,7 +313,7 @@ Meaning:
 | IPC Renderer Read-only Status Board Rally 7 | PUSHED | `218633d` | IPC + preload + renderer read-only |
 | Controlled Runtime Observation Rally 8 | PUSHED | `5c5ab8f`+ | controlled Electron observation |
 | Status Board Visual Confirmation Rally 8.5 | PUSHED | `8046271` | human visual; Rally 8 caveat resolved |
-| Final Shikishima Core Acceptance Rally 9 | ACCEPTED_AS_FINAL_CORE_100 | (local) | Core 100%; StackChan next phase |
+| Final Shikishima Core Acceptance Rally 9 | ACCEPTED_AS_FINAL_CORE_100 | `8c49438` | Core 100%; StackChan next phase |
 
 Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → display contracts):
 
