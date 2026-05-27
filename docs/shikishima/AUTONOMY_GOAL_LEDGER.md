@@ -104,11 +104,17 @@ External Action Route Registry: PUSHED
 External Action Guard Decision Rules: PUSHED
 Controlled Autonomy Proposal: PUSHED
 External Action Guard Evidence: PUSHED
-Runtime Read-only Status Board Rally 6: LOCAL PASS / NOT PUSHED
-Runtime Read-only Status Snapshot: LOCAL PASS
-Runtime Read-only Markdown Renderer: LOCAL PASS
-Runtime Read-only View Model: LOCAL PASS
-Runtime Read-only Status Board Evidence: LOCAL PASS
+Runtime Read-only Status Board Rally 6: PUSHED
+Runtime Read-only Status Snapshot: PUSHED
+Runtime Read-only Markdown Renderer: PUSHED
+Runtime Read-only View Model: PUSHED
+Runtime Read-only Status Board Evidence: PUSHED
+IPC Renderer Read-only Status Board Rally 7: LOCAL PASS / NOT PUSHED
+Runtime Status Board IPC Channel: LOCAL PASS
+Runtime Status Board Main Provider: LOCAL PASS
+Runtime Status Board Preload API: LOCAL PASS
+Runtime Status Board Renderer View: LOCAL PASS
+IPC Renderer Read-only Status Board Evidence: LOCAL PASS
 ```
 
 Preferred operator display direction:
@@ -297,10 +303,12 @@ Meaning:
 | Discord One-shot Send Contract | PUSHED | `845540b` | `feat: add discord one shot send executor` |
 | Discord One-shot Actual Send | HOLD_PENDING_LOCAL_CREDENTIALS | — | path implemented; send not proven |
 | External Action Guard Controlled Autonomy Rally 5 | PUSHED | `274183f` | guard + proposal layer |
-| Runtime Read-only Status Board Rally 6 | LOCAL PASS / NOT PUSHED | (local) | read-only status board contract |
-| Runtime Read-only Status Snapshot | LOCAL PASS | (local) | `feat: add runtime readonly status board contract` |
-| Runtime Read-only View Model | LOCAL PASS | (local) | UI/IPC-ready data model |
-| Runtime Read-only Status Board Evidence | LOCAL PASS | (local) | `docs: record runtime readonly status board evidence` |
+| Runtime Read-only Status Board Rally 6 | PUSHED | `7600359` | read-only status board contract |
+| IPC Renderer Read-only Status Board Rally 7 | LOCAL PASS / NOT PUSHED | (local) | IPC + preload + renderer read-only |
+| Runtime Status Board IPC Channel | LOCAL PASS | (local) | getSnapshot only |
+| Runtime Status Board Main Provider | LOCAL PASS | (local) | `src/main/runtime-readonly-status-board/` |
+| Runtime Status Board Preload API | LOCAL PASS | (local) | `window.shikishimaStatusBoard` |
+| Runtime Status Board Renderer View | LOCAL PASS | (local) | `RuntimeStatusBoardPage` |
 
 Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → display contracts):
 
@@ -1021,6 +1029,24 @@ execution: disabled
 Implementation: `src/shared/runtime-readonly-status-board/`.
 Evidence: `docs/shikishima/RUNTIME_READONLY_STATUS_BOARD_EVIDENCE.md`.
 
+### IPC Renderer Read-only Status Board boundary (Rally 7)
+
+Rally 7 wires read-only status board display into Electron.
+
+```text
+main: registerRuntimeReadonlyStatusBoardIpcHandlers
+preload: window.shikishimaStatusBoard.getSnapshot()
+renderer: RuntimeStatusBoardPage (display only)
+
+no send / execute / mutate / start APIs
+no action buttons except Refresh → getSnapshot
+productionReady: false
+execution: disabled
+```
+
+Implementation: `src/main/runtime-readonly-status-board/`, `src/preload/shikishima-status-board.ts`, `src/renderer/src/screens/RuntimeStatusBoard/`.
+Evidence: `docs/shikishima/IPC_RENDERER_READONLY_STATUS_BOARD_EVIDENCE.md`.
+
 ### iPhone Human Gate Display Contract boundary (not UI / network / IPC)
 
 iPhone Human Gate Display Contract is pure display contract only.
@@ -1156,10 +1182,10 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (runtime readonly status board rally 6 local PASS; push pending)
+active_goal: none (ipc renderer readonly status board rally 7 local PASS; push pending)
 status: PASS
-last_completed_goal: shikishima.runtime-readonly-status-board
-external_effects: git push Rally 5 (274183f); Rally 6 local only; no network send
+last_completed_goal: shikishima.ipc-renderer-readonly-status-board
+external_effects: git push Rally 6 (7600359); Rally 7 local only; no network send
 actual_obsidian_write: false
 ```
 
@@ -1169,9 +1195,10 @@ actual_obsidian_write: false
 
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
-| 1 | `/goalmacro shikishima.ipc-renderer-readonly-status-board` | TODO | Rally 6 status board LOCAL PASS | Push Rally 6 + minimal IPC/renderer |
+| 1 | `/goalmacro shikishima.controlled-runtime-observation` | TODO | Rally 7 IPC/renderer LOCAL PASS | Push Rally 7 + runtime observation GO |
 | 1b | `/goalmacro shikishima.discord-one-shot-send-completion` | TODO | env optional | SHIKISHIMA_DISCORD_* + one-shot send |
-| 1c | `/goalmacro shikishima.runtime-readonly-status-board` | DONE | Rally 5 PUSHED | — |
+| 1c | `/goalmacro shikishima.ipc-renderer-readonly-status-board` | DONE | Rally 6 PUSHED | — |
+| 1d | `/goalmacro shikishima.runtime-readonly-status-board` | DONE | Rally 5 PUSHED | — |
 | 1d | `/goalmacro shikishima.external-action-guard-controlled-autonomy` | DONE | Rally 4 PUSHED | — |
 | 1d | `/goalmacro shikishima.discord-send-unlock-2-one-shot-send` | DONE (PASS_WITH_CAVEAT) | Rally 3 PUSHED | — |
 | 1e | `/goalmacro shikishima.discord-send-unlock-1-executor-dry-run` | DONE | Rally 2 PUSHED | — |
@@ -1189,9 +1216,9 @@ actual_obsidian_write: false
 Next recommended goal detail:
 
 ```text
-/goalmacro shikishima.ipc-renderer-readonly-status-board
+/goalmacro shikishima.controlled-runtime-observation
 
-Push Rally 6 artifacts; wire minimal IPC/renderer read-only status board (no execution buttons).
+Push Rally 7 artifacts; observe runtime read-only with productionReady false and execution disabled.
 Alternative if env configured: /goalmacro shikishima.discord-one-shot-send-completion
 ```
 
