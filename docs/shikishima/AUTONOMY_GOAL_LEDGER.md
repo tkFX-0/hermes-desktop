@@ -34,9 +34,9 @@ git_push: separate human GO only
 
 ```text
 branch: main
-HEAD: (local; not pushed — Discord render contracts)
-origin/main: 0d7a5c7
-commits_ahead: local implementation commits only (not pushed)
+HEAD: (local; Discord send gate plan docs — not pushed)
+origin/main: a5ead79
+commits_ahead: docs-only commits only (not pushed)
 ledger_updated: 2026-05-26
 Master Spec: PUSHED
 Goal A1 route registry: PUSHED
@@ -58,18 +58,24 @@ Control Center Human Gate Display Contract: PUSHED
 iPhone Human Gate Display Contract: PUSHED
 Human Gate Read-only UI Integration Plan: PUSHED
 Control Center Human Gate Display Render Contract: PUSHED
-Discord Human Gate Message Render Contract: LOCAL PASS / NOT PUSHED
-Discord Human Gate Digest Render Contract: LOCAL PASS / NOT PUSHED
-iPhone Human Gate Display Render Contract: LOCAL PASS / NOT PUSHED
+Discord Human Gate Message Render Contract: PUSHED
+Discord Human Gate Digest Render Contract: PUSHED
+iPhone Human Gate Display Render Contract: PUSHED
+Discord Send Gate Plan: LOCAL PASS / NOT PUSHED
 ```
 
 Preferred operator display direction:
 
 ```text
 Discord is the primary operator viewing surface.
+Discord message/digest render contracts are PUSHED.
 Control Center is fallback/debug/read-only local surface.
 Ledger remains the source of truth.
-Actual Discord send remains HOLD.
+Discord send remains HOLD.
+Webhook remains HOLD.
+Bot runtime remains HOLD.
+Token access remains HOLD.
+Human Gate Queue Markdown render is deferred after send gate planning.
 ```
 
 Current safety state:
@@ -150,9 +156,10 @@ Meaning:
 | iPhone Human Gate Display Contract | PUSHED | `f4a2bd9` | `feat: add iphone human gate display contract`; mobile display-only pure contract |
 | Human Gate Read-only UI Integration Plan | PUSHED | `1f20f0a` | `docs: plan human gate readonly ui integration`; docs-only |
 | Control Center Human Gate Display Render Contract | PUSHED | `db47381` | `feat: add control center human gate display render contract`; pure render model |
-| Discord Human Gate Message Render Contract | LOCAL PASS / NOT PUSHED | (local) | `feat: add discord human gate message render contract`; draft/preview only |
-| Discord Human Gate Digest Render Contract | LOCAL PASS / NOT PUSHED | (local) | `feat: add discord human gate digest render contract`; digest draft/preview only |
-| iPhone Human Gate Display Render Contract | LOCAL PASS / NOT PUSHED | (local) | `feat: add iphone human gate display render contract`; mobile render model only |
+| Discord Human Gate Message Render Contract | PUSHED | `f697f39` | `feat: add discord human gate message render contract`; draft/preview only |
+| Discord Human Gate Digest Render Contract | PUSHED | `b066f73` | `feat: add discord human gate digest render contract`; digest draft/preview only |
+| iPhone Human Gate Display Render Contract | PUSHED | `66eead7` | `feat: add iphone human gate display render contract`; mobile render model only |
+| Discord Send Gate Plan | LOCAL PASS / NOT PUSHED | (local) | `docs: plan discord send gate`; docs-only; send remains HOLD |
 
 Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → display contracts):
 
@@ -266,6 +273,24 @@ mobileReady: true
 ```
 
 Implementation: `src/shared/iphone-human-gate-display-render/`.
+
+### Discord Send Gate Plan boundary (not send / webhook / bot)
+
+Discord Send Gate Plan is design-only.
+
+```text
+docs-only
+not Discord send
+not webhook implementation
+not bot runtime
+not token access
+not network
+one-shot send gate defined for future GO
+preflight contract recommended next
+```
+
+Implementation doc: `docs/shikishima/DISCORD_SEND_GATE_PLAN.md`.
+Aligns with `IPC_EXTERNAL_SURFACE_GUARD_PLAN.md` §7; adds explicit preview and webhook routes.
 
 ### iPhone Human Gate Display Contract boundary (not UI / network / IPC)
 
@@ -402,10 +427,10 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (Control Center render contract local PASS; push pending)
+active_goal: none (Discord send gate plan local PASS; push pending)
 status: PASS
-last_completed_goal: shikishima.push-readonly-ui-plan-and-add-control-center-display-target-render-contract
-external_effects: none
+last_completed_goal: shikishima.push-discord-display-contracts-and-plan-discord-send-gate
+external_effects: git push only (four render commits)
 actual_obsidian_write: false
 ```
 
@@ -415,7 +440,8 @@ actual_obsidian_write: false
 
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
-| 1 | `/goal shikishima.push-discord-display-contracts-and-plan-discord-send-gate` | TODO | Discord render contracts LOCAL PASS | Push GO + docs-only send gate plan |
+| 1 | `/goal shikishima.push-discord-send-gate-plan-and-add-discord-send-preflight-contract` | TODO | Discord Send Gate Plan LOCAL PASS | Push GO + pure preflight contract |
+| 1b | `/goal shikishima.human-gate-queue-markdown-render-contract` | DEFERRED | after send preflight | source-change GO |
 | 2 | `/goal shikishima.readonly-ui-display-plan` | DONE | pushed as 1f20f0a | — |
 | 3 | Goal A6: selected handler integration planning/implementation | HOLD | A5 PUSHED | source-change GO |
 | 4 | Goal C: Memory Scope / Persona / Model Trace Foundation | TODO | Master Spec | source-change GO |
@@ -429,10 +455,10 @@ actual_obsidian_write: false
 Next recommended goal detail:
 
 ```text
-/goal shikishima.push-discord-display-contracts-and-plan-discord-send-gate
+/goal shikishima.push-discord-send-gate-plan-and-add-discord-send-preflight-contract
 
-Push local Discord message/digest (+ iPhone render if included) commits with full_tests;
-then create docs-only Discord send gate plan (no actual send).
+Push DISCORD_SEND_GATE_PLAN.md + ledger; add pure discord-send-preflight contract (no network).
+Human Gate Queue Markdown render remains second priority.
 ```
 
 Remaining explicit HOLD (do not infer approval):
