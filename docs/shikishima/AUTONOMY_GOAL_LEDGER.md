@@ -34,9 +34,9 @@ git_push: separate human GO only
 
 ```text
 branch: main
-HEAD: (local; discord send execution preflight — not pushed)
-origin/main: 06efb9c
-commits_ahead: implementation + ledger (not pushed)
+HEAD: (local; discord one-shot send go template — not pushed)
+origin/main: 7cfddf5
+commits_ahead: docs-only (not pushed)
 ledger_updated: 2026-05-26
 Master Spec: PUSHED
 Goal A1 route registry: PUSHED
@@ -72,13 +72,17 @@ Discord Operator Brief Contract: PUSHED
 Discord Brief Send Preflight Join Contract: PUSHED
 Discord Review Packet Contract: PUSHED
 Discord Send Execution Plan: PUSHED
-Discord Send Execution Preflight Contract: LOCAL PASS / NOT PUSHED
+Discord Send Execution Preflight Contract: PUSHED
+Discord One-Shot Send GO Template: LOCAL PASS / NOT PUSHED
 ```
 
 Preferred operator display direction:
 
 ```text
 Discord is the primary operator viewing surface.
+One-Shot Send GO Template is docs-only.
+Template does not approve send.
+Reading or filling the template alone does not approve send.
 Execution Preflight uses DiscordReviewPacket as input.
 Execution Preflight creates independent DiscordSendExecutionPreflightIntent and DiscordSendExecutionPreflightResult types.
 EXECUTION_READY_CANDIDATE is not send approval.
@@ -210,7 +214,8 @@ Meaning:
 | Discord Brief Send Preflight Join Contract | PUSHED | `9a828f8` | `feat: add discord brief send preflight join contract`; brief + send preflight review |
 | Discord Review Packet Contract | PUSHED | `95cfe3e` | `feat: add discord review packet contract`; final review bundle before send gate |
 | Discord Send Execution Plan | PUSHED | `06efb9c` | `docs: plan discord send execution`; docs-only; send remains HOLD |
-| Discord Send Execution Preflight Contract | LOCAL PASS / NOT PUSHED | (local) | `feat: add discord send execution preflight contract`; execution candidate only |
+| Discord Send Execution Preflight Contract | PUSHED | `7cfddf5` | `feat: add discord send execution preflight contract`; execution candidate only |
+| Discord One-Shot Send GO Template | LOCAL PASS / NOT PUSHED | (local) | `docs: add discord one shot send go template`; human GO wording only |
 
 Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → display contracts):
 
@@ -563,6 +568,26 @@ execution: disabled
 
 Implementation: `src/shared/discord-send-execution-preflight/`.
 
+### Discord One-Shot Send GO Template boundary (not send / executor)
+
+Discord One-Shot Send GO Template defines human approval wording for one future send only.
+
+```text
+docs-only
+template does not approve send
+filling template alone does not approve send
+separate future executor GO required
+no Discord send
+no webhook
+no bot
+no token read
+no executor implementation
+productionReady: false
+execution: disabled
+```
+
+Implementation doc: `docs/shikishima/DISCORD_ONE_SHOT_SEND_GO_TEMPLATE.md`.
+
 ### iPhone Human Gate Display Contract boundary (not UI / network / IPC)
 
 iPhone Human Gate Display Contract is pure display contract only.
@@ -698,10 +723,10 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (discord send execution preflight local PASS; push pending)
+active_goal: none (discord one-shot send go template local PASS; push pending)
 status: PASS
-last_completed_goal: shikishima.push-discord-send-execution-plan-and-add-discord-send-execution-preflight-contract
-external_effects: git push only (discord send execution plan docs)
+last_completed_goal: shikishima.push-send-execution-preflight-and-add-discord-one-shot-send-go-template
+external_effects: git push only (discord send execution preflight commits)
 actual_obsidian_write: false
 ```
 
@@ -711,7 +736,7 @@ actual_obsidian_write: false
 
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
-| 1 | `/goal shikishima.push-send-execution-preflight-and-add-discord-one-shot-send-go-template` | TODO | Send Execution Preflight LOCAL PASS | Push GO + one-shot send GO template (docs) |
+| 1 | `/goal shikishima.push-discord-one-shot-send-go-template-and-add-discord-send-executor-design` | TODO | One-Shot Send GO Template LOCAL PASS | Push GO + send executor design (docs) |
 | 2 | `/goal shikishima.readonly-ui-display-plan` | DONE | pushed as 1f20f0a | — |
 | 3 | Goal A6: selected handler integration planning/implementation | HOLD | A5 PUSHED | source-change GO |
 | 4 | Goal C: Memory Scope / Persona / Model Trace Foundation | TODO | Master Spec | source-change GO |
@@ -725,9 +750,9 @@ actual_obsidian_write: false
 Next recommended goal detail:
 
 ```text
-/goal shikishima.push-send-execution-preflight-and-add-discord-one-shot-send-go-template
+/goal shikishima.push-discord-one-shot-send-go-template-and-add-discord-send-executor-design
 
-Push send execution preflight + ledger; add docs-only one-shot send GO template (no send).
+Push one-shot send GO template + ledger; add docs-only send executor design (no send).
 ```
 
 Remaining explicit HOLD (do not infer approval):
