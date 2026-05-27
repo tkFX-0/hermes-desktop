@@ -34,9 +34,9 @@ git_push: separate human GO only
 
 ```text
 branch: main
-HEAD: (local; discord brief send preflight join — not pushed)
-origin/main: 712ba3e
-commits_ahead: implementation + ledger (not pushed)
+HEAD: (local; discord send execution plan — not pushed)
+origin/main: 95cfe3e
+commits_ahead: docs-only (not pushed)
 ledger_updated: 2026-05-26
 Master Spec: PUSHED
 Goal A1 route registry: PUSHED
@@ -70,7 +70,8 @@ Discord Send Readiness Digest Contract: PUSHED
 Human Gate Status Snapshot Contract: PUSHED
 Discord Operator Brief Contract: PUSHED
 Discord Brief Send Preflight Join Contract: PUSHED
-Discord Review Packet Contract: LOCAL PASS / NOT PUSHED
+Discord Review Packet Contract: PUSHED
+Discord Send Execution Plan: LOCAL PASS / NOT PUSHED
 ```
 
 Preferred operator display direction:
@@ -79,6 +80,8 @@ Preferred operator display direction:
 Discord is the primary operator viewing surface.
 Review Packet uses DiscordBriefSendPreflightJoin as input.
 Review Packet is the final Discord-facing review bundle before any future send gate.
+Discord Send Execution Plan is docs-only.
+Actual Discord send remains HOLD.
 Review Packet is packet-only / review-only / draft-only.
 Review Packet status REVIEW_READY_CANDIDATE is not send approval.
 Join combines DiscordOperatorBrief and DiscordSendPreflightResult.
@@ -98,6 +101,11 @@ Preflight: READY_CANDIDATE is not send approval; sendReady remains false.
 Control Center is fallback/debug/read-only local surface.
 Ledger remains the source of truth.
 Discord send remains HOLD.
+Webhook remains HOLD.
+Bot runtime remains HOLD.
+Token access remains HOLD.
+Auto-reply remains NOT_APPROVED.
+Continuous mode remains NOT_APPROVED.
 Obsidian actual write remains HOLD.
 Runtime remains HOLD.
 productionReady remains false.
@@ -194,7 +202,8 @@ Meaning:
 | Human Gate Status Snapshot Contract | PUSHED | `dd83b73` | `feat: add human gate status snapshot contract`; one-page operator status |
 | Discord Operator Brief Contract | PUSHED | `46ae87f` | `feat: add discord operator brief contract`; short Discord-facing brief |
 | Discord Brief Send Preflight Join Contract | PUSHED | `9a828f8` | `feat: add discord brief send preflight join contract`; brief + send preflight review |
-| Discord Review Packet Contract | LOCAL PASS / NOT PUSHED | (local) | `feat: add discord review packet contract`; final review bundle before send gate |
+| Discord Review Packet Contract | PUSHED | `95cfe3e` | `feat: add discord review packet contract`; final review bundle before send gate |
+| Discord Send Execution Plan | LOCAL PASS / NOT PUSHED | (local) | `docs: plan discord send execution`; docs-only; send remains HOLD |
 
 Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → display contracts):
 
@@ -254,7 +263,8 @@ WorkerTaskContract
   → renderDiscordBriefSendPreflightJoinPreview()
   → createDiscordReviewPacket()
   → renderDiscordReviewPacketPreview()
-  → (future Discord send execution plan — NOT IMPLEMENTED)
+  → (future Discord send execution preflight — NOT IMPLEMENTED)
+  → (future one-shot Discord send execution — HOLD; see DISCORD_SEND_EXECUTION_PLAN.md)
   → (future one-shot queue append gate — NOT IMPLEMENTED)
   → (future read-only UI — not implemented)
 ```
@@ -501,6 +511,26 @@ execution: disabled
 
 Implementation: `src/shared/discord-review-packet/`.
 
+### Discord Send Execution Plan boundary (not send / webhook / bot / queue mutation)
+
+Discord Send Execution Plan defines future one-shot send execution gates after `DiscordReviewPacket` only.
+
+```text
+docs-only
+no Discord send
+no webhook
+no bot
+no token read
+no network call
+no queue mutation
+no HUMAN_GATE_QUEUE.md modification
+REVIEW_READY_CANDIDATE is not send approval
+productionReady: false
+execution: disabled
+```
+
+Implementation doc: `docs/shikishima/DISCORD_SEND_EXECUTION_PLAN.md`.
+
 ### iPhone Human Gate Display Contract boundary (not UI / network / IPC)
 
 iPhone Human Gate Display Contract is pure display contract only.
@@ -636,10 +666,10 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (discord review packet local PASS; push pending)
+active_goal: none (discord send execution plan local PASS; push pending)
 status: PASS
-last_completed_goal: shikishima.push-brief-send-preflight-join-and-add-discord-review-packet-contract
-external_effects: git push only (brief send preflight join commits)
+last_completed_goal: shikishima.push-discord-review-packet-and-add-discord-send-execution-plan
+external_effects: git push only (discord review packet commits)
 actual_obsidian_write: false
 ```
 
@@ -649,7 +679,7 @@ actual_obsidian_write: false
 
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
-| 1 | `/goal shikishima.push-discord-review-packet-and-add-discord-send-execution-plan` | TODO | Discord Review Packet LOCAL PASS | Push GO + discord send execution plan (docs) |
+| 1 | `/goal shikishima.push-discord-send-execution-plan-and-add-discord-send-execution-preflight-contract` | TODO | Discord Send Execution Plan LOCAL PASS | Push GO + send execution preflight contract |
 | 2 | `/goal shikishima.readonly-ui-display-plan` | DONE | pushed as 1f20f0a | — |
 | 3 | Goal A6: selected handler integration planning/implementation | HOLD | A5 PUSHED | source-change GO |
 | 4 | Goal C: Memory Scope / Persona / Model Trace Foundation | TODO | Master Spec | source-change GO |
@@ -663,9 +693,9 @@ actual_obsidian_write: false
 Next recommended goal detail:
 
 ```text
-/goal shikishima.push-discord-review-packet-and-add-discord-send-execution-plan
+/goal shikishima.push-discord-send-execution-plan-and-add-discord-send-execution-preflight-contract
 
-Push discord review packet + ledger; add discord send execution plan (docs-only; send remains HOLD).
+Push discord send execution plan + ledger; add pure send execution preflight contract (no network).
 ```
 
 Remaining explicit HOLD (do not infer approval):
