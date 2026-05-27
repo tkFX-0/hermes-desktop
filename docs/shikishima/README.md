@@ -33,6 +33,7 @@ Current state:
 - productionReady: false
 - rawValuesReported: false
 - finalShikishimaCore: ACCEPTED_AS_FINAL_CORE_100 (2026-05-27; guarded scope — see `FINAL_CORE_ACCEPTANCE.md`)
+- completionRoom: DE_SCOPED (use Status Board + `FINAL_CORE_ACCEPTANCE.md`)
 - nextPhase: StackChan Phase 0 prep (docs) → Baseline Observation (not started; control HOLD)
 
 These documents are not execution approval. They do not enable WSL, Hermes,
@@ -60,6 +61,8 @@ network flow.
 - `STACKCHAN_BASELINE_OBSERVATION_GO_DRAFT.md` - Rally 10 GO template (not active GO).
 - `STACKCHAN_BASELINE_OBSERVATION_EVIDENCE_TEMPLATE.md` - Rally 10 evidence template.
 - `FINAL_CORE_TO_STACKCHAN_HANDOFF.md` - Core 100 → StackChan handoff rules.
+- `COMPLETION_ROOM_DESCOPE_RECORD.md` - Completion Room de-scope (not an active app page).
+- `COMPLETION_ROOM_OBSOLETE_CANDIDATES.md` - de-scope discovery and related Room disambiguation.
 - `PHASE_45_TO_60_APPROVAL_QUEUE_UI_EVIDENCE.md` - Phase 45 to 60 Approval Queue UI evidence and safety boundary.
 - `PHASE_60_TO_75_STACKCHAN_DISPLAY_PREPARATION_EVIDENCE.md` - Phase 60 to 75 StackChan / Face Terminal display preparation evidence.
 - `SC_PC_02_FIRMWARE_WRITE_EVIDENCE.md` - StackChan / CoreS3 M5Burner firmware write and reconnect evidence.

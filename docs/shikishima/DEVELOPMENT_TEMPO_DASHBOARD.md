@@ -20,8 +20,8 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v4.42.0
-- latestUpdate: 2026-05-27 - StackChan Phase 0 readiness prep (docs-only, not pushed).
+- roadmapVersion: v4.43.0
+- latestUpdate: 2026-05-27 - Completion Room de-scoped (docs-only, not pushed).
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: 9c1a228 (origin/main aligned); Phase 0 prep local commit ahead (not pushed)

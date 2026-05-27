@@ -124,6 +124,8 @@ Final Core Acceptance Evidence: PUSHED
 StackChan Phase 0 Readiness Prep: LOCAL PASS / NOT PUSHED
 StackChan Safety Boundary: LOCAL (prep)
 StackChan Baseline Observation GO Draft: LOCAL (not active GO)
+Completion Room De-scope: LOCAL PASS / NOT PUSHED
+Completion Room: DE_SCOPED (Status Board + Final Core docs replace)
 ```
 
 Preferred operator display direction:
@@ -318,6 +320,7 @@ Meaning:
 | Status Board Visual Confirmation Rally 8.5 | PUSHED | `8046271` | human visual; Rally 8 caveat resolved |
 | Final Shikishima Core Acceptance Rally 9 | ACCEPTED_AS_FINAL_CORE_100 | `9c1a228` | Core 100%; StackChan next phase |
 | StackChan Phase 0 Readiness Prep | LOCAL PASS / NOT PUSHED | (local) | docs-only; no device connection |
+| Completion Room De-scope / Prune Prep | LOCAL PASS / NOT PUSHED | (local) | no active Completion Room found; de-scoped in docs |
 
 Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → display contracts):
 
@@ -1249,9 +1252,9 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (stackchan phase 0 readiness prep LOCAL PASS; not pushed)
+active_goal: none (completion room de-scope LOCAL PASS; not pushed)
 status: ACCEPTED_AS_FINAL_CORE_100
-last_completed_goal: shikishima.stackchan-phase0-readiness-prep
+last_completed_goal: shikishima.completion-room-descope-prune
 external_effects: docs-only StackChan prep; no connection / motion / firmware
 actual_obsidian_write: false
 final_shikishima_core: 100% (guarded scope; unchanged)

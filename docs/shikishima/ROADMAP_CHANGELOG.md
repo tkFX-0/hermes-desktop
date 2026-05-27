@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.42.0
+- roadmapVersion: v4.43.0
 - lastUpdated: 2026-05-27
-- latestUpdate: StackChan Phase 0 readiness prep (docs-only). No device connection. StackChan control remains HOLD.
+- latestUpdate: Completion Room de-scoped; Status Board + Final Core docs remain canonical. No new Completion Room UI.
 - baselineCommit: 9c1a228
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,13 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.43.0 - Completion Room De-scope
+
+- `COMPLETION_ROOM_DESCOPE_RECORD.md`: Completion Room / 完成室 removed from active product direction.
+- `COMPLETION_ROOM_OBSOLETE_CANDIDATES.md`: discovery record; no active nav/route/component found.
+- Completion status: Status Board (runtime) + Final Core Acceptance (docs).
+- Agent Theater Pixel Room / design Operator Room are unrelated; not deleted.
 
 ## v4.42.0 - StackChan Phase 0 Readiness Prep
 
