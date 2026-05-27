@@ -34,8 +34,8 @@ git_push: separate human GO only
 
 ```text
 branch: main
-HEAD: (local; human gate report status snapshot adapter — not pushed)
-origin/main: 5c56352
+HEAD: (local; operator handoff assembly — not pushed)
+origin/main: 8a08b8c
 commits_ahead: implementation + ledger (not pushed)
 ledger_updated: 2026-05-26
 Master Spec: PUSHED
@@ -77,13 +77,16 @@ Discord One-Shot Send GO Template: PUSHED
 Discord Send Executor Design: PUSHED
 Discord Review Packet Assembly Contract: PUSHED
 Operator Handoff Session Contract: PUSHED
-HumanGateReport to Status Snapshot Adapter: LOCAL PASS / NOT PUSHED
+HumanGateReport to Status Snapshot Adapter: PUSHED
+Operator Handoff Assembly Contract: LOCAL PASS / NOT PUSHED
 ```
 
 Preferred operator display direction:
 
 ```text
 Discord is the primary operator viewing surface.
+Operator Handoff Assembly provides one-call HumanGateReport → OperatorHandoffSession preview.
+Assembly connects HumanGateReport, Snapshot Adapter, DiscordReviewPacketAssembly, and OperatorHandoffSession.
 Adapter connects existing HumanGateReport output to HumanGateStatusSnapshot.
 Adapter enables HumanGateReport → Snapshot → DiscordReviewPacketAssembly → OperatorHandoffSession practical pipeline.
 Operator Handoff Session wraps DiscordReviewPacketAssemblyResult into one human decision session.
@@ -238,7 +241,8 @@ Meaning:
 | Discord Send Executor Design | PUSHED | `1eda4c9` | `docs: design discord send executor`; future executor architecture only |
 | Discord Review Packet Assembly Contract | PUSHED | `179034b` | `feat: add discord review packet assembly contract`; Goal→Discord review bundle |
 | Operator Handoff Session Contract | PUSHED | `5c56352` | `feat: add operator handoff session contract`; human decision session |
-| HumanGateReport to Status Snapshot Adapter | LOCAL PASS / NOT PUSHED | (local) | `feat: add human gate report status snapshot adapter`; report→snapshot bridge |
+| HumanGateReport to Status Snapshot Adapter | PUSHED | `8a08b8c` | `feat: add human gate report status snapshot adapter`; report→snapshot bridge |
+| Operator Handoff Assembly Contract | LOCAL PASS / NOT PUSHED | (local) | `feat: add operator handoff assembly contract`; one-call report→handoff |
 
 Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → display contracts):
 
@@ -307,6 +311,8 @@ WorkerTaskContract
   → createDiscordReviewPacketAssembly()
   → createOperatorHandoffSession()
   → renderOperatorHandoffSessionPreview()
+  → createOperatorHandoffAssembly()
+  → createOperatorHandoffAssemblyPreview()
   → (future Discord Send Executor — NOT IMPLEMENTED; see DISCORD_SEND_EXECUTOR_DESIGN.md)
   → (future one-shot Discord send attempt — HOLD)
   → (future post-send evidence + gate restored HOLD)
@@ -691,6 +697,24 @@ execution: disabled
 
 Implementation: `src/shared/human-gate-report-status-snapshot-adapter/`.
 
+### Operator Handoff Assembly Contract boundary (not send / next goal auto-approval)
+
+Operator Handoff Assembly Contract wires report → snapshot → packet → handoff in one call.
+
+```text
+assemblyOnly: true
+handoffOnly: true
+one-call HumanGateReport → OperatorHandoffSession preview
+READY_FOR_HUMAN_REVIEW is not send approval
+READY_FOR_HUMAN_REVIEW is not next goal approval
+no Discord send
+no executor
+productionReady: false
+execution: disabled
+```
+
+Implementation: `src/shared/operator-handoff-assembly/`.
+
 ### iPhone Human Gate Display Contract boundary (not UI / network / IPC)
 
 iPhone Human Gate Display Contract is pure display contract only.
@@ -826,10 +850,10 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (human gate report status snapshot adapter local PASS; push pending)
+active_goal: none (operator handoff assembly local PASS; push pending)
 status: PASS
-last_completed_goal: shikishima.push-operator-handoff-session-and-add-human-gate-report-to-snapshot-adapter
-external_effects: git push only (operator handoff session commits)
+last_completed_goal: shikishima.push-human-gate-report-to-snapshot-adapter-and-add-operator-handoff-assembly-contract
+external_effects: git push only (human gate report status snapshot adapter commits)
 actual_obsidian_write: false
 ```
 
@@ -839,7 +863,7 @@ actual_obsidian_write: false
 
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
-| 1 | `/goal shikishima.push-human-gate-report-to-snapshot-adapter-and-add-operator-handoff-assembly-contract` | TODO | Report→Snapshot Adapter LOCAL PASS | Push GO + end-to-end handoff assembly contract |
+| 1 | `/goal shikishima.push-operator-handoff-assembly-and-add-operator-handoff-fixtures` | TODO | Operator Handoff Assembly LOCAL PASS | Push GO + operator handoff fixtures |
 | 2 | `/goal shikishima.push-discord-send-executor-design-and-add-discord-send-executor-preimplementation-review` | DEFERRED | Executor design PUSHED | Safety design path paused |
 | 2 | `/goal shikishima.readonly-ui-display-plan` | DONE | pushed as 1f20f0a | — |
 | 3 | Goal A6: selected handler integration planning/implementation | HOLD | A5 PUSHED | source-change GO |
@@ -854,9 +878,9 @@ actual_obsidian_write: false
 Next recommended goal detail:
 
 ```text
-/goal shikishima.push-human-gate-report-to-snapshot-adapter-and-add-operator-handoff-assembly-contract
+/goal shikishima.push-operator-handoff-assembly-and-add-operator-handoff-fixtures
 
-Push report→snapshot adapter + ledger; add operator handoff assembly contract (report→handoff one call).
+Push operator handoff assembly + ledger; add operator handoff fixtures for stable goal output.
 ```
 
 Remaining explicit HOLD (do not infer approval):
