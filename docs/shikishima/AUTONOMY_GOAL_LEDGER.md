@@ -94,11 +94,16 @@ Discord Send Executor Dry-run Contract: PUSHED
 Discord Send Executor Intent Builders: PUSHED
 Discord Send Mock Transport: PUSHED
 Discord Send Executor Dry-run Evidence: PUSHED
-Discord Send Unlock 2 One-shot Send Rally 4: LOCAL PASS / NOT PUSHED (send HOLD — credentials)
-Discord One-shot Send Contract: LOCAL PASS
-Discord One-shot Send Tool: LOCAL PASS
-Discord One-shot Actual Send: HOLD (env not configured)
-Discord One-shot Send Evidence: LOCAL PASS
+Discord Send Unlock 2 One-shot Send Rally 4: PUSHED (send PASS_WITH_CAVEAT — credentials HOLD)
+Discord One-shot Send Contract: PUSHED
+Discord One-shot Send Tool: PUSHED
+Discord One-shot Actual Send: HOLD_PENDING_LOCAL_CREDENTIALS
+Discord One-shot Send Evidence: PUSHED
+External Action Guard Controlled Autonomy Rally 5: LOCAL PASS / NOT PUSHED
+External Action Route Registry: LOCAL PASS
+External Action Guard Decision Rules: LOCAL PASS
+Controlled Autonomy Proposal: LOCAL PASS
+External Action Guard Evidence: LOCAL PASS
 ```
 
 Preferred operator display direction:
@@ -283,11 +288,14 @@ Meaning:
 | Queue Operation MVP Rally 2 | PUSHED | `db60a4d` | controlled HUMAN_GATE_QUEUE.md mutation |
 | Discord Send Unlock 1 Executor Dry-run Rally 3 | PUSHED | `8ca01e5` | executor dry-run / mock transport only |
 | Discord Send Executor Dry-run Contract | PUSHED | `fb648fe` | `feat: add discord send executor dry run` |
-| Discord Send Unlock 2 One-shot Send Rally 4 | LOCAL PASS / NOT PUSHED | (local) | one-shot send; actual send HOLD until env |
-| Discord One-shot Send Contract | LOCAL PASS | (local) | `feat: add discord one shot send executor` |
-| Discord One-shot Send Tool | LOCAL PASS | (local) | `tools/shikishima-discord-one-shot-send.mjs` |
-| Discord One-shot Actual Send | HOLD | (local) | missing SHIKISHIMA_DISCORD_* env vars |
-| Discord One-shot Send Evidence | LOCAL PASS | (local) | `docs: record discord one shot send evidence` |
+| Discord Send Unlock 2 One-shot Send Rally 4 | PUSHED | `7df7f66` | one-shot path; actual send HOLD |
+| Discord One-shot Send Contract | PUSHED | `845540b` | `feat: add discord one shot send executor` |
+| Discord One-shot Actual Send | HOLD_PENDING_LOCAL_CREDENTIALS | — | path implemented; send not proven |
+| External Action Guard Controlled Autonomy Rally 5 | LOCAL PASS / NOT PUSHED | (local) | guard + proposal layer |
+| External Action Route Registry | LOCAL PASS | (local) | six-route default registry |
+| External Action Guard Decision Rules | LOCAL PASS | (local) | evaluateExternalActionGuard |
+| Controlled Autonomy Proposal | LOCAL PASS | (local) | proposal-only output |
+| External Action Guard Evidence | LOCAL PASS | (local) | `docs: record external action controlled autonomy evidence` |
 
 Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → display contracts):
 
@@ -963,7 +971,32 @@ execution: disabled
 Implementation: `src/shared/discord-send-one-shot/`, `tools/shikishima-discord-one-shot-send.mjs`.
 Evidence: `docs/shikishima/DISCORD_ONE_SHOT_SEND_EVIDENCE.md`.
 
-Current send status: HOLD until `SHIKISHIMA_DISCORD_BOT_TOKEN`, `SHIKISHIMA_DISCORD_OPERATOR_REVIEW_CHANNEL_ID`, and `SHIKISHIMA_DISCORD_OPERATOR_REVIEW_TARGET_LABEL` are set locally.
+Current send status: HOLD_PENDING_LOCAL_CREDENTIALS — path implemented; actual send not yet proven.
+
+### External Action Guard Controlled Autonomy boundary (Rally 5)
+
+Rally 5 adds proposal-only guard decisions for controlled external actions.
+
+```text
+Autonomy proposal
+  → ExternalActionRoute registry
+  → evaluateExternalActionGuard
+  → ControlledAutonomyProposal
+  → Human GO requirement (no execution)
+
+discord_one_shot_send: HOLD_PENDING_LOCAL_CREDENTIALS (implemented, actualExecutionCount 0)
+human_gate_queue_repo_local_mutation: EXECUTED_ONCE (Rally 2)
+git_push / runtime_start / external_api_write: HOLD_PENDING_HUMAN_GO
+obsidian_write: HOLD_PENDING_IMPLEMENTATION
+
+no actual Discord send in this rally
+no network call
+productionReady: false
+execution: disabled
+```
+
+Implementation: `src/shared/external-action-controlled-autonomy/`.
+Evidence: `docs/shikishima/EXTERNAL_ACTION_GUARD_CONTROLLED_AUTONOMY_EVIDENCE.md`.
 
 ### iPhone Human Gate Display Contract boundary (not UI / network / IPC)
 
@@ -1100,10 +1133,10 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (discord send unlock 2 rally 4 local PASS; one-shot send HOLD)
-status: PASS_WITH_CAVEAT
-last_completed_goal: shikishima.discord-send-unlock-2-one-shot-send
-external_effects: git push Rally 3 (8ca01e5); Rally 4 local only; no network send
+active_goal: none (external action guard rally 5 local PASS; push pending)
+status: PASS
+last_completed_goal: shikishima.external-action-guard-controlled-autonomy
+external_effects: git push Rally 4 (7df7f66); Rally 5 local only; no network send
 actual_obsidian_write: false
 ```
 
@@ -1113,9 +1146,11 @@ actual_obsidian_write: false
 
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
-| 1 | `/goalmacro shikishima.external-action-guard-controlled-autonomy` | TODO | Rally 4 contract/tool LOCAL PASS | Push Rally 4 + resume one-shot send |
-| 1b | `/goalmacro shikishima.discord-send-unlock-2-one-shot-send` | DONE (send HOLD) | Rally 3 PUSHED | Set SHIKISHIMA_DISCORD_* env + re-run tool |
-| 1c | `/goalmacro shikishima.discord-send-unlock-1-executor-dry-run` | DONE | Rally 2 PUSHED | — |
+| 1 | `/goalmacro shikishima.discord-one-shot-send-completion` | TODO | Rally 5 guard LOCAL PASS | SHIKISHIMA_DISCORD_* env + one-shot send |
+| 1b | `/goalmacro shikishima.runtime-readonly-status-board` | TODO | Rally 5 guard LOCAL PASS | Push Rally 5 + UI readonly GO |
+| 1c | `/goalmacro shikishima.external-action-guard-controlled-autonomy` | DONE | Rally 4 PUSHED | — |
+| 1d | `/goalmacro shikishima.discord-send-unlock-2-one-shot-send` | DONE (PASS_WITH_CAVEAT) | Rally 3 PUSHED | — |
+| 1e | `/goalmacro shikishima.discord-send-unlock-1-executor-dry-run` | DONE | Rally 2 PUSHED | — |
 | 2 | `/goal shikishima.push-discord-send-executor-design-and-add-discord-send-executor-preimplementation-review` | DEFERRED | Executor design PUSHED | Safety design path paused |
 | 2 | `/goal shikishima.readonly-ui-display-plan` | DONE | pushed as 1f20f0a | — |
 | 3 | Goal A6: selected handler integration planning/implementation | HOLD | A5 PUSHED | source-change GO |
@@ -1130,10 +1165,10 @@ actual_obsidian_write: false
 Next recommended goal detail:
 
 ```text
-/goalmacro shikishima.external-action-guard-controlled-autonomy
+/goalmacro shikishima.discord-one-shot-send-completion
 
-Push rally 4 artifacts; integrate one-shot send under External Action Guard.
-Resume actual send after SHIKISHIMA_DISCORD_* env is configured locally.
+If SHIKISHIMA_DISCORD_* env is configured: run one-shot tool, prove actualSendCount 1, update evidence.
+Otherwise: /goalmacro shikishima.runtime-readonly-status-board after pushing Rally 5.
 ```
 
 Remaining explicit HOLD (do not infer approval):
