@@ -69,13 +69,18 @@ Human Gate Queue Mutation Preflight Contract: PUSHED
 Discord Send Readiness Digest Contract: PUSHED
 Human Gate Status Snapshot Contract: PUSHED
 Discord Operator Brief Contract: PUSHED
-Discord Brief Send Preflight Join Contract: LOCAL PASS / NOT PUSHED
+Discord Brief Send Preflight Join Contract: PUSHED
+Discord Review Packet Contract: LOCAL PASS / NOT PUSHED
 ```
 
 Preferred operator display direction:
 
 ```text
 Discord is the primary operator viewing surface.
+Review Packet uses DiscordBriefSendPreflightJoin as input.
+Review Packet is the final Discord-facing review bundle before any future send gate.
+Review Packet is packet-only / review-only / draft-only.
+Review Packet status REVIEW_READY_CANDIDATE is not send approval.
 Join combines DiscordOperatorBrief and DiscordSendPreflightResult.
 Join status REVIEW_READY_CANDIDATE is not send approval.
 Join produces preview only.
@@ -188,7 +193,8 @@ Meaning:
 | Discord Send Readiness Digest Contract | PUSHED | `e684a19` | `feat: add discord send readiness digest contract`; cross-preflight review digest |
 | Human Gate Status Snapshot Contract | PUSHED | `dd83b73` | `feat: add human gate status snapshot contract`; one-page operator status |
 | Discord Operator Brief Contract | PUSHED | `46ae87f` | `feat: add discord operator brief contract`; short Discord-facing brief |
-| Discord Brief Send Preflight Join Contract | LOCAL PASS / NOT PUSHED | (local) | `feat: add discord brief send preflight join contract`; brief + send preflight review |
+| Discord Brief Send Preflight Join Contract | PUSHED | `9a828f8` | `feat: add discord brief send preflight join contract`; brief + send preflight review |
+| Discord Review Packet Contract | LOCAL PASS / NOT PUSHED | (local) | `feat: add discord review packet contract`; final review bundle before send gate |
 
 Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → display contracts):
 
@@ -246,6 +252,9 @@ WorkerTaskContract
   → renderDiscordOperatorBriefPreview()
   → createDiscordBriefSendPreflightJoin()
   → renderDiscordBriefSendPreflightJoinPreview()
+  → createDiscordReviewPacket()
+  → renderDiscordReviewPacketPreview()
+  → (future Discord send execution plan — NOT IMPLEMENTED)
   → (future one-shot queue append gate — NOT IMPLEMENTED)
   → (future read-only UI — not implemented)
 ```
@@ -467,6 +476,31 @@ no token read
 
 Implementation: `src/shared/discord-brief-send-preflight-join/`.
 
+### Discord Review Packet Contract boundary (not send / webhook / bot / queue mutation)
+
+Discord Review Packet Contract converts `DiscordBriefSendPreflightJoin` into a final Discord-facing review bundle only.
+
+```text
+packetOnly: true
+reviewOnly: true
+draftOnly: true
+input: DiscordBriefSendPreflightJoin
+no Discord send
+no webhook
+no bot
+no token read
+no network call
+no external write
+no queue mutation
+no HUMAN_GATE_QUEUE.md modification
+no file write
+REVIEW_READY_CANDIDATE is not send approval
+productionReady: false
+execution: disabled
+```
+
+Implementation: `src/shared/discord-review-packet/`.
+
 ### iPhone Human Gate Display Contract boundary (not UI / network / IPC)
 
 iPhone Human Gate Display Contract is pure display contract only.
@@ -602,10 +636,10 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (brief send preflight join local PASS; push pending)
+active_goal: none (discord review packet local PASS; push pending)
 status: PASS
-last_completed_goal: shikishima.push-operator-brief-and-add-discord-brief-send-preflight-join
-external_effects: git push only (operator brief commits)
+last_completed_goal: shikishima.push-brief-send-preflight-join-and-add-discord-review-packet-contract
+external_effects: git push only (brief send preflight join commits)
 actual_obsidian_write: false
 ```
 
@@ -615,7 +649,7 @@ actual_obsidian_write: false
 
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
-| 1 | `/goal shikishima.push-brief-send-preflight-join-and-add-discord-review-packet-contract` | TODO | Brief Send Preflight Join LOCAL PASS | Push GO + discord review packet contract |
+| 1 | `/goal shikishima.push-discord-review-packet-and-add-discord-send-execution-plan` | TODO | Discord Review Packet LOCAL PASS | Push GO + discord send execution plan (docs) |
 | 2 | `/goal shikishima.readonly-ui-display-plan` | DONE | pushed as 1f20f0a | — |
 | 3 | Goal A6: selected handler integration planning/implementation | HOLD | A5 PUSHED | source-change GO |
 | 4 | Goal C: Memory Scope / Persona / Model Trace Foundation | TODO | Master Spec | source-change GO |
@@ -629,9 +663,9 @@ actual_obsidian_write: false
 Next recommended goal detail:
 
 ```text
-/goal shikishima.push-brief-send-preflight-join-and-add-discord-review-packet-contract
+/goal shikishima.push-discord-review-packet-and-add-discord-send-execution-plan
 
-Push brief/send preflight join + ledger; add discord review packet contract (strings only; no send).
+Push discord review packet + ledger; add discord send execution plan (docs-only; send remains HOLD).
 ```
 
 Remaining explicit HOLD (do not infer approval):
