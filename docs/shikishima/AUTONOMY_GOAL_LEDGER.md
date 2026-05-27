@@ -34,8 +34,8 @@ git_push: separate human GO only
 
 ```text
 branch: main
-HEAD: (local; discord review packet assembly — not pushed)
-origin/main: 1eda4c9
+HEAD: (local; operator handoff session — not pushed)
+origin/main: 179034b
 commits_ahead: implementation + ledger (not pushed)
 ledger_updated: 2026-05-26
 Master Spec: PUSHED
@@ -75,13 +75,18 @@ Discord Send Execution Plan: PUSHED
 Discord Send Execution Preflight Contract: PUSHED
 Discord One-Shot Send GO Template: PUSHED
 Discord Send Executor Design: PUSHED
-Discord Review Packet Assembly Contract: LOCAL PASS / NOT PUSHED
+Discord Review Packet Assembly Contract: PUSHED
+Operator Handoff Session Contract: LOCAL PASS / NOT PUSHED
 ```
 
 Preferred operator display direction:
 
 ```text
 Discord is the primary operator viewing surface.
+Operator Handoff Session wraps DiscordReviewPacketAssemblyResult into one human decision session.
+READY_FOR_HUMAN_REVIEW is not send approval.
+READY_FOR_HUMAN_REVIEW is not next goal approval.
+Next goal approval still requires explicit Human GO.
 Assembly connects HumanGateStatusSnapshot, DiscordOperatorBrief, DiscordSendPreflightResult, DiscordBriefSendPreflightJoin, and DiscordReviewPacket.
 Assembly creates Discord review preview for human operation.
 Assembly is review-only / draft-only / display-only.
@@ -228,7 +233,8 @@ Meaning:
 | Discord Send Execution Preflight Contract | PUSHED | `7cfddf5` | `feat: add discord send execution preflight contract`; execution candidate only |
 | Discord One-Shot Send GO Template | PUSHED | `3fc496c` | `docs: add discord one shot send go template`; human GO wording only |
 | Discord Send Executor Design | PUSHED | `1eda4c9` | `docs: design discord send executor`; future executor architecture only |
-| Discord Review Packet Assembly Contract | LOCAL PASS / NOT PUSHED | (local) | `feat: add discord review packet assembly contract`; Goal→Discord review bundle |
+| Discord Review Packet Assembly Contract | PUSHED | `179034b` | `feat: add discord review packet assembly contract`; Goal→Discord review bundle |
+| Operator Handoff Session Contract | LOCAL PASS / NOT PUSHED | (local) | `feat: add operator handoff session contract`; human decision session |
 
 Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → display contracts):
 
@@ -293,6 +299,8 @@ WorkerTaskContract
   → renderDiscordSendExecutionPreflightPreview()
   → createDiscordReviewPacketAssembly()
   → createDiscordReviewPacketAssemblyPreview()
+  → createOperatorHandoffSession()
+  → renderOperatorHandoffSessionPreview()
   → (future Discord Send Executor — NOT IMPLEMENTED; see DISCORD_SEND_EXECUTOR_DESIGN.md)
   → (future one-shot Discord send attempt — HOLD)
   → (future post-send evidence + gate restored HOLD)
@@ -642,6 +650,24 @@ execution: disabled
 
 Implementation: `src/shared/discord-review-packet-assembly/`.
 
+### Operator Handoff Session Contract boundary (not send / next goal auto-approval)
+
+Operator Handoff Session Contract packages assembly into one operator decision session.
+
+```text
+sessionOnly: true
+handoffOnly: true
+READY_FOR_HUMAN_REVIEW is not send approval
+READY_FOR_HUMAN_REVIEW is not next goal approval
+APPROVE_NEXT_GOAL requires explicit Human GO
+no Discord send
+no executor
+productionReady: false
+execution: disabled
+```
+
+Implementation: `src/shared/operator-handoff-session/`.
+
 ### iPhone Human Gate Display Contract boundary (not UI / network / IPC)
 
 iPhone Human Gate Display Contract is pure display contract only.
@@ -777,10 +803,10 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (discord review packet assembly local PASS; push pending)
+active_goal: none (operator handoff session local PASS; push pending)
 status: PASS
-last_completed_goal: shikishima.push-discord-send-executor-design-and-add-discord-review-packet-assembly-contract
-external_effects: git push only (discord send executor design docs)
+last_completed_goal: shikishima.push-discord-review-packet-assembly-and-add-operator-handoff-session-contract
+external_effects: git push only (discord review packet assembly commits)
 actual_obsidian_write: false
 ```
 
@@ -790,7 +816,7 @@ actual_obsidian_write: false
 
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
-| 1 | `/goal shikishima.push-discord-review-packet-assembly-and-add-operator-handoff-session-contract` | TODO | Review Packet Assembly LOCAL PASS | Push GO + operator handoff session contract |
+| 1 | `/goal shikishima.push-operator-handoff-session-and-add-human-gate-report-to-snapshot-adapter` | TODO | Operator Handoff Session LOCAL PASS | Push GO + HumanGateReport→snapshot adapter |
 | 2 | `/goal shikishima.push-discord-send-executor-design-and-add-discord-send-executor-preimplementation-review` | DEFERRED | Executor design PUSHED | Safety design path paused |
 | 2 | `/goal shikishima.readonly-ui-display-plan` | DONE | pushed as 1f20f0a | — |
 | 3 | Goal A6: selected handler integration planning/implementation | HOLD | A5 PUSHED | source-change GO |
@@ -805,9 +831,9 @@ actual_obsidian_write: false
 Next recommended goal detail:
 
 ```text
-/goal shikishima.push-discord-review-packet-assembly-and-add-operator-handoff-session-contract
+/goal shikishima.push-operator-handoff-session-and-add-human-gate-report-to-snapshot-adapter
 
-Push review packet assembly + ledger; add operator handoff session contract (practical ops).
+Push operator handoff session + ledger; add HumanGateReport→snapshot adapter (practical ops).
 ```
 
 Remaining explicit HOLD (do not infer approval):
