@@ -33,7 +33,7 @@ Current state:
 - productionReady: false
 - rawValuesReported: false
 - finalShikishimaCore: ACCEPTED_AS_FINAL_CORE_100 (2026-05-27; guarded scope — see `FINAL_CORE_ACCEPTANCE.md`)
-- nextPhase: StackChan Baseline Observation (not started)
+- nextPhase: StackChan Phase 0 prep (docs) → Baseline Observation (not started; control HOLD)
 
 These documents are not execution approval. They do not enable WSL, Hermes,
 wrapper, dummy wrapper, RunPod, StackChan, packaged smoke, or any external
@@ -55,6 +55,11 @@ network flow.
 - `FINAL_CORE_ACCEPTANCE.md` - Final Shikishima Core 100% acceptance record (Rally 9).
 - `FINAL_CORE_100_SUMMARY.md` - concise Core 100 summary and exclusions.
 - `FINAL_CORE_ACCEPTANCE_EVIDENCE.md` - Rally 9 verification evidence.
+- `STACKCHAN_PHASE0_READINESS_PREP.md` - StackChan Phase 0 prep (no device access).
+- `STACKCHAN_SAFETY_BOUNDARY.md` - StackChan default HOLD matrix.
+- `STACKCHAN_BASELINE_OBSERVATION_GO_DRAFT.md` - Rally 10 GO template (not active GO).
+- `STACKCHAN_BASELINE_OBSERVATION_EVIDENCE_TEMPLATE.md` - Rally 10 evidence template.
+- `FINAL_CORE_TO_STACKCHAN_HANDOFF.md` - Core 100 → StackChan handoff rules.
 - `PHASE_45_TO_60_APPROVAL_QUEUE_UI_EVIDENCE.md` - Phase 45 to 60 Approval Queue UI evidence and safety boundary.
 - `PHASE_60_TO_75_STACKCHAN_DISPLAY_PREPARATION_EVIDENCE.md` - Phase 60 to 75 StackChan / Face Terminal display preparation evidence.
 - `SC_PC_02_FIRMWARE_WRITE_EVIDENCE.md` - StackChan / CoreS3 M5Burner firmware write and reconnect evidence.

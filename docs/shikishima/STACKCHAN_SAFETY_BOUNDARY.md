@@ -1,30 +1,93 @@
 # StackChan Safety Boundary
 
-## Current Boundary
+Date: 2026-05-27
+Applies to: all StackChan work after Final Shikishima Core Acceptance
 
-StackChan is HOLD. No robot movement, firmware work, device control, or networked
-control is approved by this document.
+---
 
-## Required Before Any Future Control
+## Default State
 
-- Phase 1-9 documentation approved.
-- しずめ Safety Gate approved.
-- human GO approval scoped to the exact action.
-- rollback and physical stop condition documented.
-- redacted logging policy in place.
+```text
+StackChan control: HOLD
+StackChan connection: NOT_APPROVED (until explicit Baseline Observation GO)
+Shikishima autonomous StackChan actions: FORBIDDEN
+```
 
-## Always Forbidden Without Separate Approval
+---
 
-- autonomous physical motion.
-- continuous unattended operation.
-- camera upload.
-- identity recognition.
-- cloud control.
-- raw local-only value storage.
+## Explicit HOLD Areas
 
-## Safe Alternative
+| Area | Status |
+|------|--------|
+| Physical motion | HOLD |
+| Dance routines | HOLD |
+| Servo / motor movement | HOLD |
+| Firmware write | HOLD |
+| Firmware erase | HOLD |
+| Bootloader / serial flash | HOLD |
+| Voice output | HOLD |
+| Microphone input | HOLD |
+| Camera input | HOLD |
+| Autonomous behavior | HOLD |
+| Shikishima command execution to device | HOLD |
+| External network actions (API write) | HOLD |
+| Discord send | HOLD |
+| Cursor Automations as direct executor | HOLD |
 
-Use a static face terminal draft or non-executable protocol document until the
-physical safety gate is approved.
+---
 
-この範囲では問題を検出していません。
+## Allowed Without New GO
+
+```text
+None for physical StackChan interaction.
+Docs-only preparation (Phase 0) is allowed without device access.
+```
+
+---
+
+## Allowed With Baseline Observation GO Only
+
+```text
+Read-only observation by a human-present operator:
+- look at screen / face / UI
+- note power / Wi-Fi / firmware state (redacted in records)
+- note presence/absence of motion/dance/touch features without triggering them
+```
+
+---
+
+## Required Before Any Active Control
+
+Future rallies must satisfy **all** before motion/firmware/voice/etc.:
+
+```text
+1. Baseline observation: PASS or PASS_WITH_CAVEAT (documented)
+2. Safety readiness rally: PASS
+3. Rollback method documented and understood
+4. Manual stop method documented
+5. Human present for entire window
+6. Short bounded time window in GO
+7. Command allowlist in GO (no open-ended autonomy)
+8. Evidence template completed
+9. External Action Guard route reviewed if Shikishima issues commands
+```
+
+---
+
+## Relationship to Shikishima Core
+
+```text
+Final Core 100 does not include StackChan control.
+StackChan is a separate physical-interface phase.
+Guards and Human GO from Core phase still apply.
+```
+
+---
+
+## Invariants (never implied by observation)
+
+```text
+productionReady: false
+execution: disabled
+rawValuesReported: false
+```

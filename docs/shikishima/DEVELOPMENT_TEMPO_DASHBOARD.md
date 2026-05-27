@@ -20,14 +20,14 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v4.41.0
-- latestUpdate: 2026-05-27 - Final Shikishima Core accepted as 100% (Rally 9). StackChan next phase.
+- roadmapVersion: v4.42.0
+- latestUpdate: 2026-05-27 - StackChan Phase 0 readiness prep (docs-only, not pushed).
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
-- current HEAD: 8046271 (origin/main aligned; Final Core acceptance docs pending push)
-- autonomy core: Rally 1-9 complete (Operator Review through Final Core Acceptance)
-- current next human action: StackChan Baseline Observation GO (or Discord one-shot completion if env configured)
-- HOLD reason: productionReady false; execution disabled; Discord actual send HOLD_PENDING_LOCAL_CREDENTIALS; StackChan NOT_STARTED
+- current HEAD: 9c1a228 (origin/main aligned); Phase 0 prep local commit ahead (not pushed)
+- autonomy core: Rally 1-9 ACCEPTED_AS_FINAL_CORE_100
+- current next human action: push Phase 0 prep → StackChan Baseline Observation GO (human present)
+- HOLD reason: productionReady false; execution disabled; Discord send HOLD; StackChan control HOLD
 
 ## Agent Theater — 完了済み
 

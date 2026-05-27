@@ -121,6 +121,9 @@ Status Board Visual Confirmation Rally 8.5: PUSHED
 Status Board Visual Confirmation Evidence: PUSHED
 Final Shikishima Core Acceptance Rally 9: ACCEPTED_AS_FINAL_CORE_100 / PUSHED
 Final Core Acceptance Evidence: PUSHED
+StackChan Phase 0 Readiness Prep: LOCAL PASS / NOT PUSHED
+StackChan Safety Boundary: LOCAL (prep)
+StackChan Baseline Observation GO Draft: LOCAL (not active GO)
 ```
 
 Preferred operator display direction:
@@ -313,7 +316,8 @@ Meaning:
 | IPC Renderer Read-only Status Board Rally 7 | PUSHED | `218633d` | IPC + preload + renderer read-only |
 | Controlled Runtime Observation Rally 8 | PUSHED | `5c5ab8f`+ | controlled Electron observation |
 | Status Board Visual Confirmation Rally 8.5 | PUSHED | `8046271` | human visual; Rally 8 caveat resolved |
-| Final Shikishima Core Acceptance Rally 9 | ACCEPTED_AS_FINAL_CORE_100 | `8c49438` | Core 100%; StackChan next phase |
+| Final Shikishima Core Acceptance Rally 9 | ACCEPTED_AS_FINAL_CORE_100 | `9c1a228` | Core 100%; StackChan next phase |
+| StackChan Phase 0 Readiness Prep | LOCAL PASS / NOT PUSHED | (local) | docs-only; no device connection |
 
 Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → display contracts):
 
@@ -1096,6 +1100,20 @@ execution: disabled
 
 Evidence: `docs/shikishima/FINAL_CORE_ACCEPTANCE.md`, `FINAL_CORE_ACCEPTANCE_EVIDENCE.md`.
 
+### StackChan Phase 0 Readiness Prep boundary
+
+Phase 0 is docs-only preparation. No StackChan connection.
+
+```text
+stackchan_connected: false
+stackchan_control: HOLD
+firmware_write: false
+motion: false
+voice_mic_camera: false
+```
+
+Evidence: `docs/shikishima/STACKCHAN_PHASE0_READINESS_PREP.md`.
+
 ### iPhone Human Gate Display Contract boundary (not UI / network / IPC)
 
 iPhone Human Gate Display Contract is pure display contract only.
@@ -1231,12 +1249,14 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (final shikishima core acceptance rally 9 ACCEPTED_AS_FINAL_CORE_100)
+active_goal: none (stackchan phase 0 readiness prep LOCAL PASS; not pushed)
 status: ACCEPTED_AS_FINAL_CORE_100
-last_completed_goal: shikishima.final-core-acceptance
-external_effects: docs-only acceptance record; no runtime / send / StackChan
+last_completed_goal: shikishima.stackchan-phase0-readiness-prep
+external_effects: docs-only StackChan prep; no connection / motion / firmware
 actual_obsidian_write: false
-final_shikishima_core: 100% (guarded scope; productionReady false; execution disabled)
+final_shikishima_core: 100% (guarded scope; unchanged)
+stackchan_connection: false
+stackchan_control: HOLD
 ```
 
 ---
@@ -1245,7 +1265,8 @@ final_shikishima_core: 100% (guarded scope; productionReady false; execution dis
 
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
-| 1 | `/goalmacro shikishima.stackchan-baseline-observation` | TODO | Core 100% accepted | StackChan baseline GO |
+| 0 | `/goalmacro shikishima.stackchan-phase0-readiness-prep` | DONE (LOCAL) | Core 100% | push prep docs optional |
+| 1 | `/goalmacro shikishima.stackchan-baseline-observation` | TODO | Phase 0 prep | StackChan baseline GO; human present |
 | 1b | `/goalmacro shikishima.discord-one-shot-send-completion` | TODO | env optional | SHIKISHIMA_DISCORD_* + one-shot send |
 | 1c | `/goalmacro shikishima.final-core-acceptance` | DONE (ACCEPTED_AS_FINAL_CORE_100) | Rally 8.5 PUSHED | — |
 | 1d | `/goalmacro shikishima.status-board-visual-confirmation` | DONE (PASS) | Rally 8 caveat resolved | — |

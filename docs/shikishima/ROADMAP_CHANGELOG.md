@@ -8,10 +8,10 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.41.0
+- roadmapVersion: v4.42.0
 - lastUpdated: 2026-05-27
-- latestUpdate: Final Shikishima Core accepted as 100% (guarded scope). StackChan next phase. Not productionReady. Not execution enabled.
-- baselineCommit: 8046271
+- latestUpdate: StackChan Phase 0 readiness prep (docs-only). No device connection. StackChan control remains HOLD.
+- baselineCommit: 9c1a228
 - decision: HOLD
 - execution: disabled
 - productionReady: false
@@ -28,6 +28,15 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.42.0 - StackChan Phase 0 Readiness Prep
+
+- `STACKCHAN_PHASE0_READINESS_PREP.md`: Phase 0 boundaries and Rally 10–12 outline.
+- `STACKCHAN_BASELINE_OBSERVATION_GO_DRAFT.md`: future GO template (not active approval).
+- `STACKCHAN_SAFETY_BOUNDARY.md`: default HOLD matrix for StackChan.
+- `STACKCHAN_BASELINE_OBSERVATION_EVIDENCE_TEMPLATE.md`: Rally 10 evidence form.
+- `FINAL_CORE_TO_STACKCHAN_HANDOFF.md`: Core 100 → StackChan transition rules.
+- No StackChan connection, firmware write, motion, voice, mic, camera, or control approved.
 
 ## v4.41.0 - Final Shikishima Core Acceptance (Rally 9)
 
