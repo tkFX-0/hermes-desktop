@@ -109,12 +109,14 @@ Runtime Read-only Status Snapshot: PUSHED
 Runtime Read-only Markdown Renderer: PUSHED
 Runtime Read-only View Model: PUSHED
 Runtime Read-only Status Board Evidence: PUSHED
-IPC Renderer Read-only Status Board Rally 7: LOCAL PASS / NOT PUSHED
-Runtime Status Board IPC Channel: LOCAL PASS
-Runtime Status Board Main Provider: LOCAL PASS
-Runtime Status Board Preload API: LOCAL PASS
-Runtime Status Board Renderer View: LOCAL PASS
-IPC Renderer Read-only Status Board Evidence: LOCAL PASS
+IPC Renderer Read-only Status Board Rally 7: PUSHED
+Runtime Status Board IPC Channel: PUSHED
+Runtime Status Board Main Provider: PUSHED
+Runtime Status Board Preload API: PUSHED
+Runtime Status Board Renderer View: PUSHED
+IPC Renderer Read-only Status Board Evidence: PUSHED
+Controlled Runtime Observation Rally 8: LOCAL PASS_WITH_CAVEAT / NOT PUSHED
+Controlled Runtime Observation Evidence: LOCAL PASS_WITH_CAVEAT
 ```
 
 Preferred operator display direction:
@@ -304,11 +306,8 @@ Meaning:
 | Discord One-shot Actual Send | HOLD_PENDING_LOCAL_CREDENTIALS | — | path implemented; send not proven |
 | External Action Guard Controlled Autonomy Rally 5 | PUSHED | `274183f` | guard + proposal layer |
 | Runtime Read-only Status Board Rally 6 | PUSHED | `7600359` | read-only status board contract |
-| IPC Renderer Read-only Status Board Rally 7 | LOCAL PASS / NOT PUSHED | (local) | IPC + preload + renderer read-only |
-| Runtime Status Board IPC Channel | LOCAL PASS | (local) | getSnapshot only |
-| Runtime Status Board Main Provider | LOCAL PASS | (local) | `src/main/runtime-readonly-status-board/` |
-| Runtime Status Board Preload API | LOCAL PASS | (local) | `window.shikishimaStatusBoard` |
-| Runtime Status Board Renderer View | LOCAL PASS | (local) | `RuntimeStatusBoardPage` |
+| IPC Renderer Read-only Status Board Rally 7 | PUSHED | `218633d` | IPC + preload + renderer read-only |
+| Controlled Runtime Observation Rally 8 | PASS_WITH_CAVEAT / NOT PUSHED | (local) | Electron lifecycle verified; visual UI caveat |
 
 Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → display contracts):
 
@@ -1047,6 +1046,22 @@ execution: disabled
 Implementation: `src/main/runtime-readonly-status-board/`, `src/preload/shikishima-status-board.ts`, `src/renderer/src/screens/RuntimeStatusBoard/`.
 Evidence: `docs/shikishima/IPC_RENDERER_READONLY_STATUS_BOARD_EVIDENCE.md`.
 
+### Controlled Runtime Observation boundary (Rally 8)
+
+Rally 8 verified controlled local Electron observation session.
+
+```text
+command: .\node_modules\.bin\electron.cmd .
+prebuild: npm run build (out/ gitignored)
+app_started: true
+visual_status_board: operator confirmation recommended (PASS_WITH_CAVEAT)
+productionReady: false
+execution: disabled
+no Discord send / token / network / external write
+```
+
+Evidence: `docs/shikishima/CONTROLLED_RUNTIME_OBSERVATION_EVIDENCE.md`.
+
 ### iPhone Human Gate Display Contract boundary (not UI / network / IPC)
 
 iPhone Human Gate Display Contract is pure display contract only.
@@ -1182,10 +1197,10 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (ipc renderer readonly status board rally 7 local PASS; push pending)
-status: PASS
-last_completed_goal: shikishima.ipc-renderer-readonly-status-board
-external_effects: git push Rally 6 (7600359); Rally 7 local only; no network send
+active_goal: none (controlled runtime observation rally 8 PASS_WITH_CAVEAT; docs local)
+status: PASS_WITH_CAVEAT
+last_completed_goal: shikishima.push-rally7-and-controlled-runtime-observation
+external_effects: git push Rally 7 (218633d); controlled Electron observation session
 actual_obsidian_write: false
 ```
 
@@ -1195,9 +1210,10 @@ actual_obsidian_write: false
 
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
-| 1 | `/goalmacro shikishima.controlled-runtime-observation` | TODO | Rally 7 IPC/renderer LOCAL PASS | Push Rally 7 + runtime observation GO |
+| 1 | `/goalmacro shikishima.final-core-acceptance` | TODO | Rally 8 observation PASS_WITH_CAVEAT | Final acceptance GO |
 | 1b | `/goalmacro shikishima.discord-one-shot-send-completion` | TODO | env optional | SHIKISHIMA_DISCORD_* + one-shot send |
-| 1c | `/goalmacro shikishima.ipc-renderer-readonly-status-board` | DONE | Rally 6 PUSHED | — |
+| 1c | `/goalmacro shikishima.push-rally7-and-controlled-runtime-observation` | DONE (PASS_WITH_CAVEAT) | Rally 7 PUSHED | operator visual confirm optional |
+| 1d | `/goalmacro shikishima.ipc-renderer-readonly-status-board` | DONE | Rally 6 PUSHED | — |
 | 1d | `/goalmacro shikishima.runtime-readonly-status-board` | DONE | Rally 5 PUSHED | — |
 | 1d | `/goalmacro shikishima.external-action-guard-controlled-autonomy` | DONE | Rally 4 PUSHED | — |
 | 1d | `/goalmacro shikishima.discord-send-unlock-2-one-shot-send` | DONE (PASS_WITH_CAVEAT) | Rally 3 PUSHED | — |
@@ -1216,7 +1232,7 @@ actual_obsidian_write: false
 Next recommended goal detail:
 
 ```text
-/goalmacro shikishima.controlled-runtime-observation
+/goalmacro shikishima.final-core-acceptance
 
 Push Rally 7 artifacts; observe runtime read-only with productionReady false and execution disabled.
 Alternative if env configured: /goalmacro shikishima.discord-one-shot-send-completion
