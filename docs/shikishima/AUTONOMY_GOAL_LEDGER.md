@@ -124,8 +124,10 @@ Final Core Acceptance Evidence: PUSHED
 StackChan Phase 0 Readiness Prep: LOCAL PASS / NOT PUSHED
 StackChan Safety Boundary: LOCAL (prep)
 StackChan Baseline Observation GO Draft: LOCAL (not active GO)
-Completion Room De-scope: LOCAL PASS / NOT PUSHED
+Completion Room De-scope: PUSHED
 Completion Room: DE_SCOPED (Status Board + Final Core docs replace)
+StackChan Baseline Observation Rally 10: HOLD / LOCAL NOT PUSHED
+StackChan Baseline Observation Evidence: LOCAL HOLD
 ```
 
 Preferred operator display direction:
@@ -319,8 +321,9 @@ Meaning:
 | Controlled Runtime Observation Rally 8 | PUSHED | `5c5ab8f`+ | controlled Electron observation |
 | Status Board Visual Confirmation Rally 8.5 | PUSHED | `8046271` | human visual; Rally 8 caveat resolved |
 | Final Shikishima Core Acceptance Rally 9 | ACCEPTED_AS_FINAL_CORE_100 | `9c1a228` | Core 100%; StackChan next phase |
-| StackChan Phase 0 Readiness Prep | LOCAL PASS / NOT PUSHED | (local) | docs-only; no device connection |
-| Completion Room De-scope / Prune Prep | LOCAL PASS / NOT PUSHED | (local) | no active Completion Room found; de-scoped in docs |
+| StackChan Phase 0 Readiness Prep | PUSHED | `ce6bdc8` | docs-only; no device connection |
+| Completion Room De-scope / Prune Prep | PUSHED | `dce1fe4` | Completion Room de-scoped in docs |
+| StackChan Baseline Observation Rally 10 | HOLD | (local) | read-only session; re-observation needed |
 
 Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → display contracts):
 
@@ -1252,14 +1255,15 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (completion room de-scope LOCAL PASS; not pushed)
+active_goal: none (stackchan baseline observation rally 10 HOLD; evidence local)
 status: ACCEPTED_AS_FINAL_CORE_100
-last_completed_goal: shikishima.completion-room-descope-prune
-external_effects: docs-only StackChan prep; no connection / motion / firmware
+last_completed_goal: shikishima.stackchan-baseline-observation
+external_effects: read-only observation attempt; no motion/firmware/voice/mic/camera
 actual_obsidian_write: false
-final_shikishima_core: 100% (guarded scope; unchanged)
+final_shikishima_core: 100% (unchanged)
 stackchan_connection: false
 stackchan_control: HOLD
+stackchan_baseline: HOLD (re-observation when display/power confirmed)
 ```
 
 ---
@@ -1269,7 +1273,8 @@ stackchan_control: HOLD
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
 | 0 | `/goalmacro shikishima.stackchan-phase0-readiness-prep` | DONE (LOCAL) | Core 100% | push prep docs optional |
-| 1 | `/goalmacro shikishima.stackchan-baseline-observation` | TODO | Phase 0 prep | StackChan baseline GO; human present |
+| 1 | `/goalmacro shikishima.stackchan-baseline-observation` | HOLD | Rally 10 incomplete | re-run when screen/power visible |
+| 1a | `/goalmacro shikishima.stackchan-safety-readiness` | TODO | Baseline PASS | blocked until Rally 10 PASS |
 | 1b | `/goalmacro shikishima.discord-one-shot-send-completion` | TODO | env optional | SHIKISHIMA_DISCORD_* + one-shot send |
 | 1c | `/goalmacro shikishima.final-core-acceptance` | DONE (ACCEPTED_AS_FINAL_CORE_100) | Rally 8.5 PUSHED | — |
 | 1d | `/goalmacro shikishima.status-board-visual-confirmation` | DONE (PASS) | Rally 8 caveat resolved | — |
