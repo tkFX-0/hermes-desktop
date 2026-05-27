@@ -34,8 +34,8 @@ git_push: separate human GO only
 
 ```text
 branch: main
-HEAD: (local; operator handoff snapshot index — not pushed)
-origin/main: 2484223
+HEAD: (local; operator handoff daily queue preview — not pushed)
+origin/main: 161bfd4
 commits_ahead: implementation + ledger (not pushed)
 ledger_updated: 2026-05-26
 Master Spec: PUSHED
@@ -82,7 +82,8 @@ Operator Handoff Assembly Contract: PUSHED
 Operator Handoff Fixtures: PUSHED
 Operator Handoff Markdown Snapshot: PUSHED
 Real Goal-name Operator Handoff Fixtures: PUSHED
-Operator Handoff Snapshot Index: LOCAL PASS / NOT PUSHED
+Operator Handoff Snapshot Index: PUSHED
+Operator Handoff Daily Queue Preview: LOCAL PASS / NOT PUSHED
 ```
 
 Preferred operator display direction:
@@ -91,6 +92,7 @@ Preferred operator display direction:
 Discord is the primary operator viewing surface.
 Operator Handoff Assembly provides one-call HumanGateReport → OperatorHandoffSession preview.
 Operator Handoff Markdown Snapshot renders assembly into one Discord paste-ready Markdown artifact.
+Operator Handoff Daily Queue Preview summarizes snapshot index into today's judgment-waiting queue.
 Operator Handoff Snapshot Index summarizes multiple markdown snapshots for operator review.
 Real Goal-name fixtures stabilize production-like handoff output with realistic Shikishima goalName strings.
 Operator Handoff Fixtures stabilize PASS, PASS_WITH_CAVEAT, HOLD, and BLOCKED assembly outputs.
@@ -254,7 +256,8 @@ Meaning:
 | Operator Handoff Fixtures | PUSHED | `c3e95a9` | `test: add operator handoff fixtures`; PASS/HOLD/BLOCKED stabilization |
 | Operator Handoff Markdown Snapshot | PUSHED | `f33c894` | `feat: add operator handoff markdown snapshot`; Discord paste-ready |
 | Real Goal-name Operator Handoff Fixtures | PUSHED | `2484223` | `test: add real goal operator handoff fixtures`; production-like goalName |
-| Operator Handoff Snapshot Index | LOCAL PASS / NOT PUSHED | (local) | `feat: add operator handoff snapshot index`; multi-handoff listing |
+| Operator Handoff Snapshot Index | PUSHED | `161bfd4` | `feat: add operator handoff snapshot index`; multi-handoff listing |
+| Operator Handoff Daily Queue Preview | LOCAL PASS / NOT PUSHED | (local) | `feat: add operator handoff daily queue preview`; today's queue |
 
 Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → display contracts):
 
@@ -337,6 +340,8 @@ WorkerTaskContract
   → createDiscordReviewPacketAssemblyGoalFixture()
   → createOperatorHandoffSnapshotIndex()
   → createOperatorHandoffSnapshotIndexMarkdown()
+  → createOperatorHandoffDailyQueuePreview()
+  → createOperatorHandoffDailyQueuePreviewMarkdown()
   → (future Discord Send Executor — NOT IMPLEMENTED; see DISCORD_SEND_EXECUTOR_DESIGN.md)
   → (future one-shot Discord send attempt — HOLD)
   → (future post-send evidence + gate restored HOLD)
@@ -804,6 +809,21 @@ execution: disabled
 
 Implementation: `src/shared/operator-handoff-snapshot-index/`.
 
+### Operator Handoff Daily Queue Preview boundary (not queue mutation / not Discord digest)
+
+Operator Handoff Daily Queue Preview turns snapshot index into today's operator review queue.
+
+```text
+previewOnly | queuePreviewOnly | markdownOnly | review-only
+discordPasteReady | obsidianCompatible (structure only)
+obsidianWrite: false | fileWrite: false | humanGateQueueMutation: false
+does not modify HUMAN_GATE_QUEUE.md
+productionReady: false
+execution: disabled
+```
+
+Implementation: `src/shared/operator-handoff-daily-queue-preview/`.
+
 ### iPhone Human Gate Display Contract boundary (not UI / network / IPC)
 
 iPhone Human Gate Display Contract is pure display contract only.
@@ -939,10 +959,10 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (operator handoff snapshot index local PASS; push pending)
+active_goal: none (operator handoff daily queue preview local PASS; push pending)
 status: PASS
-last_completed_goal: shikishima.push-real-goal-fixtures-and-add-operator-handoff-snapshot-index
-external_effects: git push only (real goal operator handoff fixtures commits)
+last_completed_goal: shikishima.push-snapshot-index-and-add-operator-handoff-daily-queue-preview
+external_effects: git push only (operator handoff snapshot index commits)
 actual_obsidian_write: false
 ```
 
@@ -952,7 +972,7 @@ actual_obsidian_write: false
 
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
-| 1 | `/goal shikishima.push-snapshot-index-and-add-operator-handoff-daily-queue-preview` | TODO | Snapshot Index LOCAL PASS | Push GO + daily queue preview |
+| 1 | `/goal shikishima.push-daily-queue-preview-and-add-operator-handoff-discord-digest` | TODO | Daily Queue Preview LOCAL PASS | Push GO + discord digest |
 | 2 | `/goal shikishima.push-discord-send-executor-design-and-add-discord-send-executor-preimplementation-review` | DEFERRED | Executor design PUSHED | Safety design path paused |
 | 2 | `/goal shikishima.readonly-ui-display-plan` | DONE | pushed as 1f20f0a | — |
 | 3 | Goal A6: selected handler integration planning/implementation | HOLD | A5 PUSHED | source-change GO |
@@ -967,9 +987,9 @@ actual_obsidian_write: false
 Next recommended goal detail:
 
 ```text
-/goal shikishima.push-snapshot-index-and-add-operator-handoff-daily-queue-preview
+/goal shikishima.push-daily-queue-preview-and-add-operator-handoff-discord-digest
 
-Push snapshot index + ledger; add operator handoff daily queue preview contract.
+Push daily queue preview + ledger; add operator handoff discord digest for paste-ready summary.
 ```
 
 Remaining explicit HOLD (do not infer approval):
