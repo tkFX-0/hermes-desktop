@@ -34,8 +34,8 @@ git_push: separate human GO only
 
 ```text
 branch: main
-HEAD: (local; operator handoff fixtures — not pushed)
-origin/main: 509712a
+HEAD: (local; operator handoff markdown snapshot — not pushed)
+origin/main: c3e95a9
 commits_ahead: implementation + ledger (not pushed)
 ledger_updated: 2026-05-26
 Master Spec: PUSHED
@@ -79,7 +79,8 @@ Discord Review Packet Assembly Contract: PUSHED
 Operator Handoff Session Contract: PUSHED
 HumanGateReport to Status Snapshot Adapter: PUSHED
 Operator Handoff Assembly Contract: PUSHED
-Operator Handoff Fixtures: LOCAL PASS / NOT PUSHED
+Operator Handoff Fixtures: PUSHED
+Operator Handoff Markdown Snapshot: LOCAL PASS / NOT PUSHED
 ```
 
 Preferred operator display direction:
@@ -87,6 +88,7 @@ Preferred operator display direction:
 ```text
 Discord is the primary operator viewing surface.
 Operator Handoff Assembly provides one-call HumanGateReport → OperatorHandoffSession preview.
+Operator Handoff Markdown Snapshot renders assembly into one Discord paste-ready Markdown artifact.
 Operator Handoff Fixtures stabilize PASS, PASS_WITH_CAVEAT, HOLD, and BLOCKED assembly outputs.
 Assembly connects HumanGateReport, Snapshot Adapter, DiscordReviewPacketAssembly, and OperatorHandoffSession.
 Adapter connects existing HumanGateReport output to HumanGateStatusSnapshot.
@@ -245,7 +247,8 @@ Meaning:
 | Operator Handoff Session Contract | PUSHED | `5c56352` | `feat: add operator handoff session contract`; human decision session |
 | HumanGateReport to Status Snapshot Adapter | PUSHED | `8a08b8c` | `feat: add human gate report status snapshot adapter`; report→snapshot bridge |
 | Operator Handoff Assembly Contract | PUSHED | `509712a` | `feat: add operator handoff assembly contract`; one-call report→handoff |
-| Operator Handoff Fixtures | LOCAL PASS / NOT PUSHED | (local) | `test: add operator handoff fixtures`; PASS/HOLD/BLOCKED stabilization |
+| Operator Handoff Fixtures | PUSHED | `c3e95a9` | `test: add operator handoff fixtures`; PASS/HOLD/BLOCKED stabilization |
+| Operator Handoff Markdown Snapshot | LOCAL PASS / NOT PUSHED | (local) | `feat: add operator handoff markdown snapshot`; Discord paste-ready |
 
 Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → display contracts):
 
@@ -320,6 +323,8 @@ WorkerTaskContract
   → createPassWithCaveatOperatorHandoffAssemblyFixture()
   → createHoldOperatorHandoffAssemblyFixture()
   → createBlockedOperatorHandoffAssemblyFixture()
+  → createOperatorHandoffMarkdownSnapshot()
+  → createOperatorHandoffMarkdownSnapshotMarkdown()
   → (future Discord Send Executor — NOT IMPLEMENTED; see DISCORD_SEND_EXECUTOR_DESIGN.md)
   → (future one-shot Discord send attempt — HOLD)
   → (future post-send evidence + gate restored HOLD)
@@ -739,6 +744,23 @@ execution: disabled
 
 Implementation: `src/shared/operator-handoff-fixtures/`.
 
+### Operator Handoff Markdown Snapshot boundary (not Obsidian write / not file write)
+
+Operator Handoff Markdown Snapshot renders OperatorHandoffAssemblyResult into canonical Markdown.
+
+```text
+snapshotOnly | markdownOnly | review-only | draft-only
+discordPasteReady | obsidianCompatible (structure only)
+obsidianWrite: false | fileWrite: false
+READY_FOR_HUMAN_REVIEW is not send approval
+no Discord send
+no executor
+productionReady: false
+execution: disabled
+```
+
+Implementation: `src/shared/operator-handoff-markdown-snapshot/`.
+
 ### iPhone Human Gate Display Contract boundary (not UI / network / IPC)
 
 iPhone Human Gate Display Contract is pure display contract only.
@@ -874,10 +896,10 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (operator handoff fixtures local PASS; push pending)
+active_goal: none (operator handoff markdown snapshot local PASS; push pending)
 status: PASS
-last_completed_goal: shikishima.push-operator-handoff-assembly-and-add-operator-handoff-fixtures
-external_effects: git push only (operator handoff assembly commits)
+last_completed_goal: shikishima.push-operator-handoff-fixtures-and-add-operator-handoff-markdown-snapshot
+external_effects: git push only (operator handoff fixtures commits)
 actual_obsidian_write: false
 ```
 
@@ -887,7 +909,7 @@ actual_obsidian_write: false
 
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
-| 1 | `/goal shikishima.push-operator-handoff-fixtures-and-add-operator-handoff-markdown-snapshot` | TODO | Operator Handoff Fixtures LOCAL PASS | Push GO + markdown snapshot |
+| 1 | `/goal shikishima.push-operator-handoff-markdown-snapshot-and-add-real-goal-name-fixtures` | TODO | Operator Handoff Markdown Snapshot LOCAL PASS | Push GO + real goal name fixtures |
 | 2 | `/goal shikishima.push-discord-send-executor-design-and-add-discord-send-executor-preimplementation-review` | DEFERRED | Executor design PUSHED | Safety design path paused |
 | 2 | `/goal shikishima.readonly-ui-display-plan` | DONE | pushed as 1f20f0a | — |
 | 3 | Goal A6: selected handler integration planning/implementation | HOLD | A5 PUSHED | source-change GO |
@@ -902,9 +924,9 @@ actual_obsidian_write: false
 Next recommended goal detail:
 
 ```text
-/goal shikishima.push-operator-handoff-fixtures-and-add-operator-handoff-markdown-snapshot
+/goal shikishima.push-operator-handoff-markdown-snapshot-and-add-real-goal-name-fixtures
 
-Push operator handoff fixtures + ledger; add operator handoff markdown snapshot for Discord/Obsidian paste.
+Push operator handoff markdown snapshot + ledger; add real goal name fixtures for production-like handoff output.
 ```
 
 Remaining explicit HOLD (do not infer approval):
