@@ -34,9 +34,9 @@ git_push: separate human GO only
 
 ```text
 branch: main
-HEAD: (local; operator review mvp finalize rally 1 — not pushed)
-origin/main: 14ce978
-commits_ahead: implementation + ledger (not pushed)
+HEAD: (local; queue operation mvp rally 2 — not pushed)
+origin/main: 5212fcd
+commits_ahead: implementation + queue mutation + ledger (not pushed)
 ledger_updated: 2026-05-26
 Master Spec: PUSHED
 Goal A1 route registry: PUSHED
@@ -86,7 +86,9 @@ Operator Handoff Snapshot Index: PUSHED
 Operator Handoff Daily Queue Preview: PUSHED
 Operator Handoff Discord Digest: LOCAL PASS
 Final Operator Review Bundle: LOCAL PASS
-Operator Review MVP Finalize Rally 1: LOCAL PASS / NOT PUSHED
+Operator Review MVP Finalize Rally 1: PUSHED
+Queue Operation MVP Rally 2: LOCAL PASS / NOT PUSHED
+Human Gate Queue Operation Contract: LOCAL PASS
 ```
 
 Preferred operator display direction:
@@ -95,6 +97,7 @@ Preferred operator display direction:
 Discord is the primary operator viewing surface.
 Operator Handoff Assembly provides one-call HumanGateReport → OperatorHandoffSession preview.
 Operator Handoff Markdown Snapshot renders assembly into one Discord paste-ready Markdown artifact.
+Queue Operation MVP enables controlled repo-local Human Gate Queue append and state update.
 Final Operator Review Bundle summarizes Snapshot Index, Daily Queue Preview, and Discord Digest.
 Operator Handoff Discord Digest compresses daily queue into Discord-friendly digest.
 Operator Handoff Daily Queue Preview summarizes snapshot index into today's judgment-waiting queue.
@@ -265,7 +268,9 @@ Meaning:
 | Operator Handoff Daily Queue Preview | PUSHED | `14ce978` | `feat: add operator handoff daily queue preview`; today's queue |
 | Operator Handoff Discord Digest | LOCAL PASS | (local) | `feat: add operator handoff discord digest`; compact digest |
 | Final Operator Review Bundle | LOCAL PASS | (local) | `feat: add final operator review bundle`; final review package |
-| Operator Review MVP Finalize Rally 1 | LOCAL PASS / NOT PUSHED | (local) | Rally 1: digest + final bundle |
+| Operator Review MVP Finalize Rally 1 | PUSHED | `5212fcd` | Rally 1: digest + final bundle |
+| Human Gate Queue Operation Contract | LOCAL PASS | (local) | `feat: add human gate queue operation contract` |
+| Queue Operation MVP Rally 2 | LOCAL PASS / NOT PUSHED | (local) | controlled HUMAN_GATE_QUEUE.md mutation |
 
 Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → display contracts):
 
@@ -354,6 +359,10 @@ WorkerTaskContract
   → createOperatorHandoffDiscordDigestMarkdown()
   → createFinalOperatorReviewBundle()
   → createFinalOperatorReviewBundleMarkdown()
+  → createHumanGateQueueEntryFromFinalReviewBundle()
+  → createHumanGateQueueMutationPreflight()
+  → applyHumanGateQueueAppendToMarkdown()
+  → applyHumanGateQueueStateUpdateToMarkdown()
   → (future Discord Send Executor — NOT IMPLEMENTED; see DISCORD_SEND_EXECUTOR_DESIGN.md)
   → (future one-shot Discord send attempt — HOLD)
   → (future post-send evidence + gate restored HOLD)
@@ -867,11 +876,28 @@ Implementation: `src/shared/final-operator-review-bundle/`.
 Rally 1 finalizes preview-only Operator Review MVP path through final bundle.
 
 ```text
-Operator Review MVP: preview-only complete (Rally 1 local)
+Operator Review MVP: preview-only complete (Rally 1 PUSHED)
 Discord send: HOLD until Rally 3/4
 External execution: HOLD until Rally 5
 Runtime: HOLD until Rally 7
 ```
+
+### Queue Operation MVP Rally 2 boundary (controlled repo-local queue only)
+
+Rally 2 enables controlled mutation of docs/shikishima/HUMAN_GATE_QUEUE.md only.
+
+```text
+append + update one queue entry
+entryId: queue-operator-review-mvp-finalize-rally-001
+no Discord send
+no external API write
+no Obsidian actual write
+productionReady: false
+execution: disabled
+```
+
+Implementation: `src/shared/human-gate-queue-operation/`.
+Evidence: `docs/shikishima/HUMAN_GATE_QUEUE_OPERATION_MVP_EVIDENCE.md`.
 
 ### iPhone Human Gate Display Contract boundary (not UI / network / IPC)
 
@@ -1008,10 +1034,10 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (operator review mvp finalize rally 1 local PASS; push pending)
+active_goal: none (queue operation mvp rally 2 local PASS; push pending)
 status: PASS
-last_completed_goal: shikishima.operator-review-mvp-finalize
-external_effects: git push only (operator handoff daily queue preview commits)
+last_completed_goal: shikishima.queue-operation-mvp
+external_effects: git push Rally 1 + controlled HUMAN_GATE_QUEUE.md mutation (Rally 2)
 actual_obsidian_write: false
 ```
 
@@ -1021,7 +1047,7 @@ actual_obsidian_write: false
 
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
-| 1 | `/goalmacro shikishima.queue-operation-mvp` | TODO | Operator Review MVP Rally 1 LOCAL PASS | Push Rally 1 + queue operation MVP |
+| 1 | `/goalmacro shikishima.discord-send-unlock-1-executor-dry-run` | TODO | Queue Operation MVP Rally 2 LOCAL PASS | Push Rally 2 + Discord unlock 1 |
 | 2 | `/goal shikishima.push-discord-send-executor-design-and-add-discord-send-executor-preimplementation-review` | DEFERRED | Executor design PUSHED | Safety design path paused |
 | 2 | `/goal shikishima.readonly-ui-display-plan` | DONE | pushed as 1f20f0a | — |
 | 3 | Goal A6: selected handler integration planning/implementation | HOLD | A5 PUSHED | source-change GO |
@@ -1036,9 +1062,9 @@ actual_obsidian_write: false
 Next recommended goal detail:
 
 ```text
-/goalmacro shikishima.queue-operation-mvp
+/goalmacro shikishima.discord-send-unlock-1-executor-dry-run
 
-Push operator review mvp finalize rally 1 artifacts; begin queue operation MVP macro.
+Push queue operation mvp rally 2 artifacts; begin Discord send unlock 1 (executor dry-run only).
 ```
 
 Remaining explicit HOLD (do not infer approval):
