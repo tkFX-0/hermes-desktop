@@ -28,6 +28,7 @@ import { join } from "path";
 import { readFileSync, writeFileSync, existsSync } from "fs";
 import { exec, spawn } from "child_process";
 import { registerControlCenterReadonlyIpcHandlers } from "./ichikishima/control-center/control-center-readonly-ipc";
+import { registerRuntimeReadonlyStatusBoardIpcHandlers } from "./runtime-readonly-status-board/runtime-readonly-status-board-ipc";
 import {
   registerMobileConsoleIpcHandler,
   MOBILE_CONSOLE_PHASE_2C_ENABLED,
@@ -401,6 +402,7 @@ function setupIPC(): void {
   registerControlCenterReadonlyIpcHandlers(ipcMain, {
     getParams: getIchikishimaControlCenterReadonlyParams,
   });
+  registerRuntimeReadonlyStatusBoardIpcHandlers(ipcMain);
   registerMobileConsoleIpcHandler(ipcMain, {
     getParams: getIchikishimaControlCenterReadonlyParams,
   });

@@ -43,10 +43,10 @@ export type RuntimeReadonlySafetyState = {
 export type RuntimeReadonlyStatusBoardSafety = RuntimeReadonlySafetyState & {
   readonlyOnly: true;
   displayOnly: true;
-  ipcConnected: false;
-  preloadExposed: false;
-  rendererWired: false;
-  reactUiImplemented: false;
+  ipcConnected: boolean;
+  preloadExposed: boolean;
+  rendererWired: boolean;
+  reactUiImplemented: boolean;
 };
 
 export type RuntimeReadonlyStatusBoardInput = {
@@ -94,6 +94,12 @@ export type RuntimeReadonlyStatusBoardViewModelTone =
   | "hold"
   | "blocked"
   | "neutral";
+
+export type RuntimeReadonlyStatusBoardIpcResult = {
+  ok: boolean;
+  snapshot: RuntimeReadonlyStatusBoardSnapshot;
+  errorKind?: "REDACTED_STATUS_BOARD_PROVIDER_ERROR";
+};
 
 export type RuntimeReadonlyStatusBoardViewModel = {
   surface: "runtime-readonly-status-board-view-model";

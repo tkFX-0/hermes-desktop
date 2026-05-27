@@ -1,4 +1,14 @@
+import {
+  createControlledAutonomyProposal,
+  createDefaultExternalActionRouteRegistry
+} from "../external-action-controlled-autonomy/external-action-controlled-autonomy";
 import type { ExternalActionRouteState } from "../external-action-controlled-autonomy/external-action-controlled-autonomy-types";
+import { createPassOperatorHandoffAssemblyFixture } from "../operator-handoff-fixtures/operator-handoff-fixtures";
+import { createFinalOperatorReviewBundle } from "../final-operator-review-bundle/final-operator-review-bundle";
+import { createOperatorHandoffDailyQueuePreview } from "../operator-handoff-daily-queue-preview/operator-handoff-daily-queue-preview";
+import { createOperatorHandoffDiscordDigest } from "../operator-handoff-discord-digest/operator-handoff-discord-digest";
+import { createOperatorHandoffMarkdownSnapshot } from "../operator-handoff-markdown-snapshot/operator-handoff-markdown-snapshot";
+import { createOperatorHandoffSnapshotIndex } from "../operator-handoff-snapshot-index/operator-handoff-snapshot-index";
 import type {
   RuntimeReadonlyStatusBoardInput,
   RuntimeReadonlyStatusBoardOverallStatus,
@@ -331,5 +341,149 @@ export function createRuntimeReadonlyStatusBoardViewModel(
       { label: "productionReady", value: "false" },
       { label: "execution", value: "disabled" }
     ]
+  };
+}
+
+const FIXTURE_HUMAN_GO = "Runtime read-only status board fixture validation";
+
+export function buildRuntimeReadonlyStatusBoardFixtureInput(input?: {
+  generatedAtLabel?: string;
+  humanGoReference?: string;
+}): RuntimeReadonlyStatusBoardInput {
+  const assembly = createPassOperatorHandoffAssemblyFixture();
+  const markdownSnapshot = createOperatorHandoffMarkdownSnapshot({
+    surface: "operator-handoff-markdown-snapshot-input",
+    assembly,
+    redacted: true
+  });
+  const snapshotIndex = createOperatorHandoffSnapshotIndex({
+    surface: "operator-handoff-snapshot-index-input",
+    snapshots: [markdownSnapshot],
+    redacted: true
+  });
+  const dailyQueuePreview = createOperatorHandoffDailyQueuePreview({
+    surface: "operator-handoff-daily-queue-preview-input",
+    snapshotIndex,
+    dateLabel: input?.generatedAtLabel ?? "2026-05-26",
+    redacted: true
+  });
+  const discordDigest = createOperatorHandoffDiscordDigest({
+    surface: "operator-handoff-discord-digest-input",
+    dailyQueuePreview,
+    redacted: true
+  });
+  const finalOperatorReviewBundle = createFinalOperatorReviewBundle({
+    surface: "final-operator-review-bundle-input",
+    snapshotIndex,
+    dailyQueuePreview,
+    discordDigest,
+    bundleId: `final-operator-review:${input?.generatedAtLabel ?? "2026-05-26"}:READY_FOR_HUMAN_REVIEW`,
+    generatedAtLabel: input?.generatedAtLabel ?? "2026-05-26",
+    redacted: true
+  });
+  const externalActionRoutes = createDefaultExternalActionRouteRegistry();
+  const humanGoReference = input?.humanGoReference ?? FIXTURE_HUMAN_GO;
+  const controlledAutonomyProposal = createControlledAutonomyProposal({
+    routes: externalActionRoutes,
+    requestedActions: [
+      { routeId: "discord_one_shot_send", requestedAction: "preview" },
+      {
+        routeId: "discord_one_shot_send",
+        requestedAction: "external_one_shot",
+        humanGoReference,
+        localCredentialPresence: { available: false, labelOnly: true }
+      },
+      { routeId: "human_gate_queue_repo_local_mutation", requestedAction: "preview" },
+      { routeId: "git_push", requestedAction: "preview" }
+    ],
+    redacted: true
+  });
+
+  return {
+    surface: "runtime-readonly-status-board-input",
+    finalOperatorReviewBundle,
+    dailyQueuePreview,
+    externalActionRoutes,
+    controlledAutonomyProposal,
+    generatedAtLabel: input?.generatedAtLabel ?? "2026-05-26",
+    redacted: true
+  };
+}
+
+export function createRuntimeReadonlyStatusBoardHoldFallbackSnapshot(input?: {
+  generatedAtLabel?: string;
+  ipcConnected?: boolean;
+  preloadExposed?: boolean;
+  rendererWired?: boolean;
+}): RuntimeReadonlyStatusBoardSnapshot {
+  const generatedAtLabel = input?.generatedAtLabel ?? "not recorded";
+  const holdSections: RuntimeReadonlyStatusBoardSection[] = [
+    {
+      id: "operator_review",
+      title: "Operator Review",
+      status: "HOLD",
+      summary: "Status board IPC unavailable — safe HOLD fallback.",
+      requiresExplicitHumanGo: true
+    },
+    {
+      id: "human_gate_queue",
+      title: "Human Gate Queue",
+      status: "HOLD",
+      summary: "Queue status unavailable in fallback mode.",
+      requiresExplicitHumanGo: true
+    },
+    {
+      id: "discord_send",
+      title: "Discord Send",
+      status: "HOLD",
+      summary: "Discord send remains HOLD; actualDiscordSend false.",
+      requiresExplicitHumanGo: true
+    },
+    {
+      id: "external_action_guard",
+      title: "External Action Guard",
+      status: "HOLD",
+      summary: "Guard proposal unavailable in fallback mode.",
+      requiresExplicitHumanGo: true
+    },
+    {
+      id: "runtime",
+      title: "Runtime",
+      status: "HOLD",
+      summary: "Runtime start remains HOLD.",
+      requiresExplicitHumanGo: true
+    },
+    {
+      id: "production",
+      title: "Production",
+      status: "HOLD",
+      summary: "productionReady false; execution disabled.",
+      requiresExplicitHumanGo: true
+    }
+  ];
+
+  const snapshot: RuntimeReadonlyStatusBoardSnapshot = {
+    surface: "runtime-readonly-status-board-snapshot",
+    readonlyOnly: true,
+    displayOnly: true,
+    status: "HOLD",
+    generatedAtLabel,
+    sections: holdSections,
+    routeSummary: [],
+    recommendedHumanAction:
+      "Status board IPC unavailable — showing safe HOLD fallback. Restore preload IPC and refresh.",
+    markdown: "",
+    safety: {
+      ...SAFETY_BLOCK,
+      ipcConnected: input?.ipcConnected ?? false,
+      preloadExposed: input?.preloadExposed ?? false,
+      rendererWired: input?.rendererWired ?? true,
+      reactUiImplemented: true
+    }
+  };
+
+  return {
+    ...snapshot,
+    markdown: renderRuntimeReadonlyStatusBoardMarkdown(snapshot)
   };
 }

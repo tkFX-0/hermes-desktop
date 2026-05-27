@@ -3,83 +3,14 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import {
-  createControlledAutonomyProposal,
-  createDefaultExternalActionRouteRegistry
-} from "../external-action-controlled-autonomy/external-action-controlled-autonomy";
-import { createPassOperatorHandoffAssemblyFixture } from "../operator-handoff-fixtures/operator-handoff-fixtures";
-import { createFinalOperatorReviewBundle } from "../final-operator-review-bundle/final-operator-review-bundle";
-import { createOperatorHandoffDailyQueuePreview } from "../operator-handoff-daily-queue-preview/operator-handoff-daily-queue-preview";
-import { createOperatorHandoffDiscordDigest } from "../operator-handoff-discord-digest/operator-handoff-discord-digest";
-import { createOperatorHandoffMarkdownSnapshot } from "../operator-handoff-markdown-snapshot/operator-handoff-markdown-snapshot";
-import { createOperatorHandoffSnapshotIndex } from "../operator-handoff-snapshot-index/operator-handoff-snapshot-index";
-import {
+  buildRuntimeReadonlyStatusBoardFixtureInput,
+  createRuntimeReadonlyStatusBoardHoldFallbackSnapshot,
   createRuntimeReadonlyStatusBoardSnapshot,
   createRuntimeReadonlyStatusBoardViewModel,
   renderRuntimeReadonlyStatusBoardMarkdown
 } from "./runtime-readonly-status-board";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const HUMAN_GO = "Rally 6 runtime readonly status board validation";
-
-function buildStatusBoardInput() {
-  const assembly = createPassOperatorHandoffAssemblyFixture();
-  const snapshot = createOperatorHandoffMarkdownSnapshot({
-    surface: "operator-handoff-markdown-snapshot-input",
-    assembly,
-    redacted: true
-  });
-  const snapshotIndex = createOperatorHandoffSnapshotIndex({
-    surface: "operator-handoff-snapshot-index-input",
-    snapshots: [snapshot],
-    redacted: true
-  });
-  const dailyQueuePreview = createOperatorHandoffDailyQueuePreview({
-    surface: "operator-handoff-daily-queue-preview-input",
-    snapshotIndex,
-    dateLabel: "2026-05-26",
-    redacted: true
-  });
-  const discordDigest = createOperatorHandoffDiscordDigest({
-    surface: "operator-handoff-discord-digest-input",
-    dailyQueuePreview,
-    redacted: true
-  });
-  const finalOperatorReviewBundle = createFinalOperatorReviewBundle({
-    surface: "final-operator-review-bundle-input",
-    snapshotIndex,
-    dailyQueuePreview,
-    discordDigest,
-    bundleId: "final-operator-review:2026-05-26:READY_FOR_HUMAN_REVIEW",
-    generatedAtLabel: "2026-05-26",
-    redacted: true
-  });
-  const externalActionRoutes = createDefaultExternalActionRouteRegistry();
-  const controlledAutonomyProposal = createControlledAutonomyProposal({
-    routes: externalActionRoutes,
-    requestedActions: [
-      { routeId: "discord_one_shot_send", requestedAction: "preview" },
-      {
-        routeId: "discord_one_shot_send",
-        requestedAction: "external_one_shot",
-        humanGoReference: HUMAN_GO,
-        localCredentialPresence: { available: false, labelOnly: true }
-      },
-      { routeId: "human_gate_queue_repo_local_mutation", requestedAction: "preview" },
-      { routeId: "git_push", requestedAction: "preview" }
-    ],
-    redacted: true
-  });
-
-  return {
-    surface: "runtime-readonly-status-board-input" as const,
-    finalOperatorReviewBundle,
-    dailyQueuePreview,
-    externalActionRoutes,
-    controlledAutonomyProposal,
-    generatedAtLabel: "2026-05-26",
-    redacted: true as const
-  };
-}
 
 describe("runtime readonly status board", () => {
   it("does not import Node fs in implementation module", () => {
@@ -90,7 +21,9 @@ describe("runtime readonly status board", () => {
   });
 
   it("creates snapshot with expected sections and safety", () => {
-    const boardSnapshot = createRuntimeReadonlyStatusBoardSnapshot(buildStatusBoardInput());
+    const boardSnapshot = createRuntimeReadonlyStatusBoardSnapshot(
+      buildRuntimeReadonlyStatusBoardFixtureInput()
+    );
 
     expect(boardSnapshot.readonlyOnly).toBe(true);
     expect(boardSnapshot.sections.map((section) => section.id)).toEqual([
@@ -110,7 +43,9 @@ describe("runtime readonly status board", () => {
   });
 
   it("reflects discord route HOLD_PENDING_LOCAL_CREDENTIALS", () => {
-    const boardSnapshot = createRuntimeReadonlyStatusBoardSnapshot(buildStatusBoardInput());
+    const boardSnapshot = createRuntimeReadonlyStatusBoardSnapshot(
+      buildRuntimeReadonlyStatusBoardFixtureInput()
+    );
     const discordSection = boardSnapshot.sections.find((section) => section.id === "discord_send");
 
     expect(discordSection?.status).toBe("PASS_WITH_CAVEAT");
@@ -120,7 +55,9 @@ describe("runtime readonly status board", () => {
   });
 
   it("reflects queue route EXECUTED_ONCE", () => {
-    const boardSnapshot = createRuntimeReadonlyStatusBoardSnapshot(buildStatusBoardInput());
+    const boardSnapshot = createRuntimeReadonlyStatusBoardSnapshot(
+      buildRuntimeReadonlyStatusBoardFixtureInput()
+    );
 
     expect(
       boardSnapshot.routeSummary.find(
@@ -130,7 +67,9 @@ describe("runtime readonly status board", () => {
   });
 
   it("renders markdown and view model", () => {
-    const boardSnapshot = createRuntimeReadonlyStatusBoardSnapshot(buildStatusBoardInput());
+    const boardSnapshot = createRuntimeReadonlyStatusBoardSnapshot(
+      buildRuntimeReadonlyStatusBoardFixtureInput()
+    );
     const markdown = renderRuntimeReadonlyStatusBoardMarkdown(boardSnapshot);
     const viewModel = createRuntimeReadonlyStatusBoardViewModel(boardSnapshot);
 
@@ -144,8 +83,19 @@ describe("runtime readonly status board", () => {
     expect(viewModel.safetyStrip.find((item) => item.label === "actualDiscordSend")?.value).toBe("false");
   });
 
+  it("creates HOLD fallback snapshot", () => {
+    const fallback = createRuntimeReadonlyStatusBoardHoldFallbackSnapshot({
+      rendererWired: true
+    });
+    expect(fallback.status).toBe("HOLD");
+    expect(fallback.safety.actualDiscordSend).toBe(false);
+    expect(fallback.markdown).toContain("Read-only Status Board");
+  });
+
   it("records guarded route statuses in route summary", () => {
-    const boardSnapshot = createRuntimeReadonlyStatusBoardSnapshot(buildStatusBoardInput());
+    const boardSnapshot = createRuntimeReadonlyStatusBoardSnapshot(
+      buildRuntimeReadonlyStatusBoardFixtureInput()
+    );
     const byId = Object.fromEntries(boardSnapshot.routeSummary.map((route) => [route.routeId, route]));
 
     expect(byId.git_push?.status).toBe("HOLD_PENDING_HUMAN_GO");

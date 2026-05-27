@@ -3,9 +3,11 @@ import { electronAPI } from "@electron-toolkit/preload";
 
 import { createIchikishimaControlCenterPreloadApi } from "./ichikishima-control-center";
 import { createMobileConsolePreloadApi } from "./mobile-console";
+import { createShikishimaStatusBoardPreloadApi } from "./shikishima-status-board";
 
 const ichikishimaControlCenter = createIchikishimaControlCenterPreloadApi();
 const mobileConsole = createMobileConsolePreloadApi();
+const shikishimaStatusBoard = createShikishimaStatusBoardPreloadApi();
 
 const hermesAPI = {
   // Installation
@@ -768,6 +770,7 @@ if (process.contextIsolated) {
       ichikishimaControlCenter,
     );
     contextBridge.exposeInMainWorld("mobileConsole", mobileConsole);
+    contextBridge.exposeInMainWorld("shikishimaStatusBoard", shikishimaStatusBoard);
   } catch (error) {
     console.error(error);
   }
@@ -780,4 +783,6 @@ if (process.contextIsolated) {
   window.ichikishimaControlCenter = ichikishimaControlCenter;
   // @ts-ignore (define in dts)
   window.mobileConsole = mobileConsole;
+  // @ts-ignore (define in dts)
+  window.shikishimaStatusBoard = shikishimaStatusBoard;
 }

@@ -543,11 +543,16 @@ interface MobileConsoleAPI {
   getPhase2cConnectionInfo: () => Promise<Phase2cConnectionInfo>;
 }
 
+interface ShikishimaStatusBoardAPI {
+  getSnapshot: () => Promise<import("../shared/runtime-readonly-status-board/runtime-readonly-status-board-types").RuntimeReadonlyStatusBoardIpcResult>;
+}
+
 declare global {
   interface Window {
     electron: ElectronAPI;
     hermesAPI: HermesAPI;
     ichikishimaControlCenter: IchikishimaControlCenterAPI;
     mobileConsole: MobileConsoleAPI;
+    shikishimaStatusBoard: ShikishimaStatusBoardAPI;
   }
 }
