@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.45.0
+- roadmapVersion: v4.46.0
 - lastUpdated: 2026-05-28
-- latestUpdate: StackChan baseline observation retry PASS (read-only human enums). StackChan control remains HOLD.
+- latestUpdate: StackChan Safety Readiness PREPARED (Rally 11). Active control remains HOLD. Next: display-only preview.
 - baselineCommit: 9c1a228
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,12 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.46.0 - StackChan Safety Readiness (Rally 11)
+
+- `STACKCHAN_SAFETY_READINESS.md`: SAFETY_READINESS_PREPARED after baseline PASS.
+- `STACKCHAN_GATE_MATRIX.md`, `STACKCHAN_STOP_CONDITIONS.md`, display-only and active-control GO drafts.
+- No motion, dance, firmware write, voice, mic, camera, or autonomous control approved.
 
 ## v4.45.0 - StackChan Baseline Observation Retry (PASS)
 

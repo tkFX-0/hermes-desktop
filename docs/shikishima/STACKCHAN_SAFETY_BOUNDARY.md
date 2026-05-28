@@ -9,7 +9,7 @@ Applies to: all StackChan work after Final Shikishima Core Acceptance
 
 ```text
 StackChan control: HOLD
-StackChan connection: NOT_APPROVED (until explicit Baseline Observation GO)
+StackChan connection: NOT_APPROVED (baseline observation PASS; Shikishima command connection still NOT_APPROVED)
 Shikishima autonomous StackChan actions: FORBIDDEN
 ```
 
@@ -91,3 +91,18 @@ productionReady: false
 execution: disabled
 rawValuesReported: false
 ```
+
+---
+
+## Rally 11 Update (2026-05-28)
+
+```text
+StackChan Baseline Observation Retry: PASS
+Safety Readiness: SAFETY_READINESS_PREPARED (Rally 11)
+Active control: remains HOLD
+
+Display-only preview may be planned next (/goalmacro shikishima.stackchan-display-only-preview).
+Motion, dance, firmware write, voice, mic, camera, and autonomous control remain HOLD.
+```
+
+See: `STACKCHAN_SAFETY_READINESS.md`, `STACKCHAN_GATE_MATRIX.md`, `STACKCHAN_STOP_CONDITIONS.md`.
