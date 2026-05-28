@@ -42,7 +42,8 @@ Current state:
 - stackchanDisplayRouteDesign: DESIGN_PREPARED
 - stackchanDisplayRouteGuard: ROUTE_GUARD_IMPLEMENTED (pushed)
 - stackchanDisplayRouteDeviceWiringDesign: DEVICE_WIRING_DESIGN_PREPARED
-- nextPhase: StackChan Display Route Device Wiring Implementation
+- stackchanDisplayRouteDeviceWiringFoundation: DEVICE_WIRING_FOUNDATION_IMPLEMENTED
+- nextPhase: Device Wiring Push / Safety Review (Rally 2)
 
 These documents are not execution approval. They do not enable WSL, Hermes,
 wrapper, dummy wrapper, RunPod, StackChan, packaged smoke, or any external
@@ -90,6 +91,7 @@ network flow.
 - `STACKCHAN_DISPLAY_ROUTE_IMPLEMENTATION_OPTIONS.md` - options A–E comparison.
 - `STACKCHAN_DISPLAY_ROUTE_IMPLEMENTATION.md` - route guard implementation record.
 - `STACKCHAN_DISPLAY_ROUTE_DEVICE_WIRING_DESIGN.md` - device wiring design (DESIGN_PREPARED).
+- `STACKCHAN_DISPLAY_ROUTE_DEVICE_WIRING_IMPLEMENTATION.md` - device wiring foundation record.
 - `STACKCHAN_DISPLAY_ROUTE_DEVICE_WIRING_BOUNDARY.md` - device wiring boundary.
 - `STACKCHAN_DISPLAY_ROUTE_DEVICE_WIRING_IMPLEMENTATION_GO_DRAFT.md` - future main adapter GO.
 - `STACKCHAN_DISPLAY_PILOT_RETRY_PREFLIGHT_GO_DRAFT.md` - pilot retry preflight GO template.

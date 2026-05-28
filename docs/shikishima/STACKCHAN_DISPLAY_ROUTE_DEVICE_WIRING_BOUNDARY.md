@@ -109,11 +109,19 @@ Guard rejection → BLOCKED; no send
 
 ---
 
+## Foundation Layer (Implemented)
+
+```text
+evaluateStackChanDisplayDeviceRoute — main process; no I/O
+transportMode: disabled | mock only
+READY_FOR_PILOT_GO ≠ device contacted
+```
+
 ## Invariants
 
 ```text
 productionReady: false
 execution: disabled
 Active_control: HOLD
-Actual_display_pilot: HOLD until wiring impl + retry GO
+Actual_display_pilot: HOLD until pilot retry GO
 ```

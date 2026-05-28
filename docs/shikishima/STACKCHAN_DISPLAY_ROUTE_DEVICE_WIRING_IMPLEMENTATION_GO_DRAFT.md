@@ -1,7 +1,7 @@
 # StackChan Display Route Device Wiring Implementation GO Draft
 
 Date: 2026-05-28
-Status: **DRAFT — NOT ACTIVE GO**
+Status: **COMPLETED (foundation)** — device send still requires pilot retry GO
 
 Companion: `STACKCHAN_DISPLAY_ROUTE_DEVICE_WIRING_DESIGN.md`
 

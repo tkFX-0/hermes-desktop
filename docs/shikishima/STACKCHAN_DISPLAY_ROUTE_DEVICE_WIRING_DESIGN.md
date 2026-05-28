@@ -137,10 +137,17 @@ Active Control 100% is a separate chapter.
 
 ---
 
+## Implementation Status
+
+```text
+Device wiring foundation: DEVICE_WIRING_FOUNDATION_IMPLEMENTED (main; mock/disabled transport only)
+Actual display send: HOLD
+```
+
 ## Next Macro
 
 ```text
-/goalmacro shikishima.stackchan-display-route-device-wiring-implementation
+/goalmacro shikishima.stackchan-display-route-device-wiring-push-review
 ```
 
 ---
