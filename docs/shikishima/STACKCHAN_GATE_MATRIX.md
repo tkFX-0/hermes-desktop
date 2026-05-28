@@ -13,7 +13,7 @@ Applies after Rally 11 Safety Readiness
 | Display pilot readiness | PREPARED | yes | Rally 11b; evidence template + GO draft |
 | Display pilot (execution) | HOLD | yes | explicit time-window GO required |
 | Face/state mapping | HOLD | yes | display only |
-| Motion command | PILOT_PASS_WITH_CAVEAT | yes | guarded `sendStackChanMotionOnce` + env |
+| Motion command | PILOT_PASS | yes | guarded `sendStackChanMotionOnce` + env + visual |
 | Dance command | HOLD | yes | separate active-control GO |
 | Touch behavior modification | HOLD | yes | separate behavior GO |
 | Firmware write | HOLD | yes | separate firmware GO |

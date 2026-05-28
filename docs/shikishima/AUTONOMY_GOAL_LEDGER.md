@@ -1314,7 +1314,7 @@ stackchan_display_pilot_readiness: DISPLAY_PILOT_READINESS_PREPARED
 |---|---|---|---|---|
 | 0 | `/goalmacro shikishima.stackchan-phase0-readiness-prep` | DONE (LOCAL) | Core 100% | push prep docs optional |
 | 1 | StackChan Active Control chapter | DONE | route delegation | — |
-| 1m | StackChan Motion route + pilot | PASS_WITH_CAVEAT | center one-shot | visual confirm |
+| 1m | StackChan Motion route + pilot | PASS | center one-shot | — |
 | 1v | StackChan Voice route + pilot | HOLD | voicevox/ws | restart VOICEVOX + GO |
 | 1a | Display-only Operation | ACCEPTED | pilot PASS | — |
 | 1a | `/goalmacro shikishima.stackchan-display-transport-implementation` | DONE (LOCAL) | Rally 4A no send | — |
@@ -1355,7 +1355,7 @@ Next recommended goal detail:
 ```text
 StackChan Display-only: ACCEPTED (fb86fee).
 Active Control routing: IMPLEMENTED.
-Motion pilot: PASS_WITH_CAVEAT (send ok).
+Motion pilot: PASS (send + human visual).
 Voice pilot: HOLD (voicevox_unavailable likely).
 Optional: push local evidence commits (pilot PASS + acceptance).
 Alternative if env configured: /goalmacro shikishima.discord-one-shot-send-completion

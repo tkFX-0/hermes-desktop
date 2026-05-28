@@ -53,6 +53,6 @@ return to center after motion unless idle/sleep
 ```text
 chapter_design_go: DONE
 motion_route: IMPLEMENTED (sendStackChanMotionOnce)
-motion_pilot: PASS_WITH_CAVEAT (center send ok)
+motion_pilot: PASS (center send + human visual)
 next: human visual confirm; optional wake_up pilot with new GO
 ```

@@ -7,8 +7,8 @@ Date: 2026-05-28
 ## Result
 
 ```text
-status: PASS_WITH_CAVEAT
-reason: guarded one-shot move send ok; human visual confirm pending
+status: PASS
+reason: guarded one-shot move send ok; human visual PASS (operator GO)
 ```
 
 ---
@@ -33,9 +33,14 @@ failure_reason_redacted: none
 ## Human observation
 
 ```text
-displayed_motion_visible: unknown
-expected_motion_matched: unknown
+observation_window: 2026-05-28 16:40–17:00 JST
+human_visual_go_received: true
+motion_human_visual: PASS
+motion_visible: true
+expected_motion_matched: true
+unexpected_behavior_visible: false
 unexpected_voice_visible: false
+pilot_stopped_cleanly: true
 ```
 
 ---

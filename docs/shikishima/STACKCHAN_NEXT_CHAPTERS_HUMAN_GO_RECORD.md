@@ -54,7 +54,7 @@ Display-only path remains **ACCEPTED** and is not reopened by this GO.
 | Chapter | Design | Implementation | Pilot |
 |---------|--------|----------------|-------|
 | Active Control | DONE | route delegation | n/a |
-| Motion | DONE | `sendStackChanMotionOnce` | PASS_WITH_CAVEAT (send ok) |
+| Motion | DONE | `sendStackChanMotionOnce` | PASS (send + visual) |
 | Voice | DONE | `sendStackChanVoiceOnce` | HOLD (voicevox/ws) |
 
 Each **execution** pilot still requires its own bounded macro, time window, evidence file, and STOP review (same pattern as Display Pilot Retry).
