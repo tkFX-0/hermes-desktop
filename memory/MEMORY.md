@@ -42,7 +42,8 @@
 - Track C2 Hermes shadow 1回: **PASS** (2026-05-28)
 - Track C3 Hermes shadow bounded loop: **PASS** (2026-05-28)
 - **PASS ledger**: `FULL_AUTONOMY_PILOT_PASS_LEDGER_2026-05-28.md`（A–C 全 PASS・人間確認バッチ）
-- Track D: **ACTIVE** — execution enabled, productionReady true（`.shikishima-memory/operational-release.local.json`）
+- Track D + ops: execution/productionReady ON, **sidebotHoldReleased**, **hermesDaemonPilotEnabled**（local json）
+- Status: `npx tsx scripts/shikishima-operational-status.mjs`
 - 完全自律 Phase 2–10 コードは進んだが **Level 8 / 声の章は実機合格まで未完了**
 - `FULL_AUTONOMY_STACKCHAN_DEFERRED.md` 参照
 

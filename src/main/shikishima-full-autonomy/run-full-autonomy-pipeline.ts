@@ -151,7 +151,8 @@ export function runFullAutonomyPipeline(
     burnInWallClockPass: input.burnInWallClockPass ?? false,
     pilotVoiceTracksComplete: input.pilotVoiceTracksComplete ?? false,
     trackDOperationalRelease: release.activated,
-    sidebotHold: input.sidebotHold ?? true
+    sidebotHoldReleased: release.sidebotHoldReleased,
+    sidebotHold: input.sidebotHold ?? !release.sidebotHoldReleased
   });
 
   const checklist = runDesignReviewChecklist({

@@ -1,0 +1,10 @@
+{
+  "trackDGoAcknowledged": true,
+  "executionEnabled": true,
+  "productionReady": true,
+  "sidebotHoldReleased": true,
+  "hermesDaemonPilotEnabled": true,
+  "rawValuesReported": false,
+  "activatedAtIso": "2026-05-28T00:00:00.000Z",
+  "humanGoNote": "copy to .shikishima-memory/operational-release.local.json"
+}

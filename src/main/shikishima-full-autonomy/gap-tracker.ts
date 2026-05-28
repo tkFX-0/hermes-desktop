@@ -25,6 +25,8 @@ export interface GapTrackerInput {
   pilotVoiceTracksComplete?: boolean;
   /** Track D operational release active (local file / env). */
   trackDOperationalRelease?: boolean;
+  /** SideBot auto-start released via ops file. */
+  sidebotHoldReleased?: boolean;
 }
 
 export function buildGapTracker(input: GapTrackerInput): readonly TrackedGap[] {
@@ -61,14 +63,18 @@ export function buildGapTracker(input: GapTrackerInput): readonly TrackedGap[] {
     {
       id: "G4",
       title: "SideBot / Shadow HOLD",
-      status: input.pilotVoiceTracksComplete
-        ? "MITIGATED"
-        : input.sidebotHold
-          ? "OPEN"
-          : "MITIGATED",
-      mitigation: input.pilotVoiceTracksComplete
-        ? "C2/C3 voice pilot PASS; SIDEBOT_HOLD still on for bot auto-start"
-        : "explicit GO to release SIDEBOT_HOLD"
+      status: input.sidebotHoldReleased
+        ? "CLOSED"
+        : input.pilotVoiceTracksComplete
+          ? "MITIGATED"
+          : input.sidebotHold
+            ? "OPEN"
+            : "MITIGATED",
+      mitigation: input.sidebotHoldReleased
+        ? "operational-release sidebotHoldReleased"
+        : input.pilotVoiceTracksComplete
+          ? "C2/C3 voice pilot PASS; release sidebot via ops file"
+          : "explicit GO to release SIDEBOT_HOLD"
     },
     {
       id: "G5",

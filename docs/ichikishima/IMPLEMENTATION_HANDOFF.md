@@ -779,6 +779,8 @@ Composer2へ渡す場合は、次を守る。
 
 - **Pilot PASS ledger (2026-05-28)**: Human `PASSバンバン` — `FULL_AUTONOMY_PILOT_PASS_LEDGER_2026-05-28.md`. Tracks A–C closed for pilot.
 
-- **Track D operational release (2026-05-28)**: Human `どれもやっていいですよ`. `operational-release-state.ts` + gitignored `.shikishima-memory/operational-release.local.json` (`trackDGoAcknowledged`, execution enabled, productionReady true). Evidence: `TRACK_D_OPERATIONAL_RELEASE_2026-05-28.md`. G3 CLOSED when release active. StackChan device voice pilot guards unchanged. Git push: see session commit.
+- **Track D operational release (2026-05-28)**: Human `どれもやっていいですよ`. `operational-release-state.ts` + gitignored `.shikishima-memory/operational-release.local.json`. Git push `e7a5529`.
+
+- **Post-pilot ops release (2026-05-28)**: Human `実施してもらっていいです`. `sidebotHoldReleased` + `hermesDaemonPilotEnabled` in ops file; `sidebot-service.ts` / `index.ts` read `isSidebotHoldActive()`. `OPS_POST_PILOT_RELEASE_2026-05-28.md`, `scripts/shikishima-operational-status.mjs`. Hermes `npm run dev` remains **manual** (not auto-spawn).
 
 - **GO policy non-execution review + human_review_go_policy_prerequisites (2026-05-08)**: Blocker review complete. Added `"human_review_go_policy_prerequisites"` to `nextRequiredHumanAction` union in validator interface, builder params, `hermes-wsl2-wrapper-local-value-file.ts` reader, and `control-center-shell-ui-contract.ts` (interface + allowlist + assignment). Added `buildHermesWsl2WrapperGoReadyForHumanReviewSummary(params: {distroCount, selectableSlots, previousSelectedSlot})`. Tests added for both validator and file-reader (275 pass). Local-only `wsl-distro-selection.local.json` updated (gitignored) with goPolicyReviewStatus=ready_for_human_go_review, goPolicyBlockers, humanGoApprovalRequired=true, executionStillDisabled=true, nextRequiredHumanAction=human_review_go_policy_prerequisites. Review doc: `GO_POLICY_REVIEW_REPORT.md`. All HOLD flags maintained. No execution.

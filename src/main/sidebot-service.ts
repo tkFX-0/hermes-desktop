@@ -13,10 +13,10 @@ import type { ChildProcess } from "child_process";
 import { join } from "path";
 import { existsSync } from "fs";
 import { app } from "electron";
+import { isSidebotHoldActive } from "./sidebot-hold";
 
 const MAX_RESTARTS = 10;
 const BASE_COOLDOWN_MS = 5_000;
-const SIDEBOT_HOLD = true;
 
 let _proc: ChildProcess | null = null;
 let _restartCount = 0;
@@ -79,8 +79,9 @@ function spawnBot(): void {
 }
 
 export function startSideBot(): void {
-  if (SIDEBOT_HOLD) {
-    console.log("[SideBot] HOLD until explicit human GO");
+  const projectRoot = getProjectRoot();
+  if (isSidebotHoldActive(projectRoot)) {
+    console.log("[SideBot] HOLD until explicit human GO (ops release or SIDEBOT_HOLD=0)");
     return;
   }
   _stopped = false;

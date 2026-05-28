@@ -11,6 +11,8 @@ export interface OperationalReleaseState {
   executionEnabled: boolean;
   productionReady: boolean;
   rawValuesReported: false;
+  sidebotHoldReleased: boolean;
+  hermesDaemonPilotEnabled: boolean;
   source: "default" | "env" | "local_file";
   activatedAtIso: string | null;
   humanGoNote: string | null;
@@ -24,20 +26,24 @@ function defaultOperationalRelease(): OperationalReleaseState {
     executionEnabled: false,
     productionReady: false,
     rawValuesReported: false,
+    sidebotHoldReleased: false,
+    hermesDaemonPilotEnabled: false,
     source: "default",
     activatedAtIso: null,
     humanGoNote: null
   };
 }
 
-function readLocalRelease(): Partial<{
+function readLocalRelease(projectRoot: string): Partial<{
   trackDGoAcknowledged: boolean;
   executionEnabled: boolean;
   productionReady: boolean;
+  sidebotHoldReleased: boolean;
+  hermesDaemonPilotEnabled: boolean;
   activatedAtIso: string;
   humanGoNote: string;
 }> | null {
-  const path = join(process.cwd(), LOCAL_REL);
+  const path = join(projectRoot, LOCAL_REL);
   if (!existsSync(path)) return null;
   try {
     return JSON.parse(readFileSync(path, "utf8")) as ReturnType<typeof readLocalRelease>;
@@ -46,26 +52,35 @@ function readLocalRelease(): Partial<{
   }
 }
 
-export function resolveOperationalRelease(_cwd = process.cwd()): OperationalReleaseState {
+function buildFromLocal(
+  local: NonNullable<ReturnType<typeof readLocalRelease>>
+): OperationalReleaseState {
+  const trackDActive =
+    local.trackDGoAcknowledged === true &&
+    local.executionEnabled === true &&
+    local.productionReady === true;
+
+  return {
+    activated: trackDActive,
+    executionEnabled: trackDActive,
+    productionReady: trackDActive,
+    rawValuesReported: false,
+    sidebotHoldReleased: local.sidebotHoldReleased === true,
+    hermesDaemonPilotEnabled: local.hermesDaemonPilotEnabled === true,
+    source: "local_file",
+    activatedAtIso: local.activatedAtIso ?? null,
+    humanGoNote: local.humanGoNote ?? null
+  };
+}
+
+export function resolveOperationalRelease(projectRoot = process.cwd()): OperationalReleaseState {
   if (process.env.VITEST === "true") {
     return defaultOperationalRelease();
   }
 
-  const local = readLocalRelease();
-  if (
-    local?.trackDGoAcknowledged === true &&
-    local?.executionEnabled === true &&
-    local?.productionReady === true
-  ) {
-    return {
-      activated: true,
-      executionEnabled: true,
-      productionReady: true,
-      rawValuesReported: false,
-      source: "local_file",
-      activatedAtIso: local.activatedAtIso ?? null,
-      humanGoNote: local.humanGoNote ?? null
-    };
+  const local = readLocalRelease(projectRoot);
+  if (local?.trackDGoAcknowledged === true) {
+    return buildFromLocal(local);
   }
 
   const envGo =
@@ -79,6 +94,8 @@ export function resolveOperationalRelease(_cwd = process.cwd()): OperationalRele
       executionEnabled: true,
       productionReady: true,
       rawValuesReported: false,
+      sidebotHoldReleased: process.env.SIDEBOT_HOLD === "0",
+      hermesDaemonPilotEnabled: process.env.SHIKISHIMA_HERMES_DAEMON_PILOT === "1",
       source: "env",
       activatedAtIso: new Date().toISOString(),
       humanGoNote: "env_track_d"
@@ -86,4 +103,10 @@ export function resolveOperationalRelease(_cwd = process.cwd()): OperationalRele
   }
 
   return defaultOperationalRelease();
+}
+
+export function isSidebotHoldActive(projectRoot = process.cwd()): boolean {
+  if (process.env.SIDEBOT_HOLD === "0") return false;
+  const release = resolveOperationalRelease(projectRoot);
+  return !release.sidebotHoldReleased;
 }

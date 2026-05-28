@@ -52,9 +52,9 @@ node scripts/shikishima-hermes-shadow-voice-c3-bounded.mjs
 
 ---
 
-## Optional next
+## Post-pilot ops (2026-05-28)
 
-| Item | Note |
-|------|------|
-| `SIDEBOT_HOLD` release | Live Discord bot auto-start — separate ops GO |
-| Hermes daemon 常駐 | separate GO |
+| Item | Status |
+|------|--------|
+| `sidebotHoldReleased` | **enabled** via ops file — see `OPS_POST_PILOT_RELEASE_2026-05-28.md` |
+| Hermes `npm run dev` | **manual** when `hermesDaemonPilotEnabled` in ops file |

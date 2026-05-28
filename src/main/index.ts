@@ -158,6 +158,7 @@ import {
 import { checkGroqAvailability } from "./groq-service";
 import { checkGeminiAvailability } from "./gemini-service";
 import { startSideBot, stopSideBot } from "./sidebot-service";
+import { isSidebotHoldActive } from "./sidebot-hold";
 import {
   stackchanSayLocal,
   stackchanPetMode,
@@ -1315,9 +1316,16 @@ app.whenReady().then(() => {
 
   // サイドボット (shikishima-bot.mjs) を子プロセスとして起動
   // Discord + STT + StackChan統合エージェント — Electron内蔵 Discord polling は停止
-  if (SHIKISHIMA_SHADOW_MODE) {
-    console.log("[Shikishima] shadow mode: sidebot HOLD");
+  if (isSidebotHoldActive(app.getAppPath())) {
+    console.log(
+      SHIKISHIMA_SHADOW_MODE
+        ? "[Shikishima] shadow mode: sidebot HOLD"
+        : "[Shikishima] sidebot HOLD"
+    );
   } else {
+    if (SHIKISHIMA_SHADOW_MODE) {
+      console.log("[Shikishima] shadow mode: sidebot START (ops release)");
+    }
     startSideBot();
   }
 
