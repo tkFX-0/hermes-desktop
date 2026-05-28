@@ -39,6 +39,8 @@ StackChan may act as a **Shikishima status display terminal** within the accepte
 
 Evidence: `STACKCHAN_DISPLAY_PILOT_RETRY_EVIDENCE.md`
 
+Supplemental Human GO (2026-05-28 15:00–15:30 JST, Attempt 4): send PASS + human visual PASS (recorded in evidence).
+
 ---
 
 ## Explicitly Not Accepted (Remain HOLD)

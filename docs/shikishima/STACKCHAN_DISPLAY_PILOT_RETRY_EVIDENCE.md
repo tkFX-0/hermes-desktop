@@ -9,8 +9,9 @@ Rally: 4B — One-shot Display Pilot Retry
 
 ```text
 status: PASS
-reason: guarded one-shot send succeeded; human confirmed displayed state matched
-next_action: STACKCHAN_DISPLAY_ONLY_OPERATION_ACCEPTANCE recorded
+reason: guarded one-shot send succeeded; human confirmed displayed state matched (Attempt 3)
+display_only_operation: ACCEPTED (Rally 5)
+latest_supplemental_go: Attempt 4 — PASS (send + human visual confirmed)
 ```
 
 ---
@@ -134,6 +135,58 @@ resolved_face_mode: happy
 failure_reason_redacted: none
 one_shot_only: true
 second_send_attempted: false
+```
+
+### Human observation (confirmed)
+
+```text
+displayed_state_visible: true
+expected_state_matched: true
+unexpected_motion_visible: false
+unexpected_voice_visible: false
+manual_stop_used: false
+pilot_stopped_cleanly: true
+human_confirmation: PASS
+```
+
+---
+
+## Attempt 4 (15:00–15:30 JST — supplemental Human GO)
+
+### Approved Time Window
+
+```text
+START: 2026-05-28 15:00 JST
+END:   2026-05-28 15:30 JST
+preflight_jst_at_attempt: 2026-05-28 15:00 (within window)
+```
+
+### Selected Intent
+
+```text
+selected_intent: STACKCHAN_BASELINE_PASS
+resolved_face_mode: happy
+```
+
+### Execution
+
+```text
+human_go: approved (one display-only face_mode send only)
+STACKCHAN_DISPLAY_PILOT_SEND: 1
+transportMode: guarded-ws
+actualDeviceSendEnabled: true
+env_local_present: true
+local_host_value_configured_in_composer_terminal: true (via .env.local load; values not recorded)
+display_pilot_attempted: true
+send_result_ok: true
+send_result_sent: true
+websocket_send_performed: true
+resolved_face_mode: happy
+failure_reason_redacted: none
+one_shot_only: true
+second_send_attempted: false
+retry_loop: false
+vitest: 1 passed (__pilot-once__ ephemeral runner; file deleted after run)
 ```
 
 ### Human observation (confirmed)
