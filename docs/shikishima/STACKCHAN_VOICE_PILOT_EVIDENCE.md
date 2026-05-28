@@ -7,27 +7,40 @@ Date: 2026-05-28
 ## Result
 
 ```text
-status: HOLD
-reason: ws_or_pcm_failed on goal G2 attempt (one shot; no retry)
-prior_classification: voicevox_unavailable (earlier attempt)
+status: PASS_WITH_CAVEAT
+reason: guarded one-shot voice send ok; human audible confirmation pending
+prior_attempts: HOLD (voicevox_unavailable, ws_or_pcm_failed)
 ```
 
 ---
 
-## Execution (latest attempt — goal G2)
+## Execution (latest attempt — goal G2 retry)
 
 ```text
+preflight_jst_at_attempt: 2026-05-28 (within active window)
 intent: STACKCHAN_VOICE_PILOT_ACK
 STACKCHAN_VOICE_PILOT_SEND: 1
 transportMode: guarded-ws
-send_result_ok: false
-send_result_sent: false
-websocket_send_performed: false
-failure_reason_redacted: ws_or_pcm_failed
-voicevox_readiness_at_check: PASS
+env_local_loaded: true
+send_result_ok: true
+send_result_sent: true
+websocket_send_performed: true
+failure_reason_redacted: none
+voicevox_readiness: PASS
 one_shot_only: true
 second_send_attempted: false
 retry_loop: false
+```
+
+---
+
+## Human observation (pending)
+
+```text
+voice_human_visual: pending
+voice_audible: unknown
+expected_phrase_matched: unknown
+unexpected_behavior_visible: false
 ```
 
 ---

@@ -7,8 +7,8 @@ Date: 2026-05-28
 ## RESULT
 
 ```text
-status: NOT_ACCEPTED
-reason: pilot HOLD — ws_or_pcm_failed; human visual not applicable until send PASS
+status: PENDING
+reason: pilot send PASS_WITH_CAVEAT; awaiting human voice_human_visual PASS
 ```
 
 ---

@@ -1286,10 +1286,10 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: shikishima.phase1.voice-completion (IN_PROGRESS — goal G2 HOLD)
+active_goal: shikishima.phase1.voice-completion (IN_PROGRESS — G3 voice visual pending)
 status: ACCEPTED_AS_FINAL_CORE_100
-last_completed_goal: shikishima.full-autonomy-unified-design-package
-external_effects: voice one-shot attempted once (HOLD ws_or_pcm)
+last_completed_goal: shikishima.phase1.voice-one-shot-pilot (PASS_WITH_CAVEAT)
+external_effects: voice one-shot send ok (guarded)
 full_autonomy_goal: Shikishima Full Autonomous Operation (IN_PROGRESS)
 full_autonomy_design: FIXED
 goal_completion_mode: by_goal_not_by_section

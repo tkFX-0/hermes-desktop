@@ -10,9 +10,9 @@ Parent: `shikishima.phase1.voice-completion`
 | Goal ID | Status |
 |---------|--------|
 | `shikishima.phase1.voice-evidence-push` | see below |
-| `shikishima.phase1.voice-one-shot-pilot` | **HOLD** |
+| `shikishima.phase1.voice-one-shot-pilot` | **PASS_WITH_CAVEAT** |
 | `shikishima.phase1.voice-acceptance` | **PENDING** |
-| **Parent** | **IN_PROGRESS** |
+| **Parent** | **IN_PROGRESS** (G3 blocks) |
 
 ---
 
@@ -28,9 +28,11 @@ origin/main: includes b6abde8 + 4f7566e
 ## G2 voice-one-shot-pilot
 
 ```text
-result: HOLD
-failure_reason_redacted: ws_or_pcm_failed
+result: PASS_WITH_CAVEAT
+send_result_ok: true
+websocket_send_performed: true
 one_shot_only: true
+human_visual: pending
 ```
 
 ---
