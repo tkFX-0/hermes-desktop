@@ -8,9 +8,9 @@ Rally: 4B — One-shot Display Pilot Retry
 ## Result
 
 ```text
-status: HOLD
-reason: one_shot_guarded_send_failed_safely (both attempts)
-next_action: run one-shot send from operator PC with host env configured; report visual enum
+status: PASS_WITH_CAVEAT
+reason: guarded one-shot send succeeded in Cursor; human visual confirmation pending for full PASS
+next_action: confirm displayed_state_visible; then Rally 5 Acceptance
 ```
 
 ---
@@ -118,6 +118,43 @@ Operator PC must run the one-shot send where host env is configured. No second a
 
 ---
 
+## Attempt 3 (14:35–15:00 JST — Cursor execution with .env.local load)
+
+### Execution
+
+```text
+preflight_jst_at_attempt: 2026-05-28 14:50 (within window)
+env_local_present: true
+local_host_value_configured_in_composer_terminal: true (via .env.local load; values not recorded)
+display_pilot_attempted: true
+send_result_ok: true
+send_result_sent: true
+websocket_send_performed: true
+resolved_face_mode: happy
+failure_reason_redacted: none
+one_shot_only: true
+second_send_attempted: false
+```
+
+### Human observation (pending)
+
+```text
+displayed_state_visible: unknown
+expected_state_matched: unknown
+unexpected_motion_visible: false
+unexpected_voice_visible: false
+manual_stop_used: false
+pilot_stopped_cleanly: true
+```
+
+If human confirms face showed baseline-pass mood (happy) without motion/voice:
+
+```text
+status may be upgraded to PASS
+```
+
+---
+
 ## Safety
 
 ```text
@@ -147,40 +184,16 @@ Active_control: HOLD
 ## Classification
 
 ```text
-result: HOLD
-reason: guarded send attempted once; WebSocket connection failed; display not confirmed visible
-next_action: /goalmacro shikishima.stackchan-display-pilot-debug-plan
+result: PASS_WITH_CAVEAT
+reason: one-shot guarded face_mode send ok; visual match not yet confirmed by human enum
+next_action: /goalmacro shikishima.stackchan-display-only-operation-acceptance (after visual confirm)
 ```
-
----
-
-## Operator-local one-shot (within 14:35–15:00 JST)
-
-Run once from PowerShell where `STACKCHAN_HOST` is set (do not paste host into chat):
-
-```powershell
-cd hermes-desktop
-$env:STACKCHAN_DISPLAY_PILOT_SEND='1'
-npm test -- src/main/stackchan-display-route/__pilot-once__.test.ts
-Remove-Item Env:STACKCHAN_DISPLAY_PILOT_SEND
-```
-
-Report enums only:
-
-```text
-send_result_ok:
-send_result_sent:
-displayed_state_visible:
-expected_state_matched:
-```
-
-If PASS visually + send ok → Rally 5 Acceptance.
 
 ---
 
 ## Next
 
 ```text
-/goalmacro shikishima.stackchan-display-only-operation-acceptance
-(after operator-local PASS confirmed)
+Human: confirm displayed_state_visible + expected_state_matched (enum only)
+Then: /goalmacro shikishima.stackchan-display-only-operation-acceptance
 ```

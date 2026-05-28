@@ -143,7 +143,7 @@ StackChan Display Route Device Wiring Design: DEVICE_WIRING_DESIGN_PREPARED
 StackChan Display Route Device Wiring Foundation: DEVICE_WIRING_FOUNDATION_IMPLEMENTED / PUSHED (3f26c97)
 StackChan Display Pilot Retry Preflight: PREFLIGHT_PASS
 StackChan Display Transport: TRANSPORT_IMPLEMENTED / PUSHED (db8d73b)
-StackChan Display Pilot Retry: HOLD / LOCAL NOT PUSHED
+StackChan Display Pilot Retry: PASS_WITH_CAVEAT / LOCAL NOT PUSHED
 ```
 
 Preferred operator display direction:
