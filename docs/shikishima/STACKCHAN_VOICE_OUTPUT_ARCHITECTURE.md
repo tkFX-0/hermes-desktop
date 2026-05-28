@@ -71,6 +71,17 @@ Display / Motion と同様、**Hermes runtime や Discord には載せない**�
 
 ---
 
+## Discord 連携（将来）
+
+```text
+Discord メッセージ → しきしまが読む・要約 → StackChan が喋る（直送）
+現状: 通常 Discord 返信は Discord テキストのみ（StackChan は喋らない）
+起動時: hookOnBotStart のみ挨拶
+詳細: SHIKISHIMA_DISCORD_STACKCHAN_VOICE_FUTURE_DESIGN.md
+```
+
+---
+
 ## 将来（Secretary Mode でも同じ原則）
 
 ```text

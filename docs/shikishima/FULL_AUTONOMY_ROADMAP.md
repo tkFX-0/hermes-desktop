@@ -61,6 +61,9 @@ Done when: read/write, draft/send, dry/actual が分離され after-action HOLD�
 
 Done when: 家側 AP として GO 確認・状態報告が guarded 経路のみ。
 
+Includes: **Discord 受信文 → しきしま判断 → StackChan 読み上げ**（`SHIKISHIMA_DISCORD_STACKCHAN_VOICE_FUTURE_DESIGN.md`）。  
+Not in scope until Phase 1 voice pilot audible PASS + Phase 6 Discord gates.
+
 ---
 
 ## Phase 8: Scheduler / Recovery
