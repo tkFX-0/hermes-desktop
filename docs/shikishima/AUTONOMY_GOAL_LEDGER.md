@@ -1,6 +1,6 @@
 # Autonomy Goal Ledger
 
-Date: 2026-05-26
+Date: 2026-05-28
 Mode: repo-local Obsidian-compatible Markdown
 Actual Obsidian write: HOLD
 
@@ -23,7 +23,7 @@ productionReady: false
 execution: disabled
 Discord_send: HOLD
 Obsidian_write: HOLD
-StackChan_connection: HOLD
+StackChan_connection: PASS (voice pilot scope)
 runtime_start: NOT_APPROVED
 git_push: separate human GO only
 ```
@@ -37,7 +37,7 @@ branch: main
 HEAD: (local; queue operation mvp rally 2 — not pushed)
 origin/main: 5212fcd
 commits_ahead: implementation + queue mutation + ledger (not pushed)
-ledger_updated: 2026-05-26
+ledger_updated: 2026-05-28
 Master Spec: PUSHED
 Goal A1 route registry: PUSHED
 Goal A2 createExternalActionGuard: PUSHED
@@ -145,6 +145,7 @@ StackChan Display Pilot Retry Preflight: PREFLIGHT_PASS
 StackChan Display Transport: TRANSPORT_IMPLEMENTED / PUSHED (db8d73b)
 StackChan Display Pilot Retry: PASS
 StackChan Display-only Operation: ACCEPTED / LOCAL NOT PUSHED
+StackChan Voice Pilot: PASS / LOCAL NOT PUSHED (2026-05-28 human audible; production voice still HOLD)
 ```
 
 Preferred operator display direction:
@@ -228,7 +229,7 @@ rawValuesReported: false
 runtime_started: false
 Discord_send: false
 Obsidian_actual_write: HOLD
-StackChan_connection: false
+StackChan_connection: true (pilot scope)
 UI_connection: HOLD
 IPC_connection: HOLD
 actual_execution_runner: HOLD
@@ -1286,9 +1287,15 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: shikishima.phase1.voice-completion (IN_PROGRESS — voice audible HOLD)
+active_goal: shikishima.full-autonomy-phases-2-7 (IN_PROGRESS — integration code DONE local)
+phases_2_7_orchestrator: runFullAutonomyCyclePhases2Through7
+stackchan_voice: HOLD (deferred; WS connected:false observed; resume after device link + human audible)
+phase1_voice_completion: DEFERRED until stackchan_resume
+voice_pilot_human_2026-05-26: HOLD (faint/muffled; then no audible flow — connection gate)
+phases_2_7_code: IMPLEMENTED (2026-05-26) — src/main/shikishima-full-autonomy/ + tests/hermes/zone/full-autonomy; acceptance HOLD until phase1 audible + human gates
 status: ACCEPTED_AS_FINAL_CORE_100
-last_completed_goal: shikishima.full-autonomy-unified-design-package
+last_completed_goal: shikishima.phases-2-7-foundation-code (local, not pushed)
+previous_completed: shikishima.full-autonomy-unified-design-package
 external_effects: voice pilot send ok; human: no audible (mouth only)
 full_autonomy_goal: Shikishima Full Autonomous Operation (IN_PROGRESS)
 full_autonomy_design: FIXED

@@ -1,0 +1,34 @@
+{
+  "schema": "shikishima-stackchan-voice-b3/v1",
+  "track": "B3",
+  "startedIso": "2026-05-28T17:24:36.917Z",
+  "endedIso": "2026-05-28T17:25:48.116Z",
+  "maxCycles": 3,
+  "cooldownMs": 30000,
+  "cycles": [
+    {
+      "cycle": 1,
+      "atIso": "2026-05-28T17:24:40.146Z",
+      "phraseLength": 5,
+      "ok": true,
+      "blocked": null
+    },
+    {
+      "cycle": 2,
+      "atIso": "2026-05-28T17:25:14.184Z",
+      "phraseLength": 7,
+      "ok": true,
+      "blocked": null
+    },
+    {
+      "cycle": 3,
+      "atIso": "2026-05-28T17:25:48.116Z",
+      "phraseLength": 7,
+      "ok": true,
+      "blocked": null
+    }
+  ],
+  "pass": true,
+  "productionReady": false,
+  "execution": "disabled"
+}

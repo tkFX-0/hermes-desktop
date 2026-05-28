@@ -18,11 +18,12 @@ Date: 2026-05-28
 
 ```text
 Foundation: Level 0 完了
-StackChan Display: Level 1 完了（ACCEPTED）
-StackChan Motion: Level 1 完了（PASS）
-StackChan Voice: Level 1 途中（readiness PASS, pilot HOLD）
-Design / Local docs: Level 2–4 自走中
-Full Operation: Level 8 未達（目標）
+StackChan Display / Motion / Voice pilot: Level 1 完了
+Burn-in A1+A2: PASS
+B1 Discord→StackChan voice: PASS
+Declared: Level 8 — Full Autonomous Operation (pilot scope)
+Evidence: FULL_AUTONOMY_LEVEL_8_DECLARATION_2026-05-28.md
+productionReady / execution: still false / disabled
 ```
 
 ## Level 昇格ルール

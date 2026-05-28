@@ -1,0 +1,15 @@
+{
+  "schema": "shikishima-hermes-shadow-c2/v1",
+  "track": "C2",
+  "trigger": "hermes_startup_simulated",
+  "startedIso": "2026-05-28T17:27:47.952Z",
+  "endedIso": "2026-05-28T17:27:51.239Z",
+  "phraseLength": 5,
+  "ok": true,
+  "blocked": null,
+  "hermesDaemonStarted": false,
+  "sidebotStarted": false,
+  "path": "voicevox_pc_pcm_ws8080",
+  "execution": "disabled",
+  "productionReady": false
+}

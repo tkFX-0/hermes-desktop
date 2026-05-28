@@ -8,10 +8,13 @@
 import * as http from "http";
 import * as net from "net";
 import * as crypto from "crypto";
+import {
+  resolveStackChanHost,
+  resolveStackChanToken
+} from "./stackchan-voice-route/stackchan-voice-env";
+import { speakProductionVoiceOnce } from "./stackchan-voice-route/stackchan-voice-production-speak";
 
-const STACKCHAN_HOST = process.env.STACKCHAN_HOST ?? process.env.STACKCHAN_IP ?? "127.0.0.1";
 const STACKCHAN_WS_PORT = 8080;
-const STACKCHAN_CONTROL_TOKEN = process.env.STACKCHAN_CONTROL_TOKEN ?? "";
 const VOICEVOX_URL = "http://localhost:50021";
 
 type StackchanLedPreset = "off" | "blue" | "pass" | "hold" | "stop" | "dance";
@@ -29,16 +32,6 @@ export function setVoicevoxSpeed(speed: number): void {
 export function getVoicevoxSpeed(): number { return _voicevoxSpeed; }
 const DEFAULT_FACE = "normal"; // pet-fw face_mode default
 const PCM_CHUNK_SAMPLES = 960; // 60ms at 16kHz
-
-// Infer pet-fw face_mode from Grok/secretary response text.
-function detectEmotion(text: string): string {
-  const t = text;
-  if (/(?:\u5b09\u3057\u3044|\u3088\u304b\u3063\u305f|\u3042\u308a\u304c\u3068\u3046|\u304a\u3081\u3067\u3068\u3046|\u7d20\u6674\u3089\u3057\u3044|\u6700\u9ad8|\u697d\u3057\u3044)/u.test(t)) return "happy";
-  if (/(?:\u3054\u3081\u3093|\u7533\u3057\u8a33|\u6b8b\u5ff5|\u60b2\u3057\u3044|\u96e3\u3057\u3044|\u3067\u304d\u307e\u305b\u3093)/u.test(t)) return "sad";
-  if (/(?:\u8003\u3048|\u8abf\u3079|\u78ba\u8a8d|\u5206\u6790|\u691c\u8a3c|\u3048\u30fc\u3068)/u.test(t)) return "thinking";
-  if (/(?:\u9a5a|\u3073\u3063\u304f\u308a|\u3048\u3063|\u307e\u3055\u304b|\u4fe1\u3058\u3089\u308c)/u.test(t)) return "surprised";
-  return "normal";
-}
 
 export interface StackchanLocalStatus {
   connected: boolean;
@@ -165,7 +158,8 @@ function wsSendText(sock: net.Socket, text: string): void {
 }
 
 function withStackchanToken<T extends Record<string, unknown>>(payload: T): T & { token?: string } {
-  return STACKCHAN_CONTROL_TOKEN ? { ...payload, token: STACKCHAN_CONTROL_TOKEN } : payload;
+  const token = resolveStackChanToken();
+  return token ? { ...payload, token } : payload;
 }
 
 function wsSendJson(sock: net.Socket, payload: Record<string, unknown>): void {
@@ -186,15 +180,16 @@ function wsSendBinary(sock: net.Socket, data: Buffer): void {
 
 function connectWs(): Promise<net.Socket> {
   return new Promise((resolve, reject) => {
+    const host = resolveStackChanHost();
     const key = crypto.randomBytes(16).toString("base64");
-    const sock = net.createConnection({ host: STACKCHAN_HOST, port: STACKCHAN_WS_PORT });
+    const sock = net.createConnection({ host, port: STACKCHAN_WS_PORT });
     sock.setTimeout(5000);
     sock.on("timeout", () => reject(new Error("WS connect timeout")));
     sock.on("error", reject);
     sock.once("connect", () => {
       sock.write([
         "GET / HTTP/1.1",
-        `Host: ${STACKCHAN_HOST}:${STACKCHAN_WS_PORT}`,
+        `Host: ${host}:${STACKCHAN_WS_PORT}`,
         "Upgrade: websocket",
         "Connection: Upgrade",
         `Sec-WebSocket-Key: ${key}`,
@@ -221,34 +216,8 @@ function connectWs(): Promise<net.Socket> {
 }
 
 export async function stackchanSayLocal(text: string): Promise<{ ok: boolean; error?: string }> {
-  try {
-    const wav = await voicevoxSynthesize(text);
-    const pcm = wavToPcm16k(wav);
-    const emotion = detectEmotion(text);
-
-    const sock = await connectWs();
-
-    // Set face before speech starts.
-    wsSendJson(sock, { type: "face_mode", value: emotion });
-    await new Promise<void>((r) => setTimeout(r, 50));
-    wsSendJson(sock, { type: "state", value: "speaking" });
-    await new Promise<void>((r) => setTimeout(r, 80));
-
-    const chunkBytes = PCM_CHUNK_SAMPLES * 2;
-    for (let i = 0; i < pcm.length; i += chunkBytes) {
-      wsSendBinary(sock, pcm.slice(i, i + chunkBytes));
-      await new Promise<void>((r) => setTimeout(r, 35));
-    }
-
-    await new Promise<void>((r) => setTimeout(r, 300));
-    wsSendJson(sock, { type: "state", value: "idle" });
-    wsSendJson(sock, { type: "face_mode", value: DEFAULT_FACE });
-    sock.destroy();
-
-    return { ok: true };
-  } catch (e) {
-    return { ok: false, error: (e as Error).message };
-  }
+  const result = await speakProductionVoiceOnce(text);
+  return result.ok ? { ok: true } : { ok: false, error: result.errorCode };
 }
 
 export async function stackchanFaceLocal(emotion: string): Promise<{ ok: boolean; error?: string }> {
@@ -313,7 +282,7 @@ export async function checkStackchanLocalStatus(): Promise<StackchanLocalStatus>
   let battery: number | undefined;
   if (connected) {
     try {
-      const statusBuf = await httpGet(`http://${STACKCHAN_HOST}/status`);
+      const statusBuf = await httpGet(`http://${resolveStackChanHost()}/status`);
       const st = JSON.parse(statusBuf.toString("utf8")) as {
         styleId?: string; affectionLevel?: string; batteryLevel?: number;
       };
@@ -325,7 +294,7 @@ export async function checkStackchanLocalStatus(): Promise<StackchanLocalStatus>
 
   return {
     connected,
-    stackchanIp: STACKCHAN_HOST ? "configured" : "not_configured",
+    stackchanIp: resolveStackChanHost() !== "127.0.0.1" ? "configured" : "not_configured",
     voicevoxReady: _voicevoxReady,
     styleId,
     affectionLevel,

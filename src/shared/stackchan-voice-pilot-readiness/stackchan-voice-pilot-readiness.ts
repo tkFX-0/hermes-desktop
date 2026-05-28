@@ -8,6 +8,7 @@ export type StackChanVoicePilotReadinessInput = {
   stackChanScreenVisible: boolean;
   timeWindow: StackChanDisplayPilotTimeWindow;
   voiceIntent: StackChanVoiceIntent;
+  explicitPermittedGo?: boolean;
 };
 
 export type StackChanVoicePilotReadinessResult = {
@@ -31,7 +32,9 @@ export function evaluateStackChanVoicePilotReadiness(
   if (!input.humanPresent) reasons.push("human_present_required");
   if (!input.manualStopMethodConfirmed) reasons.push("manual_stop_method_required");
   if (!input.stackChanScreenVisible) reasons.push("stackchan_screen_visible_required");
-  if (!isNonEmptyTimeWindow(input.timeWindow)) reasons.push("valid_time_window_required");
+  if (!input.explicitPermittedGo && !isNonEmptyTimeWindow(input.timeWindow)) {
+    reasons.push("valid_time_window_required");
+  }
   if (!isStackChanVoiceIntent(input.voiceIntent)) reasons.push("voice_intent_not_allowed");
 
   return { ready: reasons.length === 0, voiceIntent: input.voiceIntent, reasons };

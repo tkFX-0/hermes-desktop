@@ -103,6 +103,7 @@ export async function sendStackChanVoiceOnce(
     screenVisible: request.screenVisible,
     timeWindowDeclared: request.timeWindowDeclared,
     activeTimeWindow: request.activeTimeWindow,
+    explicitPermittedGo: request.explicitPermittedGo,
     timeWindow: request.timeWindow,
     transportMode: request.transportMode,
     actualVoiceSendApproved: false,

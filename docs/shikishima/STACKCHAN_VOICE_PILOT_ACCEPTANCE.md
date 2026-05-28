@@ -1,6 +1,6 @@
 # StackChan Voice Pilot Acceptance
 
-Date: 2026-05-28
+Date: 2026-05-26 (updated)
 
 ---
 
@@ -8,7 +8,9 @@ Date: 2026-05-28
 
 ```text
 status: NOT_ACCEPTED
-reason: human observation HOLD — mouth motion without audible speech
+reason: human observation HOLD — faint/muffled audio; VOICEVOX path not intelligible on StackChan
+prior: mouth motion without clear speech (2026-05-28 note)
+evidence: STACKCHAN_VOICE_PILOT_HUMAN_HOLD_2026-05-26.md
 ```
 
 ---

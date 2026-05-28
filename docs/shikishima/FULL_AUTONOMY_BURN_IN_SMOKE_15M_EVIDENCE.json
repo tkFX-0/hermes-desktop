@@ -1,0 +1,164 @@
+{
+  "schema": "shikishima-burn-in-smoke-15m/v1",
+  "track": "A1",
+  "humanGo": true,
+  "startedIso": "2026-05-28T13:20:57.509Z",
+  "endedIso": "2026-05-28T13:35:57.520Z",
+  "elapsedMs": 900011,
+  "durationTargetMs": 900000,
+  "tickCount": 15,
+  "completedFullDuration": true,
+  "stopReason": null,
+  "pass": true,
+  "execution": "disabled",
+  "productionReady": false,
+  "rawValuesReported": false,
+  "sendsPerformed": false,
+  "finalEval": {
+    "pass": true,
+    "reasons": [],
+    "eventCount": 45,
+    "runawayDetected": false
+  },
+  "flags": {
+    "rawLeakDetected": false,
+    "unapprovedWriteDetected": false
+  },
+  "tickSummaries": [
+    {
+      "tick": 1,
+      "atIso": "2026-05-28T13:20:57.513Z",
+      "pipelineExecution": "disabled",
+      "pipelineProductionReady": false,
+      "localWouldProceed": true,
+      "burnEvalPass": true,
+      "burnEvalReasons": []
+    },
+    {
+      "tick": 2,
+      "atIso": "2026-05-28T13:21:57.522Z",
+      "pipelineExecution": "disabled",
+      "pipelineProductionReady": false,
+      "localWouldProceed": true,
+      "burnEvalPass": true,
+      "burnEvalReasons": []
+    },
+    {
+      "tick": 3,
+      "atIso": "2026-05-28T13:22:57.535Z",
+      "pipelineExecution": "disabled",
+      "pipelineProductionReady": false,
+      "localWouldProceed": true,
+      "burnEvalPass": true,
+      "burnEvalReasons": []
+    },
+    {
+      "tick": 4,
+      "atIso": "2026-05-28T13:23:57.541Z",
+      "pipelineExecution": "disabled",
+      "pipelineProductionReady": false,
+      "localWouldProceed": true,
+      "burnEvalPass": true,
+      "burnEvalReasons": []
+    },
+    {
+      "tick": 5,
+      "atIso": "2026-05-28T13:24:57.548Z",
+      "pipelineExecution": "disabled",
+      "pipelineProductionReady": false,
+      "localWouldProceed": true,
+      "burnEvalPass": true,
+      "burnEvalReasons": []
+    },
+    {
+      "tick": 6,
+      "atIso": "2026-05-28T13:25:57.559Z",
+      "pipelineExecution": "disabled",
+      "pipelineProductionReady": false,
+      "localWouldProceed": true,
+      "burnEvalPass": true,
+      "burnEvalReasons": []
+    },
+    {
+      "tick": 7,
+      "atIso": "2026-05-28T13:26:57.576Z",
+      "pipelineExecution": "disabled",
+      "pipelineProductionReady": false,
+      "localWouldProceed": true,
+      "burnEvalPass": true,
+      "burnEvalReasons": []
+    },
+    {
+      "tick": 8,
+      "atIso": "2026-05-28T13:27:57.595Z",
+      "pipelineExecution": "disabled",
+      "pipelineProductionReady": false,
+      "localWouldProceed": true,
+      "burnEvalPass": true,
+      "burnEvalReasons": []
+    },
+    {
+      "tick": 9,
+      "atIso": "2026-05-28T13:28:57.611Z",
+      "pipelineExecution": "disabled",
+      "pipelineProductionReady": false,
+      "localWouldProceed": true,
+      "burnEvalPass": true,
+      "burnEvalReasons": []
+    },
+    {
+      "tick": 10,
+      "atIso": "2026-05-28T13:29:57.629Z",
+      "pipelineExecution": "disabled",
+      "pipelineProductionReady": false,
+      "localWouldProceed": true,
+      "burnEvalPass": true,
+      "burnEvalReasons": []
+    },
+    {
+      "tick": 11,
+      "atIso": "2026-05-28T13:30:57.642Z",
+      "pipelineExecution": "disabled",
+      "pipelineProductionReady": false,
+      "localWouldProceed": true,
+      "burnEvalPass": true,
+      "burnEvalReasons": []
+    },
+    {
+      "tick": 12,
+      "atIso": "2026-05-28T13:31:57.661Z",
+      "pipelineExecution": "disabled",
+      "pipelineProductionReady": false,
+      "localWouldProceed": true,
+      "burnEvalPass": true,
+      "burnEvalReasons": []
+    },
+    {
+      "tick": 13,
+      "atIso": "2026-05-28T13:32:57.680Z",
+      "pipelineExecution": "disabled",
+      "pipelineProductionReady": false,
+      "localWouldProceed": true,
+      "burnEvalPass": true,
+      "burnEvalReasons": []
+    },
+    {
+      "tick": 14,
+      "atIso": "2026-05-28T13:33:57.698Z",
+      "pipelineExecution": "disabled",
+      "pipelineProductionReady": false,
+      "localWouldProceed": true,
+      "burnEvalPass": true,
+      "burnEvalReasons": []
+    },
+    {
+      "tick": 15,
+      "atIso": "2026-05-28T13:34:57.709Z",
+      "pipelineExecution": "disabled",
+      "pipelineProductionReady": false,
+      "localWouldProceed": true,
+      "burnEvalPass": true,
+      "burnEvalReasons": []
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "schema": "shikishima-discord-stackchan-b1/v1",
+  "track": "B1",
+  "atIso": "2026-05-28T13:41:23.633Z",
+  "previewLength": 6,
+  "planDecision": "ALLOW_DRAFT",
+  "planReasons": [],
+  "sendOk": true,
+  "sent": true,
+  "deviceDecision": "READY_FOR_PILOT_GO",
+  "sendReasons": [],
+  "websocketSendPerformed": true,
+  "execution": "disabled",
+  "productionReady": false,
+  "humanAudibleConfirmation": "PASS",
+  "humanAudibleConfirmedAtIso": "2026-05-28T13:48:00.000Z"
+}

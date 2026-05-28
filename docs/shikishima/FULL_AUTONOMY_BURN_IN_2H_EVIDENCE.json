@@ -1,0 +1,106 @@
+{
+  "schema": "shikishima-burn-in-2h/v1",
+  "track": "A2",
+  "humanGo": true,
+  "startedIso": "2026-05-28T13:41:31.747Z",
+  "endedIso": "2026-05-28T15:41:31.748Z",
+  "elapsedMs": 7200001,
+  "durationTargetMs": 7200000,
+  "tickCount": 120,
+  "completedFullDuration": true,
+  "stopReason": null,
+  "pass": true,
+  "execution": "disabled",
+  "productionReady": false,
+  "sendsPerformed": false,
+  "finalEval": {
+    "pass": true,
+    "reasons": [],
+    "eventCount": 360,
+    "runawayDetected": false
+  },
+  "flags": {
+    "rawLeakDetected": false,
+    "unapprovedWriteDetected": false
+  },
+  "tickSummaries": [
+    {
+      "tick": 1,
+      "atIso": "2026-05-28T13:41:31.751Z",
+      "burnEvalPass": true,
+      "eventCount": 3
+    },
+    {
+      "tick": 10,
+      "atIso": "2026-05-28T13:50:31.889Z",
+      "burnEvalPass": true,
+      "eventCount": 30
+    },
+    {
+      "tick": 20,
+      "atIso": "2026-05-28T14:00:31.959Z",
+      "burnEvalPass": true,
+      "eventCount": 60
+    },
+    {
+      "tick": 30,
+      "atIso": "2026-05-28T14:10:32.041Z",
+      "burnEvalPass": true,
+      "eventCount": 90
+    },
+    {
+      "tick": 40,
+      "atIso": "2026-05-28T14:20:32.103Z",
+      "burnEvalPass": true,
+      "eventCount": 120
+    },
+    {
+      "tick": 50,
+      "atIso": "2026-05-28T14:30:32.112Z",
+      "burnEvalPass": true,
+      "eventCount": 150
+    },
+    {
+      "tick": 60,
+      "atIso": "2026-05-28T14:40:32.120Z",
+      "burnEvalPass": true,
+      "eventCount": 180
+    },
+    {
+      "tick": 70,
+      "atIso": "2026-05-28T14:50:32.137Z",
+      "burnEvalPass": true,
+      "eventCount": 210
+    },
+    {
+      "tick": 80,
+      "atIso": "2026-05-28T15:00:32.144Z",
+      "burnEvalPass": true,
+      "eventCount": 240
+    },
+    {
+      "tick": 90,
+      "atIso": "2026-05-28T15:10:32.152Z",
+      "burnEvalPass": true,
+      "eventCount": 270
+    },
+    {
+      "tick": 100,
+      "atIso": "2026-05-28T15:20:32.162Z",
+      "burnEvalPass": true,
+      "eventCount": 300
+    },
+    {
+      "tick": 110,
+      "atIso": "2026-05-28T15:30:32.171Z",
+      "burnEvalPass": true,
+      "eventCount": 330
+    },
+    {
+      "tick": 120,
+      "atIso": "2026-05-28T15:40:32.186Z",
+      "burnEvalPass": true,
+      "eventCount": 360
+    }
+  ]
+}

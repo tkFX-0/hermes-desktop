@@ -67,7 +67,8 @@ export function evaluateStackChanVoiceDeviceRoute(
     manualStopMethodConfirmed: request.manualStopMethodConfirmed,
     stackChanScreenVisible: request.screenVisible,
     timeWindow: pilotTimeWindow(request),
-    voiceIntent: request.intent
+    voiceIntent: request.intent,
+    explicitPermittedGo: request.explicitPermittedGo
   });
 
   if (!readiness.ready) {
@@ -81,6 +82,7 @@ export function evaluateStackChanVoiceDeviceRoute(
     screenVisible: request.screenVisible,
     timeWindowDeclared: request.timeWindowDeclared,
     activeTimeWindow: request.activeTimeWindow,
+    explicitPermittedGo: request.explicitPermittedGo,
     actualVoiceSendApproved: false,
     productionReady: false,
     executionEnabled: false

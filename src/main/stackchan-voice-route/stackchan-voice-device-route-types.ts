@@ -13,6 +13,7 @@ export type StackChanVoiceDeviceRequest = {
   screenVisible: boolean;
   timeWindowDeclared: boolean;
   activeTimeWindow: boolean;
+  explicitPermittedGo?: boolean;
   timeWindow?: StackChanDisplayPilotTimeWindow;
   transportMode: StackChanVoiceDeviceTransportMode;
   actualVoiceSendApproved: false;

@@ -1,0 +1,30 @@
+{
+  "schema": "shikishima-hermes-shadow-c3/v1",
+  "track": "C3",
+  "startedIso": "2026-05-28T17:27:51.358Z",
+  "endedIso": "2026-05-28T17:29:02.354Z",
+  "maxCycles": 3,
+  "cooldownMs": 30000,
+  "cycles": [
+    {
+      "cycle": 1,
+      "atIso": "2026-05-28T17:27:54.697Z",
+      "ok": true
+    },
+    {
+      "cycle": 2,
+      "atIso": "2026-05-28T17:28:28.561Z",
+      "ok": true
+    },
+    {
+      "cycle": 3,
+      "atIso": "2026-05-28T17:29:02.354Z",
+      "ok": true
+    }
+  ],
+  "pass": true,
+  "hermesDaemonStarted": false,
+  "sidebotStarted": false,
+  "execution": "disabled",
+  "productionReady": false
+}

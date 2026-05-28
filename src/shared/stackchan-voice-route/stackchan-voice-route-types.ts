@@ -10,6 +10,8 @@ export type StackChanVoiceRouteRequest = {
   screenVisible: boolean;
   timeWindowDeclared: boolean;
   activeTimeWindow: boolean;
+  /** Human said 許可GO — bypass time window; execute immediately when other gates pass. */
+  explicitPermittedGo?: boolean;
   actualVoiceSendApproved: false;
   productionReady: false;
   executionEnabled: false;

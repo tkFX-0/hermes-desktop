@@ -49,8 +49,10 @@ export function evaluateStackChanVoiceRoute(
   if (!request.humanPresent) hold.push("human_present_required");
   if (!request.manualStopMethodConfirmed) hold.push("manual_stop_method_required");
   if (!request.screenVisible) hold.push("screen_visible_required");
-  if (!request.timeWindowDeclared) hold.push("time_window_declared_required");
-  if (!request.activeTimeWindow) hold.push("active_time_window_required");
+  if (!request.explicitPermittedGo) {
+    if (!request.timeWindowDeclared) hold.push("time_window_declared_required");
+    if (!request.activeTimeWindow) hold.push("active_time_window_required");
+  }
 
   if (hold.length > 0) return buildResult("HOLD", preview, hold);
   return buildResult("READY_FOR_FUTURE_SEND", preview, []);

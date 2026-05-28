@@ -17,4 +17,20 @@ describe("stackchan-voice-route", () => {
     expect(r.decision).toBe("READY_FOR_FUTURE_SEND");
     expect(r.safety.voiceAllowed).toBe(false);
   });
+
+  it("ready without time window when explicitPermittedGo", () => {
+    const r = evaluateStackChanVoiceRoute({
+      intent: "STACKCHAN_VOICE_PILOT_ACK",
+      humanPresent: true,
+      manualStopMethodConfirmed: true,
+      screenVisible: true,
+      timeWindowDeclared: false,
+      activeTimeWindow: false,
+      explicitPermittedGo: true,
+      actualVoiceSendApproved: false,
+      productionReady: false,
+      executionEnabled: false
+    });
+    expect(r.decision).toBe("READY_FOR_FUTURE_SEND");
+  });
 });

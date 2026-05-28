@@ -317,6 +317,8 @@ std::vector<int16_t> pcmBuf;
 bool playReq     = false;
 bool audioPlaying = false;
 bool audioUploadArmed = false;
+uint8_t lastAudioWsClient = 255;
+size_t audioQueuedSamples = 0;
 unsigned long audioUploadDeadlineMs = 0;
 unsigned long lastMotionCommandMs = 0;
 unsigned long lastDanceCommandMs = 0;
@@ -681,6 +683,12 @@ void rejectWs(uint8_t num, const char* reason) {
   webSocket.sendTXT(num, String("{\"type\":\"error\",\"reason\":\"") + reason + "\"}");
 }
 
+void sendAudioState(uint8_t num, const char* phase, size_t samples = 0) {
+  webSocket.sendTXT(num,
+    String("{\"type\":\"audio.state\",\"phase\":\"") + phase +
+    "\",\"samples\":" + String(samples) + "}");
+}
+
 // ─── WebSocket ───────────────────────────────────────────────────────────────
 void onWs(uint8_t num, WStype_t type, uint8_t* payload, size_t length) {
   bumpActivity();
@@ -733,6 +741,10 @@ void onWs(uint8_t num, WStype_t type, uint8_t* payload, size_t length) {
           rejectWs(num, "led_blocked");
           break;
         }
+      } else if (t == "audio_test") {
+        M5.Speaker.setVolume(220);
+        M5.Speaker.tone(880, 250);
+        sendAudioState(num, "tone", 0);
       } else if (t == "face_mode") {
         curFaceIdx = faceByMood(doc["value"].as<String>());
         if (!isSpeaking && curMode != MODE_CAMERA) setMode(MODE_FACE);
@@ -743,16 +755,23 @@ void onWs(uint8_t num, WStype_t type, uint8_t* payload, size_t length) {
             rejectWs(num, "audio_blocked");
             break;
           }
+          pcmBuf.clear();
           audioUploadArmed = true;
+          lastAudioWsClient = num;
+          audioQueuedSamples = 0;
           audioUploadDeadlineMs = millis() + PCM_ARM_WINDOW_MS;
           isSpeaking=true; pakuFrame=0; lastPaku=0;
           if (curMode!=MODE_SPEAK) setMode(MODE_SPEAK);
+          sendAudioState(num, "armed", 0);
         } else if (v == "idle") {
           audioUploadArmed = false;
           if (!pcmBuf.empty() && !audioPlaying) {
             // PCMデータあり → 全チャンク受信完了 → 再生開始
+            lastAudioWsClient = num;
+            audioQueuedSamples = pcmBuf.size();
             playReq = true;
             // isSpeakingはtrue維持 (再生中もパクパクアニメ継続)
+            sendAudioState(num, "queued", audioQueuedSamples);
           } else if (!audioPlaying) {
             isSpeaking = false; subtitle = "";
             subScrollX = 0; subNeedsScroll = false;
@@ -1437,6 +1456,7 @@ void loop() {
   if (playReq && !pcmBuf.empty() && !audioPlaying) {
     M5.Speaker.setVolume(220);
     M5.Speaker.playRaw(pcmBuf.data(), pcmBuf.size(), 16000, false, 1, 0);
+    if (lastAudioWsClient != 255) sendAudioState(lastAudioWsClient, "play_start", pcmBuf.size());
     playReq     = false;
     audioPlaying = true;
   }
@@ -1444,6 +1464,9 @@ void loop() {
     // 再生完了
     audioPlaying = false;
     pcmBuf.clear();
+    if (lastAudioWsClient != 255) sendAudioState(lastAudioWsClient, "play_done", audioQueuedSamples);
+    lastAudioWsClient = 255;
+    audioQueuedSamples = 0;
     isSpeaking = false; subtitle = "";
     subScrollX = 0; subNeedsScroll = false;  // スクロールリセット
     if (curMode!=MODE_CAMERA) { bumpActivity(); setMode(MODE_FACE); }

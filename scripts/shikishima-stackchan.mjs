@@ -21,6 +21,13 @@ import { prepareSecretarySpeech } from "./shikishima-secretary-filter.mjs";
 // ─── 設定 ─────────────────────────────────────────────────────────────────────
 const _ENV_PATH = process.env.SHIKISHIMA_ENV_PATH || resolve(process.cwd(), ".env.local");
 
+function _stripEnvQuotes(value) {
+  if (value.length < 2) return value;
+  const first = value[0];
+  const last = value[value.length - 1];
+  return (first === last && (first === "\"" || first === "'")) ? value.slice(1, -1) : value;
+}
+
 function _readEnvVar(key) {
   try {
     if (!existsSync(_ENV_PATH)) return "";
@@ -28,10 +35,16 @@ function _readEnvVar(key) {
       const t = line.trim();
       if (t.startsWith("#") || !t.includes("=")) continue;
       const i = t.indexOf("=");
-      if (t.slice(0, i).trim() === key) return t.slice(i + 1).trim();
+      if (t.slice(0, i).trim() === key) return _stripEnvQuotes(t.slice(i + 1).trim());
     }
   } catch { /* ignore */ }
   return "";
+}
+
+function _readNumberEnvVar(key, fallback) {
+  const raw = process.env[key] || _readEnvVar(key);
+  const n = Number(raw);
+  return Number.isFinite(n) ? n : fallback;
 }
 
 const STACKCHAN_IP      = process.env.STACKCHAN_HOST || process.env.STACKCHAN_IP || _readEnvVar("STACKCHAN_HOST") || _readEnvVar("STACKCHAN_IP") || "127.0.0.1";
@@ -96,6 +109,11 @@ async function voicevoxSynthesize(text) {
   const queryBuf = await httpPost(queryUrl, "", "application/json");
   const query = JSON.parse(queryBuf.toString("utf-8"));
   query.speedScale = _speed;
+  const minVolume = Math.max(
+    0.1,
+    Math.min(2.0, _readNumberEnvVar("STACKCHAN_VOICEVOX_VOLUME", _readNumberEnvVar("VOICEVOX_VOLUME", 1.0))),
+  );
+  query.volumeScale = Math.max(Number(query.volumeScale) || 1.0, minVolume);
 
   const wavBuf = await httpPost(
     `${VOICEVOX_URL}/synthesis?speaker=${_speakerId}`,
@@ -174,6 +192,98 @@ function wsSendBinary(sock, data) {
   else if (n < 65536) { header = Buffer.alloc(4); header[0] = 0x82; header[1] = 0xFE; header.writeUInt16BE(n, 2); }
   else                { header = Buffer.alloc(10); header[0] = 0x82; header[1] = 0xFF; header.writeBigUInt64BE(BigInt(n), 2); }
   sock.write(Buffer.concat([header, mask, masked]));
+}
+
+function parseServerFrames(buffer) {
+  const frames = [];
+  let offset = 0;
+  while (buffer.length - offset >= 2) {
+    const b0 = buffer[offset];
+    const b1 = buffer[offset + 1];
+    const opcode = b0 & 0x0f;
+    const masked = (b1 & 0x80) !== 0;
+    let length = b1 & 0x7f;
+    let headerLength = 2;
+    if (length === 126) {
+      if (buffer.length - offset < 4) break;
+      length = buffer.readUInt16BE(offset + 2);
+      headerLength = 4;
+    } else if (length === 127) {
+      if (buffer.length - offset < 10) break;
+      const big = buffer.readBigUInt64BE(offset + 2);
+      if (big > BigInt(Number.MAX_SAFE_INTEGER)) break;
+      length = Number(big);
+      headerLength = 10;
+    }
+    const maskLength = masked ? 4 : 0;
+    const frameLength = headerLength + maskLength + length;
+    if (buffer.length - offset < frameLength) break;
+    const payloadStart = offset + headerLength + maskLength;
+    let payload = Buffer.from(buffer.subarray(payloadStart, payloadStart + length));
+    if (masked) {
+      const frameMask = buffer.subarray(offset + headerLength, offset + headerLength + 4);
+      for (let i = 0; i < payload.length; i++) payload[i] ^= frameMask[i % 4];
+    }
+    frames.push({ opcode, payload });
+    offset += frameLength;
+  }
+  return { frames, rest: buffer.subarray(offset) };
+}
+
+function createDeviceErrorWatcher(sock) {
+  let buffer = Buffer.alloc(0);
+  let errorReason = null;
+  const waiters = new Set();
+  const notify = () => {
+    for (const waiter of waiters) waiter(errorReason);
+    waiters.clear();
+  };
+  const inspect = () => {
+    const parsed = parseServerFrames(buffer);
+    buffer = Buffer.from(parsed.rest);
+    for (const frame of parsed.frames) {
+      if (frame.opcode !== 1) continue;
+      try {
+        const msg = JSON.parse(frame.payload.toString("utf8"));
+        if (msg?.type === "error" && typeof msg.reason === "string") {
+          errorReason = msg.reason;
+          notify();
+        }
+      } catch { /* ignore non-JSON text frames */ }
+    }
+  };
+  const onData = chunk => {
+    buffer = Buffer.concat([buffer, chunk]);
+    inspect();
+  };
+  sock.on("data", onData);
+  return {
+    wait(ms = 80) {
+      if (errorReason) return Promise.resolve(errorReason);
+      return new Promise(resolve => {
+        const timer = setTimeout(() => {
+          waiters.delete(done);
+          resolve(errorReason);
+        }, ms);
+        const done = reason => {
+          clearTimeout(timer);
+          waiters.delete(done);
+          resolve(reason);
+        };
+        waiters.add(done);
+      });
+    },
+    close() {
+      sock.off("data", onData);
+      waiters.clear();
+    },
+  };
+}
+
+async function sendJsonChecked(sock, watcher, payload, waitMs = 80) {
+  wsSendJson(sock, payload);
+  const reason = await watcher.wait(waitMs);
+  return reason ? `device_rejected_${reason}` : null;
 }
 
 function connectWs() {
@@ -350,7 +460,9 @@ export async function stackchanLed(preset = "blue") {
 /**
  * テキストを発話 (VOICEVOX → 16kHz PCM → WebSocket)
  * @param {string} text
- * @param {{ skipMotion?: boolean }} [opts] skipMotion=true でサーボモーション省略 (マイルストーン連鎖用)
+ * @param {{ skipMotion?: boolean, skipMilestone?: boolean }} [opts]
+ *   skipMotion — サーボモーション省略
+ *   skipMilestone — recordTalk / 連鎖発話省略 (pilot one-shot 用)
  */
 export async function stackchanSay(text, opts = {}) {
   if (!_enabled) return { ok: true, skipped: "disabled" };
@@ -362,53 +474,68 @@ export async function stackchanSay(text, opts = {}) {
     const pcm = wavToPcm16k(wav);
     const emotion = detectEmotion(safeText);
     const sock = await connectWs();
+    const watcher = createDeviceErrorWatcher(sock);
 
-    // 感情に対応するサーボモーションを発話前に送信 (skipMotion=true の場合は省略)
-    if (!opts.skipMotion) {
-      const motion = EMOTION_MOTION_MAP[emotion] ?? null;
-      if (motion) {
-        wsSendJson(sock, { type: "move", action: motion });
-        await delay(300);
+    try {
+      // 感情に対応するサーボモーションを発話前に送信 (skipMotion=true の場合は省略)
+      if (!opts.skipMotion) {
+        const motion = EMOTION_MOTION_MAP[emotion] ?? null;
+        if (motion) {
+          const motionError = await sendJsonChecked(sock, watcher, { type: "move", action: motion }, 120);
+          if (motionError) return { ok: false, error: motionError };
+          await delay(300);
+        }
       }
+
+      let deviceError = await sendJsonChecked(sock, watcher, { type: "face_mode", value: emotion }, 120);
+      if (deviceError) return { ok: false, error: deviceError };
+      await delay(50);
+      deviceError = await sendJsonChecked(sock, watcher, { type: "state", value: "speaking" }, 160);
+      if (deviceError) return { ok: false, error: deviceError };
+      deviceError = await sendJsonChecked(sock, watcher, { type: "subtitle", text: safeText.slice(0, 28) }, 120);
+      if (deviceError) return { ok: false, error: deviceError };
+      await delay(80);
+
+      // F9: 長文途中うなずき — PCM送信と並行して別接続で送信 (skipMotion時は省略)
+      const analysis = analyzeText(safeText);
+      const midNodTimer = (!opts.skipMotion && analysis.midPoints.length > 0)
+        ? (async () => {
+            for (const ms of analysis.midPoints) {
+              await delay(ms);
+              try {
+                const s2 = await connectWs();
+                wsSendJson(s2, { type: "move", action: "nod" });
+                await delay(100); s2.destroy();
+              } catch { /* ignore */ }
+            }
+          })()
+        : null;
+
+      const chunkBytes = PCM_CHUNK_SAMPLES * 2;
+      for (let i = 0; i < pcm.length; i += chunkBytes) {
+        wsSendBinary(sock, pcm.slice(i, i + chunkBytes));
+        const pcmError = await watcher.wait(5);
+        if (pcmError) return { ok: false, error: `device_rejected_${pcmError}` };
+        await delay(35);
+      }
+
+      if (midNodTimer) await midNodTimer.catch(() => {});
+      await delay(300);
+      deviceError = await sendJsonChecked(sock, watcher, { type: "state", value: "idle" }, 180);
+      if (deviceError) return { ok: false, error: deviceError };
+      deviceError = await sendJsonChecked(sock, watcher, { type: "face_mode", value: DEFAULT_FACE }, 120);
+      if (deviceError) return { ok: false, error: deviceError };
+    } finally {
+      watcher.close();
+      sock.destroy();
     }
-    wsSendJson(sock, { type: "face_mode", value: emotion });
-    await delay(50);
-    wsSendJson(sock, { type: "state", value: "speaking" });
-    wsSendJson(sock, { type: "subtitle", text: safeText.slice(0, 28) });
-    await delay(80);
 
-    // F9: 長文途中うなずき — PCM送信と並行して別接続で送信 (skipMotion時は省略)
-    const analysis = analyzeText(safeText);
-    const midNodTimer = (!opts.skipMotion && analysis.midPoints.length > 0)
-      ? (async () => {
-          for (const ms of analysis.midPoints) {
-            await delay(ms);
-            try {
-              const s2 = await connectWs();
-              wsSendJson(s2, { type: "move", action: "nod" });
-              await delay(100); s2.destroy();
-            } catch { /* ignore */ }
-          }
-        })()
-      : null;
-
-    const chunkBytes = PCM_CHUNK_SAMPLES * 2;
-    for (let i = 0; i < pcm.length; i += chunkBytes) {
-      wsSendBinary(sock, pcm.slice(i, i + chunkBytes));
-      await delay(35);
-    }
-
-    if (midNodTimer) await midNodTimer.catch(() => {});
-    await delay(300);
-    wsSendJson(sock, { type: "state", value: "idle" });
-    wsSendJson(sock, { type: "face_mode", value: DEFAULT_FACE });
-    sock.destroy();
-
-    // F6: 会話カウント記録 — マイルストーン達成時はサーボモーションなし (連鎖コメント防止)
-    const rel = recordTalk(safeText.length * 80);
-    for (const ms of rel.triggered) {
-      const msg = getMilestoneReaction(ms);
-      if (msg) setTimeout(() => stackchanSay(msg, { skipMotion: true }).catch(() => {}), 1500);
+    if (!opts.skipMilestone) {
+      const rel = recordTalk(safeText.length * 80);
+      for (const ms of rel.triggered) {
+        const msg = getMilestoneReaction(ms);
+        if (msg) setTimeout(() => stackchanSay(msg, { skipMotion: true, skipMilestone: true }).catch(() => {}), 1500);
+      }
     }
 
     console.log(`[StackChan] 発話完了: "${safeText.slice(0, 30)}"`);

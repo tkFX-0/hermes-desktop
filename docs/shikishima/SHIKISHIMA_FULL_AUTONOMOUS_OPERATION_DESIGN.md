@@ -229,6 +229,7 @@ raw値記録禁止 / retry loop禁止 / daemon化別承認 / STOP常に優先
 ## 10. 関連ドキュメント
 
 ```text
+SHIKISHIMA_FULL_AUTONOMOUS_OPERATION_MASTER_DESIGN.md  ← 完全自律まで統合（精査用・2026-05-26）
 SHIKISHIMA_AUTONOMOUS_SELF_RUN_OPERATIONS.md   ← Cursor自走運用（必読）
 FULL_AUTONOMY_GOAL_DEFINITION.md               ← /goal 定義規約
 FULL_AUTONOMY_LEVEL_MATRIX.md

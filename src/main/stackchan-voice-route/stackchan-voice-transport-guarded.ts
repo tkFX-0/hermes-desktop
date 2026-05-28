@@ -1,4 +1,4 @@
-import { speakGuardedVoiceOnce } from "./stackchan-voice-guarded-speak";
+import { speakProductionVoiceOnce } from "./stackchan-voice-production-speak";
 import type { StackChanVoiceTransport, StackChanVoiceTransportSendResult } from "./stackchan-voice-transport-types";
 
 export type GuardedVoiceTransportDeps = {
@@ -8,7 +8,7 @@ export type GuardedVoiceTransportDeps = {
 export function createGuardedWsStackChanVoiceTransport(
   deps: GuardedVoiceTransportDeps = {}
 ): StackChanVoiceTransport {
-  const speakImpl = deps.speakOnce ?? speakGuardedVoiceOnce;
+  const speakImpl = deps.speakOnce ?? speakProductionVoiceOnce;
   return {
     mode: "guarded-ws",
     sendVoicePhrase(_phraseId: string, phrase: string) {
