@@ -143,7 +143,8 @@ StackChan Display Route Device Wiring Design: DEVICE_WIRING_DESIGN_PREPARED
 StackChan Display Route Device Wiring Foundation: DEVICE_WIRING_FOUNDATION_IMPLEMENTED / PUSHED (3f26c97)
 StackChan Display Pilot Retry Preflight: PREFLIGHT_PASS
 StackChan Display Transport: TRANSPORT_IMPLEMENTED / PUSHED (db8d73b)
-StackChan Display Pilot Retry: PASS_WITH_CAVEAT / LOCAL NOT PUSHED
+StackChan Display Pilot Retry: PASS
+StackChan Display-only Operation: ACCEPTED / LOCAL NOT PUSHED
 ```
 
 Preferred operator display direction:
@@ -352,7 +353,8 @@ Meaning:
 | StackChan Display Route Device Wiring Foundation | PUSHED | `3f26c97` | guarded main adapter; no send |
 | StackChan Display Pilot Retry Preflight | PUSHED | `37ea0f1` | PREFLIGHT_PASS |
 | StackChan Display Transport (Rally 4A) | PUSHED | `db8d73b` | TRANSPORT_IMPLEMENTED |
-| StackChan Display Pilot Retry (Rally 4B) | HOLD | (local) | ws_connect_error; one shot no retry |
+| StackChan Display Pilot Retry (Rally 4B) | PASS | (local) | one-shot happy face_mode; human PASS |
+| StackChan Display-only Operation | ACCEPTED | (local) | Rally 5 acceptance |
 
 Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → display contracts):
 
@@ -1284,17 +1286,18 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (display pilot retry HOLD; evidence local)
+active_goal: none (display-only operation ACCEPTED; evidence local)
 status: ACCEPTED_AS_FINAL_CORE_100
-last_completed_goal: shikishima.stackchan-display-pilot-retry
-external_effects: one guarded send attempted; failed safely; no retry
+last_completed_goal: shikishima.stackchan-display-only-operation-acceptance
+external_effects: display-only pilot PASS; acceptance docs only
 actual_obsidian_write: false
 final_shikishima_core: 100% (unchanged)
 stackchan_connection: false
 stackchan_control: HOLD
 stackchan_baseline: PASS (retry)
-stackchan_display_pilot: HOLD (retry ws_connect_error)
-stackchan_display_pilot_retry: HOLD
+stackchan_display_pilot: PASS
+stackchan_display_pilot_retry: PASS
+stackchan_display_only_operation: ACCEPTED
 stackchan_display_route_guard: ROUTE_GUARD_IMPLEMENTED (pushed)
 stackchan_display_route_device_wiring_design: DEVICE_WIRING_DESIGN_PREPARED
 stackchan_display_route_device_wiring_foundation: DEVICE_WIRING_FOUNDATION_IMPLEMENTED (pushed)
@@ -1310,8 +1313,8 @@ stackchan_display_pilot_readiness: DISPLAY_PILOT_READINESS_PREPARED
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
 | 0 | `/goalmacro shikishima.stackchan-phase0-readiness-prep` | DONE (LOCAL) | Core 100% | push prep docs optional |
-| 1 | `/goalmacro shikishima.stackchan-display-pilot-debug-plan` | TODO | Retry HOLD | device reachability |
-| 1a | `/goalmacro shikishima.stackchan-display-pilot-retry` | HOLD | ws_connect_error | new GO after fix |
+| 1 | StackChan Active Control phase | HOLD | Display-only ACCEPTED | separate GO chapter |
+| 1a | Display-only Operation | ACCEPTED | pilot PASS | — |
 | 1a | `/goalmacro shikishima.stackchan-display-transport-implementation` | DONE (LOCAL) | Rally 4A no send | — |
 | 1a1 | `/goalmacro shikishima.stackchan-display-pilot-retry-preflight` | DONE | `37ea0f1` | — |
 | 1a0 | `/goalmacro shikishima.stackchan-display-route-device-wiring-push-review` | DONE | 3f26c97 pushed | — |
@@ -1348,9 +1351,8 @@ stackchan_display_pilot_readiness: DISPLAY_PILOT_READINESS_PREPARED
 Next recommended goal detail:
 
 ```text
-/goalmacro shikishima.stackchan-display-pilot-debug-plan
-
-Rally 4B: one send attempted; HOLD (ws_connect_error). Retry only with new time-window GO.
+StackChan Display-only Operation: ACCEPTED. Active Control remains HOLD.
+Optional: push local evidence commits (pilot PASS + acceptance).
 Alternative if env configured: /goalmacro shikishima.discord-one-shot-send-completion
 ```
 

@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.56.0
+- roadmapVersion: v4.57.0
 - lastUpdated: 2026-05-28
-- latestUpdate: Display Pilot Retry HOLD (ws_connect_error). Transport pushed db8d73b.
+- latestUpdate: StackChan Display-only Operation ACCEPTED. Pilot PASS. Active Control HOLD.
 - baselineCommit: 9c1a228
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,11 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.57.0 - Display-only Operation Acceptance
+
+- Pilot retry PASS (one-shot guarded face_mode). Display-only operation ACCEPTED.
+- Active control, motion, voice, firmware remain HOLD.
 
 ## v4.56.0 - Display Pilot Retry (HOLD)
 

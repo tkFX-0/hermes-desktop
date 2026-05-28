@@ -8,9 +8,9 @@ Rally: 4B — One-shot Display Pilot Retry
 ## Result
 
 ```text
-status: PASS_WITH_CAVEAT
-reason: guarded one-shot send succeeded in Cursor; human visual confirmation pending for full PASS
-next_action: confirm displayed_state_visible; then Rally 5 Acceptance
+status: PASS
+reason: guarded one-shot send succeeded; human confirmed displayed state matched
+next_action: STACKCHAN_DISPLAY_ONLY_OPERATION_ACCEPTANCE recorded
 ```
 
 ---
@@ -136,21 +136,16 @@ one_shot_only: true
 second_send_attempted: false
 ```
 
-### Human observation (pending)
+### Human observation (confirmed)
 
 ```text
-displayed_state_visible: unknown
-expected_state_matched: unknown
+displayed_state_visible: true
+expected_state_matched: true
 unexpected_motion_visible: false
 unexpected_voice_visible: false
 manual_stop_used: false
 pilot_stopped_cleanly: true
-```
-
-If human confirms face showed baseline-pass mood (happy) without motion/voice:
-
-```text
-status may be upgraded to PASS
+human_confirmation: PASS
 ```
 
 ---
@@ -184,16 +179,7 @@ Active_control: HOLD
 ## Classification
 
 ```text
-result: PASS_WITH_CAVEAT
-reason: one-shot guarded face_mode send ok; visual match not yet confirmed by human enum
-next_action: /goalmacro shikishima.stackchan-display-only-operation-acceptance (after visual confirm)
-```
-
----
-
-## Next
-
-```text
-Human: confirm displayed_state_visible + expected_state_matched (enum only)
-Then: /goalmacro shikishima.stackchan-display-only-operation-acceptance
+result: PASS
+reason: one-shot guarded face_mode send ok; human visual PASS
+next_action: STACKCHAN_DISPLAY_ONLY_OPERATION_ACCEPTANCE.md
 ```

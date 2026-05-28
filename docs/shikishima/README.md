@@ -45,8 +45,9 @@ Current state:
 - stackchanDisplayRouteDeviceWiringFoundation: DEVICE_WIRING_FOUNDATION_IMPLEMENTED
 - stackchanDisplayPilotRetryPreflight: PREFLIGHT_PASS
 - stackchanDisplayTransport: TRANSPORT_IMPLEMENTED
-- stackchanDisplayPilotRetry: HOLD (ws_connect_error)
-- nextPhase: device reachability + pilot retry GO
+- stackchanDisplayPilotRetry: PASS
+- stackchanDisplayOnlyOperation: ACCEPTED
+- nextPhase: Active Control remains HOLD (separate chapter)
 
 These documents are not execution approval. They do not enable WSL, Hermes,
 wrapper, dummy wrapper, RunPod, StackChan, packaged smoke, or any external
@@ -100,7 +101,8 @@ network flow.
 - `STACKCHAN_DISPLAY_PILOT_RETRY_PREFLIGHT_GO_DRAFT.md` - pilot retry preflight GO template.
 - `STACKCHAN_DISPLAY_PILOT_RETRY_PREFLIGHT_EVIDENCE.md` - Rally 3 preflight PASS evidence.
 - `STACKCHAN_DISPLAY_PILOT_RETRY_GO_FINAL_DRAFT.md` - Rally 4B one-shot pilot GO template.
-- `STACKCHAN_DISPLAY_PILOT_RETRY_EVIDENCE.md` - Rally 4B retry evidence (HOLD).
+- `STACKCHAN_DISPLAY_PILOT_RETRY_EVIDENCE.md` - Rally 4B retry evidence (PASS).
+- `STACKCHAN_DISPLAY_ONLY_OPERATION_ACCEPTANCE.md` - Display-only operation ACCEPTED.
 - `STACKCHAN_DISPLAY_TRANSPORT_IMPLEMENTATION_EVIDENCE.md` - Rally 4A transport evidence.
 - `STACKCHAN_DISPLAY_ROUTE_IMPLEMENTATION_GO_DRAFT.md` - future main adapter GO template.
 - `STACKCHAN_DISPLAY_PILOT_RETRY_GO_DRAFT.md` - future pilot retry GO template.
