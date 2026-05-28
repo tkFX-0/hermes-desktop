@@ -47,7 +47,9 @@ Current state:
 - stackchanDisplayTransport: TRANSPORT_IMPLEMENTED
 - stackchanDisplayPilotRetry: PASS
 - stackchanDisplayOnlyOperation: ACCEPTED
-- nextPhase: Active Control / Motion / Voice design chapters OPEN (umbrella Human GO); execution HOLD
+- fullAutonomyDesign: FIXED (2026-05-28 unified design package)
+- fullAutonomyGoal: Shikishima Full Autonomous Operation (StackChan = embodiment)
+- nextPhase: Phase 1 Voice Completion; then Unified Snapshot
 
 These documents are not execution approval. They do not enable WSL, Hermes,
 wrapper, dummy wrapper, RunPod, StackChan, packaged smoke, or any external
@@ -103,6 +105,18 @@ network flow.
 - `STACKCHAN_DISPLAY_PILOT_RETRY_GO_FINAL_DRAFT.md` - Rally 4B one-shot pilot GO template.
 - `STACKCHAN_DISPLAY_PILOT_RETRY_EVIDENCE.md` - Rally 4B retry evidence (PASS).
 - `STACKCHAN_DISPLAY_ONLY_OPERATION_ACCEPTANCE.md` - Display-only operation ACCEPTED.
+- **Full Autonomy (2026-05-28):**
+- `CURSOR_SESSION_BOOTSTRAP.md` - Cursor session read order.
+- `SHIKISHIMA_FULL_AUTONOMOUS_OPERATION_DESIGN.md` - Unified full autonomy design.
+- `SHIKISHIMA_AUTONOMOUS_SELF_RUN_OPERATIONS.md` - Cursor self-run operations (required).
+- `FULL_AUTONOMY_GOAL_DEFINITION.md` - /goal definition spec.
+- `FULL_AUTONOMY_LEVEL_MATRIX.md` - Autonomy levels 0–8.
+- `FULL_AUTONOMY_ROADMAP.md` - Phases 1–10.
+- `FULL_AUTONOMY_EXTERNAL_EFFECT_REGISTRY.md` - Route registry.
+- `FULL_AUTONOMY_SAFETY_GOVERNOR_SPEC.md` - Safety governor target API.
+- `STACKCHAN_EMBODIMENT_INTERFACE_SPEC.md` - StackChan as embodiment only.
+- `FULL_AUTONOMY_ACCEPTANCE_MATRIX.md` - Final acceptance criteria.
+- `FULL_AUTONOMY_UNIFIED_DESIGN_PACKAGE_EVIDENCE.md` - Design package COMPLETED.
 - `STACKCHAN_NEXT_CHAPTERS_HUMAN_GO_RECORD.md` - Umbrella Human GO (design only).
 - `STACKCHAN_ACTIVE_CONTROL_CHAPTER_DESIGN.md` - Active Control chapter kickoff.
 - `STACKCHAN_MOTION_RECOVERY_PLAN.md` - Motion recovery planning kickoff.

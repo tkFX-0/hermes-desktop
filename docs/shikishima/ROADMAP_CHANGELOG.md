@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.59.0
+- roadmapVersion: v4.60.0
 - lastUpdated: 2026-05-28
-- latestUpdate: Motion/Voice guarded routes; motion pilot send PASS_WITH_CAVEAT; voice pilot HOLD.
+- latestUpdate: Full Autonomy unified design package + Cursor self-run operations doc.
 - baselineCommit: 9c1a228
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,11 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.60.0 - Full Autonomy Unified Design Package
+
+- Shikishima Full Autonomous Operation design fixed (StackChan = embodiment).
+- Self-run operations, level matrix, roadmap, registry, governor spec, acceptance matrix.
 
 ## v4.59.0 - Active Control Routes + Motion/Voice Pilots
 

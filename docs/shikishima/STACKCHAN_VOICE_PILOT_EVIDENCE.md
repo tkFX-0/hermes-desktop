@@ -29,11 +29,18 @@ retry_loop: false
 
 ---
 
+## VOICEVOX readiness (2026-05-28)
+
+```text
+readiness_check: PASS
+evidence: STACKCHAN_VOICEVOX_READINESS_CHECK_EVIDENCE.md
+voice_pilot_retry: not authorized until separate time-window GO
+```
+
 ## Next
 
 ```text
-Start VOICEVOX on localhost:50021
-Re-run one-shot voice pilot with new time-window GO only
+/goalmacro shikishima.stackchan-voice-one-shot-pilot-retry (new time window GO only)
 ```
 
 ---

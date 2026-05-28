@@ -1286,10 +1286,12 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (next chapters implemented; voice pilot HOLD)
+active_goal: shikishima.phase1.voice-completion
 status: ACCEPTED_AS_FINAL_CORE_100
-last_completed_goal: shikishima.stackchan-next-chapters-implementation
-external_effects: motion one-shot send; voice pilot attempted once (HOLD)
+last_completed_goal: shikishima.full-autonomy-unified-design-package
+external_effects: none (docs-only design package)
+full_autonomy_goal: Shikishima Full Autonomous Operation
+full_autonomy_design: FIXED
 actual_obsidian_write: false
 final_shikishima_core: 100% (unchanged)
 stackchan_connection: false
@@ -1315,7 +1317,8 @@ stackchan_display_pilot_readiness: DISPLAY_PILOT_READINESS_PREPARED
 | 0 | `/goalmacro shikishima.stackchan-phase0-readiness-prep` | DONE (LOCAL) | Core 100% | push prep docs optional |
 | 1 | StackChan Active Control chapter | DONE | route delegation | — |
 | 1m | StackChan Motion route + pilot | PASS | center one-shot | — |
-| 1v | StackChan Voice route + pilot | HOLD | voicevox/ws | restart VOICEVOX + GO |
+| 1v | StackChan Voice route + pilot | HOLD | pilot send | VOICEVOX readiness PASS; retry GO |
+| 1v0 | StackChan VOICEVOX readiness | PASS | local check | voice one-shot GO next |
 | 1a | Display-only Operation | ACCEPTED | pilot PASS | — |
 | 1a | `/goalmacro shikishima.stackchan-display-transport-implementation` | DONE (LOCAL) | Rally 4A no send | — |
 | 1a1 | `/goalmacro shikishima.stackchan-display-pilot-retry-preflight` | DONE | `37ea0f1` | — |
@@ -1356,7 +1359,9 @@ Next recommended goal detail:
 StackChan Display-only: ACCEPTED (fb86fee).
 Active Control routing: IMPLEMENTED.
 Motion pilot: PASS (send + human visual).
-Voice pilot: HOLD (voicevox_unavailable likely).
+Voice pilot: HOLD; VOICEVOX readiness: PASS.
+Full autonomy: unified design package COMPLETED; self-run ops doc fixed.
+Next: Phase 1 voice evidence commit → voice one-shot retry (time window GO).
 Optional: push local evidence commits (pilot PASS + acceptance).
 Alternative if env configured: /goalmacro shikishima.discord-one-shot-send-completion
 ```

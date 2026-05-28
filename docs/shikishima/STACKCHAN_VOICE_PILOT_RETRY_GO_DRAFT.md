@@ -8,6 +8,7 @@ Status: **DRAFT** — do not run until Human GO + VOICEVOX up
 ## Prerequisites
 
 ```text
+- VOICEVOX readiness: PASS (see STACKCHAN_VOICEVOX_READINESS_CHECK_EVIDENCE.md)
 - VOICEVOX responding at localhost:50021 (redacted health check only)
 - STACKCHAN_HOST configured (.env.local; values not in evidence)
 - Display-only ACCEPTED unchanged (fb86fee)
