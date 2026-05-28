@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.50.0
+- roadmapVersion: v4.51.0
 - lastUpdated: 2026-05-28
-- latestUpdate: StackChan Display Route Design DESIGN_PREPARED. Implementation and pilot remain HOLD.
+- latestUpdate: StackChan display route guard (pure shared). Device wiring and pilot remain HOLD.
 - baselineCommit: 9c1a228
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,11 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.51.0 - StackChan Display Route Guard
+
+- `src/shared/stackchan-display-route/`: `evaluateStackChanDisplayRoute` (READY_FOR_FUTURE_SEND | HOLD | BLOCKED).
+- No main/preload/renderer; no device send. Pilot and active control remain HOLD.
 
 ## v4.50.0 - StackChan Display Route Design
 

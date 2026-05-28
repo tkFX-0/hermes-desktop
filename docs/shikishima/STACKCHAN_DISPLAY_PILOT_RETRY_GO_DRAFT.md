@@ -32,9 +32,10 @@ This authorizes exactly one display-only pilot attempt within the window.
 ## Preconditions (All Required)
 
 ```text
-/goalmacro shikishima.stackchan-display-route-implementation: PASS or IMPLEMENTATION_PREPARED with device send GO sub-clause
-STACKCHAN_DISPLAY_ROUTE_IMPLEMENTATION_EVIDENCE.md: PASS
-display route adapter exists and is guard-wired
+/goalmacro shikishima.stackchan-display-route-implementation: ROUTE_GUARD_IMPLEMENTED (pure shared)
+Device wiring design + guarded main adapter: PASS (separate GOs)
+evaluateStackChanDisplayRoute returns READY_FOR_FUTURE_SEND in preflight
+display route device adapter exists and is guard-wired (future)
 branch clean; origin/main aligned (or STOP)
 human_present: true
 manual_stop_method_confirmed: true

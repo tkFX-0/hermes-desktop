@@ -103,6 +103,14 @@ Second send in same GO → reject (one-shot)
 
 ---
 
+## Route Guard (Implemented)
+
+```text
+evaluateStackChanDisplayRoute — pure shared; no device I/O
+READY_FOR_FUTURE_SEND ≠ device contacted
+actualDisplaySendPerformed: always false in route result
+```
+
 ## Invariants (Unchanged)
 
 ```text
@@ -110,4 +118,5 @@ productionReady: false
 execution: disabled
 StackChan_connection_command: HOLD (unless separate connection GO)
 Active_control: HOLD
+Actual_display_send: HOLD
 ```

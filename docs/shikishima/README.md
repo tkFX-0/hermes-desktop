@@ -40,7 +40,8 @@ Current state:
 - stackchanDisplayPilotReadiness: DISPLAY_PILOT_READINESS_PREPARED
 - stackchanDisplayPilot: HOLD
 - stackchanDisplayRouteDesign: DESIGN_PREPARED
-- nextPhase: StackChan Display Route Implementation (GO required)
+- stackchanDisplayRouteGuard: ROUTE_GUARD_IMPLEMENTED
+- nextPhase: StackChan Display Route Device Wiring Design
 
 These documents are not execution approval. They do not enable WSL, Hermes,
 wrapper, dummy wrapper, RunPod, StackChan, packaged smoke, or any external
@@ -86,7 +87,8 @@ network flow.
 - `STACKCHAN_DISPLAY_ROUTE_DESIGN.md` - minimal display-only route design (Option C).
 - `STACKCHAN_DISPLAY_ROUTE_BOUNDARY.md` - allowed vs forbidden display route data.
 - `STACKCHAN_DISPLAY_ROUTE_IMPLEMENTATION_OPTIONS.md` - options A–E comparison.
-- `STACKCHAN_DISPLAY_ROUTE_IMPLEMENTATION_GO_DRAFT.md` - future implementation GO template.
+- `STACKCHAN_DISPLAY_ROUTE_IMPLEMENTATION.md` - route guard implementation record.
+- `STACKCHAN_DISPLAY_ROUTE_IMPLEMENTATION_GO_DRAFT.md` - future main adapter GO template.
 - `STACKCHAN_DISPLAY_PILOT_RETRY_GO_DRAFT.md` - future pilot retry GO template.
 - `STACKCHAN_ACTIVE_CONTROL_FUTURE_GO_DRAFT.md` - future active control prerequisites.
 - `COMPLETION_ROOM_DESCOPE_RECORD.md` - Completion Room de-scope (not an active app page).

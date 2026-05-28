@@ -121,7 +121,9 @@ Never use Option E for display pilot.
 ## Decision Record
 
 ```text
-selected_option: C (design approved; not implemented)
+selected_option: C (design approved)
+route_guard_layer: ROUTE_GUARD_IMPLEMENTED (pure shared; no device wiring)
+device_adapter: not implemented
 display_pilot_execution: HOLD
 active_control: HOLD
 ```
