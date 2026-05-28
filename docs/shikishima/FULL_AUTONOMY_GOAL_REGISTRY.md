@@ -23,7 +23,7 @@ Do NOT mark parent COMPLETED when only a design section is written.
 |---------|--------|------------|
 | `shikishima.full-autonomous-operation` | IN_PROGRESS | Phase 1–10 |
 | `shikishima.phase1.voice-completion` | **IN_PROGRESS** | G2 HOLD blocks parent |
-| `shikishima.phase1.voice-evidence-push` | **IN_PROGRESS** | push this run |
+| `shikishima.phase1.voice-evidence-push` | **COMPLETED** | origin @ 4f7566e |
 | `shikishima.phase1.voice-one-shot-pilot` | **HOLD** | ws_or_pcm_failed |
 | `shikishima.phase1.voice-acceptance` | **PENDING** | G2 PASS + human visual |
 | `shikishima.full-autonomy-unified-design-package` | **COMPLETED** | — |

@@ -8,7 +8,8 @@ Date: 2026-05-28
 
 ```text
 status: HOLD
-reason: voicevox_unavailable or ws_or_pcm_failed (one attempt; no retry)
+reason: ws_or_pcm_failed on goal G2 attempt (one shot; no retry)
+prior_classification: voicevox_unavailable (earlier attempt)
 ```
 
 ---

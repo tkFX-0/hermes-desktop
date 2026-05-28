@@ -18,7 +18,10 @@ Parent: `shikishima.phase1.voice-completion`
 
 ## G1 voice-evidence-push
 
-Executed as part of this run (push GO implied by full goal autonavigation).
+```text
+status: COMPLETED
+origin/main: includes b6abde8 + 4f7566e
+```
 
 ---
 
