@@ -29,14 +29,21 @@ Transport reported send ok; audible output not confirmed.
 
 ---
 
-## Comparison: guarded vs legacy
+## Architecture note (not Hermes-mediated)
+
+```text
+Voice = direct to StackChan body (VOICEVOX on PC → WS PCM).
+Hermes/shikishima only chooses intent/phraseId; does not stream audio.
+See: STACKCHAN_VOICE_OUTPUT_ARCHITECTURE.md
+```
+
+## Comparison: guarded vs legacy (both direct WS)
 
 ```text
 Guarded: stackchan-voice-guarded-speak.ts (one-shot, fixed phrase)
 Legacy: stackchanSayLocal in stackchan-local-service.ts
+Both are direct embodiment paths — debug focuses on PCM/binary layer.
 ```
-
-Debug rally may compare mock PCM length vs device without logging phrase text.
 
 ---
 

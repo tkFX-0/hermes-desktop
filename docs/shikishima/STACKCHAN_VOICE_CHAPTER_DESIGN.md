@@ -30,6 +30,7 @@ Display-only ACCEPTED path must remain isolated from this chain.
 3. Max utterance length / single phrase allowlist per GO
 4. speaking-state interaction with motion presets
 5. guarded transport vs direct local-service call
+6. **Not Hermes-mediated TTS** — shikishima decides intent; PC VOICEVOX → WS direct (see `STACKCHAN_VOICE_OUTPUT_ARCHITECTURE.md`)
 ```
 
 ---
