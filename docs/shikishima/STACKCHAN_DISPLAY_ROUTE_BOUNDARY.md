@@ -106,9 +106,16 @@ Second send in same GO → reject (one-shot)
 ## Route Guard (Implemented)
 
 ```text
-evaluateStackChanDisplayRoute — pure shared; no device I/O
+evaluateStackChanDisplayRoute — pure shared; no device I/O (pushed a52e2d9)
 READY_FOR_FUTURE_SEND ≠ device contacted
 actualDisplaySendPerformed: always false in route result
+```
+
+## Device Wiring (Design Only)
+
+```text
+STACKCHAN_DISPLAY_ROUTE_DEVICE_WIRING_DESIGN.md — DEVICE_WIRING_DESIGN_PREPARED
+Future adapter must enforce this boundary before any face_mode send
 ```
 
 ## Invariants (Unchanged)

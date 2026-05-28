@@ -20,14 +20,14 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v4.51.0
-- latestUpdate: 2026-05-28 - StackChan display route guard ROUTE_GUARD_IMPLEMENTED (local).
+- roadmapVersion: v4.52.0
+- latestUpdate: 2026-05-28 - StackChan device wiring design PREPARED; guard pushed.
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: local ahead (Rally 10 HOLD + Rally 10.5 forensics; not pushed)
 - autonomy core: Rally 1-9 ACCEPTED_AS_FINAL_CORE_100
-- stackchan: Route guard IMPLEMENTED; device wiring TODO; pilot HOLD; control HOLD
-- current next human action: /goalmacro shikishima.stackchan-display-route-device-wiring-design
+- stackchan: Guard PUSHED; wiring design PREPARED; main adapter TODO; pilot HOLD
+- current next human action: /goalmacro shikishima.stackchan-display-route-device-wiring-implementation
 - HOLD reason: productionReady false; execution disabled; StackChan active control HOLD
 
 ## Agent Theater — 完了済み

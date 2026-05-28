@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.51.0
+- roadmapVersion: v4.52.0
 - lastUpdated: 2026-05-28
-- latestUpdate: StackChan display route guard (pure shared). Device wiring and pilot remain HOLD.
+- latestUpdate: StackChan device wiring design PREPARED; route guard pushed (a52e2d9). Pilot HOLD.
 - baselineCommit: 9c1a228
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,11 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.52.0 - StackChan Display Route Device Wiring Design
+
+- Device wiring design + boundary + implementation GO draft + pilot retry preflight draft.
+- Route guard pushed (`a52e2d9`). No main implementation; display pilot remains HOLD.
 
 ## v4.51.0 - StackChan Display Route Guard
 

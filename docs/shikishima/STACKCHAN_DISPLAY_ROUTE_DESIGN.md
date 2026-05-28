@@ -166,16 +166,17 @@ renderer/mobile “preview only” UI — does not satisfy device pilot
 ## Implementation Status
 
 ```text
-Route guard foundation: ROUTE_GUARD_IMPLEMENTED (pure shared; see STACKCHAN_DISPLAY_ROUTE_IMPLEMENTATION.md)
+Route guard foundation: ROUTE_GUARD_IMPLEMENTED (pushed a52e2d9)
+Device wiring design: DEVICE_WIRING_DESIGN_PREPARED
+Main adapter: not implemented
 Actual display send: HOLD
-Device wiring: separate future GO
 ```
 
 ## Next Steps
 
 ```text
-1. /goalmacro shikishima.stackchan-display-route-device-wiring-design
-2. Device adapter implementation GO (src/main; separate)
+1. /goalmacro shikishima.stackchan-display-route-device-wiring-implementation
+2. /goalmacro shikishima.stackchan-display-pilot-retry-preflight
 3. /goalmacro shikishima.stackchan-display-pilot-retry (time window GO)
 4. Display Pilot Acceptance (if PASS)
 ```

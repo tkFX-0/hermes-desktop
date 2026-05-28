@@ -79,11 +79,20 @@ Actual display pilot execution remains HOLD.
 
 ---
 
+## Device Wiring Status
+
+```text
+Device wiring design: DEVICE_WIRING_DESIGN_PREPARED (see STACKCHAN_DISPLAY_ROUTE_DEVICE_WIRING_DESIGN.md)
+Main-process adapter: not implemented
+Actual display send: HOLD
+```
+
 ## Next Steps
 
 ```text
-/goalmacro shikishima.stackchan-display-route-device-wiring-design
-(or stackchan-display-pilot-retry-preflight after device wiring design)
+/goalmacro shikishima.stackchan-display-route-device-wiring-implementation
+→ stackchan-display-pilot-retry-preflight
+→ stackchan-display-pilot-retry
 ```
 
 Device adapter in `src/main` requires separate implementation GO.
