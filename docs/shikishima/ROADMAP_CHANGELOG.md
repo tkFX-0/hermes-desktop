@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.46.0
+- roadmapVersion: v4.47.0
 - lastUpdated: 2026-05-28
-- latestUpdate: StackChan Safety Readiness PREPARED (Rally 11). Active control remains HOLD. Next: display-only preview.
+- latestUpdate: StackChan Display-only Preview PREPARED. Pure contract; active control HOLD.
 - baselineCommit: 9c1a228
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,12 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.47.0 - StackChan Display-only Preview
+
+- `STACKCHAN_DISPLAY_ONLY_PREVIEW_SPEC.md`, `STACKCHAN_DISPLAY_STATE_MAPPING.md`.
+- `src/shared/stackchan-display-preview/`: pure display mapping contract + tests.
+- No IPC, device connection, motion, voice, or firmware approval.
 
 ## v4.46.0 - StackChan Safety Readiness (Rally 11)
 

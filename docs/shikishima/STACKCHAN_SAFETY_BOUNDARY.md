@@ -106,3 +106,15 @@ Motion, dance, firmware write, voice, mic, camera, and autonomous control remain
 ```
 
 See: `STACKCHAN_SAFETY_READINESS.md`, `STACKCHAN_GATE_MATRIX.md`, `STACKCHAN_STOP_CONDITIONS.md`.
+
+---
+
+## Display-only Preview (2026-05-28)
+
+```text
+Display-only preview: PREPARED (pure contract + docs).
+Active control: remains HOLD.
+Motion, dance, firmware write, voice, mic, camera, and autonomous control remain HOLD.
+```
+
+See: `STACKCHAN_DISPLAY_ONLY_PREVIEW_SPEC.md`, `src/shared/stackchan-display-preview/`.

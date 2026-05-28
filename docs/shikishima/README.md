@@ -35,8 +35,9 @@ Current state:
 - finalShikishimaCore: ACCEPTED_AS_FINAL_CORE_100 (2026-05-27; guarded scope — see `FINAL_CORE_ACCEPTANCE.md`)
 - completionRoom: DE_SCOPED (use Status Board + `FINAL_CORE_ACCEPTANCE.md`)
 - stackchanBaseline: PASS (retry, read-only)
-- stackchanSafetyReadiness: SAFETY_READINESS_PREPARED (control still HOLD)
-- nextPhase: StackChan Display-only Preview
+- stackchanSafetyReadiness: SAFETY_READINESS_PREPARED
+- stackchanDisplayOnlyPreview: DISPLAY_ONLY_PREVIEW_PREPARED (control still HOLD)
+- nextPhase: StackChan Display Pilot Readiness
 
 These documents are not execution approval. They do not enable WSL, Hermes,
 wrapper, dummy wrapper, RunPod, StackChan, packaged smoke, or any external
@@ -71,7 +72,10 @@ network flow.
 - `STACKCHAN_SAFETY_READINESS.md` - Rally 11 safety readiness record.
 - `STACKCHAN_GATE_MATRIX.md` - StackChan gate status matrix.
 - `STACKCHAN_STOP_CONDITIONS.md` - StackChan STOP conditions.
-- `STACKCHAN_DISPLAY_ONLY_PREVIEW_GO_DRAFT.md` - next phase GO template.
+- `STACKCHAN_DISPLAY_ONLY_PREVIEW_GO_DRAFT.md` - prior GO template (completed).
+- `STACKCHAN_DISPLAY_ONLY_PREVIEW_SPEC.md` - display-only preview spec.
+- `STACKCHAN_DISPLAY_STATE_MAPPING.md` - Shikishima → StackChan display mapping.
+- `STACKCHAN_DISPLAY_PILOT_GO_DRAFT.md` - future display pilot GO template.
 - `STACKCHAN_ACTIVE_CONTROL_FUTURE_GO_DRAFT.md` - future active control prerequisites.
 - `COMPLETION_ROOM_DESCOPE_RECORD.md` - Completion Room de-scope (not an active app page).
 - `COMPLETION_ROOM_OBSOLETE_CANDIDATES.md` - de-scope discovery and related Room disambiguation.
