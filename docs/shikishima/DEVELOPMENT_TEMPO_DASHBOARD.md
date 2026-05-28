@@ -20,14 +20,14 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v4.53.0
-- latestUpdate: 2026-05-28 - StackChan device wiring foundation (local).
+- roadmapVersion: v4.54.0
+- latestUpdate: 2026-05-28 - Display Pilot Retry Preflight PASS (local).
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: local ahead (Rally 10 HOLD + Rally 10.5 forensics; not pushed)
 - autonomy core: Rally 1-9 ACCEPTED_AS_FINAL_CORE_100
-- stackchan: Wiring foundation LOCAL; push review next; pilot HOLD
-- current next human action: /goalmacro shikishima.stackchan-display-route-device-wiring-push-review
+- stackchan: Preflight PASS; Rally 4 pilot retry GO next; pilot HOLD
+- current next human action: /goalmacro shikishima.stackchan-display-pilot-retry (time window)
 - HOLD reason: productionReady false; execution disabled; StackChan active control HOLD
 
 ## Agent Theater — 完了済み

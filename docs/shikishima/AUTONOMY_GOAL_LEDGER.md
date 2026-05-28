@@ -140,7 +140,8 @@ StackChan Display Pilot Evidence: HOLD (no approved display-only route)
 StackChan Display Route Design: DESIGN_PREPARED
 StackChan Display Route Guard: ROUTE_GUARD_IMPLEMENTED / PUSHED (a52e2d9)
 StackChan Display Route Device Wiring Design: DEVICE_WIRING_DESIGN_PREPARED
-StackChan Display Route Device Wiring Foundation: DEVICE_WIRING_FOUNDATION_IMPLEMENTED / LOCAL NOT PUSHED
+StackChan Display Route Device Wiring Foundation: DEVICE_WIRING_FOUNDATION_IMPLEMENTED / PUSHED (3f26c97)
+StackChan Display Pilot Retry Preflight: PREFLIGHT_PASS / LOCAL NOT PUSHED
 ```
 
 Preferred operator display direction:
@@ -346,7 +347,8 @@ Meaning:
 | StackChan Display Route Design | PUSHED | `3cc290b` | DESIGN_PREPARED; Option C preferred |
 | StackChan Display Route Guard | PUSHED | `a52e2d9` | pure shared evaluateStackChanDisplayRoute |
 | StackChan Display Route Device Wiring Design | PUSHED | `56a8d14` | DEVICE_WIRING_DESIGN_PREPARED |
-| StackChan Display Route Device Wiring Foundation | LOCAL PASS | (local) | guarded main adapter; no send |
+| StackChan Display Route Device Wiring Foundation | PUSHED | `3f26c97` | guarded main adapter; no send |
+| StackChan Display Pilot Retry Preflight | LOCAL PASS | (local) | PREFLIGHT_PASS; Rally 4 GO next |
 
 Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → display contracts):
 
@@ -1278,10 +1280,10 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (device wiring foundation LOCAL PASS; not pushed)
+active_goal: none (display pilot retry preflight LOCAL PASS; not pushed)
 status: ACCEPTED_AS_FINAL_CORE_100
-last_completed_goal: shikishima.stackchan-display-route-device-wiring-implementation
-external_effects: guarded main adapter; mock/disabled transport; no device send
+last_completed_goal: shikishima.stackchan-display-pilot-retry-preflight
+external_effects: preflight evidence only; no device send
 actual_obsidian_write: false
 final_shikishima_core: 100% (unchanged)
 stackchan_connection: false
@@ -1290,7 +1292,8 @@ stackchan_baseline: PASS (retry)
 stackchan_display_pilot: HOLD
 stackchan_display_route_guard: ROUTE_GUARD_IMPLEMENTED (pushed)
 stackchan_display_route_device_wiring_design: DEVICE_WIRING_DESIGN_PREPARED
-stackchan_display_route_device_wiring_foundation: DEVICE_WIRING_FOUNDATION_IMPLEMENTED
+stackchan_display_route_device_wiring_foundation: DEVICE_WIRING_FOUNDATION_IMPLEMENTED (pushed)
+stackchan_display_pilot_retry_preflight: PREFLIGHT_PASS
 stackchan_display_pilot_readiness: DISPLAY_PILOT_READINESS_PREPARED
 ```
 
@@ -1301,7 +1304,9 @@ stackchan_display_pilot_readiness: DISPLAY_PILOT_READINESS_PREPARED
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
 | 0 | `/goalmacro shikishima.stackchan-phase0-readiness-prep` | DONE (LOCAL) | Core 100% | push prep docs optional |
-| 1 | `/goalmacro shikishima.stackchan-display-route-device-wiring-push-review` | TODO | Foundation LOCAL PASS | push + safety review |
+| 1 | `/goalmacro shikishima.stackchan-display-pilot-retry` | TODO | Preflight PASS | Rally 4 time-window GO |
+| 1a | `/goalmacro shikishima.stackchan-display-pilot-retry-preflight` | DONE (LOCAL) | wiring pushed | — |
+| 1a0 | `/goalmacro shikishima.stackchan-display-route-device-wiring-push-review` | DONE | 3f26c97 pushed | — |
 | 1a | `/goalmacro shikishima.stackchan-display-route-device-wiring-implementation` | DONE (LOCAL) | mock/disabled only | — |
 | 1a0 | `/goalmacro shikishima.stackchan-display-route-device-wiring-design` | DONE | `56a8d14` | — |
 | 1a1 | `/goalmacro shikishima.stackchan-display-route-implementation` | DONE | `a52e2d9` | pure shared guard |
@@ -1335,9 +1340,9 @@ stackchan_display_pilot_readiness: DISPLAY_PILOT_READINESS_PREPARED
 Next recommended goal detail:
 
 ```text
-/goalmacro shikishima.stackchan-display-route-device-wiring-push-review
+/goalmacro shikishima.stackchan-display-pilot-retry
 
-Device wiring foundation: DEVICE_WIRING_FOUNDATION_IMPLEMENTED. Actual display pilot remains HOLD.
+Preflight PASS. Rally 4 requires explicit time window + human confirmations. Actual send only under this GO.
 Alternative if env configured: /goalmacro shikishima.discord-one-shot-send-completion
 ```
 

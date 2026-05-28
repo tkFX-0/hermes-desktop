@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.53.0
+- roadmapVersion: v4.54.0
 - lastUpdated: 2026-05-28
-- latestUpdate: StackChan device wiring foundation (main; no send). Pilot HOLD.
+- latestUpdate: Display Pilot Retry Preflight PASS. Rally 4 one-shot GO next. Pilot HOLD.
 - baselineCommit: 9c1a228
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,11 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.54.0 - Display Pilot Retry Preflight
+
+- `STACKCHAN_DISPLAY_PILOT_RETRY_PREFLIGHT_EVIDENCE.md`: PREFLIGHT_PASS.
+- Rally 4 GO draft prepared. No device send in preflight.
 
 ## v4.53.0 - StackChan Display Route Device Wiring Foundation
 

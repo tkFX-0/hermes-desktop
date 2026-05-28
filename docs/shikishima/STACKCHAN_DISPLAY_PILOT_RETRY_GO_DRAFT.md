@@ -1,7 +1,7 @@
 # StackChan Display Pilot Retry GO Draft
 
 Date: 2026-05-28
-Status: **DRAFT — NOT ACTIVE GO**
+Status: **DRAFT** — see `STACKCHAN_DISPLAY_PILOT_RETRY_GO_FINAL_DRAFT.md` for Rally 4
 
 Companion: `STACKCHAN_DISPLAY_PILOT_FINAL_GO_DRAFT.md`, `STACKCHAN_DISPLAY_ROUTE_DESIGN.md`
 

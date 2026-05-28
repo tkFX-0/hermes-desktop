@@ -1,7 +1,7 @@
 # StackChan Display Pilot Retry Preflight GO Draft
 
 Date: 2026-05-28
-Status: **DRAFT — NOT ACTIVE GO**
+Status: **PREFLIGHT COMPLETED (PASS)** — Rally 4 GO still required for actual send
 
 Companion: `STACKCHAN_DISPLAY_PILOT_RETRY_GO_DRAFT.md`
 
