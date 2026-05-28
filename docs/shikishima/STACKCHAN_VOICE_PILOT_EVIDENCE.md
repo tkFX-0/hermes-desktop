@@ -13,7 +13,7 @@ reason: voicevox_unavailable or ws_or_pcm_failed (one attempt; no retry)
 
 ---
 
-## Execution
+## Execution (latest attempt — goal G2)
 
 ```text
 intent: STACKCHAN_VOICE_PILOT_ACK
@@ -22,8 +22,10 @@ transportMode: guarded-ws
 send_result_ok: false
 send_result_sent: false
 websocket_send_performed: false
-failure_reason_redacted: voice_speak_failed (classified: voicevox_unavailable likely)
+failure_reason_redacted: ws_or_pcm_failed
+voicevox_readiness_at_check: PASS
 one_shot_only: true
+second_send_attempted: false
 retry_loop: false
 ```
 

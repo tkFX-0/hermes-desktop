@@ -26,17 +26,19 @@ StackChan単体自律 ✗
 
 ## 1. 自走の定義（Cursor 内）
 
-「完全自律フローまで自走」とは、次を **Human の逐次許可なし** で回すこと（ただし §7 の STOP/HOLD は例外）。
+「完全自律フローまで自走」とは、**ゴール単位**で完走すること（設計書のセクション完走ではない）。
 
 ```text
 1. 設計書・/goalmacro を読む
-2. /goal を Cursor 内で定義・台帳に登録する
-3. Rally を分解し、docs → types → tests → minimal impl の順で進める
-4. 各ステップ末に evidence を更新する
+2. FULL_AUTONOMY_GOAL_REGISTRY.md にゴールを登録する
+3. サブゴールを Done Criteria まで実行（docs → types → tests → impl → evidence）
+4. 親ゴールは子がすべて COMPLETED のときのみ COMPLETED
 5. typecheck / test を実行し、結果を正直に記録する
-6. 高リスク境界の手前で HOLD し、Human 用テンプレを返す
-7. 完了定義を満たすまで繰り返す（同一 Rally 内で勝手に次 Phase へ飛ばない）
+6. 人間目視・高リスクは HOLD/STOP（§7）
+7. 次ゴールへ（Phase 飛ばし禁止）
 ```
+
+**禁止:** 「§3 まで書いたので親ゴール COMPLETED」— **子ゴールと evidence が足りない場合は IN_PROGRESS のまま**。
 
 **自走してはいけないこと（常時禁止）**
 
