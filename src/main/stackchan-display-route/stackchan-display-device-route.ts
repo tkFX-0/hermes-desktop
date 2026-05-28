@@ -26,7 +26,8 @@ export const STACKCHAN_DISPLAY_DEVICE_ROUTE_SAFETY: StackChanDisplayDeviceSafety
 
 const ALLOWED_TRANSPORT_MODES: readonly StackChanDisplayDeviceTransportMode[] = [
   "disabled",
-  "mock"
+  "mock",
+  "guarded-ws"
 ];
 
 function buildResult(
@@ -50,12 +51,15 @@ function buildResult(
 function pilotTimeWindowForRequest(
   request: StackChanDisplayDeviceRequest
 ): StackChanDisplayPilotTimeWindow {
+  if (request.timeWindow) {
+    return request.timeWindow;
+  }
   if (!request.timeWindowDeclared || !request.activeTimeWindow) {
     return { startIso: "", endIso: "" };
   }
   return {
-    startIso: "2026-05-28T00:00:00.000Z",
-    endIso: "2026-05-28T23:59:59.000Z"
+    startIso: "2026-05-28T03:00:00.000Z",
+    endIso: "2026-05-28T04:00:00.000Z"
   };
 }
 

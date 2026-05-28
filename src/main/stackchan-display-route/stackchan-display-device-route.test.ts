@@ -120,6 +120,14 @@ describe("stackchan-display-device-route", () => {
     expect(result.reasons).toContain("transport_mode_forbidden");
   });
 
+  it("returns READY_FOR_PILOT_GO with guarded-ws transport mode", () => {
+    const result = evaluateStackChanDisplayDeviceRoute(
+      readyRequest({ transportMode: "guarded-ws" })
+    );
+    expect(result.decision).toBe("READY_FOR_PILOT_GO");
+    expect(result.transportMode).toBe("guarded-ws");
+  });
+
   it("keeps displaySendPerformed and device connection flags false", () => {
     const ready = evaluateStackChanDisplayDeviceRoute(readyRequest());
     const hold = evaluateStackChanDisplayDeviceRoute(readyRequest({ humanPresent: false }));

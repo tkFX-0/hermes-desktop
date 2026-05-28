@@ -44,7 +44,8 @@ Current state:
 - stackchanDisplayRouteDeviceWiringDesign: DEVICE_WIRING_DESIGN_PREPARED
 - stackchanDisplayRouteDeviceWiringFoundation: DEVICE_WIRING_FOUNDATION_IMPLEMENTED
 - stackchanDisplayPilotRetryPreflight: PREFLIGHT_PASS
-- nextPhase: Display Pilot Retry (Rally 4; time-window GO)
+- stackchanDisplayTransport: TRANSPORT_IMPLEMENTED
+- nextPhase: Display Pilot Retry (Rally 4B; time-window GO)
 
 These documents are not execution approval. They do not enable WSL, Hermes,
 wrapper, dummy wrapper, RunPod, StackChan, packaged smoke, or any external
@@ -97,7 +98,8 @@ network flow.
 - `STACKCHAN_DISPLAY_ROUTE_DEVICE_WIRING_IMPLEMENTATION_GO_DRAFT.md` - future main adapter GO.
 - `STACKCHAN_DISPLAY_PILOT_RETRY_PREFLIGHT_GO_DRAFT.md` - pilot retry preflight GO template.
 - `STACKCHAN_DISPLAY_PILOT_RETRY_PREFLIGHT_EVIDENCE.md` - Rally 3 preflight PASS evidence.
-- `STACKCHAN_DISPLAY_PILOT_RETRY_GO_FINAL_DRAFT.md` - Rally 4 one-shot pilot GO template.
+- `STACKCHAN_DISPLAY_PILOT_RETRY_GO_FINAL_DRAFT.md` - Rally 4B one-shot pilot GO template.
+- `STACKCHAN_DISPLAY_TRANSPORT_IMPLEMENTATION_EVIDENCE.md` - Rally 4A transport evidence.
 - `STACKCHAN_DISPLAY_ROUTE_IMPLEMENTATION_GO_DRAFT.md` - future main adapter GO template.
 - `STACKCHAN_DISPLAY_PILOT_RETRY_GO_DRAFT.md` - future pilot retry GO template.
 - `STACKCHAN_ACTIVE_CONTROL_FUTURE_GO_DRAFT.md` - future active control prerequisites.

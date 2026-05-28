@@ -141,7 +141,8 @@ StackChan Display Route Design: DESIGN_PREPARED
 StackChan Display Route Guard: ROUTE_GUARD_IMPLEMENTED / PUSHED (a52e2d9)
 StackChan Display Route Device Wiring Design: DEVICE_WIRING_DESIGN_PREPARED
 StackChan Display Route Device Wiring Foundation: DEVICE_WIRING_FOUNDATION_IMPLEMENTED / PUSHED (3f26c97)
-StackChan Display Pilot Retry Preflight: PREFLIGHT_PASS / LOCAL NOT PUSHED
+StackChan Display Pilot Retry Preflight: PREFLIGHT_PASS
+StackChan Display Transport: TRANSPORT_IMPLEMENTED / LOCAL NOT PUSHED
 ```
 
 Preferred operator display direction:
@@ -348,7 +349,8 @@ Meaning:
 | StackChan Display Route Guard | PUSHED | `a52e2d9` | pure shared evaluateStackChanDisplayRoute |
 | StackChan Display Route Device Wiring Design | PUSHED | `56a8d14` | DEVICE_WIRING_DESIGN_PREPARED |
 | StackChan Display Route Device Wiring Foundation | PUSHED | `3f26c97` | guarded main adapter; no send |
-| StackChan Display Pilot Retry Preflight | LOCAL PASS | (local) | PREFLIGHT_PASS; Rally 4 GO next |
+| StackChan Display Pilot Retry Preflight | PUSHED | `37ea0f1` | PREFLIGHT_PASS |
+| StackChan Display Transport (Rally 4A) | LOCAL PASS | (local) | TRANSPORT_IMPLEMENTED; no device send |
 
 Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → display contracts):
 
@@ -1280,10 +1282,10 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (display pilot retry preflight LOCAL PASS; not pushed)
+active_goal: none (display transport Rally 4A LOCAL PASS; not pushed)
 status: ACCEPTED_AS_FINAL_CORE_100
-last_completed_goal: shikishima.stackchan-display-pilot-retry-preflight
-external_effects: preflight evidence only; no device send
+last_completed_goal: shikishima.stackchan-display-transport-implementation
+external_effects: guarded transport + sendStackChanDisplayOnce; no hardware send in 4A
 actual_obsidian_write: false
 final_shikishima_core: 100% (unchanged)
 stackchan_connection: false
@@ -1294,6 +1296,7 @@ stackchan_display_route_guard: ROUTE_GUARD_IMPLEMENTED (pushed)
 stackchan_display_route_device_wiring_design: DEVICE_WIRING_DESIGN_PREPARED
 stackchan_display_route_device_wiring_foundation: DEVICE_WIRING_FOUNDATION_IMPLEMENTED (pushed)
 stackchan_display_pilot_retry_preflight: PREFLIGHT_PASS
+stackchan_display_transport: TRANSPORT_IMPLEMENTED
 stackchan_display_pilot_readiness: DISPLAY_PILOT_READINESS_PREPARED
 ```
 
@@ -1304,8 +1307,9 @@ stackchan_display_pilot_readiness: DISPLAY_PILOT_READINESS_PREPARED
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
 | 0 | `/goalmacro shikishima.stackchan-phase0-readiness-prep` | DONE (LOCAL) | Core 100% | push prep docs optional |
-| 1 | `/goalmacro shikishima.stackchan-display-pilot-retry` | TODO | Preflight PASS | Rally 4 time-window GO |
-| 1a | `/goalmacro shikishima.stackchan-display-pilot-retry-preflight` | DONE (LOCAL) | wiring pushed | — |
+| 1 | `/goalmacro shikishima.stackchan-display-pilot-retry` | TODO | Transport IMPLEMENTED | Rally 4B time-window GO |
+| 1a | `/goalmacro shikishima.stackchan-display-transport-implementation` | DONE (LOCAL) | Rally 4A no send | — |
+| 1a1 | `/goalmacro shikishima.stackchan-display-pilot-retry-preflight` | DONE | `37ea0f1` | — |
 | 1a0 | `/goalmacro shikishima.stackchan-display-route-device-wiring-push-review` | DONE | 3f26c97 pushed | — |
 | 1a | `/goalmacro shikishima.stackchan-display-route-device-wiring-implementation` | DONE (LOCAL) | mock/disabled only | — |
 | 1a0 | `/goalmacro shikishima.stackchan-display-route-device-wiring-design` | DONE | `56a8d14` | — |
@@ -1342,7 +1346,7 @@ Next recommended goal detail:
 ```text
 /goalmacro shikishima.stackchan-display-pilot-retry
 
-Preflight PASS. Rally 4 requires explicit time window + human confirmations. Actual send only under this GO.
+Transport IMPLEMENTED (4A). Rally 4B: STACKCHAN_DISPLAY_PILOT_SEND=1 + time window + guarded-ws send once.
 Alternative if env configured: /goalmacro shikishima.discord-one-shot-send-completion
 ```
 

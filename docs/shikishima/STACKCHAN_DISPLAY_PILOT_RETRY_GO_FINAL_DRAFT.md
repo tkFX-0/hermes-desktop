@@ -71,6 +71,10 @@ manual_stop_method_confirmed: yes
 active_time_window: yes
 selected_intent_confirmed: STACKCHAN_BASELINE_PASS
 evaluateStackChanDisplayDeviceRoute: READY_FOR_PILOT_GO
+sendStackChanDisplayOnce: guards PASS
+transportMode: guarded-ws
+actualDeviceSendEnabled: true
+STACKCHAN_DISPLAY_PILOT_SEND: 1
 ```
 
 ---

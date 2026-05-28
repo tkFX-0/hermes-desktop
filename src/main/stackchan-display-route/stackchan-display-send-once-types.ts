@@ -1,32 +1,28 @@
 import type { StackChanDisplayIntent } from "../../shared/stackchan-display-preview/stackchan-display-preview-types";
 import type { StackChanDisplayPilotTimeWindow } from "../../shared/stackchan-display-pilot-readiness/stackchan-display-pilot-readiness-types";
-import type { StackChanDisplayRouteDecision } from "../../shared/stackchan-display-route/stackchan-display-route-types";
+import type {
+  StackChanDisplayDeviceDecision,
+  StackChanDisplayDeviceTransportMode
+} from "./stackchan-display-device-route-types";
+import type { StackChanDeviceFaceMode } from "./stackchan-display-face-mode-map";
 
-export type StackChanDisplayDeviceTransportMode = "disabled" | "mock" | "guarded-ws";
-
-export type StackChanDisplayDeviceDecision =
-  | "READY_FOR_PILOT_GO"
-  | "HOLD"
-  | "BLOCKED";
-
-export type StackChanDisplayDeviceRequest = {
+export type StackChanDisplaySendOnceRequest = {
   intent: StackChanDisplayIntent;
   humanPresent: boolean;
   manualStopMethodConfirmed: boolean;
   screenVisible: boolean;
+  timeWindow: StackChanDisplayPilotTimeWindow;
   timeWindowDeclared: boolean;
   activeTimeWindow: boolean;
-  timeWindow?: StackChanDisplayPilotTimeWindow;
   transportMode: StackChanDisplayDeviceTransportMode;
-  actualDisplaySendApproved: false;
+  actualDeviceSendEnabled: boolean;
   productionReady: false;
   executionEnabled: false;
 };
 
-export type StackChanDisplayDeviceSafety = {
+export type StackChanDisplaySendOnceSafety = {
   displayOnly: true;
   actualDisplaySendApproved: false;
-  actualDisplaySendPerformed: false;
   motionAllowed: false;
   danceAllowed: false;
   touchBehaviorChangeAllowed: false;
@@ -39,13 +35,15 @@ export type StackChanDisplayDeviceSafety = {
   executionEnabled: false;
 };
 
-export type StackChanDisplayDeviceResult = {
-  decision: StackChanDisplayDeviceDecision;
-  routeDecision: StackChanDisplayRouteDecision;
+export type StackChanDisplaySendOnceResult = {
+  ok: boolean;
+  sent: boolean;
+  deviceDecision: StackChanDisplayDeviceDecision | "BLOCKED";
   transportMode: StackChanDisplayDeviceTransportMode;
-  displaySendPerformed: false;
-  stackchanConnectedByCommand: false;
-  websocketSendPerformed: false;
+  faceMode: StackChanDeviceFaceMode | null;
+  mockPayloadRecorded: boolean;
+  websocketSendPerformed: boolean;
+  stackchanConnectedByCommand: boolean;
   reasons: string[];
-  safety: StackChanDisplayDeviceSafety;
+  safety: StackChanDisplaySendOnceSafety;
 };

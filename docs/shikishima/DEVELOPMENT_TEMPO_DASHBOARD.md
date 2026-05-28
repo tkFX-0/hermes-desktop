@@ -20,14 +20,14 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v4.54.0
-- latestUpdate: 2026-05-28 - Display Pilot Retry Preflight PASS (local).
+- roadmapVersion: v4.55.0
+- latestUpdate: 2026-05-28 - Display transport TRANSPORT_IMPLEMENTED (Rally 4A local).
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: local ahead (Rally 10 HOLD + Rally 10.5 forensics; not pushed)
 - autonomy core: Rally 1-9 ACCEPTED_AS_FINAL_CORE_100
-- stackchan: Preflight PASS; Rally 4 pilot retry GO next; pilot HOLD
-- current next human action: /goalmacro shikishima.stackchan-display-pilot-retry (time window)
+- stackchan: Transport IMPLEMENTED; Rally 4B pilot retry next; pilot HOLD
+- current next human action: /goalmacro shikishima.stackchan-display-pilot-retry (4B GO)
 - HOLD reason: productionReady false; execution disabled; StackChan active control HOLD
 
 ## Agent Theater — 完了済み
