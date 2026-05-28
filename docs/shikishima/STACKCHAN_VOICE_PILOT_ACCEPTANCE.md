@@ -7,8 +7,8 @@ Date: 2026-05-28
 ## RESULT
 
 ```text
-status: PENDING
-reason: pilot send PASS_WITH_CAVEAT; awaiting human voice_human_visual PASS
+status: NOT_ACCEPTED
+reason: human observation HOLD — mouth motion without audible speech
 ```
 
 ---

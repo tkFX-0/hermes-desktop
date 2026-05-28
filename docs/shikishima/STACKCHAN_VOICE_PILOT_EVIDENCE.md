@@ -7,8 +7,8 @@ Date: 2026-05-28
 ## Result
 
 ```text
-status: PASS_WITH_CAVEAT
-reason: guarded one-shot voice send ok; human audible confirmation pending
+status: HOLD
+reason: send path reported ok; human reports mouth motion without audible speech
 prior_attempts: HOLD (voicevox_unavailable, ws_or_pcm_failed)
 ```
 
@@ -34,13 +34,26 @@ retry_loop: false
 
 ---
 
-## Human observation (pending)
+## Human observation (reported)
 
 ```text
-voice_human_visual: pending
-voice_audible: unknown
-expected_phrase_matched: unknown
+voice_human_visual: HOLD
+mouth_motion_visible: true
+voice_audible: false
+expected_phrase_matched: false
 unexpected_behavior_visible: false
+operator_note_redacted: mouth moving; no audible output heard
+pilot_stopped_cleanly: true
+```
+
+## Diagnosis (redacted, no retry)
+
+```text
+likely_class: pcm_or_audio_path_not_audible
+ws_send_reported_ok: true
+voicevox_readiness: PASS
+next: audio path debug GO (read-only checks + one-shot retry with new window only)
+forbidden: automatic retry; second send without GO
 ```
 
 ---

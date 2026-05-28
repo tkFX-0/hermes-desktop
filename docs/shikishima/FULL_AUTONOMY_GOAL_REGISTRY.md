@@ -24,8 +24,8 @@ Do NOT mark parent COMPLETED when only a design section is written.
 | `shikishima.full-autonomous-operation` | IN_PROGRESS | Phase 1–10 |
 | `shikishima.phase1.voice-completion` | **IN_PROGRESS** | G2 HOLD blocks parent |
 | `shikishima.phase1.voice-evidence-push` | **COMPLETED** | origin @ 4f7566e |
-| `shikishima.phase1.voice-one-shot-pilot` | **PASS_WITH_CAVEAT** | send ok; visual pending |
-| `shikishima.phase1.voice-acceptance` | **PENDING** | human visual |
+| `shikishima.phase1.voice-one-shot-pilot` | **HOLD** | send ok; no audible output |
+| `shikishima.phase1.voice-acceptance` | **HOLD** | audible required |
 | `shikishima.full-autonomy-unified-design-package` | **COMPLETED** | — |
 | `shikishima.stackchan.voicevox-readiness-check` | **COMPLETED** | — |
 
