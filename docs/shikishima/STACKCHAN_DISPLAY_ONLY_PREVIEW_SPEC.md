@@ -90,3 +90,12 @@ productionReady: false
 execution: disabled
 rawValuesReported: false
 ```
+
+---
+
+## Next Gate
+
+```text
+Display Pilot Readiness: see STACKCHAN_DISPLAY_PILOT_READINESS.md
+Actual display pilot: HOLD until explicit /goalmacro shikishima.stackchan-display-pilot GO
+```

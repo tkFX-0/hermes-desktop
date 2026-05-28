@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.47.0
+- roadmapVersion: v4.48.0
 - lastUpdated: 2026-05-28
-- latestUpdate: StackChan Display-only Preview PREPARED. Pure contract; active control HOLD.
+- latestUpdate: StackChan Display Pilot Readiness PREPARED. Actual display pilot remains HOLD.
 - baselineCommit: 9c1a228
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,12 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.48.0 - StackChan Display Pilot Readiness
+
+- `STACKCHAN_DISPLAY_PILOT_READINESS.md`, evidence template, final GO draft.
+- `src/shared/stackchan-display-pilot-readiness/`: pure precondition validation.
+- Actual display pilot execution remains HOLD until explicit GO.
 
 ## v4.47.0 - StackChan Display-only Preview
 

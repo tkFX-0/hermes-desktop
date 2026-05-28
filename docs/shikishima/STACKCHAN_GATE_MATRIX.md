@@ -10,7 +10,8 @@ Applies after Rally 11 Safety Readiness
 | Baseline observation | PASS | done | read-only human observation (retry) |
 | Safety readiness | PREPARED | yes | Rally 11 — this package |
 | Display-only preview | PREPARED | yes | Rally complete; pilot still HOLD |
-| Display pilot | HOLD | yes | separate GO after preview PASS |
+| Display pilot readiness | PREPARED | yes | Rally 11b; evidence template + GO draft |
+| Display pilot (execution) | HOLD | yes | explicit time-window GO required |
 | Face/state mapping | HOLD | yes | display only |
 | Motion command | HOLD | yes | separate active-control GO |
 | Dance command | HOLD | yes | separate active-control GO |

@@ -34,3 +34,5 @@ Unknown intents map to safe HOLD display (pure contract).
 ## Pure Contract
 
 Implementation: `src/shared/stackchan-display-preview/stackchan-display-preview.ts`
+
+Pilot readiness validation: `src/shared/stackchan-display-pilot-readiness/` (no device send).

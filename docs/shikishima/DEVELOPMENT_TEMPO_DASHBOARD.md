@@ -20,14 +20,14 @@ creating productivity pressure or autonomous acceleration.
 
 ## Current Static Values
 
-- roadmapVersion: v4.47.0
-- latestUpdate: 2026-05-28 - StackChan Display-only Preview PREPARED (local).
+- roadmapVersion: v4.48.0
+- latestUpdate: 2026-05-28 - StackChan Display Pilot Readiness PREPARED (local).
 - canonical naming: Hermes Core / しきしま / いちきしま / しずめ / しるべ / むすび / つむぐ (confirmed)
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: local ahead (Rally 10 HOLD + Rally 10.5 forensics; not pushed)
 - autonomy core: Rally 1-9 ACCEPTED_AS_FINAL_CORE_100
-- stackchan: Baseline PASS; Safety PREPARED; Display preview PREPARED; control HOLD
-- current next human action: /goalmacro shikishima.stackchan-display-pilot-readiness
+- stackchan: Baseline PASS; Display preview pushed; Pilot readiness PREPARED; control HOLD
+- current next human action: /goalmacro shikishima.stackchan-display-pilot (HOLD until GO)
 - HOLD reason: productionReady false; execution disabled; StackChan active control HOLD
 
 ## Agent Theater — 完了済み

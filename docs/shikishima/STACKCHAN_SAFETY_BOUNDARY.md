@@ -118,3 +118,15 @@ Motion, dance, firmware write, voice, mic, camera, and autonomous control remain
 ```
 
 See: `STACKCHAN_DISPLAY_ONLY_PREVIEW_SPEC.md`, `src/shared/stackchan-display-preview/`.
+
+---
+
+## Display Pilot Readiness (2026-05-28)
+
+```text
+Display Pilot Readiness is the next gate after Display-only Preview.
+Actual display pilot remains HOLD until explicit future GO with time window.
+Active control remains HOLD.
+```
+
+See: `STACKCHAN_DISPLAY_PILOT_READINESS.md`, `STACKCHAN_DISPLAY_PILOT_FINAL_GO_DRAFT.md`.

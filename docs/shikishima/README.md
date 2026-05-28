@@ -36,8 +36,10 @@ Current state:
 - completionRoom: DE_SCOPED (use Status Board + `FINAL_CORE_ACCEPTANCE.md`)
 - stackchanBaseline: PASS (retry, read-only)
 - stackchanSafetyReadiness: SAFETY_READINESS_PREPARED
-- stackchanDisplayOnlyPreview: DISPLAY_ONLY_PREVIEW_PREPARED (control still HOLD)
-- nextPhase: StackChan Display Pilot Readiness
+- stackchanDisplayOnlyPreview: DISPLAY_ONLY_PREVIEW_PREPARED
+- stackchanDisplayPilotReadiness: DISPLAY_PILOT_READINESS_PREPARED
+- stackchanDisplayPilotExecution: HOLD
+- nextPhase: StackChan Display Pilot (explicit GO)
 
 These documents are not execution approval. They do not enable WSL, Hermes,
 wrapper, dummy wrapper, RunPod, StackChan, packaged smoke, or any external
@@ -75,7 +77,10 @@ network flow.
 - `STACKCHAN_DISPLAY_ONLY_PREVIEW_GO_DRAFT.md` - prior GO template (completed).
 - `STACKCHAN_DISPLAY_ONLY_PREVIEW_SPEC.md` - display-only preview spec.
 - `STACKCHAN_DISPLAY_STATE_MAPPING.md` - Shikishima → StackChan display mapping.
-- `STACKCHAN_DISPLAY_PILOT_GO_DRAFT.md` - future display pilot GO template.
+- `STACKCHAN_DISPLAY_PILOT_GO_DRAFT.md` - early display pilot GO draft.
+- `STACKCHAN_DISPLAY_PILOT_READINESS.md` - pilot readiness record.
+- `STACKCHAN_DISPLAY_PILOT_EVIDENCE_TEMPLATE.md` - post-pilot evidence form.
+- `STACKCHAN_DISPLAY_PILOT_FINAL_GO_DRAFT.md` - final display pilot GO template.
 - `STACKCHAN_ACTIVE_CONTROL_FUTURE_GO_DRAFT.md` - future active control prerequisites.
 - `COMPLETION_ROOM_DESCOPE_RECORD.md` - Completion Room de-scope (not an active app page).
 - `COMPLETION_ROOM_OBSOLETE_CANDIDATES.md` - de-scope discovery and related Room disambiguation.
