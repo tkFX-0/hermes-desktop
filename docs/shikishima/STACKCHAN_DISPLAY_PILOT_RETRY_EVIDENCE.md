@@ -9,13 +9,15 @@ Rally: 4B — One-shot Display Pilot Retry
 
 ```text
 status: HOLD
-reason: one_shot_guarded_send_failed_safely
-next_action: verify StackChan powered on and reachable; retry only with new time-window GO
+reason: one_shot_guarded_send_failed_safely (both attempts)
+next_action: run one-shot send from operator PC with host env configured; report visual enum
 ```
 
 ---
 
-## Approved Time Window
+## Attempt 1 (12:00–13:00 JST window)
+
+### Approved Time Window
 
 ```text
 START: 2026-05-28 12:00 JST
@@ -78,6 +80,44 @@ No automatic retry performed.
 
 ---
 
+## Attempt 2 (14:35–15:00 JST GO — retry)
+
+### Approved Time Window
+
+```text
+START: 2026-05-28 14:35 JST
+END:   2026-05-28 15:00 JST
+preflight_jst_at_attempt: 2026-05-28 14:35 (within window)
+```
+
+### Human reachability (attested)
+
+```text
+StackChan_power_state: on
+StackChan_screen_visible: true
+same_lan_redacted: true
+local_host_value_configured: true
+display_endpoint_reachable_redacted: true
+ws_connect_possible_redacted: true
+manual_stop_method_confirmed: true
+```
+
+### Composer execution environment
+
+```text
+local_host_value_configured_in_composer_terminal: false
+display_pilot_attempted: true
+send_result_ok: false
+send_result_sent: false
+websocket_send_performed: false
+failure_reason_redacted: ws_connect_error
+displayed_state_visible: unknown
+```
+
+Operator PC must run the one-shot send where host env is configured. No second automatic send from Composer.
+
+---
+
 ## Safety
 
 ```text
@@ -114,18 +154,33 @@ next_action: /goalmacro shikishima.stackchan-display-pilot-debug-plan
 
 ---
 
-## Next
+## Operator-local one-shot (within 14:35–15:00 JST)
 
-Human may retry only after:
+Run once from PowerShell where `STACKCHAN_HOST` is set (do not paste host into chat):
 
-```text
-- StackChan powered on and screen visible
-- network path to device confirmed (no raw values in docs)
-- new explicit time-window GO for one-shot retry
+```powershell
+cd hermes-desktop
+$env:STACKCHAN_DISPLAY_PILOT_SEND='1'
+npm test -- src/main/stackchan-display-route/__pilot-once__.test.ts
+Remove-Item Env:STACKCHAN_DISPLAY_PILOT_SEND
 ```
 
-If PASS on future retry:
+Report enums only:
+
+```text
+send_result_ok:
+send_result_sent:
+displayed_state_visible:
+expected_state_matched:
+```
+
+If PASS visually + send ok → Rally 5 Acceptance.
+
+---
+
+## Next
 
 ```text
 /goalmacro shikishima.stackchan-display-only-operation-acceptance
+(after operator-local PASS confirmed)
 ```
