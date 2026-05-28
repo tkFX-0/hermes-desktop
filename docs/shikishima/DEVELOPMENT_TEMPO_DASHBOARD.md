@@ -26,8 +26,8 @@ creating productivity pressure or autonomous acceleration.
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: local ahead (Rally 10 HOLD + Rally 10.5 forensics; not pushed)
 - autonomy core: Rally 1-9 ACCEPTED_AS_FINAL_CORE_100
-- stackchan: Baseline PASS; Display preview pushed; Pilot readiness PREPARED; control HOLD
-- current next human action: /goalmacro shikishima.stackchan-display-pilot (HOLD until GO)
+- stackchan: Display pilot HOLD (no route); readiness PREPARED; control HOLD
+- current next human action: /goalmacro shikishima.stackchan-display-route-design
 - HOLD reason: productionReady false; execution disabled; StackChan active control HOLD
 
 ## Agent Theater — 完了済み
