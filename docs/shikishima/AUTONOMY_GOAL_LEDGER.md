@@ -137,6 +137,7 @@ StackChan Display Pilot Readiness: LOCAL PASS / NOT PUSHED
 StackChan Display Pilot Readiness: DISPLAY_PILOT_READINESS_PREPARED
 StackChan Display Pilot Rally 13: HOLD / LOCAL NOT PUSHED
 StackChan Display Pilot Evidence: HOLD (no approved display-only route)
+StackChan Display Route Design: DESIGN_PREPARED / LOCAL NOT PUSHED
 ```
 
 Preferred operator display direction:
@@ -338,7 +339,8 @@ Meaning:
 | StackChan Safety Readiness Rally 11 | PUSHED | `657378b` | gates + STOP; control HOLD |
 | StackChan Display-only Preview | PUSHED | `562c8f5` | pure contract + mapping docs |
 | StackChan Display Pilot Readiness | PUSHED | `e8e0030` | pilot GO draft + evidence template |
-| StackChan Display Pilot Rally 13 | HOLD | (local) | no existing display-only device route |
+| StackChan Display Pilot Rally 13 | HOLD | `d5c7b4d` | no existing display-only device route |
+| StackChan Display Route Design | LOCAL PASS | (local) | DESIGN_PREPARED; Option C preferred |
 
 Pushed commit chain (Worker Task Contract → Goal Runner → Human Gate → display contracts):
 
@@ -1270,16 +1272,17 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (stackchan display pilot rally 13 HOLD; evidence local)
+active_goal: none (stackchan display route design LOCAL PASS; not pushed)
 status: ACCEPTED_AS_FINAL_CORE_100
-last_completed_goal: shikishima.stackchan-display-pilot
-external_effects: display pilot not attempted; no device route; no network send
+last_completed_goal: shikishima.stackchan-display-route-design
+external_effects: route design docs only; no implementation; no device send
 actual_obsidian_write: false
 final_shikishima_core: 100% (unchanged)
 stackchan_connection: false
 stackchan_control: HOLD
 stackchan_baseline: PASS (retry)
-stackchan_display_pilot: HOLD (no approved display-only route)
+stackchan_display_pilot: HOLD
+stackchan_display_route_design: DESIGN_PREPARED
 stackchan_display_pilot_readiness: DISPLAY_PILOT_READINESS_PREPARED
 ```
 
@@ -1290,9 +1293,10 @@ stackchan_display_pilot_readiness: DISPLAY_PILOT_READINESS_PREPARED
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
 | 0 | `/goalmacro shikishima.stackchan-phase0-readiness-prep` | DONE (LOCAL) | Core 100% | push prep docs optional |
-| 1 | `/goalmacro shikishima.stackchan-display-route-design` | TODO | Display pilot HOLD | minimal display-only route GO |
-| 1a | `/goalmacro shikishima.stackchan-display-pilot` | HOLD | no device route | route design first |
-| 1b | `/goalmacro shikishima.stackchan-display-pilot-readiness` | DONE | `e8e0030` | — |
+| 1 | `/goalmacro shikishima.stackchan-display-route-implementation` | TODO | Route design PREPARED | guarded adapter impl GO |
+| 1a | `/goalmacro shikishima.stackchan-display-route-design` | DONE (LOCAL) | pilot HOLD | — |
+| 1b | `/goalmacro shikishima.stackchan-display-pilot` | HOLD | no device route | after implementation |
+| 1c | `/goalmacro shikishima.stackchan-display-pilot-readiness` | DONE | `e8e0030` | — |
 | 1b | `/goalmacro shikishima.stackchan-display-only-preview` | DONE | `562c8f5` | — |
 | 1b | `/goalmacro shikishima.stackchan-safety-readiness` | DONE | `657378b` | — |
 | 1b | `/goalmacro shikishima.stackchan-baseline-observation-retry` | DONE (PASS) | Rally 10.5 | — |
@@ -1320,9 +1324,9 @@ stackchan_display_pilot_readiness: DISPLAY_PILOT_READINESS_PREPARED
 Next recommended goal detail:
 
 ```text
-/goalmacro shikishima.stackchan-display-route-design
+/goalmacro shikishima.stackchan-display-route-implementation
 
-Display Pilot Rally 13: HOLD — no existing approved display-only route to device.
+Display Route Design: DESIGN_PREPARED (Option C guarded one-shot). Actual display pilot remains HOLD.
 Alternative if env configured: /goalmacro shikishima.discord-one-shot-send-completion
 ```
 

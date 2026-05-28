@@ -105,3 +105,20 @@ rawValuesReported: false
 Do not proceed to Display Pilot Acceptance as PASS until a safe display-only route exists and is GO-approved.
 Active control remains HOLD.
 ```
+
+---
+
+## Follow-up
+
+```text
+Display Route Design has been prepared because the first Display Pilot resulted in HOLD due to no approved display-only route.
+
+Artifacts:
+- STACKCHAN_DISPLAY_ROUTE_DESIGN.md (DESIGN_PREPARED)
+- STACKCHAN_DISPLAY_ROUTE_BOUNDARY.md
+- STACKCHAN_DISPLAY_ROUTE_IMPLEMENTATION_OPTIONS.md
+- STACKCHAN_DISPLAY_ROUTE_IMPLEMENTATION_GO_DRAFT.md
+- STACKCHAN_DISPLAY_PILOT_RETRY_GO_DRAFT.md
+
+No actual display send, device command, motion, firmware, voice/mic/camera, token read, or external write was performed in route design.
+```

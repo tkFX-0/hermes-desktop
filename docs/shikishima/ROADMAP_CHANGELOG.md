@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.49.0
+- roadmapVersion: v4.50.0
 - lastUpdated: 2026-05-28
-- latestUpdate: StackChan Display Pilot HOLD — no approved display-only device route. Next: route design GO.
+- latestUpdate: StackChan Display Route Design DESIGN_PREPARED. Implementation and pilot remain HOLD.
 - baselineCommit: 9c1a228
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,12 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.50.0 - StackChan Display Route Design
+
+- `STACKCHAN_DISPLAY_ROUTE_DESIGN.md`: minimal guarded one-shot route (Option C).
+- `STACKCHAN_DISPLAY_ROUTE_BOUNDARY.md`, implementation options, impl GO draft, pilot retry GO draft.
+- No src changes; display pilot and active control remain HOLD.
 
 ## v4.49.0 - StackChan Display Pilot (HOLD)
 
