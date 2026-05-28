@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.55.0
+- roadmapVersion: v4.56.0
 - lastUpdated: 2026-05-28
-- latestUpdate: Display transport TRANSPORT_IMPLEMENTED (Rally 4A). Rally 4B pilot retry next.
+- latestUpdate: Display Pilot Retry HOLD (ws_connect_error). Transport pushed db8d73b.
 - baselineCommit: 9c1a228
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,10 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.56.0 - Display Pilot Retry (HOLD)
+
+- Rally 4B: one guarded send attempted; connection failed; no retry. Evidence local.
 
 ## v4.55.0 - Display Transport (Rally 4A)
 
