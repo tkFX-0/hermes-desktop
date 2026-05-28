@@ -1286,10 +1286,10 @@ Full test evidence at push: vitest 974 passed / 1 skipped (2026-05-26 push GO).
 ## 4. Active Goal
 
 ```text
-active_goal: none (display-only operation ACCEPTED; evidence local)
+active_goal: none (next chapters implemented; voice pilot HOLD)
 status: ACCEPTED_AS_FINAL_CORE_100
-last_completed_goal: shikishima.stackchan-display-only-operation-acceptance
-external_effects: display-only pilot PASS; acceptance docs only
+last_completed_goal: shikishima.stackchan-next-chapters-implementation
+external_effects: motion one-shot send; voice pilot attempted once (HOLD)
 actual_obsidian_write: false
 final_shikishima_core: 100% (unchanged)
 stackchan_connection: false
@@ -1313,7 +1313,9 @@ stackchan_display_pilot_readiness: DISPLAY_PILOT_READINESS_PREPARED
 | Order | Goal | Status | Dependency | Human Gate Needed |
 |---|---|---|---|---|
 | 0 | `/goalmacro shikishima.stackchan-phase0-readiness-prep` | DONE (LOCAL) | Core 100% | push prep docs optional |
-| 1 | StackChan Active Control phase | HOLD | Display-only ACCEPTED | separate GO chapter |
+| 1 | StackChan Active Control chapter | DONE | route delegation | — |
+| 1m | StackChan Motion route + pilot | PASS_WITH_CAVEAT | center one-shot | visual confirm |
+| 1v | StackChan Voice route + pilot | HOLD | voicevox/ws | restart VOICEVOX + GO |
 | 1a | Display-only Operation | ACCEPTED | pilot PASS | — |
 | 1a | `/goalmacro shikishima.stackchan-display-transport-implementation` | DONE (LOCAL) | Rally 4A no send | — |
 | 1a1 | `/goalmacro shikishima.stackchan-display-pilot-retry-preflight` | DONE | `37ea0f1` | — |
@@ -1351,7 +1353,10 @@ stackchan_display_pilot_readiness: DISPLAY_PILOT_READINESS_PREPARED
 Next recommended goal detail:
 
 ```text
-StackChan Display-only Operation: ACCEPTED. Active Control remains HOLD.
+StackChan Display-only: ACCEPTED (fb86fee).
+Active Control routing: IMPLEMENTED.
+Motion pilot: PASS_WITH_CAVEAT (send ok).
+Voice pilot: HOLD (voicevox_unavailable likely).
 Optional: push local evidence commits (pilot PASS + acceptance).
 Alternative if env configured: /goalmacro shikishima.discord-one-shot-send-completion
 ```

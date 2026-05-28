@@ -26,9 +26,9 @@ creating productivity pressure or autonomous acceleration.
 - legacy deprecated: つむぎ→つむぐ / はじめ→むすび
 - current HEAD: local ahead (Rally 10 HOLD + Rally 10.5 forensics; not pushed)
 - autonomy core: Rally 1-9 ACCEPTED_AS_FINAL_CORE_100
-- stackchan: Display-only Operation ACCEPTED; pilot PASS; Active Control HOLD
-- current next human action: optional push acceptance evidence commits
-- HOLD reason: productionReady false; execution disabled; StackChan active control HOLD
+- stackchan: Display ACCEPTED; motion route + pilot PASS_WITH_CAVEAT; voice pilot HOLD
+- current next human action: start VOICEVOX; motion visual PASS; voice retry GO
+- HOLD reason: voice pilot; productionReady false; execution disabled
 
 ## Agent Theater — 完了済み
 

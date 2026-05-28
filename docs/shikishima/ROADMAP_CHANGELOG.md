@@ -8,9 +8,9 @@ not GO, and not production readiness.
 
 ## Current Roadmap Version
 
-- roadmapVersion: v4.57.0
+- roadmapVersion: v4.59.0
 - lastUpdated: 2026-05-28
-- latestUpdate: StackChan Display-only Operation ACCEPTED. Pilot PASS. Active Control HOLD.
+- latestUpdate: Motion/Voice guarded routes; motion pilot send PASS_WITH_CAVEAT; voice pilot HOLD.
 - baselineCommit: 9c1a228
 - decision: HOLD
 - execution: disabled
@@ -28,6 +28,16 @@ Every future roadmap-affecting change must update:
 - the visible HTML changelog section in `REAL_OPERATION_ROADMAP.html`
 
 Roadmap updates are not execution approval. Changelog updates are not GO.
+
+## v4.59.0 - Active Control Routes + Motion/Voice Pilots
+
+- `sendStackChanMotionOnce` / `sendStackChanVoiceOnce` guarded implementations.
+- Motion pilot: one-shot `center` send ok. Voice pilot: HOLD (VOICEVOX).
+
+## v4.58.0 - Next Chapters Umbrella Human GO
+
+- Operator Human GO for Active Control, Motion recovery, Voice **design** chapters.
+- Execution gates unchanged (motion/voice/mic/camera/firmware HOLD).
 
 ## v4.57.0 - Display-only Operation Acceptance
 

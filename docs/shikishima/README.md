@@ -47,7 +47,7 @@ Current state:
 - stackchanDisplayTransport: TRANSPORT_IMPLEMENTED
 - stackchanDisplayPilotRetry: PASS
 - stackchanDisplayOnlyOperation: ACCEPTED
-- nextPhase: Active Control remains HOLD (separate chapter)
+- nextPhase: Active Control / Motion / Voice design chapters OPEN (umbrella Human GO); execution HOLD
 
 These documents are not execution approval. They do not enable WSL, Hermes,
 wrapper, dummy wrapper, RunPod, StackChan, packaged smoke, or any external
@@ -103,6 +103,10 @@ network flow.
 - `STACKCHAN_DISPLAY_PILOT_RETRY_GO_FINAL_DRAFT.md` - Rally 4B one-shot pilot GO template.
 - `STACKCHAN_DISPLAY_PILOT_RETRY_EVIDENCE.md` - Rally 4B retry evidence (PASS).
 - `STACKCHAN_DISPLAY_ONLY_OPERATION_ACCEPTANCE.md` - Display-only operation ACCEPTED.
+- `STACKCHAN_NEXT_CHAPTERS_HUMAN_GO_RECORD.md` - Umbrella Human GO (design only).
+- `STACKCHAN_ACTIVE_CONTROL_CHAPTER_DESIGN.md` - Active Control chapter kickoff.
+- `STACKCHAN_MOTION_RECOVERY_PLAN.md` - Motion recovery planning kickoff.
+- `STACKCHAN_VOICE_CHAPTER_DESIGN.md` - Voice chapter kickoff.
 - `STACKCHAN_DISPLAY_TRANSPORT_IMPLEMENTATION_EVIDENCE.md` - Rally 4A transport evidence.
 - `STACKCHAN_DISPLAY_ROUTE_IMPLEMENTATION_GO_DRAFT.md` - future main adapter GO template.
 - `STACKCHAN_DISPLAY_PILOT_RETRY_GO_DRAFT.md` - future pilot retry GO template.
