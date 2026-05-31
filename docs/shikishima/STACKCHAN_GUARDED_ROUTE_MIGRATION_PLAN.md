@@ -1,7 +1,7 @@
 # StackChan Guarded Route 移行計画（SC-013）
 
 Date: 2026-05-30  
-Status: **mitigated**（Phase 1 部分配線済 · Bot 本番 facade 統一は deferred）
+Status: **Phase 2 完了**（2026-06-01 · SideBot guarded facade）· Electron `stackchanSayLocal` は別途
 
 ### Phase 1 実装済み（2026-05-31 · SC-013 mitigated）
 
@@ -13,7 +13,15 @@ Status: **mitigated**（Phase 1 部分配線済 · Bot 本番 facade 統一は d
 | env 単一参照 | `scripts/lib/stackchan-voice-config.mjs` | done |
 | TS guarded voice pilot | `sendStackChanVoiceOnce` | pilot のみ |
 
-**未完了（deferred）**: Bot/Electron が unguarded `stackchanFaceLocal` / `stackchanSayLocal` を呼ばないよう guarded facade へ全面統一（段階 2–4）。
+### Phase 2 実装済み（2026-06-01）
+
+| 項目 | パス |
+|------|------|
+| guarded facade（say/face/sayAgent） | `scripts/lib/stackchan-guarded-facade.mjs` |
+| SideBot 入口 | `scripts/shikishima-bot.mjs` → guarded 経由 |
+| vitest | `stackchan-guarded-facade.test.ts` |
+
+**残（Electron）**: `src/main/index.ts` の `stackchanSayLocal` / `stackchanFaceLocal`（段階 3–4 · TS bridge）
 
 ## 現状
 

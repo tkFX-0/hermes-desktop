@@ -37,7 +37,7 @@ Baseline: Phase 0 計測 + 計画 Phase 0–7 統合
 | SC-010 | docずれ | GATE_MATRIX voice 列 stale | G | 5 | done | 本ファイル参照 |
 | SC-011 | 設計穴 | Display pilot 未実施 | H | 5 | deferred | time-window GO |
 | SC-012 | 設計穴 | SC-FACE-04 320×240 asset | H | 5 | deferred | 人手 asset |
-| SC-013 | 設計穴 | guarded route 未配線（Bot legacy 主） | G | 5 | mitigated | Phase1: `discord-voice-playback-queue` · voice_busy · notify defer · [STACKCHAN_GUARDED_ROUTE_MIGRATION_PLAN](STACKCHAN_GUARDED_ROUTE_MIGRATION_PLAN.md)。Bot 本体は legacy 維持、TS guarded facade 本番配線は deferred |
+| SC-013 | 設計穴 | guarded route Bot facade | G | 5 | done | Phase1 queue · Phase2 `stackchan-guarded-facade.mjs` + Bot（2026-06-01）· Electron local は残 |
 | SC-014a | 設計 | Discord voice 統合 doc + env ヘルパ | G | 5 | done | STACKCHAN_DISCORD_VOICE_UNIFICATION |
 | SC-014b | コード | `stackchan-voice-config.mjs` | G | 5 | done | vitest voice-config |
 | SC-014c | 設計穴 | 司令部 guarded bridge 試験 | H | 5 | deferred | Bot 未配線 |

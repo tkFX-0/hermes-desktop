@@ -63,7 +63,8 @@ node scripts/shikishima-phase-b-workflow-pilot.mjs
 ## Obsidian live（週次）
 
 - ordered-tasks **Task1b**: `obsidian-dry-run-tick` — `decision=ALLOW_LIVE`（vault OK · 憲法 obsidian_write scope）
-- 実追記: `appendShirubeDailyLog` / `obsidian-write-go` / Phase B pilot Daily 行
+- 実追記: `appendShirubeDailyLog` / `obsidian-write-go` / `npx tsx scripts/shikishima-constitutional-go-execute.mjs`（証跡庫）
+- W6a Phase C: 上記週次ルーティンを維持（X/SNS 自動投稿は H）
 
 ## 別 Human GO バックログ
 

@@ -1,35 +1,33 @@
 # Phase 5 明示 GO — 実施記録
 
-Date: 2026-06-01 · Status: 実行中
+Date: 2026-06-01 · Status: **完了**
 
 ## ユーザー承認スコープ
 
-| 項目 | GO |
-|------|-----|
-| 軽量パック（commit/push · agent login 手順） | yes |
-| Portfolio→対話 `SHIKISHIMA_PORTFOLIO_DIALOGUE_G=1` | yes |
-| SC-013 Phase 2 guarded facade | yes |
-| DIS-03 限定 Discord 送信 | yes |
-| 憲法 constitutional-go activate + execute | yes |
-| W6 Jarvis Phase C のみ | yes |
-| FX/EA/MT5 本番 | **no** |
-
-## 不変（本 GO でも変更しない意図）
-
-- グローバル `productionReady=false` の意味論（constitutional GO = スコープ付き live）
-- W6 Wave メーター deferred（Phase D 金融は H）
-- 24h 無制限 Discord / 無制限 dev ループ
+| 項目 | GO | 結果 |
+|------|-----|------|
+| Portfolio→対話 G=1 | yes | multi-room-test OK · 6 dialogue msgs |
+| SC-013 Phase 2 facade | yes | `stackchan-guarded-facade.mjs` + Bot |
+| DIS-03 + 憲法 GO | yes | activate + `tsx` execute OK |
+| W6 Phase C のみ | yes | doc 追記 · W6 wave deferred 維持 |
+| FX/EA | no | 未着手 |
 
 ## 実施ログ
 
-| 波 | 時刻 | 結果 |
-|----|------|------|
-| G0 baseline | | pending |
-| G1 portfolio | | pending |
-| G2 SC-013 | | pending |
-| G3 constitutional | | pending |
-| G4 W6 Phase C doc | | pending |
-| G5 close | | pending |
+| 波 | 結果 |
+|----|------|
+| G0 | vitest zone 188/188 · commit `d6d2393` Phase B |
+| G1 | PORTFOLIO_DIALOGUE_G=1 · multi-room-test OK |
+| G2 | guarded facade · vitest 20/20（SC 関連） |
+| G3 | constitutional-go activate · `npx tsx` execute OK |
+| G4 | WAVES W6a Phase C doc |
+| G5 | 本ファイル · backlog 更新 |
+
+## 憲法 GO 実行メモ
+
+- activate: `.shikishima-memory/constitutional-go.local.json`（gitignore）
+- execute: `npx tsx scripts/shikishima-constitutional-go-execute.mjs`
+- スコープ付き live（DIS-03 one_shot 等）— 24h 無制限送信・FX ではない
 
 ## SHI-010 agent login（人間）
 
@@ -37,4 +35,4 @@ Date: 2026-06-01 · Status: 実行中
 agent login
 ```
 
-Discord: `!dev-pipeline` — win agent 行が loggedIn なら DESIGN_INVENTORY SHI-010 を `done` に更新可。
+成功後: DESIGN_INVENTORY SHI-010 → `done` · autonomy-progress SHI +1

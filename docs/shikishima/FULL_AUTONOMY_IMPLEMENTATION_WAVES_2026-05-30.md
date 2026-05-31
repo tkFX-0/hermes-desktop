@@ -23,7 +23,7 @@ flowchart TB
 | **W3** | Chisiki R0 調査 | done | research/*.md |
 | **W4** | gasvault レベル A doc | done | BILLING_QUOTA_VAULT_PATTERN |
 | **W5** | SHI-010〜014 dev pipeline | **done**（2026-05-31） | preflight + dev-pipeline ON + WF 完走 + zone vitest |
-| **W6** | Phase C/D 生活・金融 | deferred | JARVIS C/D |
+| **W6** | Phase C/D 生活・金融 | deferred（W6a Phase C 運用 2026-06-01 完了 · W6b Phase D は H） | JARVIS C/D |
 
 ## 実施コマンド
 

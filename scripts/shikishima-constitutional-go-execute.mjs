@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 /**
  * 実施GO — run constitutional-GO live steps (redacted output only).
+ *
+ *   npx tsx scripts/shikishima-constitutional-go-execute.mjs
+ * (plain `node` は TS import 解決に失敗する場合あり)
  */
 
 import { dirname, join } from "node:path";

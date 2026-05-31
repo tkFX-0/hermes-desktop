@@ -38,7 +38,7 @@ export const AUTONOMY_WAVES = [
 ];
 
 const INVENTORY_TRACKS = [
-  { id: "SC", done: 12, total: 14, note: "StackChan（SC-005 resume · SC-013 mitigated · 実機 2・3 PASS 2026-05-31）" },
+  { id: "SC", done: 13, total: 14, note: "StackChan（SC-013 facade Phase2 · SC-005 resume · 実機 PASS）" },
   { id: "SHI", done: 12, total: 16, note: "しきしま運用（SHI-001/004/005/006 · 011〜014）" },
   { id: "CHI", done: 5, total: 6, note: "Chisiki調査（C本番はH）" },
   { id: "GAP", done: 4, total: 8, note: "G1–G8（runtime）" }

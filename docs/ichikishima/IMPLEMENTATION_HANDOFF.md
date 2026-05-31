@@ -873,3 +873,4 @@ Composer2へ渡す場合は、次を守る。
 - **git push (2026-05-31)**: `main` @ `3ceb08b` → `origin/main`（feat: full autonomy ops + StackChan voice + docs）。
 - **Phase B 計画実施開始 (2026-05-31)**: Doc `PHASE_B_OPS_CHECKLIST_2026-05-31.md` · CLI `shikishima-phase-b-workflow-pilot.mjs` · POST_HUMAN_GO 更新。Phase B scope: `dev.autonomous` capped · handoff enqueue OFF · 憲法 execute は未着手。
 - **Phase B 計画完遂 (2026-06-01)**: 定常運用 77% gaps0 · WF pilot `wf-mptwxo7l` instruction→dev→…→human→**done** · vitest zone **188/188** · Obsidian Daily 追記 · `PHASE5_HUMAN_GO_BACKLOG.md` 作成。SHI-010 `agent login` は未実施（partial 維持）。安全不変: `decision=HOLD`, `execution=disabled`, `productionReady=false`。
+- **Phase 5 明示 GO (2026-06-01)**: Portfolio `G=1` · multi-room OK · SC-013 Phase2 `stackchan-guarded-facade` · constitutional-go activate + `npx tsx` execute · W6a Phase C doc · INVENTORY SC 13/14。Doc `PHASE5_GO_EXECUTE_2026-06-01.md`。SHI-010 agent login は人間待ち。安全: グローバル CLAUDE 不変文言維持 · FX/Phase D 未着手。

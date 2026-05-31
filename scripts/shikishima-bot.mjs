@@ -199,7 +199,7 @@ import {
   generateProactiveSuggestion, runAutoResearch, learnFromFeedback,
 } from "./shikishima-goals.mjs";
 import {
-  stackchanSay, stackchanSayPreparedBatchItems, stackchanFace, stackchanSayAsAgent, playAnimation,
+  playAnimation,
   hookOnBotStart, hookMorningGreeting,
   hookOnDdAlert, startStackchanMonitor,
   stackchanMove, stackchanDance, stackchanLed,
@@ -211,6 +211,12 @@ import {
   getGlobalSpeechPendingCount,
   isStackchanVoiceHold,
 } from "./shikishima-stackchan.mjs";
+import {
+  guardedStackchanSay as stackchanSay,
+  guardedStackchanFace as stackchanFace,
+  guardedStackchanSayAsAgent as stackchanSayAsAgent,
+  stackchanSayPreparedBatchItems
+} from "./lib/stackchan-guarded-facade.mjs";
 import {
   decideDiscordVoiceSpeak,
   isDiscordVoiceBridgeEnabled,

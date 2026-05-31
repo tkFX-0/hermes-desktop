@@ -39,8 +39,9 @@
 - **preflight / resume**: `stackchan-resume --restart-bot`（HOLD=0 · SideBot 再起動）
 - **Obsidian 続き**: プレイブック inbox ミラー · dev-status-briefing OK
 - **git**: push 済み `3ceb08b` @ origin/main
-- **Phase B (2026-06-01)**: WF pilot `wf-mptwxo7l` done · vitest zone 188/188 · [PHASE_B_OPS_CHECKLIST](../docs/shikishima/PHASE_B_OPS_CHECKLIST_2026-05-31.md) · [PHASE5 backlog HOLD](../docs/shikishima/PHASE5_HUMAN_GO_BACKLOG.md)
-- **次**: SHI-010 `agent login` 任意 · Phase 5 ゲートは明示 GO まで未着手
+- **Phase B (2026-06-01)**: WF pilot `wf-mptwxo7l` done · vitest zone 188/188
+- **Phase 5 明示 GO (2026-06-01)**: Portfolio G=1 · SC-013 facade · constitutional-go（tsx execute）· [PHASE5_GO_EXECUTE](../docs/shikishima/PHASE5_GO_EXECUTE_2026-06-01.md)
+- **次**: SHI-010 `agent login`（任意）· Phase D/FX/W6b は HOLD
 
 ## 完全自律ロードマップ A1–B3（2026-05-31）
 

@@ -1,29 +1,18 @@
 # 人間GO後の次ステップ（2026-05-31）
 
-Date: 2026-05-31 · Status: 運用ガイド
+Date: 2026-06-01 · Status: 運用ガイド
 
-## 完了（2026-05-31 続き）
+## 完了
 
-- [x] Obsidian 実書き（inbox · Daily · 30_Evidence）
-- [x] StackChan 実機 2・3 PASS（人間GO）
-- [x] SC-005 HOLD 解除 + `stackchan-resume --restart-bot`
-- [x] 運用ルーティン（ordered · gap · readiness）· dev-status-briefing · プレイブック Obsidian ミラー
-- [x] git commit + push（`3ceb08b` @ origin/main）
+- Obsidian 実書き · StackChan 実機 · SC-005 resume · git push `3ceb08b`
+- Phase B: WF pilot · vitest 188/188 · PHASE_B_OPS_CHECKLIST
+- **Phase 5 明示 GO**: Portfolio G=1 · SC-013 facade · constitutional-go · W6a Phase C doc — [PHASE5_GO_EXECUTE_2026-06-01.md](PHASE5_GO_EXECUTE_2026-06-01.md)
 
-## Phase B 以降（2026-06-01 計画実施）
-
-- [x] 定常運用ログ（Daily · 全体 77% · gaps 0）
-- [x] WF 1 サイクル: `wf-mptwxo7l` done（`shikishima-phase-b-workflow-pilot.mjs`）
-- [x] vitest zone **188/188** pass
-- [ ] SHI-010 `agent login`（任意 · 人間 · win agent 未 login のまま partial）
-
-## 優先順（Cursor / 自律 tick）
+## 優先順
 
 1. **定常運用** — [PHASE_B_OPS_CHECKLIST_2026-05-31.md](PHASE_B_OPS_CHECKLIST_2026-05-31.md)
-2. **Phase B 開発レーン** — subscription-only · capped · vitest ゲート
-3. **進捗監視** — `autonomy-status`（W6 deferred で全体 ~92% 上限）
-4. **憲法 `execution=enabled`** — **触らない**（別 Human GO）
-5. **W6 Jarvis Phase C/D** — **deferred 維持**
-6. **SC-013 guarded facade 本番配線** — mitigated · Phase 2 は別 GO
+2. **SHI-010** — `agent login`（任意）→ SHI-010 done 化
+3. **進捗** — `autonomy-status`（W6 deferred · ~92% 上限）
+4. **残 HOLD** — [PHASE5_HUMAN_GO_BACKLOG.md](PHASE5_HUMAN_GO_BACKLOG.md)（FX · W6b Phase D · Electron facade）
 
-関連: [AUTONOMY_55_TO_100_CURSOR_PLAYBOOK_2026-05-31.md](AUTONOMY_55_TO_100_CURSOR_PLAYBOOK_2026-05-31.md) · [HUMAN_GO_BOUNDARIES.md](HUMAN_GO_BOUNDARIES.md) · [JARVIS_PHASE_A_D_ROADMAP_2026-05-31.md](JARVIS_PHASE_A_D_ROADMAP_2026-05-31.md)
+関連: [AUTONOMY_55_TO_100_CURSOR_PLAYBOOK_2026-05-31.md](AUTONOMY_55_TO_100_CURSOR_PLAYBOOK_2026-05-31.md) · [HUMAN_GO_BOUNDARIES.md](HUMAN_GO_BOUNDARIES.md)
