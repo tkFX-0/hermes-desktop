@@ -77,7 +77,7 @@ Baseline: Phase 0 計測 + 計画 Phase 0–7 統合
 | SHI-004 | 運用 | 重複 Bot PID | G | 2 | done | `--clean` + vitest `full-autonomy-process-preflight` |
 | SHI-005 | 運用 | `DISCORD_OPERATOR_USER_ID` | H | 2 | done | [DIS_05](DIS_05_DISCORD_MULTI_ROOM_DESIGN.md) — patch + `!multi-room-test` OK（対話6・通知送信）2026-05-31 |
 | SHI-006 | doc | orchestratorRelaxed 監査 | G | 2 | done | 2026-05-31 `orchestrator-gates-audit` 緩和ON · loop可 · voice BLOCK |
-| SHI-010 | 環境 | Windows `agent` CLI | H | 3 | partial | CLI あり（`agent.cmd`）· **`agent login` は人間作業のみ** · 未 login でも WSL `claude`/`codex` で dev 可（preflight 2026-05-31: claude OK · codex OK · win agent login optional） |
+| SHI-010 | 環境 | Windows `agent` CLI | H | 3 | partial | CLI あり · **`agent login` 人間作業** · WSL dev 可 · Phase B WF pilot `wf-mptwxo7l` done 2026-06-01（login 未実施のため partial 維持） |
 | SHI-011 | 環境 | `.env.local` dev pipeline | G | 3 | done | `DEV_PIPELINE_ENABLED=1` |
 | SHI-012 | 環境 | WSL `claude login` | H | 3 | done | preflight `wsl_claude_session_ok` |
 | SHI-013 | 運用 | `!dev-pipeline` チェーン | G | 3 | done | Discord + WF dev ok 実績 |

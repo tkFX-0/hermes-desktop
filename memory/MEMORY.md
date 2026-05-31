@@ -38,7 +38,9 @@
 - **進捗**: 77% · INVENTORY **75%**（SC 12/14）· readiness 56% · openGaps=0
 - **preflight / resume**: `stackchan-resume --restart-bot`（HOLD=0 · SideBot 再起動）
 - **Obsidian 続き**: プレイブック inbox ミラー · dev-status-briefing OK
-- **次**: [POST_HUMAN_GO_NEXT_STEPS_2026-05-31.md](../docs/shikishima/POST_HUMAN_GO_NEXT_STEPS_2026-05-31.md) — 日次ルーティン · execution=enabled は別 GO · W6 deferred
+- **git**: push 済み `3ceb08b` @ origin/main
+- **Phase B (2026-06-01)**: WF pilot `wf-mptwxo7l` done · vitest zone 188/188 · [PHASE_B_OPS_CHECKLIST](../docs/shikishima/PHASE_B_OPS_CHECKLIST_2026-05-31.md) · [PHASE5 backlog HOLD](../docs/shikishima/PHASE5_HUMAN_GO_BACKLOG.md)
+- **次**: SHI-010 `agent login` 任意 · Phase 5 ゲートは明示 GO まで未着手
 
 ## 完全自律ロードマップ A1–B3（2026-05-31）
 

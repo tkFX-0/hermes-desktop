@@ -23,3 +23,6 @@ node scripts/shikishima-run-ordered-tasks.mjs --skip-stackchan-resume
 
 - `.shikishima-memory/audit/discord-read-intake.jsonl`
 - `.shikishima-memory/audit/obsidian-dry-run.jsonl`
+- **WFサイクル検証** Phase B pilot（2026-06-01）: `shikishima-phase-b-workflow-pilot.mjs` にて Task3→1a→1b→2→4 の順次実行フローを検証
+
+- **Phase B WF pilot** (2026-06-01): id=`wf-mptwxo7l` stage=**done** lastDevOk=true burst=5
