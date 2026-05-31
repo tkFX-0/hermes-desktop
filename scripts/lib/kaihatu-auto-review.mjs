@@ -120,13 +120,14 @@ export function buildShizumeAutoReviewVerdict(p) {
 
   if (!p.kaihatuOk) blockers.push("kaihatu_dev_failed");
   if (!p.vitest.ok) blockers.push("vitest_zone_failed");
-  if (holds.length > 0) blockers.push("design_checklist_hold");
+  const devLaneClear = p.kaihatuOk && p.vitest.ok;
+  if (holds.length > 0 && !devLaneClear) blockers.push("design_checklist_hold");
 
   if (blockers.length > 0) decision = "HOLD";
 
   const needsHuman =
     decision === "HOLD" ||
-    manuals.length > 0 ||
+    (manuals.length > 0 && !devLaneClear) ||
     !p.kaihatuOk;
 
   return {

@@ -162,7 +162,6 @@ import { checkGeminiAvailability } from "./gemini-service";
 import { startSideBot, stopSideBot } from "./sidebot-service";
 import { isSidebotHoldActive } from "./sidebot-hold";
 import {
-  stackchanSayLocal,
   stackchanPetMode,
   checkStackchanLocalStatus,
   startStackchanLocalStatusCheck,
@@ -186,6 +185,7 @@ import {
 
 import { resolveShikishimaRuntimeMode } from "./shikishima-runtime-mode";
 import { hasConstitutionalGoScope } from "./shikishima-full-autonomy/constitutional-go-state";
+import { guardedStackchanSayLocal } from "./stackchan-guarded-bridge";
 
 process.on("uncaughtException", (err) => {
   console.error("[MAIN UNCAUGHT]", err);
@@ -1072,7 +1072,18 @@ function setupIPC(): void {
       actionId: "STACKCHAN-SAY-IPC",
       evidencePath: "docs/shikishima/STACKCHAN_SPEECH_ONE_SHOT_EVIDENCE.md",
     });
-    if (!hasConstitutionalGoScope("stackchan_voice", app.getAppPath())) {
+    const spoken = await guardedStackchanSayLocal(String(text), app.getAppPath());
+    if (spoken.skipped === "stackchan_hold") {
+      return {
+        ok: false,
+        error: "STACKCHAN_HOLD",
+        draft,
+        productionReady: false,
+        execution: "disabled",
+        rawValuesReported: false,
+      };
+    }
+    if (spoken.error === "constitutional_stackchan_voice_required") {
       return {
         ok: false,
         error: "NEEDS_HUMAN",
@@ -1082,7 +1093,6 @@ function setupIPC(): void {
         rawValuesReported: false,
       };
     }
-    const spoken = await stackchanSayLocal(String(text).slice(0, 300));
     return {
       ok: spoken.ok,
       error: spoken.error,
@@ -1405,7 +1415,12 @@ app.whenReady().then(() => {
       console.log(`[STT→Agent] "${transcript}"`);
       const result = await dispatchToAgent(transcript);
       if (result.success && result.reply) {
-        await stackchanSayLocal(result.reply.slice(0, 300));
+        const spoken = await guardedStackchanSayLocal(result.reply, app.getAppPath());
+        if (spoken.skipped) {
+          console.log(`[STT→StackChan] skipped: ${spoken.skipped}`);
+        } else if (!spoken.ok && spoken.error) {
+          console.log(`[STT→StackChan] blocked: ${spoken.error}`);
+        }
       }
     },
     onPatEvent: async (_mode, pcMode) => {

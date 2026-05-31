@@ -41,7 +41,10 @@
 - **git**: push 済み `3ceb08b` @ origin/main
 - **Phase B (2026-06-01)**: WF pilot `wf-mptwxo7l` done · vitest zone 188/188
 - **Phase 5 明示 GO (2026-06-01)**: Portfolio G=1 · SC-013 facade · constitutional-go（tsx execute）· [PHASE5_GO_EXECUTE](../docs/shikishima/PHASE5_GO_EXECUTE_2026-06-01.md)
-- **次**: SHI-010 `agent login`（任意）· Phase D/FX/W6b は HOLD
+- **dev-pipeline (2026-05-31)**: 3-leg chain · 優先表示修正 · **SHI-010 done**（`agent login` 2026-05-31）· preflight login 検出修正
+- **Phase 6 別 GO (2026-06-01)**: GO-B〜F コード/doc · SC 14/14
+- **全てGO (2026-06-01)**: `zenbu-go` · automation **GO** · 進捗 **100%**（W6 done · INVENTORY 100%）· kaihatu dev+vitest 通過時 checklist 拒否なし
+- **次**: git push は明示 GO · FX 本番 F2 別 GO · グローバル execution=disabled 不変
 
 ## 完全自律ロードマップ A1–B3（2026-05-31）
 

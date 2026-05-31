@@ -2,9 +2,13 @@
  * WSL development runner — composer (Hermes/SDK) → claude → codex.
  */
 
-import { execFile } from "node:child_process";
-import { resolveDevBackendChain, resolveDevPipelineConfig } from "./dev-pipeline-router.mjs";
+import {
+  resolveDevBackendChain,
+  resolveDevPipelineConfig,
+  loadWslPreflight
+} from "./dev-pipeline-router.mjs";
 import { wslBash } from "./wsl-exec.mjs";
+import { execWindowsAgent } from "./win-agent-exec.mjs";
 
 function envGetter(env) {
   const src = env ?? process.env;
@@ -67,32 +71,19 @@ async function runCodexDev(prompt, cfg) {
   };
 }
 
-function winExec(bin, args, cwd, timeoutMs = 300_000) {
-  return new Promise((resolve) => {
-    execFile(
-      bin,
-      args,
-      { cwd, timeout: timeoutMs, maxBuffer: 8 * 1024 * 1024, shell: false },
-      (err, stdout, stderr) => {
-        const text = String(stdout ?? stderr ?? "")
-          .replace(/\x1B\[[0-9;]*[mGKHF]/g, "")
-          .trim();
-        resolve({ ok: !err && text.length > 0, text, error: err?.message });
-      }
-    );
-  });
-}
-
 /** Cursor Pro — `agent` CLI (Composer pool, login session). */
 async function runAgentCliDev(prompt, cfg, cwd) {
-  const args = ["-p", prompt, "--model", cfg.composerModel];
-  const r = await winExec(cfg.agentCliBin, args, cwd);
+  const preflight = loadWslPreflight();
+  const bin = preflight?.windows?.agent?.path?.trim() || cfg.agentCliBin;
+  const args = ["-p", prompt, "--model", cfg.composerModel, "--trust", "-f"];
+  const r = await execWindowsAgent(bin, args, { cwd, timeoutMs: 300_000 });
   return {
     ok: r.ok,
     text: r.text,
     backend: "cursor-agent-cli",
     model: cfg.composerModel,
-    lane: "開発"
+    lane: "開発",
+    error: r.error
   };
 }
 

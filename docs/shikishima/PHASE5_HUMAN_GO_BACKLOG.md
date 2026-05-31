@@ -17,8 +17,8 @@ Date: 2026-06-01 · Status: 更新済み
 | ゲート | 理由 |
 |--------|------|
 | 憲法 execute グローバル常時化 | operational-release 別判断 · CLAUDE 不変文言 |
-| SC-013 Electron local | `stackchanSayLocal` TS bridge 未配線 |
+| SC-013 Electron local | **done** — `stackchan-guarded-bridge.ts` |
 | W6b Phase D 金融/EA | ユーザー未選択 |
 | FX/MT5 本番 | 保護領域 |
 | 24h 無制限 Discord / dev | SHI-A4 caps |
-| SHI-010 agent login | 人間作業待ち（partial） |
+| SHI-010 agent login | **done**（2026-05-31） |

@@ -37,7 +37,7 @@ Baseline: Phase 0 計測 + 計画 Phase 0–7 統合
 | SC-010 | docずれ | GATE_MATRIX voice 列 stale | G | 5 | done | 本ファイル参照 |
 | SC-011 | 設計穴 | Display pilot 未実施 | H | 5 | deferred | time-window GO |
 | SC-012 | 設計穴 | SC-FACE-04 320×240 asset | H | 5 | deferred | 人手 asset |
-| SC-013 | 設計穴 | guarded route Bot facade | G | 5 | done | Phase1 queue · Phase2 `stackchan-guarded-facade.mjs` + Bot（2026-06-01）· Electron local は残 |
+| SC-013 | 設計穴 | guarded route Bot + Electron | G | 5 | done | Phase2 Bot facade · Phase3 `stackchan-guarded-bridge.ts` + index.ts（2026-06-01） |
 | SC-014a | 設計 | Discord voice 統合 doc + env ヘルパ | G | 5 | done | STACKCHAN_DISCORD_VOICE_UNIFICATION |
 | SC-014b | コード | `stackchan-voice-config.mjs` | G | 5 | done | vitest voice-config |
 | SC-014c | 設計穴 | 司令部 guarded bridge 試験 | H | 5 | deferred | Bot 未配線 |
@@ -77,7 +77,7 @@ Baseline: Phase 0 計測 + 計画 Phase 0–7 統合
 | SHI-004 | 運用 | 重複 Bot PID | G | 2 | done | `--clean` + vitest `full-autonomy-process-preflight` |
 | SHI-005 | 運用 | `DISCORD_OPERATOR_USER_ID` | H | 2 | done | [DIS_05](DIS_05_DISCORD_MULTI_ROOM_DESIGN.md) — patch + `!multi-room-test` OK（対話6・通知送信）2026-05-31 |
 | SHI-006 | doc | orchestratorRelaxed 監査 | G | 2 | done | 2026-05-31 `orchestrator-gates-audit` 緩和ON · loop可 · voice BLOCK |
-| SHI-010 | 環境 | Windows `agent` CLI | H | 3 | partial | CLI あり · **`agent login` 人間作業** · WSL dev 可 · Phase B WF pilot `wf-mptwxo7l` done 2026-06-01（login 未実施のため partial 維持） |
+| SHI-010 | 環境 | Windows `agent` CLI | H | 3 | done | `agent login` OK（2026-05-31 · tkcho.fx@gmail.com）· 3-leg chain · dev probe claude + composer レッグ · preflight `cursor_agent_session_ok` |
 | SHI-011 | 環境 | `.env.local` dev pipeline | G | 3 | done | `DEV_PIPELINE_ENABLED=1` |
 | SHI-012 | 環境 | WSL `claude login` | H | 3 | done | preflight `wsl_claude_session_ok` |
 | SHI-013 | 運用 | `!dev-pipeline` チェーン | G | 3 | done | Discord + WF dev ok 実績 |

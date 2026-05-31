@@ -27,3 +27,6 @@ node scripts/shikishima-run-ordered-tasks.mjs --skip-stackchan-resume
 
 - **Phase B WF pilot** (2026-06-01): id=`wf-mptwxo7l` stage=**done** lastDevOk=true burst=5
 - **Phase5 Portfolio G=1** (2026-06-01): multi-room-test OK · dialogue 6 · notify sent
+- **dev-pipeline probe** (2026-05-31): `shikishima-dev-pipeline-probe.mjs` · chain=3 · backend=**claude-cli**（composer win fail → fallback）· Windows agent login 未実施
+- **SHI-010** (2026-05-31): Windows `agent login` OK · preflight `cursor_agent_session_ok` · INVENTORY done · SHI 13/16 · human-go `win agent login OK` · dev probe は composer 未応答時 **claude-cli** フォールバック（`wsl-dev-runner` win `.cmd` 対応済）
+- **Phase 6 別 GO** (2026-06-01): GO-B composer `--trust -f` · GO-C Electron bridge · SC 14/14 · GO-F charter — [PHASE6_GO_ROADMAP_2026-06.md](PHASE6_GO_ROADMAP_2026-06.md)

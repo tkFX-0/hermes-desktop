@@ -107,15 +107,27 @@ export function formatDevPipelineStatus(cfg, preflight = loadWslPreflight()) {
   const lines = [
     "🔧 **開発パイプライン** (subscription-first)",
     `有効: ${cfg.enabled ? "ON" : "OFF"} / 課金方針: ${cfg.subscriptionOnly ? "サブスクのみ" : "mixed"}`,
-    `優先: ${cfg.primary} → ${DEV_CHAIN.join(" → ")}`,
+    `優先: ${DEV_CHAIN.join(" → ")}`,
+    `primary設定: ${cfg.primary}`,
     `Composer: mode=${cfg.composerMode} model=${cfg.composerModel}`,
     `Windows agent CLI: ${win?.present ? "あり" : "なし（要 install: irm cursor.com/install?win32=true | iex）"}`,
     `Hermes脳: ${cfg.hermesBrain ? "ON" : "OFF"} (${cfg.hermesModel})`,
     "",
     "**利用可能チェーン:**"
   ];
-  if (!chain.length) lines.push("- （なし — `node scripts/shikishima-wsl-dev-preflight.mjs` を実行）");
-  else chain.forEach((c, i) => lines.push(`${i + 1}. ${c.id} (${c.via})`));
+  if (!chain.length) {
+    lines.push("- （なし — `node scripts/shikishima-wsl-dev-preflight.mjs` を実行）");
+    const login = preflight?.login;
+    const tools = preflight?.tools ?? {};
+    const loginOkButMissing =
+      (login?.claude?.loggedIn && !tools.claude?.present) ||
+      (login?.codex?.loggedIn && !tools.codex?.present);
+    if (loginOkButMissing) {
+      lines.push(
+        "- ヒント: ログイン OK だが CLI 未検出 — preflight を再実行してください"
+      );
+    }
+  } else chain.forEach((c, i) => lines.push(`${i + 1}. ${c.id} (${c.via})`));
 
   const login = preflight?.login;
   if (login || preflight?.windows?.agentLogin) {

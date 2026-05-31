@@ -1,7 +1,7 @@
 # StackChan Guarded Route 移行計画（SC-013）
 
 Date: 2026-05-30  
-Status: **Phase 2 完了**（2026-06-01 · SideBot guarded facade）· Electron `stackchanSayLocal` は別途
+Status: **Phase 3 完了**（2026-06-01 · Bot facade + Electron `stackchan-guarded-bridge.ts`）
 
 ### Phase 1 実装済み（2026-05-31 · SC-013 mitigated）
 
@@ -21,7 +21,7 @@ Status: **Phase 2 完了**（2026-06-01 · SideBot guarded facade）· Electron 
 | SideBot 入口 | `scripts/shikishima-bot.mjs` → guarded 経由 |
 | vitest | `stackchan-guarded-facade.test.ts` |
 
-**残（Electron）**: `src/main/index.ts` の `stackchanSayLocal` / `stackchanFaceLocal`（段階 3–4 · TS bridge）
+**Electron（Phase 3 済）**: `src/main/stackchan-guarded-bridge.ts` · `index.ts` IPC + STT 経由
 
 ## 現状
 

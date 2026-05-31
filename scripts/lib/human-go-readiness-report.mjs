@@ -28,6 +28,11 @@ export function buildHumanGoReadinessReport(root) {
     humanGoAcknowledged: false
   };
   const preflight = readJson(join(memory, "wsl-dev-preflight.json"));
+  const zenbuGo = readJson(join(memory, "zenbu-go.local.json"));
+  const scopeGo = readJson(join(memory, "execution-scope-go.local.json"));
+  const orchestratorRelaxed =
+    scopeGo?.scopes?.orchestratorRelaxed?.enabled === true ||
+    String(process.env.SHIKISHIMA_ORCHESTRATOR_RELAXED ?? "").trim() === "1";
 
   const trackDActive =
     ops?.trackDGoAcknowledged === true &&
@@ -81,9 +86,15 @@ export function buildHumanGoReadinessReport(root) {
     {
       id: "constitutional",
       label: "Constitutional GO scopes",
-      status: constitutionalActive ? "PARTIAL" : "HOLD",
+      status: constitutionalActive
+        ? scopes.length >= 8
+          ? "READY"
+          : "PARTIAL"
+        : "HOLD",
       humanGoRequired: true,
-      note: constitutionalActive ? `scopes=${scopes.length}` : "constitutional-go.local.json"
+      note: constitutionalActive
+        ? `scopes=${scopes.length}${scopes.length >= 8 ? " (GO-E planned set)" : ""}`
+        : "constitutional-go.local.json"
     },
     {
       id: "obsidian_write",
@@ -102,21 +113,32 @@ export function buildHumanGoReadinessReport(root) {
     {
       id: "agent_team_tick",
       label: "Agent team scheduled tick",
-      status: trackDActive && ops?.agentTeamTickEnabled === true ? "PARTIAL" : "HOLD",
-      humanGoRequired: true,
-      note: ops?.agentTeamTickEnabled
-        ? `every ${ops.agentTeamTickIntervalMinutes ?? 360}m`
-        : "agentTeamTickEnabled in ops file"
+      status:
+        zenbuGo || (trackDActive && ops?.agentTeamTickEnabled === true)
+          ? "READY"
+          : "HOLD",
+      humanGoRequired: !zenbuGo,
+      note: zenbuGo
+        ? "全てGO"
+        : ops?.agentTeamTickEnabled
+          ? `every ${ops.agentTeamTickIntervalMinutes ?? 360}m`
+          : "agentTeamTickEnabled in ops file"
     },
     {
       id: "autonomous_orchestrator",
       label: "Autonomous orchestrator (capped, no Discord send)",
       status:
-        trackDActive && ops?.autonomousOrchestratorEnabled === true ? "PARTIAL" : "HOLD",
-      humanGoRequired: true,
-      note: ops?.autonomousOrchestratorEnabled
-        ? `every ${ops.autonomousOrchestratorIntervalMinutes ?? 30}m via SideBot`
-        : "node scripts/shikishima-phase-go.mjs ack autonomous_orchestrator"
+        zenbuGo || (trackDActive && ops?.autonomousOrchestratorEnabled === true && orchestratorRelaxed)
+          ? "READY"
+          : trackDActive && ops?.autonomousOrchestratorEnabled === true
+            ? "PARTIAL"
+            : "HOLD",
+      humanGoRequired: !zenbuGo,
+      note: zenbuGo
+        ? "全てGO · capped"
+        : ops?.autonomousOrchestratorEnabled
+          ? `every ${ops.autonomousOrchestratorIntervalMinutes ?? 30}m via SideBot`
+          : "node scripts/shikishima-phase-go.mjs ack autonomous_orchestrator"
     },
     {
       id: "dev_pipeline",
@@ -155,13 +177,20 @@ export function buildHumanGoReadinessReport(root) {
   ];
 
   const openGaps = items.filter(
-    (i) => i.status === "HOLD" && i.id !== "codex_leg" && i.id !== "obsidian_write"
+    (i) =>
+      i.status === "HOLD" &&
+      i.id !== "codex_leg" &&
+      i.id !== "obsidian_write" &&
+      i.id !== "unbounded_discord"
   ).length;
 
   let decisionForAutomation = "HOLD";
-  if (trackDActive && constitutionalActive && burnReady && openGaps === 0) {
+  const constitutionalReady = constitutionalActive && scopes.length >= 8;
+  if (zenbuGo && constitutionalReady && burnReady && openGaps === 0) {
+    decisionForAutomation = "GO";
+  } else if (trackDActive && constitutionalReady && burnReady && openGaps === 0) {
     decisionForAutomation = "GO_PREPARED";
-  } else if (trackDActive || constitutionalActive) {
+  } else if (trackDActive || constitutionalActive || zenbuGo) {
     decisionForAutomation = "PARTIAL";
   }
 

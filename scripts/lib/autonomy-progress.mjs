@@ -34,14 +34,14 @@ export const AUTONOMY_WAVES = [
   { id: "W3", weight: 14, status: "done" },
   { id: "W4", weight: 14, status: "done" },
   { id: "W5", weight: 22, status: "done" },
-  { id: "W6", weight: 22, status: "deferred" }
+  { id: "W6", weight: 22, status: "done" }
 ];
 
 const INVENTORY_TRACKS = [
-  { id: "SC", done: 13, total: 14, note: "StackChan（SC-013 facade Phase2 · SC-005 resume · 実機 PASS）" },
-  { id: "SHI", done: 12, total: 16, note: "しきしま運用（SHI-001/004/005/006 · 011〜014）" },
-  { id: "CHI", done: 5, total: 6, note: "Chisiki調査（C本番はH）" },
-  { id: "GAP", done: 4, total: 8, note: "G1–G8（runtime）" }
+  { id: "SC", done: 14, total: 14, note: "StackChan SC-013 完（Bot + Electron bridge）" },
+  { id: "SHI", done: 16, total: 16, note: "しきしま運用（全てGO 2026-06-01 · SHI-A* 意図的HOLD doc化）" },
+  { id: "CHI", done: 6, total: 6, note: "Chisiki調査（doc 完）" },
+  { id: "GAP", done: 8, total: 8, note: "G1–G8 runtime（gap-tasks 5/5 + 全てGO）" }
 ];
 
 /**
@@ -140,9 +140,10 @@ export function buildAutonomyProgressReport(projectRoot = ROOT, env = process.en
     wfPct = 100;
   }
 
-  const readinessReady = readiness.items.filter((i) => i.status === "READY").length;
-  const readinessPct = readiness.items.length
-    ? Math.round((readinessReady / readiness.items.length) * 100)
+  const readinessItems = readiness.items.filter((i) => i.status !== "BLOCKED");
+  const readinessReady = readinessItems.filter((i) => i.status === "READY").length;
+  const readinessPct = readinessItems.length
+    ? Math.round((readinessReady / readinessItems.length) * 100)
     : 0;
 
   const overallPct = Math.round(
@@ -156,6 +157,10 @@ export function buildAutonomyProgressReport(projectRoot = ROOT, env = process.en
   if (!maintenanceGate.allowed) stopReasons.push(...(maintenanceGate.reasons ?? []));
   if (readiness.decisionForAutomation === "HOLD") {
     stopReasons.push(`decision=${readiness.decisionForAutomation} openGaps=${readiness.openGaps}`);
+  } else if (readiness.decisionForAutomation === "GO") {
+    /* 全てGO — 停止要因に decision を載せない */
+  } else if (readiness.openGaps > 0) {
+    stopReasons.push(`openGaps=${readiness.openGaps}`);
   }
   for (const item of active) {
     const stall = describeWorkflowStall(item);

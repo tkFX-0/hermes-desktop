@@ -71,7 +71,7 @@ flowchart LR
 | M-07b | `SHIKISHIMA_DEV_PIPELINE_ENABLED=1` | **ON** | `.env.local` 設定済 |
 | M-07c | `!dev-pipeline` / `!autonomy progress` | **ON** · chain 3 · WF 4件 done | Discord 検証済 |
 | M-07d | `!kaihatu-test` | zone: `full-autonomy-kaihatu-auto-review` 等 | vitest + 司令部任意 |
-| SHI-010 | Windows `agent` CLI | **present**（`agent login` **人間作業のみ**） | 未 login でも WSL claude/codex で dev 可 · `dev_pipeline` READY |
+| SHI-010 | Windows `agent` CLI | **done**（login 2026-05-31） | 3-leg chain · `dev_pipeline` READY |
 | SHI-012 | WSL `claude login` | **OK**（root セッション） | 検証済 |
 
 ### ワークフロー（Discord + 人間 ack）
@@ -94,7 +94,7 @@ flowchart LR
 | 1 | `node scripts/shikishima-env-operator-patch.mjs <Discord ID>` | 人間（.env.local） |
 | 2 | `node scripts/shikishima-process-preflight.mjs --clean --restart-dev` | PowerShell |
 | 3 | Discord `!multi-room-test` · `!autonomy progress` | **完了**（OK · 対話6 · 通知送信 2026-05-31） |
-| 4 | 任意 `agent login` | **人間のみ**（[SHI-010 partial](DESIGN_INVENTORY_2026-05-30.md)）— CLI: `agent login` → `!dev-pipeline` |
+| 4 | `agent login` | **done**（SHI-010）— `agent login` → preflight → `dev-pipeline-probe` |
 | 5 | 新規 EA 自動 enqueue 抑止 | `SHIKISHIMA_WORKFLOW_HANDOFF_DISABLE=1`（`.env.local` 設定済 · Bot `mergedEnv` 経由で `ensureWorkflowFromHandoff` が skip） |
 | 6 | ワークフロー投入 | **`!workflow enqueue` は必要時のみ**（handoff 自動 enqueue は OFF · 明示 enqueue のみ） |
 
@@ -130,7 +130,7 @@ Phase 1 実施: `run-ordered-tasks`（maintenance interval skip は正常）· `
 | constitutional | PARTIAL | scopes=8（execute 有効化は別 GO） |
 | agent_team_tick | PARTIAL | every 30m · SideBot orchestrator 経由 |
 | autonomous_orchestrator | PARTIAL | every 15m maintenance · capped |
-| dev_pipeline | READY | ON · claude OK · win agent login optional |
+| dev_pipeline | READY | ON · 3-leg · win agent login OK · composer `--trust -f` |
 | codex_leg | READY | wsl-codex-cli login OK |
 | unbounded_discord | BLOCKED | 意図的 |
 

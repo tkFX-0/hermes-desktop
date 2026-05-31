@@ -11,6 +11,7 @@ import { writeFileSync, mkdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { homedir } from "node:os";
 import { wslBash, WSL_DISTRO } from "./lib/wsl-exec.mjs";
+import { execWindowsAgentStatus } from "./lib/win-agent-exec.mjs";
 
 const MEMORY_DIR = join(
   homedir(),
@@ -48,13 +49,30 @@ function probeWindowsAgent() {
   }
 }
 
-function probeWindowsAgentLogin(agentPresent) {
+function detectAgentLoggedIn(statusOutput) {
+  const out = String(statusOutput ?? "").trim();
+  return (
+    /logged\s+in\s+as\s+\S+/i.test(out) ||
+    (/logged\s+in|authenticated/i.test(out) && !/not\s+logged|login\s+required/i.test(out))
+  );
+}
+
+async function probeWindowsAgentLogin(agentPresent, agentPath) {
   if (!agentPresent) {
     return { loggedIn: false, hint: "install: irm cursor.com/install?win32=true | iex" };
   }
+  const bin = (agentPath || "agent").trim();
   try {
-    const out = execFileSync("agent", ["status"], { encoding: "utf8", timeout: 15_000 }).trim();
-    const loggedIn = /logged in|authenticated|pro/i.test(out) && !/not logged|login required/i.test(out);
+    if (process.platform === "win32" && /\.(cmd|bat)$/i.test(bin)) {
+      const r = await execWindowsAgentStatus(bin);
+      const loggedIn = detectAgentLoggedIn(r.text);
+      return {
+        loggedIn,
+        hint: loggedIn ? "cursor_agent_session_ok" : "run in PowerShell: agent login"
+      };
+    }
+    const out = execFileSync(bin, ["status"], { encoding: "utf8", timeout: 15_000, windowsHide: true }).trim();
+    const loggedIn = detectAgentLoggedIn(out);
     return {
       loggedIn,
       hint: loggedIn ? "cursor_agent_session_ok" : "run in PowerShell: agent login"
@@ -116,7 +134,7 @@ async function main() {
   const winAgent = probeWindowsAgent();
   const windows = {
     agent: winAgent,
-    agentLogin: probeWindowsAgentLogin(winAgent.present)
+    agentLogin: await probeWindowsAgentLogin(winAgent.present, winAgent.path)
   };
 
   const login = ping.ok

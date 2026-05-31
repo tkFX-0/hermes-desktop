@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   resolveDevPipelineConfig,
   resolveDevBackendChain,
+  formatDevPipelineStatus,
   DEV_CHAIN
 } from "../../../../scripts/lib/dev-pipeline-router.mjs";
 
@@ -47,5 +48,23 @@ describe("dev pipeline router", () => {
 
   it("DEV_CHAIN order is fixed", () => {
     expect(DEV_CHAIN).toEqual(["composer", "claude", "codex"]);
+  });
+
+  it("formatDevPipelineStatus lists priority chain without duplicate composer", () => {
+    const cfg = resolveDevPipelineConfig({
+      SHIKISHIMA_DEV_PIPELINE_ENABLED: "1",
+      SHIKISHIMA_DEV_PRIMARY: "composer"
+    });
+    const report = formatDevPipelineStatus(cfg, {
+      windows: { agent: { present: true }, agentLogin: { loggedIn: false, hint: "test" } },
+      tools: { hermes: { present: true }, claude: { present: true }, codex: { present: true } },
+      login: {
+        claude: { loggedIn: true, hint: "ok" },
+        codex: { loggedIn: true, hint: "ok" }
+      }
+    });
+    const priorityLine = report.split("\n").find((l) => l.startsWith("優先:"));
+    expect(priorityLine).toBe("優先: composer → claude → codex");
+    expect((priorityLine?.match(/composer/g) ?? []).length).toBe(1);
   });
 });

@@ -29,10 +29,10 @@ Date: 2026-06-01 · Status: **完了**
 - execute: `npx tsx scripts/shikishima-constitutional-go-execute.mjs`
 - スコープ付き live（DIS-03 one_shot 等）— 24h 無制限送信・FX ではない
 
-## SHI-010 agent login（人間）
+## SHI-010 agent login（人間）— **done 2026-05-31**
 
 ```powershell
 agent login
 ```
 
-成功後: DESIGN_INVENTORY SHI-010 → `done` · autonomy-progress SHI +1
+完了: DESIGN_INVENTORY SHI-010 → `done` · autonomy-progress SHI **13/16** · preflight `cursor_agent_session_ok`

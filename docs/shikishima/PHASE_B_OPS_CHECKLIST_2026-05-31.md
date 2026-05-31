@@ -8,6 +8,7 @@ Date: 2026-05-31 · Status: 運用ガイド
 ## 日次（5〜10分）
 
 ```powershell
+# 必ずリポジトリ root から実行（C:\Users\81903 直下では scripts が見つかりません）
 Set-Location "c:\Users\81903\Desktop\プロジェクトファイル\hermes-desktop"
 
 node scripts/shikishima-autonomy-status.mjs
@@ -44,6 +45,9 @@ npx vitest run tests/hermes/zone/full-autonomy
 | 完了 | `!workflow done` または `--workflow-done` |
 
 ```powershell
+# dev レッグのみ（WF なし · ~30s）
+node scripts/shikishima-dev-pipeline-probe.mjs
+
 # 1 サイクル検証（dev 段は WSL · 数分かかる場合あり）
 node scripts/shikishima-phase-b-workflow-pilot.mjs
 ```
