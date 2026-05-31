@@ -36,16 +36,31 @@ function todayJST() {
 
 // ─── Lv9: 24h サイクルモード ──────────────────────────────────────────────────
 
+/** @param {Date} [date] */
+export function getJstHour(date = new Date()) {
+  return new Date(date.getTime() + 9 * 60 * 60 * 1000).getUTCHours();
+}
+
+/**
+ * JST 時刻帯 → モード（vitest 用に時刻を注入可能）
+ * @param {number} h 0–23 JST
+ * @returns {"night"|"morning_prep"|"morning_report"|"active"|"evening"}
+ */
+export function getCurrentModeForJstHour(h) {
+  if (h >= 3 && h < 7) return "evening"; // 夜の整理モード 03:00–06:59
+  if (h >= 0 && h < 3) return "night";
+  if (h >= 21) return "night";
+  if (h >= 7 && h < 8) return "morning_prep";
+  if (h >= 8 && h < 9) return "morning_report";
+  if (h >= 9 && h < 21) return "active";
+  return "night";
+}
+
 /**
  * @returns {"night"|"morning_prep"|"morning_report"|"active"|"evening"}
  */
 export function getCurrentMode() {
-  const h = new Date(Date.now() + 9 * 60 * 60 * 1000).getUTCHours();
-  if (h >= 0  && h < 6)  return "night";
-  if (h >= 6  && h < 8)  return "morning_prep";
-  if (h >= 8  && h < 9)  return "morning_report";
-  if (h >= 9  && h < 21) return "active";
-  return "evening";
+  return getCurrentModeForJstHour(getJstHour());
 }
 
 const MODE_LABELS = {
@@ -63,7 +78,7 @@ export function getModeLabel() {
 // モードに応じたポーリング間隔 (ms)
 export function getPollInterval() {
   const mode = getCurrentMode();
-  return mode === "night" ? 60_000 : 10_000; // 夜間は60秒、それ以外は10秒
+  return mode === "night" || mode === "evening" ? 60_000 : 10_000;
 }
 
 // ─── Lv10-C: 長期目標管理 ─────────────────────────────────────────────────────
