@@ -109,7 +109,7 @@ describe("SC-SECRETARY routine and event bridge", () => {
       summary: "FX thesis is informational only.",
     });
 
-    expect(bridge.voiceDraft.agentId).toBe("chihaya");
+    expect(bridge.voiceDraft.agentId).toBe("shirube");
     expect(bridge.voiceDraft.eventKind).toBe("fx_summary");
     expect(bridge.externalWrite).toBe(false);
     expect(bridge.deviceActionExecuted).toBe(false);

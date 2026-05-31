@@ -146,9 +146,19 @@ export function checkInstallStatus(): InstallStatus {
   }
 
   const installed = existsSync(HERMES_PYTHON) && existsSync(HERMES_SCRIPT);
+  const configured = existsSync(HERMES_ENV_FILE);
   const windowsManualInstallRequired =
     !installed && process.platform === "win32";
-  const configured = existsSync(HERMES_ENV_FILE);
+
+  if (windowsManualInstallRequired) {
+    return {
+      installed: false,
+      configured,
+      hasApiKey: false,
+      verified: false,
+      windowsManualInstallRequired: true,
+    };
+  }
   let hasApiKey = false;
   let verified = false;
 

@@ -1,0 +1,14 @@
+{
+  "agentId": "tsumugi",
+  "task": "XAUUSD用のEAを構築研究 証拠金２万円スタート 福利で構成する新EAを研究して下さい",
+  "openedAt": "2026-05-30T07:49:27.292Z",
+  "copiedFiles": [
+    "scripts/shikishima-bot.mjs",
+    "scripts/lib/discord-dev-commands.mjs"
+  ],
+  "changes": [
+    "xauusd_ea_compound/design_doc.md",
+    "C:\\Users\\81903\\Desktop\\プロジェクトファイル\\FX\\EA\\xauusd_ea_compound\\design_doc.md",
+    "FX/EA/xauusd_ea_compound/design_doc.md"
+  ]
+}

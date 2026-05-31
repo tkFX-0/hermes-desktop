@@ -28,10 +28,34 @@
 - **夜の整理モード**（`evening`）: **JST 03:00–07:00**（`scripts/shikishima-goals.mjs`）。21–24 時は `night`
 - ポーリング: `night` / `evening` は 60 秒、他は 10 秒
 
+## 人間GO完遂（2026-05-31）
+
+- **StackChan 実機 2・3**: PASS（人間判断 · CODEX doc 更新済み）
+- **Obsidian 実書き**: 許可実行済み
+  - vault 相対: `しきしま/inbox/2026-05-31-人間GO後次ステップ-2026-05-31.md`
+  - vault 相対: `しきしま/Daily/2026-05-31.md`（追記）
+  - 証跡庫: `30_Evidence/2026-05-31-14-46-31_next-go-verify.md`（shikishima-library）
+- **進捗**: 77% · INVENTORY **75%**（SC 12/14）· readiness 56% · openGaps=0
+- **preflight / resume**: `stackchan-resume --restart-bot`（HOLD=0 · SideBot 再起動）
+- **Obsidian 続き**: プレイブック inbox ミラー · dev-status-briefing OK
+- **次**: [POST_HUMAN_GO_NEXT_STEPS_2026-05-31.md](../docs/shikishima/POST_HUMAN_GO_NEXT_STEPS_2026-05-31.md) — 日次ルーティン · execution=enabled は別 GO · W6 deferred
+
+## 完全自律ロードマップ A1–B3（2026-05-31）
+
+- **進捗**: autonomy-status **76%→77%**（INVENTORY 70%→73% · SC-013 mitigated）· openGaps=0 · GO_PREPARED
+- **A1**: SC-013 `mitigated` — `discord-voice-playback-queue` · guarded route Phase1
+- **A2**: SHI-010 — `agent login` 人間作業 · WSL dev 可
+- **A3**: gap-tasks 5/5 OK
+- **A4**: agent_team / orchestrator capped 稼働中（PLAYBOOK 追記）
+- **B1**: vitest 31/31 · 実機 2・3 は **要確認**
+- **B2**: obsidian dry-run のみ（`wouldWrite=true` だがスクリプトは audit のみ · 実書きなし）
+- **B3**: `SHIKISHIMA_WORKFLOW_HANDOFF_DISABLE=1` · `!workflow enqueue` 必要時のみ
+- Doc: `AUTONOMY_55_TO_100_CURSOR_PLAYBOOK_2026-05-31.md` · `DESIGN_INVENTORY_2026-05-30.md`
+
 ## StackChan voice（2026-05-31 本線）
 
-- Discord L1: chunk **96** · poll-batch `ordered i/N` · digest 中 operator notify **defer**（既定 ON）
-- 実機: 司令部 **1 通短文 PASS**（ユーザー報告）。3 通連続・`!sc nod` は再起動後に人間再確認
+- Discord L1: chunk **96** · **global voice queue**（poll 跨ぎ FIFO）· `prepareDiscordVoiceSpeech`（80字切り廃止）· digest 中 notify defer
+- 実機: 司令部 **1 通短文 + 3 通連続 + 読み上げ中 `!sc nod` すべて PASS**（人間 GO 2026-05-31）
 - Doc: `CODEX_STACKCHAN_DISCORD_VOICE_FIX_REQUEST_2026-05-31.md` · Skill `shikishima-stackchan-specialist`
 
 ## StackChan voice（2026-05-30 更新）

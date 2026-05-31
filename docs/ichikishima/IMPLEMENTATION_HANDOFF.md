@@ -783,4 +783,90 @@ Composer2へ渡す場合は、次を守る。
 
 - **Post-pilot ops release (2026-05-28)**: Human `実施してもらっていいです`. `sidebotHoldReleased` + `hermesDaemonPilotEnabled` in ops file; `sidebot-service.ts` / `index.ts` read `isSidebotHoldActive()`. `OPS_POST_PILOT_RELEASE_2026-05-28.md`, `scripts/shikishima-operational-status.mjs`. Hermes `npm run dev` remains **manual** (not auto-spawn).
 
+- **Constitutional 全てGO (2026-05-28)**: User `全てGO`. `constitutional-go-state.ts`, activate script, E3b `obsidian-write-executor`, E5b `discord-read-executor` + IPC wire, E6 `hermes-subprocess-bridge`, E7 `shadow-stt-opt-in`, FA-12 via `phaseEProductionGoAcknowledged`. `library-export` live when GO. Doc `CONSTITUTIONAL_GO_ALL_2026-05-28.md`. **git push not automated.**
+
+- **実施GO executed (2026-05-28)**: `shikishima-constitutional-go-execute.mjs` exit 0 — Obsidian live write, Discord read x5, pipeline L8/FA-12 PASS, capped tick OK. Evidence `CONSTITUTIONAL_GO_EXECUTE_EVIDENCE_2026-05-28.md`. WSL probe `hermes_bridge_ok`.
+
+- **Discord-only overnight (2026-05-28)**: User 寝る間に未実装実行 + UI削減 + モデル統合。`shikishima-runtime-mode.ts`, `DiscordOpsMinimalPage`, Layout nav trim, Shadow off when constitutional GO, `shikishima-agent-model-registry.json`, bot reads registry, `DISCORD_ONLY_OPS_2026-05-28.md`. Control Center poll skipped in Discord-only.
+
+- **Agent backend registry Grok HOLD (2026-05-29)**: User方針 — Groq≠Grok、今月 Grok Research/x_search HOLD、Groq+Claude+Workers。Registry v2 `shikishima-agent-model-registry.json`, `shikishima-agent-backend-policy.ts`, agent-router/bot/hermes-research/grok IPC enforced. Doc `AGENT_BACKEND_REGISTRY_2026-05-29.md`.
+
+- **Discord sequential human check (2026-05-29)**: `!agent-test` / `順番での回答` → 6-agent local replies (`local-human-check`, no API billing). `discord-text-safe.mjs` mojibake fix. Bot restarted via preflight `--clean`.
+
+- **Composer process preflight (2026-05-29)**: `scripts/shikishima-process-preflight.mjs` — Win32 duplicate `shikishima-bot` / PID file check; `--clean` + `--restart-dev` now starts standalone SideBot when electron-vite is already running, avoiding `botCount:0` after clean. Doc `DISCORD_ONLY_OPS_2026-05-28.md` Composer 節。
+
+- **All-agent autonomous routing + tick (2026-05-29)**: User「全員のエージェント自律運動できるまで今日」。`scripts/lib/dispatch-agent-reply.mjs` (SideBot per-agent Groq/Claude/worker), `shikishima-bot.mjs` `handleMessage` → registry dispatch + audit `modelTrace`, `agent-router` `modelTrace`, `agent-team-autonomous-tick.ts` + `scripts/shikishima-agent-team-tick.mjs` (6-agent capped maintenance, no Discord send). Doc `docs/shikishima/AGENT_TEAM_AUTONOMOUS_OPERATION_2026-05-29.md`. Tests **49/49** full-autonomy zone. **Not run**: live `shikishima-agent-team-tick.mjs` (real API/WSL).
+
+- **Discord返答取りこぼし根本修正 (2026-05-29)**: 原因=起動毎に「最新メッセージ」へseedし、再起動直前のユーザー発言を既読扱いでスキップ（preflight多用で悪化）。診断 `scripts/diag-discord-poll.mjs` で `channelReadOk:true`・本文取得OK・未返信3件を確認。修正=`scripts/lib/discord-intake-cursor.mjs`（最後に処理したユーザーmsg idを `.shikishima-memory/discord-intake-cursor.json` に永続化）。`shikishima-bot.mjs` 起動時はカーソル復帰、poll毎にカーソル保存、30分超は返信せずカーソルのみ前進（バックログ一斉返信防止）。テスト `full-autonomy-discord-intake-cursor.test.ts`。
+
+- **Codex Worker 公式リソース登録簿 (2026-05-29)**: `docs/shikishima/CODEX_WORKER_RESOURCE_REGISTRY.md` — Past chat 整理を固定。Codex=つむぎWorker、内蔵脳ではない、自動起動HOLD。OpenAI公式5リンク。
+
+- **WSL開発パイプライン + Hermes脳 + サブスク運用 (2026-05-29)**: 帰宅後整備。`shikishima-wsl-dev-preflight.mjs`（WSL: claude/hermes/cursor あり、agent/codex なし）、`dev-pipeline-router.mjs` + `wsl-dev-runner.mjs`（composer→claude→codex、subscription_only）、`dispatch` つむぎ/はじめ開発KW時、Discord `!dev-pipeline`、返信末尾 `[返答]`/`[開発]` トレース。`.env.dev-pipeline.example`、`DEV_PIPELINE_SUBSCRIPTION_2026-05-29.md`。テスト `full-autonomy-dev-pipeline.test.ts`。**未**: `.env.local` 追記・Bot再起動・実開発タスク通し。
+
+- **推論レベル・統制・性格連動 (2026-05-29)**: User「しきしま推論高め／しるべが都度記録／性格が推論で変わらない問題」。registry `governanceVersion: 2026-05-29-reasoning-v1` — しきしま `reasoningLevel: deep` + primary `claude`。`agent-reasoning-policy.mjs`（レベル→model/tone/maxTokens）、`governance-changelog.mjs`（しるべ記録・`!governance`）、`.shikishima-memory/agent-personas.json`（推論別口調）、`dispatch`/`bot` 配線（100字固定廃止・ため口許可）。テスト **70/70** zone。
+
+- **Hermes 正式バックエンド化 (2026-05-29)**: User「正式バックエンド化／しきしまアレンジ／envは帰宅後／入れるだけで動く」。`src/main/shikishima-hermes-backend/`（config + client、API/CLI両対応、transport注入でテスト可能、準備状況は秘匿値非出力）。SideBot用ミラー `scripts/lib/hermes-backend.mjs`（実HTTP+WSL）。`dispatch-agent-reply.mjs` で有効時Hermes最優先→失敗時Groq/Claudeへ自動フォールバック（drop-in安全・既定OFF）。雛形 `.env.hermes.example`、doc `docs/shikishima/HERMES_BACKEND_2026-05-29.md`。テスト `full-autonomy-hermes-backend.test.ts`。zone全体 **66/66 pass**、typecheck:node OK。外部送信/git push/依存追加なし。
+
+- **Phase E toward production full autonomy (2026-05-28)**: E1–E5 capped scheduler + discord plan/executor. E6–E8 under constitutional GO. Tests `full-autonomy-constitutional-go.test.ts`.
+
+- **B/C/D 自律ゲート配線 + しるべ記録修正 (2026-05-29)**: User「Obsidianは後で／B C D実装／人間GOは後で一括確認」。`governance-changelog.mjs` 上書きバグ修正 + 開発パイプライン記録、`human-go-readiness.ts` + `!human-go`、`burn-in-wall-clock-store.ts`、`agent-team-tick-scheduler.ts` + `shikishima-agent-team-tick-scheduled.mjs`、`obsidian-vault-path` 統一、WSL login プローブ、doc `HUMAN_GO_BATCH_VERIFICATION_2026-05-29.md`。安全不変: 無制限Discord/Codex自動/git push は BLOCKED/HOLD。
+
+- **自律オーケストレータ plain Node (2026-05-29)**: `scripts/lib/autonomous-tick-runner.mjs` + `operational-release-read.mjs` + `autonomous-runtime-caps.mjs`（永続カウンタ）。`shikishima-autonomous-runtime-tick.mjs` を .ts 非依存に修正。`shikishima-autonomous-orchestrator.mjs`（maintenance + agent team スケジュール）。`shikishima-agent-team-tick-local.mjs`（既定ローカル・`--live-api` で課金あり）。SideBot `startAutonomousOrchestratorLoop`（`autonomousOrchestratorEnabled` 時のみ spawn）。`shikishima-phase-go.mjs` に `autonomous_orchestrator` フェーズ。Doc `PHASE_GO_PROCEDURE_2026-05-29.md`。テスト `autonomous-tick-runner.test.ts` 追加。
+
+- **Obsidian Vault 整理 + 課金ポリシー (2026-05-29)**: Vault=`C:\Users\81903\Documents\Obsidian Vault`（`setup-obsidian-vault.mjs`）。`しきしま/inbox`・`しきしま/計画`（旧 しきしま計画 移動）・`30_Evidence`。`.env.local` に `OBSIDIAN_VAULT_PATH` + `SHIKISHIMA_BILLING_MODE=subscription_only` + `SHIKISHIMA_ALLOW_PAID_API=0`。`billing-policy.mjs` で `--live-api` ブロック。`.env.billing.example`。
+
+- **Orchestrator ログ + Obsidian vault ops (2026-05-29)**: SideBot `[Orchestrator] tick start/done`、監査 `audit/orchestrator-tick.jsonl`、`shikishima-orchestrator-status.mjs`。Obsidian: `.env.obsidian.example`、`shikishima-obsidian-vault-check.mjs`、Discord `!obsidian-status`、`human-go` の obsidian_write が vault 存在で READY/PARTIAL。Doc `ORCHESTRATOR_AND_OBSIDIAN_OPS_2026-05-29.md`。
+
+- **Discord Ops 二重応答対策 (2026-05-29)**: 原因=旧 `shikishima-bot.mjs` プロセス残存 + ちはや状態文の `!chihaya-status` エコー誘発。`kill-sibling-bots.mjs`（起動時他 node 終了）、`discord-inbound-filter` ちはや長文エコー、`fx-notifications` 状態文から `!` 除去、`sanitizeDiscordText` に Claude stdin 警告除去、poll `runSerializedMessageWork` 直列化。**要**: `node scripts/shikishima-process-preflight.mjs --clean --restart-dev` 後 Discord で `!governance` / `!chihaya-status` / `!human-go` 各1通確認。
+
+- **StackChan voice + Discord VOICEVOX (2026-05-30)**: 人間 `audible_clear`（VOICEVOX 再配置後）。`scripts/lib/stackchan-discord-voice.mjs` — 通常 Discord 返答も VOICEVOX 直送（`STACKCHAN_DISCORD_VOICE` 既定ON）。全文チャンク読み上げ・グローバル直列キュー実装済み。**現在 HOLD**（`SHIKISHIMA_STACKCHAN_HOLD=1`）。Doc `docs/shikishima/STACKCHAN_HOLD_2026-05-30.md` / 明日 `MORNING_AUTONOMY_START_CHECKLIST_2026-05-31.md`。**現在 HOLD** (`SHIKISHIMA_STACKCHAN_HOLD=1`): `docs/shikishima/STACKCHAN_HOLD_2026-05-30.md`。明日自律: `docs/shikishima/MORNING_AUTONOMY_START_CHECKLIST_2026-05-31.md`。安全不変: `decision=HOLD`, `execution=disabled`, `productionReady=false`。
+
+- **人間 GO 順次タスク完了 (2026-05-31)**: `shikishima-run-ordered-tasks.mjs` — Phase E（maintenance + obsidian dry-run + **discord.read 10件 redacted**）、agent-team **local-only**（`--force`・`liveApi:false`・課金なし）、StackChan **resume** + Bot 再起動。新規: `discord-read-intake.mjs`, `obsidian-dry-run-tick.mjs`, `stackchan-resume.mjs`。vitest zone **105/105**。安全不変: `decision=HOLD`, `execution=disabled`, `productionReady=false`（憲法 execute は別）。
+
+- **人間 GO 確認・自律 tick 起動 (2026-05-31 朝)**: User 確認・許可。`phase-go ack` — `agent_team_tick`, `autonomous_orchestrator`。
+
+- **Jarvis Phase A–D ロードマップ + Phase A ブリーフ (2026-05-31)**: User 合意 — G/H 表記、Hermes バックエンド当面なし、肩乗り不要、金銭/EA は Phase D まで H。Doc `docs/shikishima/JARVIS_PHASE_A_D_ROADMAP_2026-05-31.md`。code `dev-status-briefing.ts` + `npx tsx scripts/shikishima-dev-status-briefing.ts` + vitest `full-autonomy-dev-status-briefing.test.ts`（zone **108** pass）。StackChan 聴感は帰宅目視 **G** まで **H**。
+
+- **DIS-05 Discord マルチルーム (2026-05-31)**: User **G** — portfolio/dialogue チャンネル ID 設定、`SHIKISHIMA_DISCORD_MULTI_ROOM_G=1`。`discord-channel-config` / `discord-multi-room` / `!multi-room-test` / `shikishima-discord-multi-room-test.mjs`。ライブテスト OK（portfolio + 対話7通）。`DISCORD_OPERATOR_USER_ID` 未設定のため @メンションは省略（allowlist 準備済み）。Doc `DIS_05_DISCORD_MULTI_ROOM_DESIGN.md`。vitest zone **112** pass。
+
+- **自律ギャップ順次 Task + !kaihatu (2026-05-31)**: `ORDERED_TASKS_AUTONOMY_GAPS_2026-05-31.md` / `shikishima-run-autonomy-gap-tasks.mjs`（Task1〜5）。司令部 `!kaihatu` / `!kaihatuslot`（開発レーン・スロット自律）。`portfolio-dialogue-bridge`（`SHIKISHIMA_PORTFOLIO_DIALOGUE_G=1`）。vitest zone **116** pass。
+
 - **GO policy non-execution review + human_review_go_policy_prerequisites (2026-05-08)**: Blocker review complete. Added `"human_review_go_policy_prerequisites"` to `nextRequiredHumanAction` union in validator interface, builder params, `hermes-wsl2-wrapper-local-value-file.ts` reader, and `control-center-shell-ui-contract.ts` (interface + allowlist + assignment). Added `buildHermesWsl2WrapperGoReadyForHumanReviewSummary(params: {distroCount, selectableSlots, previousSelectedSlot})`. Tests added for both validator and file-reader (275 pass). Local-only `wsl-distro-selection.local.json` updated (gitignored) with goPolicyReviewStatus=ready_for_human_go_review, goPolicyBlockers, humanGoApprovalRequired=true, executionStillDisabled=true, nextRequiredHumanAction=human_review_go_policy_prerequisites. Review doc: `GO_POLICY_REVIEW_REPORT.md`. All HOLD flags maintained. No execution.
+
+- **会話ログ審査 P0–P2 + Runtime Skills Bot 接続 (2026-05-30)**: 会話で確認済み4 Skills（code-reviewer / multi-agent / kaizen-rca / github-analyzer）を `skills/shikishima-*` + `scripts/lib/shikishima-runtime-skills.mjs` で Bot プロンプトへ注入（EA/MT5 取り違え境界文含む）。P0: `discord-command-catalog` + `AGENT_PROMPTS_DEFAULT` + `agent-personas.json`。P1: `rebuildPerAgentThreadsFromShared`, `threadAgentId`, `syncConversationSummaryFromThread`, merge 保存バグ修正。P2: カタログ要約（520字以内）。Doc `CONVERSATION_BEHAVIOR_AUDIT_2026-05-30.md`, `REFERENCE_SKILLS_KARAAGE.md`。vitest: `full-autonomy-runtime-skills`, thread-memory, command-catalog, kaihatu-review（16 pass 当該セット）。**要**: `shikishima-process-preflight.mjs --clean --restart-dev` 後 `!help` / `@しきしま Skills` 確認。
+
+- **帰宅タスクまとめ (2026-05-30)**: `wf-mpsjl3fk` EA研究・cycle2/dev 稼働中。Doc `docs/shikishima/RETURN_HOME_TASKS_2026-05-30.md`。
+
+- **設計棚卸し INVENTORY (2026-05-30)**: [DESIGN_INVENTORY_2026-05-30.md](../shikishima/DESIGN_INVENTORY_2026-05-30.md) — SHI/SC/X 一覧、Phase 0–7。SC-001 midNodTimer 修正、5体テスト整合、GATE_MATRIX/HOLD/MASTER_SPEC 注記。人手: SC-005–006 聴感、SHI-010 agent login。
+
+- **StackChan×Discord + Chisiki 調査実装 (2026-05-30)**: R0 `docs/shikishima/research/CHISIKI_*` + `BILLING_QUOTA_VAULT_PATTERN.md`。R1 `STACKCHAN_DISCORD_VOICE_UNIFICATION.md`, `scripts/lib/stackchan-voice-config.mjs`, vitest voice-config。R2 `FULL_AUTONOMY_IMPLEMENTATION_WAVES_2026-05-30.md`, INVENTORY CHI-001〜005。R3 `HUMAN_GO_QUESTIONNAIRE_2026-05-30.md`（CKT A/B/C・聴感）。`shikishima-research-brief.mjs`（外部送信なし）。**人手**: 質問票記入、`stackchan-resume` + 聴感。オンチェーン C は実装しない。
+
+- **StackChan 意図別オペレーター通知 (2026-05-30)**: `stackchan-operator-notify.mjs` — 完了/プラン選択/判断/質問/WF/kaihatu で別フレーズ・別デバウンス。Cursor stop フックが payload から intent 推定。Bot: `kaihatu_review_hold`, `workflow_human_gate`。Doc `STACKCHAN_OPERATOR_NOTIFY_2026-05-30.md`。質問票記入済み（Chisiki=C は **実装 H**、StackChan=resume は人手）。
+
+- **しるべ Obsidian + Cursor 完了音声 (2026-05-30)**: Vault 既定 `Obsidian Vault`、`obsidian-shirube-write.mjs`、Daily 同期、「記録して」検出。`.cursor/hooks.json` stop → StackChan。Doc `OBSIDIAN_SHIRUBE_FIX_2026-05-30.md`。
+
+- **ワークフロー空回し・通知修正 (2026-05-30)**: HOLD/needsHuman は **human** で停止。`autoLoopAfterEval` は **GO_PREPARED** のみ dev 再開。`workflow-discord-notify.mjs`（research/record スパム抑制）、`workflow-tick-lock.mjs`、`healWorkflowEvalBacklog`（起動時）、`!workflow pause` / `settle`。Doc `WORKFLOW_BACKLOG_FIX_2026-05-30.md`。テスト `full-autonomy-workflow-resume.test.ts`, `full-autonomy-workflow-tick-lock.test.ts`。**要**: preflight 再起動。
+
+- **完全自律マスタ設計 + 再起動後検証 (2026-05-31)**: User 再起動実施後。Doc `FULL_AUTONOMY_MASTER_DESIGN_2026-05-31.md`, `POST_RESTART_CHECKLIST_2026-05-31.md`, `AUTONOMY_STOP_INVESTIGATION` §post-restart。コード: human 段 tick 自動 done 禁止、`completeWorkflowHuman` + `!workflow done`、`!autonomy` dev-pipeline 行、起動 `[Autonomy] post-restart` ログ。vitest progress+workflow-resume **12/12**。安全不変: `decision=HOLD`, `execution=disabled`, `productionReady=false`。
+- **55→100 プレイブック + Obsidian (2026-05-31)**: Doc `docs/shikishima/AUTONOMY_55_TO_100_CURSOR_PLAYBOOK_2026-05-31.md`（M-07・runKaihatuDev 調査・役割分担）。`scripts/shikishima-autonomy-playbook-obsidian.mjs` → しるべ Vault inbox/Daily。`autonomy-progress.mjs` — dev_pipeline_disabled / claude login / agent CLI を stopReasons に追加（W5 可視性）。Wave/INVENTORY 数値は未更新（SHI 未完了）。次: `.env.local` で `SHIKISHIMA_DEV_PIPELINE_ENABLED=1` + WSL `claude login`（人間）。
+
+- **Human GO 自律前進 (2026-05-31)**: User HumanG。`shikishima-human-go-advance.mjs` — `wf-mpsjl3fk` human→**done**、orchestrator tick、SideBot 再起動（`botCount=1`）。全体進捗 **58%**、WF キュー **100%**、dev-pipeline **ON**。次: 新規 `!workflow enqueue` · `!dev-pipeline` · W5 agent login。
+
+- **B 開発継続 (2026-05-31)**: `continueWorkflowDevLoop` + `!workflow continue` / `--continue-dev`。`wf-mpssr7ss` **cycle 2 · dev** 再開。dev 段は WSL `!kaihatu` で **数分〜**かかる。Bot: `!workflow resume`（keepalive 併用）。vitest workflow-resume **9/9**。
+
+- **ワークフロー再起動耐性 (2026-05-30)**: `workflow-resume.mjs` — checkpoint on `!tnt`/SIGINT、起動時 `bootstrapWorkflowResume`（handoff→enqueue）、3分 keepalive、`!workflow resume`。監査 `shikishima-workflow-resume-audit.mjs`。テスト `full-autonomy-workflow-resume.test.ts`。
+
+- **ちはや廃止・正規5体復帰 (2026-05-30)**: User 要望で `chihaya` を SideBot/レジストリ/ルータから削除。EA/MT5/MQL5/バックテスト → **つむぎ**、調査・相場 → **しるべ**。`isChihayaHeld`+`ea` 誤爆・`chihayaHandleCommand` 横取りを除去。Doc `CHIHAYA_REMOVED_2026-05-30.md`。`canonical-agent-team.mjs`。**要**: Bot 再起動。
+
+- **オーケストレータ停止制限 洗い出し + 緩和 (2026-05-30)**: `scripts/lib/orchestrator-gates.mjs`（カタログ14件・`auditOrchestratorGates`・`mayStartOrchestratorLoop`・`evaluateRouteGate`）。`orchestratorRelaxed` = execution-scope GO / `SHIKISHIMA_ORCHESTRATOR_RELAXED=1` で Track D・phase-go ack なしでも SideBot ループ・dev.autonomous・caps 緩和（60/h・5s cooldown）。CLI `shikishima-orchestrator-gates-audit.mjs`、Discord `!orchestrator-gates` / `!gates`。Doc `docs/shikishima/ORCHESTRATOR_GATES_AUDIT_2026-05-30.md`。テスト `full-autonomy-orchestrator-gates.test.ts`。**緩和対象外**: 本番 execute・ライブ売買・git push・stackchan.voice。安全不変維持。
+
+- **Discord 6体アバター (2026-05-30)**: User 専用画像を `assets/discord-agents/{shikishima,shizume,tsumugi,hajime,shirube,chihaya}.png` に配置。`discord-agent-avatars.mjs` が CDN URL を `.shikishima-memory/discord-agent-avatar-urls.json` にキャッシュし Webhook `avatar_url` に使用。同期: `node scripts/shikishima-discord-avatars-sync.mjs`。Bot 再起動済み（preflight PID 55452）。
+
+- **スコープ付き実行 GO + 自律ワークフロー (2026-05-30)**: User 承認で MT5 BT + 自律開発を緩和（本番 HOLD 維持）。`execution-scope-policy.mjs`, `autonomous-workflow-engine.mjs`, `mt5-backtest-runner.mjs`, `dev.autonomous` tick, Discord `!workflow` / `!execution-scope`。Doc `EXECUTION_SCOPE_GO_2026-05-30.md`。
+
+- **しきしま本線 StackChan 音声 (2026-05-31)**: Cursor プラン実装 — chunk 96 · `stackchanSayPreparedBatchItems` · poll-batch 順序 · `voice_busy` · digest 中 `speakOperatorNotify` defer（`SHIKISHIMA_OPERATOR_NOTIFY_DEFER_DURING_DISCORD` 既定 ON）。Skill: `skills/shikishima-stackchan-specialist/SKILL.md`。vitest: `stackchan-operator-notify-defer` 追加。**実機**: 短文 PASS 報告済み。3 通連続 + 読み上げ中 `!sc nod` は人間再確認（`CODEX_STACKCHAN_DISCORD_VOICE_FIX_REQUEST_2026-05-31.md`）。安全不変: `decision=HOLD`, `execution=disabled`, `productionReady=false`。
+
+- **完全自律ロードマップ A1–A4 + B1–B3 (2026-05-31)**: **A1** SC-013 `mitigated`（discord-voice-playback-queue · voice_busy · notify defer · migration plan 更新）。**A2** SHI-010 doc — `agent login` 人間作業 · WSL claude/codex で dev 可 · human-go-readiness 再実行（READY 5/9 · openGaps=0）。**A3** `run-autonomy-gap-tasks` ALL OK 5/5。**A4** agent_team / orchestrator capped 稼働注記を PLAYBOOK 追記。**B1** vitest 31/31 pass（stackchan-discord-voice · operator-notify-defer · discord-voice-playback-queue · workflow-handoff-env）。**B2** obsidian dry-run のみ（vault OK · 実書きなし）。**B3** `SHIKISHIMA_WORKFLOW_HANDOFF_DISABLE=1` コード/doc 確認 · `!workflow enqueue` 必要時のみ明記。INVENTORY SC 11/14。安全不変: `decision=HOLD`, `execution=disabled`, `productionReady=false`。
+
+- **人間GO Obsidian + StackChan 完遂 (2026-05-31)**: User 人間判断 — StackChan 実機 2・3 PASS · Obsidian 実書き許可。**Obsidian**: `obsidian-vault-check` OK · `obsidian-write-go` → `30_Evidence/` · しきしま/inbox + Daily 追記。**preflight** `--clean --restart-dev` OK（SideBot PID 31312 standalone）。**進捗** 77% 維持 · openGaps=0。Doc `POST_HUMAN_GO_NEXT_STEPS_2026-05-31.md` · CODEX 実機表 PASS 更新 · SHI-003 live write 追記。安全不変: `decision=HOLD`, `execution=disabled`, `productionReady=false` · 憲法 execute は触っていない。
+- **人間GO後 運用継続 (2026-05-31)**: `stackchan-resume --restart-bot`（HOLD=0 · SideBot PID 24172）· ordered-tasks 3/4（maintenance skip 正常）· gap-tasks 5/5 · `dev-status-briefing` + playbook Obsidian ミラー。**SC-005** done · INVENTORY SC 12/14。**進捗** 全体 **77%**（INVENTORY **75%** · SC 12/14）。安全不変: `decision=HOLD`, `execution=disabled`, `productionReady=false`。

@@ -41,7 +41,7 @@ const EVENT_TO_AGENT: Record<SecretaryBridgeEventKind, ShikishimaAgentId> = {
   gate_stop: "shizume",
   evidence_created: "shirube",
   discord_read_only_summary: "shirube",
-  fx_thesis_summary: "chihaya",
+  fx_thesis_summary: "shirube",
 };
 
 export function createSecretaryBridgeDraft(event: SecretaryBridgeEvent): SecretaryBridgeDraft {

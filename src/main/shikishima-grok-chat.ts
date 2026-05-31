@@ -6,6 +6,7 @@ import { execFile } from "child_process";
 import { existsSync, readFileSync } from "fs";
 import { join } from "path";
 import { homedir } from "os";
+import { isGlobalGrokResearchHold } from "./shikishima-agent-backend-policy";
 
 const TIMEOUT_MS = 120_000;
 
@@ -28,7 +29,7 @@ export type GrokModel = "grok-4.3" | "grok-build-0.1";
 export function selectGrokModel(
   _complexity: "simple" | "medium" | "complex",
 ): GrokModel {
-  return "grok-4.3"; // xai-oauth で確実に動作するモデルに固定
+  return "grok-4.3";
 }
 
 export function grokChat(
@@ -36,6 +37,15 @@ export function grokChat(
   model: GrokModel = "grok-4.3",
 ): Promise<GrokChatResult> {
   const start = Date.now();
+
+  if (isGlobalGrokResearchHold()) {
+    return Promise.resolve({
+      success: false,
+      reply: "",
+      durationMs: Date.now() - start,
+      error: "grok_research_hold_2026_05:use_dispatchToAgent_or_groq"
+    });
+  }
 
   return new Promise((resolve) => {
     execFile(

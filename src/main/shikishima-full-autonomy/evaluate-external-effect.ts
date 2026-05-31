@@ -1,4 +1,5 @@
 import type { AutonomyDecision } from "./snapshot-types";
+import { hasConstitutionalGoForRoute } from "./constitutional-go-state";
 import { getExternalEffectDefinition } from "./external-effect-registry";
 
 export interface ExternalEffectEvaluationInput {
@@ -52,14 +53,19 @@ export function evaluateExternalEffect(
   }
 
   const reasons: string[] = [];
+  const constitutionalRouteGo = hasConstitutionalGoForRoute(input.routeId);
+  const humanGoOk = input.humanGoApproved || constitutionalRouteGo;
+  const oneShotOk = input.oneShotDeclared || constitutionalRouteGo;
+  const timeWindowOk =
+    input.timeWindowActive || input.explicitPermittedGo || constitutionalRouteGo;
 
-  if (def.requiresHumanGo && !input.humanGoApproved) {
+  if (def.requiresHumanGo && !humanGoOk) {
     reasons.push("human_go_required");
   }
-  if (def.oneShotRequired && !input.oneShotDeclared) {
+  if (def.oneShotRequired && !oneShotOk) {
     reasons.push("one_shot_required");
   }
-  if (def.timeWindowRequired && !input.timeWindowActive && !input.explicitPermittedGo) {
+  if (def.timeWindowRequired && !timeWindowOk) {
     reasons.push("time_window_required");
   }
 

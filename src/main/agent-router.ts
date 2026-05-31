@@ -2,7 +2,6 @@
 // しきしま(管制) / しずめ(安全) / つむぎ(実装) / はじめ(計画) / しるべ(記録)
 // Claude (Opus/Sonnet/Haiku) + Groq + Hermes Research + Codex
 
-import { grokChat, type GrokChatResult } from "./shikishima-grok-chat";
 import { claudeCodeTask, selectClaudeModel, type ClaudeCodeResult } from "./claude-code-service";
 import { codexTask, codexReview, checkCodexAvailability, exportCodexTaskMd, type CodexResult } from "./codex-service";
 import { runHermesResearch, type HermesResearchResult } from "./hermes-research-runner";
@@ -11,6 +10,13 @@ import { geminiChat, selectGeminiModel, checkGeminiAvailability, type GeminiResu
 import { buildFullMemoryContext } from "./memory-network";
 import { buildContextPrefix } from "./conversation-context";
 import { type AgentId, agentReplyPrefix, resolveAgentId, AGENT_DEFINITIONS } from "./agent-definitions";
+import {
+  formatModelTraceLine,
+  getAgentBackendEntry,
+  isGlobalGrokResearchHold,
+  mayRunHermesResearch,
+  resolveAgentReplyRoute
+} from "./shikishima-agent-backend-policy";
 import { withPersona } from "./agent-persona";
 import { detectSkill, executeSkill } from "./agent-skills/skill-registry";
 import type { SkillId } from "./agent-skills/skill-types";
@@ -26,12 +32,21 @@ export interface AgentDecision {
   reasoning: string;
 }
 
+export interface AgentModelTrace {
+  routedAgentId: AgentId;
+  backend: string;
+  model: string;
+  grokResearchHeld: boolean;
+  routingReason: string;
+}
+
 export interface AgentResult {
   success: boolean;
   reply: string;
   agentId: AgentId;
   durationMs: number;
   error?: string;
+  modelTrace?: AgentModelTrace;
 }
 
 // ─── Routing keywords ────────────────────────────────────────────────────────
@@ -80,12 +95,17 @@ const SHIRUBE_KW = [
   "search", "find", "latest", "news", "research", "log",
 ];
 
-// ちはや: FX専任（しきしまから分離）
-const FX_KW = [
+// EA/MT5/MQL5 開発 → つむぎ（旧ちはや廃止）
+const EA_MT5_DEV_KW = [
+  "EA", "MT5", "MQL5", "mq5", "expert advisor", "backtest", "バックテスト",
+  "ea_report", "EA研究", "EA開発",
+];
+
+// 相場・FXリサーチ → しるべ
+const FX_MARKET_KW = [
   "FX", "XAUUSD", "gold", "ゴールド",
   "kill zone", "キルゾーン", "Silver Bullet", "スキャルピング", "ロット",
-  "相場", "テクニカル", "ファンダメンタル", "支持線", "抵抗線",
-  "EA", "MT5", "ea_report", "killzone", "risk_calc",
+  "相場", "テクニカル", "ファンダメンタル", "支持線", "抵抗線", "killzone", "risk_calc",
 ];
 
 // 呼びかけによる直接指定
@@ -95,7 +115,6 @@ const AGENT_CALL: Array<[RegExp, AgentId]> = [
   [/^(つむ|つむぎ)[、,、\s]/, "tsumugi"],
   [/^(はじ|はじめ)[、,、\s]/, "hajime"],
   [/^(しるべ|しる)[、,、\s]/, "shirube"],
-  [/^(ちは|ちはや)[、,、\s]/, "chihaya"],
 ];
 
 // ─── Complexity estimation ────────────────────────────────────────────────────
@@ -158,14 +177,14 @@ export function routeTask(userMessage: string): AgentDecision {
     return { agentId: "hajime", complexity, reasoning: "planning keywords → はじめ" };
   }
 
-  // 6. しるべ — 記録・検索
-  if (matchesAny(userMessage, SHIRUBE_KW)) {
-    return { agentId: "shirube", complexity, reasoning: "research/log keywords → しるべ" };
+  // 6. つむぎ — EA/MT5/MQL5 開発
+  if (matchesAny(userMessage, EA_MT5_DEV_KW)) {
+    return { agentId: "tsumugi", complexity, reasoning: "EA/MT5 dev keywords → つむぎ" };
   }
 
-  // 7. ちはや — FX専任
-  if (matchesAny(userMessage, FX_KW)) {
-    return { agentId: "chihaya", complexity, reasoning: "FX keywords → ちはや(FX専任)" };
+  // 7. しるべ — 記録・検索・相場リサーチ
+  if (matchesAny(userMessage, SHIRUBE_KW) || matchesAny(userMessage, FX_MARKET_KW)) {
+    return { agentId: "shirube", complexity, reasoning: "research/FX market keywords → しるべ" };
   }
 
   // 8. しきしま — デフォルト会話
@@ -196,21 +215,26 @@ function buildPromptWithMemory(userMessage: string): string {
 }
 
 // ────────────────────────────────────────────────────────────────────────────
-// モデル選択戦略 2026-05
-//   通常会話: Groq llama (優先・無料) → Claude (最終)
-//   Grok 4.3 はリサーチ専用 (ちはや FX / しるべ x_search のみ)
+// モデル選択戦略 2026-05-29
+//   通常会話: Groq → Claude
+//   Grok Research / x_search: 今月 HOLD (registry policy)
+//   つむぎ: ClaudeCode / Codex workers
 // ────────────────────────────────────────────────────────────────────────────
 
 async function runShikishima(message: string, isFx: boolean, complexity: Complexity): Promise<AgentResult> {
   const start = Date.now();
+  const trace = formatModelTraceLine(resolveAgentReplyRoute("shikishima", complexity));
+  console.log(trace);
 
-  // FX分析 → Hermes Research (Grok x_search)
-  if (isFx) {
+  if (isFx && mayRunHermesResearch("shikishima")) {
     const res: HermesResearchResult = await runHermesResearch(
-      `FX・XAUUSD・プロップファーム観点で以下を分析して: ${message}`
+      `FX・XAUUSD・プロップファーム観点で以下を分析して: ${message}`,
+      "shikishima"
     );
     console.log("[しきしま] Hermes Research FX mode");
     if (res.success && res.content) return { success: true, reply: res.content, agentId: "shikishima", durationMs: Date.now() - start };
+  } else if (isFx && isGlobalGrokResearchHold()) {
+    console.log("[しきしま] FX query — Grok Research HOLD, using Groq/Claude");
   }
 
   const prompt = withPersona("shikishima", buildPromptWithMemory(message));
@@ -370,15 +394,17 @@ const LIVE_SEARCH_KW = ["最新", "今日", "今週", "速報", "今", "現在",
 async function runShirube(message: string): Promise<AgentResult> {
   const start = Date.now();
   const needsLive = LIVE_SEARCH_KW.some((k) => message.includes(k));
+  console.log(formatModelTraceLine(resolveAgentReplyRoute("shirube", "medium")));
 
-  if (needsLive) {
-    // ライブ検索が必要 → Hermes Research (x_search)
+  if (needsLive && mayRunHermesResearch("shirube")) {
     console.log("[しるべ] Hermes Research (live search)");
-    const research: HermesResearchResult = await runHermesResearch(message);
+    const research: HermesResearchResult = await runHermesResearch(message, "shirube");
     if (research.success && research.content) {
       return { success: true, reply: research.content, agentId: "shirube", durationMs: Date.now() - start };
     }
     console.warn("[しるべ] Hermes failed");
+  } else if (needsLive && isGlobalGrokResearchHold()) {
+    console.log("[しるべ] live keywords but x_search HOLD — Groq/Claude only");
   }
 
   // 1. Groq — 無料・高速・最優先 (Claude subscriptionより先に使う)
@@ -400,16 +426,35 @@ async function runShirube(message: string): Promise<AgentResult> {
 
 // ─── Public entry point ───────────────────────────────────────────────────────
 
+function withModelTrace(
+  decision: AgentDecision,
+  result: AgentResult
+): AgentResult {
+  const route = resolveAgentReplyRoute(decision.agentId, decision.complexity);
+  return {
+    ...result,
+    modelTrace: {
+      routedAgentId: decision.agentId,
+      backend: route.backend,
+      model: route.model,
+      grokResearchHeld: route.grokResearchHeld,
+      routingReason: decision.reasoning
+    }
+  };
+}
+
 export async function dispatchToAgent(userMessage: string): Promise<AgentResult> {
   const decision = routeTask(userMessage);
   const label = agentLabel(decision.agentId);
+  const routeLine = formatModelTraceLine(resolveAgentReplyRoute(decision.agentId, decision.complexity));
   console.log(`[AgentRouter] ${label} (${decision.complexity}) — ${decision.reasoning}`);
+  console.log(routeLine);
 
   const { complexity } = decision;
 
   switch (decision.agentId) {
     case "shizume":
-      return runShizume(userMessage);  // Claude → Groq → safety hold
+      return withModelTrace(decision, await runShizume(userMessage));
 
     case "tsumugi": {
       const isStackchan = matchesAny(userMessage, STACKCHAN_KW);
@@ -419,61 +464,18 @@ export async function dispatchToAgent(userMessage: string): Promise<AgentResult>
       else if (isReview) mode = "review_claude";
       else if (isStackchan) mode = "codex_stackchan";
       else mode = "claude_core";
-      return runTsumugi(userMessage, mode);  // 内部でClaudeモデル選択
+      return withModelTrace(decision, await runTsumugi(userMessage, mode));
     }
 
     case "hajime":
-      return runHajime(userMessage, complexity);  // Groq → Gemini → Claude
+      return withModelTrace(decision, await runHajime(userMessage, complexity));
 
     case "shirube":
-      return runShirube(userMessage);
+      return withModelTrace(decision, await runShirube(userMessage));
 
-    case "chihaya":
-      return runChihaya(userMessage, complexity);
-
-    default: // shikishima
-      return runShikishima(userMessage, false, complexity);
+    default:
+      return withModelTrace(decision, await runShikishima(userMessage, false, complexity));
   }
-}
-
-// ─── Agent 6: ちはや — FX専任 ─────────────────────────────────────────────────
-
-async function runChihaya(message: string, _complexity: Complexity): Promise<AgentResult> {
-  const start = Date.now();
-
-  // スキル自動検出
-  const skill = detectSkill("chihaya", message);
-  if (skill) {
-    const out = await executeSkill(skill.id, { raw: message }, { agentId: "chihaya" });
-    return { success: out.success, reply: out.result, agentId: "chihaya", durationMs: Date.now() - start };
-  }
-
-  // スキルにマッチしない場合はHermes Research + ペルソナ
-  const research = await runHermesResearch(withPersona("chihaya", message));
-  if (research.success && research.content) {
-    return { success: true, reply: research.content, agentId: "chihaya", durationMs: Date.now() - start };
-  }
-  console.warn("[ちはや] Hermes failed");
-
-  // fallback 1: Groq (無料・安定)
-  const groqAvail = checkGroqAvailability();
-  if (groqAvail.available) {
-    const groq: GroqResult = await groqChat(withPersona("chihaya", message), "llama-3.3-70b-versatile");
-    console.log("[ちはや] Groq fallback");
-    if (groq.success) return { success: true, reply: groq.reply, agentId: "chihaya", durationMs: Date.now() - start };
-    console.warn("[ちはや] Groq failed:", groq.error);
-  }
-
-  // fallback 2: Grok (xai-oauth, クレジット残量依存)
-  const grok: GrokChatResult = await grokChat(withPersona("chihaya", message), "grok-4.3");
-  console.log("[ちはや] Grok fallback");
-  return {
-    success: grok.success,
-    reply: grok.reply || "サービスが一時的に利用できません (Hermes/Groq/Grok 失敗)。",
-    agentId: "chihaya",
-    durationMs: Date.now() - start,
-    error: grok.error,
-  };
 }
 
 // Discord返答プレフィックス — アイコン + ボールド名 (例: 🏯 **しきしま**)
@@ -488,3 +490,4 @@ export function agentIdFromShortName(name: string): AgentId | null {
 
 // 全エージェント定義を返す (UI表示用)
 export { AGENT_DEFINITIONS };
+

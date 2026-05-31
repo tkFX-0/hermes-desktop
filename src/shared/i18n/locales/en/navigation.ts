@@ -12,6 +12,7 @@ export default {
   gateway: "Gateway",
   settings: "Settings",
   research: "Research",
+  discordOps: "Discord Ops",
   controlCenter: "Control Center",
   mobileConsole: "Mobile Console",
   library: "Library",

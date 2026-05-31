@@ -81,6 +81,15 @@ function App(): React.JSX.Element {
     return undefined;
   }, [splashDone, nextScreen]);
 
+  // Fallback: install check slow/failed — still show main (StackChan/SideBot work without local Hermes)
+  useEffect(() => {
+    if (!splashDone || nextScreen) return undefined;
+    const timer = window.setTimeout(() => {
+      setNextScreen("main");
+    }, 6000);
+    return () => window.clearTimeout(timer);
+  }, [splashDone, nextScreen]);
+
   const handleSplashFinished = useCallback(() => {
     setSplashDone(true);
   }, []);

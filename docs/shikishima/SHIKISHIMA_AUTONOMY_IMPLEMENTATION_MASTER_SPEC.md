@@ -1,7 +1,9 @@
 # Shikishima Autonomy Implementation Master Spec
 
-Date: 2026-05-26
-Scope: Shikishima Desktop `/goal`-based autonomy implementation control
+Date: 2026-05-26  
+**Inventory / 現行実装の正**: 2026-05-28 以降は [IMPLEMENTATION_HANDOFF.md](../ichikishima/IMPLEMENTATION_HANDOFF.md) Phase E・[DESIGN_INVENTORY_2026-05-30.md](DESIGN_INVENTORY_2026-05-30.md)。本 §1 の全面 HOLD は**計画当時の境界**であり、scoped GO（Discord read dry-run、Obsidian ユーザー Vault、execution-scope 自律 dev 等）は別ドキュメントで定義されます。
+
+Scope: Shikishima Desktop `/goal`-based autonomy implementation control  
 Mode: master planning spec; no runtime, no external effect, no push approval
 
 ---

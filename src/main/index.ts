@@ -141,6 +141,8 @@ import {
 import { getAppLocale, setAppLocale } from "./locale";
 import { writeEvidenceNote } from "./library-export";
 import type { LibraryWriteRequest } from "./library-export";
+import { executeDiscordReadIntake } from "./shikishima-full-autonomy/discord-read-executor";
+import { readDiscordChannel } from "./discord-intake";
 import { sendDiscordMessage, getDiscordChannelIds } from "./discord-intake";
 import { startDailyResearchPipeline } from "./research-pipeline";
 import type { ResearchReportInput } from "./research-report-generator";
@@ -182,7 +184,8 @@ import {
   prepareStackchanSpeechDraft,
 } from "./shikishima-core";
 
-const SHIKISHIMA_SHADOW_MODE = true;
+import { resolveShikishimaRuntimeMode } from "./shikishima-runtime-mode";
+import { hasConstitutionalGoScope } from "./shikishima-full-autonomy/constitutional-go-state";
 
 process.on("uncaughtException", (err) => {
   console.error("[MAIN UNCAUGHT]", err);
@@ -344,6 +347,11 @@ function createWindow(): void {
 
   if (is.dev && process.env["ELECTRON_RENDERER_URL"]) {
     mainWindow.loadURL(process.env["ELECTRON_RENDERER_URL"]);
+    mainWindow.webContents.once("did-finish-load", () => {
+      if (process.env.SHIKISHIMA_OPEN_DEVTOOLS === "1") {
+        mainWindow?.webContents.openDevTools({ mode: "detach" });
+      }
+    });
   } else {
     mainWindow.loadFile(join(__dirname, "../renderer/index.html"));
   }
@@ -400,6 +408,10 @@ function createTray(): void {
 }
 
 function setupIPC(): void {
+  ipcMain.handle("shikishima-get-runtime-mode", () =>
+    resolveShikishimaRuntimeMode(app.getAppPath()),
+  );
+
   registerControlCenterReadonlyIpcHandlers(ipcMain, {
     getParams: getIchikishimaControlCenterReadonlyParams,
   });
@@ -915,27 +927,36 @@ function setupIPC(): void {
     writeEvidenceNote(req),
   );
 
-  // DIS-01: Discord read-only intake (HOLD until explicit GO)
-  ipcMain.handle(
-    "shikishima-discord-read",
-    (_event, channelId: string, limit?: number) => ({
-      success: false,
-      error: "NEEDS_HUMAN",
+  // DIS-01: Discord read-only intake (constitutional GO or HOLD)
+  ipcMain.handle("shikishima-discord-read", async (_event, channelId: string, limit?: number) => {
+    const result = await executeDiscordReadIntake(
+      { channelId, limit: limit ?? 10 },
+      readDiscordChannel
+    );
+    return {
+      success: result.success,
+      error: result.error,
+      messages: result.messages,
+      readCount: result.readCount,
       requestedLimit: limit ?? 10,
       preflight: createActionPreflight({
         actionId: "DISCORD-READ",
         actionKind: "discord_read",
         actor: "shirube",
         source: "renderer",
-        targetSummary: `discord channel read draft: ${channelId ? "configured" : "missing"}`,
-        evidencePath: "docs/shikishima/DISCORD_READ_ONE_SHOT_EVIDENCE.md",
+        targetSummary: result.channelIdConfigured
+          ? "discord channel read (constitutional GO)"
+          : "discord channel read: channel missing",
+        evidencePath: "docs/shikishima/CONSTITUTIONAL_GO_ALL_2026-05-28.md",
         requestedEffects: ["external_read"],
       }),
+      decision: result.decision,
+      reasons: result.reasons,
       productionReady: false,
       execution: "disabled",
       rawValuesReported: false,
-    }),
-  );
+    };
+  });
 
   // RESEARCH-PIPELINE: Generate article → Discord + Obsidian 40_Research/
   // User GO: "永久記憶としてレポート作成を許可"
@@ -959,17 +980,27 @@ function setupIPC(): void {
     }),
   );
 
-  // GROK CHAT: Shikishima conversation via Grok 4.3 + xai-oauth (X Premium)
-  ipcMain.handle(
-    "shikishima-grok-chat",
-    (_event, message: string) => grokChat(message),
-  );
+  // GROK CHAT: legacy IPC — routes to agent-router (Groq/Claude) while Grok Research HOLD
+  ipcMain.handle("shikishima-grok-chat", async (_event, message: string) => {
+    const { dispatchToAgent } = await import("./agent-router");
+    const { isGlobalGrokResearchHold } = await import("./shikishima-agent-backend-policy");
+    if (isGlobalGrokResearchHold()) {
+      const r = await dispatchToAgent(message);
+      return {
+        success: r.success,
+        reply: r.reply,
+        durationMs: r.durationMs,
+        error: r.error
+      };
+    }
+    return grokChat(message);
+  });
 
   ipcMain.handle(
     "shikishima-channel-output-draft",
     (_event, req: {
       responseId?: string;
-      agentId?: "shikishima" | "shizume" | "hajime" | "tsumugi" | "shirube" | "chihaya";
+      agentId?: "shikishima" | "shizume" | "hajime" | "tsumugi" | "shirube";
       modelId?: string;
       fullResponse: string;
       spokenResponse?: string;
@@ -1031,10 +1062,8 @@ function setupIPC(): void {
 
   // STACKCHAN: local WebSocket (pet-fw ws:8080) + VOICEVOX TTS
   ipcMain.handle("stackchan-status", () => checkStackchanLocalStatus());
-  ipcMain.handle("stackchan-say", (_event, text: string) => ({
-    ok: false,
-    error: "NEEDS_HUMAN",
-    draft: prepareStackchanSpeechDraft({
+  ipcMain.handle("stackchan-say", async (_event, text: string) => {
+    const draft = prepareStackchanSpeechDraft({
       responseId: `stackchan-${Date.now()}`,
       agentId: "shikishima",
       fullResponse: text,
@@ -1042,11 +1071,27 @@ function setupIPC(): void {
       reasoningLevel: "standard",
       actionId: "STACKCHAN-SAY-IPC",
       evidencePath: "docs/shikishima/STACKCHAN_SPEECH_ONE_SHOT_EVIDENCE.md",
-    }),
-    productionReady: false,
-    execution: "disabled",
-    rawValuesReported: false,
-  }));
+    });
+    if (!hasConstitutionalGoScope("stackchan_voice", app.getAppPath())) {
+      return {
+        ok: false,
+        error: "NEEDS_HUMAN",
+        draft,
+        productionReady: false,
+        execution: "disabled",
+        rawValuesReported: false,
+      };
+    }
+    const spoken = await stackchanSayLocal(String(text).slice(0, 300));
+    return {
+      ok: spoken.ok,
+      error: spoken.error,
+      draft,
+      productionReady: false,
+      execution: "disabled",
+      rawValuesReported: false,
+    };
+  });
   ipcMain.handle("stackchan-face", (_event, emotion: string) => ({
     ok: false,
     error: "NEEDS_HUMAN",
@@ -1288,6 +1333,13 @@ app.whenReady().then(() => {
   app.name = "Hermes";
   electronApp.setAppUserModelId("com.nousresearch.hermes");
 
+  const runtimeMode = resolveShikishimaRuntimeMode(app.getAppPath());
+  const shadowMode = runtimeMode.shadowModeEffective;
+  if (runtimeMode.discordOnlyUi) {
+    process.env.SHIKISHIMA_DISCORD_ONLY_UI = "1";
+    console.log("[Shikishima] Discord-only UI — Control Center not required");
+  }
+
   app.on("browser-window-created", (_, window) => {
     optimizer.watchWindowShortcuts(window);
   });
@@ -1298,14 +1350,14 @@ app.whenReady().then(() => {
   createTray();
   setupUpdater();
 
-  if (MOBILE_CONSOLE_PHASE_2C_ENABLED) {
+  if (MOBILE_CONSOLE_PHASE_2C_ENABLED && !runtimeMode.discordOnlyUi) {
     startPhase2cServer({ getParams: getIchikishimaControlCenterReadonlyParams })
       .then((result) => { phase2cInstance = result; })
       .catch((err) => { console.error("[Phase2C] start failed:", err); });
   }
 
   // Shikishima Research Pipeline — daily 08:00 JST
-  if (SHIKISHIMA_SHADOW_MODE) {
+  if (shadowMode) {
     console.log("[Shikishima] shadow mode: daily research pipeline HOLD");
   } else {
     startDailyResearchPipeline();
@@ -1318,26 +1370,24 @@ app.whenReady().then(() => {
   // Discord + STT + StackChan統合エージェント — Electron内蔵 Discord polling は停止
   if (isSidebotHoldActive(app.getAppPath())) {
     console.log(
-      SHIKISHIMA_SHADOW_MODE
-        ? "[Shikishima] shadow mode: sidebot HOLD"
-        : "[Shikishima] sidebot HOLD"
+      shadowMode ? "[Shikishima] shadow mode: sidebot HOLD" : "[Shikishima] sidebot HOLD",
     );
   } else {
-    if (SHIKISHIMA_SHADOW_MODE) {
+    if (shadowMode) {
       console.log("[Shikishima] shadow mode: sidebot START (ops release)");
     }
     startSideBot();
   }
 
   // StackChan — local status check (pet-fw ws:8080 + VOICEVOX)
-  if (SHIKISHIMA_SHADOW_MODE) {
+  if (shadowMode) {
     console.log("[Shikishima] shadow mode: StackChan status check HOLD");
   } else {
     startStackchanLocalStatusCheck();
   }
 
   // しずめ暫定: 起動時ヘルスチェック → 問題をDiscordレポートに通知
-  if (SHIKISHIMA_SHADOW_MODE) {
+  if (shadowMode) {
     console.log("[Shikishima] shadow mode: startup Discord health report HOLD");
   } else {
     setTimeout(() => {
@@ -1347,7 +1397,7 @@ app.whenReady().then(() => {
 
   // StackChan PC-side event server — receives all events from StackChan firmware
   // Routes: POST /audio (STT), POST /event (pat/touch), POST /camera (photo)
-  if (SHIKISHIMA_SHADOW_MODE) {
+  if (shadowMode) {
     console.log("[Shikishima] shadow mode: StackChan STT/event server HOLD");
   } else {
   startSttServer({

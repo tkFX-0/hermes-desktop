@@ -106,6 +106,37 @@ function limitSpeech(text, maxChars) {
   return clean.slice(0, Math.max(0, maxChars - 3)) + "...";
 }
 
+/**
+ * Discord 全文読み上げ用 — limitSpeech（80字切り）をかけない。
+ * チャンク分割は stackchan-discord-voice.mjs 側で行う。
+ */
+export function prepareDiscordVoiceSpeech(text, {
+  policy = loadSecretaryProfilePolicy(),
+} = {}) {
+  const redacted = redactSecretaryLocalValues(text);
+  if (looksLikeSecretaryRawError(redacted)) {
+    return {
+      spokenText: policy.rawErrorFallback || DEFAULT_SAFE_FALLBACK,
+      spokenAllowed: true,
+      changed: true,
+      redactionPassed: redacted === String(text),
+      blockedReason: "raw_error_like_text",
+      blockedPhrases: [],
+    };
+  }
+
+  const phrase = applySecretaryPhrasePolicy(redacted, policy);
+  const spokenText = collapseWhitespace(phrase.text);
+  return {
+    spokenText,
+    spokenAllowed: spokenText.length > 0,
+    changed: phrase.changed || redacted !== String(text),
+    redactionPassed: redacted === String(text),
+    blockedReason: undefined,
+    blockedPhrases: phrase.blockedPhrases,
+  };
+}
+
 export function prepareSecretarySpeech(text, {
   policy = loadSecretaryProfilePolicy(),
   maxSpeechChars,

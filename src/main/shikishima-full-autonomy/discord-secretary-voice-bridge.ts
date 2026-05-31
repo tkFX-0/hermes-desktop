@@ -4,6 +4,7 @@
  */
 
 import { sendStackChanVoiceOnce } from "../stackchan-voice-route/stackchan-voice-send-once";
+import { resolveSecretarySpeakPhrase } from "./secretary-voice-phrase-map";
 import type {
   StackChanVoiceSendOnceRequest,
   StackChanVoiceSendOnceResult
@@ -53,16 +54,22 @@ export async function runDiscordSecretaryVoiceBridge(
     return { planDecision: plan.decision, reasons: plan.reasons, sendResult: null };
   }
 
+  const guardedPhrase =
+    plan.speakPhraseHint != null
+      ? resolveSecretarySpeakPhrase(plan.speakPhraseHint) ?? undefined
+      : undefined;
+
   const sendResult = await sendStackChanVoiceOnce({
     intent: "STACKCHAN_VOICE_PILOT_ACK",
+    guardedPhrase,
     transportMode: input.actualDeviceSendEnabled ? "guarded-ws" : "mock",
     actualDeviceSendEnabled: input.actualDeviceSendEnabled,
     humanPresent: input.humanPresent,
     manualStopMethodConfirmed: input.manualStopMethodConfirmed,
     screenVisible: input.screenVisible,
     timeWindowDeclared: input.timeWindowDeclared,
-    activeTimeWindow: input.activeTimeWindow,
-    timeWindow: input.activeTimeWindow ? buildActivePilotTimeWindow() : undefined,
+    activeTimeWindow: input.activeTimeWindow ?? input.timeWindowDeclared,
+    timeWindow: buildActivePilotTimeWindow(),
     explicitPermittedGo: input.humanGoApproved,
     productionReady: false,
     executionEnabled: false

@@ -1,3 +1,7 @@
+import {
+  isAllowlistedSecretaryPhrase,
+  resolveSecretarySpeakPhrase
+} from "../shikishima-full-autonomy/secretary-voice-phrase-map";
 import { mapVoiceIntentToPhraseId, resolveGuardedVoicePhrase } from "./stackchan-voice-phrase-map";
 import { evaluateStackChanVoiceDeviceRoute } from "./stackchan-voice-device-route";
 import type { StackChanVoiceDeviceTransportMode } from "./stackchan-voice-device-route-types";
@@ -94,7 +98,25 @@ export async function sendStackChanVoiceOnce(
   }
 
   const phraseId = mapped.phraseId;
-  const phrase = resolveGuardedVoicePhrase(request.intent);
+  let phrase = resolveGuardedVoicePhrase(request.intent);
+  if (request.guardedPhrase) {
+    const override =
+      resolveSecretarySpeakPhrase(request.guardedPhrase) ??
+      (isAllowlistedSecretaryPhrase(request.guardedPhrase) ? request.guardedPhrase : null);
+    if (!override) {
+      return buildResult({
+        ok: false,
+        sent: false,
+        deviceDecision: "HOLD",
+        transportMode: request.transportMode,
+        phraseId,
+        mockPayloadRecorded: false,
+        websocketSendPerformed: false,
+        reasons: ["guarded_phrase_not_allowlisted"]
+      });
+    }
+    phrase = override;
+  }
 
   const device = evaluateStackChanVoiceDeviceRoute({
     intent: request.intent,

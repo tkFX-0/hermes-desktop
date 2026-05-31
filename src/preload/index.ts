@@ -671,6 +671,14 @@ const hermesAPI = {
     dis01Status: "HOLD" | "ACTIVE";
   }> => ipcRenderer.invoke("shikishima-discord-read", limit),
 
+  shikishimaGetRuntimeMode: (): Promise<{
+    discordOnlyUi: boolean;
+    constitutionalGoActive: boolean;
+    operationalReleaseActive: boolean;
+    shadowModeEffective: boolean;
+    humanGoNote: string | null;
+  }> => ipcRenderer.invoke("shikishima-get-runtime-mode"),
+
   // Shikishima Grok Chat — Grok 4.3 via xai-oauth (X Premium)
   shikishimaGrokChat: (message: string): Promise<{
     success: boolean;

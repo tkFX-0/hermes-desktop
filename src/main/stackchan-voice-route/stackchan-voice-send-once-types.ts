@@ -7,6 +7,8 @@ import type {
 
 export type StackChanVoiceSendOnceRequest = {
   intent: StackChanVoiceIntent;
+  /** Phase E1: allowlisted phrase override (secretary path). */
+  guardedPhrase?: string;
   humanPresent: boolean;
   manualStopMethodConfirmed: boolean;
   screenVisible: boolean;

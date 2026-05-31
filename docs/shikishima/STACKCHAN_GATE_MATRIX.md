@@ -19,7 +19,7 @@ Applies after Rally 11 Safety Readiness
 | Firmware write | HOLD | yes | separate firmware GO |
 | Firmware erase | HOLD | yes | separate firmware recovery GO |
 | Serial flash | HOLD | yes | separate recovery GO |
-| Voice output | HOLD (pilot) | yes | implementation ready; VOICEVOX required |
+| Voice output | PILOT_PASS (runtime HOLD optional) | yes | 2026-05-28 human audible PASS; `SHIKISHIMA_STACKCHAN_HOLD=1` で運用停止可 |
 | Mic input | HOLD | yes | separate mic GO |
 | Camera input | HOLD | yes | separate camera GO |
 | Autonomous Shikishima control | HOLD | yes | separate autonomy GO |

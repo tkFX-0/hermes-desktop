@@ -26,10 +26,11 @@ describe("shikishima model assignment registry", () => {
     }
   });
 
-  it("keeps FX as thesis-only and never trade execution", () => {
-    const chihaya = getModelAssignment("chihaya");
-    expect(chihaya.fxPositionAllowed).toBe("thesis_only");
-    expect(chihaya.forbiddenCapabilities).toContain("trade_execution");
+  it("forbids trade execution for every canonical agent", () => {
+    for (const id of ["shikishima", "shizume", "tsumugi", "hajime", "shirube"] as const) {
+      const a = getModelAssignment(id);
+      expect(a.forbiddenCapabilities).toContain("trade_execution");
+    }
   });
 });
 

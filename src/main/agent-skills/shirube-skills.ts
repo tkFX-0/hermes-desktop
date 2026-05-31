@@ -9,9 +9,11 @@ import { homedir } from "os";
 import type { SkillInput, SkillOutput, AgentContext } from "./skill-types";
 import { claudeCodeTask } from "../claude-code-service";
 import { withPersona } from "../agent-persona";
+import { resolveObsidianVaultPath } from "../shikishima-full-autonomy/obsidian-vault-path";
 
-const OBSIDIAN_BASE = join(homedir(), "Documents", "Obsidian", "しきしま");
-const MEMORY_BASE   = join(homedir(), "Desktop", "プロジェクトファイル", "hermes-desktop", ".shikishima-memory");
+const PROJECT_ROOT = join(homedir(), "Desktop", "プロジェクトファイル", "hermes-desktop");
+const OBSIDIAN_BASE = join(resolveObsidianVaultPath(PROJECT_ROOT), "しきしま");
+const MEMORY_BASE   = join(PROJECT_ROOT, ".shikishima-memory");
 
 function todayStr(): string {
   return new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10);

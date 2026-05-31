@@ -3,8 +3,7 @@ export type ShikishimaAgentId =
   | "shizume"
   | "tsumugi"
   | "hajime"
-  | "shirube"
-  | "chihaya";
+  | "shirube";
 
 export type ShikishimaCapability =
   | "general_chat"
@@ -40,7 +39,6 @@ export const SHIKISHIMA_AGENT_IDS: readonly ShikishimaAgentId[] = [
   "tsumugi",
   "hajime",
   "shirube",
-  "chihaya",
 ] as const;
 
 export const MODEL_ASSIGNMENTS: readonly ModelAssignment[] = [
@@ -113,20 +111,6 @@ export const MODEL_ASSIGNMENTS: readonly ModelAssignment[] = [
     stackchanSpeechAllowed: "draft_only",
     fxPositionAllowed: "not_applicable",
     requiresHumanGoFor: ["obsidian_write", "discord_send", "x_search", "publish_report"],
-  },
-  {
-    agentId: "chihaya",
-    role: "fx_observation_thesis_risk",
-    defaultModel: "realtime-research-fx",
-    fallbackModels: ["grok-research", "claude-sonnet"],
-    allowedCapabilities: ["read_only_research", "fx_thesis", "debate"],
-    forbiddenCapabilities: ["trade_execution", "external_write_without_go", "device_control"],
-    maxReasoningLevel: "deep",
-    realtimeAllowed: true,
-    externalWriteAllowed: false,
-    stackchanSpeechAllowed: "draft_only",
-    fxPositionAllowed: "thesis_only",
-    requiresHumanGoFor: ["x_search", "market_data_live", "trade_execution"],
   },
 ] as const;
 

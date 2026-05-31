@@ -15,8 +15,11 @@ const VAULT_ROOT = join(
 const ALLOWED_SUBFOLDER = "30_Evidence";
 const ALLOWED_ROOT = normalize(join(VAULT_ROOT, ALLOWED_SUBFOLDER));
 
-// OB-01 one-shot write executed 2026-05-20 — gate restored to HOLD posture
-const OB01_DRY_RUN = true;
+import { hasConstitutionalGoScope } from "./shikishima-full-autonomy/constitutional-go-state";
+
+function ob01DryRunEnabled(): boolean {
+  return !hasConstitutionalGoScope("obsidian_write");
+}
 
 export interface LibraryWriteRequest {
   filename: string; // YYYY-MM-DD_slug.md — no path separators allowed
@@ -55,7 +58,7 @@ export function writeEvidenceNote(req: LibraryWriteRequest): LibraryWriteResult 
     };
   }
 
-  if (OB01_DRY_RUN) {
+  if (ob01DryRunEnabled()) {
     return {
       success: true,
       redactedPath: join(ALLOWED_SUBFOLDER, filename),
@@ -64,7 +67,7 @@ export function writeEvidenceNote(req: LibraryWriteRequest): LibraryWriteResult 
     };
   }
 
-  // Unreachable until OB01_DRY_RUN = false via explicit human GO
+  // Live write when constitutional GO scope obsidian_write is active
   try {
     if (!existsSync(ALLOWED_ROOT)) {
       mkdirSync(ALLOWED_ROOT, { recursive: true });

@@ -7,21 +7,9 @@
 import { execFile } from "child_process";
 import { existsSync, writeFileSync, mkdirSync, readFileSync } from "fs";
 import { join } from "path";
-import { homedir } from "os";
 import * as https from "https";
-
-// ─── Obsidian vault パス ──────────────────────────────────────────────────────
-function getObsidianPath() {
-  // .env.localのOBSIDIAN_VAULT_PATHを使用、なければデフォルト
-  try {
-    const envPath = join(homedir(), "Desktop", "プロジェクトファイル", "hermes-desktop", ".env.local");
-    if (existsSync(envPath)) {
-      const line = readFileSync(envPath, "utf-8").split("\n").find(l => l.startsWith("OBSIDIAN_VAULT_PATH="));
-      if (line) return line.split("=").slice(1).join("=").trim();
-    }
-  } catch { /* ignore */ }
-  return join(homedir(), "Documents", "Obsidian");
-}
+import { writeShirubeNote } from "./lib/obsidian-shirube-write.mjs";
+import { resolveProjectRoot } from "./lib/project-root.mjs";
 
 // ─── Lv6-A: Webリサーチ (Hermes x_search) ────────────────────────────────────
 
@@ -52,33 +40,10 @@ export async function researchAndSummarize(query, callGroq) {
 
 // ─── Lv6-B: Obsidian自動書き込み ──────────────────────────────────────────────
 
-export function writeObsidian(title, content, folder = "しきしま") {
-  try {
-    const vaultPath = getObsidianPath();
-    const dir = join(vaultPath, folder);
-    mkdirSync(dir, { recursive: true });
-
-    const date = new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString().slice(0, 10);
-    const safeTitle = title.replace(/[<>:"/\\|?*\x00-\x1f]/g, "-").slice(0, 60);
-    const filename = `${date}-${safeTitle}.md`;
-    const filePath = join(dir, filename);
-
-    const frontmatter = [
-      "---",
-      `title: ${title}`,
-      `date: ${date}`,
-      `tags: [しきしま, auto]`,
-      "---",
-      "",
-    ].join("\n");
-
-    writeFileSync(filePath, frontmatter + content, "utf-8");
-    console.log(`[Obsidian] 保存: ${filePath}`);
-    return { ok: true, path: filePath, filename };
-  } catch (e) {
-    console.error("[Obsidian] 保存失敗:", e.message);
-    return { ok: false, error: e.message };
-  }
+export function writeObsidian(title, content, folder = "inbox") {
+  const root = resolveProjectRoot();
+  const subdir = folder === "しきしま" ? "inbox" : folder;
+  return writeShirubeNote(title, content, subdir, root);
 }
 
 // ─── Lv6-C: FX週次サマリー生成 ────────────────────────────────────────────────
@@ -120,8 +85,11 @@ export function detectToolCommand(content) {
     return { type: "research", query: query.slice(0, 100) };
   }
 
-  // Obsidian保存
+  // Obsidian保存（しるべ）
   if (/Obsidian.*保存|Obsidianに(書|記録)|メモを保存/.test(c)) return { type: "obsidian", content: c };
+  if (/記録して|ログを残|ログ残して|作業ログ|会話を記録/.test(c) && !/記録してない|記録しない|記録しなく/.test(c)) {
+    return { type: "obsidian", content: c };
+  }
 
   // FX週次サマリー
   if (/週次(サマリー|まとめ|レポート)|今週の(FX|gold|相場)まとめ/.test(c)) return { type: "fx_summary" };

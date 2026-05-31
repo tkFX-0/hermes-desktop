@@ -12,6 +12,7 @@ export default {
   gateway: "ゲートウェイ",
   settings: "設定",
   research: "リサーチ",
+  discordOps: "Discord 運用",
   controlCenter: "管制センター",
   mobileConsole: "モバイル",
   library: "記録庫",

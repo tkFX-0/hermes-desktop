@@ -13,10 +13,9 @@ export type AgentId =
   | "shizume"
   | "tsumugi"
   | "hajime"
-  | "shirube"
-  | "chihaya";
+  | "shirube";
 
-export type AgentShortId = "しき" | "しず" | "つむ" | "はじ" | "しるべ" | "ちは";
+export type AgentShortId = "しき" | "しず" | "つむ" | "はじ" | "しるべ";
 
 export interface AgentDefinition {
   readonly id: AgentId;
@@ -116,25 +115,6 @@ export const AGENT_DEFINITIONS: readonly AgentDefinition[] = [
       "しる、作業ログ残して",
       "しる、今日のGate結果まとめて",
       "しる、次チャット用の引き継ぎ書作って",
-    ],
-  },
-  {
-    id: "chihaya",
-    name: "ちはや",
-    short: "ちは",
-    role: "FX専任 · XAUUSD分析 · EAモニタリング · リスク管理",
-    description:
-      "FX・XAUUSD のテクニカル/ファンダメンタル分析、MT5 EAの稼働監視、" +
-      "キルゾーンアラート・ロット計算・リスク管理。" +
-      "しきしまからFX業務を分離し、管制業務を軽量化する専任エージェント。",
-    color: "#f8c400",
-    icon: "📈",
-    primaryWorker: "Hermes Research (x_search) + Grok-4.3",
-    callExamples: [
-      "ちは、XAUUSDの状況教えて",
-      "ちは、EAの稼働状況出して",
-      "ちは、1.5lot SL20のリスクは？",
-      "ちは、キルゾーンまで何分？",
     ],
   },
 ] as const;

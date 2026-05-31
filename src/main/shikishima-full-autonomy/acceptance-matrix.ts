@@ -20,6 +20,8 @@ export interface AcceptanceMatrixInput {
   safetyGovernorIntegrated: boolean;
   /** Human A4 sign-off: FA-07..10 pilot v1 accepted for Level 8 declaration. */
   pilotLevel8HumanDeclaration?: boolean;
+  /** Phase E8 — constitutional 全てGO + production modules wired. */
+  phaseEProductionGoAcknowledged?: boolean;
 }
 
 export function buildAcceptanceMatrix(input: AcceptanceMatrixInput): readonly FaCriterion[] {
@@ -85,7 +87,15 @@ export function buildAcceptanceMatrix(input: AcceptanceMatrixInput): readonly Fa
       id: "FA-12",
       description: "Full operation acceptance",
       phase: 10,
-      status: "TODO"
+      status:
+        input.phaseEProductionGoAcknowledged &&
+        input.pilotLevel8HumanDeclaration &&
+        input.burnInPass &&
+        input.voicePass
+          ? "PASS"
+          : input.pilotLevel8HumanDeclaration
+            ? "PARTIAL"
+            : "TODO"
     }
   ];
 }

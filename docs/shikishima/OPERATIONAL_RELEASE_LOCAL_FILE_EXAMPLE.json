@@ -4,7 +4,9 @@
   "productionReady": true,
   "sidebotHoldReleased": true,
   "hermesDaemonPilotEnabled": true,
+  "agentTeamTickEnabled": false,
+  "agentTeamTickIntervalMinutes": 360,
   "rawValuesReported": false,
   "activatedAtIso": "2026-05-28T00:00:00.000Z",
-  "humanGoNote": "copy to .shikishima-memory/operational-release.local.json"
+  "humanGoNote": "copy to .shikishima-memory/operational-release.local.json — enable agentTeamTick after batch GO"
 }

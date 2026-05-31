@@ -463,6 +463,13 @@ interface HermesAPI {
   }>;
 
   // Shikishima Grok Chat — Grok 4.3 via xai-oauth (X Premium)
+  shikishimaGetRuntimeMode: () => Promise<{
+    discordOnlyUi: boolean;
+    constitutionalGoActive: boolean;
+    operationalReleaseActive: boolean;
+    shadowModeEffective: boolean;
+    humanGoNote: string | null;
+  }>;
   shikishimaGrokChat: (message: string) => Promise<{
     success: boolean;
     reply: string;

@@ -14,10 +14,6 @@ import { skillTypecheck, skillDebug } from "./tsumugi-skills";
 import { skillOrchestrate, skillSessionBrief, skillMoodRead } from "./shikishima-skills";
 import { skillPlan, skillPrioritize, skillSprintPlan } from "./hajime-skills";
 import { skillLogToObsidian, skillRecall, skillHandoffNote } from "./shirube-skills";
-import {
-  skillMarketAnalysis, skillEaReport,
-  skillRiskCalc, skillKillZoneAlert,
-} from "./chihaya-skills";
 
 // ─── レジストリ ──────────────────────────────────────────────────────────────
 
@@ -102,26 +98,7 @@ register({ id: "shirube.handoff_note",      agentId: "shirube", name: "引き継
   trigger: ["引き継ぎ", "handoff", "次回のメモ", "まとめて次に渡して", "セッション終了"],
   requiredServices: ["claude"], execute: skillHandoffNote });
 
-// ─── ちはや ───────────────────────────────────────────────────────────────────
-register({ id: "chihaya.market_analysis",   agentId: "chihaya", name: "相場分析",
-  description: "XAUUSD等のテクニカル/ファンダメンタル分析",
-  trigger: ["相場", "分析", "XAUUSD", "gold", "ゴールド", "チャート", "テクニカル"],
-  requiredServices: ["hermes", "claude"], execute: skillMarketAnalysis });
-
-register({ id: "chihaya.ea_report",         agentId: "chihaya", name: "EA報告",
-  description: "MT5 EAの稼働状況・DD・PL報告",
-  trigger: ["EA", "稼働", "MT5", "ea_report", "ドローダウン", "EA状況"],
-  requiredServices: [], execute: skillEaReport });
-
-register({ id: "chihaya.risk_calc",         agentId: "chihaya", name: "リスク計算",
-  description: "ロットサイズ・リスク計算",
-  trigger: ["リスク計算", "ロット", "lot", "risk_calc", "何ロット"],
-  requiredServices: [], execute: skillRiskCalc });
-
-register({ id: "chihaya.kill_zone_alert",   agentId: "chihaya", name: "キルゾーン",
-  description: "キルゾーン時間帯の状況確認",
-  trigger: ["キルゾーン", "kill zone", "今の時間", "セッション時間", "ロンドン", "NY"],
-  requiredServices: [], execute: skillKillZoneAlert });
+// 旧ちはやスキル — 廃止（EA/MT5 → つむぎ、相場調査 → しるべ は routeAgent / SideBot で振分）
 
 // ─── Public API ──────────────────────────────────────────────────────────────
 

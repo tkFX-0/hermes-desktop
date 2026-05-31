@@ -103,7 +103,7 @@ describe("Full Autonomy Pipeline Phases 8-10", () => {
       burnInPass: true,
       sidebotHold: true
     });
-    expect(gaps.length).toBe(7);
+    expect(gaps.length).toBe(8);
   });
 
   it("autonomy level below 8 when stackchan deferred", () => {

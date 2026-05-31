@@ -4,7 +4,9 @@
 
 import { assessAutonomyLevel } from "./autonomy-level";
 import { getEffectiveInvariantTargets, verifyGlobalInvariants } from "./autonomy-invariants";
+import { resolveConstitutionalGo } from "./constitutional-go-state";
 import { resolveOperationalRelease } from "./operational-release-state";
+import { resolveShadowSttOptIn } from "./shadow-stt-opt-in";
 import { evaluateAcceptanceMatrix } from "./acceptance-matrix";
 import {
   createBurnInMonitor,
@@ -15,11 +17,10 @@ import { runDesignReviewChecklist, checklistAutoPassCount } from "./design-revie
 import { buildGapTracker, openGapCount } from "./gap-tracker";
 import { runIntegratedSafetyPipeline } from "./integrated-safety-pipeline";
 import {
-  createSchedulerSession,
-  enforceCooldown,
-  preventRetryLoop,
-  recordRouteAttempt
-} from "./scheduler-recovery";
+  createCappedSchedulerContext,
+  evaluateCappedSchedulerGate
+} from "./capped-autonomous-scheduler";
+import { recordRouteAttempt } from "./scheduler-recovery";
 import { connectLedgerToUnifiedSnapshot } from "./ledger-snapshot-bridge";
 import { createDefaultGoalRegistry } from "./goal-registry";
 import { runFullAutonomyCyclePhases2Through7 } from "./run-full-autonomy-cycle";
@@ -88,15 +89,20 @@ export function runFullAutonomyPipeline(
 
   const phases8to10: Phase10StepResult[] = [];
 
-  const scheduler = createSchedulerSession(3, 60_000);
-  const cooldown = enforceCooldown(scheduler, "discord.send", nowMs);
-  recordRouteAttempt(scheduler, "discord.send", nowMs);
-  const retryOk = preventRetryLoop(scheduler, "discord.send");
+  const schedulerCtx = createCappedSchedulerContext(nowMs || 1);
+  const cappedGate = evaluateCappedSchedulerGate(schedulerCtx, {
+    routeId: "autonomy.maintenance",
+    nowMs: nowMs || 1
+  });
+  if (cappedGate.allowed) {
+    recordRouteAttempt(schedulerCtx.session, "autonomy.maintenance", nowMs || 1);
+  }
+  const retryRoute = schedulerCtx.session.routes.get("autonomy.maintenance");
   phases8to10.push({
     phase: 8,
     goalId: "shikishima.phase8.scheduler-recovery",
-    ok: cooldown.allowed && retryOk,
-    summary: `scheduler state=${scheduler.state}`
+    ok: cappedGate.allowed && (retryRoute?.attemptCount ?? 0) === 1,
+    summary: `capped_scheduler state=${schedulerCtx.session.state} caps=${cappedGate.countsTowardCycleCap}`
   });
 
   const burnIn = createBurnInMonitor(nowMs);
@@ -112,6 +118,13 @@ export function runFullAutonomyPipeline(
 
   const burnInPass = input.burnInWallClockPass ?? burnEval.pass;
 
+  const constitutionalGo = resolveConstitutionalGo();
+  const shadowStt = resolveShadowSttOptIn();
+  const phaseEProductionGo =
+    constitutionalGo.active &&
+    shadowStt.optedIn &&
+    (input.pilotLevel8HumanDeclaration ?? false);
+
   const acceptance = evaluateAcceptanceMatrix({
     voicePass,
     stackchanDeferred,
@@ -119,7 +132,8 @@ export function runFullAutonomyPipeline(
     phase8Implemented: true,
     burnInPass,
     safetyGovernorIntegrated: true,
-    pilotLevel8HumanDeclaration: input.pilotLevel8HumanDeclaration ?? false
+    pilotLevel8HumanDeclaration: input.pilotLevel8HumanDeclaration ?? false,
+    phaseEProductionGoAcknowledged: phaseEProductionGo
   });
   phases8to10.push({
     phase: 10,
@@ -152,6 +166,15 @@ export function runFullAutonomyPipeline(
     pilotVoiceTracksComplete: input.pilotVoiceTracksComplete ?? false,
     trackDOperationalRelease: release.activated,
     sidebotHoldReleased: release.sidebotHoldReleased,
+    obsidianWriteDryRunReady: true,
+    schedulerCapsIntegrated: true,
+    discordReadDryRunReady: true,
+    constitutionalAllGoActive: constitutionalGo.active,
+    obsidianActualWriteEnabled:
+      constitutionalGo.active && constitutionalGo.scopes.includes("obsidian_write"),
+    hermesSubprocessBridgeReady:
+      constitutionalGo.active && constitutionalGo.scopes.includes("hermes_subprocess"),
+    shadowSttOptIn: shadowStt.optedIn,
     sidebotHold: input.sidebotHold ?? !release.sidebotHoldReleased
   });
 

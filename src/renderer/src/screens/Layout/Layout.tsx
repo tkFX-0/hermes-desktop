@@ -45,6 +45,7 @@ import { useI18n } from "../../components/useI18n";
 import { useTheme } from "../../components/theme-context";
 import { SafetyStrip } from "../../components/Shell/SafetyStrip";
 import { AgentTheaterPage } from "../AgentTheater/AgentTheaterPage";
+import { DiscordOpsMinimalPage } from "../DiscordOps/DiscordOpsMinimalPage";
 import { LibraryExportPage } from "../Library/LibraryExportPage";
 import { OperatorPage } from "../Operator/OperatorPage";
 import { RuntimeStatusBoardPage } from "../RuntimeStatusBoard";
@@ -80,9 +81,15 @@ type View =
   | "controlCenter"
   | "statusBoard"
   | "mobileConsole"
-  | "library";
+  | "library"
+  | "discordOps";
 
 const NAV_ITEMS: { view: View; icon: LucideIcon; labelKey: string }[] = [
+  {
+    view: "discordOps",
+    icon: ChatBubble,
+    labelKey: "navigation.discordOps",
+  },
   {
     view: "controlCenter",
     icon: LayoutDashboard as LucideIcon,
@@ -137,6 +144,7 @@ const CC_DEFAULT_SETTINGS: LocalSettingsData = {
 function Layout(): React.JSX.Element {
   const { t } = useI18n();
   const { theme, setTheme } = useTheme();
+  const [discordOnlyUi, setDiscordOnlyUi] = useState(false);
   const [view, setView] = useState<View>("controlCenter");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
@@ -155,6 +163,22 @@ function Layout(): React.JSX.Element {
   const [voicevoxReady, setVoicevoxReady] = useState(false);
   const [stackchanStyle, setStackchanStyle] = useState<string | undefined>(undefined);
   const [stackchanBattery, setStackchanBattery] = useState<number | undefined>(undefined);
+
+  useEffect(() => {
+    window.hermesAPI
+      .shikishimaGetRuntimeMode?.()
+      .then((m: { discordOnlyUi?: boolean }) => {
+        if (m?.discordOnlyUi) {
+          setDiscordOnlyUi(true);
+          setView("discordOps");
+        }
+      })
+      .catch(() => undefined);
+  }, []);
+
+  const navItems = discordOnlyUi
+    ? NAV_ITEMS.filter((item) => item.view === "discordOps" || item.view === "settings")
+    : NAV_ITEMS.filter((item) => item.view !== "discordOps");
 
   // StackChan + VOICEVOX status polling — 15s interval
   useEffect(() => {
@@ -180,7 +204,7 @@ function Layout(): React.JSX.Element {
 
   // CC-01/02: Poll Control Center snapshot when the controlCenter tab is active
   useEffect(() => {
-    if (view !== "controlCenter") return;
+    if (discordOnlyUi || view !== "controlCenter") return;
     const intervalSec = ccSettings.snapshotRefreshIntervalSeconds ?? 30;
 
     async function fetchSnapshot(): Promise<void> {
@@ -284,7 +308,7 @@ function Layout(): React.JSX.Element {
         </div>
 
         <nav className="sidebar-nav">
-          {NAV_ITEMS.map(({ view: v, icon: Icon, labelKey }) => (
+          {navItems.map(({ view: v, icon: Icon, labelKey }) => (
             <button
               key={v}
               className={`sidebar-nav-item ${view === v ? "active" : ""}`}
@@ -459,6 +483,11 @@ function Layout(): React.JSX.Element {
             }}
           >
             <Research />
+          </div>
+        )}
+        {view === "discordOps" && (
+          <div style={{ display: "flex", flex: 1, flexDirection: "column", overflow: "hidden" }}>
+            <DiscordOpsMinimalPage />
           </div>
         )}
         {view === "controlCenter" && (

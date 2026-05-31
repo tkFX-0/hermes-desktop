@@ -3,6 +3,7 @@
 // Cost: X Premium subscription quota only — no separate API billing.
 
 import { execFile } from "child_process";
+import { holdHermesResearch, isGlobalGrokResearchHold } from "./shikishima-agent-backend-policy";
 
 export interface HermesResearchResult {
   success: boolean;
@@ -14,8 +15,15 @@ export interface HermesResearchResult {
 const WSL_RUNNER = "/root/.hermes/research-runner.sh";
 const TIMEOUT_MS = 180_000; // 3 min — x_search can take 60-120s
 
-export function runHermesResearch(query: string): Promise<HermesResearchResult> {
+export function runHermesResearch(
+  query: string,
+  agentId: "shikishima" | "shirube" = "shikishima"
+): Promise<HermesResearchResult> {
   const start = Date.now();
+
+  if (isGlobalGrokResearchHold()) {
+    return Promise.resolve(holdHermesResearch(agentId, Date.now() - start));
+  }
 
   return new Promise((resolve) => {
     execFile(

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Shikishima StackChan Integration — Lv10-E
  * stackchan-local-service.ts の ES module 移植版 + Botフック
  *
@@ -10,7 +10,7 @@
 import * as http from "http";
 import * as net from "net";
 import * as crypto from "crypto";
-import { readFileSync, existsSync } from "fs";
+import { readFileSync, existsSync, mkdirSync, rmSync, statSync, writeFileSync } from "fs";
 import { resolve } from "path";
 import {
   recordTalk, recordPat, getRelationship, checkAbsence,
@@ -20,6 +20,17 @@ import { prepareSecretarySpeech } from "./shikishima-secretary-filter.mjs";
 
 // ─── 設定 ─────────────────────────────────────────────────────────────────────
 const _ENV_PATH = process.env.SHIKISHIMA_ENV_PATH || resolve(process.cwd(), ".env.local");
+const _PROJECT_ROOT = process.env.SHIKISHIMA_PROJECT_ROOT || process.env.SHIKISHIMA_PROJECT_DIR || process.cwd();
+const _MEMORY_DIR = resolve(_PROJECT_ROOT, ".shikishima-memory");
+const _SPEECH_LOCK_DIR = resolve(_MEMORY_DIR, "stackchan-speech.lock");
+const _SPEECH_LOCK_STALE_MS = Math.max(
+  60_000,
+  _readNumberEnvVar("STACKCHAN_SPEECH_LOCK_STALE_MS", 10 * 60_000),
+);
+const _SPEECH_LOCK_WAIT_MS = Math.max(
+  10_000,
+  _readNumberEnvVar("STACKCHAN_SPEECH_LOCK_WAIT_MS", 15 * 60_000),
+);
 
 function _stripEnvQuotes(value) {
   if (value.length < 2) return value;
@@ -51,12 +62,199 @@ const STACKCHAN_IP      = process.env.STACKCHAN_HOST || process.env.STACKCHAN_IP
 const STACKCHAN_WS_PORT = 8080;
 const VOICEVOX_URL      = "http://localhost:50021";
 const PCM_CHUNK_SAMPLES = 960;       // 60ms at 16kHz
+const PCM_CHUNK_DURATION_MS = Math.round((PCM_CHUNK_SAMPLES / 16000) * 1000);
+/** Real-time pacing — faster uploads overflow firmware pcmBuf (12s cap). */
+const PCM_CHUNK_DELAY_MS = Math.max(PCM_CHUNK_DURATION_MS - 1, 58);
+/** Firmware: MAX_PCM_SAMPLES = 16000*12 (docs/firmware/shikishima_cores3). */
+const FIRMWARE_MAX_PCM_BYTES = 16000 * 12 * 2;
+const SAFE_PCM_BYTES = FIRMWARE_MAX_PCM_BYTES - 9600;
+/** ~10s speech @ speed 1.2 — keeps synthesis under firmware buffer. */
+export const PCM_SAFE_MAX_CHARS = 48;
 const DEFAULT_FACE      = "normal";
 
 let _speakerId = 1;
 let _speed     = 1.2;
 let _enabled   = true;
+let _voicePlaybackBusy = false;
 let _lastStatus = { connected: false, voicevoxReady: false };
+
+function envFlagTruthy(key, defaultOn = false) {
+  const raw = process.env[key] ?? _readEnvVar(key);
+  if (raw === undefined || raw === "") return defaultOn;
+  const v = String(raw).trim().toLowerCase();
+  if (v === "0" || v === "false" || v === "off" || v === "no") return false;
+  if (v === "1" || v === "true" || v === "on" || v === "yes") return true;
+  return defaultOn;
+}
+
+/** 完全自律実装中など — StackChan 発話・PCM を止める（.env.local: SHIKISHIMA_STACKCHAN_HOLD=1） */
+export function isStackchanVoiceHold() {
+  return envFlagTruthy("SHIKISHIMA_STACKCHAN_HOLD", false);
+}
+
+if (isStackchanVoiceHold()) {
+  _enabled = false;
+}
+
+export function isStackchanVoiceBusy() {
+  return _voicePlaybackBusy || _globalSpeechPending > 0;
+}
+
+function isStackchanDeviceControlBlockedByVoice() {
+  return _voicePlaybackBusy || _globalSpeechPending > 0;
+}
+
+/** All VOICEVOX/PCM utterances share one serial queue (Discord, STT, hooks, !sc say). */
+let _globalSpeechChain = Promise.resolve();
+let _globalSpeechPending = 0;
+
+/** Discord poll-batch / ordered digest — operator notify は終了まで defer */
+let _discordSpeechDigestDepth = 0;
+const _deferredOperatorNotifyJobs = [];
+
+export function isDiscordSpeechDigestActive() {
+  return _discordSpeechDigestDepth > 0;
+}
+
+export function shouldDeferOperatorNotifyDuringDiscord(env = process.env) {
+  return envFlagTruthy("SHIKISHIMA_OPERATOR_NOTIFY_DEFER_DURING_DISCORD", true, env);
+}
+
+/** @returns {"defer"|"skip"} */
+export function operatorNotifyDeferModeDuringDiscord(env = process.env) {
+  const raw = String(
+    env.SHIKISHIMA_OPERATOR_NOTIFY_DEFER_MODE ?? _readEnvVar("SHIKISHIMA_OPERATOR_NOTIFY_DEFER_MODE") ?? "defer",
+  ).trim().toLowerCase();
+  return raw === "skip" || raw === "log" ? "skip" : "defer";
+}
+
+export function getDeferredOperatorNotifyCount() {
+  return _deferredOperatorNotifyJobs.length;
+}
+
+export function pushDeferredOperatorNotify(intent) {
+  _deferredOperatorNotifyJobs.push({ intent, enqueuedAt: Date.now() });
+}
+
+export function enterDiscordSpeechDigestSession() {
+  _discordSpeechDigestDepth += 1;
+}
+
+export async function exitDiscordSpeechDigestSession(opts = {}) {
+  _discordSpeechDigestDepth = Math.max(0, _discordSpeechDigestDepth - 1);
+  if (_discordSpeechDigestDepth === 0) {
+    return flushDeferredOperatorNotifies(opts);
+  }
+  return { flushed: 0 };
+}
+
+async function flushDeferredOperatorNotifies(opts = {}) {
+  if (_deferredOperatorNotifyJobs.length === 0) return { flushed: 0 };
+  const env = opts.env ?? process.env;
+  const jobs = _deferredOperatorNotifyJobs.splice(0);
+  const { speakOperatorNotify } = await import("./lib/stackchan-operator-notify.mjs");
+  let flushed = 0;
+  for (const job of jobs) {
+    await speakOperatorNotify(job.intent, {
+      env,
+      skipDebounce: true,
+      bypassDigestDefer: true,
+      projectRoot: opts.projectRoot,
+    });
+    flushed += 1;
+  }
+  return { flushed };
+}
+
+export function getGlobalSpeechPendingCount() {
+  return _globalSpeechPending;
+}
+
+function enqueueGlobalSpeech(label, fn) {
+  _globalSpeechPending += 1;
+  const job = _globalSpeechChain.then(async () => {
+    try {
+      return await withCrossProcessSpeechLock(label, fn);
+    } finally {
+      _globalSpeechPending -= 1;
+    }
+  });
+  _globalSpeechChain = job.catch((e) => {
+    console.warn(`[StackChan] speech queue error (${label}):`, e?.message ?? e);
+    return { ok: false, error: String(e?.message ?? e) };
+  });
+  return job;
+}
+
+function isCrossProcessSpeechLockEnabled() {
+  return envFlagTruthy("SHIKISHIMA_STACKCHAN_SPEECH_LOCK", true);
+}
+
+function lockInfo(label) {
+  return JSON.stringify({
+    label: String(label ?? "speech").slice(0, 80),
+    pid: process.pid,
+    startedAt: new Date().toISOString(),
+  });
+}
+
+function tryCleanupStaleSpeechLock() {
+  try {
+    const st = statSync(_SPEECH_LOCK_DIR);
+    if (Date.now() - st.mtimeMs > _SPEECH_LOCK_STALE_MS) {
+      rmSync(_SPEECH_LOCK_DIR, { recursive: true, force: true });
+      return true;
+    }
+  } catch {
+    return false;
+  }
+  return false;
+}
+
+async function acquireCrossProcessSpeechLock(label) {
+  if (!isCrossProcessSpeechLockEnabled()) return () => {};
+
+  mkdirSync(_MEMORY_DIR, { recursive: true });
+  const started = Date.now();
+  let waitedLog = false;
+
+  while (Date.now() - started < _SPEECH_LOCK_WAIT_MS) {
+    try {
+      mkdirSync(_SPEECH_LOCK_DIR);
+      try {
+        writeFileSync(resolve(_SPEECH_LOCK_DIR, "owner.json"), lockInfo(label), "utf8");
+      } catch {
+        // Lock dir ownership is enough; metadata is best-effort only.
+      }
+      return () => {
+        try {
+          rmSync(_SPEECH_LOCK_DIR, { recursive: true, force: true });
+        } catch {
+          // ignore release race
+        }
+      };
+    } catch (e) {
+      if (e?.code !== "EEXIST") throw e;
+      tryCleanupStaleSpeechLock();
+      if (!waitedLog) {
+        console.log(`[StackChan] speech queue waiting for previous process (${label})`);
+        waitedLog = true;
+      }
+      await delay(180);
+    }
+  }
+
+  throw new Error(`stackchan_speech_lock_timeout:${label}`);
+}
+
+async function withCrossProcessSpeechLock(label, fn) {
+  const release = await acquireCrossProcessSpeechLock(label);
+  try {
+    return await fn();
+  } finally {
+    release();
+  }
+}
 
 export function setSpeakerId(id) { _speakerId = Math.max(0, Math.min(100, Math.round(id))); }
 export function setSpeed(s)      { _speed     = Math.max(0.5, Math.min(2.0, s)); }
@@ -233,6 +431,7 @@ function parseServerFrames(buffer) {
 function createDeviceErrorWatcher(sock) {
   let buffer = Buffer.alloc(0);
   let errorReason = null;
+  let playDone = false;
   const waiters = new Set();
   const notify = () => {
     for (const waiter of waiters) waiter(errorReason);
@@ -248,6 +447,9 @@ function createDeviceErrorWatcher(sock) {
         if (msg?.type === "error" && typeof msg.reason === "string") {
           errorReason = msg.reason;
           notify();
+        } else if (msg?.type === "audio.state" && msg.phase === "play_done") {
+          playDone = true;
+          notify();
         }
       } catch { /* ignore non-JSON text frames */ }
     }
@@ -260,6 +462,7 @@ function createDeviceErrorWatcher(sock) {
   return {
     wait(ms = 80) {
       if (errorReason) return Promise.resolve(errorReason);
+      if (playDone) return Promise.resolve(null);
       return new Promise(resolve => {
         const timer = setTimeout(() => {
           waiters.delete(done);
@@ -273,11 +476,26 @@ function createDeviceErrorWatcher(sock) {
         waiters.add(done);
       });
     },
+    get sawPlayDone() {
+      return playDone;
+    },
     close() {
       sock.off("data", onData);
       waiters.clear();
     },
   };
+}
+
+async function waitForDevicePlaybackEnd(watcher, pcmByteLength) {
+  const budgetMs = pcmPlaybackTailMs(pcmByteLength) + 2000;
+  const start = Date.now();
+  while (Date.now() - start < budgetMs) {
+    if (watcher.sawPlayDone) return true;
+    const err = await watcher.wait(200);
+    if (err) return false;
+    if (watcher.sawPlayDone) return true;
+  }
+  return false;
 }
 
 async function sendJsonChecked(sock, watcher, payload, waitMs = 80) {
@@ -399,6 +617,9 @@ function normalizeMoveAction(action) {
  */
 export async function stackchanMove(action) {
   if (!_enabled) return { ok: true, skipped: "disabled" };
+  if (isStackchanDeviceControlBlockedByVoice()) {
+    return { ok: true, skipped: "voice_busy" };
+  }
   try {
     const firmwareAction = normalizeMoveAction(action);
     const sock = await connectWs();
@@ -420,6 +641,9 @@ export async function stackchanMove(action) {
  */
 export async function stackchanServo(pan, tilt) {
   if (!_enabled) return { ok: true, skipped: "disabled" };
+  if (isStackchanDeviceControlBlockedByVoice()) {
+    return { ok: true, skipped: "voice_busy" };
+  }
   try {
     const sock = await connectWs();
     wsSendJson(sock, { type: "servo", pan, tilt });
@@ -444,6 +668,9 @@ export async function stackchanDance() {
  */
 export async function stackchanLed(preset = "blue") {
   if (!_enabled) return { ok: true, skipped: "disabled" };
+  if (isStackchanDeviceControlBlockedByVoice()) {
+    return { ok: true, skipped: "voice_busy" };
+  }
   try {
     const sock = await connectWs();
     wsSendJson(sock, { type: "led", preset });
@@ -465,19 +692,283 @@ export async function stackchanLed(preset = "blue") {
  *   skipMilestone — recordTalk / 連鎖発話省略 (pilot one-shot 用)
  */
 export async function stackchanSay(text, opts = {}) {
+  if (isStackchanVoiceHold()) return { ok: true, skipped: "stackchan_hold" };
   if (!_enabled) return { ok: true, skipped: "disabled" };
+  if (!opts._insideGlobalQueue) {
+    const label = opts.queueLabel ?? "say";
+    return enqueueGlobalSpeech(label, () =>
+      stackchanSayInternal(text, { ...opts, _insideGlobalQueue: true }),
+    );
+  }
+  return stackchanSayInternal(text, opts);
+}
+
+/** Discord 1 返信分 — 1 WS 接続でチャンクを連続再生（途切れ防止） */
+const DISCORD_INTER_CHUNK_MS = 300;
+
+/**
+ * @param {import("net").Socket} sock
+ * @param {ReturnType<typeof createDeviceErrorWatcher>} watcher
+ */
+/** 発話セッション終了 — 画面の会話ログ（subtitle）が残ると受信/UIが詰まることがある */
+async function finalizeDeviceSpeechSession(sock, watcher) {
+  if (!sock || !watcher) return;
+  await sendJsonChecked(sock, watcher, { type: "state", value: "idle" }, 220);
+  await sendJsonChecked(sock, watcher, { type: "subtitle", text: "" }, 120);
+  await sendJsonChecked(sock, watcher, { type: "face_mode", value: DEFAULT_FACE }, 120);
+  await delay(120);
+}
+
+async function beginThinkingMotionOnSocket(sock, watcher) {
+  let deviceError = await sendJsonChecked(sock, watcher, { type: "face_mode", value: "thinking" }, 120);
+  if (deviceError) return deviceError;
+  const motion = EMOTION_MOTION_MAP.thinking;
+  if (motion) {
+    deviceError = await sendJsonChecked(sock, watcher, { type: "move", action: motion }, 150);
+    if (deviceError) return deviceError;
+    await delay(280);
+  }
+  return null;
+}
+
+async function playPreparedUtteranceOnSocket(sock, watcher, safeText, pcm) {
+  let deviceError = await sendJsonChecked(sock, watcher, { type: "state", value: "speaking" }, 160);
+  if (deviceError) return { ok: false, error: deviceError };
+  deviceError = await sendJsonChecked(sock, watcher, {
+    type: "subtitle",
+    text: safeText.slice(0, 200),
+  }, 120);
+  if (deviceError) return { ok: false, error: deviceError };
+  await delay(80);
+
+  const stream = await streamPcmToDevice(sock, watcher, pcm);
+  if (!stream.ok) return { ok: false, error: stream.error, pcmBytes: pcm.length };
+
+  deviceError = await sendJsonChecked(sock, watcher, { type: "state", value: "idle" }, 180);
+  if (deviceError) return { ok: false, error: deviceError };
+
+  const playHeardMs = pcmPlaybackTailMs(pcm.length);
+  const heard = await waitForDevicePlaybackEnd(watcher, pcm.length);
+  const tailMs = heard ? Math.round(playHeardMs * 0.35) : Math.round(playHeardMs * 1.15);
+  if (tailMs > 0) await delay(tailMs);
+  return { ok: true, pcmBytes: pcm.length, heardPlayDone: heard };
+}
+
+/**
+ * 事前分割済みチャンクを 1 キュー・1 WebSocket で連続発話。
+ * @param {string[]} chunks
+ */
+async function stackchanSayPreparedChunksInternal(chunks, opts = {}) {
+  const texts = chunks.map((c) => collapseWhitespaceForSpeech(c)).filter(Boolean);
+  if (texts.length === 0) return { ok: false, blockedReason: "empty_chunks" };
+
+  let sock;
   try {
-    const speech = prepareSecretarySpeech(text, { maxSpeechChars: opts.maxSpeechChars });
-    if (!speech.spokenAllowed) return { ok: false, blockedReason: speech.blockedReason ?? "speech_policy_blocked" };
-    const safeText = speech.spokenText;
+    sock = await connectWs();
+  } catch (e) {
+    return { ok: false, error: e.message };
+  }
+  const watcher = createDeviceErrorWatcher(sock);
+  _voicePlaybackBusy = true;
+  let utteranceCount = 0;
+  let result = { ok: true, utteranceCount: 0, inputChunks: texts.length };
+
+  try {
+    if (opts.thinkingMotion) {
+      const thinkErr = await beginThinkingMotionOnSocket(sock, watcher);
+      if (thinkErr) {
+        result = { ok: false, error: thinkErr };
+        return result;
+      }
+    } else {
+      const deviceError = await sendJsonChecked(sock, watcher, { type: "face_mode", value: DEFAULT_FACE }, 120);
+      if (deviceError) {
+        result = { ok: false, error: deviceError };
+        return result;
+      }
+    }
+
+    for (let i = 0; i < texts.length; i++) {
+      let safeText = texts[i];
+      let wav = await voicevoxSynthesize(safeText);
+      let pcm = wavToPcm16k(wav);
+
+      if (pcm.length > SAFE_PCM_BYTES && safeText.length > 8) {
+        const parts = splitTextForPcmLimit(safeText);
+        for (let p = 0; p < parts.length; p++) {
+          safeText = parts[p];
+          wav = await voicevoxSynthesize(safeText);
+          pcm = wavToPcm16k(wav);
+          const r = await playPreparedUtteranceOnSocket(sock, watcher, safeText, pcm);
+          if (!r.ok) {
+            result = r;
+            return result;
+          }
+          utteranceCount += 1;
+          if (p < parts.length - 1) await delay(DISCORD_INTER_CHUNK_MS);
+        }
+      } else {
+        const r = await playPreparedUtteranceOnSocket(sock, watcher, safeText, pcm);
+        if (!r.ok) {
+          result = r;
+          return result;
+        }
+        utteranceCount += 1;
+      }
+
+      if (i < texts.length - 1) await delay(DISCORD_INTER_CHUNK_MS);
+    }
+
+    console.log(
+      `[StackChan] Discord batch done: ${utteranceCount} utterance(s) from ${texts.length} chunk(s)`
+        + (opts.queueLabel ? ` (${opts.queueLabel})` : ""),
+    );
+    result = { ok: true, utteranceCount, inputChunks: texts.length };
+    return result;
+  } finally {
+    try {
+      await finalizeDeviceSpeechSession(sock, watcher);
+    } catch (e) {
+      console.warn("[StackChan] finalize speech session:", e?.message ?? e);
+    }
+    _voicePlaybackBusy = false;
+    watcher.close();
+    sock.destroy();
+  }
+}
+
+export async function stackchanSayPreparedChunks(chunks, opts = {}) {
+  if (isStackchanVoiceHold()) return { ok: true, skipped: "stackchan_hold" };
+  if (!_enabled) return { ok: true, skipped: "disabled" };
+  const label = opts.queueLabel ?? "discord:batch";
+  return enqueueGlobalSpeech(label, () => stackchanSayPreparedChunksInternal(chunks, opts));
+}
+
+export async function stackchanSayPreparedBatchItems(items, opts = {}) {
+  if (isStackchanVoiceHold()) return { ok: true, skipped: "stackchan_hold" };
+  if (!_enabled) return { ok: true, skipped: "disabled" };
+  const queueLabel = opts.queueLabel ?? "discord:ordered-batch";
+  const voiceItems = Array.isArray(items) ? items.filter((item) => item?.chunks?.length) : [];
+  if (voiceItems.length === 0) return { ok: false, blockedReason: "empty_batch" };
+
+  return enqueueGlobalSpeech(queueLabel, async () => {
+    enterDiscordSpeechDigestSession();
+    const results = [];
+    let utteranceCount = 0;
+    let inputChunks = 0;
+
+    try {
+    for (let i = 0; i < voiceItems.length; i++) {
+      const item = voiceItems[i];
+      const ord = `${i + 1}/${voiceItems.length}`;
+      const itemLabel = item.queueLabel ?? `${queueLabel}:${ord}`;
+      console.log(`[StackChanVoice] ordered ${ord} starting (${itemLabel})`);
+      const result = await stackchanSayPreparedChunksInternal(item.chunks, {
+        ...opts,
+        ...item,
+        queueLabel: itemLabel,
+      });
+      results.push({ ...result, queueLabel: itemLabel });
+      if (!result.ok) {
+        console.warn(`[StackChanVoice] ordered ${ord} failed: ${result.error ?? result.blockedReason ?? result.skipped ?? "unknown"}`);
+        return {
+          ok: false,
+          queueLabel,
+          failedAt: ord,
+          results,
+          utteranceCount,
+          inputChunks,
+        };
+      }
+      utteranceCount += Number(result.utteranceCount ?? 0);
+      inputChunks += Number(result.inputChunks ?? item.chunks.length);
+      console.log(`[StackChanVoice] ordered ${ord} done (${itemLabel})`);
+      if (i < voiceItems.length - 1) await delay(DISCORD_INTER_CHUNK_MS);
+    }
+
+    return {
+      ok: true,
+      queueLabel,
+      batchCount: voiceItems.length,
+      utteranceCount,
+      inputChunks,
+      results,
+    };
+    } finally {
+      const flush = await exitDiscordSpeechDigestSession(opts);
+      if (flush.flushed > 0) {
+        console.log(`[StackChanVoice] flushed ${flush.flushed} deferred operator notify(s) after discord digest`);
+      }
+    }
+  });
+}
+
+async function stackchanSayInternal(text, opts = {}) {
+  try {
+    let safeText;
+    let speechPolicyChanged = false;
+    if (opts.alreadyPrepared) {
+      safeText = collapseWhitespaceForSpeech(text);
+      if (!safeText) return { ok: false, blockedReason: "empty_speech" };
+    } else {
+      const speech = prepareSecretarySpeech(text, { maxSpeechChars: opts.maxSpeechChars });
+      if (!speech.spokenAllowed) return { ok: false, blockedReason: speech.blockedReason ?? "speech_policy_blocked" };
+      safeText = speech.spokenText;
+      speechPolicyChanged = !!speech.changed;
+    }
+
+    if (!opts._pcmSplitChild && safeText.length > PCM_SAFE_MAX_CHARS) {
+      const parts = splitTextForPcmLimit(safeText);
+      if (parts.length > 1) {
+        for (const part of parts) {
+          const r = await stackchanSayInternal(part, { ...opts, _pcmSplitChild: true, _insideGlobalQueue: true });
+          if (!r.ok) return r;
+        }
+        return { ok: true, speechPolicyChanged, pcmSplitParts: parts.length };
+      }
+    }
+
     const wav = await voicevoxSynthesize(safeText);
-    const pcm = wavToPcm16k(wav);
+    let pcm = wavToPcm16k(wav);
+
+    if (pcm.length > SAFE_PCM_BYTES) {
+      const ratio = SAFE_PCM_BYTES / pcm.length;
+      const targetChars = Math.max(8, Math.floor(safeText.length * ratio * 0.85));
+      const parts = targetChars < safeText.length
+        ? splitTextForPcmLimit(safeText, targetChars)
+        : splitTextForPcmLimit(safeText, Math.max(8, Math.floor(safeText.length / 2)));
+      if (parts.length > 1) {
+        console.warn(
+          `[StackChan] PCM ${pcm.length}B > cap ${SAFE_PCM_BYTES}B — resplit ${parts.length} parts`
+            + ` (chars=${safeText.length})`,
+        );
+        for (const part of parts) {
+          const r = await stackchanSayInternal(part, { ...opts, _pcmSplitChild: true, _insideGlobalQueue: true });
+          if (!r.ok) return r;
+        }
+        return { ok: true, speechPolicyChanged, pcmSplitParts: parts.length };
+      }
+      if (safeText.length > 10) {
+        const mid = Math.max(1, Math.floor(safeText.length / 2));
+        const left = safeText.slice(0, mid).trim();
+        const right = safeText.slice(mid).trim();
+        if (left && right) {
+          console.warn(`[StackChan] PCM ${pcm.length}B > cap — binary split`);
+          const r1 = await stackchanSayInternal(left, { ...opts, _pcmSplitChild: true, _insideGlobalQueue: true });
+          if (!r1.ok) return r1;
+          return stackchanSayInternal(right, { ...opts, _pcmSplitChild: true, _insideGlobalQueue: true });
+        }
+      }
+      console.warn(`[StackChan] PCM ${pcm.length}B exceeds firmware cap — device may truncate`);
+    }
+
     const emotion = detectEmotion(safeText);
     const sock = await connectWs();
     const watcher = createDeviceErrorWatcher(sock);
+    _voicePlaybackBusy = true;
+    let playHeardMs = 0;
 
     try {
-      // 感情に対応するサーボモーションを発話前に送信 (skipMotion=true の場合は省略)
       if (!opts.skipMotion) {
         const motion = EMOTION_MOTION_MAP[emotion] ?? null;
         if (motion) {
@@ -492,40 +983,29 @@ export async function stackchanSay(text, opts = {}) {
       await delay(50);
       deviceError = await sendJsonChecked(sock, watcher, { type: "state", value: "speaking" }, 160);
       if (deviceError) return { ok: false, error: deviceError };
-      deviceError = await sendJsonChecked(sock, watcher, { type: "subtitle", text: safeText.slice(0, 28) }, 120);
+      deviceError = await sendJsonChecked(sock, watcher, {
+        type: "subtitle",
+        text: safeText.slice(0, 200),
+      }, 120);
       if (deviceError) return { ok: false, error: deviceError };
       await delay(80);
 
-      // F9: 長文途中うなずき — PCM送信と並行して別接続で送信 (skipMotion時は省略)
-      const analysis = analyzeText(safeText);
-      const midNodTimer = (!opts.skipMotion && analysis.midPoints.length > 0)
-        ? (async () => {
-            for (const ms of analysis.midPoints) {
-              await delay(ms);
-              try {
-                const s2 = await connectWs();
-                wsSendJson(s2, { type: "move", action: "nod" });
-                await delay(100); s2.destroy();
-              } catch { /* ignore */ }
-            }
-          })()
-        : null;
+      const stream = await streamPcmToDevice(sock, watcher, pcm);
+      if (!stream.ok) return { ok: false, error: stream.error, pcmBytes: pcm.length };
 
-      const chunkBytes = PCM_CHUNK_SAMPLES * 2;
-      for (let i = 0; i < pcm.length; i += chunkBytes) {
-        wsSendBinary(sock, pcm.slice(i, i + chunkBytes));
-        const pcmError = await watcher.wait(5);
-        if (pcmError) return { ok: false, error: `device_rejected_${pcmError}` };
-        await delay(35);
-      }
-
-      if (midNodTimer) await midNodTimer.catch(() => {});
-      await delay(300);
       deviceError = await sendJsonChecked(sock, watcher, { type: "state", value: "idle" }, 180);
       if (deviceError) return { ok: false, error: deviceError };
+
+      playHeardMs = pcmPlaybackTailMs(pcm.length);
+      const heard = await waitForDevicePlaybackEnd(watcher, pcm.length);
+      if (!heard) {
+        await delay(playHeardMs);
+      }
+
       deviceError = await sendJsonChecked(sock, watcher, { type: "face_mode", value: DEFAULT_FACE }, 120);
       if (deviceError) return { ok: false, error: deviceError };
     } finally {
+      _voicePlaybackBusy = false;
       watcher.close();
       sock.destroy();
     }
@@ -534,13 +1014,21 @@ export async function stackchanSay(text, opts = {}) {
       const rel = recordTalk(safeText.length * 80);
       for (const ms of rel.triggered) {
         const msg = getMilestoneReaction(ms);
-        if (msg) setTimeout(() => stackchanSay(msg, { skipMotion: true, skipMilestone: true }).catch(() => {}), 1500);
+        if (msg) {
+          setTimeout(() => {
+            stackchanSay(msg, { skipMotion: true, skipMilestone: true, queueLabel: "milestone" }).catch(() => {});
+          }, 1500);
+        }
       }
     }
 
-    console.log(`[StackChan] 発話完了: "${safeText.slice(0, 30)}"`);
-    return { ok: true, speechPolicyChanged: speech.changed };
+    console.log(
+      `[StackChan] 発話完了: "${safeText.slice(0, 30)}" pcm=${pcm.length}B ~${Math.round(pcm.length / 32)}ms`
+        + (playHeardMs ? ` wait=${playHeardMs}ms` : ""),
+    );
+    return { ok: true, speechPolicyChanged, pcmBytes: pcm.length };
   } catch (e) {
+    _voicePlaybackBusy = false;
     console.warn(`[StackChan] 発話失敗: ${e.message}`);
     return { ok: false, error: e.message };
   }
@@ -551,6 +1039,9 @@ export async function stackchanSay(text, opts = {}) {
  */
 export async function stackchanFace(emotion) {
   if (!_enabled) return { ok: true, skipped: "disabled" };
+  if (isStackchanDeviceControlBlockedByVoice()) {
+    return { ok: true, skipped: "voice_busy" };
+  }
   try {
     const sock = await connectWs();
     wsSendJson(sock, { type: "face_mode", value: emotion });
@@ -596,6 +1087,78 @@ export async function checkStackchanStatus() {
 
 // ─── Bot フック ───────────────────────────────────────────────────────────────
 
+function collapseWhitespaceForSpeech(text) {
+  return String(text ?? "").replace(/\s+/g, " ").trim();
+}
+
+/** 16kHz mono PCM の再生完了待ち（ファームは state:idle 後も非同期 playRaw 中）。 */
+function pcmPlaybackTailMs(pcmByteLength) {
+  const ms = Math.ceil(pcmByteLength / 32) + 400;
+  return Math.max(500, Math.min(ms, 45_000));
+}
+
+/** Split text so each VOICEVOX utterance stays under firmware PCM cap (~12s). */
+export function splitTextForPcmLimit(text, maxChars = PCM_SAFE_MAX_CHARS) {
+  const plain = collapseWhitespaceForSpeech(text);
+  if (!plain) return [];
+  if (plain.length <= maxChars) return [plain];
+
+  const sentences = plain
+    .split(/(?<=[。．！？!?])/u)
+    .map((s) => s.trim())
+    .filter(Boolean);
+
+  const chunks = [];
+  let buf = "";
+
+  const flush = () => {
+    if (buf) {
+      chunks.push(buf);
+      buf = "";
+    }
+  };
+
+  const pushLong = (segment) => {
+    for (let i = 0; i < segment.length; i += maxChars) {
+      chunks.push(segment.slice(i, i + maxChars));
+    }
+  };
+
+  for (const sentence of sentences.length > 0 ? sentences : [plain]) {
+    if (sentence.length > maxChars) {
+      flush();
+      pushLong(sentence);
+      continue;
+    }
+    if (!buf) {
+      buf = sentence;
+      continue;
+    }
+    if ((buf + sentence).length <= maxChars) {
+      buf += sentence;
+    } else {
+      flush();
+      buf = sentence;
+    }
+  }
+  flush();
+  return chunks.length > 0 ? chunks : [plain.slice(0, maxChars)];
+}
+
+async function streamPcmToDevice(sock, watcher, pcm) {
+  const chunkBytes = PCM_CHUNK_SAMPLES * 2;
+  let sentBytes = 0;
+  for (let i = 0; i < pcm.length; i += chunkBytes) {
+    const slice = pcm.slice(i, i + chunkBytes);
+    wsSendBinary(sock, slice);
+    sentBytes += slice.length;
+    const pcmError = await watcher.wait(8);
+    if (pcmError) return { ok: false, error: `device_rejected_${pcmError}`, sentBytes };
+    await delay(PCM_CHUNK_DELAY_MS);
+  }
+  return { ok: true, sentBytes };
+}
+
 /** 起動時の挨拶 */
 export async function hookOnBotStart() {
   const h = new Date(Date.now() + 9 * 60 * 60 * 1000).getUTCHours();
@@ -603,7 +1166,7 @@ export async function hookOnBotStart() {
     h < 12 ? "おはようございます。しきしまです。" :
     h < 18 ? "こんにちは。今日もよろしくお願いします。" :
              "お疲れ様です。今夜もサポートします。";
-  await stackchanSay(greet);
+  await stackchanSay(greet, { skipMotion: true, skipMilestone: true, maxSpeechChars: 240, alreadyPrepared: true });
 }
 
 /** タスク完了通知 */
@@ -696,12 +1259,17 @@ export function getTimeBasedFace() {
  * @param {"speak"|"alert"|"done"} mood - 表情モード
  */
 export async function stackchanSayAsAgent(agentId, text, mood = "speak") {
+  if (isStackchanVoiceHold()) return { ok: true, skipped: "stackchan_hold" };
+  if (!_enabled) return { ok: true, skipped: "disabled" };
+  return enqueueGlobalSpeech(`agent:${agentId}`, () => stackchanSayAsAgentInternal(agentId, text, mood));
+}
+
+async function stackchanSayAsAgentInternal(agentId, text, mood = "speak") {
   const faceProf = AGENT_FACE_PROFILE[agentId]   ?? AGENT_FACE_PROFILE.shikishima;
   const motProf  = AGENT_MOTION_PROFILE[agentId] ?? AGENT_MOTION_PROFILE.shikishima;
   const face     = faceProf[mood] ?? faceProf.speak;
   const { panScale, tiltScale, speedFactor, quirk } = motProf;
 
-  if (!_enabled) return { ok: true, skipped: "disabled" };
   try {
     const speech = prepareSecretarySpeech(text);
     if (!speech.spokenAllowed) return { ok: false, blockedReason: speech.blockedReason ?? "speech_policy_blocked" };
@@ -805,6 +1373,9 @@ export async function stackchanSayAsAgent(agentId, text, mood = "speak") {
  */
 export async function stackchanAnimateSequence(sequence) {
   if (!_enabled) return { ok: true, skipped: "disabled" };
+  if (isStackchanDeviceControlBlockedByVoice()) {
+    return { ok: true, skipped: "voice_busy" };
+  }
   try {
       const sock = await connectWs();
       for (const { face, ms } of sequence) {

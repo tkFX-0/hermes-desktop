@@ -142,4 +142,4 @@ These must never change without explicit human approval:
 - `humanGoApprovalRequired = true`
 - `rawValuesReported = false`
 
-Current: `nextRequiredHumanAction = human_review_go_policy_prerequisites`
+Current: `nextRequiredHumanAction = voice_setup_when_ready` *(level8_pilot_declaration acknowledged 2026-05-29)*

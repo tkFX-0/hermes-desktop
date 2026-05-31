@@ -13,6 +13,12 @@ export interface OperationalReleaseState {
   rawValuesReported: false;
   sidebotHoldReleased: boolean;
   hermesDaemonPilotEnabled: boolean;
+  /** Prepared schedule — runs only when Track D active and enabled in ops file. */
+  agentTeamTickEnabled: boolean;
+  agentTeamTickIntervalMinutes: number;
+  /** SideBot spawns capped orchestrator on interval (no Discord send). */
+  autonomousOrchestratorEnabled: boolean;
+  autonomousOrchestratorIntervalMinutes: number;
   source: "default" | "env" | "local_file";
   activatedAtIso: string | null;
   humanGoNote: string | null;
@@ -28,6 +34,10 @@ function defaultOperationalRelease(): OperationalReleaseState {
     rawValuesReported: false,
     sidebotHoldReleased: false,
     hermesDaemonPilotEnabled: false,
+    agentTeamTickEnabled: false,
+    agentTeamTickIntervalMinutes: 360,
+    autonomousOrchestratorEnabled: false,
+    autonomousOrchestratorIntervalMinutes: 30,
     source: "default",
     activatedAtIso: null,
     humanGoNote: null
@@ -40,6 +50,10 @@ function readLocalRelease(projectRoot: string): Partial<{
   productionReady: boolean;
   sidebotHoldReleased: boolean;
   hermesDaemonPilotEnabled: boolean;
+  agentTeamTickEnabled: boolean;
+  agentTeamTickIntervalMinutes: number;
+  autonomousOrchestratorEnabled: boolean;
+  autonomousOrchestratorIntervalMinutes: number;
   activatedAtIso: string;
   humanGoNote: string;
 }> | null {
@@ -60,6 +74,18 @@ function buildFromLocal(
     local.executionEnabled === true &&
     local.productionReady === true;
 
+  const interval =
+    typeof local.agentTeamTickIntervalMinutes === "number" &&
+    local.agentTeamTickIntervalMinutes >= 15
+      ? local.agentTeamTickIntervalMinutes
+      : 360;
+
+  const orchInterval =
+    typeof local.autonomousOrchestratorIntervalMinutes === "number" &&
+    local.autonomousOrchestratorIntervalMinutes >= 5
+      ? local.autonomousOrchestratorIntervalMinutes
+      : 30;
+
   return {
     activated: trackDActive,
     executionEnabled: trackDActive,
@@ -67,6 +93,11 @@ function buildFromLocal(
     rawValuesReported: false,
     sidebotHoldReleased: local.sidebotHoldReleased === true,
     hermesDaemonPilotEnabled: local.hermesDaemonPilotEnabled === true,
+    agentTeamTickEnabled: trackDActive && local.agentTeamTickEnabled === true,
+    agentTeamTickIntervalMinutes: interval,
+    autonomousOrchestratorEnabled:
+      trackDActive && local.autonomousOrchestratorEnabled === true,
+    autonomousOrchestratorIntervalMinutes: orchInterval,
     source: "local_file",
     activatedAtIso: local.activatedAtIso ?? null,
     humanGoNote: local.humanGoNote ?? null
@@ -89,6 +120,7 @@ export function resolveOperationalRelease(projectRoot = process.cwd()): Operatio
     process.env.SHIKISHIMA_PRODUCTION_READY === "1";
 
   if (envGo) {
+    const envInterval = Number(process.env.SHIKISHIMA_AGENT_TEAM_TICK_INTERVAL_MIN ?? "360");
     return {
       activated: true,
       executionEnabled: true,
@@ -96,6 +128,9 @@ export function resolveOperationalRelease(projectRoot = process.cwd()): Operatio
       rawValuesReported: false,
       sidebotHoldReleased: process.env.SIDEBOT_HOLD === "0",
       hermesDaemonPilotEnabled: process.env.SHIKISHIMA_HERMES_DAEMON_PILOT === "1",
+      agentTeamTickEnabled: process.env.SHIKISHIMA_AGENT_TEAM_TICK_ENABLED === "1",
+      agentTeamTickIntervalMinutes:
+        Number.isFinite(envInterval) && envInterval >= 15 ? envInterval : 360,
       source: "env",
       activatedAtIso: new Date().toISOString(),
       humanGoNote: "env_track_d"

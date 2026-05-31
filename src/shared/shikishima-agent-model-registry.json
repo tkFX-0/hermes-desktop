@@ -1,0 +1,144 @@
+{
+  "version": "2026-05-29",
+  "governanceVersion": "2026-05-29-reasoning-v1",
+  "policy": {
+    "grokResearchHold": true,
+    "grokResearchHoldReason": "credit_protection_2026_05",
+    "xSearchEnabled": false,
+    "holdUntil": "2026-06-01",
+    "note": "Groq ≠ Grok. Shikishima deep reasoning → Claude primary. Per-agent reasoningLevel drives model + tone."
+  },
+  "defaultAgentId": "shikishima",
+  "agents": {
+    "shikishima": {
+      "displayName": "しきしま",
+      "role": "通常応答・整理・管制",
+      "reasoningLevel": "deep",
+      "primaryBackend": "claude",
+      "fallbackBackend": "groq",
+      "providerApi": "claude",
+      "replyModels": {
+        "groq": "llama-3.3-70b-versatile",
+        "groqQuick": "llama-3.1-8b-instant",
+        "groqDeep": "llama-3.3-70b-versatile",
+        "claude": "claude-sonnet-4-6",
+        "claudeDeep": "claude-sonnet-4-6"
+      },
+      "reasoningProfile": {
+        "quick": { "backend": "groq", "modelKey": "groqQuick", "maxTokens": 512 },
+        "standard": { "backend": "groq", "modelKey": "groq", "maxTokens": 1024 },
+        "deep": { "backend": "claude", "modelKey": "claudeDeep", "preferClaude": true, "maxTokens": 2048 },
+        "critical": { "backend": "claude", "modelKey": "claudeDeep", "preferClaude": true, "maxTokens": 2048 }
+      },
+      "workers": [],
+      "grokResearchEnabled": false,
+      "xSearchEnabled": false,
+      "modelTraceRequired": true,
+      "safetyDecision": "HOLD",
+      "actionMode": "draft_only"
+    },
+    "shizume": {
+      "displayName": "しずめ",
+      "role": "安全判定",
+      "reasoningLevel": "critical",
+      "primaryBackend": "claude",
+      "fallbackBackend": "deterministic-hold",
+      "providerApi": "claude",
+      "replyModels": {
+        "claude": "claude-sonnet-4-6",
+        "claudeDeep": "claude-sonnet-4-6",
+        "claudeFast": "claude-haiku-4"
+      },
+      "reasoningProfile": {
+        "critical": { "backend": "claude", "modelKey": "claudeDeep", "maxTokens": 1536 }
+      },
+      "workers": [],
+      "grokResearchEnabled": false,
+      "xSearchEnabled": false,
+      "modelTraceRequired": true,
+      "safetyDecision": "HOLD",
+      "actionMode": "draft_only"
+    },
+    "tsumugi": {
+      "displayName": "つむぎ",
+      "role": "実装・レビュー・Task生成",
+      "reasoningLevel": "deep",
+      "primaryBackend": "claude-code-worker",
+      "fallbackBackend": "codex-worker",
+      "providerApi": null,
+      "replyModels": {
+        "claude": "claude-sonnet-4-6",
+        "claudeDeep": "claude-sonnet-4-6"
+      },
+      "reasoningProfile": {
+        "deep": { "backend": "claude", "modelKey": "claudeDeep", "maxTokens": 2048 }
+      },
+      "workers": [
+        { "id": "claude-code", "model": "claude-sonnet-4-6", "scope": "shikishima-core" },
+        { "id": "codex", "model": "codex", "scope": "stackchan" },
+        { "id": "cursor", "model": "cursor-agent", "scope": "external-deferred", "enabled": false }
+      ],
+      "grokResearchEnabled": false,
+      "xSearchEnabled": false,
+      "modelTraceRequired": true,
+      "safetyDecision": "HOLD",
+      "actionMode": "draft_only"
+    },
+    "hajime": {
+      "displayName": "はじめ",
+      "role": "設計・ロードマップ・GO分解",
+      "reasoningLevel": "standard",
+      "primaryBackend": "groq",
+      "fallbackBackend": "claude",
+      "providerApi": "groq",
+      "replyModels": {
+        "groq": "llama-3.3-70b-versatile",
+        "groqQuick": "llama-3.1-8b-instant",
+        "claude": "claude-sonnet-4-6"
+      },
+      "reasoningProfile": {
+        "quick": { "backend": "groq", "modelKey": "groqQuick", "maxTokens": 512 },
+        "standard": { "backend": "groq", "modelKey": "groq", "maxTokens": 1024 },
+        "deep": { "backend": "claude", "modelKey": "claude", "preferClaude": true, "maxTokens": 1536 }
+      },
+      "workers": [],
+      "grokResearchEnabled": false,
+      "xSearchEnabled": false,
+      "modelTraceRequired": true,
+      "safetyDecision": "HOLD",
+      "actionMode": "draft_only"
+    },
+    "shirube": {
+      "displayName": "しるべ",
+      "role": "記録・要約・証跡",
+      "reasoningLevel": "standard",
+      "primaryBackend": "groq",
+      "fallbackBackend": "claude",
+      "providerApi": "groq",
+      "replyModels": {
+        "groq": "llama-3.3-70b-versatile",
+        "groqQuick": "llama-3.1-8b-instant",
+        "claude": "claude-sonnet-4-6"
+      },
+      "reasoningProfile": {
+        "quick": { "backend": "groq", "modelKey": "groqQuick", "maxTokens": 400 },
+        "standard": { "backend": "groq", "modelKey": "groq", "maxTokens": 800 }
+      },
+      "workers": [],
+      "grokResearchEnabled": false,
+      "xSearchEnabled": false,
+      "modelTraceRequired": true,
+      "safetyDecision": "HOLD",
+      "actionMode": "draft_only"
+    }
+  },
+  "workers": {
+    "claude-code": { "kind": "implementation", "model": "claude-sonnet-4-6" },
+    "codex": { "kind": "implementation", "model": "codex" },
+    "cursor": { "kind": "external", "model": "cursor-cli", "enabled": false },
+    "groq": { "kind": "reply-api", "model": "llama-3.3-70b-versatile" },
+    "claude": { "kind": "reply-api", "model": "claude-sonnet-4-6" },
+    "grok": { "kind": "research-held", "model": "grok-4.3", "enabled": false }
+  },
+  "routingHint": "SideBot: agent-reasoning-policy.mjs + dispatch-agent-reply.mjs · Main: shikishima-agent-model-registry.ts"
+}
