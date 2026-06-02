@@ -51,25 +51,10 @@ function readEnvLocal() {
   return env;
 }
 
-function callGroq(prompt) {
-  return new Promise((resolve) => {
-    execFile(
-      "wsl",
-      [
-        "-d",
-        "Ubuntu",
-        "--",
-        "bash",
-        "--login",
-        "-c",
-        `~/.local/bin/hermes chat -Q -q ${JSON.stringify(prompt)} -m llama-3.3-70b-versatile --provider groq --yolo 2>&1`,
-      ],
-      { timeout: 90_000, maxBuffer: 2 * 1024 * 1024 },
-      (err, stdout) => {
-        if (err) resolve({ ok: false, text: err.message });
-        else resolve({ ok: true, text: String(stdout ?? "").trim() });
-      },
-    );
+function callGroq(_prompt) {
+  return Promise.resolve({
+    ok: false,
+    text: "Hermes/Groq 経路は封印中です（全自動承認経路の暴走停止）。Claude へフォールバックします。",
   });
 }
 

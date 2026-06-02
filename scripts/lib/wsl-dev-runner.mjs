@@ -30,16 +30,14 @@ async function wslExec(_distro, script, timeoutMs = 180_000) {
   };
 }
 
-async function runHermesDev(prompt, cfg) {
-  const q = JSON.stringify(prompt);
-  const cmd = `~/.local/bin/hermes chat -Q -q ${q} -m ${cfg.hermesModel} --provider ${cfg.hermesProvider} --yolo 2>&1`;
-  const r = await wslExec(cfg.wslDistro, cmd);
+async function runHermesDev(_prompt, cfg) {
   return {
-    ok: r.ok,
-    text: r.text,
-    backend: "hermes-brain",
+    ok: false,
+    text: "Hermes brain 経路は封印中です（全自動承認経路の暴走停止）。Claude/Codex へフォールバックします。",
+    backend: "hermes-brain-sealed",
     model: cfg.hermesModel,
-    lane: "開発"
+    lane: "開発",
+    reason: "hermes_full_auto_sealed_2026_06"
   };
 }
 

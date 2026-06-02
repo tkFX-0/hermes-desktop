@@ -462,18 +462,12 @@ function callClaude(prompt, model = "claude-sonnet-4-6", _maxTokens = 1024) {
 }
 
 function callGrok(prompt, model) {
-  const grokModel = model ?? _MODEL_REG.agents.shikishima.models.grok ?? "grok-4.3";
-  return new Promise(resolve => {
-    execFile("wsl", ["-d", "Ubuntu", "--", "bash", "--login", "-c",
-      `~/.local/bin/hermes chat -Q -q ${JSON.stringify(prompt)} -m ${grokModel} --provider xai-oauth --yolo 2>&1`],
-      { timeout: 120_000, maxBuffer: 4 * 1024 * 1024 },
-      (err, stdout) => {
-        if (err) { resolve({ ok: false, text: err.message }); return; }
-        const clean = stdout.replace(/\x1B\[[0-9;]*[mGKHF]/g, "")
-          .split("\n").filter(l => !l.match(/^(session_id:|Session:|Duration:|Messages:|Resume|Initializing|────)/))
-          .join("\n").trim();
-        resolve({ ok: true, text: clean || "(応答なし)" });
-      });
+  // 【封印 2026-06】Grok/Hermes 全自動承認経路は暴走のため停止。
+  // 調査はリサーチ君(Codex)へ。再開する場合は AGENTS.md §6 のガードレール下
+  // （承認つき・全自動承認なし）で別途実装すること。execFile/Hermes 経路は復活させない。
+  return Promise.resolve({
+    ok: false,
+    text: "Grok/Hermes 経路は封印中です（暴走のため停止）。調査はリサーチ君へ回してください。",
   });
 }
 

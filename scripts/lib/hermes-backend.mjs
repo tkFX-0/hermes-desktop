@@ -8,7 +8,6 @@
 
 import * as http from "node:http";
 import * as https from "node:https";
-import { execFile } from "node:child_process";
 import { URL } from "node:url";
 
 export const HERMES_DEFAULTS = {
@@ -115,28 +114,12 @@ function extractOpenAiText(json) {
   return typeof content === "string" ? content.trim() : "";
 }
 
-function runHermesCli({ distro, bin, prompt, model, provider, timeoutMs }) {
-  return new Promise((resolve) => {
-    const providerArg = provider ? `--provider ${provider}` : "";
-    const cmd = `${bin} chat -Q -q ${JSON.stringify(prompt)} -m ${model} ${providerArg} --yolo 2>&1`;
-    execFile(
-      "wsl",
-      ["-d", distro, "--", "bash", "--login", "-c", cmd],
-      { timeout: timeoutMs, maxBuffer: 8 * 1024 * 1024 },
-      (err, stdout) => {
-        if (err) {
-          resolve({ ok: false, stdout: "", error: err.message });
-          return;
-        }
-        const clean = String(stdout)
-          .replace(/\x1B\[[0-9;]*[mGKHF]/g, "")
-          .split("\n")
-          .filter((l) => !l.match(/^(session_id:|Session:|Duration:|Messages:|Resume|Initializing|────)/))
-          .join("\n")
-          .trim();
-        resolve({ ok: true, stdout: clean });
-      }
-    );
+function runHermesCli({ model }) {
+  return Promise.resolve({
+    ok: false,
+    stdout: "",
+    error: "hermes_cli_full_auto_sealed_2026_06",
+    model
   });
 }
 

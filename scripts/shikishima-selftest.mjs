@@ -6,7 +6,6 @@
 import * as https from "https";
 import * as http from "http";
 import * as net from "net";
-import { execFile } from "child_process";
 import { existsSync } from "fs";
 import { join } from "path";
 import { homedir } from "os";
@@ -94,15 +93,7 @@ async function checkGroq(apiKey) {
 }
 
 async function checkGrok() {
-  return new Promise(resolve => {
-    execFile("wsl", ["-d", "Ubuntu", "--", "bash", "--login", "-c",
-      `~/.local/bin/hermes chat -Q -q "ping" -m grok-4.3 --provider xai-oauth --yolo 2>&1 | head -5`],
-      { timeout: 30_000 },
-      (err, stdout) => {
-        const clean = (stdout || "").replace(/\x1B\[[0-9;]*[mGKHF]/g, "").trim();
-        resolve({ ok: !err && clean.length > 0, preview: clean.slice(0, 50) });
-      });
-  });
+  return { ok: false, error: "grok_hermes_sealed_2026_06" };
 }
 
 // ─── メイン診断 ───────────────────────────────────────────────────────────────
