@@ -92,11 +92,9 @@ import {
   startSelfMonitor, recordApiCall, recordDiscordSend, buildMonitorContext,
 } from "./shikishima-monitor.mjs";
 import {
-  formatBotTrace,
   isGrokResearchHold,
   loadAgentModelRegistry
 } from "./lib/load-agent-models.mjs";
-import { dispatchAgentReply } from "./lib/dispatch-agent-reply.mjs";
 import { stripClaudeCliNoise } from "./lib/claude-cli-sanitize.mjs";
 import { safeDiscordContent, sanitizeDiscordText } from "./lib/discord-text-safe.mjs";
 import {
@@ -582,7 +580,7 @@ function callCodex(prompt, model = "codex") {
   ];
   return execCli("codex", args, { timeout: 300_000 }).then(async (first) => {
     if (first.ok) {
-      return { ok: true, text: first.text || "(応答なし)" };
+      return { ok: true, text: first.text || "(応答なし)", backendUsed: "codex-cli", model };
     }
     const q = JSON.stringify(prompt);
     const wslModel = model && model !== "codex" ? ` --model ${JSON.stringify(model)}` : "";
@@ -595,7 +593,7 @@ function callCodex(prompt, model = "codex") {
       { timeout: 300_000 }
     );
     return second.ok
-      ? { ok: true, text: second.text || "(応答なし)" }
+      ? { ok: true, text: second.text || "(応答なし)", backendUsed: "codex-cli", model }
       : { ok: false, text: second.text || first.text || "codex cli failed" };
   });
 }
@@ -618,11 +616,11 @@ function callComposer(prompt, model = "composer-2.5") {
   ];
   return execCli("cmd.exe", args, { timeout: 240_000 }).then(async (r) => {
     if (r.ok) {
-      return { ok: true, text: r.text || "(応答なし)" };
+      return { ok: true, text: r.text || "(応答なし)", backendUsed: "cursor-agent-cli", model };
     }
     const fallback = await callCodex(prompt, "codex");
     return fallback.ok
-      ? { ok: true, text: fallback.text }
+      ? { ok: true, text: fallback.text, backendUsed: fallback.backendUsed, model: fallback.model, fallbackFrom: "cursor-agent-cli" }
       : { ok: false, text: r.text || fallback.text || "cursor-agent cli failed" };
   });
 }
@@ -667,6 +665,120 @@ const AGENT_PROMPTS_DEFAULT = {
   hajime:     "あなたは「はじめ(🧭)」です。計画・タスク管理担当。タスク分解と優先順位付けが得意。落ち着いた語り口。",
   shirube:    "あなたは「しるべ(🕯️)」です。記録・調査・相場リサーチ担当。事実ベース。簡潔に列挙する。売買指示は出さない。",
 };
+
+const CROSS_ENGINE_AGENT_ROUTES = {
+  shizume: { engine: "codex", model: "codex" },
+  hajime: { engine: "codex", model: "codex" },
+  research: { engine: "codex", model: "codex" },
+  "research-kun": { engine: "codex", model: "codex" },
+  shirube: { engine: "composer", model: "composer-2.5" },
+};
+
+function resolveCrossEngineRoute(agentId) {
+  const registry = loadAgentModelRegistry();
+  const reasoningRoute = resolveAgentReasoningRoute(agentId, registry);
+  const override = CROSS_ENGINE_AGENT_ROUTES[agentId];
+  if (override) {
+    return {
+      ...reasoningRoute,
+      engine: override.engine,
+      model: override.model,
+      registryBackend: reasoningRoute.backend,
+    };
+  }
+
+  const backend = String(reasoningRoute.backend ?? "").toLowerCase();
+  if (backend.includes("claude")) {
+    return { ...reasoningRoute, engine: "claude", registryBackend: reasoningRoute.backend };
+  }
+  if (backend.includes("cursor") || backend.includes("composer")) {
+    return {
+      ...reasoningRoute,
+      engine: "composer",
+      model: reasoningRoute.model || "composer-2.5",
+      registryBackend: reasoningRoute.backend,
+    };
+  }
+  if (backend.includes("codex")) {
+    return {
+      ...reasoningRoute,
+      engine: "codex",
+      model: reasoningRoute.model || "codex",
+      registryBackend: reasoningRoute.backend,
+    };
+  }
+  return {
+    ...reasoningRoute,
+    engine: "codex",
+    model: "codex",
+    registryBackend: reasoningRoute.backend,
+  };
+}
+
+function buildEnginePrompt(agentId, userMessage, threadContext, route) {
+  const persona = getAgentPrompt(agentId);
+  const systemCtx = buildSystemCtx(route.lengthHint);
+  return [
+    systemCtx,
+    persona,
+    threadContext ? `[cross-engine-thread]\n${threadContext}` : "",
+    `ユーザー: ${userMessage}`,
+  ].filter(Boolean).join("\n\n");
+}
+
+async function invokeResolvedEngine(engine, prompt, model) {
+  if (engine === "claude") {
+    const r = await callClaude(prompt, model);
+    return { ...r, backendUsed: "claude-cli", model };
+  }
+  if (engine === "composer") {
+    return callComposer(prompt, model);
+  }
+  return callCodex(prompt, model);
+}
+
+function buildEngineTrace(agentId, route, result) {
+  const backendUsed = result.backendUsed ?? route.engine;
+  const model = result.model ?? route.model;
+  const fallback = result.fallbackFrom ? ` fallback=${result.fallbackFrom}->${backendUsed}` : "";
+  return {
+    backendUsed,
+    model,
+    reasoningLevel: route.reasoningLevel,
+    grokResearchHeld: isGrokResearchHold(),
+    registryBackend: route.registryBackend,
+    traceLine: `[trace agent=${agentId} backend=${backendUsed} model=${model} reasoning=${route.reasoningLevel} grokHold=${isGrokResearchHold()}${fallback}]`
+  };
+}
+
+async function callEngine(agentId, userMessage, threadId, opts = {}) {
+  const route = resolveCrossEngineRoute(agentId);
+  const threadContext = threadId
+    ? buildAgentThreadContext(threadId, agentId, { maxChars: 2200 })
+    : "";
+  const basePrompt = opts.fullPrompt ?? buildEnginePrompt(agentId, userMessage, threadContext, route);
+  const fullPrompt = opts.fullPrompt && threadContext
+    ? `${basePrompt}\n\n[cross-engine-thread]\n${threadContext}`
+    : basePrompt;
+
+  let result = await invokeResolvedEngine(route.engine, fullPrompt, route.model);
+  if (!result.ok && route.engine !== "codex") {
+    const fallback = await callCodex(fullPrompt, "codex");
+    result = fallback.ok
+      ? { ...fallback, fallbackFrom: result.backendUsed ?? route.engine }
+      : result;
+  }
+
+  const trace = buildEngineTrace(agentId, route, result);
+  if (threadId && result.ok) {
+    appendThreadMessage(threadId, {
+      role: "assistant",
+      agentId,
+      content: result.text,
+    });
+  }
+  return { ok: result.ok, text: result.text, trace };
+}
 
 function getAgentPrompt(agentId) {
   const personas = loadPersonas();
@@ -978,9 +1090,7 @@ async function handleMessage(content, opts = {}) {
 
   // Lv4〜10: 全コンテキストを統合してプロンプト構築
   const userLine = opts.contentOverride ?? content;
-  const threadCtx = opts.channelId
-    ? buildAgentThreadContext(opts.channelId, agentId, { maxChars: 1400 })
-    : "";
+  const threadCtx = "";
   const skillsCtx = buildRuntimeSkillsContextForPrompt(agentId, userLine);
   const memCtx    = buildFullContext();
   const taskCtx   = buildTaskContext();
@@ -1022,10 +1132,8 @@ async function handleMessage(content, opts = {}) {
     : `${systemCtx}\n\n${agentPersonaCtx}\n${timeCtx}\n${govCtx}\n\nユーザー: ${userLine}`;
 
   const env = readEnv();
-  const { ok, text, trace } = await dispatchAgentReply(agentId, prompt, {
-    callGroq,
-    callClaude,
-    env: { ...process.env, ...env }
+  const { ok, text, trace } = await callEngine(agentId, userLine, opts.channelId, {
+    fullPrompt: prompt
   });
 
   console.log(
@@ -2921,12 +3029,6 @@ async function poll(channelId, token) {
         continue;
       }
       if (threadRooms.has(channelRole)) {
-        appendThreadMessage(channelId, {
-          role: "assistant",
-          agentId,
-          content: replyText,
-          messageId: undefined
-        });
         syncConversationSummaryFromThread(channelId);
       }
       appendSessionLog(effectiveContent || content, agentId, replyText); // Lv3-C: しるべ記録
