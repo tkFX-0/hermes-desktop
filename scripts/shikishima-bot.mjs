@@ -522,6 +522,111 @@ function callClaude(prompt, model = "claude-sonnet-4-6", _maxTokens = 1024) {
   });
 }
 
+function subscriptionCliEnv() {
+  const env = { ...process.env };
+  for (const key of [
+    "OPENAI_API_KEY",
+    "OPENAI_ORG_ID",
+    "OPENAI_PROJECT",
+    "ANTHROPIC_API_KEY",
+    "CURSOR_API_KEY",
+    "XAI_API_KEY",
+  ]) {
+    delete env[key];
+  }
+  return env;
+}
+
+function cleanAgentCliOutput(stdout) {
+  return String(stdout ?? "")
+    .replace(/\x1B\[[0-9;]*[mGKHF]/g, "")
+    .split("\n")
+    .filter((line) => !/^(session_id:|Session:|Duration:|Messages:|Resume|Initializing)/.test(line.trim()))
+    .join("\n")
+    .trim();
+}
+
+function execCli(command, args, options = {}) {
+  return new Promise((resolve) => {
+    execFile(
+      command,
+      args,
+      {
+        timeout: options.timeout ?? 180_000,
+        maxBuffer: options.maxBuffer ?? 4 * 1024 * 1024,
+        env: subscriptionCliEnv(),
+        cwd: BASE,
+        ...options
+      },
+      (err, stdout, stderr) => {
+        const text = cleanAgentCliOutput(stdout || stderr);
+        resolve({
+          ok: !err && text.length > 0,
+          text: text || err?.message || "",
+          error: err?.message,
+        });
+      }
+    );
+  });
+}
+
+function callCodex(prompt, model = "codex") {
+  const modelArgs = model && model !== "codex" ? ["--model", model] : [];
+  const args = [
+    "exec",
+    "--sandbox",
+    "read-only",
+    "--skip-git-repo-check",
+    ...modelArgs,
+    prompt,
+  ];
+  return execCli("codex", args, { timeout: 300_000 }).then(async (first) => {
+    if (first.ok) {
+      return { ok: true, text: first.text || "(応答なし)" };
+    }
+    const q = JSON.stringify(prompt);
+    const wslModel = model && model !== "codex" ? ` --model ${JSON.stringify(model)}` : "";
+    const wslScript =
+      `unset OPENAI_API_KEY OPENAI_ORG_ID OPENAI_PROJECT ANTHROPIC_API_KEY CURSOR_API_KEY XAI_API_KEY; ` +
+      `codex exec --sandbox read-only --skip-git-repo-check${wslModel} ${q} 2>&1`;
+    const second = await execCli(
+      "wsl",
+      ["-d", "Ubuntu", "-u", "root", "--", "bash", "-lc", wslScript],
+      { timeout: 300_000 }
+    );
+    return second.ok
+      ? { ok: true, text: second.text || "(応答なし)" }
+      : { ok: false, text: second.text || first.text || "codex cli failed" };
+  });
+}
+
+function callComposer(prompt, model = "composer-2.5") {
+  const args = [
+    "/d",
+    "/s",
+    "/c",
+    "cursor-agent",
+    "--print",
+    "--output-format",
+    "text",
+    "--mode",
+    "ask",
+    "--model",
+    model,
+    "--trust",
+    prompt,
+  ];
+  return execCli("cmd.exe", args, { timeout: 240_000 }).then(async (r) => {
+    if (r.ok) {
+      return { ok: true, text: r.text || "(応答なし)" };
+    }
+    const fallback = await callCodex(prompt, "codex");
+    return fallback.ok
+      ? { ok: true, text: fallback.text }
+      : { ok: false, text: r.text || fallback.text || "cursor-agent cli failed" };
+  });
+}
+
 function callGrok(prompt, model) {
   // 【封印 2026-06】Grok/Hermes 全自動承認経路は暴走のため停止。
   // 調査はリサーチ君(Codex)へ。再開する場合は AGENTS.md §6 のガードレール下
