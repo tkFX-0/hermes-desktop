@@ -22,6 +22,8 @@ function getThreadDir() {
 const MAX_SHARED = 40;
 const MAX_AGENT_TURNS = 24;
 const MAX_CONTENT_STORE = 600;
+const SUMMARY_RECENT_TURNS = 12;
+const MAX_SUMMARY_STORE = 2000;
 
 const AGENT_LABELS = {
   shikishima: "しきしま",
@@ -54,6 +56,8 @@ function emptyChannelState(channelId) {
   return {
     channelId: String(channelId),
     updatedAt: new Date().toISOString(),
+    summary: "",
+    recent: [],
     sharedLog: [],
     agents
   };
@@ -73,6 +77,8 @@ export function loadChannelThreads(channelId) {
       ...base,
       ...data,
       channelId: String(channelId),
+      summary: typeof data.summary === "string" ? data.summary : "",
+      recent: Array.isArray(data.recent) ? data.recent : [],
       sharedLog: Array.isArray(data.sharedLog) ? data.sharedLog : [],
       agents: { ...base.agents, ...(data.agents ?? {}) }
     };
@@ -89,6 +95,9 @@ export function saveChannelThreads(channelId, state) {
   ensureThreadDir();
   state.updatedAt = new Date().toISOString();
   state.channelId = String(channelId);
+  state.recent = Array.isArray(state.sharedLog)
+    ? state.sharedLog.slice(-SUMMARY_RECENT_TURNS)
+    : [];
   const p = threadPath(channelId);
   mkdirSync(dirname(p), { recursive: true });
   writeFileSync(p, JSON.stringify(state, null, 2), "utf-8");
@@ -256,6 +265,58 @@ export function mergeDiscordSnapshotIntoThread(channelId, rows) {
   return added;
 }
 
+function formatTurnForSummary(row) {
+  const who =
+    row.role === "user"
+      ? row.authorLabel ?? "user"
+      : AGENT_LABELS[row.agentId] ?? row.agentId ?? "bot";
+  return `${who}(${row.at ?? "unknown"}): ${String(row.content ?? "").slice(0, 160)}`;
+}
+
+function buildLocalThreadSummary(existingSummary, turns) {
+  const previous = String(existingSummary ?? "").trim();
+  const folded = turns.map(formatTurnForSummary).join("\n");
+  return [previous, folded]
+    .filter(Boolean)
+    .join("\n")
+    .slice(-MAX_SUMMARY_STORE);
+}
+
+/**
+ * @param {string} channelId
+ * @param {{ recentTurns?: number, summarizeFn?: Function }} [opts]
+ */
+export async function compactThreadIfNeeded(channelId, opts = {}) {
+  const recentTurns = Math.max(4, opts.recentTurns ?? SUMMARY_RECENT_TURNS);
+  const state = loadChannelThreads(channelId);
+  if (state.sharedLog.length <= recentTurns) {
+    return { compacted: false, summary: state.summary, recentCount: state.sharedLog.length };
+  }
+
+  const oldTurns = state.sharedLog.slice(0, -recentTurns);
+  const recent = state.sharedLog.slice(-recentTurns);
+  let nextSummary = "";
+  if (typeof opts.summarizeFn === "function") {
+    try {
+      nextSummary = await opts.summarizeFn({
+        existingSummary: state.summary,
+        turns: oldTurns,
+      });
+    } catch {
+      nextSummary = "";
+    }
+  }
+
+  state.summary = String(nextSummary || buildLocalThreadSummary(state.summary, oldTurns))
+    .trim()
+    .slice(-MAX_SUMMARY_STORE);
+  state.sharedLog = recent;
+  state.recent = recent;
+  saveChannelThreads(channelId, state);
+  rebuildPerAgentThreadsFromShared(channelId);
+  return { compacted: true, summary: state.summary, recentCount: recent.length };
+}
+
 /**
  * @param {string} channelId
  * @param {string} agentId
@@ -266,6 +327,11 @@ export function buildAgentThreadContext(channelId, agentId, opts = {}) {
   const state = loadChannelThreads(channelId);
   const agentMsgs = state.agents[agentId]?.messages ?? [];
   const lines = [`[${AGENT_LABELS[agentId] ?? agentId} スレッド — 直近]`];
+
+  if (state.summary) {
+    lines.push("[thread-summary]");
+    lines.push(String(state.summary).slice(0, 900));
+  }
 
   for (const m of agentMsgs.slice(-12)) {
     const who = m.role === "user" ? "ユーザー" : AGENT_LABELS[agentId] ?? agentId;

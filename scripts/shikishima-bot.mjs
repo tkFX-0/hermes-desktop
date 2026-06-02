@@ -115,6 +115,7 @@ import { resolveInboundAgentRoute } from "./lib/discord-mention-route.mjs";
 import {
   appendThreadMessage,
   buildAgentThreadContext,
+  compactThreadIfNeeded,
   rebuildPerAgentThreadsFromShared,
   syncConversationSummaryFromThread
 } from "./lib/discord-agent-thread-store.mjs";
@@ -568,6 +569,14 @@ function execCli(command, args, options = {}) {
   });
 }
 
+function codexCliCandidates() {
+  return [
+    process.env.SHIKISHIMA_CODEX_CLI,
+    join(homedir(), ".codex", ".sandbox-bin", "codex.exe"),
+    "codex",
+  ].filter(Boolean);
+}
+
 function callCodex(prompt, model = "codex") {
   const modelArgs = model && model !== "codex" ? ["--model", model] : [];
   const args = [
@@ -575,18 +584,25 @@ function callCodex(prompt, model = "codex") {
     "--sandbox",
     "read-only",
     "--skip-git-repo-check",
+    "--ephemeral",
+    "-C",
+    BASE,
     ...modelArgs,
     prompt,
   ];
-  return execCli("codex", args, { timeout: 300_000 }).then(async (first) => {
-    if (first.ok) {
-      return { ok: true, text: first.text || "(応答なし)", backendUsed: "codex-cli", model };
+  return (async () => {
+    let first = { ok: false, text: "" };
+    for (const bin of codexCliCandidates()) {
+      first = await execCli(bin, args, { timeout: 300_000 });
+      if (first.ok) {
+        return { ok: true, text: first.text || "(応答なし)", backendUsed: "codex-cli", model };
+      }
     }
     const q = JSON.stringify(prompt);
     const wslModel = model && model !== "codex" ? ` --model ${JSON.stringify(model)}` : "";
     const wslScript =
       `unset OPENAI_API_KEY OPENAI_ORG_ID OPENAI_PROJECT ANTHROPIC_API_KEY CURSOR_API_KEY XAI_API_KEY; ` +
-      `codex exec --sandbox read-only --skip-git-repo-check${wslModel} ${q} 2>&1`;
+      `codex exec --sandbox read-only --skip-git-repo-check --ephemeral -C ${JSON.stringify(BASE)}${wslModel} ${q} 2>&1`;
     const second = await execCli(
       "wsl",
       ["-d", "Ubuntu", "-u", "root", "--", "bash", "-lc", wslScript],
@@ -595,7 +611,7 @@ function callCodex(prompt, model = "codex") {
     return second.ok
       ? { ok: true, text: second.text || "(応答なし)", backendUsed: "codex-cli", model }
       : { ok: false, text: second.text || first.text || "codex cli failed" };
-  });
+  })();
 }
 
 function callComposer(prompt, model = "composer-2.5") {
@@ -751,6 +767,29 @@ function buildEngineTrace(agentId, route, result) {
   };
 }
 
+function formatTurnsForSummaryPrompt(turns) {
+  return turns
+    .map((turn) => {
+      const who = turn.role === "user" ? turn.authorLabel ?? "user" : turn.agentId ?? "bot";
+      return `${who}(${turn.at ?? "unknown"}): ${String(turn.content ?? "").slice(0, 240)}`;
+    })
+    .join("\n")
+    .slice(0, 5000);
+}
+
+async function summarizeThreadTurnsWithCodex(agentId, payload) {
+  const prompt = [
+    "以下はDiscord会話スレッドの古いturnです。",
+    "今後どのAIエンジンにも渡せるよう、日本語で短い継続用メモに要約してください。",
+    "決定事項、未解決、ユーザーの好み、安全上の注意だけを残してください。",
+    payload.existingSummary ? `[既存要約]\n${payload.existingSummary}` : "",
+    `[agent=${agentId}]`,
+    formatTurnsForSummaryPrompt(payload.turns ?? []),
+  ].filter(Boolean).join("\n\n");
+  const result = await callCodex(prompt, "codex");
+  return result.ok ? String(result.text ?? "").slice(0, 1800) : "";
+}
+
 async function callEngine(agentId, userMessage, threadId, opts = {}) {
   const route = resolveCrossEngineRoute(agentId);
   const threadContext = threadId
@@ -775,6 +814,12 @@ async function callEngine(agentId, userMessage, threadId, opts = {}) {
       role: "assistant",
       agentId,
       content: result.text,
+    });
+    compactThreadIfNeeded(threadId, {
+      recentTurns: 12,
+      summarizeFn: (payload) => summarizeThreadTurnsWithCodex(agentId, payload),
+    }).catch((e) => {
+      console.warn("[ThreadStore] compact failed:", e?.message ?? e);
     });
   }
   return { ok: result.ok, text: result.text, trace };
