@@ -89,7 +89,8 @@ function envFlagTruthy(key, defaultOn = false) {
 
 /** 完全自律実装中など — StackChan 発話・PCM を止める（.env.local: SHIKISHIMA_STACKCHAN_HOLD=1） */
 export function isStackchanVoiceHold() {
-  return envFlagTruthy("SHIKISHIMA_STACKCHAN_HOLD", false);
+  if (!envFlagTruthy("SHIKISHIMA_STACKCHAN_UNSEAL", false)) return true;
+  return envFlagTruthy("SHIKISHIMA_STACKCHAN_HOLD", true);
 }
 
 if (isStackchanVoiceHold()) {

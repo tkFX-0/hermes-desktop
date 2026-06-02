@@ -3,6 +3,7 @@
  */
 
 const HOLD_KEY = "SHIKISHIMA_STACKCHAN_HOLD";
+const UNSEAL_KEY = "SHIKISHIMA_STACKCHAN_UNSEAL";
 const DISCORD_VOICE_KEY = "STACKCHAN_DISCORD_VOICE";
 const GUARDED_BRIDGE_KEY = "SHIKISHIMA_DISCORD_VOICE_BRIDGE";
 
@@ -22,13 +23,14 @@ function envTruthy(key, defaultOn, env) {
 
 /** 全 StackChan 発話（legacy stackchanSay）を止める */
 export function isStackchanVoiceHold(env = process.env) {
-  return envTruthy(HOLD_KEY, false, env);
+  if (!envTruthy(UNSEAL_KEY, false, env)) return true;
+  return envTruthy(HOLD_KEY, true, env);
 }
 
 /** SideBot: Discord 返信の VOICEVOX 読み上げ（legacy 経路） */
 export function isLegacyDiscordVoiceEnabled(env = process.env) {
   if (isStackchanVoiceHold(env)) return false;
-  return envTruthy(DISCORD_VOICE_KEY, true, env);
+  return envTruthy(DISCORD_VOICE_KEY, false, env);
 }
 
 /** Phase 7 guarded bridge（TS・allowlist・time window）— Bot 未配線時も状態参照可 */
@@ -62,6 +64,7 @@ export function resolveStackchanDiscordVoiceConfig(env = process.env) {
           : "disabled",
     env: {
       [HOLD_KEY]: env[HOLD_KEY] ?? "(unset)",
+      [UNSEAL_KEY]: env[UNSEAL_KEY] ?? "(unset)",
       [DISCORD_VOICE_KEY]: env[DISCORD_VOICE_KEY] ?? "(default on)",
       [GUARDED_BRIDGE_KEY]: env[GUARDED_BRIDGE_KEY] ?? "(unset)"
     }

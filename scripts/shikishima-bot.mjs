@@ -296,6 +296,18 @@ function isFeatureEnabled(name, defaultValue = false) {
   return /^(1|true|yes|on)$/i.test(String(raw).trim());
 }
 
+function isFeatureExplicitlyOff(name) {
+  const raw = process.env[name] ?? readEnv()[name];
+  return raw != null && raw !== "" && /^(0|false|no|off)$/i.test(String(raw).trim());
+}
+
+function isMt5WatcherHold() {
+  const rawHold = process.env.SHIKISHIMA_MT5_WATCHER_HOLD ?? readEnv().SHIKISHIMA_MT5_WATCHER_HOLD;
+  if (rawHold != null && rawHold !== "") return !isFeatureExplicitlyOff("SHIKISHIMA_MT5_WATCHER_HOLD");
+  if (isFeatureEnabled("SHIKISHIMA_MT5_WATCHER_ENABLE", false)) return false;
+  return true;
+}
+
 // ─── Webhook キャッシュ ────────────────────────────────────────────────────────
 function loadWebhookCache() {
   try {
@@ -3121,7 +3133,7 @@ async function poll(channelId, token) {
       }
     }
 
-    shouldFlushVoice = getDiscordVoicePlaybackPendingCount() > 0;
+    shouldFlushVoice = isDiscordVoiceBridgeEnabled() && getDiscordVoicePlaybackPendingCount() > 0;
   } catch (e) {
     console.error("[Bot] Poll error:", e.message);
   } finally {
@@ -3130,7 +3142,7 @@ async function poll(channelId, token) {
     _pollInFlight = false;
   }
 
-  if (shouldFlushVoice) {
+  if (shouldFlushVoice && isDiscordVoiceBridgeEnabled()) {
     try {
       const flush = await flushDiscordVoicePlaybackQueue(discordVoicePlaybackDeps());
       for (const item of flush.items ?? []) {
@@ -3196,10 +3208,13 @@ async function main() {
 
   console.log("[DevPipeline] 状態確認: Discordで `!dev-pipeline` / preflight: node scripts/shikishima-wsl-dev-preflight.mjs");
 
-  const scBoot = await checkStackchanStatus().catch(() => ({ connected: false, voicevoxReady: false }));
+  const stackchanHeld = isStackchanVoiceHold();
+  const scBoot = stackchanHeld
+    ? { connected: false, voicevoxReady: false, skipped: "stackchan_hold" }
+    : await checkStackchanStatus().catch(() => ({ connected: false, voicevoxReady: false }));
   console.log(
-    `[StackChanVoice] Discord→VOICEVOX bridge: ${isDiscordVoiceBridgeEnabled() ? "ON" : "OFF"}`
-      + ` | hold=${isStackchanVoiceHold() ? "YES" : "no"}`
+    `[StackChanVoice] Discord->VOICEVOX bridge: ${isDiscordVoiceBridgeEnabled() ? "ON" : "OFF"}`
+      + ` | hold=${stackchanHeld ? "YES" : "no"}`
       + ` | device=${scBoot.connected ? "ok" : "ng"} voicevox=${scBoot.voicevoxReady ? "ok" : "ng"}`
       + " | グローバル直列キュー（HOLD 時は発話オフ）",
   );
@@ -3279,21 +3294,27 @@ async function main() {
   startEvolutionCycle(callGroq);
 
   // StackChan: 定期ステータス監視（HOLD 時は起動挨拶・発話なし）
-  startStackchanMonitor(15_000);
-  if (isStackchanVoiceHold()) {
+  if (stackchanHeld) {
     console.log("[StackChan] HOLD — 起動挨拶・VOICEVOX 読み上げ・!sc 発話はスキップ（SHIKISHIMA_STACKCHAN_HOLD=1）");
   } else {
+    startStackchanMonitor(15_000);
     hookOnBotStart().catch(() => {});
   }
 
   // F2: かまってモニター起動 (2時間放置で自発的に Discord に投稿)
-  startKamatteMonitor(async (msg) => {
-    await sendReply(channelId, token, "shikishima", msg).catch(() => {});
-  });
+  if (stackchanHeld) {
+    console.log("[StackChan] HOLD - 15s kamatte monitor skipped");
+  } else {
+    startKamatteMonitor(async (msg) => {
+      await sendReply(channelId, token, "shikishima", msg).catch(() => {});
+    });
+  }
 
   // STTサーバー起動 (StackChanマイク → Whisper → bot → StackChan発話)
-  const whisperReady = await checkWhisperInstalled();
-  if (whisperReady) {
+  const whisperReady = stackchanHeld ? false : await checkWhisperInstalled();
+  if (stackchanHeld) {
+    console.log("[STT] HOLD - StackChan voice/STT server skipped");
+  } else if (whisperReady) {
     startSttServer(async (transcript) => {
       console.log(`[STT→Bot] "${transcript}"`);
 
@@ -3336,7 +3357,10 @@ async function main() {
   }
 
   // MT5: データ監視 + DD自動アラート
-  startMt5Watcher(
+  if (isMt5WatcherHold()) {
+    console.log("[MT5] HOLD - file watcher skipped");
+  } else {
+    startMt5Watcher(
     async ({ level, dd }) => {
       // DD警告をDiscordとStackChanに通知
       const msg = level === "critical"
@@ -3349,7 +3373,8 @@ async function main() {
       hookOnDdAlert(dd).catch(() => {});
     },
     (data) => { /* データ更新時の追加処理 (必要なら拡張) */ },
-  );
+    );
+  }
 
   // Lv8: しずめ 自己監視ループ
   startSelfMonitor({
