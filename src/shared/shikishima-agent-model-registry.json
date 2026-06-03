@@ -1,32 +1,31 @@
 {
-  "version": "2026-05-29",
-  "governanceVersion": "2026-05-29-reasoning-v1",
+  "version": "2026-06-03",
+  "governanceVersion": "2026-06-03-persona-v2",
   "policy": {
     "grokResearchHold": true,
     "grokResearchHoldReason": "credit_protection_2026_05",
     "xSearchEnabled": false,
     "holdUntil": "2026-06-01",
-    "note": "Groq ≠ Grok. Shikishima deep reasoning → Claude primary. Per-agent reasoningLevel drives model + tone."
+    "note": "Shikishima standard reasoning → Claude primary (pinned via CROSS_ENGINE_AGENT_ROUTES). Chihaya removed 2026-05-30."
   },
   "defaultAgentId": "shikishima",
   "agents": {
     "shikishima": {
       "displayName": "しきしま",
-      "role": "通常応答・整理・管制",
-      "reasoningLevel": "deep",
+      "role": "管制・声・唯一の窓口",
+      "reasoningLevel": "standard",
       "primaryBackend": "claude",
       "fallbackBackend": "groq",
       "providerApi": "claude",
       "replyModels": {
         "groq": "llama-3.3-70b-versatile",
         "groqQuick": "llama-3.1-8b-instant",
-        "groqDeep": "llama-3.3-70b-versatile",
         "claude": "claude-sonnet-4-6",
         "claudeDeep": "claude-sonnet-4-6"
       },
       "reasoningProfile": {
         "quick": { "backend": "groq", "modelKey": "groqQuick", "maxTokens": 512 },
-        "standard": { "backend": "groq", "modelKey": "groq", "maxTokens": 1024 },
+        "standard": { "backend": "claude", "modelKey": "claude", "preferClaude": true, "maxTokens": 1024 },
         "deep": { "backend": "claude", "modelKey": "claudeDeep", "preferClaude": true, "maxTokens": 2048 },
         "critical": { "backend": "claude", "modelKey": "claudeDeep", "preferClaude": true, "maxTokens": 2048 }
       },
@@ -123,6 +122,27 @@
       "reasoningProfile": {
         "quick": { "backend": "groq", "modelKey": "groqQuick", "maxTokens": 400 },
         "standard": { "backend": "groq", "modelKey": "groq", "maxTokens": 800 }
+      },
+      "workers": [],
+      "grokResearchEnabled": false,
+      "xSearchEnabled": false,
+      "modelTraceRequired": true,
+      "safetyDecision": "HOLD",
+      "actionMode": "draft_only"
+    },
+    "research-kun": {
+      "displayName": "リサーチ君",
+      "role": "調査・情報収集",
+      "reasoningLevel": "standard",
+      "primaryBackend": "codex",
+      "fallbackBackend": "claude",
+      "providerApi": null,
+      "replyModels": {
+        "claude": "claude-sonnet-4-6"
+      },
+      "reasoningProfile": {
+        "standard": { "backend": "codex", "modelKey": "codex", "maxTokens": 1024 },
+        "deep": { "backend": "codex", "modelKey": "codex", "maxTokens": 2048 }
       },
       "workers": [],
       "grokResearchEnabled": false,
