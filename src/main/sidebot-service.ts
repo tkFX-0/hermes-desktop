@@ -46,6 +46,7 @@ function spawnBot(): void {
     cwd: getProjectRoot(),
     stdio: ["ignore", "pipe", "pipe"],
     env: { ...process.env },
+    detached: true,  // Electron Job Object から切り離してgrandchild spawn (codex.exe等) を許可
   });
 
   _proc.stdout?.on("data", (data: Buffer) => {

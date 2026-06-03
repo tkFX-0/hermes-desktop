@@ -570,25 +570,30 @@ function cleanAgentCliOutput(stdout) {
 
 function execCli(command, args, options = {}) {
   return new Promise((resolve) => {
-    execFile(
-      command,
-      args,
-      {
-        timeout: options.timeout ?? 180_000,
-        maxBuffer: options.maxBuffer ?? 4 * 1024 * 1024,
-        env: subscriptionCliEnv(),
-        cwd: BASE,
-        ...options
-      },
-      (err, stdout, stderr) => {
-        const text = cleanAgentCliOutput(stdout || stderr);
-        resolve({
-          ok: !err && text.length > 0,
-          text: text || err?.message || "",
-          error: err?.message,
-        });
-      }
-    );
+    try {
+      execFile(
+        command,
+        args,
+        {
+          timeout: options.timeout ?? 180_000,
+          maxBuffer: options.maxBuffer ?? 4 * 1024 * 1024,
+          env: subscriptionCliEnv(),
+          cwd: BASE,
+          ...options
+        },
+        (err, stdout, stderr) => {
+          const text = cleanAgentCliOutput(stdout || stderr);
+          resolve({
+            ok: !err && text.length > 0,
+            text: text || err?.message || "",
+            error: err?.message,
+          });
+        }
+      );
+    } catch (spawnErr) {
+      // Electron Job Object 制約等でspawnが同期的に失敗する場合
+      resolve({ ok: false, text: spawnErr.message || "spawn failed", error: spawnErr.message });
+    }
   });
 }
 
@@ -616,7 +621,9 @@ function callCodex(prompt, model = "codex") {
   return (async () => {
     let first = { ok: false, text: "" };
     for (const bin of codexCliCandidates()) {
-      first = await execCli(bin, args, { timeout: 300_000 });
+      first = await execCli(bin, args, { timeout: 300_000 }).catch((e) => ({
+        ok: false, text: e?.message || "spawn failed", error: e?.message
+      }));
       if (first.ok) {
         return { ok: true, text: first.text || "(応答なし)", backendUsed: "codex-cli", model };
       }
