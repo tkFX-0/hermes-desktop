@@ -63,6 +63,9 @@ process.on("unhandledRejection", (reason) => {
 // ─── I-8: 起動時自己修復 — 必要フォルダを全自動作成 ─────────────────────────
 const BASE = join(homedir(), "Desktop", "プロジェクトファイル", "hermes-desktop");
 const MEMORY_DIR = join(BASE, ".shikishima-memory");
+// Codex CLI は日本語パスを WebSocketヘッダーに入れて UTF-8エラーで落ちるため
+// ASCII パスのジャンクション経由で回避する。存在しなければ BASE にフォールバック。
+const CODEX_ASCII_BASE = existsSync("C:\\dev\\hermes") ? "C:\\dev\\hermes" : BASE;
 const REQUIRED_DIRS = [
   join(BASE, "docs", "logs"),
   join(BASE, ".shikishima-memory"),
@@ -612,13 +615,14 @@ function callCodex(prompt, model = "codex") {
   const modelArgs = model && model !== "codex" ? ["--model", model] : [];
   // プロンプトを stdin で渡す（positional argだとbashコマンドとして解釈されるため）
   // --json: JSONL出力でCLIメタデータ・エコーを除外しassistantテキストだけ取得
+  // CODEX_ASCII_BASE: 日本語パスがWebSocketヘッダーでUTF-8エラーになるためASCIIジャンクション使用
   const baseArgs = [
     "exec",
     "--sandbox", "read-only",
     "--skip-git-repo-check",
     "--ephemeral",
     "--json",
-    "-C", BASE,
+    "-C", CODEX_ASCII_BASE,
     ...modelArgs,
     "-",  // "-" = stdin からタスクを読む
   ];
@@ -630,7 +634,7 @@ function callCodex(prompt, model = "codex") {
         let settled = false;
         const done = r => { if (!settled) { settled = true; resolve(r); } };
         let child;
-        try { child = spawn(bin, baseArgs, { env: subscriptionCliEnv(), cwd: BASE }); }
+        try { child = spawn(bin, baseArgs, { env: subscriptionCliEnv(), cwd: CODEX_ASCII_BASE }); }
         catch (e) { return done({ ok: false, text: e.message }); }
         const timer = setTimeout(() => { try { child.kill(); } catch { /* ignore */ } done({ ok: false, text: "codex timeout" }); }, 300_000);
         child.stdout?.on("data", d => { out += String(d); });
