@@ -591,12 +591,30 @@ function callClaude(prompt, model = "claude-sonnet-4-6", _maxTokens = 1024) {
     child.on("close", () => {
       clearTimeout(timer);
       const clean = stripClaudeCliNoise(out);
+      const finalText = clean || out;
+      if (isCliCapacityError(finalText)) {
+        return done({ ok: false, text: "claude-cli: session/rate limit", backendUsed: "claude-cli" });
+      }
       done(clean ? { ok: true, text: clean } : { ok: false, text: out || "claude-cli: no output" });
     });
 
     child.stdin.write(prompt, "utf8");
     child.stdin.end();
   });
+}
+
+function isCliCapacityError(text) {
+  return /session limit|rate limit|usage limit|too many requests|quota exceeded|limit reached/i.test(
+    String(text ?? ""),
+  );
+}
+
+function friendlyEngineUnavailableText() {
+  return "現在応答できません。Claude/Codex の利用枠またはCLI接続が混み合っています。しばらく待ってからもう一度送ってください。";
+}
+
+function isFriendlyEngineUnavailableText(text) {
+  return String(text ?? "") === friendlyEngineUnavailableText();
 }
 
 function subscriptionCliEnv() {
@@ -971,10 +989,13 @@ async function callEngine(agentId, userMessage, threadId, opts = {}) {
 
   let result = await invokeResolvedEngine(route.engine, fullPrompt, route.model);
   if (!result.ok && route.engine !== "codex") {
+    const primaryResult = result;
     const fallback = await callCodex(fullPrompt, "codex");
     result = fallback.ok
       ? { ...fallback, fallbackFrom: result.backendUsed ?? route.engine }
-      : result;
+      : isCliCapacityError(primaryResult.text)
+        ? { ok: false, text: friendlyEngineUnavailableText(), backendUsed: primaryResult.backendUsed ?? route.engine }
+        : result;
   }
 
   const trace = buildEngineTrace(agentId, route, result);
@@ -1456,6 +1477,13 @@ async function handleMessage(content, opts = {}) {
   }
 
   recordFailure("handleMessage", "全モデル失敗");
+  if (isFriendlyEngineUnavailableText(text)) {
+    return {
+      agentId,
+      replyText: sanitizeDiscordText(text),
+    };
+  }
+
   const groq = groqKeyConfigured((k) => env[k]);
   const hint = groq
     ? "Groq/Claudeとも応答不可。WSLの`claude`ログインを確認。経路は `!reply-status`"
@@ -2144,8 +2172,14 @@ function isIncomingUserMessage(msg) {
 const EXCLUSIVE_SLASH_CMD =
   /^!(dev-pipeline|human-go|governance|reply-status|obsidian-status)\b/i;
 
+function isGoalSlashCommand(content) {
+  const t = normalizeDiscordUserContent(content).trim();
+  return /^\/goal(?:\b|$)/i.test(t);
+}
+
 function isExclusiveSlashCommand(content) {
   const t = normalizeDiscordUserContent(content);
+  if (isGoalSlashCommand(t)) return true;
   if (parseDevSlashCommand(t)) return true;
   return Boolean(matchOpsCommand(t)) || /^dev-pipeline$/i.test(t);
 }
@@ -2942,6 +2976,24 @@ async function poll(channelId, token) {
       }
 
       if (!effectiveContent && !(msg.mentions ?? []).length) continue;
+
+      const goalCommandText = isGoalSlashCommand(effectiveContent)
+        ? effectiveContent
+        : isGoalSlashCommand(content)
+          ? content
+          : "";
+      if (goalCommandText) {
+        const handled = await handleExclusiveSlashCommands(
+          goalCommandText,
+          channelId,
+          token,
+          msg.author?.id ?? ""
+        );
+        if (!handled) {
+          await sendReply(channelId, token, "shikishima", "未登録の /goal コマンドです。");
+        }
+        continue;
+      }
 
       if (channelRole === "dialogue" && !/^[!！]/.test(content)) {
         console.log(`[Bot] dialogue room skip (non-command): ${msg.id}`);
