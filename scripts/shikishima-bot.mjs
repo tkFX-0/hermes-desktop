@@ -50,6 +50,16 @@ function cleanupPidFile() {
   console.log(`[LOCK] 起動ロック取得 (PID: ${process.pid})`);
 })();
 
+// ─── グローバルエラーハンドラ (スタックトレースをログに出す) ──────────────────
+process.on("uncaughtException", (err) => {
+  console.error("[Bot] uncaughtException:", err?.stack ?? err);
+  cleanupPidFile();
+  process.exit(1);
+});
+process.on("unhandledRejection", (reason) => {
+  console.error("[Bot] unhandledRejection:", reason?.stack ?? reason);
+});
+
 // ─── I-8: 起動時自己修復 — 必要フォルダを全自動作成 ─────────────────────────
 const BASE = join(homedir(), "Desktop", "プロジェクトファイル", "hermes-desktop");
 const MEMORY_DIR = join(BASE, ".shikishima-memory");
@@ -3179,7 +3189,7 @@ async function poll(channelId, token) {
 
     shouldFlushVoice = isDiscordVoiceBridgeEnabled() && getDiscordVoicePlaybackPendingCount() > 0;
   } catch (e) {
-    console.error("[Bot] Poll error:", e.message);
+    console.error("[Bot] Poll error:", e.code ? `${e.code} ${e.message}` : (e.stack ?? e.message));
   } finally {
     const persisted = loadIntakeCursor(channelId);
     if (persisted) lastMessageId = persisted;
