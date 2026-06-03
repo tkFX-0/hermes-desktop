@@ -66,6 +66,12 @@ const MEMORY_DIR = join(BASE, ".shikishima-memory");
 // Codex CLI は日本語パスを WebSocketヘッダーに入れて UTF-8エラーで落ちるため
 // ASCII パスのジャンクション経由で回避する。存在しなければ BASE にフォールバック。
 const CODEX_ASCII_BASE = existsSync("C:\\dev\\hermes") ? "C:\\dev\\hermes" : BASE;
+const CODEX_WSL_ASCII_BASE = "/mnt/c/dev/hermes";
+const CODEX_MODEL_OVERRIDE = String(process.env.SHIKISHIMA_CODEX_MODEL ?? "").trim();
+const CODEX_COMPAT_MODEL =
+  CODEX_MODEL_OVERRIDE && CODEX_MODEL_OVERRIDE !== "codex" && CODEX_MODEL_OVERRIDE !== "gpt-5.5"
+    ? CODEX_MODEL_OVERRIDE
+    : "gpt-5.4";
 const REQUIRED_DIRS = [
   join(BASE, "docs", "logs"),
   join(BASE, ".shikishima-memory"),
@@ -611,8 +617,37 @@ function codexCliCandidates() {
   ].filter(Boolean);
 }
 
+function resolveCodexModel(model) {
+  const requested = String(model ?? "").trim();
+  if (!requested || requested === "codex" || requested === "gpt-5.5") {
+    return CODEX_COMPAT_MODEL;
+  }
+  return requested;
+}
+
+function summarizeCliFailure(raw, label) {
+  const text = String(raw ?? "");
+  if (/requires a newer version of Codex|not supported when using Codex with a ChatGPT account/i.test(text)) {
+    return `${label}: unsupported model for current Codex CLI/account`;
+  }
+  if (/UTF-8 encoding error|x-codex-turn-metadata/i.test(text)) {
+    return `${label}: workspace path metadata encoding error`;
+  }
+  if (/\bEPERM\b|Access is denied/i.test(text)) {
+    return `${label}: access denied while starting CLI`;
+  }
+  if (/command not found/i.test(text)) {
+    return `${label}: command not found`;
+  }
+  if (/failed to connect to websocket/i.test(text)) {
+    return `${label}: websocket connection failed`;
+  }
+  return `${label}: cli error`;
+}
+
 function callCodex(prompt, model = "codex") {
-  const modelArgs = model && model !== "codex" ? ["--model", model] : [];
+  const resolvedModel = resolveCodexModel(model);
+  const modelArgs = ["--model", resolvedModel];
   // プロンプトを stdin で渡す（positional argだとbashコマンドとして解釈されるため）
   // --json: JSONL出力でCLIメタデータ・エコーを除外しassistantテキストだけ取得
   // CODEX_ASCII_BASE: 日本語パスがWebSocketヘッダーでUTF-8エラーになるためASCIIジャンクション使用
@@ -642,21 +677,26 @@ function callCodex(prompt, model = "codex") {
         child.on("error", e => { clearTimeout(timer); done({ ok: false, text: e.message }); });
         child.on("close", () => {
           clearTimeout(timer);
+          if (isErrorOutput(out)) {
+            done({ ok: false, text: summarizeCliFailure(out, "codex") });
+            return;
+          }
           const text = stripCodexCliNoise(out);
-          done(text ? { ok: true, text } : { ok: false, text: out || "codex: no output" });
+          done(text ? { ok: true, text } : { ok: false, text: summarizeCliFailure(out, "codex") });
         });
         child.stdin.write(prompt, "utf8");
         child.stdin.end();
       });
       if (first.ok) {
-        return { ok: true, text: first.text || "(応答なし)", backendUsed: "codex-cli", model };
+        return { ok: true, text: first.text || "(応答なし)", backendUsed: "codex-cli", model: resolvedModel };
       }
     }
     // codex WSL フォールバック: stdin + --json でクリーン出力
-    const wslModel = model && model !== "codex" ? ` --model ${JSON.stringify(model)}` : "";
+    const wslCwd = existsSync(CODEX_ASCII_BASE) ? CODEX_WSL_ASCII_BASE : BASE;
+    const wslModel = ` --model ${JSON.stringify(resolvedModel)}`;
     const wslScript =
       `unset OPENAI_API_KEY OPENAI_ORG_ID OPENAI_PROJECT ANTHROPIC_API_KEY CURSOR_API_KEY XAI_API_KEY; ` +
-      `codex exec --sandbox read-only --skip-git-repo-check --ephemeral --json -C ${JSON.stringify(BASE)}${wslModel} "$(cat)" 2>&1`;
+      `codex exec --sandbox read-only --skip-git-repo-check --ephemeral --json -C ${JSON.stringify(wslCwd)}${wslModel} - 2>&1`;
     const second = await new Promise(resolve => {
       let out = "";
       let settled = false;
@@ -670,14 +710,18 @@ function callCodex(prompt, model = "codex") {
       child.on("error", e => { clearTimeout(timer); done({ ok: false, text: e.message }); });
       child.on("close", () => {
         clearTimeout(timer);
+        if (isErrorOutput(out)) {
+          done({ ok: false, text: summarizeCliFailure(out, "codex-wsl") });
+          return;
+        }
         const text = stripCodexCliNoise(out);
-        done(text ? { ok: true, text } : { ok: false, text: out || "codex-wsl: no output" });
+        done(text ? { ok: true, text } : { ok: false, text: summarizeCliFailure(out, "codex-wsl") });
       });
       child.stdin.write(prompt, "utf8");
       child.stdin.end();
     });
     return second.ok
-      ? { ok: true, text: second.text || "(応答なし)", backendUsed: "codex-cli", model }
+      ? { ok: true, text: second.text || "(応答なし)", backendUsed: "codex-cli", model: resolvedModel }
       : { ok: false, text: second.text || first.text || "codex cli failed" };
   })();
 }
@@ -765,10 +809,10 @@ const AGENT_PROMPTS_DEFAULT = {
 
 const CROSS_ENGINE_AGENT_ROUTES = {
   shikishima: { engine: "claude", model: "claude-sonnet-4-6" }, // 管制・声: Claude固定
-  shizume: { engine: "codex", model: "codex" },
-  hajime: { engine: "codex", model: "codex" },
-  "research-kun": { engine: "codex", model: "codex" },
-  research: { engine: "codex", model: "codex" },
+  shizume: { engine: "codex", model: CODEX_COMPAT_MODEL },
+  hajime: { engine: "codex", model: CODEX_COMPAT_MODEL },
+  "research-kun": { engine: "codex", model: CODEX_COMPAT_MODEL },
+  research: { engine: "codex", model: CODEX_COMPAT_MODEL },
   shirube: { engine: "composer", model: "composer-2.5" },
 };
 

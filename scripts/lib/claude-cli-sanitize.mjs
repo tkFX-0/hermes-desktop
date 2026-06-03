@@ -26,6 +26,9 @@ export function stripCodexCliNoise(raw) {
       const ev = JSON.parse(l);
       // response.output_item.done / output_item 形式
       const item = ev?.item ?? ev?.output_item;
+      if (item?.type === "agent_message" && typeof item.text === "string" && item.text) {
+        jsonTexts.push(item.text);
+      }
       if (item?.role === "assistant") {
         for (const c of (item.content ?? [])) {
           if (c?.type === "text" && c.text) jsonTexts.push(c.text);
@@ -37,6 +40,9 @@ export function stripCodexCliNoise(raw) {
       }
       if (ev?.role === "assistant" && ev?.content && typeof ev.content === "string") {
         jsonTexts.push(ev.content);
+      }
+      if (ev?.type === "agent_message" && typeof ev.text === "string" && ev.text) {
+        jsonTexts.push(ev.text);
       }
     } catch { /* ignore */ }
   }
@@ -68,7 +74,15 @@ export function isErrorOutput(text) {
   return /^bash:\s/m.test(t)
     || /command not found/i.test(t)
     || /Is a directory/i.test(t)
-    || /No such file or directory/i.test(t);
+    || /No such file or directory/i.test(t)
+    || /"type"\s*:\s*"error"/i.test(t)
+    || /turn\.failed/i.test(t)
+    || /invalid_request_error/i.test(t)
+    || /requires a newer version of Codex/i.test(t)
+    || /failed to connect to websocket/i.test(t)
+    || /UTF-8 encoding error/i.test(t)
+    || /x-codex-turn-metadata/i.test(t)
+    || /\bEPERM\b|Access is denied/i.test(t);
 }
 
 /** Claude/Groq が空のときのプレースホルダを失敗扱いにする */
