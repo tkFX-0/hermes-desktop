@@ -7,7 +7,7 @@
 
 import { execFile, spawn } from "child_process";
 import * as https from "https";
-import { existsSync, readFileSync, writeFileSync, mkdirSync, statSync, renameSync, unlinkSync } from "fs";
+import { existsSync, readFileSync, writeFileSync, mkdirSync, statSync, renameSync, unlinkSync, rmSync } from "fs";
 import { join } from "path";
 import { homedir } from "os";
 
@@ -225,6 +225,7 @@ import {
   flushDiscordVoicePlaybackQueue,
   getDiscordVoicePlaybackPendingCount,
   pushDiscordVoicePlayback,
+  resetDiscordVoicePlaybackQueue,
 } from "./lib/discord-voice-playback-queue.mjs";
 import { getRelationship } from "./shikishima-relationship.mjs";
 import { shouldSendMarketReports } from "./lib/fx-notifications.mjs";
@@ -1770,10 +1771,11 @@ async function sendReply(channelId, token, agentId, text, { bypassDedupe = false
 // ─── ポーリングループ ──────────────────────────────────────────────────────────
 let lastMessageId = null;
 let _sequentialHumanCheckBusy = false;
-let _pollInFlight = false;
+const _pollInFlightChannels = new Map();
 let _botUserId = "";
 const _threadHydrateAt = new Map();
 const THREAD_HYDRATE_INTERVAL_MS = 5 * 60 * 1000;
+const POLL_IN_FLIGHT_STALE_MS = 45_000;
 let _messageWorkChain = Promise.resolve();
 function discordVoicePlaybackDeps() {
   return {
@@ -1846,6 +1848,48 @@ function runSerializedMessageWork(fn) {
     .then(fn)
     .catch((e) => console.error("[Bot] message work error:", e.message));
   return _messageWorkChain;
+}
+
+function pollGuardKey(channelId) {
+  return String(channelId ?? "default");
+}
+
+function resetStackchanVoiceHoldState(reason = "hold") {
+  resetDiscordVoicePlaybackQueue();
+  _pollInFlightChannels.clear();
+  try {
+    rmSync(join(MEMORY_DIR, "stackchan-speech.lock"), { recursive: true, force: true });
+  } catch {
+    // best-effort cleanup only
+  }
+  console.log(`[StackChanVoice] HOLD reset: voice queue, speech lock, and poll guard cleared (${reason})`);
+}
+
+function isEnvTruthyValue(value) {
+  const v = String(value ?? "").trim().toLowerCase();
+  return v === "1" || v === "true" || v === "on" || v === "yes";
+}
+
+function shouldDeferPollForChannel(channelId) {
+  const key = pollGuardKey(channelId);
+  const since = _pollInFlightChannels.get(key);
+  if (!since) return false;
+
+  if (isStackchanVoiceHold() || !isDiscordVoiceBridgeEnabled()) {
+    _pollInFlightChannels.delete(key);
+    resetDiscordVoicePlaybackQueue();
+    console.log("[Bot] poll guard released because StackChan voice is HOLD/OFF");
+    return false;
+  }
+
+  if (Date.now() - since > POLL_IN_FLIGHT_STALE_MS) {
+    _pollInFlightChannels.delete(key);
+    console.warn("[Bot] stale poll guard released");
+    return false;
+  }
+
+  console.log("[Bot] poll deferred — previous poll still in flight (voice flush may be running)");
+  return true;
 }
 
 function isNewerDiscordId(id, baseline) {
@@ -2371,11 +2415,11 @@ async function refreshLastMessageIdFromChannel(channelId, token) {
 }
 
 async function poll(channelId, token) {
-  if (_pollInFlight) {
-    console.log("[Bot] poll deferred — previous poll still in flight (voice flush may be running)");
+  const pollKey = pollGuardKey(channelId);
+  if (shouldDeferPollForChannel(channelId)) {
     return;
   }
-  _pollInFlight = true;
+  _pollInFlightChannels.set(pollKey, Date.now());
   let shouldFlushVoice = false;
   const persistedForChannel = loadIntakeCursor(channelId);
   if (persistedForChannel) lastMessageId = persistedForChannel;
@@ -3139,7 +3183,7 @@ async function poll(channelId, token) {
   } finally {
     const persisted = loadIntakeCursor(channelId);
     if (persisted) lastMessageId = persisted;
-    _pollInFlight = false;
+    _pollInFlightChannels.delete(pollKey);
   }
 
   if (shouldFlushVoice && isDiscordVoiceBridgeEnabled()) {
@@ -3209,6 +3253,9 @@ async function main() {
   console.log("[DevPipeline] 状態確認: Discordで `!dev-pipeline` / preflight: node scripts/shikishima-wsl-dev-preflight.mjs");
 
   const stackchanHeld = isStackchanVoiceHold();
+  if (stackchanHeld) {
+    resetStackchanVoiceHoldState("startup");
+  }
   const scBoot = stackchanHeld
     ? { connected: false, voicevoxReady: false, skipped: "stackchan_hold" }
     : await checkStackchanStatus().catch(() => ({ connected: false, voicevoxReady: false }));
@@ -3283,12 +3330,16 @@ async function main() {
   scheduleMorningAudit(channelId, token);                     // 毎朝9:00 リポジトリ監査
 
   // 起動時セルフ診断 → Discordに送信
-  setTimeout(async () => {
-    const testResults = await runSelfTest({ token, channelId, groqKey: env["GROQ_API_KEY"] });
-    const report = buildSelfTestReport(testResults, process.pid);
-    await trySendViaAgentWebhook(channelId, token, "shizume", report);
-    console.log("[SelfTest] 診断レポート送信完了");
-  }, 5_000);
+  if (isEnvTruthyValue(process.env.SHIKISHIMA_SKIP_STARTUP_SELFTEST ?? env["SHIKISHIMA_SKIP_STARTUP_SELFTEST"])) {
+    console.log("[SelfTest] startup selftest skipped by SHIKISHIMA_SKIP_STARTUP_SELFTEST");
+  } else {
+    setTimeout(async () => {
+      const testResults = await runSelfTest({ token, channelId, groqKey: env["GROQ_API_KEY"] });
+      const report = buildSelfTestReport(testResults, process.pid);
+      await trySendViaAgentWebhook(channelId, token, "shizume", report);
+      console.log("[SelfTest] 診断レポート送信完了");
+    }, 5_000);
+  }
 
   // B4: 自己進化サイクル起動
   startEvolutionCycle(callGroq);
@@ -3400,6 +3451,9 @@ async function main() {
       pollChannels.push(roomCfg.dialogueChannelId);
     }
     dynamicPollTimer = setInterval(() => {
+      if (pollChannels.length > 1) {
+        console.log(`[Discord] multi-room poll: ${pollChannels.length} channels`);
+      }
       for (const ch of pollChannels) poll(ch, token);
     }, interval);
     if (pollChannels.length > 1) {

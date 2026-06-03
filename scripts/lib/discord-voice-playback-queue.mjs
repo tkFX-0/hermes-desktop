@@ -14,9 +14,13 @@ export function getDiscordVoicePlaybackPendingCount() {
   return _pending.length;
 }
 
-export function clearDiscordVoicePlaybackQueueForTest() {
+export function resetDiscordVoicePlaybackQueue() {
   _pending = [];
   _flushChain = Promise.resolve();
+}
+
+export function clearDiscordVoicePlaybackQueueForTest() {
+  resetDiscordVoicePlaybackQueue();
 }
 
 /**
