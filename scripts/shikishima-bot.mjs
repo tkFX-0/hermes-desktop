@@ -610,23 +610,38 @@ function codexCliCandidates() {
 
 function callCodex(prompt, model = "codex") {
   const modelArgs = model && model !== "codex" ? ["--model", model] : [];
-  const args = [
+  // プロンプトを stdin で渡す（positional argだとbashコマンドとして解釈されるため）
+  const baseArgs = [
     "exec",
-    "--sandbox",
-    "read-only",
+    "--sandbox", "read-only",
     "--skip-git-repo-check",
     "--ephemeral",
-    "-C",
-    BASE,
+    "-C", BASE,
     ...modelArgs,
-    prompt,
+    "-",  // "-" = stdin からタスクを読む
   ];
   return (async () => {
     let first = { ok: false, text: "" };
     for (const bin of codexCliCandidates()) {
-      first = await execCli(bin, args, { timeout: 300_000 }).catch((e) => ({
-        ok: false, text: e?.message || "spawn failed", error: e?.message
-      }));
+      first = await new Promise(resolve => {
+        let out = "";
+        let settled = false;
+        const done = r => { if (!settled) { settled = true; resolve(r); } };
+        let child;
+        try { child = spawn(bin, baseArgs, { env: subscriptionCliEnv(), cwd: BASE }); }
+        catch (e) { return done({ ok: false, text: e.message }); }
+        const timer = setTimeout(() => { try { child.kill(); } catch { /* ignore */ } done({ ok: false, text: "codex timeout" }); }, 300_000);
+        child.stdout?.on("data", d => { out += String(d); });
+        child.stderr?.on("data", d => { out += String(d); });
+        child.on("error", e => { clearTimeout(timer); done({ ok: false, text: e.message }); });
+        child.on("close", () => {
+          clearTimeout(timer);
+          const text = cleanAgentCliOutput(out);
+          done(text ? { ok: true, text } : { ok: false, text: out || "codex: no output" });
+        });
+        child.stdin.write(prompt, "utf8");
+        child.stdin.end();
+      });
       if (first.ok) {
         return { ok: true, text: first.text || "(応答なし)", backendUsed: "codex-cli", model };
       }
@@ -662,22 +677,35 @@ function callCodex(prompt, model = "codex") {
 }
 
 function callComposer(prompt, model = "composer-2.5") {
-  const args = [
-    "/d",
-    "/s",
-    "/c",
-    "cursor-agent",
-    "--print",
-    "--output-format",
-    "text",
-    "--mode",
-    "ask",
-    "--model",
-    model,
-    "--trust",
-    prompt,
-  ];
-  return execCli("cmd.exe", args, { timeout: 240_000 }).then(async (r) => {
+  // プロンプトを stdin で渡す（positional argだとbashコマンドとして解釈されるため）
+  return new Promise(resolve => {
+    let out = "";
+    let settled = false;
+    const done = r => { if (!settled) { settled = true; resolve(r); } };
+    let child;
+    try {
+      child = spawn("cmd.exe", [
+        "/d", "/s", "/c",
+        "cursor-agent",
+        "--print", "--output-format", "text",
+        "--mode", "ask", "--model", model, "--trust",
+        // プロンプトは stdin で渡す
+      ]);
+    } catch (e) {
+      return done({ ok: false, text: e.message });
+    }
+    const timer = setTimeout(() => { try { child.kill(); } catch { /* ignore */ } done({ ok: false, text: "composer timeout" }); }, 240_000);
+    child.stdout?.on("data", d => { out += String(d); });
+    child.stderr?.on("data", d => { out += String(d); });
+    child.on("error", e => { clearTimeout(timer); done({ ok: false, text: e.message }); });
+    child.on("close", () => {
+      clearTimeout(timer);
+      const text = cleanAgentCliOutput(out);
+      done(text ? { ok: true, text } : { ok: false, text: out || "composer: no output" });
+    });
+    child.stdin.write(prompt, "utf8");
+    child.stdin.end();
+  }).then(async (r) => {
     if (r.ok) {
       return { ok: true, text: r.text || "(応答なし)", backendUsed: "cursor-agent-cli", model };
     }
