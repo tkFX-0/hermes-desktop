@@ -115,6 +115,10 @@ import {
   loadAgentModelRegistry
 } from "./lib/load-agent-models.mjs";
 import { stripClaudeCliNoise, stripCodexCliNoise, isErrorOutput } from "./lib/claude-cli-sanitize.mjs";
+import {
+  createGoal, saveGoal, getActiveGoal,
+  parseStepsFromLLM, formatGoalStatus, formatGoalPlanReady, L3_HOLD_PROMPT,
+} from "./lib/goal-engine.mjs";
 import { safeDiscordContent, sanitizeDiscordText } from "./lib/discord-text-safe.mjs";
 import {
   detectSequentialHumanCheck,
@@ -2628,7 +2632,178 @@ async function handleExclusiveSlashCommands(content, channelId, token, authorId 
     return true;
   }
 
+  // ─── /goal コマンド ──────────────────────────────────────────────────────────
+  if (/^\/goal\b/i.test(t)) {
+    await handleGoalCommand(t, channelId, token);
+    return true;
+  }
+
   return false;
+}
+
+// ─── /goal 実行エンジン ────────────────────────────────────────────────────────
+
+async function handleGoalCommand(text, channelId, token) {
+  const sub = text.replace(/^\/goal\s*/i, "").trim();
+
+  // /goal status
+  if (/^status$/i.test(sub)) {
+    const goal = getActiveGoal(MEMORY_DIR);
+    const msg = goal ? formatGoalStatus(goal) : "🎯 アクティブな goal はありません。";
+    await sendReply(channelId, token, "shikishima", msg);
+    return;
+  }
+
+  // /goal cancel
+  if (/^cancel$/i.test(sub)) {
+    const goal = getActiveGoal(MEMORY_DIR);
+    if (!goal) { await sendReply(channelId, token, "shikishima", "🎯 キャンセルする goal がありません。"); return; }
+    goal.status = "cancelled";
+    saveGoal(MEMORY_DIR, goal);
+    await sendReply(channelId, token, "shikishima", `🚫 **目標をキャンセルしました**: ${goal.description}`);
+    return;
+  }
+
+  // /goal go — L3 承認
+  if (/^go$/i.test(sub)) {
+    const goal = getActiveGoal(MEMORY_DIR);
+    if (!goal || goal.status !== "paused") {
+      await sendReply(channelId, token, "shikishima", "⏸ 承認待ちの goal がありません。");
+      return;
+    }
+    goal.status = "active";
+    saveGoal(MEMORY_DIR, goal);
+    await sendReply(channelId, token, "shikishima", "✅ 承認されました。実行を再開します…");
+    // バックグラウンドで続きを実行
+    runGoalSteps(goal, channelId, token).catch(e =>
+      console.warn("[Goal] step execution error:", e?.message)
+    );
+    return;
+  }
+
+  // /goal <説明> — 新しい目標
+  if (!sub) {
+    await sendReply(channelId, token, "shikishima",
+      "使い方: `/goal <目標説明>` / `/goal status` / `/goal go` / `/goal cancel`");
+    return;
+  }
+
+  // 既存の active goal チェック
+  const existing = getActiveGoal(MEMORY_DIR);
+  if (existing) {
+    await sendReply(channelId, token, "shikishima",
+      `⚠️ すでに実行中の goal があります: **${existing.description}**\n` +
+      `キャンセルするには \`/goal cancel\` → 新しい goal を作成してください。`);
+    return;
+  }
+
+  // 目標作成
+  const goal = createGoal(MEMORY_DIR, sub);
+  await sendReply(channelId, token, "shikishima",
+    `🎯 **目標受領**: ${sub}\n🧭 **はじめ** にタスク分解を依頼しています…`);
+
+  // はじめ に計画依頼
+  const planPrompt =
+    `この目標をステップに分解してください。各ステップに autonomyLevel (L0〜L5) を付けてください。\n` +
+    `L0-L2: 読み取り・調査・記録（自動実行可）\n` +
+    `L3: ファイル変更・設定変更（人間確認が必要）\n` +
+    `L4-L5: 外部操作・破壊的操作（人間確認必須）\n\n` +
+    `目標: ${sub}\n\n` +
+    `JSON配列のみ返してください（説明文なし）:\n` +
+    `[{"step":1,"description":"...","agent":"shikishima|hajime|tsumugi|shizume|shirube","autonomyLevel":0}]`;
+
+  const planResult = await callEngine("hajime", planPrompt, channelId, { fullPrompt: planPrompt });
+  if (!planResult.ok) {
+    goal.status = "paused";
+    saveGoal(MEMORY_DIR, goal);
+    await sendReply(channelId, token, "shikishima",
+      `⚠️ **計画生成失敗**: はじめが応答できませんでした (${planResult.trace?.backendUsed ?? "?"})\n` +
+      `\`/goal cancel\` で目標をキャンセルできます。`);
+    return;
+  }
+
+  const steps = parseStepsFromLLM(planResult.text);
+  if (!steps) {
+    goal.status = "paused";
+    saveGoal(MEMORY_DIR, goal);
+    await sendReply(channelId, token, "shikishima",
+      `⚠️ **計画の解析に失敗**: JSON が取得できませんでした。\n` +
+      `はじめの回答: ${planResult.text.slice(0, 200)}\n` +
+      `\`/goal cancel\` で目標をキャンセルできます。`);
+    return;
+  }
+
+  goal.steps = steps;
+  goal.currentStep = 0;
+  saveGoal(MEMORY_DIR, goal);
+
+  await sendReply(channelId, token, "shikishima", formatGoalPlanReady(goal));
+
+  // L0-L2 ステップを自動で即開始
+  const firstAuto = steps.findIndex(s => s.autonomyLevel <= 2);
+  if (firstAuto === 0) {
+    runGoalSteps(goal, channelId, token).catch(e =>
+      console.warn("[Goal] step execution error:", e?.message)
+    );
+  }
+}
+
+async function runGoalSteps(goal, channelId, token) {
+  while (goal.currentStep < goal.steps.length) {
+    const step = goal.steps[goal.currentStep];
+    if (step.status === "completed") { goal.currentStep++; continue; }
+
+    // L3+ は確認待ち
+    if (step.autonomyLevel >= 3) {
+      step.status = "paused";
+      goal.status = "paused";
+      saveGoal(MEMORY_DIR, goal);
+      await sendReply(channelId, token, "shikishima", L3_HOLD_PROMPT(step));
+      return; // /goal go を待つ
+    }
+
+    // L0-L2 自動実行
+    step.status = "running";
+    saveGoal(MEMORY_DIR, goal);
+    await sendReply(channelId, token, step.agent ?? "shikishima",
+      `⏳ **Step ${step.step}** 実行中 (L${step.autonomyLevel}・${step.agent}): ${step.description}`);
+
+    const stepPrompt = `[Goal: ${goal.description}]\n[Step ${step.step}]: ${step.description}`;
+    let result = await callEngine(step.agent ?? "shikishima", stepPrompt, channelId, { fullPrompt: stepPrompt });
+
+    // 失敗時1回リトライ
+    if (!result.ok) {
+      result = await callEngine(step.agent ?? "shikishima", stepPrompt, channelId, { fullPrompt: stepPrompt });
+    }
+
+    if (result.ok) {
+      step.status = "completed";
+      step.result = result.text.slice(0, 200);
+      await sendReply(channelId, token, step.agent ?? "shikishima",
+        `✅ **Step ${step.step} 完了**: ${result.text.slice(0, 400)}`);
+    } else {
+      step.status = "failed";
+      goal.status = "paused";
+      saveGoal(MEMORY_DIR, goal);
+      await sendReply(channelId, token, "shizume",
+        `⚠️ **Step ${step.step} 失敗** — 手動確認が必要です。\n` +
+        `エラー: ${result.text.slice(0, 200)}\n\`/goal cancel\` で中止できます。`);
+      return;
+    }
+
+    goal.currentStep++;
+    saveGoal(MEMORY_DIR, goal);
+    await new Promise(r => setTimeout(r, 5_000)); // 5秒インターバル
+  }
+
+  // 全ステップ完了
+  goal.status = "completed";
+  saveGoal(MEMORY_DIR, goal);
+  await sendReply(channelId, token, "shikishima", `✅ **/goal 完了**: ${goal.description}`);
+
+  // しるべ に完了サマリー記録
+  const summary = goal.steps.map(s => `Step ${s.step}: ${s.description} → ${s.status}`).join("\n");
+  logAgentDecision("shirube", `Goal完了: ${goal.description}`, summary.slice(0, 100));
 }
 
 async function refreshLastMessageIdFromChannel(channelId, token) {
