@@ -482,7 +482,45 @@ const AGENTS = {
   tsumugi:    { label: "🪡 **つむぎ**",   webhookName: "🪡 つむぎ",   color: "3fb950" },
   hajime:     { label: "🧭 **はじめ**",   webhookName: "🧭 はじめ",   color: "bc8cff" },
   shirube:    { label: "🕯️ **しるべ**",  webhookName: "🕯 しるべ",   color: "ffa657" },
+  "research-kun": { label: "🔎 **リサーチ君**", webhookName: "🔎 リサーチ君", color: "79c0ff" },
 };
+
+const ALL_AGENT_COMMAND_IDS = [
+  "shikishima",
+  "hajime",
+  "shizume",
+  "tsumugi",
+  "shirube",
+  "research-kun",
+];
+const ALL_AGENT_COMMAND_DELAY_MS = 700;
+
+function isAllAgentCommand(content) {
+  const t = normalizeDiscordUserContent(content);
+  return /(?:^|\s)[@＠](?:all|ａｌｌ|ＡＬＬ|全員|オール)(?:コマンド)?(?:\s|$|[、。,.!！?？])/i.test(t)
+    || /^!(?:all|agent-all|agents-all)(?:\s|$)/i.test(t);
+}
+
+function stripAllAgentCommandTrigger(content) {
+  const t = normalizeDiscordUserContent(content);
+  return t
+    .replace(/(?:^|\s)[@＠](?:all|ａｌｌ|ＡＬＬ|全員|オール)(?:コマンド)?(?:\s|$|[、。,.!！?？])/i, " ")
+    .replace(/^!(?:all|agent-all|agents-all)(?:\s|$)/i, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function buildAllAgentUserLine(content, agentId) {
+  const task = stripAllAgentCommandTrigger(content) || "受信確認。各担当の視点で一言ずつ返答してください。";
+  return [
+    "[ALL-agent-once]",
+    "これは @ALL コマンドです。あなたの担当視点だけで1回だけ返答してください。",
+    "他エージェントへの追加呼び出しや会議継続はしないでください。",
+    "80〜140字程度。重複を避け、必要ならHOLD/注意点を短く添えてください。",
+    `agent=${agentId}`,
+    `依頼: ${task}`,
+  ].join("\n");
+}
 
 function routeAgent(message) {
   const routed = normalizeDiscordUserContent(message);
@@ -492,6 +530,7 @@ function routeAgent(message) {
   if (/@(つむぎ|tsumugi)/i.test(routed)) return "tsumugi";
   if (/@(はじめ|hajime)/i.test(routed)) return "hajime";
   if (/@(しるべ|shirube)/i.test(routed)) return "shirube";
+  if (/@(リサーチ君|research-kun|research)/i.test(routed)) return "research-kun";
 
   const m = routed.toLowerCase();
   if (/しず|しずめ|hold\?|安全|危険|reject/.test(m)) return "shizume";
@@ -951,6 +990,78 @@ async function callEngine(agentId, userMessage, threadId, opts = {}) {
     });
   }
   return { ok: result.ok, text: result.text, trace };
+}
+
+async function handleAllAgentCommand(content, { channelId, token, messageId } = {}) {
+  const results = [];
+  for (const agentId of ALL_AGENT_COMMAND_IDS) {
+    const userLine = buildAllAgentUserLine(content, agentId);
+    let engineResult;
+    try {
+      engineResult = await callEngine(agentId, userLine, channelId);
+    } catch (e) {
+      engineResult = {
+        ok: false,
+        text: e?.message ?? "all-agent-command failed",
+        trace: {
+          backendUsed: "all-agent-command",
+          model: "none",
+          reasoningLevel: "unknown",
+          grokResearchHeld: isGrokResearchHold(),
+        },
+      };
+    }
+    const { ok, text, trace } = engineResult;
+    const replyText = ok
+      ? sanitizeDiscordText(appendModelTraceFooter(text, trace))
+      : sanitizeDiscordText(`[エラー] ${agentId}: ${trace.backendUsed}: ${text ?? "empty"}`);
+
+    appendSessionLog(content, agentId, replyText);
+    auditLog({
+      kind: ok ? "agent_reply" : "agent_reply_failed",
+      agent: agentId,
+      detail: "@ALL one-shot",
+      riskLevel: "low",
+      metadata: {
+        modelTrace: {
+          backend: trace.backendUsed,
+          model: trace.model,
+          reasoningLevel: trace.reasoningLevel,
+          grokResearchHeld: trace.grokResearchHeld,
+        },
+      },
+    });
+    logAgentDecision(agentId, replyText.replace(/[*_#`]/g, "").slice(0, 100), "@ALL");
+
+    const sentBody = await sendReply(channelId, token, agentId, replyText, { bypassDedupe: true });
+    if (sentBody?.id) {
+      results.push({ agentId, ok, messageId: sentBody.id, trace });
+    } else {
+      results.push({ agentId, ok: false, messageId: null, trace });
+    }
+    console.log(`[Bot] @ALL send (${agentId}): ${replyText.slice(0, 60)}...`);
+
+    if (messageId && ok) {
+      const voicePlan = decideDiscordVoiceSpeak({
+        userContent: content,
+        replyText,
+        agentId,
+        source: "discord_reply_all",
+      });
+      if (voicePlan.speak && voicePlan.chunks?.length) {
+        queueDiscordVoiceDecision(voicePlan, {
+          userContent: content,
+          replyText,
+          agentId,
+          source: "discord_reply_all",
+          messageId,
+        });
+      }
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, ALL_AGENT_COMMAND_DELAY_MS));
+  }
+  return results;
 }
 
 function getAgentPrompt(agentId) {
@@ -3213,6 +3324,21 @@ async function poll(channelId, token) {
       }
       if (isBotOutboundEcho(content)) {
         console.log("[Bot] outbound echo skip:", content.slice(0, 50));
+        continue;
+      }
+
+      if (isAllAgentCommand(effectiveContent || content)) {
+        console.log("[Bot] @ALL command:", content.slice(0, 80));
+        const allResults = await handleAllAgentCommand(effectiveContent || content, {
+          channelId,
+          token,
+          messageId: msg.id,
+        });
+        const lastSent = [...allResults].reverse().find((r) => r.messageId);
+        if (lastSent?.messageId) lastMessageId = lastSent.messageId;
+        if (threadRooms.has(channelRole)) {
+          syncConversationSummaryFromThread(channelId);
+        }
         continue;
       }
 
