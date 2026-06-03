@@ -105,7 +105,7 @@ import {
   isGrokResearchHold,
   loadAgentModelRegistry
 } from "./lib/load-agent-models.mjs";
-import { stripClaudeCliNoise } from "./lib/claude-cli-sanitize.mjs";
+import { stripClaudeCliNoise, stripCodexCliNoise, isErrorOutput } from "./lib/claude-cli-sanitize.mjs";
 import { safeDiscordContent, sanitizeDiscordText } from "./lib/discord-text-safe.mjs";
 import {
   detectSequentialHumanCheck,
@@ -611,11 +611,13 @@ function codexCliCandidates() {
 function callCodex(prompt, model = "codex") {
   const modelArgs = model && model !== "codex" ? ["--model", model] : [];
   // プロンプトを stdin で渡す（positional argだとbashコマンドとして解釈されるため）
+  // --json: JSONL出力でCLIメタデータ・エコーを除外しassistantテキストだけ取得
   const baseArgs = [
     "exec",
     "--sandbox", "read-only",
     "--skip-git-repo-check",
     "--ephemeral",
+    "--json",
     "-C", BASE,
     ...modelArgs,
     "-",  // "-" = stdin からタスクを読む
@@ -636,7 +638,7 @@ function callCodex(prompt, model = "codex") {
         child.on("error", e => { clearTimeout(timer); done({ ok: false, text: e.message }); });
         child.on("close", () => {
           clearTimeout(timer);
-          const text = cleanAgentCliOutput(out);
+          const text = stripCodexCliNoise(out);
           done(text ? { ok: true, text } : { ok: false, text: out || "codex: no output" });
         });
         child.stdin.write(prompt, "utf8");
@@ -646,11 +648,11 @@ function callCodex(prompt, model = "codex") {
         return { ok: true, text: first.text || "(応答なし)", backendUsed: "codex-cli", model };
       }
     }
-    // codex WSL フォールバック: プロンプトを stdin で渡す（コマンドライン長制限回避）
+    // codex WSL フォールバック: stdin + --json でクリーン出力
     const wslModel = model && model !== "codex" ? ` --model ${JSON.stringify(model)}` : "";
     const wslScript =
       `unset OPENAI_API_KEY OPENAI_ORG_ID OPENAI_PROJECT ANTHROPIC_API_KEY CURSOR_API_KEY XAI_API_KEY; ` +
-      `codex exec --sandbox read-only --skip-git-repo-check --ephemeral -C ${JSON.stringify(BASE)}${wslModel} "$(cat)" 2>&1`;
+      `codex exec --sandbox read-only --skip-git-repo-check --ephemeral --json -C ${JSON.stringify(BASE)}${wslModel} "$(cat)" 2>&1`;
     const second = await new Promise(resolve => {
       let out = "";
       let settled = false;
@@ -664,7 +666,7 @@ function callCodex(prompt, model = "codex") {
       child.on("error", e => { clearTimeout(timer); done({ ok: false, text: e.message }); });
       child.on("close", () => {
         clearTimeout(timer);
-        const text = cleanAgentCliOutput(out);
+        const text = stripCodexCliNoise(out);
         done(text ? { ok: true, text } : { ok: false, text: out || "codex-wsl: no output" });
       });
       child.stdin.write(prompt, "utf8");
@@ -886,10 +888,12 @@ async function callEngine(agentId, userMessage, threadId, opts = {}) {
 
   const trace = buildEngineTrace(agentId, route, result);
   if (threadId && result.ok) {
+    // bashエラー出力はスレッド履歴を汚染するため記録しない
+    const recordContent = isErrorOutput(result.text) ? "[エラー応答・省略]" : result.text;
     appendThreadMessage(threadId, {
       role: "assistant",
       agentId,
-      content: result.text,
+      content: recordContent,
     });
     compactThreadIfNeeded(threadId, {
       recentTurns: 12,
