@@ -518,29 +518,32 @@ async function delegateToAgent(fromAgentId, toAgentId, task) {
 
 
 function callClaude(prompt, model = "claude-sonnet-4-6", _maxTokens = 1024) {
+  // プロンプトを stdin で渡す（-p 引数はコマンドライン長制限に当たるため）
   return new Promise(resolve => {
-    execFile(
-      "wsl",
-      [
-        "-d",
-        "Ubuntu",
-        "-u",
-        "root",
-        "--",
-        "bash",
-        "-lc",
-        `claude -p ${JSON.stringify(prompt)} --model ${model} --output-format text < /dev/null 2>&1`,
-      ],
-      { timeout: 120_000, maxBuffer: 4 * 1024 * 1024 },
-      (err, stdout) => {
-        if (err) {
-          resolve({ ok: false, text: err.message });
-          return;
-        }
-        const clean = stripClaudeCliNoise(stdout);
-        resolve({ ok: true, text: clean || "(応答なし)" });
-      },
-    );
+    const wslScript = `claude --model ${model} --output-format text 2>&1`;
+    let out = "";
+    let settled = false;
+    const done = (result) => { if (!settled) { settled = true; resolve(result); } };
+
+    let child;
+    try {
+      child = spawn("wsl", ["-d", "Ubuntu", "-u", "root", "--", "bash", "-lc", wslScript]);
+    } catch (e) {
+      return done({ ok: false, text: e.message });
+    }
+
+    const timer = setTimeout(() => { try { child.kill(); } catch { /* ignore */ } done({ ok: false, text: "claude-cli timeout" }); }, 120_000);
+    child.stdout?.on("data", d => { out += String(d); });
+    child.stderr?.on("data", d => { out += String(d); });
+    child.on("error", e => { clearTimeout(timer); done({ ok: false, text: e.message }); });
+    child.on("close", () => {
+      clearTimeout(timer);
+      const clean = stripClaudeCliNoise(out);
+      done(clean ? { ok: true, text: clean } : { ok: false, text: out || "claude-cli: no output" });
+    });
+
+    child.stdin.write(prompt, "utf8");
+    child.stdin.end();
   });
 }
 
@@ -628,16 +631,30 @@ function callCodex(prompt, model = "codex") {
         return { ok: true, text: first.text || "(応答なし)", backendUsed: "codex-cli", model };
       }
     }
-    const q = JSON.stringify(prompt);
+    // codex WSL フォールバック: プロンプトを stdin で渡す（コマンドライン長制限回避）
     const wslModel = model && model !== "codex" ? ` --model ${JSON.stringify(model)}` : "";
     const wslScript =
       `unset OPENAI_API_KEY OPENAI_ORG_ID OPENAI_PROJECT ANTHROPIC_API_KEY CURSOR_API_KEY XAI_API_KEY; ` +
-      `codex exec --sandbox read-only --skip-git-repo-check --ephemeral -C ${JSON.stringify(BASE)}${wslModel} ${q} 2>&1`;
-    const second = await execCli(
-      "wsl",
-      ["-d", "Ubuntu", "-u", "root", "--", "bash", "-lc", wslScript],
-      { timeout: 300_000 }
-    );
+      `codex exec --sandbox read-only --skip-git-repo-check --ephemeral -C ${JSON.stringify(BASE)}${wslModel} "$(cat)" 2>&1`;
+    const second = await new Promise(resolve => {
+      let out = "";
+      let settled = false;
+      const done = r => { if (!settled) { settled = true; resolve(r); } };
+      let child;
+      try { child = spawn("wsl", ["-d", "Ubuntu", "-u", "root", "--", "bash", "-lc", wslScript]); }
+      catch (e) { return done({ ok: false, text: e.message }); }
+      const timer = setTimeout(() => { try { child.kill(); } catch { /* ignore */ } done({ ok: false, text: "codex-wsl timeout" }); }, 300_000);
+      child.stdout?.on("data", d => { out += String(d); });
+      child.stderr?.on("data", d => { out += String(d); });
+      child.on("error", e => { clearTimeout(timer); done({ ok: false, text: e.message }); });
+      child.on("close", () => {
+        clearTimeout(timer);
+        const text = cleanAgentCliOutput(out);
+        done(text ? { ok: true, text } : { ok: false, text: out || "codex-wsl: no output" });
+      });
+      child.stdin.write(prompt, "utf8");
+      child.stdin.end();
+    });
     return second.ok
       ? { ok: true, text: second.text || "(応答なし)", backendUsed: "codex-cli", model }
       : { ok: false, text: second.text || first.text || "codex cli failed" };
