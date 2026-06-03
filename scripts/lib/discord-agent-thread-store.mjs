@@ -24,6 +24,24 @@ const MAX_AGENT_TURNS = 24;
 const MAX_CONTENT_STORE = 600;
 const SUMMARY_RECENT_TURNS = 12;
 const MAX_SUMMARY_STORE = 2000;
+const ERROR_CONTENT_PLACEHOLDER = "[エラー応答・省略]";
+const THREAD_CONTEXT_NOISE_PATTERNS = [
+  /^bash:\s/i,
+  /\bcommand not found\b/i,
+  /\bIs a directory\b/i,
+  /unexpected EOF while looking for matching/i,
+  /OpenAI Codex v/i,
+  /\{"type":"thread\.started"/i,
+  /\{"type":"turn\.started"/i,
+  /\{"type":"turn\.failed"/i,
+  /\{"type":"error"/i,
+  /invalid_request_error/i,
+  /UTF-8 encoding error/i,
+  /x-codex-turn-metadata/i,
+  /codex_api::endpoint/i,
+  /failed to connect to websocket/i,
+  /stream disconnected before completion/i
+];
 
 const AGENT_LABELS = {
   shikishima: "しきしま",
@@ -45,7 +63,20 @@ function ensureThreadDir() {
 }
 
 function redactForStore(text) {
-  return redactMessagePreview(String(text ?? "").replace(/\n/g, " ")).slice(0, MAX_CONTENT_STORE);
+  const oneLine = String(text ?? "").replace(/\n/g, " ");
+  if (isThreadContextNoise(oneLine)) return ERROR_CONTENT_PLACEHOLDER;
+  return redactMessagePreview(oneLine).slice(0, MAX_CONTENT_STORE);
+}
+
+function isThreadContextNoise(text) {
+  const value = String(text ?? "").trim();
+  if (!value) return false;
+  if (value === ERROR_CONTENT_PLACEHOLDER) return true;
+  return THREAD_CONTEXT_NOISE_PATTERNS.some((pattern) => pattern.test(value));
+}
+
+function isThreadContextUsable(row) {
+  return row && !isThreadContextNoise(row.content);
 }
 
 function emptyChannelState(channelId) {
@@ -194,7 +225,7 @@ export function syncConversationSummaryFromThread(channelId) {
   const state = loadChannelThreads(channelId);
   if (!state.sharedLog.length) return;
   const chron = [...state.sharedLog].sort((a, b) => String(a.at).localeCompare(String(b.at)));
-  const tail = chron.slice(-6);
+  const tail = chron.filter(isThreadContextUsable).slice(-6);
   const summary = tail
     .map((r) => {
       const who =
@@ -293,8 +324,9 @@ export async function compactThreadIfNeeded(channelId, opts = {}) {
     return { compacted: false, summary: state.summary, recentCount: state.sharedLog.length };
   }
 
-  const oldTurns = state.sharedLog.slice(0, -recentTurns);
-  const recent = state.sharedLog.slice(-recentTurns);
+  const usableLog = state.sharedLog.filter(isThreadContextUsable);
+  const oldTurns = usableLog.slice(0, -recentTurns);
+  const recent = usableLog.slice(-recentTurns);
   let nextSummary = "";
   if (typeof opts.summarizeFn === "function") {
     try {
@@ -333,12 +365,12 @@ export function buildAgentThreadContext(channelId, agentId, opts = {}) {
     lines.push(String(state.summary).slice(0, 900));
   }
 
-  for (const m of agentMsgs.slice(-12)) {
+  for (const m of agentMsgs.filter(isThreadContextUsable).slice(-12)) {
     const who = m.role === "user" ? "ユーザー" : AGENT_LABELS[agentId] ?? agentId;
     lines.push(`${who}(${m.at}): ${m.content}`);
   }
 
-  const shared = state.sharedLog.slice(-10);
+  const shared = state.sharedLog.filter(isThreadContextUsable).slice(-10);
   if (shared.length) {
     lines.push("[部屋共有ログ 直近]");
     for (const s of shared) {

@@ -5,6 +5,8 @@
 import { readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 
+const DEFAULT_PORTFOLIO_CHANNEL_ID = "1510129430100709407";
+
 /**
  * @param {Record<string, string>} [env]
  */
@@ -23,7 +25,7 @@ export function readDiscordChannelEnv(env = process.env) {
   return {
     token: g("DISCORD_BOT_TOKEN"),
     commandChannelId: g("DISCORD_COMMAND_CHANNEL_ID"),
-    portfolioChannelId: g("DISCORD_PORTFOLIO_CHANNEL_ID"),
+    portfolioChannelId: g("DISCORD_PORTFOLIO_CHANNEL_ID") || DEFAULT_PORTFOLIO_CHANNEL_ID,
     dialogueChannelId: g("DISCORD_DIALOGUE_CHANNEL_ID"),
     operatorUserId: g("DISCORD_OPERATOR_USER_ID"),
     multiRoomG: g("SHIKISHIMA_DISCORD_MULTI_ROOM_G") === "1" || g("SHIKISHIMA_DISCORD_MULTI_ROOM_G") === "true"

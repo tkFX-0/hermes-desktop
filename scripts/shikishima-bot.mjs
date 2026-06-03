@@ -1033,7 +1033,7 @@ async function handleAllAgentCommand(content, { channelId, token, messageId } = 
     });
     logAgentDecision(agentId, replyText.replace(/[*_#`]/g, "").slice(0, 100), "@ALL");
 
-    const sentBody = await sendReply(channelId, token, agentId, replyText, { bypassDedupe: true });
+    const sentBody = await sendReply(channelId, token, agentId, replyText);
     if (sentBody?.id) {
       results.push({ agentId, ok, messageId: sentBody.id, trace });
     } else {
