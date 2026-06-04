@@ -122,6 +122,10 @@ import {
   parseStepsFromLLM, formatGoalStatus, formatGoalPlanReady, L3_HOLD_PROMPT,
 } from "./lib/goal-engine.mjs";
 import { isGoalSlashCommand, isCliCapacityError } from "./lib/goal-slash-routing.mjs";
+import {
+  buildGoalDevPipelineInstruction,
+  shouldRouteGoalStepToDevPipeline
+} from "./lib/goal-dev-pipeline-route.mjs";
 import { safeDiscordContent, sanitizeDiscordText } from "./lib/discord-text-safe.mjs";
 import {
   detectSequentialHumanCheck,
@@ -2797,6 +2801,47 @@ async function runGoalSteps(goal, channelId, token) {
   }
 }
 
+async function executeGoalStep(goal, step, stepPrompt, channelId, token) {
+  if (shouldRouteGoalStepToDevPipeline(step)) {
+    const mergedEnv = { ...readEnv(), ...process.env };
+    const instruction = buildGoalDevPipelineInstruction(goal, step);
+    await sendReply(channelId, token, "tsumugi", `[Goal] Step ${step.step} -> dev pipeline (approved L${step.autonomyLevel}).`);
+
+    const dev = await runKaihatuDev(instruction, mergedEnv);
+    await sendReply(channelId, token, dev.agentId, dev.text);
+
+    const review = runKaihatuAutoReview({
+      root: BASE,
+      instruction,
+      kaihatuOk: dev.ok,
+      testMode: false,
+      operatorUserId: mergedEnv.DISCORD_OPERATOR_USER_ID ?? ""
+    });
+    await sendReply(channelId, token, "shizume", review.text);
+    await postKaihatuReviewOperatorNotify(token, mergedEnv, review.notifyContent);
+
+    if (!dev.ok || review.needsHuman || review.verdict?.decision === "HOLD") {
+      return {
+        ok: false,
+        text:
+          `dev pipeline HOLD: ${dev.ok ? "dev ok" : "dev failed"} / ` +
+          `review=${review.verdict?.decision ?? "unknown"}`
+      };
+    }
+
+    return {
+      ok: true,
+      text: `dev pipeline execution passed: ${review.verdict?.decision ?? "GO_PREPARED"}`
+    };
+  }
+
+  let result = await callEngine(step.agent ?? "shikishima", stepPrompt, channelId, { fullPrompt: stepPrompt });
+  if (!result.ok) {
+    result = await callEngine(step.agent ?? "shikishima", stepPrompt, channelId, { fullPrompt: stepPrompt });
+  }
+  return result;
+}
+
 async function _runGoalStepsInner(goal, channelId, token) {
   while (goal.currentStep < goal.steps.length) {
     const step = goal.steps[goal.currentStep];
@@ -2821,12 +2866,7 @@ async function _runGoalStepsInner(goal, channelId, token) {
     }
 
     const stepPrompt = `[Goal: ${goal.description}]\n[Step ${step.step}]: ${step.description}`;
-    let result = await callEngine(step.agent ?? "shikishima", stepPrompt, channelId, { fullPrompt: stepPrompt });
-
-    // 失敗時1回リトライ
-    if (!result.ok) {
-      result = await callEngine(step.agent ?? "shikishima", stepPrompt, channelId, { fullPrompt: stepPrompt });
-    }
+    const result = await executeGoalStep(goal, step, stepPrompt, channelId, token);
 
     if (result.ok) {
       step.status = "completed";
