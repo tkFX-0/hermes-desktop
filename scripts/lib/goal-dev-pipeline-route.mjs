@@ -3,6 +3,13 @@ export function shouldRouteGoalStepToDevPipeline(step) {
   return level >= 3;
 }
 
+/** L3+ dev-pipeline steps always execute as tsumugi regardless of planner agent. */
+export function resolveGoalStepExecutionAgent(step) {
+  return shouldRouteGoalStepToDevPipeline(step)
+    ? "tsumugi"
+    : String(step?.agent ?? "shikishima");
+}
+
 export function buildGoalDevPipelineInstruction(goal, step) {
   const goalText = String(goal?.description ?? "").trim();
   const stepNo = Number(step?.step ?? 0) || "?";

@@ -126,6 +126,7 @@ import {
   buildGoalDevPipelineInstruction,
   formatGoalStepResultForDiscord,
   parseGoalGoApproval,
+  resolveGoalStepExecutionAgent,
   shouldRouteGoalStepToDevPipeline
 } from "./lib/goal-dev-pipeline-route.mjs";
 import { safeDiscordContent, sanitizeDiscordText } from "./lib/discord-text-safe.mjs";
@@ -2877,9 +2878,10 @@ async function _runGoalStepsInner(goal, channelId, token) {
     const wasAlreadyRunning = step.status === "running";
     step.status = "running";
     saveGoal(MEMORY_DIR, goal);
+    const executionAgent = resolveGoalStepExecutionAgent(step);
     if (!wasAlreadyRunning) {
-      await sendReply(channelId, token, step.agent ?? "shikishima",
-        `⏳ **Step ${step.step}** 実行中 (L${step.autonomyLevel}・${step.agent}): ${step.description}`);
+      await sendReply(channelId, token, executionAgent,
+        `⏳ **Step ${step.step}** 実行中 (L${step.autonomyLevel}・${executionAgent}): ${step.description}`);
     }
 
     const stepPrompt = `[Goal: ${goal.description}]\n[Step ${step.step}]: ${step.description}`;
@@ -2889,7 +2891,7 @@ async function _runGoalStepsInner(goal, channelId, token) {
       const resultPreview = formatGoalStepResultForDiscord(result.text, 400);
       step.status = "completed";
       step.result = resultPreview.slice(0, 200);
-      await sendReply(channelId, token, step.agent ?? "shikishima",
+      await sendReply(channelId, token, executionAgent,
         `✅ **Step ${step.step} 完了**: ${resultPreview}`);
     } else {
       step.status = "failed";

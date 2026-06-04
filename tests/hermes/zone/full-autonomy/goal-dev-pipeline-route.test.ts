@@ -3,6 +3,7 @@ import {
   buildGoalDevPipelineInstruction,
   formatGoalStepResultForDiscord,
   parseGoalGoApproval,
+  resolveGoalStepExecutionAgent,
   shouldRouteGoalStepToDevPipeline
 } from "../../../../scripts/lib/goal-dev-pipeline-route.mjs";
 
@@ -32,6 +33,13 @@ describe("goal dev pipeline routing", () => {
       agent: "tsumugi",
       autonomyLevel: 2
     })).toBe(false);
+  });
+
+  it("resolves tsumugi as execution agent for any L3+ step", () => {
+    expect(resolveGoalStepExecutionAgent({ agent: "hajime", autonomyLevel: 3 })).toBe("tsumugi");
+    expect(resolveGoalStepExecutionAgent({ agent: "shizume", autonomyLevel: 4 })).toBe("tsumugi");
+    expect(resolveGoalStepExecutionAgent({ agent: "hajime", autonomyLevel: 2 })).toBe("hajime");
+    expect(resolveGoalStepExecutionAgent({ autonomyLevel: 1 })).toBe("shikishima");
   });
 
   it("builds a guarded instruction for subscription dev execution", () => {
