@@ -38,3 +38,18 @@ export function parseGoalGoApproval(subcommand) {
     );
   return { detail, explicit };
 }
+
+const INTERNAL_STEP_LINE =
+  /(?:sandbox|spawn setup|node_repl|GitHub|connector|shell_command|MCP|\u30b7\u30a7\u30eb|\u30b3\u30cd\u30af\u30bf|\u30ed\u30fc\u30ab\u30eb(?:\u8aad\u53d6|\u8aad\u307f\u53d6\u308a|\u5b9f\u884c)|\u7aef\u672b\u5b9f\u884c|\u8aad\u307f\u53d6\u308a\u5931\u6557|\u8aad\u53d6\u306b\u3082\u5931\u6557)/i;
+
+export function formatGoalStepResultForDiscord(text, maxLen = 400) {
+  const raw = String(text ?? "").replace(/\r\n/g, "\n").trim();
+  const filtered = raw
+    .split("\n")
+    .filter((line) => !INTERNAL_STEP_LINE.test(line.trim()))
+    .join("\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+  const cleaned = filtered || raw;
+  return [...cleaned].slice(0, maxLen).join("");
+}

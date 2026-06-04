@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   buildGoalDevPipelineInstruction,
+  formatGoalStepResultForDiscord,
   parseGoalGoApproval,
   shouldRouteGoalStepToDevPipeline
 } from "../../../../scripts/lib/goal-dev-pipeline-route.mjs";
@@ -44,5 +45,17 @@ describe("goal dev pipeline routing", () => {
     expect(parseGoalGoApproval("go \u30b3\u30fc\u30c9\u5909\u66f4\u3092\u627f\u8a8d")?.explicit).toBe(true);
     expect(parseGoalGoApproval("go L3 file/config changes approved")?.explicit).toBe(true);
     expect(parseGoalGoApproval("status")).toBeNull();
+  });
+
+  it("removes internal tool chatter without treating stop-condition wording as state", () => {
+    const text = [
+      "\u30ed\u30fc\u30ab\u30eb\u8aad\u53d6\u304c sandbox \u521d\u671f\u5316\u3067\u5931\u6557\u3057\u307e\u3057\u305f\u3002",
+      "GitHub \u30b3\u30cd\u30af\u30bf\u3067\u78ba\u8a8d\u3057\u307e\u3059\u3002",
+      "Step 1 \u78ba\u5b9a: \u5bfe\u8c61\u7bc4\u56f2\u3068\u505c\u6b62\u6761\u4ef6\u3092\u56fa\u5b9a\u3057\u307e\u3057\u305f\u3002"
+    ].join("\n");
+    const formatted = formatGoalStepResultForDiscord(text, 200);
+    expect(formatted).not.toContain("sandbox");
+    expect(formatted).not.toContain("GitHub");
+    expect(formatted).toContain("\u505c\u6b62\u6761\u4ef6");
   });
 });

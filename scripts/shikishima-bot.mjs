@@ -124,6 +124,7 @@ import {
 import { isGoalSlashCommand, isCliCapacityError } from "./lib/goal-slash-routing.mjs";
 import {
   buildGoalDevPipelineInstruction,
+  formatGoalStepResultForDiscord,
   parseGoalGoApproval,
   shouldRouteGoalStepToDevPipeline
 } from "./lib/goal-dev-pipeline-route.mjs";
@@ -2885,10 +2886,11 @@ async function _runGoalStepsInner(goal, channelId, token) {
     const result = await executeGoalStep(goal, step, stepPrompt, channelId, token);
 
     if (result.ok) {
+      const resultPreview = formatGoalStepResultForDiscord(result.text, 400);
       step.status = "completed";
-      step.result = result.text.slice(0, 200);
+      step.result = resultPreview.slice(0, 200);
       await sendReply(channelId, token, step.agent ?? "shikishima",
-        `✅ **Step ${step.step} 完了**: ${result.text.slice(0, 400)}`);
+        `✅ **Step ${step.step} 完了**: ${resultPreview}`);
     } else {
       step.status = "failed";
       goal.status = "paused";
