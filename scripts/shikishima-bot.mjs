@@ -2705,6 +2705,10 @@ async function handleGoalCommand(text, channelId, token) {
       await sendReply(channelId, token, "shikishima", "⏸ 承認待ちの goal がありません。");
       return;
     }
+    const step = goal.steps?.[goal.currentStep];
+    if (step && Number(step.autonomyLevel ?? 0) >= 3 && step.status === "paused") {
+      step.status = "approved";
+    }
     goal.status = "active";
     saveGoal(MEMORY_DIR, goal);
     await sendReply(channelId, token, "shikishima", "✅ 承認されました。実行を再開します…");
@@ -2788,7 +2792,7 @@ async function runGoalSteps(goal, channelId, token) {
     if (step.status === "completed") { goal.currentStep++; continue; }
 
     // L3+ は確認待ち
-    if (step.autonomyLevel >= 3) {
+    if (step.autonomyLevel >= 3 && step.status !== "approved") {
       step.status = "paused";
       goal.status = "paused";
       saveGoal(MEMORY_DIR, goal);
