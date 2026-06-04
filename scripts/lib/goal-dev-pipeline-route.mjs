@@ -1,10 +1,6 @@
-function normalizeAgentId(agentId) {
-  return String(agentId ?? "").trim().toLowerCase();
-}
-
 export function shouldRouteGoalStepToDevPipeline(step) {
   const level = Number(step?.autonomyLevel ?? 0);
-  return level >= 3 && normalizeAgentId(step?.agent) === "tsumugi";
+  return level >= 3;
 }
 
 export function buildGoalDevPipelineInstruction(goal, step) {

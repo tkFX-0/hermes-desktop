@@ -7,7 +7,7 @@ import {
 } from "../../../../scripts/lib/goal-dev-pipeline-route.mjs";
 
 describe("goal dev pipeline routing", () => {
-  it("routes only approved-capable tsumugi L3+ steps to dev pipeline", () => {
+  it("routes all L3+ steps to tsumugi dev pipeline regardless of assigned agent", () => {
     expect(shouldRouteGoalStepToDevPipeline({
       agent: "tsumugi",
       autonomyLevel: 3
@@ -19,7 +19,15 @@ describe("goal dev pipeline routing", () => {
     expect(shouldRouteGoalStepToDevPipeline({
       agent: "hajime",
       autonomyLevel: 3
-    })).toBe(false);
+    })).toBe(true);
+    expect(shouldRouteGoalStepToDevPipeline({
+      agent: "shikishima",
+      autonomyLevel: 3
+    })).toBe(true);
+    expect(shouldRouteGoalStepToDevPipeline({
+      agent: "shizume",
+      autonomyLevel: 3
+    })).toBe(true);
     expect(shouldRouteGoalStepToDevPipeline({
       agent: "tsumugi",
       autonomyLevel: 2
