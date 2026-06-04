@@ -7,8 +7,36 @@ import {
   resolveDevPipelineConfig,
   loadWslPreflight
 } from "./dev-pipeline-router.mjs";
-import { wslBash } from "./wsl-exec.mjs";
+import { wslBash, wslBashStdin } from "./wsl-exec.mjs";
 import { execWindowsAgent } from "./win-agent-exec.mjs";
+
+const WSL_ASCII_WORKDIR = "/mnt/c/dev/hermes";
+const CODEX_DEV_MODEL = process.env.SHIKISHIMA_CODEX_DEV_MODEL ?? "gpt-5.4";
+const SUBSCRIPTION_ENV_UNSET =
+  "unset OPENAI_API_KEY OPENAI_ORG_ID OPENAI_PROJECT ANTHROPIC_API_KEY CURSOR_API_KEY XAI_API_KEY; ";
+
+function shQuote(value) {
+  return `'${String(value).replace(/'/g, `'\\''`)}'`;
+}
+
+function subscriptionDevEnv() {
+  const env = { ...process.env };
+  for (const key of [
+    "OPENAI_API_KEY",
+    "OPENAI_ORG_ID",
+    "OPENAI_PROJECT",
+    "ANTHROPIC_API_KEY",
+    "CURSOR_API_KEY",
+    "XAI_API_KEY"
+  ]) {
+    delete env[key];
+  }
+  return env;
+}
+
+function windowsPromptArg(prompt) {
+  return String(prompt ?? "").replace(/\r?\n/g, "\\n");
+}
 
 function envGetter(env) {
   const src = env ?? process.env;
@@ -30,6 +58,25 @@ async function wslExec(_distro, script, timeoutMs = 180_000) {
   };
 }
 
+function sanitizeWslCliOutput(raw) {
+  return String(raw ?? "")
+    .replace(/\x1B\[[0-9;]*[mGKHF]/g, "")
+    .split("\n")
+    .filter((l) => !l.match(/^(session_id:|Session:|Duration:|Messages:|Resume|Initializing|────)/))
+    .join("\n")
+    .trim();
+}
+
+async function wslExecStdin(_distro, script, input, timeoutMs = 180_000) {
+  const r = await wslBashStdin(script, input, { timeoutMs });
+  const text = sanitizeWslCliOutput(r.stdout || r.stderr);
+  return {
+    ok: r.ok && text.length > 0,
+    text: text || String(r.stderr ?? r.error ?? ""),
+    error: r.error
+  };
+}
+
 async function runHermesDev(_prompt, cfg) {
   return {
     ok: false,
@@ -42,9 +89,8 @@ async function runHermesDev(_prompt, cfg) {
 }
 
 async function runClaudeDev(prompt, cfg) {
-  const q = JSON.stringify(prompt);
-  const cmd = `claude -p ${q} --model ${cfg.claudeModel} --output-format text 2>&1`;
-  const r = await wslExec(cfg.wslDistro, cmd);
+  const cmd = `${SUBSCRIPTION_ENV_UNSET}claude --model ${shQuote(cfg.claudeModel)} --output-format text 2>&1`;
+  const r = await wslExecStdin(cfg.wslDistro, cmd, prompt);
   return {
     ok: r.ok,
     text: r.text,
@@ -56,15 +102,17 @@ async function runClaudeDev(prompt, cfg) {
 
 /** Codex CLI — ChatGPT Plus session (`codex login`). Subscription leg; no OpenAI API key. */
 async function runCodexDev(prompt, cfg) {
-  const q = JSON.stringify(prompt);
   const cmd =
-    `codex exec --sandbox workspace-write --ephemeral ${q} 2>&1`;
-  const r = await wslExec(cfg.wslDistro, cmd, 300_000);
+    `if [ -d ${shQuote(WSL_ASCII_WORKDIR)} ]; then cd ${shQuote(WSL_ASCII_WORKDIR)}; fi; ` +
+    SUBSCRIPTION_ENV_UNSET +
+    `codex exec --sandbox workspace-write --skip-git-repo-check --ephemeral ` +
+    `-C ${shQuote(WSL_ASCII_WORKDIR)} --model ${shQuote(CODEX_DEV_MODEL)} - 2>&1`;
+  const r = await wslExecStdin(cfg.wslDistro, cmd, prompt, 300_000);
   return {
     ok: r.ok,
     text: r.text?.slice(0, 12_000) ?? "",
     backend: "codex-cli",
-    model: "codex",
+    model: CODEX_DEV_MODEL,
     lane: "開発"
   };
 }
@@ -73,8 +121,19 @@ async function runCodexDev(prompt, cfg) {
 async function runAgentCliDev(prompt, cfg, cwd) {
   const preflight = loadWslPreflight();
   const bin = preflight?.windows?.agent?.path?.trim() || cfg.agentCliBin;
-  const args = ["-p", prompt, "--model", cfg.composerModel, "--trust", "-f"];
-  const r = await execWindowsAgent(bin, args, { cwd, timeoutMs: 300_000 });
+  const args = [
+    "--print",
+    "--output-format",
+    "text",
+    "--model",
+    cfg.composerModel,
+    "--workspace",
+    cwd,
+    "--trust",
+    "-f",
+    windowsPromptArg(prompt)
+  ];
+  const r = await execWindowsAgent(bin, args, { cwd, timeoutMs: 300_000, env: subscriptionDevEnv() });
   return {
     ok: r.ok,
     text: r.text,
@@ -86,9 +145,8 @@ async function runAgentCliDev(prompt, cfg, cwd) {
 }
 
 async function runWslAgentCliDev(prompt, cfg) {
-  const q = JSON.stringify(prompt);
-  const cmd = `agent -p ${q} --model ${cfg.composerModel} 2>&1`;
-  const r = await wslExec(cfg.wslDistro, cmd);
+  const cmd = `${SUBSCRIPTION_ENV_UNSET}agent -p - --model ${shQuote(cfg.composerModel)} 2>&1`;
+  const r = await wslExecStdin(cfg.wslDistro, cmd, prompt);
   return {
     ok: r.ok,
     text: r.text,
@@ -139,7 +197,7 @@ export async function runDevPipeline(input, env = process.env) {
   }
 
   const chain = resolveDevBackendChain(cfg);
-  const prompt = `[開発タスク/${input.agentId ?? "tsumugi"}]\n${input.prompt}`;
+  const prompt = `[dev-task/${input.agentId ?? "tsumugi"}]\n${input.prompt}`;
   const attempts = [];
 
   const projectRoot = process.cwd();

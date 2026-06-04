@@ -7,7 +7,7 @@ import { spawn } from "node:child_process";
 /**
  * @param {string} bin
  * @param {string[]} args
- * @param {{ cwd?: string, timeoutMs?: number }} [opts]
+ * @param {{ cwd?: string, timeoutMs?: number, env?: NodeJS.ProcessEnv }} [opts]
  */
 export function execWindowsAgent(bin, args, opts = {}) {
   const timeoutMs = opts.timeoutMs ?? 300_000;
@@ -20,6 +20,7 @@ export function execWindowsAgent(bin, args, opts = {}) {
 
     const child = spawn(spawnFile, spawnArgs, {
       cwd,
+      env: opts.env ?? process.env,
       windowsHide: true,
       stdio: ["ignore", "pipe", "pipe"]
     });

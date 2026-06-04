@@ -67,6 +67,8 @@ const MEMORY_DIR = join(BASE, ".shikishima-memory");
 // ASCII パスのジャンクション経由で回避する。存在しなければ BASE にフォールバック。
 const CODEX_ASCII_BASE = existsSync("C:\\dev\\hermes") ? "C:\\dev\\hermes" : BASE;
 const CODEX_WSL_ASCII_BASE = "/mnt/c/dev/hermes";
+const CODEX_WSL_WIN_ASCII_BASE = "C:\\dev\\hermes";
+const CODEX_WSL_SANDBOX_BIN = "/mnt/c/Users/81903/.codex/.sandbox-bin/codex.exe";
 const CODEX_MODEL_OVERRIDE = String(process.env.SHIKISHIMA_CODEX_MODEL ?? "").trim();
 const CODEX_COMPAT_MODEL =
   CODEX_MODEL_OVERRIDE && CODEX_MODEL_OVERRIDE !== "codex" && CODEX_MODEL_OVERRIDE !== "gpt-5.5"
@@ -119,6 +121,7 @@ import {
   createGoal, saveGoal, getActiveGoal,
   parseStepsFromLLM, formatGoalStatus, formatGoalPlanReady, L3_HOLD_PROMPT,
 } from "./lib/goal-engine.mjs";
+import { isGoalSlashCommand, isCliCapacityError } from "./lib/goal-slash-routing.mjs";
 import { safeDiscordContent, sanitizeDiscordText } from "./lib/discord-text-safe.mjs";
 import {
   detectSequentialHumanCheck,
@@ -603,12 +606,6 @@ function callClaude(prompt, model = "claude-sonnet-4-6", _maxTokens = 1024) {
   });
 }
 
-function isCliCapacityError(text) {
-  return /session limit|rate limit|usage limit|too many requests|quota exceeded|limit reached/i.test(
-    String(text ?? ""),
-  );
-}
-
 function friendlyEngineUnavailableText() {
   return "現在応答できません。Claude/Codex の利用枠またはCLI接続が混み合っています。しばらく待ってからもう一度送ってください。";
 }
@@ -753,11 +750,14 @@ function callCodex(prompt, model = "codex") {
       }
     }
     // codex WSL フォールバック: stdin + --json でクリーン出力
-    const wslCwd = existsSync(CODEX_ASCII_BASE) ? CODEX_WSL_ASCII_BASE : BASE;
+    const wslCwd = existsSync(CODEX_ASCII_BASE) ? CODEX_WSL_WIN_ASCII_BASE : BASE;
+    const wslBin =
+      `[ -x ${JSON.stringify(CODEX_WSL_SANDBOX_BIN)} ] && printf %s ${JSON.stringify(CODEX_WSL_SANDBOX_BIN)} || printf %s codex`;
     const wslModel = ` --model ${JSON.stringify(resolvedModel)}`;
     const wslScript =
       `unset OPENAI_API_KEY OPENAI_ORG_ID OPENAI_PROJECT ANTHROPIC_API_KEY CURSOR_API_KEY XAI_API_KEY; ` +
-      `codex exec --sandbox read-only --skip-git-repo-check --ephemeral --json -C ${JSON.stringify(wslCwd)}${wslModel} - 2>&1`;
+      `CODEX_BIN=$(${wslBin}); ` +
+      `"$CODEX_BIN" exec --sandbox read-only --skip-git-repo-check --ephemeral --json -C ${JSON.stringify(wslCwd)}${wslModel} - 2>&1`;
     const second = await new Promise(resolve => {
       let out = "";
       let settled = false;
@@ -2172,11 +2172,6 @@ function isIncomingUserMessage(msg) {
 const EXCLUSIVE_SLASH_CMD =
   /^!(dev-pipeline|human-go|governance|reply-status|obsidian-status)\b/i;
 
-function isGoalSlashCommand(content) {
-  const t = normalizeDiscordUserContent(content).trim();
-  return /^\/goal(?:\b|$)/i.test(t);
-}
-
 function isExclusiveSlashCommand(content) {
   const t = normalizeDiscordUserContent(content);
   if (isGoalSlashCommand(t)) return true;
@@ -2706,7 +2701,8 @@ async function handleGoalCommand(text, channelId, token) {
       return;
     }
     const step = goal.steps?.[goal.currentStep];
-    if (step && Number(step.autonomyLevel ?? 0) >= 3 && step.status === "paused") {
+    if (step && Number(step.autonomyLevel ?? 0) >= 3 &&
+        (step.status === "paused" || step.status === "running")) {
       step.status = "approved";
     }
     goal.status = "active";
@@ -2786,12 +2782,27 @@ async function handleGoalCommand(text, channelId, token) {
   }
 }
 
+let _goalStepsRunning = false;
+
 async function runGoalSteps(goal, channelId, token) {
+  if (_goalStepsRunning) {
+    console.warn("[Goal] runGoalSteps already running, skipping concurrent call");
+    return;
+  }
+  _goalStepsRunning = true;
+  try {
+    await _runGoalStepsInner(goal, channelId, token);
+  } finally {
+    _goalStepsRunning = false;
+  }
+}
+
+async function _runGoalStepsInner(goal, channelId, token) {
   while (goal.currentStep < goal.steps.length) {
     const step = goal.steps[goal.currentStep];
     if (step.status === "completed") { goal.currentStep++; continue; }
 
-    // L3+ は確認待ち
+    // L3+ は確認待ち ("running" は中断回復扱い → 再ホールドせず approved 後に再実行)
     if (step.autonomyLevel >= 3 && step.status !== "approved") {
       step.status = "paused";
       goal.status = "paused";
@@ -2800,11 +2811,14 @@ async function runGoalSteps(goal, channelId, token) {
       return; // /goal go を待つ
     }
 
-    // L0-L2 自動実行
+    // L0-L2 自動実行（または承認済み L3）
+    const wasAlreadyRunning = step.status === "running";
     step.status = "running";
     saveGoal(MEMORY_DIR, goal);
-    await sendReply(channelId, token, step.agent ?? "shikishima",
-      `⏳ **Step ${step.step}** 実行中 (L${step.autonomyLevel}・${step.agent}): ${step.description}`);
+    if (!wasAlreadyRunning) {
+      await sendReply(channelId, token, step.agent ?? "shikishima",
+        `⏳ **Step ${step.step}** 実行中 (L${step.autonomyLevel}・${step.agent}): ${step.description}`);
+    }
 
     const stepPrompt = `[Goal: ${goal.description}]\n[Step ${step.step}]: ${step.description}`;
     let result = await callEngine(step.agent ?? "shikishima", stepPrompt, channelId, { fullPrompt: stepPrompt });
