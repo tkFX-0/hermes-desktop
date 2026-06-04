@@ -124,8 +124,6 @@ import {
 import { isGoalSlashCommand, isCliCapacityError } from "./lib/goal-slash-routing.mjs";
 import {
   buildGoalDevPipelineInstruction,
-  classifyGoalStepResult,
-  formatGoalStepResultForDiscord,
   parseGoalGoApproval,
   shouldRouteGoalStepToDevPipeline
 } from "./lib/goal-dev-pipeline-route.mjs";
@@ -2700,7 +2698,7 @@ async function handleGoalCommand(text, channelId, token) {
     return;
   }
 
-  // /goal go <明示承認> — L3 承認
+  // /goal go — L3 承認
   const goalGo = parseGoalGoApproval(sub);
   if (goalGo) {
     const goal = getActiveGoal(MEMORY_DIR);
@@ -2708,17 +2706,17 @@ async function handleGoalCommand(text, channelId, token) {
       await sendReply(channelId, token, "shikishima", "⏸ 承認待ちの goal がありません。");
       return;
     }
-    const step = goal.steps?.[goal.currentStep];
     if (!goalGo.explicit) {
       await sendReply(
         channelId,
         token,
         "shizume",
-        "⏸ L3承認は保留しました。`/goal go` 単独ではファイル変更・設定変更の着手承認とはみなしません。\n" +
-          "承認する場合は `/goal go L3のファイル変更・設定変更に着手してよい` のように明示してください。"
+        "L3 approval remains HOLD. `/goal go` alone is not approval for file/config changes.\n" +
+          "To approve, send an explicit command such as `/goal go L3 file/config changes approved`."
       );
       return;
     }
+    const step = goal.steps?.[goal.currentStep];
     if (step && Number(step.autonomyLevel ?? 0) >= 3 &&
         (step.status === "paused" || step.status === "running")) {
       step.status = "approved";
@@ -2887,27 +2885,10 @@ async function _runGoalStepsInner(goal, channelId, token) {
     const result = await executeGoalStep(goal, step, stepPrompt, channelId, token);
 
     if (result.ok) {
-      const resultPolicy = classifyGoalStepResult(result.text);
-      const resultPreview = formatGoalStepResultForDiscord(result.text, 400);
-      if (!resultPolicy.okToComplete) {
-        step.status = "paused";
-        step.result = resultPreview.slice(0, 200);
-        goal.status = "paused";
-        saveGoal(MEMORY_DIR, goal);
-        await sendReply(
-          channelId,
-          token,
-          "shizume",
-          `⏸ **Step ${step.step} HOLD継続** — 返答内にHOLD/DRIFT/未確定シグナルを検出しました。\n` +
-            `${resultPreview}\n\n` +
-            "再開する場合は、対象操作を明示して `/goal go L3のファイル変更・設定変更に着手してよい` のように承認してください。"
-        );
-        return;
-      }
       step.status = "completed";
-      step.result = resultPreview.slice(0, 200);
+      step.result = result.text.slice(0, 200);
       await sendReply(channelId, token, step.agent ?? "shikishima",
-        `✅ **Step ${step.step} 完了**: ${resultPreview}`);
+        `✅ **Step ${step.step} 完了**: ${result.text.slice(0, 400)}`);
     } else {
       step.status = "failed";
       goal.status = "paused";

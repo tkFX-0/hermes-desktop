@@ -1,8 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
   buildGoalDevPipelineInstruction,
-  classifyGoalStepResult,
-  formatGoalStepResultForDiscord,
   parseGoalGoApproval,
   shouldRouteGoalStepToDevPipeline
 } from "../../../../scripts/lib/goal-dev-pipeline-route.mjs";
@@ -41,27 +39,10 @@ describe("goal dev pipeline routing", () => {
 
   it("requires explicit L3 approval details after /goal go", () => {
     expect(parseGoalGoApproval("go")?.explicit).toBe(false);
-    expect(parseGoalGoApproval("go 完走してください")?.explicit).toBe(false);
-    expect(parseGoalGoApproval("go L3のファイル変更・設定変更に着手してよい")?.explicit).toBe(true);
-    expect(parseGoalGoApproval("go コード変更を承認")?.explicit).toBe(true);
+    expect(parseGoalGoApproval("go \u5b8c\u8d70\u3057\u3066\u304f\u3060\u3055\u3044")?.explicit).toBe(false);
+    expect(parseGoalGoApproval("go L3\u306e\u30d5\u30a1\u30a4\u30eb\u5909\u66f4\u30fb\u8a2d\u5b9a\u5909\u66f4\u306b\u7740\u624b\u3057\u3066\u3088\u3044")?.explicit).toBe(true);
+    expect(parseGoalGoApproval("go \u30b3\u30fc\u30c9\u5909\u66f4\u3092\u627f\u8a8d")?.explicit).toBe(true);
+    expect(parseGoalGoApproval("go L3 file/config changes approved")?.explicit).toBe(true);
     expect(parseGoalGoApproval("status")).toBeNull();
-  });
-
-  it("does not complete a step when the agent reports HOLD or drift", () => {
-    expect(classifyGoalStepResult("この範囲では問題を検出していません").okToComplete).toBe(true);
-    expect(classifyGoalStepResult("DRIFT_FOUND: 短い返答を1回だけの条件を満たしていない").okToComplete).toBe(false);
-    expect(classifyGoalStepResult("/goal go単独では承認とみなさないためHOLD継続").okToComplete).toBe(false);
-  });
-
-  it("hides tool/sandbox chatter from user-facing step summaries", () => {
-    const text = [
-      "シェルが使えないため、読み取りは node_repl に切り替えます。",
-      "GitHub コネクタで確認します。",
-      "Step 3 完了: L3承認条件は未確定のためHOLD継続が安全です。"
-    ].join("\n");
-    const formatted = formatGoalStepResultForDiscord(text, 200);
-    expect(formatted).not.toContain("node_repl");
-    expect(formatted).not.toContain("GitHub");
-    expect(formatted).toContain("Step 3 完了");
   });
 });

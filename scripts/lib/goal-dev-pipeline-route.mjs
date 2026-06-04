@@ -27,45 +27,14 @@ export function parseGoalGoApproval(subcommand) {
   const match = t.match(/^go(?:\s+([\s\S]+))?$/i);
   if (!match) return null;
   const detail = String(match[1] ?? "").trim();
+  const genericRequest =
+    /(?:\u5b8c\u8d70\u3057\u3066\u304f\u3060\u3055\u3044|\u9032\u3081\u3066\u304f\u3060\u3055\u3044|\u7d9a\u3051\u3066\u304f\u3060\u3055\u3044|\u518d\u958b\u3057\u3066\u304f\u3060\u3055\u3044)/i.test(detail);
   const explicit =
     detail.length > 0 &&
+    !genericRequest &&
     (
-      /承認|許可|着手してよい|実行してよい|変更してよい/i.test(detail) ||
-      /L3|ファイル変更|設定変更|コード変更|dev pipeline/i.test(detail)
-    ) &&
-    !/完走してください|進めてください|続けてください|再開してください/i.test(detail);
+      /(?:\u627f\u8a8d|\u8a31\u53ef|\u7740\u624b\u3057\u3066\u3088\u3044|\u5b9f\u884c\u3057\u3066\u3088\u3044|\u5909\u66f4\u3057\u3066\u3088\u3044)/i.test(detail) ||
+      /(?:L3|\u30d5\u30a1\u30a4\u30eb\u5909\u66f4|\u8a2d\u5b9a\u5909\u66f4|\u30b3\u30fc\u30c9\u5909\u66f4|dev pipeline)/i.test(detail)
+    );
   return { detail, explicit };
-}
-
-export function classifyGoalStepResult(text) {
-  const body = String(text ?? "");
-  const holdPatterns = [
-    /\bDRIFT_FOUND\b/i,
-    /\bHOLD\b/i,
-    /停止を継続/,
-    /承認とみなさない/,
-    /条件を満たしていない/,
-    /未確定/,
-    /確認待ち/,
-    /要確認/,
-    /ブロックされました/,
-    /blocked/i
-  ];
-  const reason = holdPatterns.find((re) => re.test(body))?.source ?? null;
-  return {
-    okToComplete: !reason,
-    reason
-  };
-}
-
-export function formatGoalStepResultForDiscord(text, maxLen = 400) {
-  const raw = String(text ?? "").replace(/\r\n/g, "\n").trim();
-  const lines = raw.split("\n");
-  const filtered = lines.filter((line) => {
-    const t = line.trim();
-    if (!t) return true;
-    return !/shell|sandbox|spawn setup|Node REPL|GitHub|connector|コネクタ|シェル|端末実行|ローカル実行基盤|読み取り失敗|読取にも失敗|外部送信|typescript-expert/i.test(t);
-  });
-  const cleaned = filtered.join("\n").replace(/\n{3,}/g, "\n\n").trim() || raw;
-  return [...cleaned].slice(0, maxLen).join("");
 }

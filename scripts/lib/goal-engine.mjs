@@ -112,11 +112,11 @@ export function formatGoalPlanReady(goal) {
 // ─── 自律レベル判定 ───────────────────────────────────────────────────────────
 
 export const L3_HOLD_PROMPT = (step) =>
-  `⏸ **L${step.autonomyLevel} 確認待ち** — Step ${step.step}: ${step.description}\n\n` +
-  `**何を**: ${step.description}\n` +
-  `**エージェント**: ${step.agent}\n` +
-  `**リスク**: L${step.autonomyLevel} 操作（ファイル変更・設定変更・外部操作を含む可能性）\n` +
-  `**戻し方**: git revert または手動で元のファイルを復元\n\n` +
-  "`/goal go` 単独では承認しません。\n" +
-  "承認する場合は `/goal go L3のファイル変更・設定変更に着手してよい` のように、対象操作を明示してください。\n" +
-  "スキップ/中止: `/goal cancel`";
+  `L${step.autonomyLevel} confirmation required - Step ${step.step}: ${step.description}\n\n` +
+  `What: ${step.description}\n` +
+  `Agent: ${step.agent}\n` +
+  `Risk: L${step.autonomyLevel} operation may include file/config/external changes.\n` +
+  `Rollback: git revert or restore the touched files manually.\n\n` +
+  "`/goal go` alone is not approval.\n" +
+  "To approve, send: `/goal go L3 file/config changes approved`\n" +
+  "Cancel: `/goal cancel`";
