@@ -8,6 +8,14 @@ import { join } from "node:path";
 import { buildOperatorNotifyContent } from "./discord-human-approval-notify.mjs";
 import { safeDiscordContent } from "./discord-text-safe.mjs";
 
+export const KAIHATU_AUTO_REVIEW_TESTS = [
+  "tests/hermes/zone/dev-pipeline-composer-fallback.test.ts",
+  "tests/hermes/zone/dev-pipeline-zone-smoke.test.ts",
+  "tests/hermes/zone/full-autonomy/full-autonomy-dev-pipeline.test.ts",
+  "tests/hermes/zone/full-autonomy/full-autonomy-discord-dev-commands.test.ts",
+  "tests/hermes/zone/full-autonomy/goal-command-routing.test.ts",
+];
+
 /**
  * @param {string} root
  */
@@ -79,7 +87,7 @@ export function runDesignReviewChecklistLocal(input) {
 export function runZoneVitest(root) {
   const r = spawnSync(
     process.platform === "win32" ? "npx.cmd" : "npx",
-    ["vitest", "run", "tests/hermes/zone/full-autonomy", "--reporter=dot"],
+    ["vitest", "run", ...KAIHATU_AUTO_REVIEW_TESTS, "--reporter=dot"],
     {
       cwd: root,
       encoding: "utf-8",
