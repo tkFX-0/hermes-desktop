@@ -1,14 +1,28 @@
 import { describe, expect, it } from "vitest";
+import { execFileSync } from "node:child_process";
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import {
   buildGoalDevPipelineInstruction,
   buildGoalReadOnlyInstruction,
+  captureReadOnlyGitSnapshot,
   checkReadOnlyViolation,
   formatGoalStepResultForDiscord,
   parseGoalGoApproval,
+  revertReadOnlyViolation,
   resolveGoalStepExecutionAgent,
   shouldRouteGoalStepToDevPipeline,
   shouldRouteGoalStepToReadOnlyPipeline
 } from "../../../../scripts/lib/goal-dev-pipeline-route.mjs";
+
+function git(repo: string, args: string[]) {
+  return execFileSync("git", args, { cwd: repo, encoding: "utf8" });
+}
+
+function readText(repo: string, file: string) {
+  return readFileSync(join(repo, file), "utf8").replace(/\r\n/g, "\n");
+}
 
 describe("goal dev pipeline routing", () => {
   it("routes all L3+ steps to tsumugi dev pipeline regardless of assigned agent", () => {
@@ -113,6 +127,41 @@ describe("goal dev pipeline routing", () => {
     // Only valid after committing; skip assertion if git unavailable
     expect(typeof result.dirty).toBe("boolean");
     expect(typeof result.summary).toBe("string");
+  });
+
+  it("reverts only paths newly dirtied by the read-only step", () => {
+    const repo = mkdtempSync(join(tmpdir(), "goal-ro-"));
+    try {
+      git(repo, ["init", "-q"]);
+      git(repo, ["config", "user.name", "Test User"]);
+      git(repo, ["config", "user.email", "test@example.com"]);
+      writeFileSync(join(repo, "user-work.txt"), "base user\n", "utf8");
+      writeFileSync(join(repo, "step-work.txt"), "base step\n", "utf8");
+      git(repo, ["add", "."]);
+      git(repo, ["commit", "-q", "-m", "init"]);
+
+      writeFileSync(join(repo, "user-work.txt"), "user dirty\n", "utf8");
+      writeFileSync(join(repo, "user-note.txt"), "user untracked\n", "utf8");
+      const before = captureReadOnlyGitSnapshot(repo);
+
+      writeFileSync(join(repo, "step-work.txt"), "step dirty\n", "utf8");
+      writeFileSync(join(repo, "step-note.txt"), "step untracked\n", "utf8");
+      const violation = checkReadOnlyViolation(repo, before);
+      expect(violation.dirty).toBe(true);
+      expect(violation.summary).toContain("step-work.txt");
+      expect(violation.summary).toContain("step-note.txt");
+      expect(violation.summary).not.toContain("user-work.txt");
+      expect(violation.summary).not.toContain("user-note.txt");
+
+      const reverted = revertReadOnlyViolation(repo, before, violation.snapshot);
+      expect(reverted.reverted).toBe(true);
+      expect(readText(repo, "step-work.txt")).toBe("base step\n");
+      expect(existsSync(join(repo, "step-note.txt"))).toBe(false);
+      expect(readText(repo, "user-work.txt")).toBe("user dirty\n");
+      expect(readText(repo, "user-note.txt")).toBe("user untracked\n");
+    } finally {
+      rmSync(repo, { recursive: true, force: true });
+    }
   });
 
   it("removes internal tool chatter without treating stop-condition wording as state", () => {

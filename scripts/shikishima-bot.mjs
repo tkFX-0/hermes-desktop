@@ -125,6 +125,7 @@ import { isGoalSlashCommand, isCliCapacityError } from "./lib/goal-slash-routing
 import {
   buildGoalDevPipelineInstruction,
   buildGoalReadOnlyInstruction,
+  captureReadOnlyGitSnapshot,
   checkReadOnlyViolation,
   formatGoalStepResultForDiscord,
   parseGoalGoApproval,
@@ -2902,13 +2903,14 @@ async function executeGoalStep(goal, step, stepPrompt, channelId, token) {
     await sendReply(channelId, token, assignedAgent,
       `⏳ [Goal] Step ${step.step} → 読取専用パイプライン (L${step.autonomyLevel}・${assignedAgent})`);
 
+    const readOnlyBefore = captureReadOnlyGitSnapshot(BASE);
     const ro = await runKaihatuReadOnly(instruction, assignedAgent, mergedEnv);
     await sendReply(channelId, token, ro.agentId, ro.text);
 
     // (b) git status guard: detect and revert any write violation
-    const violation = checkReadOnlyViolation(BASE);
+    const violation = checkReadOnlyViolation(BASE, readOnlyBefore);
     if (violation.dirty) {
-      const rv = revertReadOnlyViolation(BASE);
+      const rv = revertReadOnlyViolation(BASE, readOnlyBefore, violation.snapshot);
       await sendReply(channelId, token, "shizume",
         `🚨 **read-only違反検出** Step ${step.step} (L${step.autonomyLevel}): ファイルが変更されました。\n` +
         `変更内容: ${violation.summary}\n` +

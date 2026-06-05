@@ -1,4 +1,6 @@
 import { execFileSync } from "node:child_process";
+import { existsSync, rmSync } from "node:fs";
+import { isAbsolute, relative, resolve } from "node:path";
 
 export function shouldRouteGoalStepToDevPipeline(step) {
   const level = Number(step?.autonomyLevel ?? 0);
@@ -90,20 +92,92 @@ export function formatGoalStepResultForDiscord(text, maxLen = 400) {
   return [...cleaned].slice(0, maxLen).join("");
 }
 
-/**
- * (b) Read-only violation guard: detect uncommitted changes after an L0-L2 step.
- * @param {string} repoRoot
- * @returns {{ dirty: boolean, summary: string }}
- */
-export function checkReadOnlyViolation(repoRoot) {
+function parseGitStatusLine(line) {
+  const status = line.slice(0, 2);
+  const rawPath = line.slice(3);
+  const path = rawPath.includes(" -> ") ? rawPath.split(" -> ").pop() : rawPath;
+  return {
+    status,
+    path,
+    raw: line,
+    untracked: status === "??"
+  };
+}
+
+function readGitStatusSnapshot(repoRoot) {
   try {
     const out = execFileSync("git", ["status", "--porcelain"], {
       cwd: repoRoot,
       encoding: "utf8",
       timeout: 10_000
-    }).trim();
-    if (!out) return { dirty: false, summary: "clean" };
-    const lines = out.split("\n").filter(Boolean);
+    });
+    const lines = out.replace(/\r?\n$/, "").split(/\r?\n/).filter(Boolean);
+    return {
+      ok: true,
+      entries: lines.map(parseGitStatusLine),
+      lines
+    };
+  } catch (e) {
+    return {
+      ok: false,
+      entries: [],
+      lines: [],
+      error: String(e?.message ?? e).slice(0, 120)
+    };
+  }
+}
+
+function statusSummary(entries) {
+  if (!entries.length) return "clean";
+  return entries.map((e) => e.raw).slice(0, 5).join(", ") +
+    (entries.length > 5 ? ` ... (${entries.length} total)` : "");
+}
+
+function newEntriesOnly(beforeSnapshot, afterSnapshot) {
+  const beforePaths = new Set((beforeSnapshot?.entries ?? []).map((e) => e.path));
+  return (afterSnapshot?.entries ?? []).filter((e) => !beforePaths.has(e.path));
+}
+
+function resolveSafeRepoPath(repoRoot, repoRelativePath) {
+  const root = resolve(repoRoot);
+  const target = resolve(root, repoRelativePath);
+  const rel = relative(root, target);
+  if (rel === "" || rel.startsWith("..") || isAbsolute(rel)) return null;
+  return target;
+}
+
+export function captureReadOnlyGitSnapshot(repoRoot) {
+  return readGitStatusSnapshot(repoRoot);
+}
+
+/**
+ * (b) Read-only violation guard: detect uncommitted changes after an L0-L2 step.
+ * @param {string} repoRoot
+ * @returns {{ dirty: boolean, summary: string }}
+ */
+export function checkReadOnlyViolation(repoRoot, beforeSnapshot = null) {
+  if (beforeSnapshot?.ok) {
+    const snapshot = readGitStatusSnapshot(repoRoot);
+    if (!snapshot.ok) {
+      return { dirty: false, summary: `git_status_error: ${snapshot.error}` };
+    }
+    const entries = newEntriesOnly(beforeSnapshot, snapshot);
+    if (!entries.length) return { dirty: false, summary: "clean", snapshot, entries };
+    return {
+      dirty: true,
+      summary: statusSummary(entries),
+      snapshot,
+      entries
+    };
+  }
+  try {
+    const out = execFileSync("git", ["status", "--porcelain"], {
+      cwd: repoRoot,
+      encoding: "utf8",
+      timeout: 10_000
+    });
+    const lines = out.replace(/\r?\n$/, "").split(/\r?\n/).filter(Boolean);
+    if (!lines.length) return { dirty: false, summary: "clean" };
     return {
       dirty: true,
       summary: lines.slice(0, 5).join(", ") + (lines.length > 5 ? ` … (${lines.length} total)` : "")
@@ -119,11 +193,51 @@ export function checkReadOnlyViolation(repoRoot) {
  * @param {string} repoRoot
  * @returns {{ reverted: boolean, error?: string }}
  */
-export function revertReadOnlyViolation(repoRoot) {
+export function revertReadOnlyViolation(repoRoot, beforeSnapshot = null, afterSnapshot = null) {
+  if (beforeSnapshot?.ok) {
+    try {
+      const after = afterSnapshot?.ok ? afterSnapshot : readGitStatusSnapshot(repoRoot);
+      if (!after.ok) return { reverted: false, error: `git_status_error: ${after.error}` };
+
+      const entries = newEntriesOnly(beforeSnapshot, after);
+      const tracked = entries.filter((e) => !e.untracked).map((e) => e.path);
+      const untracked = entries.filter((e) => e.untracked).map((e) => e.path);
+      const skipped = [];
+
+      if (tracked.length) {
+        execFileSync("git", ["reset", "--", ...tracked], {
+          cwd: repoRoot,
+          encoding: "utf8",
+          timeout: 15_000
+        });
+        execFileSync("git", ["checkout", "--", ...tracked], {
+          cwd: repoRoot,
+          encoding: "utf8",
+          timeout: 15_000
+        });
+      }
+
+      for (const relPath of untracked) {
+        const target = resolveSafeRepoPath(repoRoot, relPath);
+        if (!target || !existsSync(target)) {
+          skipped.push(relPath);
+          continue;
+        }
+        rmSync(target, { recursive: true, force: true });
+      }
+
+      return {
+        reverted: true,
+        tracked: tracked.length,
+        untracked: untracked.length - skipped.length,
+        skipped
+      };
+    } catch (e) {
+      return { reverted: false, error: String(e?.message ?? e).slice(0, 120) };
+    }
+  }
   try {
-    execFileSync("git", ["checkout", "--", "."], { cwd: repoRoot, encoding: "utf8", timeout: 15_000 });
-    execFileSync("git", ["clean", "-f"], { cwd: repoRoot, encoding: "utf8", timeout: 15_000 });
-    return { reverted: true };
+    throw new Error("read_only_revert_requires_before_snapshot");
   } catch (e) {
     return { reverted: false, error: String(e?.message ?? e).slice(0, 120) };
   }
