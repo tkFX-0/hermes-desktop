@@ -52,6 +52,7 @@ describe("goal dev pipeline routing", () => {
     expect(instruction).toContain("do not push");
     expect(instruction).toContain("do not merge to main");
     expect(instruction).toContain("--yolo");
+    expect(instruction).toContain("preflight --clean");
   });
 
   it("requires explicit L3 approval details after /goal go", () => {

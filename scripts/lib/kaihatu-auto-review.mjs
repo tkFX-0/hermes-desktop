@@ -14,6 +14,8 @@ export const KAIHATU_AUTO_REVIEW_TESTS = [
   "tests/hermes/zone/full-autonomy/full-autonomy-dev-pipeline.test.ts",
   "tests/hermes/zone/full-autonomy/full-autonomy-discord-dev-commands.test.ts",
   "tests/hermes/zone/full-autonomy/goal-command-routing.test.ts",
+  "tests/hermes/zone/full-autonomy/goal-dev-pipeline-route.test.ts",
+  "tests/hermes/zone/full-autonomy/goal-process-preflight.test.ts",
 ];
 
 /**

@@ -21,6 +21,7 @@ export function buildGoalDevPipelineInstruction(goal, step) {
     "",
     "AGENTS.md section 5/6 must be followed.",
     "Work on a branch, do not push, do not merge to main, do not use --yolo or raw API keys.",
+    "For PID/process cleanup: run read-only preflight first; do NOT taskkill or `preflight --clean` without explicit L4 human approval.",
     "Report what/why/risk/rollback in Japanese."
   ].join("\n");
 }
