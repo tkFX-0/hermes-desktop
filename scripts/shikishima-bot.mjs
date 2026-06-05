@@ -588,7 +588,9 @@ function callClaude(prompt, model = "claude-sonnet-4-6", _maxTokens = 1024) {
 
     let child;
     try {
-      child = spawn("wsl", ["-d", "Ubuntu", "-u", "root", "--", "bash", "-lc", wslScript]);
+      child = spawn("wsl", ["-d", "Ubuntu", "-u", "root", "--", "bash", "-lc", wslScript], {
+        windowsHide: true
+      });
     } catch (e) {
       return done({ ok: false, text: e.message });
     }
@@ -655,6 +657,7 @@ function execCli(command, args, options = {}) {
           maxBuffer: options.maxBuffer ?? 4 * 1024 * 1024,
           env: subscriptionCliEnv(),
           cwd: BASE,
+          windowsHide: true,
           ...options
         },
         (err, stdout, stderr) => {
@@ -733,7 +736,7 @@ function callCodex(prompt, model = "codex") {
         let settled = false;
         const done = r => { if (!settled) { settled = true; resolve(r); } };
         let child;
-        try { child = spawn(bin, baseArgs, { env: subscriptionCliEnv(), cwd: CODEX_ASCII_BASE }); }
+        try { child = spawn(bin, baseArgs, { env: subscriptionCliEnv(), cwd: CODEX_ASCII_BASE, windowsHide: true }); }
         catch (e) { return done({ ok: false, text: e.message }); }
         const timer = setTimeout(() => { try { child.kill(); } catch { /* ignore */ } done({ ok: false, text: "codex timeout" }); }, 300_000);
         child.stdout?.on("data", d => { out += String(d); });
@@ -769,7 +772,11 @@ function callCodex(prompt, model = "codex") {
       let settled = false;
       const done = r => { if (!settled) { settled = true; resolve(r); } };
       let child;
-      try { child = spawn("wsl", ["-d", "Ubuntu", "-u", "root", "--", "bash", "-lc", wslScript]); }
+      try {
+        child = spawn("wsl", ["-d", "Ubuntu", "-u", "root", "--", "bash", "-lc", wslScript], {
+          windowsHide: true
+        });
+      }
       catch (e) { return done({ ok: false, text: e.message }); }
       const timer = setTimeout(() => { try { child.kill(); } catch { /* ignore */ } done({ ok: false, text: "codex-wsl timeout" }); }, 300_000);
       child.stdout?.on("data", d => { out += String(d); });
@@ -807,7 +814,9 @@ function callComposer(prompt, model = "composer-2.5") {
         "--print", "--output-format", "text",
         "--mode", "ask", "--model", model, "--trust",
         // プロンプトは stdin で渡す
-      ]);
+      ], {
+        windowsHide: true
+      });
     } catch (e) {
       return done({ ok: false, text: e.message });
     }
