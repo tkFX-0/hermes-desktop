@@ -2,11 +2,11 @@
  * Human GO batch checklist — code readiness vs live activation (no secrets).
  */
 
-import { evaluateBurnInWallClock } from "./burn-in-wall-clock-store.ts";
-import { hasConstitutionalGoScope, resolveConstitutionalGo } from "./constitutional-go-state.ts";
-import { buildGapTracker, type GapTrackerInput } from "./gap-tracker.ts";
-import { resolveOperationalRelease } from "./operational-release-state.ts";
-import { resolveObsidianVaultPath } from "./obsidian-vault-path.ts";
+import { evaluateBurnInWallClock } from "./burn-in-wall-clock-store";
+import { hasConstitutionalGoScope, resolveConstitutionalGo } from "./constitutional-go-state";
+import { buildGapTracker, type GapTrackerInput } from "./gap-tracker";
+import { resolveOperationalRelease } from "./operational-release-state";
+import { resolveObsidianVaultPath } from "./obsidian-vault-path";
 
 export type HumanGoItemStatus = "READY" | "PARTIAL" | "HOLD" | "BLOCKED";
 

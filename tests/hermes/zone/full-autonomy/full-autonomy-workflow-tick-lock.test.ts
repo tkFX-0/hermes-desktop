@@ -1,5 +1,5 @@
 import { describe, expect, it, afterEach } from "vitest";
-import { mkdtempSync, rmSync } from "node:fs";
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import {
@@ -21,7 +21,6 @@ describe("workflow tick lock", () => {
     releaseWorkflowTickLock(dir);
 
     const lp = join(dir, "locks", "workflow-tick.lock");
-    const { writeFileSync, mkdirSync } = require("node:fs");
     mkdirSync(join(dir, "locks"), { recursive: true });
     writeFileSync(lp, `999999999\n${Date.now()}\nstale-bot\n`, "utf8");
 

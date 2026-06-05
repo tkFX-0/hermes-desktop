@@ -184,7 +184,6 @@ import {
 } from "./shikishima-core";
 
 import { resolveShikishimaRuntimeMode } from "./shikishima-runtime-mode";
-import { hasConstitutionalGoScope } from "./shikishima-full-autonomy/constitutional-go-state";
 import { guardedStackchanSayLocal } from "./stackchan-guarded-bridge";
 
 process.on("uncaughtException", (err) => {

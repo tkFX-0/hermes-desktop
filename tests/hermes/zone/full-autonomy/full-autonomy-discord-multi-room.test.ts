@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { resolveChannelRole, readDiscordChannelEnv } from "../../../../scripts/lib/discord-channel-config.mjs";
+import { resolveChannelRole } from "../../../../scripts/lib/discord-channel-config.mjs";
 import {
   buildOperatorNotifyContent,
   isAllowlistedOperatorNotifyPhrase

@@ -14,7 +14,7 @@ interface RuntimeModePayload {
 
 export function DiscordOpsMinimalPage(): React.JSX.Element {
   const [mode, setMode] = useState<RuntimeModePayload | null>(null);
-  const [sidebot, setSidebot] = useState<string>("…");
+  const [sidebot] = useState<string>("…");
   const [stackchan, setStackchan] = useState<string>("…");
 
   useEffect(() => {

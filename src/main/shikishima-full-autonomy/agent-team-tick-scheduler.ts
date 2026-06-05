@@ -5,7 +5,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 
-import { resolveOperationalRelease } from "./operational-release-state.ts";
+import { resolveOperationalRelease } from "./operational-release-state";
 
 const STATE_REL = join(".shikishima-memory", "agent-team-tick-state.json");
 
