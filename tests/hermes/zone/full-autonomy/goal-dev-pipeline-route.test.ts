@@ -3,11 +3,12 @@ import {
   buildGoalDevPipelineInstruction,
   formatGoalStepResultForDiscord,
   parseGoalGoApproval,
+  resolveGoalStepExecutionAgent,
   shouldRouteGoalStepToDevPipeline
 } from "../../../../scripts/lib/goal-dev-pipeline-route.mjs";
 
 describe("goal dev pipeline routing", () => {
-  it("routes only approved-capable tsumugi L3+ steps to dev pipeline", () => {
+  it("routes all L3+ steps to tsumugi dev pipeline regardless of assigned agent", () => {
     expect(shouldRouteGoalStepToDevPipeline({
       agent: "tsumugi",
       autonomyLevel: 3
@@ -19,11 +20,26 @@ describe("goal dev pipeline routing", () => {
     expect(shouldRouteGoalStepToDevPipeline({
       agent: "hajime",
       autonomyLevel: 3
-    })).toBe(false);
+    })).toBe(true);
+    expect(shouldRouteGoalStepToDevPipeline({
+      agent: "shikishima",
+      autonomyLevel: 3
+    })).toBe(true);
+    expect(shouldRouteGoalStepToDevPipeline({
+      agent: "shizume",
+      autonomyLevel: 3
+    })).toBe(true);
     expect(shouldRouteGoalStepToDevPipeline({
       agent: "tsumugi",
       autonomyLevel: 2
     })).toBe(false);
+  });
+
+  it("resolves tsumugi as execution agent for any L3+ step", () => {
+    expect(resolveGoalStepExecutionAgent({ agent: "hajime", autonomyLevel: 3 })).toBe("tsumugi");
+    expect(resolveGoalStepExecutionAgent({ agent: "shizume", autonomyLevel: 4 })).toBe("tsumugi");
+    expect(resolveGoalStepExecutionAgent({ agent: "hajime", autonomyLevel: 2 })).toBe("hajime");
+    expect(resolveGoalStepExecutionAgent({ autonomyLevel: 1 })).toBe("shikishima");
   });
 
   it("builds a guarded instruction for subscription dev execution", () => {
@@ -36,6 +52,7 @@ describe("goal dev pipeline routing", () => {
     expect(instruction).toContain("do not push");
     expect(instruction).toContain("do not merge to main");
     expect(instruction).toContain("--yolo");
+    expect(instruction).toContain("preflight --clean");
   });
 
   it("requires explicit L3 approval details after /goal go", () => {

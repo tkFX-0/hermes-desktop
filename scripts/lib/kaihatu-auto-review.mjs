@@ -14,16 +14,56 @@ export const KAIHATU_AUTO_REVIEW_TESTS = [
   "tests/hermes/zone/full-autonomy/full-autonomy-dev-pipeline.test.ts",
   "tests/hermes/zone/full-autonomy/full-autonomy-discord-dev-commands.test.ts",
   "tests/hermes/zone/full-autonomy/goal-command-routing.test.ts",
+  "tests/hermes/zone/full-autonomy/goal-dev-pipeline-route.test.ts",
+  "tests/hermes/zone/full-autonomy/goal-process-preflight.test.ts",
 ];
+
+/**
+ * @param {string | undefined} value
+ * @param {boolean} defaultValue
+ */
+function envTruthy(value, defaultValue) {
+  if (value === undefined || value === "") return defaultValue;
+  const v = String(value).trim().toLowerCase();
+  if (v === "0" || v === "false" || v === "off" || v === "no") return false;
+  if (v === "1" || v === "true" || v === "on" || v === "yes") return true;
+  return defaultValue;
+}
+
+/**
+ * @param {string} body
+ */
+function parseSimpleEnv(body) {
+  const out = new Map();
+  for (const rawLine of body.split(/\r?\n/)) {
+    const line = rawLine.trim();
+    if (!line || line.startsWith("#")) continue;
+    const eq = line.indexOf("=");
+    if (eq < 0) continue;
+    const key = line.slice(0, eq).trim();
+    const value = line.slice(eq + 1).trim().replace(/^['"]|['"]$/g, "");
+    out.set(key, value);
+  }
+  return out;
+}
 
 /**
  * @param {string} root
  */
 export function gatherDesignReviewInput(root) {
-  const stackchanHold = (() => {
+  const stackchanDeferred = (() => {
     try {
       const env = readFileSync(join(root, ".env.local"), "utf8");
-      return /SHIKISHIMA_STACKCHAN_HOLD\s*=\s*1/m.test(env);
+      const parsed = parseSimpleEnv(env);
+      const unseal = envTruthy(
+        process.env.SHIKISHIMA_STACKCHAN_UNSEAL ?? parsed.get("SHIKISHIMA_STACKCHAN_UNSEAL"),
+        false
+      );
+      const hold = envTruthy(
+        process.env.SHIKISHIMA_STACKCHAN_HOLD ?? parsed.get("SHIKISHIMA_STACKCHAN_HOLD"),
+        true
+      );
+      return !unseal || hold;
     } catch {
       return true;
     }
@@ -35,7 +75,7 @@ export function gatherDesignReviewInput(root) {
   const invariants = existsSync(join(root, "src/main/shikishima-full-autonomy/autonomy-invariants.ts"));
 
   return {
-    stackchanDeferred: stackchanHold,
+    stackchanDeferred,
     phases2to10CodePresent: phases2to10,
     invariantsVerified: invariants,
     executionDisabled: true,

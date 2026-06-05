@@ -10,7 +10,7 @@ import {
   evaluateBurnInMonitor,
   createBurnInMonitor,
   recordBurnInEvent
-} from "./burn-in-monitor.ts";
+} from "./burn-in-monitor";
 
 const REL = join(".shikishima-memory", "burn-in-wall-clock.json");
 

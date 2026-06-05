@@ -39,7 +39,7 @@ function resolveDocPath(projectRoot: string, name: string): string | null {
   if (projErr) return null;
   if (!safeDocBasename(name)) return null;
   try {
-    return join(projectRoot, "docs", "ichikishima", name);
+    return join(projectRoot, "archive", "ichikishima", name);
   } catch {
     return null;
   }
@@ -61,7 +61,7 @@ export function projectHasHermesBridgeGateDocs(projectRoot: string): {
   for (const leaf of DOC_REL) {
     const resolved = resolveDocPath(projectRoot, leaf);
     if (!resolved || !existsSync(resolved)) {
-      missing.push(`docs/ichikishima/${leaf}`);
+      missing.push(`archive/ichikishima/${leaf}`);
     }
   }
   return { ok: missing.length === 0, missing };

@@ -1,10 +1,13 @@
-function normalizeAgentId(agentId) {
-  return String(agentId ?? "").trim().toLowerCase();
-}
-
 export function shouldRouteGoalStepToDevPipeline(step) {
   const level = Number(step?.autonomyLevel ?? 0);
-  return level >= 3 && normalizeAgentId(step?.agent) === "tsumugi";
+  return level >= 3;
+}
+
+/** L3+ dev-pipeline steps always execute as tsumugi regardless of planner agent. */
+export function resolveGoalStepExecutionAgent(step) {
+  return shouldRouteGoalStepToDevPipeline(step)
+    ? "tsumugi"
+    : String(step?.agent ?? "shikishima");
 }
 
 export function buildGoalDevPipelineInstruction(goal, step) {
@@ -18,6 +21,7 @@ export function buildGoalDevPipelineInstruction(goal, step) {
     "",
     "AGENTS.md section 5/6 must be followed.",
     "Work on a branch, do not push, do not merge to main, do not use --yolo or raw API keys.",
+    "For PID/process cleanup: run read-only preflight first; do NOT taskkill or `preflight --clean` without explicit L4 human approval.",
     "Report what/why/risk/rollback in Japanese."
   ].join("\n");
 }

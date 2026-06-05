@@ -131,6 +131,8 @@ export function resolveOperationalRelease(projectRoot = process.cwd()): Operatio
       agentTeamTickEnabled: process.env.SHIKISHIMA_AGENT_TEAM_TICK_ENABLED === "1",
       agentTeamTickIntervalMinutes:
         Number.isFinite(envInterval) && envInterval >= 15 ? envInterval : 360,
+      autonomousOrchestratorEnabled: false,
+      autonomousOrchestratorIntervalMinutes: 30,
       source: "env",
       activatedAtIso: new Date().toISOString(),
       humanGoNote: "env_track_d"

@@ -69,7 +69,7 @@ export interface ControlCenterPathResolutionMainResult {
   readonly rendererSafe: ControlCenterPathResolutionRendererSafe;
 }
 
-const ICHI_DOC_MARK = join("docs", "ichikishima");
+const ICHI_DOC_MARK = join("archive", "ichikishima");
 
 function hasRepoMarker(projectRoot: string): boolean {
   try {
@@ -136,7 +136,7 @@ function buildRendererSafe(params: {
   }
   if (!params.markerFound) {
     lines.push(
-      "Repo marker (docs/ichikishima) not found at resolved project root.",
+      "Repo marker (archive/ichikishima) not found at resolved project root.",
     );
   }
   if (params.zoneCoercionOccurred) {

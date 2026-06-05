@@ -21,6 +21,7 @@ import {
   getActiveGoal,
   formatGoalStatus,
   formatGoalPlanReady,
+  L3_HOLD_PROMPT,
 } from "../../../../scripts/lib/goal-engine.mjs";
 import {
   isGoalSlashCommand,
@@ -274,6 +275,41 @@ describe("formatGoalPlanReady", () => {
       { step: 1, description: "L1ステップ", agent: "shirube", autonomyLevel: 1, status: "pending", result: null },
     ];
     expect(formatGoalPlanReady(goal)).toMatch(/自動/);
+  });
+});
+
+describe("L3_HOLD_PROMPT", () => {
+  it("L3+ では execution agent を tsumugi と表示する", () => {
+    const prompt = L3_HOLD_PROMPT({
+      step: 5,
+      description: "file change",
+      agent: "hajime",
+      autonomyLevel: 3,
+    });
+    expect(prompt).toContain("Execution: tsumugi");
+    expect(prompt).toContain("Agent (plan): hajime");
+  });
+
+  it("L2 では planner agent のみ表示する", () => {
+    const prompt = L3_HOLD_PROMPT({
+      step: 2,
+      description: "read only",
+      agent: "hajime",
+      autonomyLevel: 2,
+    });
+    expect(prompt).toContain("Agent: hajime");
+    expect(prompt).not.toContain("Execution:");
+  });
+
+  it("L4 PID ステップでは process 専用 HOLD を表示する", () => {
+    const prompt = L3_HOLD_PROMPT({
+      step: 7,
+      description: "2 PID 解消に停止・再起動",
+      agent: "shizume",
+      autonomyLevel: 4,
+    });
+    expect(prompt).toContain("L4 process confirmation");
+    expect(prompt).not.toContain("L3 file/config changes approved");
   });
 });
 

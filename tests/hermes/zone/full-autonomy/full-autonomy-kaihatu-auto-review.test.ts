@@ -5,6 +5,8 @@ import {
   runDesignReviewChecklistLocal
 } from "../../../../scripts/lib/kaihatu-auto-review.mjs";
 import { parseDevSlashCommand } from "../../../../scripts/lib/discord-dev-commands.mjs";
+import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { join } from "node:path";
 
 const ROOT = join(import.meta.dirname, "../../../..");
@@ -55,5 +57,29 @@ describe("kaihatu auto review", () => {
     expect(input.invariantsVerified).toBe(true);
     const checklist = runDesignReviewChecklistLocal(input);
     expect(checklist.some((c) => c.autoResult === "pass")).toBe(true);
+  });
+
+  it("treats StackChan as sealed unless explicitly unsealed and hold is off", () => {
+    const root = mkdtempSync(join(tmpdir(), "kaihatu-review-"));
+    try {
+      writeFileSync(join(root, ".env.local"), "", "utf8");
+      expect(gatherDesignReviewInput(root).stackchanDeferred).toBe(true);
+
+      writeFileSync(
+        join(root, ".env.local"),
+        "SHIKISHIMA_STACKCHAN_UNSEAL=1\nSHIKISHIMA_STACKCHAN_HOLD=1\n",
+        "utf8"
+      );
+      expect(gatherDesignReviewInput(root).stackchanDeferred).toBe(true);
+
+      writeFileSync(
+        join(root, ".env.local"),
+        "SHIKISHIMA_STACKCHAN_UNSEAL=1\nSHIKISHIMA_STACKCHAN_HOLD=0\n",
+        "utf8"
+      );
+      expect(gatherDesignReviewInput(root).stackchanDeferred).toBe(false);
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
   });
 });

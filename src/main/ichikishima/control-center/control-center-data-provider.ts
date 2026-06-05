@@ -107,7 +107,7 @@ function validateDocsReadPath(
   }
 }
 
-const NEXT_GOALS_RELATIVE = ["docs", "ichikishima", "NEXT_GOALS.md"] as const;
+const NEXT_GOALS_RELATIVE = ["archive", "ichikishima", "NEXT_GOALS.md"] as const;
 
 export function extractNextGoalsFromMarkdown(
   markdown: string,
@@ -142,7 +142,7 @@ export function getNextGoalSummary(input: { projectRoot: string }):
   if (!existsSync(pathGate.absolute)) {
     return {
       ok: false,
-      reason: "NEXT_GOALS.md missing under docs/ichikishima",
+      reason: "NEXT_GOALS.md missing under archive/ichikishima",
     };
   }
 

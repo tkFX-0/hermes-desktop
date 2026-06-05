@@ -3,7 +3,6 @@ import {
   resolveStackchanDiscordVoiceConfig,
   isStackchanVoiceHold,
   isLegacyDiscordVoiceEnabled,
-  isGuardedDiscordVoiceBridgeEnvEnabled,
   formatStackchanDiscordVoiceStatusLine
 } from "../../../../scripts/lib/stackchan-voice-config.mjs";
 
@@ -21,25 +20,32 @@ describe("stackchan voice config", () => {
     expect(resolveStackchanDiscordVoiceConfig().primaryRoute).toBe("hold");
   });
 
-  it("legacy on when hold off and discord voice default", () => {
+  it("voice is HOLD by default until explicit unseal", () => {
     delete process.env.SHIKISHIMA_STACKCHAN_HOLD;
+    delete process.env.SHIKISHIMA_STACKCHAN_UNSEAL;
     delete process.env.STACKCHAN_DISCORD_VOICE;
-    expect(isLegacyDiscordVoiceEnabled()).toBe(true);
+    expect(isStackchanVoiceHold()).toBe(true);
+    expect(isLegacyDiscordVoiceEnabled()).toBe(false);
+    expect(resolveStackchanDiscordVoiceConfig().primaryRoute).toBe("hold");
   });
 
-  it("guarded bridge env separate from legacy", () => {
+  it("guarded bridge env remains blocked while sealed", () => {
     process.env.SHIKISHIMA_STACKCHAN_HOLD = "0";
+    delete process.env.SHIKISHIMA_STACKCHAN_UNSEAL;
     process.env.STACKCHAN_DISCORD_VOICE = "0";
     process.env.SHIKISHIMA_DISCORD_VOICE_BRIDGE = "1";
     const c = resolveStackchanDiscordVoiceConfig();
     expect(c.legacyDiscordEnabled).toBe(false);
     expect(c.guardedBridgeEnvEnabled).toBe(true);
-    expect(c.primaryRoute).toBe("guarded_bridge_only");
+    expect(c.primaryRoute).toBe("hold");
   });
 
-  it("status line includes route", () => {
+  it("explicit unseal is required before legacy voice can become route", () => {
+    process.env.SHIKISHIMA_STACKCHAN_UNSEAL = "1";
     process.env.SHIKISHIMA_STACKCHAN_HOLD = "0";
     process.env.STACKCHAN_DISCORD_VOICE = "1";
+    expect(isStackchanVoiceHold()).toBe(false);
+    expect(isLegacyDiscordVoiceEnabled()).toBe(true);
     expect(formatStackchanDiscordVoiceStatusLine()).toMatch(/route=legacy_voicovox/);
   });
 });

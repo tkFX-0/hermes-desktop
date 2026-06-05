@@ -12,7 +12,6 @@ import { buildContextPrefix } from "./conversation-context";
 import { type AgentId, agentReplyPrefix, resolveAgentId, AGENT_DEFINITIONS } from "./agent-definitions";
 import {
   formatModelTraceLine,
-  getAgentBackendEntry,
   isGlobalGrokResearchHold,
   mayRunHermesResearch,
   resolveAgentReplyRoute
@@ -490,4 +489,3 @@ export function agentIdFromShortName(name: string): AgentId | null {
 
 // 全エージェント定義を返す (UI表示用)
 export { AGENT_DEFINITIONS };
-

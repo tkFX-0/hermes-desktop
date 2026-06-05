@@ -126,8 +126,15 @@ import {
   buildGoalDevPipelineInstruction,
   formatGoalStepResultForDiscord,
   parseGoalGoApproval,
+  resolveGoalStepExecutionAgent,
   shouldRouteGoalStepToDevPipeline
 } from "./lib/goal-dev-pipeline-route.mjs";
+import {
+  assessSidebotProcessReport,
+  isGoalProcessOpStep,
+  parseGoalL4ProcessApproval,
+  runReadOnlySidebotPreflight
+} from "./lib/goal-process-preflight.mjs";
 import { safeDiscordContent, sanitizeDiscordText } from "./lib/discord-text-safe.mjs";
 import {
   detectSequentialHumanCheck,
@@ -2716,6 +2723,16 @@ async function handleGoalCommand(text, channelId, token) {
       await sendReply(channelId, token, "shikishima", "⏸ 承認待ちの goal がありません。");
       return;
     }
+    const step = goal.steps?.[goal.currentStep];
+    const needsL4Process =
+      step && isGoalProcessOpStep(step) && (() => {
+        try {
+          const report = runReadOnlySidebotPreflight(BASE);
+          return assessSidebotProcessReport(report).needsDestructiveOps;
+        } catch {
+          return true;
+        }
+      })();
     if (!goalGo.explicit) {
       await sendReply(
         channelId,
@@ -2726,7 +2743,16 @@ async function handleGoalCommand(text, channelId, token) {
       );
       return;
     }
-    const step = goal.steps?.[goal.currentStep];
+    if (needsL4Process && !parseGoalL4ProcessApproval(goalGo.detail)) {
+      await sendReply(
+        channelId,
+        token,
+        "shizume",
+        "L4 process HOLD: duplicate PID / stale lock detected. L3 file approval is not enough for stop/restart.\n" +
+          "Send e.g. `/goal go L4 stop restart preflight clean approved` after human GO."
+      );
+      return;
+    }
     if (step && Number(step.autonomyLevel ?? 0) >= 3 &&
         (step.status === "paused" || step.status === "running")) {
       step.status = "approved";
@@ -2828,6 +2854,41 @@ async function runGoalSteps(goal, channelId, token) {
 }
 
 async function executeGoalStep(goal, step, stepPrompt, channelId, token) {
+  if (isGoalProcessOpStep(step)) {
+    let report;
+    try {
+      report = runReadOnlySidebotPreflight(BASE);
+    } catch (e) {
+      return {
+        ok: false,
+        text: `read-only preflight failed: ${String(e?.message ?? e).slice(0, 120)}`
+      };
+    }
+    const assessment = assessSidebotProcessReport(report);
+    await sendReply(
+      channelId,
+      token,
+      "shizume",
+      `[Goal] Step ${step.step} L4 process check: ${assessment.summary}`
+    );
+    if (assessment.ok) {
+      return {
+        ok: true,
+        text:
+          `2 PID resolved read-only: ${assessment.summary} ` +
+          "No stop/restart/preflight --clean performed."
+      };
+    }
+    if (!parseGoalL4ProcessApproval(step.approval?.detail)) {
+      return {
+        ok: false,
+        text:
+          `${assessment.summary} Destructive cleanup HOLD — ` +
+          "needs `/goal go L4 stop restart preflight clean approved`."
+      };
+    }
+  }
+
   if (shouldRouteGoalStepToDevPipeline(step)) {
     const mergedEnv = { ...readEnv(), ...process.env };
     const instruction = buildGoalDevPipelineInstruction(goal, step);
@@ -2886,9 +2947,10 @@ async function _runGoalStepsInner(goal, channelId, token) {
     const wasAlreadyRunning = step.status === "running";
     step.status = "running";
     saveGoal(MEMORY_DIR, goal);
+    const executionAgent = resolveGoalStepExecutionAgent(step);
     if (!wasAlreadyRunning) {
-      await sendReply(channelId, token, step.agent ?? "shikishima",
-        `⏳ **Step ${step.step}** 実行中 (L${step.autonomyLevel}・${step.agent}): ${step.description}`);
+      await sendReply(channelId, token, executionAgent,
+        `⏳ **Step ${step.step}** 実行中 (L${step.autonomyLevel}・${executionAgent}): ${step.description}`);
     }
 
     const stepPrompt = `[Goal: ${goal.description}]\n[Step ${step.step}]: ${step.description}`;
@@ -2898,7 +2960,7 @@ async function _runGoalStepsInner(goal, channelId, token) {
       const resultPreview = formatGoalStepResultForDiscord(result.text, 400);
       step.status = "completed";
       step.result = resultPreview.slice(0, 200);
-      await sendReply(channelId, token, step.agent ?? "shikishima",
+      await sendReply(channelId, token, executionAgent,
         `✅ **Step ${step.step} 完了**: ${resultPreview}`);
     } else {
       step.status = "failed";

@@ -5,6 +5,8 @@
 
 import { mkdirSync, writeFileSync, readFileSync, existsSync, readdirSync } from "fs";
 import { join } from "path";
+import { resolveGoalStepExecutionAgent } from "./goal-dev-pipeline-route.mjs";
+import { buildGoalL4ProcessHoldMessage, isGoalProcessOpStep } from "./goal-process-preflight.mjs";
 
 // ─── ストレージ ───────────────────────────────────────────────────────────────
 
@@ -111,12 +113,23 @@ export function formatGoalPlanReady(goal) {
 
 // ─── 自律レベル判定 ───────────────────────────────────────────────────────────
 
-export const L3_HOLD_PROMPT = (step) =>
-  `L${step.autonomyLevel} confirmation required - Step ${step.step}: ${step.description}\n\n` +
-  `What: ${step.description}\n` +
-  `Agent: ${step.agent}\n` +
-  `Risk: L${step.autonomyLevel} operation may include file/config/external changes.\n` +
-  `Rollback: git revert or restore the touched files manually.\n\n` +
-  "`/goal go` alone is not approval.\n" +
-  "To approve, send: `/goal go L3 file/config changes approved`\n" +
-  "Cancel: `/goal cancel`";
+export const L3_HOLD_PROMPT = (step) => {
+  if (isGoalProcessOpStep(step)) {
+    return buildGoalL4ProcessHoldMessage(step);
+  }
+  const executionAgent = resolveGoalStepExecutionAgent(step);
+  const plannerAgent = String(step?.agent ?? "shikishima");
+  const agentLine = executionAgent === plannerAgent
+    ? `Agent: ${executionAgent}`
+    : `Agent (plan): ${plannerAgent} · Execution: ${executionAgent}`;
+  return (
+    `L${step.autonomyLevel} confirmation required - Step ${step.step}: ${step.description}\n\n` +
+    `What: ${step.description}\n` +
+    `${agentLine}\n` +
+    `Risk: L${step.autonomyLevel} operation may include file/config/external changes.\n` +
+    `Rollback: git revert or restore the touched files manually.\n\n` +
+    "`/goal go` alone is not approval.\n" +
+    "To approve, send: `/goal go L3 file/config changes approved`\n" +
+    "Cancel: `/goal cancel`"
+  );
+};
