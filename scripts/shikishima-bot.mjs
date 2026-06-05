@@ -124,10 +124,14 @@ import {
 import { isGoalSlashCommand, isCliCapacityError } from "./lib/goal-slash-routing.mjs";
 import {
   buildGoalDevPipelineInstruction,
+  buildGoalReadOnlyInstruction,
+  checkReadOnlyViolation,
   formatGoalStepResultForDiscord,
   parseGoalGoApproval,
   resolveGoalStepExecutionAgent,
-  shouldRouteGoalStepToDevPipeline
+  revertReadOnlyViolation,
+  shouldRouteGoalStepToDevPipeline,
+  shouldRouteGoalStepToReadOnlyPipeline
 } from "./lib/goal-dev-pipeline-route.mjs";
 import {
   assessSidebotProcessReport,
@@ -146,6 +150,7 @@ import { runMultiRoomDiscordTest } from "./lib/discord-multi-room.mjs";
 import {
   parseDevSlashCommand,
   runKaihatuDev,
+  runKaihatuReadOnly,
   buildKaihatuslotStartMessage,
   runKaihatuTestReview
 } from "./lib/discord-dev-commands.mjs";
@@ -2887,6 +2892,36 @@ async function executeGoalStep(goal, step, stepPrompt, channelId, token) {
           "needs `/goal go L4 stop restart preflight clean approved`."
       };
     }
+  }
+
+  // L0-L2: read-only pipeline route (案B)
+  if (shouldRouteGoalStepToReadOnlyPipeline(step)) {
+    const mergedEnv = { ...readEnv(), ...process.env };
+    const instruction = buildGoalReadOnlyInstruction(goal, step);
+    const assignedAgent = String(step.agent ?? "shikishima");
+    await sendReply(channelId, token, assignedAgent,
+      `⏳ [Goal] Step ${step.step} → 読取専用パイプライン (L${step.autonomyLevel}・${assignedAgent})`);
+
+    const ro = await runKaihatuReadOnly(instruction, assignedAgent, mergedEnv);
+    await sendReply(channelId, token, ro.agentId, ro.text);
+
+    // (b) git status guard: detect and revert any write violation
+    const violation = checkReadOnlyViolation(BASE);
+    if (violation.dirty) {
+      const rv = revertReadOnlyViolation(BASE);
+      await sendReply(channelId, token, "shizume",
+        `🚨 **read-only違反検出** Step ${step.step} (L${step.autonomyLevel}): ファイルが変更されました。\n` +
+        `変更内容: ${violation.summary}\n` +
+        `自動 revert: ${rv.reverted ? "完了" : `失敗 (${rv.error ?? "?"})`}\n` +
+        "HOLD — L0-L2 ステップが書込を行いました。手動確認が必要です。"
+      );
+      return {
+        ok: false,
+        text: `read-only violation detected and ${rv.reverted ? "reverted" : "revert failed"}: ${violation.summary}`
+      };
+    }
+
+    return { ok: ro.ok, text: ro.text };
   }
 
   if (shouldRouteGoalStepToDevPipeline(step)) {

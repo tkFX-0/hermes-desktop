@@ -3,7 +3,7 @@
  */
 
 import { resolveDevPipelineConfig } from "./dev-pipeline-router.mjs";
-import { runDevPipeline } from "./wsl-dev-runner.mjs";
+import { runDevPipeline, runReadOnlyDevPipeline } from "./wsl-dev-runner.mjs";
 import { recordDevPipelineRunGovernance } from "./governance-changelog.mjs";
 import { isPaidApiExplicitlyAllowed } from "./billing-policy.mjs";
 import { safeDiscordContent } from "./discord-text-safe.mjs";
@@ -122,6 +122,47 @@ export function runKaihatuTestReview(root, instruction, env = process.env) {
     testMode: true,
     operatorUserId: env.DISCORD_OPERATOR_USER_ID ?? ""
   });
+}
+
+/**
+ * Run an L0-L2 read-only analysis step through the dev pipeline.
+ * Uses --mode ask (cursor agent) or prompt constraint (claude) to prevent writes.
+ * @param {string} instruction
+ * @param {string} agentId - the assigned agent for attribution
+ * @param {Record<string, string>} env
+ */
+export async function runKaihatuReadOnly(instruction, agentId, env = process.env) {
+  const cfg = resolveDevPipelineConfig((k) => env[k] ?? process.env[k]);
+  if (!cfg.enabled) {
+    return {
+      ok: false,
+      agentId,
+      text: safeDiscordContent(
+        `⏸ **${agentId}** — 読取専用パイプライン未準備\n` +
+          "SHIKISHIMA_DEV_PIPELINE_ENABLED が未設定のため、通常の応答モードで実行します。"
+      )
+    };
+  }
+
+  const dev = await runReadOnlyDevPipeline({ prompt: instruction, agentId }, env);
+
+  if (dev.ok && dev.text) {
+    const backend = dev.backend ?? "readonly";
+    const body =
+      `**${agentId}** — [L0-L2 読取専用]\n` +
+      `${dev.text.slice(0, 1500)}${dev.text.length > 1500 ? "…" : ""}\n\n` +
+      `—\n[読取専用] ${backend} / ${dev.model ?? "?"}`;
+    return { ok: true, agentId, text: safeDiscordContent(body) };
+  }
+
+  return {
+    ok: false,
+    agentId,
+    text: safeDiscordContent(
+      `⚠️ **${agentId}** — 読取専用パイプライン失敗 (${dev.reason ?? "unknown"})\n` +
+        "フォールバック: ナレーションモードで報告します。"
+    )
+  };
 }
 
 export function buildKaihatuslotStartMessage(instruction) {

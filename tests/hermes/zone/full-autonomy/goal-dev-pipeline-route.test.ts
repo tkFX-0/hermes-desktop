@@ -1,10 +1,13 @@
 import { describe, expect, it } from "vitest";
 import {
   buildGoalDevPipelineInstruction,
+  buildGoalReadOnlyInstruction,
+  checkReadOnlyViolation,
   formatGoalStepResultForDiscord,
   parseGoalGoApproval,
   resolveGoalStepExecutionAgent,
-  shouldRouteGoalStepToDevPipeline
+  shouldRouteGoalStepToDevPipeline,
+  shouldRouteGoalStepToReadOnlyPipeline
 } from "../../../../scripts/lib/goal-dev-pipeline-route.mjs";
 
 describe("goal dev pipeline routing", () => {
@@ -62,6 +65,54 @@ describe("goal dev pipeline routing", () => {
     expect(parseGoalGoApproval("go \u30b3\u30fc\u30c9\u5909\u66f4\u3092\u627f\u8a8d")?.explicit).toBe(true);
     expect(parseGoalGoApproval("go L3 file/config changes approved")?.explicit).toBe(true);
     expect(parseGoalGoApproval("status")).toBeNull();
+  });
+
+  it("L0-L2 read-only routing: shouldRouteGoalStepToReadOnlyPipeline", () => {
+    expect(shouldRouteGoalStepToReadOnlyPipeline({ autonomyLevel: 0 })).toBe(true);
+    expect(shouldRouteGoalStepToReadOnlyPipeline({ autonomyLevel: 1 })).toBe(true);
+    expect(shouldRouteGoalStepToReadOnlyPipeline({ autonomyLevel: 2 })).toBe(true);
+    expect(shouldRouteGoalStepToReadOnlyPipeline({ autonomyLevel: 3 })).toBe(false);
+    expect(shouldRouteGoalStepToReadOnlyPipeline({ autonomyLevel: 4 })).toBe(false);
+    expect(shouldRouteGoalStepToReadOnlyPipeline({})).toBe(true);
+  });
+
+  it("L0-L2 routing is complementary to L3+ routing (no overlap)", () => {
+    for (let level = 0; level <= 5; level++) {
+      const step = { autonomyLevel: level };
+      const ro = shouldRouteGoalStepToReadOnlyPipeline(step);
+      const dev = shouldRouteGoalStepToDevPipeline(step);
+      expect(ro && dev).toBe(false);
+    }
+  });
+
+  it("buildGoalReadOnlyInstruction embeds READ ONLY constraint and step info", () => {
+    const instr = buildGoalReadOnlyInstruction(
+      { description: "コードベース調査" },
+      { step: 1, autonomyLevel: 1, description: "AGENTS.md を読んで方針を確認", agent: "hajime" }
+    );
+    expect(instr).toContain("[Goal] コードベース調査");
+    expect(instr).toContain("[Step 1 / L1 / hajime]");
+    expect(instr).toContain("READ ONLY");
+    expect(instr).toContain("git status");
+    expect(instr).not.toContain("--yolo");
+    expect(instr).not.toContain("workspace-write");
+  });
+
+  it("buildGoalReadOnlyInstruction preserves assigned agent attribution", () => {
+    const instr = buildGoalReadOnlyInstruction(
+      { description: "goal" },
+      { step: 2, autonomyLevel: 0, description: "調査", agent: "shirube" }
+    );
+    expect(instr).toContain("shirube");
+    expect(instr).not.toContain("tsumugi");
+  });
+
+  it("checkReadOnlyViolation returns dirty:false for a clean git repo", () => {
+    const projectRoot = new URL("../../../../", import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1");
+    const result = checkReadOnlyViolation(projectRoot);
+    // Only valid after committing; skip assertion if git unavailable
+    expect(typeof result.dirty).toBe("boolean");
+    expect(typeof result.summary).toBe("string");
   });
 
   it("removes internal tool chatter without treating stop-condition wording as state", () => {

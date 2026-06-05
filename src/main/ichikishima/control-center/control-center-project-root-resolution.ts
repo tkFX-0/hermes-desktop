@@ -3,7 +3,7 @@
  * packaged 実起動・ファイル作成・外部通信は行わない。
  */
 import { existsSync } from "node:fs";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 
 import type { App } from "electron";
 
@@ -158,11 +158,9 @@ function buildRendererSafe(params: {
 export function resolveControlCenterProjectRoot(
   input: ControlCenterPathResolutionInput,
 ): string {
-  const devDefault = resolveExistingPath(
-    join(input.mainProcessDirname, "../.."),
-  );
+  // Dev mode: preserve the logical path (do not resolve through junctions/symlinks).
   if (!input.electron?.isPackaged) {
-    return devDefault;
+    return resolve(join(input.mainProcessDirname, "../.."));
   }
   return pickPackagedProjectRootCandidate(
     input.mainProcessDirname,

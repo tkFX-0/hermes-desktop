@@ -117,6 +117,66 @@ async function runCodexDev(prompt, cfg) {
   };
 }
 
+/**
+ * Cursor agent CLI in read-only ask mode (Windows).
+ * (a) Uses --mode ask: built-in tool-level read-only enforcement. No --force/-f flag.
+ */
+async function runAgentCliReadOnly(prompt, cfg, cwd) {
+  const preflight = loadWslPreflight();
+  const bin = preflight?.windows?.agent?.path?.trim() || cfg.agentCliBin;
+  const args = [
+    "--print",
+    "--output-format",
+    "text",
+    "--mode", "ask",
+    "--model",
+    cfg.composerModel,
+    "--workspace",
+    cwd,
+    "--trust",
+    windowsPromptArg(prompt)
+  ];
+  const r = await execWindowsAgent(bin, args, { cwd, timeoutMs: 300_000, env: subscriptionDevEnv() });
+  return {
+    ok: r.ok,
+    text: r.text,
+    backend: "cursor-agent-cli-readonly",
+    model: cfg.composerModel,
+    lane: "読取専用",
+    error: r.error
+  };
+}
+
+/** Cursor agent CLI in read-only ask mode (WSL). No --force. */
+async function runWslAgentCliReadOnly(prompt, cfg) {
+  const cmd = `${SUBSCRIPTION_ENV_UNSET}agent -p - --mode ask --model ${shQuote(cfg.composerModel)} 2>&1`;
+  const r = await wslExecStdin(cfg.wslDistro, cmd, prompt);
+  return {
+    ok: r.ok,
+    text: r.text,
+    backend: "cursor-agent-cli-readonly",
+    model: cfg.composerModel,
+    lane: "読取専用"
+  };
+}
+
+/**
+ * Claude CLI in read-only mode.
+ * Claude CLI has no built-in read-only flag; constraint is enforced via prompt only.
+ * (b) git status guard in the caller catches any violation.
+ */
+async function runClaudeDevReadOnly(prompt, cfg) {
+  const cmd = `${SUBSCRIPTION_ENV_UNSET}claude --model ${shQuote(cfg.claudeModel)} --output-format text 2>&1`;
+  const r = await wslExecStdin(cfg.wslDistro, cmd, prompt);
+  return {
+    ok: r.ok,
+    text: r.text,
+    backend: "claude-cli-readonly",
+    model: cfg.claudeModel,
+    lane: "読取専用"
+  };
+}
+
 /** Cursor Pro — `agent` CLI (Composer pool, login session). */
 async function runAgentCliDev(prompt, cfg, cwd) {
   const preflight = loadWslPreflight();
@@ -247,4 +307,54 @@ export async function runDevPipeline(input, env = process.env) {
 export function formatDevTraceLine(result) {
   if (!result?.ok) return `[開発] 失敗 (${result?.reason ?? "unknown"})`;
   return `[開発] ${result.backend} / ${result.model}`;
+}
+
+/**
+ * Run a read-only analysis task through the dev pipeline.
+ * (a) Cursor agent: --mode ask enforces read-only at tool level.
+ *     Claude: relies on prompt constraint (no built-in read-only flag).
+ * Codex is skipped (uses workspace-write sandbox).
+ * @param {{ prompt: string, agentId?: string }} input
+ * @param {NodeJS.ProcessEnv} [env]
+ */
+export async function runReadOnlyDevPipeline(input, env = process.env) {
+  const getEnv = envGetter(env);
+  const cfg = resolveDevPipelineConfig(getEnv);
+  if (!cfg.enabled) {
+    return { ok: false, reason: "dev_pipeline_disabled", lane: "読取専用" };
+  }
+
+  const chain = resolveDevBackendChain(cfg);
+  const prompt = `[readonly-task/${input.agentId ?? "shikishima"}]\n${input.prompt}`;
+  const attempts = [];
+  const projectRoot = process.cwd();
+
+  for (const step of chain) {
+    if (step.id === "composer") {
+      if (step.via === "cursor-agent-cli-win") {
+        const r = await runAgentCliReadOnly(prompt, cfg, projectRoot);
+        attempts.push({ ...r, via: step.via });
+        if (r.ok) return { ...r, attempts };
+      } else if (step.via === "cursor-agent-cli-wsl") {
+        const r = await runWslAgentCliReadOnly(prompt, cfg);
+        attempts.push(r);
+        if (r.ok) return { ...r, attempts };
+      }
+      // sdk and hermes-brain: no read-only mode — skip for L0-L2
+    }
+    if (step.id === "claude") {
+      const r = await runClaudeDevReadOnly(prompt, cfg);
+      attempts.push(r);
+      if (r.ok) return { ...r, attempts };
+    }
+    // Codex: skip — uses workspace-write sandbox, not safe for read-only
+  }
+
+  return {
+    ok: false,
+    text: "",
+    lane: "読取専用",
+    reason: "all_readonly_backends_failed",
+    attempts
+  };
 }

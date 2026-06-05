@@ -129,7 +129,7 @@ export function checkZonePath(input: ZonePathCheckInput): ZonePathCheckResult {
     if (input.basePath) {
       const baseAbs = resolveExistingPath(input.basePath);
       logicalAbs = resolvePathAgainstBase(baseAbs, nz);
-    } else if (isAbsolute(nz)) logicalAbs = resolve(nz);
+    } else if (isAbsolute(nz)) logicalAbs = resolveExistingPath(nz);
     else logicalAbs = resolve(zoneAbs, nz);
     logicalAbs = resolve(logicalAbs);
   } catch {
