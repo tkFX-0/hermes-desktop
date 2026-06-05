@@ -11,21 +11,23 @@ import {
 import { prepareDiscordVoiceSpeech, prepareSecretarySpeech } from "../../../../scripts/shikishima-secretary-filter.mjs";
 
 describe("stackchan-discord-voice", () => {
-  const prev = process.env.STACKCHAN_DISCORD_VOICE;
+  const prev = { ...process.env };
 
   afterEach(() => {
-    if (prev === undefined) delete process.env.STACKCHAN_DISCORD_VOICE;
-    else process.env.STACKCHAN_DISCORD_VOICE = prev;
+    process.env = { ...prev };
   });
 
   beforeEach(() => {
+    process.env.SHIKISHIMA_STACKCHAN_UNSEAL = "1";
+    process.env.SHIKISHIMA_STACKCHAN_HOLD = "0";
     process.env.STACKCHAN_DISCORD_VOICE = "1";
-    delete process.env.SHIKISHIMA_STACKCHAN_HOLD;
   });
 
-  it("bridge enabled by default when env unset", () => {
+  it("bridge is disabled by default while StackChan is sealed", () => {
+    delete process.env.SHIKISHIMA_STACKCHAN_UNSEAL;
+    delete process.env.SHIKISHIMA_STACKCHAN_HOLD;
     delete process.env.STACKCHAN_DISCORD_VOICE;
-    expect(isDiscordVoiceBridgeEnabled()).toBe(true);
+    expect(isDiscordVoiceBridgeEnabled()).toBe(false);
   });
 
   it("speaks full short reply as one chunk", () => {
@@ -88,6 +90,7 @@ describe("stackchan-discord-voice", () => {
   });
 
   it("disabled when stackchan hold", () => {
+    delete process.env.SHIKISHIMA_STACKCHAN_UNSEAL;
     process.env.SHIKISHIMA_STACKCHAN_HOLD = "1";
     const d = decideDiscordVoiceSpeak({
       userContent: "hi",

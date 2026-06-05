@@ -28,7 +28,7 @@ import {
 
 const HUMAN_GATE_QUEUE_DOC = resolve(
   process.cwd(),
-  "docs/shikishima/HUMAN_GATE_QUEUE.md"
+  "archive/shikishima/HUMAN_GATE_QUEUE.md"
 );
 
 function makeDryRunInput(

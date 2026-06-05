@@ -29,10 +29,10 @@ export type ControlCenterReadinessCard =
 
 /** Read-only Dashboard がファイルパスのみ参照する際のヒント（本文は読み込まない）。 */
 export const ICHIKISHIMA_READONLY_DOC_PATHS = {
-  morningReview: "docs/ichikishima/MORNING_REVIEW_REPORT.md",
-  goalCompletion: "docs/ichikishima/GOAL_COMPLETION_REPORT.md",
-  bridgeFinalReview: "docs/ichikishima/HERMES_BRIDGE_FINAL_REVIEW.md",
-  nextGoals: "docs/ichikishima/NEXT_GOALS.md",
+  morningReview: "archive/ichikishima/MORNING_REVIEW_REPORT.md",
+  goalCompletion: "archive/ichikishima/GOAL_COMPLETION_REPORT.md",
+  bridgeFinalReview: "archive/ichikishima/HERMES_BRIDGE_FINAL_REVIEW.md",
+  nextGoals: "archive/ichikishima/NEXT_GOALS.md",
 } as const;
 
 export interface ControlCenterReadonlyStatusModel {

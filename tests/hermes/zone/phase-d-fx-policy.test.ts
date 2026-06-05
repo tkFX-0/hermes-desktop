@@ -4,7 +4,7 @@ import { join } from "node:path";
 
 const charterPath = join(
   process.cwd(),
-  "docs/shikishima/PHASE_D_FX_EA_GO_CHARTER_2026-06.md"
+  "archive/shikishima/PHASE_D_FX_EA_GO_CHARTER_2026-06.md"
 );
 
 describe("Phase D FX/EA charter (F1 mock)", () => {

@@ -10,7 +10,7 @@ import {
 
 const MOCKUPS_DIR = path.resolve(
   __dirname,
-  "../../../docs/ichikishima/mockups",
+  "../../../archive/ichikishima/mockups",
 );
 
 function mockupText(name: string): string {

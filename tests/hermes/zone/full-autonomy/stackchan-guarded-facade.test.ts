@@ -13,7 +13,15 @@ describe("stackchan-guarded-facade", () => {
     expect(evaluateStackchanFacadeGuard("say")).toBe("stackchan_hold");
   });
 
-  it("allows face policy when not hold", () => {
+  it("keeps face policy blocked unless StackChan is explicitly unsealed", () => {
+    process.env.SHIKISHIMA_STACKCHAN_HOLD = "0";
+    process.env.STACKCHAN_DISCORD_VOICE = "1";
+    delete process.env.SHIKISHIMA_STACKCHAN_UNSEAL;
+    expect(evaluateStackchanFacadeGuard("face")).toBe("stackchan_hold");
+  });
+
+  it("allows face policy only after explicit unseal and hold off", () => {
+    process.env.SHIKISHIMA_STACKCHAN_UNSEAL = "1";
     process.env.SHIKISHIMA_STACKCHAN_HOLD = "0";
     process.env.STACKCHAN_DISCORD_VOICE = "1";
     expect(evaluateStackchanFacadeGuard("face")).toBeNull();

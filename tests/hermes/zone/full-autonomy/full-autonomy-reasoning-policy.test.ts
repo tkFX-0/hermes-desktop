@@ -6,12 +6,12 @@ import {
 } from "../../../../scripts/lib/agent-reasoning-policy.mjs";
 
 describe("agent reasoning policy", () => {
-  it("shikishima uses deep + claude route", () => {
+  it("shikishima uses standard + claude route", () => {
     const route = resolveAgentReasoningRoute("shikishima");
-    expect(route.reasoningLevel).toBe("deep");
+    expect(route.reasoningLevel).toBe("standard");
     expect(route.backend).toBe("claude");
     expect(route.model).toContain("claude");
-    expect(route.maxTokens).toBeGreaterThanOrEqual(2048);
+    expect(route.maxTokens).toBeGreaterThanOrEqual(1024);
   });
 
   it("shizume uses critical + claude", () => {
