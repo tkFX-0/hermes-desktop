@@ -162,9 +162,18 @@ import {
   appendThreadMessage,
   buildAgentThreadContext,
   compactThreadIfNeeded,
+  loadChannelThreads,
   rebuildPerAgentThreadsFromShared,
   syncConversationSummaryFromThread
 } from "./lib/discord-agent-thread-store.mjs";
+import {
+  approveMemoryProposal,
+  isMemorySlashCommand,
+  listPendingMemoryProposals,
+  parseMemoryCommand,
+  rejectMemoryProposal,
+  reviewMemoryTurns,
+} from "./lib/memory-dreaming.mjs";
 import { buildRuntimeSkillsContextForPrompt } from "./lib/shikishima-runtime-skills.mjs";
 import { ensurePerAgentWebhooks } from "./lib/discord-agent-avatars.mjs";
 import {
@@ -2206,6 +2215,7 @@ const EXCLUSIVE_SLASH_CMD =
 function isExclusiveSlashCommand(content) {
   const t = normalizeDiscordUserContent(content);
   if (isGoalSlashCommand(t)) return true;
+  if (isMemorySlashCommand(t)) return true;
   if (parseDevSlashCommand(t)) return true;
   return Boolean(matchOpsCommand(t)) || /^dev-pipeline$/i.test(t);
 }
@@ -2698,7 +2708,83 @@ async function handleExclusiveSlashCommands(content, channelId, token, authorId 
     return true;
   }
 
+  // ─── /memory コマンド ────────────────────────────────────────────────────────
+  if (isMemorySlashCommand(t)) {
+    await handleMemoryCommand(t, channelId, token);
+    return true;
+  }
+
   return false;
+}
+
+// ─── /memory propose-only Dreaming ────────────────────────────────────────────
+
+async function handleMemoryCommand(text, channelId, token) {
+  const cmd = parseMemoryCommand(text);
+
+  if (cmd.type === "help" || cmd.type === "unknown") {
+    await sendReply(
+      channelId,
+      token,
+      "shikishima",
+      [
+        "🧠 **memory** — propose-only",
+        "`/memory review` — 直近スレッドから USER.md 候補だけを作る",
+        "`/memory approve <id>` — tk承認として USER.md に反映",
+        "`/memory reject <id>` — 候補を却下",
+        "`/memory list` — pending候補を表示",
+        "SOUL.md は自動変更しません。Dreamingの自動抽出もまだ定期実行しません。",
+      ].join("\n")
+    );
+    return;
+  }
+
+  if (cmd.type === "review") {
+    const state = loadChannelThreads(channelId);
+    const turns = [...(state.sharedLog ?? [])]
+      .filter((row) => row?.role === "user")
+      .slice(-30);
+    const result = reviewMemoryTurns(MEMORY_DIR, turns);
+    const lines = result.created.length
+      ? [
+          `🧠 **memory review** — ${result.created.length} 件の候補を proposals/ に作成しました。`,
+          ...result.created.map((p) => `- \`${p.id}\` → ${p.destination}: ${p.proposedLine}`),
+          "",
+          "反映するなら `/memory approve <id>`、却下は `/memory reject <id>`。",
+        ]
+      : [
+          "🧠 **memory review** — USER.md に提案できる安全な候補は見つかりませんでした。",
+          "Poisoning/secret/安全境界上書き系は候補化しません。",
+        ];
+    await sendReply(channelId, token, "shikishima", lines.join("\n").slice(0, 1900));
+    return;
+  }
+
+  if (cmd.type === "list") {
+    const pending = listPendingMemoryProposals(MEMORY_DIR);
+    const msg = pending.length
+      ? ["🧠 **pending memory proposals**", ...pending.map((p) => `- \`${p.id}\` → ${p.destination}`)].join("\n")
+      : "🧠 pending の memory proposal はありません。";
+    await sendReply(channelId, token, "shirube", msg.slice(0, 1900));
+    return;
+  }
+
+  if (cmd.type === "approve") {
+    const result = approveMemoryProposal(MEMORY_DIR, cmd.id);
+    const msg = result.ok
+      ? `✅ memory proposal \`${cmd.id}\` を USER.md に反映しました。SOUL.md は変更していません。`
+      : `⚠️ memory approve 失敗: ${result.error}`;
+    await sendReply(channelId, token, result.ok ? "shikishima" : "shizume", msg);
+    return;
+  }
+
+  if (cmd.type === "reject") {
+    const result = rejectMemoryProposal(MEMORY_DIR, cmd.id);
+    const msg = result.ok
+      ? `🚫 memory proposal \`${cmd.id}\` を却下しました。USER.md / SOUL.md は変更していません。`
+      : `⚠️ memory reject 失敗: ${result.error}`;
+    await sendReply(channelId, token, result.ok ? "shirube" : "shizume", msg);
+  }
 }
 
 // ─── /goal 実行エンジン ────────────────────────────────────────────────────────
@@ -3092,6 +3178,19 @@ async function poll(channelId, token) {
             "shizume",
             `🛡️ **しずめ** — 未登録のOpsコマンド: \`${content.split(/\s/)[0]}\``,
           );
+        }
+        continue;
+      }
+
+      if (isMemorySlashCommand(content)) {
+        const handled = await handleExclusiveSlashCommands(
+          content,
+          channelId,
+          token,
+          msg.author?.id ?? ""
+        );
+        if (!handled) {
+          await sendReply(channelId, token, "shikishima", "未登録の /memory コマンドです。");
         }
         continue;
       }
