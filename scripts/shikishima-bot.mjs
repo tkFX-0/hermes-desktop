@@ -187,6 +187,7 @@ import {
   rejectMemoryProposal,
   reviewMemoryTurns,
 } from "./lib/memory-dreaming.mjs";
+import { buildRecallMemoryBlock } from "./lib/memory-recall.mjs";
 import { buildRuntimeSkillsContextForPrompt } from "./lib/shikishima-runtime-skills.mjs";
 import { ensurePerAgentWebhooks } from "./lib/discord-agent-avatars.mjs";
 import {
@@ -1628,6 +1629,11 @@ async function handleMessage(content, opts = {}) {
   const threadCtx = "";
   const skillsCtx = buildRuntimeSkillsContextForPrompt(agentId, userLine);
   const memCtx    = buildFullContext();
+  const recallCtx = buildRecallMemoryBlock({
+    memoryDir: MEMORY_DIR,
+    query: userLine,
+    channelId: opts.channelId,
+  });
   const taskCtx   = buildTaskContext();
   const goalCtx   = buildGoalContext();
   const monCtx    = buildMonitorContext();
@@ -1636,7 +1642,7 @@ async function handleMessage(content, opts = {}) {
   const mt5Ctx    = isFxQuery ? buildMt5Context() : null;
   const modeLabel = getModeLabel();
   const contextBudget = opts.channelId ? 2400 : 900;
-  const contextParts = [skillsCtx, threadCtx, memCtx, taskCtx, goalCtx, mt5Ctx, monCtx, prefCtx]
+  const contextParts = [skillsCtx, threadCtx, memCtx, recallCtx, taskCtx, goalCtx, mt5Ctx, monCtx, prefCtx]
     .filter(Boolean).join("\n\n").slice(0, contextBudget);
 
   // 現在日時をJSTで注入 — AIが時刻を幻覚しないようにする
