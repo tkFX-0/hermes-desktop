@@ -82,7 +82,8 @@ export function isErrorOutput(text) {
     || /failed to connect to websocket/i.test(t)
     || /UTF-8 encoding error/i.test(t)
     || /x-codex-turn-metadata/i.test(t)
-    || /\bEPERM\b|Access is denied/i.test(t);
+    || /\bEPERM\b|Access is denied/i.test(t)
+    || /session limit|rate limit|usage limit|too many requests|quota exceeded|limit reached/i.test(t);
 }
 
 /** Claude/Groq が空のときのプレースホルダを失敗扱いにする */

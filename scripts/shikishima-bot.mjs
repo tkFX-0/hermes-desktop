@@ -117,6 +117,13 @@ import {
   loadAgentModelRegistry
 } from "./lib/load-agent-models.mjs";
 import { stripClaudeCliNoise, stripCodexCliNoise, isErrorOutput } from "./lib/claude-cli-sanitize.mjs";
+import {
+  fallbackEnginesFor,
+  FRIENDLY_ENGINE_UNAVAILABLE_TEXT,
+  isEngineCapacityError,
+  normalizeEngineFailure,
+  shouldRetryEngineFailure,
+} from "./lib/engine-fallback.mjs";
 import { buildCoreMemoryBlock } from "./lib/core-memory-context.mjs";
 import {
   createGoal, saveGoal, getActiveGoal,
@@ -638,7 +645,7 @@ function callClaude(prompt, model = "claude-sonnet-4-6", _maxTokens = 1024) {
 }
 
 function friendlyEngineUnavailableText() {
-  return "現在応答できません。Claude/Codex の利用枠またはCLI接続が混み合っています。しばらく待ってからもう一度送ってください。";
+  return FRIENDLY_ENGINE_UNAVAILABLE_TEXT;
 }
 
 function isFriendlyEngineUnavailableText(text) {
@@ -717,6 +724,9 @@ function resolveCodexModel(model) {
 
 function summarizeCliFailure(raw, label) {
   const text = String(raw ?? "");
+  if (isEngineCapacityError(text)) {
+    return `${label}: session/rate limit`;
+  }
   if (/requires a newer version of Codex|not supported when using Codex with a ChatGPT account/i.test(text)) {
     return `${label}: unsupported model for current Codex CLI/account`;
   }
@@ -767,12 +777,16 @@ function callCodex(prompt, model = "codex") {
         child.on("error", e => { clearTimeout(timer); done({ ok: false, text: e.message }); });
         child.on("close", () => {
           clearTimeout(timer);
+          if (isEngineCapacityError(out)) {
+            done({ ok: false, text: "codex: session/rate limit", backendUsed: "codex-cli", model: resolvedModel });
+            return;
+          }
           if (isErrorOutput(out)) {
-            done({ ok: false, text: summarizeCliFailure(out, "codex") });
+            done({ ok: false, text: summarizeCliFailure(out, "codex"), backendUsed: "codex-cli", model: resolvedModel });
             return;
           }
           const text = stripCodexCliNoise(out);
-          done(text ? { ok: true, text } : { ok: false, text: summarizeCliFailure(out, "codex") });
+          done(text ? { ok: true, text } : { ok: false, text: summarizeCliFailure(out, "codex"), backendUsed: "codex-cli", model: resolvedModel });
         });
         child.stdin.write(prompt, "utf8");
         child.stdin.end();
@@ -807,23 +821,27 @@ function callCodex(prompt, model = "codex") {
       child.on("error", e => { clearTimeout(timer); done({ ok: false, text: e.message }); });
       child.on("close", () => {
         clearTimeout(timer);
+        if (isEngineCapacityError(out)) {
+          done({ ok: false, text: "codex-wsl: session/rate limit", backendUsed: "codex-cli", model: resolvedModel });
+          return;
+        }
         if (isErrorOutput(out)) {
-          done({ ok: false, text: summarizeCliFailure(out, "codex-wsl") });
+          done({ ok: false, text: summarizeCliFailure(out, "codex-wsl"), backendUsed: "codex-cli", model: resolvedModel });
           return;
         }
         const text = stripCodexCliNoise(out);
-        done(text ? { ok: true, text } : { ok: false, text: summarizeCliFailure(out, "codex-wsl") });
+        done(text ? { ok: true, text } : { ok: false, text: summarizeCliFailure(out, "codex-wsl"), backendUsed: "codex-cli", model: resolvedModel });
       });
       child.stdin.write(prompt, "utf8");
       child.stdin.end();
     });
     return second.ok
       ? { ok: true, text: second.text || "(応答なし)", backendUsed: "codex-cli", model: resolvedModel }
-      : { ok: false, text: second.text || first.text || "codex cli failed" };
+      : { ok: false, text: second.text || first.text || "codex cli failed", backendUsed: "codex-cli", model: resolvedModel };
   })();
 }
 
-function callComposer(prompt, model = "composer-2.5") {
+function callComposer(prompt, model = "composer-2.5", options = {}) {
   // プロンプトを stdin で渡す（positional argだとbashコマンドとして解釈されるため）
   return new Promise(resolve => {
     let out = "";
@@ -850,7 +868,11 @@ function callComposer(prompt, model = "composer-2.5") {
     child.on("close", () => {
       clearTimeout(timer);
       const text = cleanAgentCliOutput(out);
-      done(text ? { ok: true, text } : { ok: false, text: out || "composer: no output" });
+      if (isEngineCapacityError(text || out)) {
+        done({ ok: false, text: "composer: session/rate limit", backendUsed: "cursor-agent-cli", model });
+        return;
+      }
+      done(text ? { ok: true, text } : { ok: false, text: out || "composer: no output", backendUsed: "cursor-agent-cli", model });
     });
     child.stdin.write(prompt, "utf8");
     child.stdin.end();
@@ -858,10 +880,13 @@ function callComposer(prompt, model = "composer-2.5") {
     if (r.ok) {
       return { ok: true, text: r.text || "(応答なし)", backendUsed: "cursor-agent-cli", model };
     }
+    if (options.allowCodexFallback === false) {
+      return { ok: false, text: r.text || "cursor-agent cli failed", backendUsed: "cursor-agent-cli", model };
+    }
     const fallback = await callCodex(prompt, "codex");
     return fallback.ok
       ? { ok: true, text: fallback.text, backendUsed: fallback.backendUsed, model: fallback.model, fallbackFrom: "cursor-agent-cli" }
-      : { ok: false, text: r.text || fallback.text || "cursor-agent cli failed" };
+      : { ok: false, text: r.text || fallback.text || "cursor-agent cli failed", backendUsed: "cursor-agent-cli", model };
   });
 }
 
@@ -967,15 +992,33 @@ function buildEnginePrompt(agentId, userMessage, threadContext, route) {
   ].filter(Boolean).join("\n\n");
 }
 
-async function invokeResolvedEngine(engine, prompt, model) {
+function fallbackModelForEngine(engine, route) {
+  if (engine === route.engine) return route.model;
+  if (engine === "claude") return "claude-sonnet-4-6";
+  if (engine === "composer") return "composer-2.5";
+  return "codex";
+}
+
+async function invokeResolvedEngine(engine, prompt, model, options = {}) {
+  let result;
   if (engine === "claude") {
-    const r = await callClaude(prompt, model);
-    return { ...r, backendUsed: "claude-cli", model };
+    result = await callClaude(prompt, model);
+    return normalizeEngineFailure({ ...result, backendUsed: "claude-cli", model }, engine);
   }
   if (engine === "composer") {
-    return callComposer(prompt, model);
+    result = await callComposer(prompt, model, options);
+    return normalizeEngineFailure({ ...result, backendUsed: result.backendUsed ?? "cursor-agent-cli", model: result.model ?? model }, engine);
   }
-  return callCodex(prompt, model);
+  result = await callCodex(prompt, model);
+  return normalizeEngineFailure({ ...result, backendUsed: result.backendUsed ?? "codex-cli", model: result.model ?? model }, engine);
+}
+
+async function invokeResolvedEngineWithRetry(engine, prompt, model, options = {}) {
+  const first = await invokeResolvedEngine(engine, prompt, model, options);
+  if (!shouldRetryEngineFailure(first)) return first;
+  console.warn(`[EngineFallback] retry ${engine}: ${String(first.text ?? first.error ?? "").slice(0, 120)}`);
+  const second = await invokeResolvedEngine(engine, prompt, model, options);
+  return second.ok ? { ...second, retryFrom: engine } : second;
 }
 
 function buildEngineTrace(agentId, route, result) {
@@ -1025,19 +1068,49 @@ async function callEngine(agentId, userMessage, threadId, opts = {}) {
     ? `${basePrompt}\n\n[cross-engine-thread]\n${threadContext}`
     : basePrompt;
 
-  let result = await invokeResolvedEngine(route.engine, fullPrompt, route.model);
-  if (!result.ok && route.engine !== "codex") {
-    const primaryResult = result;
-    const fallback = await callCodex(fullPrompt, "codex");
-    result = fallback.ok
-      ? { ...fallback, fallbackFrom: result.backendUsed ?? route.engine }
-      : isCliCapacityError(primaryResult.text)
-        ? { ok: false, text: friendlyEngineUnavailableText(), backendUsed: primaryResult.backendUsed ?? route.engine }
-        : result;
+  const engines = [route.engine, ...fallbackEnginesFor(route.engine)];
+  const failures = [];
+  let result = null;
+  for (const [index, engine] of engines.entries()) {
+    const model = fallbackModelForEngine(engine, route);
+    const engineOptions = {
+      allowCodexFallback: !(route.engine === "codex" && engine === "composer"),
+    };
+    result = await invokeResolvedEngineWithRetry(engine, fullPrompt, model, engineOptions);
+    if (result.ok) {
+      if (index > 0) {
+        result = {
+          ...result,
+          fallbackFrom: failures[0]?.backendUsed ?? route.engine,
+        };
+      }
+      break;
+    }
+    failures.push(result);
+    const next = engines[index + 1];
+    if (next) {
+      console.warn(
+        `[EngineFallback] ${agentId}: ${engine} failed (${String(result.text ?? result.error ?? "").slice(0, 120)}) -> ${next}`,
+      );
+    }
+  }
+
+  if (!result?.ok) {
+    console.warn(
+      `[EngineFallback] ${agentId}: all engines failed (${failures.map((f) => f.backendUsed ?? "unknown").join(" -> ")})`,
+    );
+    result = {
+      ok: true,
+      text: friendlyEngineUnavailableText(),
+      backendUsed: failures.at(-1)?.backendUsed ?? route.engine,
+      model: failures.at(-1)?.model ?? route.model,
+      fallbackFrom: failures[0]?.backendUsed ?? route.engine,
+      allEnginesFailed: true,
+    };
   }
 
   const trace = buildEngineTrace(agentId, route, result);
-  if (threadId && result.ok) {
+  if (threadId && result.ok && !isFriendlyEngineUnavailableText(result.text)) {
     // bashエラー出力はスレッド履歴を汚染するため記録しない
     const recordContent = isErrorOutput(result.text) ? "[エラー応答・省略]" : result.text;
     appendThreadMessage(threadId, {
