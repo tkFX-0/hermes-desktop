@@ -124,6 +124,7 @@ import {
   normalizeEngineFailure,
   shouldRetryEngineFailure,
 } from "./lib/engine-fallback.mjs";
+import { detectOperatorEngineSelection, isIdentityOrSafetyChangeRequest } from "./lib/operator-engine-select.mjs";
 import { buildCoreMemoryBlock } from "./lib/core-memory-context.mjs";
 import {
   createGoal, saveGoal, getActiveGoal,
@@ -1059,7 +1060,15 @@ async function summarizeThreadTurnsWithCodex(agentId, payload) {
 }
 
 async function callEngine(agentId, userMessage, threadId, opts = {}) {
-  const route = resolveCrossEngineRoute(agentId);
+  const baseRoute = resolveCrossEngineRoute(agentId);
+  const route = opts.engineOverride
+    ? {
+        ...baseRoute,
+        engine: opts.engineOverride.engine,
+        model: opts.engineOverride.model,
+        operatorEngineOverride: true,
+      }
+    : baseRoute;
   const threadContext = threadId
     ? buildAgentThreadContext(threadId, agentId, { maxChars: 2200 })
     : "";
@@ -1441,6 +1450,7 @@ async function handleTaskCommand(cmd, content, channelId, token, webhookUrl) {
 
 async function handleMessage(content, opts = {}) {
   const trimmed = (opts.contentOverride ?? content).trim();
+  const operatorEngineOverride = detectOperatorEngineSelection(trimmed);
   if (isExclusiveSlashCommand(trimmed) || isUserOpsSlashCommand(trimmed)) {
     return { agentId: "shikishima", replyText: null };
   }
@@ -1449,7 +1459,7 @@ async function handleMessage(content, opts = {}) {
   }
 
   // インジェクション検出: ロール上書き試行はしずめが遮断
-  if (detectPromptInjection(content)) {
+  if (detectPromptInjection(content) || isIdentityOrSafetyChangeRequest(content)) {
     console.warn(`[Security] プロンプトインジェクション検出: "${content.slice(0, 60)}"`);
     auditLog("injection_attempt", { content: content.slice(0, 120) });
     stackchanFace("thinking").catch(() => {});
@@ -1555,7 +1565,8 @@ async function handleMessage(content, opts = {}) {
 
   const env = readEnv();
   const { ok, text, trace } = await callEngine(agentId, userLine, opts.channelId, {
-    fullPrompt: prompt
+    fullPrompt: prompt,
+    engineOverride: operatorEngineOverride
   });
 
   console.log(
