@@ -130,6 +130,7 @@ import {
   createGoal, saveGoal, getActiveGoal,
   parseStepsFromLLM, formatGoalStatus, formatGoalPlanReady, L3_HOLD_PROMPT,
 } from "./lib/goal-engine.mjs";
+import { buildGoalMobileReport } from "./lib/goal-mobile-report.mjs";
 import { isGoalSlashCommand, isCliCapacityError } from "./lib/goal-slash-routing.mjs";
 import {
   buildGoalDevPipelineInstruction,
@@ -426,6 +427,55 @@ async function discordRequest(method, path, token, body) {
   return res;
 }
 
+function discordMultipartRequestOnce(path, token, payloadJson, file) {
+  return new Promise((resolve, reject) => {
+    const boundary = `----shikishima-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    const payload = JSON.stringify(payloadJson);
+    const fileBuffer = Buffer.from(String(file?.content ?? ""), "utf8");
+    const chunks = [
+      Buffer.from(
+        `--${boundary}\r\n` +
+        `Content-Disposition: form-data; name="payload_json"\r\n` +
+        `Content-Type: application/json\r\n\r\n` +
+        `${payload}\r\n`,
+        "utf8"
+      ),
+      Buffer.from(
+        `--${boundary}\r\n` +
+        `Content-Disposition: form-data; name="files[0]"; filename="${String(file?.filename ?? "goal-report.md").replace(/"/g, "")}"\r\n` +
+        `Content-Type: text/markdown; charset=utf-8\r\n\r\n`,
+        "utf8"
+      ),
+      fileBuffer,
+      Buffer.from(`\r\n--${boundary}--\r\n`, "utf8"),
+    ];
+    const body = Buffer.concat(chunks);
+    const req = https.request({
+      hostname: "discord.com",
+      path: `/api/v10${path}`,
+      method: "POST",
+      headers: {
+        Authorization: `Bot ${token}`,
+        "Content-Type": `multipart/form-data; boundary=${boundary}`,
+        "Content-Length": body.length,
+        "User-Agent": "ShikishimaBot/2.0",
+      },
+      timeout: 10_000,
+    }, res => {
+      let data = "";
+      res.on("data", c => data += c);
+      res.on("end", () => {
+        try { resolve({ status: res.statusCode, body: JSON.parse(data), headers: res.headers }); }
+        catch { resolve({ status: res.statusCode, body: data, headers: res.headers }); }
+      });
+    });
+    req.on("error", reject);
+    req.on("timeout", () => { req.destroy(); reject(new Error("timeout")); });
+    req.write(body);
+    req.end();
+  });
+}
+
 // ─── Webhook 管理（エージェント別・専用アバター PNG）────────────────────────────
 /** @type {Record<string, Record<string, string>>} */
 const _webhooksByChannel = {};
@@ -515,6 +565,29 @@ async function sendViaWebhook(agentId, content, { channelId, token, skipDedupe =
     recordOutboundSent(MEMORY_DIR, agentId, safe);
   }
   return result;
+}
+
+async function sendGoalCompletionReport(channelId, token, goal) {
+  const report = buildGoalMobileReport(goal);
+  if (!report.attachmentText) {
+    await sendReply(channelId, token, "shikishima", report.content);
+    return { ok: true, attached: false, redaction: report.redaction };
+  }
+  const res = await discordMultipartRequestOnce(
+    `/channels/${channelId}/messages`,
+    token,
+    {
+      content: safeDiscordContent(`🏯 **しきしま**\n${report.content}`).slice(0, 1900),
+      allowed_mentions: { parse: [] },
+      attachments: [{ id: "0", filename: report.filename }],
+    },
+    { filename: report.filename, content: report.attachmentText }
+  );
+  const ok = res.status === 200 || res.status === 201;
+  if (!ok) {
+    await sendReply(channelId, token, "shizume", `⚠️ /goal 完了レポート添付に失敗しました: HTTP ${res.status}`);
+  }
+  return { ok, attached: true, status: res.status, redaction: report.redaction };
 }
 
 // ─── AI呼び出し — Claude Code優先 (Grokバックアップ) ─────────────────────────
@@ -3190,7 +3263,7 @@ async function _runGoalStepsInner(goal, channelId, token) {
   // 全ステップ完了
   goal.status = "completed";
   saveGoal(MEMORY_DIR, goal);
-  await sendReply(channelId, token, "shikishima", `✅ **/goal 完了**: ${goal.description}`);
+  await sendGoalCompletionReport(channelId, token, goal);
 
   // しるべ に完了サマリー記録
   const summary = goal.steps.map(s => `Step ${s.step}: ${s.description} → ${s.status}`).join("\n");
