@@ -152,6 +152,10 @@ import {
 } from "./lib/goal-process-preflight.mjs";
 import { safeDiscordContent, sanitizeDiscordText } from "./lib/discord-text-safe.mjs";
 import {
+  shouldProactivelyFallbackFromClaude,
+  tokenTrackerAllowlist,
+} from "./lib/tokentracker-readonly.mjs";
+import {
   detectSequentialHumanCheck,
   isBotGeneratedHumanCheckMessage,
   runAgentSequentialHumanCheck
@@ -1099,13 +1103,16 @@ function buildEngineTrace(agentId, route, result) {
   const backendUsed = result.backendUsed ?? route.engine;
   const model = result.model ?? route.model;
   const fallback = result.fallbackFrom ? ` fallback=${result.fallbackFrom}->${backendUsed}` : "";
+  const proactive = route.tokenTrackerFallbackFrom
+    ? ` proactive=${route.tokenTrackerFallbackFrom}->${route.engine}`
+    : "";
   return {
     backendUsed,
     model,
     reasoningLevel: route.reasoningLevel,
     grokResearchHeld: isGrokResearchHold(),
     registryBackend: route.registryBackend,
-    traceLine: `[trace agent=${agentId} backend=${backendUsed} model=${model} reasoning=${route.reasoningLevel} grokHold=${isGrokResearchHold()}${fallback}]`
+    traceLine: `[trace agent=${agentId} backend=${backendUsed} model=${model} reasoning=${route.reasoningLevel} grokHold=${isGrokResearchHold()}${fallback}${proactive}]`
   };
 }
 
@@ -1134,7 +1141,7 @@ async function summarizeThreadTurnsWithCodex(agentId, payload) {
 
 async function callEngine(agentId, userMessage, threadId, opts = {}) {
   const baseRoute = resolveCrossEngineRoute(agentId);
-  const route = opts.engineOverride
+  let route = opts.engineOverride
     ? {
         ...baseRoute,
         engine: opts.engineOverride.engine,
@@ -1142,6 +1149,29 @@ async function callEngine(agentId, userMessage, threadId, opts = {}) {
         operatorEngineOverride: true,
       }
     : baseRoute;
+  if (!opts.engineOverride && route.engine === "claude") {
+    const tokenDecision = shouldProactivelyFallbackFromClaude();
+    if (tokenDecision.fallback) {
+      console.warn(
+        `[TokenTracker] proactive fallback claude->codex ` +
+        `used=${tokenDecision.used} threshold=${tokenDecision.threshold} ` +
+        `model=${tokenDecision.model} path=${tokenDecision.path}`
+      );
+      console.warn(`[TokenTracker] allowlist=${tokenTrackerAllowlist().join(";")}`);
+      route = {
+        ...route,
+        engine: "codex",
+        model: CODEX_COMPAT_MODEL,
+        tokenTrackerFallbackFrom: "claude",
+        tokenTrackerUsage: tokenDecision,
+      };
+    } else {
+      console.log(
+        `[TokenTracker] claude usage check: ${tokenDecision.reason}` +
+        (tokenDecision.used != null ? ` used=${tokenDecision.used}/${tokenDecision.threshold}` : "")
+      );
+    }
+  }
   const threadContext = threadId
     ? buildAgentThreadContext(threadId, agentId, { maxChars: 2200 })
     : "";
