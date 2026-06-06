@@ -18,6 +18,9 @@ const POISONING_PATTERNS = [
   /--yolo|生APIキー|auto-?push/i,
   /ペルソナ.*(上書き|変更|無視)|口調.*強制|人格.*変更/i,
   /しずめ.*(黙らせ|無視)|安全.*(黙らせ|無視)/i,
+  /違法|犯罪|幇助|隠蔽|逮捕回避|脱法/i,
+  /武器|爆弾|火薬|毒物|危険物|人を害する|殺傷|攻撃手順/i,
+  /差別|ハラスメント|自傷|自殺|他害/i,
 ];
 
 export function isMemorySlashCommand(content) {
