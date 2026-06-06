@@ -117,6 +117,7 @@ import {
   loadAgentModelRegistry
 } from "./lib/load-agent-models.mjs";
 import { stripClaudeCliNoise, stripCodexCliNoise, isErrorOutput } from "./lib/claude-cli-sanitize.mjs";
+import { buildCoreMemoryBlock } from "./lib/core-memory-context.mjs";
 import {
   createGoal, saveGoal, getActiveGoal,
   parseStepsFromLLM, formatGoalStatus, formatGoalPlanReady, L3_HOLD_PROMPT,
@@ -1128,7 +1129,7 @@ function getAgentPrompt(agentId) {
 }
 
 function buildSystemCtx(lengthHint) {
-  return `あなたはしきしまエージェントチームの一員です。
+  const base = `あなたはしきしまエージェントチームの一員です。
 チーム: しきしま(管制・窓口)/しずめ(品質・安全)/つむぎ(実装)/はじめ(計画)/しるべ(記録)/リサーチ君(調査)。
 
 [応答原則]
@@ -1142,6 +1143,8 @@ function buildSystemCtx(lengthHint) {
 [StackChan統合]
 ・スタックちゃん (<STACKCHAN_HOST>:8080) がWiFiで常時接続
 ・物理コマンドは !sc <command> で実行可能`;
+  const coreMemoryBlock = buildCoreMemoryBlock({ memoryDir: MEMORY_DIR });
+  return coreMemoryBlock ? `${base}\n\n${coreMemoryBlock}` : base;
 }
 
 // ─── Secretary Event Bridge — イベント→StackChan顔+LED自動反応 ─────────────────
