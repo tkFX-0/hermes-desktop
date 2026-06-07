@@ -179,7 +179,7 @@ export function runScheduledMemoryDreamingReview(memoryDir, channelId, opts = {}
   });
 
   const notifyText = result.created.length
-    ? buildDreamingProposalNotifyText(result.created.length)
+    ? buildDreamingProposalNotifyText(result.created.length, result.autoApplied?.length ?? 0)
     : null;
 
   return {
@@ -187,6 +187,8 @@ export function runScheduledMemoryDreamingReview(memoryDir, channelId, opts = {}
     due: true,
     reason: due.reason,
     created: result.created,
+    autoApplied: result.autoApplied ?? [],
+    heldForTk: result.heldForTk ?? [],
     skipped: result.skipped,
     notifyText,
   };
@@ -195,12 +197,18 @@ export function runScheduledMemoryDreamingReview(memoryDir, channelId, opts = {}
 /**
  * @param {number} count
  */
-export function buildDreamingProposalNotifyText(count) {
+export function buildDreamingProposalNotifyText(count, autoApplied = 0) {
   const n = Number(count) || 0;
   if (n <= 0) return null;
+  const autoN = Number(autoApplied) || 0;
   return [
-    "🧠 **Dreaming** — 新しい記憶候補があります。",
-    `${n} 件を proposals/ に作成しました。/memory review で確認できます。`,
-    "SOUL.md / USER.md への自動反映はしません。反映は `/memory approve <id>` のみ。",
-  ].join("\n");
+    "🧠 **Dreaming** — 記憶候補を処理しました。",
+    autoN > 0
+      ? `✅ 汚染フィルタ通過 ${autoN} 件を USER.md に自動反映しました。`
+      : `${n} 件を proposals/ に作成しました。`,
+    autoN < n ? "⏸ 残りは tk 承認待ち。`/memory review` または `/memory list` で確認。" : "",
+    "SOUL.md は自動変更しません。",
+  ]
+    .filter(Boolean)
+    .join("\n");
 }

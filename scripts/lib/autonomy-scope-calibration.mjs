@@ -34,13 +34,14 @@ const SECTION7_STACKCHAN_PHYSICAL = [
 ];
 
 const L3_APPROVAL_PATTERNS = [
-  /\bgit\s+push\b/i,
-  /(外部|Discord|Webhook).{0,16}(送信|投稿|push|配信)/i,
-  /(SOUL|USER|STATE)\.md.{0,16}(変更|更新|書き|反映)/i,
+  /SOUL\.md.{0,16}(変更|更新|書き|反映)/i,
+  /\.env\b/i,
+  /\b(api[_-]?key|token|secret|password)\b/i,
+  /\brm\s+-rf\b/i,
+  /npm\s+(install|i|add)\s+[@\w]/i,
   /本番.{0,12}(反映|デプロイ|リリース|公開)/i,
   /productionReady/i,
   /execution\s*=\s*enabled/i,
-  /記憶.{0,8}(変更|更新|approve\s*なし)/i,
 ];
 
 const L0_L2_SIGNALS = [
@@ -107,7 +108,7 @@ export function classifyAutonomyRequest(text) {
       decision: "HOLD",
       band: "L3+",
       autonomyLevel: 3,
-      reason: "L3+: 本番変更・git push・外部送信・記憶変更は tk 承認が必要",
+      reason: "L3+: SOUL/.env/新規npm/危険削除など tk 承認が必要（git push・merge は check 緑で L2）",
       sealed: false,
       needsTkApproval: true,
     };
@@ -146,10 +147,10 @@ export function formatSection7HoldReply(scope) {
  * Prompt block for agents (system context).
  */
 export function buildAutonomyScopePromptBlock() {
-  return `[権限ラダー — 再校正]
-・§7封印（HOLD必須）: MT5実接続・リアル発注・リアル口座操作・StackChan物理制御 のみ
-・§7に含まない（L0-L2可）: MQL5コード作成 / バックテスト(シミュ) / トレードリサーチ / Skill・テンプレ / 記事 / 外部EA参照
-・L0-L2（自動実行可）: リサーチ / コード書き(非デプロイ) / ドキュメント / テンプレ・Skill / git branch・commit
-・L3+（tk承認）: 本番コード変更 / git push / 外部送信 / 記憶変更 / §7封印対象
-・「MQL5」「EA」「トレード」キーワード単体では §7 HOLD にしない。実接続・実発注・物理制御かで判定する`;
+  return `[権限ラダー — full autonomy calibration]
+・§7封印: MT5実接続・リアル発注・実口座操作・StackChan物理制御 のみ
+・L2自動可: git push(check緑後) / mainマージ(しずめGO+check緑) / 許可ドメイン外部送信 / Dreaming汚染なしUSER反映 / git済みファイル削除 / npm update
+・L3+ tk承認: ホワイトリスト外外部送信 / SOUL.md / .env・secrets / 新規npm / 未コミット削除 / rm -rf
+・SOUL.md: manual only（自動変更経路ゼロ）
+・「MQL5」「EA」「トレード」単体では §7 HOLD にしない`;
 }

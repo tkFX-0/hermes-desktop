@@ -86,13 +86,12 @@ describe("memory dreaming schedule", () => {
     expect(turns[0].content).toContain("要点");
   });
 
-  it("scheduled review stays propose-only and never writes SOUL/USER", () => {
+  it("scheduled review auto-applies USER.md and never writes SOUL", () => {
     const memoryDir = makeMemoryDir();
     const channelId = "dreaming-test-channel";
     const prevOverride = process.env.SHIKISHIMA_THREAD_MEM_OVERRIDE;
     process.env.SHIKISHIMA_THREAD_MEM_OVERRIDE = memoryDir;
     const soulBefore = readFileSync(join(memoryDir, "SOUL.md"), "utf-8");
-    const userBefore = readFileSync(join(memoryDir, "USER.md"), "utf-8");
 
     saveChannelThreads(channelId, {
       channelId,
@@ -121,7 +120,8 @@ describe("memory dreaming schedule", () => {
     expect(result.ran).toBe(true);
     expect(result.created.length).toBeGreaterThan(0);
     expect(readFileSync(join(memoryDir, "SOUL.md"), "utf-8")).toBe(soulBefore);
-    expect(readFileSync(join(memoryDir, "USER.md"), "utf-8")).toBe(userBefore);
+    expect(readFileSync(join(memoryDir, "USER.md"), "utf-8")).toContain("memory-proposal");
+    expect(result.autoApplied?.length).toBeGreaterThan(0);
     expect(existsSync(join(memoryDir, "proposals", `${result.created[0].id}.md`))).toBe(true);
     if (prevOverride === undefined) delete process.env.SHIKISHIMA_THREAD_MEM_OVERRIDE;
     else process.env.SHIKISHIMA_THREAD_MEM_OVERRIDE = prevOverride;
@@ -129,9 +129,9 @@ describe("memory dreaming schedule", () => {
 
   it("builds Discord notify text when new proposals are created", () => {
     const text = buildDreamingProposalNotifyText(2);
-    expect(text).toContain("新しい記憶候補があります");
+    expect(text).toContain("記憶候補を処理しました");
     expect(text).toContain("/memory review");
-    expect(text).toContain("SOUL.md / USER.md への自動反映はしません");
+    expect(text).toContain("SOUL.md は自動変更しません");
     expect(buildDreamingProposalNotifyText(0)).toBeNull();
   });
 

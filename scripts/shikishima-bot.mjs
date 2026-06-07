@@ -198,6 +198,12 @@ import {
   classifyAutonomyRequest,
   formatSection7HoldReply,
 } from "./lib/autonomy-scope-calibration.mjs";
+import {
+  buildOperatorCommandsHelp,
+  executeOperatorDevCommand,
+  parseOperatorDevCommand,
+} from "./lib/discord-operator-commands.mjs";
+import { isTkOperator } from "./lib/l3-relaxation-policy.mjs";
 import { buildRecallMemoryBlock } from "./lib/memory-recall.mjs";
 import { buildRuntimeSkillsContextForPrompt } from "./lib/shikishima-runtime-skills.mjs";
 import { ensurePerAgentWebhooks } from "./lib/discord-agent-avatars.mjs";
@@ -2458,6 +2464,7 @@ function isExclusiveSlashCommand(content) {
   if (isGoalSlashCommand(t)) return true;
   if (isMemorySlashCommand(t)) return true;
   if (parseDevSlashCommand(t)) return true;
+  if (parseOperatorDevCommand(t)) return true;
   return Boolean(matchOpsCommand(t)) || /^dev-pipeline$/i.test(t);
 }
 
@@ -2708,6 +2715,22 @@ async function handleExclusiveSlashCommands(content, channelId, token, authorId 
   }
 
   if (/^!status\b/i.test(t)) {
+    const cfg = readDiscordChannelEnv({ ...readEnv(), ...process.env });
+    if (isTkOperator(authorId, cfg.operatorUserId)) {
+      const result = executeOperatorDevCommand(
+        { type: "status" },
+        {
+          root: BASE,
+          memoryDir: MEMORY_DIR,
+          authorId,
+          operatorUserId: cfg.operatorUserId,
+          mergeTestMode: true,
+        }
+      );
+      const out = await sendOpsReply(channelId, token, result.agentId, result.text);
+      if (out?.id) lastMessageId = out.id;
+      return true;
+    }
     const out = await sendOpsReply(
       channelId,
       token,
@@ -2719,6 +2742,36 @@ async function handleExclusiveSlashCommands(content, channelId, token, authorId 
       })
     );
     if (out?.id) lastMessageId = out.id;
+    return true;
+  }
+
+  const operatorCmd = parseOperatorDevCommand(t);
+  if (operatorCmd) {
+    const cfg = readDiscordChannelEnv({ ...readEnv(), ...process.env });
+    if (resolveChannelRole(channelId, cfg) !== "command") {
+      const out = await sendOpsReply(
+        channelId,
+        token,
+        "shizume",
+        "🛡️ **しずめ** — tk 開発者コマンドは **司令部**（`DISCORD_COMMAND_CHANNEL_ID`）でのみ実行できます。"
+      );
+      if (out?.id) lastMessageId = out.id;
+      return true;
+    }
+    const result = executeOperatorDevCommand(operatorCmd, {
+      root: BASE,
+      memoryDir: MEMORY_DIR,
+      authorId,
+      operatorUserId: cfg.operatorUserId,
+      mergeTestMode: true,
+    });
+    if (result.scheduleRestart) {
+      scheduleDiscordBotRestart({ reason: "discord-!restart" });
+      exitAfterBotRestartScheduled(2500);
+    }
+    const out = await sendOpsReply(channelId, token, result.agentId, result.text);
+    if (out?.id) lastMessageId = out.id;
+    if (result.scheduleRestart) saveIntakeCursor(channelId, lastMessageId);
     return true;
   }
 
@@ -2974,7 +3027,8 @@ async function handleMemoryCommand(text, channelId, token) {
         "`/memory approve <id>` — tk承認として USER.md に反映",
         "`/memory reject <id>` — 候補を却下",
         "`/memory list` — pending候補を表示",
-        "SOUL.md は自動変更しません。Dreaming は定期実行も propose-only（承認まで USER/SOUL 不変）。",
+        "SOUL.md は自動変更しません。Dreaming は汚染フィルタ通過候補を USER.md に自動反映（SOUL は manual only）。",
+        buildOperatorCommandsHelp(),
       ].join("\n")
     );
     return;
@@ -2992,11 +3046,17 @@ async function handleMemoryCommand(text, channelId, token) {
     });
     const lines = result.created.length
       ? [
-          `🧠 **memory review** — ${result.created.length} 件の候補を proposals/ に作成しました。`,
+          `🧠 **memory review** — ${result.created.length} 件の候補を処理しました。`,
+          result.autoApplied?.length
+            ? `✅ 自動反映（USER.md）: ${result.autoApplied.length} 件`
+            : "",
+          result.heldForTk?.length
+            ? `⏸ tk承認待ち: ${result.heldForTk.length} 件（/memory approve）`
+            : "",
           ...result.created.map((p) => `- \`${p.id}\` → ${p.destination}: ${p.proposedLine}`),
           "",
-          "反映するなら `/memory approve <id>`、却下は `/memory reject <id>`。",
-        ]
+          "汚染候補は自動反映しません。`/memory list` で事後確認できます。",
+        ].filter(Boolean)
       : [
           "🧠 **memory review** — USER.md に提案できる安全な候補は見つかりませんでした。",
           "Poisoning/secret/安全境界上書き系は候補化しません。",

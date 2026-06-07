@@ -83,7 +83,7 @@ export function isLaterHandledSlashCommand(content) {
 }
 
 const OPS_COMMAND_RE =
-  /^!(dev-pipeline|human-go|governance|reply-status|obsidian-status)\b/i;
+  /^!(dev-pipeline|human-go|governance|reply-status|obsidian-status|merge|push|check|restart|log)\b/i;
 
 /**
  * @param {string} content

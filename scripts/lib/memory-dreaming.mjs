@@ -140,16 +140,40 @@ export function formatMemoryProposal({ id, candidate, createdAt }) {
   ].join("\n");
 }
 
-export function reviewMemoryTurns(memoryDir, turns, { now = new Date() } = {}) {
+export function reviewMemoryTurns(memoryDir, turns, { now = new Date(), autoApplyClean = true } = {}) {
   const candidates = extractMemoryCandidates(turns);
   const created = [];
+  const autoApplied = [];
+  const heldForTk = [];
   for (const [index, candidate] of candidates.entries()) {
     const id = makeProposalId(now, index);
     const p = proposalPath(memoryDir, id);
     writeFileSync(p, formatMemoryProposal({ id, candidate, createdAt: now.toISOString() }), "utf-8");
-    created.push({ id, path: p, ...candidate });
+    const row = { id, path: p, ...candidate };
+    created.push(row);
+
+    const destination = String(candidate.destination ?? "");
+    const soulTarget = /SOUL\.md/i.test(destination);
+    const canAuto =
+      autoApplyClean &&
+      !soulTarget &&
+      !isUnsafeMemoryEvidence(candidate.proposedLine) &&
+      !isUnsafeMemoryEvidence(candidate.evidence);
+
+    if (canAuto) {
+      const approved = approveMemoryProposal(memoryDir, id);
+      if (approved.ok) autoApplied.push({ ...row, appliedTo: approved.appliedTo });
+      else heldForTk.push({ ...row, error: approved.error });
+    } else {
+      heldForTk.push({ ...row, reason: soulTarget ? "soul_manual_only" : "unsafe_or_blocked" });
+    }
   }
-  return { created, skipped: (turns?.length ?? 0) - candidates.length };
+  return {
+    created,
+    autoApplied,
+    heldForTk,
+    skipped: (turns?.length ?? 0) - candidates.length,
+  };
 }
 
 function readProposal(memoryDir, id) {

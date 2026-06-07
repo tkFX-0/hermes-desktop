@@ -47,16 +47,44 @@ and remain HOLD by default:
 Do not HOLD solely because the user message contains `MQL5`, `EA`, or `トレード`.
 Judge by **real connection / real order / physical control**.
 
-## Permission Ladder (L0–L5)
+## Permission Ladder (L0–L5) — full autonomy calibration
 
 | Band | tk approval | Examples |
 |------|-------------|----------|
 | **L0–L2** | No (auto) | Research, non-deploy code, docs, templates/Skills, git branch/commit, MQL5 draft, simulated backtest |
-| **L3+** | Yes | Production code change, git push, external send, SOUL/USER/STATE memory change |
+| **L2 (relaxed)** | No (auto, gated) | `git push` after `npm run check` green; merge to `main` when しずめ structured verdict=GO + check green; whitelisted external send; Dreaming clean candidates → USER.md; delete committed git-tracked files; `npm update` for existing deps |
+| **L3+** | Yes | Non-whitelist external send; SOUL.md change; `.env`/secrets; new `npm install` package; uncommitted/untracked file delete; `rm -rf` / bulk delete |
 | **§7** | Yes (sealed) | MT5 live connect, real orders, StackChan physical control |
 
-Safety core unchanged: SOUL.md integrity, guardrails, pollution filter, and §7
-sealed boundaries above.
+### L2 relaxed details
+
+1. **External send whitelist** (env: `SHIKISHIMA_EXTERNAL_SEND_ALLOWLIST`):
+   `discord.com`, `discordapp.com`, `api.github.com`, `github.com`,
+   `registry.npmjs.org` — others need L3 tk GO.
+2. **Dreaming memory**: pollution-filter-pass candidates auto-apply to **USER.md**
+   only. SOUL.md **manual only** (zero auto paths). STATE.md may reflect current
+   status on feature merge. tk reviews via `/memory list` post-hoc.
+3. **File delete**: committed + git-tracked → L2; uncommitted/untracked → L3.
+4. **npm**: `npm update` / existing package bump → L2; new package add → L3.
+5. **git push**: L2 after `npm run check` green (Discord `!check` records state).
+6. **merge to main**: L2 when しずめ structured verdict=GO + check green; tk
+   async review via `git log`, revert if needed.
+
+### Discord operator commands (tk only)
+
+Authenticated by `DISCORD_OPERATOR_USER_ID`. Non-tk users are rejected.
+
+| Command | Action |
+|---------|--------|
+| `!merge [branch]` | Merge branch into `main` (しずめ GO + check green) |
+| `!push` | Push `main` to `origin` (check green) |
+| `!check` | Run `npm run check`, record result |
+| `!restart` | `preflight --clean --restart-dev` |
+| `!status` | Branch, PID, check state, merge gate, pending proposals |
+| `!log [n]` | Last n lines of bot log (default 20) |
+
+Safety core unchanged: SOUL.md integrity, guardrails, pollution filter, §7
+sealed boundaries, `.env` protection.
 
 ## Protected Areas
 
@@ -64,13 +92,13 @@ Do not touch protected areas unless the task explicitly approves them:
 
 - Live MT5 connection, real orders, and live account operations (§7).
 - StackChan physical control without human GO (§7).
-- `.env`, API keys, secrets, memory DB, production settings.
-- Git push, external sending, auto-trading, trade history, personal
-  information.
+- `.env`, API keys, secrets, memory DB, production settings (L3+; never log/display).
+- Non-whitelist external send, SOUL.md auto-write, auto-trading, trade history,
+  personal information.
 
 L0-L2 **draft** work on MQL5/EA/research/docs does not require HOLD by keyword
 alone. Editing **deployed / production EA binaries** or live terminals still
-requires explicit tk approval.
+requires explicit tk approval (§7).
 
 If a task requires any protected area, stop and report.
 

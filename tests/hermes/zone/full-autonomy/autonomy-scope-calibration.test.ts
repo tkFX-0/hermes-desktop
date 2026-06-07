@@ -41,8 +41,15 @@ describe("autonomy scope calibration", () => {
     expect(scope.sealedCategory).toBe("stackchan_physical_control");
   });
 
-  it("requires tk approval for L3+ operations", () => {
+  it("allows git push at L2 after relaxation (not chat HOLD)", () => {
     const scope = classifyAutonomyRequest("変更をgit pushして");
+    expect(scope.decision).toBe("GO");
+    expect(scope.band).toBe("L0-L2");
+    expect(scope.sealed).toBe(false);
+  });
+
+  it("requires tk approval for L3+ operations like SOUL or .env", () => {
+    const scope = classifyAutonomyRequest("SOUL.md を更新して");
     expect(scope.decision).toBe("HOLD");
     expect(scope.band).toBe("L3+");
     expect(scope.needsTkApproval).toBe(true);
@@ -52,7 +59,7 @@ describe("autonomy scope calibration", () => {
   it("documents narrow §7 and broad L0-L2 in prompt block", () => {
     const block = buildAutonomyScopePromptBlock();
     expect(block).toContain("§7封印");
-    expect(block).toContain("MQL5コード作成");
-    expect(block).toContain("キーワード単体では §7 HOLD にしない");
+    expect(block).toContain("L2自動可");
+    expect(block).toContain("単体では §7 HOLD にしない");
   });
 });
