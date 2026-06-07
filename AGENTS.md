@@ -12,6 +12,21 @@ This file applies to work in this repository. For しきしま work
 Proceed in small, safe steps. Do not cross into high-risk boundaries without
 explicit user approval.
 
+## Post-Update Restart (tk operator preference)
+
+After code or config updates that affect SideBot / Discord bot behavior, **always
+run a restart** so changes take effect. tk expects this every time; do not skip
+unless tk says otherwise.
+
+Preferred command (local):
+
+```text
+node scripts/shikishima-process-preflight.mjs --clean --restart-dev
+```
+
+Alternative: Discord `!tnt` (same preflight path). Report restart completion in
+the Japanese final report.
+
 ## Protected Areas
 
 Do not touch protected areas unless the task explicitly approves them:

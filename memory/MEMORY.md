@@ -6,6 +6,7 @@
 
 - ユーザーは **バイブコーダー**（コーディングは主に AI に任せる）
 - 実機作業は **電源・Wi‑Fi・許可GO・耳での判定・チャット報告** が中心
+- **コード更新後は毎回 SideBot 再起動**（`node scripts/shikishima-process-preflight.mjs --clean --restart-dev` または Discord `!tnt`）。tk が動作確認する。
 - 詳細手順: `docs/shikishima/STACKCHAN_REAL_DEVICE_GO_OPERATOR_GUIDE.md`
 
 ## StackChan 実機GO（要約）
