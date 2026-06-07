@@ -8,6 +8,19 @@ import { join } from "node:path";
 import { buildOperatorNotifyContent } from "./discord-human-approval-notify.mjs";
 import { safeDiscordContent } from "./discord-text-safe.mjs";
 
+/** Machine-readable shizume verdict fence tag (Discord / logs). */
+export const SHIZUME_VERDICT_FENCE = "shizume-verdict";
+
+/** @typedef {"GO" | "HOLD" | "STOP"} ShizumeGateVerdict */
+
+/**
+ * @typedef {object} ShizumeStructuredVerdict
+ * @property {ShizumeGateVerdict} verdict
+ * @property {string} reason
+ * @property {string[]} risk
+ * @property {string[]} action
+ */
+
 export const KAIHATU_AUTO_REVIEW_TESTS = [
   "tests/hermes/zone/dev-pipeline-composer-fallback.test.ts",
   "tests/hermes/zone/dev-pipeline-zone-smoke.test.ts",
@@ -178,14 +191,150 @@ export function buildShizumeAutoReviewVerdict(p) {
     (manuals.length > 0 && !devLaneClear) ||
     !p.kaihatuOk;
 
+  const structured = buildShizumeStructuredVerdict({
+    decision,
+    blockers,
+    checklist: p.checklist,
+    kaihatuOk: p.kaihatuOk,
+    vitestOk: p.vitest.ok,
+    needsHuman
+  });
+
   return {
     decision,
     blockers,
     needsHuman,
     passN,
     holdIds: holds.map((h) => h.id),
-    vitestOk: p.vitest.ok
+    vitestOk: p.vitest.ok,
+    structured
   };
+}
+
+const SAFETY_CRITICAL_CHECKLIST_IDS = new Set(["11.3a", "11.3b"]);
+
+const BLOCKER_RISK_LABELS = {
+  kaihatu_dev_failed: "開発パイプライン失敗",
+  vitest_zone_failed: "zone vitest 失敗",
+  design_checklist_hold: "設計 checklist HOLD"
+};
+
+/**
+ * Map legacy auto-review state to GO / HOLD / STOP (machine gate).
+ *
+ * @param {object} p
+ * @param {string} p.decision
+ * @param {string[]} p.blockers
+ * @param {ReturnType<typeof runDesignReviewChecklistLocal>} p.checklist
+ * @param {boolean} p.kaihatuOk
+ * @param {boolean} p.vitestOk
+ * @param {boolean} p.needsHuman
+ * @returns {ShizumeStructuredVerdict}
+ */
+export function buildShizumeStructuredVerdict(p) {
+  const risks = [];
+  const actions = [];
+  const holds = p.checklist.filter((c) => c.autoResult === "hold");
+  const safetyCriticalHold = holds.some((c) => SAFETY_CRITICAL_CHECKLIST_IDS.has(c.id));
+
+  for (const blocker of p.blockers) {
+    const label = BLOCKER_RISK_LABELS[blocker];
+    if (label) risks.push(label);
+  }
+  for (const hold of holds) {
+    if (!SAFETY_CRITICAL_CHECKLIST_IDS.has(hold.id)) {
+      risks.push(`設計 checklist HOLD (${hold.id}: ${hold.prompt})`);
+    }
+  }
+  if (safetyCriticalHold) {
+    risks.push("安全不変条件の自動検証に失敗");
+  }
+
+  const dualPipelineFailure =
+    p.blockers.includes("kaihatu_dev_failed") && p.blockers.includes("vitest_zone_failed");
+
+  /** @type {ShizumeGateVerdict} */
+  let verdict = "GO";
+  let reason = "自動レビュー通過。この範囲では問題を検出していません。";
+
+  if (safetyCriticalHold || dualPipelineFailure) {
+    verdict = "STOP";
+    if (safetyCriticalHold) {
+      reason = "安全不変条件の違反を検出。操作を停止してください。";
+    } else {
+      reason = "開発パイプラインと zone vitest の両方が失敗。継続不可。";
+    }
+    actions.push("操作を止めてください。");
+    actions.push("失敗ログと checklist を手動確認してください。");
+  } else if (p.decision === "HOLD" || p.needsHuman) {
+    verdict = "HOLD";
+    if (p.blockers.includes("kaihatu_dev_failed")) {
+      reason = "開発パイプライン失敗のため HOLD。";
+    } else if (p.blockers.includes("vitest_zone_failed")) {
+      reason = "zone vitest 失敗のため HOLD。";
+    } else if (p.blockers.includes("design_checklist_hold")) {
+      reason = "設計 checklist HOLD のため HOLD。";
+    } else {
+      reason = "人間確認が必要なため HOLD。";
+    }
+    actions.push("オペレーター確認をお願いします。");
+  } else {
+    actions.push("マージ/本番は別途人間 GO。");
+  }
+
+  if (p.needsHuman && verdict !== "STOP") {
+    actions.push("本番反映は execution=disabled のまま HOLD。");
+  }
+
+  return {
+    verdict,
+    reason,
+    risk: risks,
+    action: actions
+  };
+}
+
+/**
+ * @param {ShizumeStructuredVerdict} structured
+ */
+export function formatShizumeStructuredVerdictJson(structured) {
+  return JSON.stringify(structured, null, 0);
+}
+
+/**
+ * @param {ShizumeStructuredVerdict} structured
+ */
+export function formatShizumeStructuredVerdictBlock(structured) {
+  return `\`\`\`${SHIZUME_VERDICT_FENCE}\n${formatShizumeStructuredVerdictJson(structured)}\n\`\`\``;
+}
+
+/**
+ * Extract structured verdict JSON from shizume reply text.
+ *
+ * @param {string} text
+ * @returns {ShizumeStructuredVerdict | null}
+ */
+export function parseShizumeStructuredVerdict(text) {
+  const fence = new RegExp(
+    `\`\`\`${SHIZUME_VERDICT_FENCE}\\s*\\n([\\s\\S]*?)\\n\`\`\``,
+    "i"
+  );
+  const m = fence.exec(text);
+  if (!m) return null;
+  try {
+    const parsed = JSON.parse(m[1].trim());
+    if (!parsed || typeof parsed !== "object") return null;
+    const verdict = parsed.verdict;
+    if (verdict !== "GO" && verdict !== "HOLD" && verdict !== "STOP") return null;
+    return {
+      verdict,
+      reason: String(parsed.reason ?? ""),
+      risk: Array.isArray(parsed.risk) ? parsed.risk.map(String) : [],
+      action: Array.isArray(parsed.action) ? parsed.action.map(String) : []
+    };
+  } catch {
+    return null;
+  }
 }
 
 /**
@@ -242,9 +391,16 @@ export function runKaihatuAutoReview(opts) {
     lines.push("", "→ 自動レビュー通過。マージ/本番は別途人間 GO。");
   }
 
+  lines.push(
+    "",
+    `構造化判定: **${verdict.structured.verdict}** — ${verdict.structured.reason}`,
+    formatShizumeStructuredVerdictBlock(verdict.structured)
+  );
+
   return {
     text: safeDiscordContent(lines.join("\n").slice(0, 1900)),
     verdict,
+    structuredVerdict: verdict.structured,
     vitest,
     notifyContent,
     needsHuman: verdict.needsHuman
