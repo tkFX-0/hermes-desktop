@@ -10,6 +10,7 @@ import {
   appendThreadMessage,
   buildAgentThreadContext,
   buildRoomStatusReport,
+  compactThreadIfNeeded,
   loadChannelThreads,
   mergeDiscordSnapshotIntoThread,
   rebuildPerAgentThreadsFromShared
@@ -101,5 +102,63 @@ describe("discord agent thread store", () => {
     expect(added).toBe(0);
     const state = loadChannelThreads(channelId);
     expect(state.sharedLog.length).toBe(1);
+  });
+
+  it("keeps cross-engine context available without carrying engine error text", () => {
+    appendThreadMessage(channelId, {
+      role: "user",
+      content: "handoff topic: memory layer current state",
+      authorLabel: "tk"
+    });
+    appendThreadMessage(channelId, {
+      role: "assistant",
+      agentId: "shikishima",
+      content: "Current state: Dreaming propose-only is implemented."
+    });
+    appendThreadMessage(channelId, {
+      role: "assistant",
+      agentId: "hajime",
+      content: "You've hit your session limit · resets later"
+    });
+
+    const hajimeContext = buildAgentThreadContext(channelId, "hajime", { maxChars: 3000 });
+
+    expect(hajimeContext).toContain("handoff topic: memory layer current state");
+    expect(hajimeContext).toContain("Dreaming propose-only is implemented");
+    expect(hajimeContext).not.toContain("session limit");
+    expect(hajimeContext).not.toContain("You've hit");
+  });
+
+  it("compacts old usable turns while excluding engine errors from summary and recent context", async () => {
+    for (let i = 0; i < 16; i++) {
+      appendThreadMessage(channelId, {
+        role: i % 2 === 0 ? "user" : "assistant",
+        agentId: i % 2 === 0 ? undefined : "shikishima",
+        content: `turn-${i}: useful handoff fact`
+      });
+    }
+    appendThreadMessage(channelId, {
+      role: "assistant",
+      agentId: "hajime",
+      content: "Rate limit exceeded while calling codex"
+    });
+
+    const result = await compactThreadIfNeeded(channelId, {
+      recentTurns: 6,
+      summarizeFn: ({ turns }) => {
+        expect(turns.map((t) => t.content).join("\n")).not.toContain("Rate limit");
+        return `summary kept ${turns.length} useful turns`;
+      }
+    });
+
+    expect(result.compacted).toBe(true);
+    const state = loadChannelThreads(channelId);
+    expect(state.summary).toContain("summary kept");
+    expect(state.sharedLog.length).toBeLessThanOrEqual(6);
+
+    const ctx = buildAgentThreadContext(channelId, "shikishima", { maxChars: 3000 });
+    expect(ctx).toContain("[thread-summary]");
+    expect(ctx).toContain("summary kept");
+    expect(ctx).not.toContain("Rate limit exceeded");
   });
 });

@@ -40,7 +40,15 @@ const THREAD_CONTEXT_NOISE_PATTERNS = [
   /x-codex-turn-metadata/i,
   /codex_api::endpoint/i,
   /failed to connect to websocket/i,
-  /stream disconnected before completion/i
+  /stream disconnected before completion/i,
+  /session limit/i,
+  /rate limit/i,
+  /usage limit/i,
+  /currently unavailable/i,
+  /temporarily unavailable/i,
+  /currently unable to respond/i,
+  /現在応答できません/i,
+  /しばらくお待ちください/i
 ];
 
 const AGENT_LABELS = {
