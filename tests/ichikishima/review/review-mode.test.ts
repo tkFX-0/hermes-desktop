@@ -53,7 +53,8 @@ describe("Ichikishima Review Mode", () => {
 
   it.each([
     [".env に触れた", ".env"],
-    ["MT5関連に触れた", "MT5"],
+    ["MT5実接続した", "MT5実接続"],
+    ["リアル発注した", "リアル発注"],
     ["memory DB更新に進んだ", "memory DB更新"],
     ["外部通信した", "外部通信"],
     ["git pushした", "git push"],

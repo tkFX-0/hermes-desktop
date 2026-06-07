@@ -46,8 +46,11 @@ const highRiskTerms: ReviewTerm[] = [
   { term: "memory db", reason: "memory DBへの接触が示されています" },
   { term: "memory DB", reason: "memory DBへの接触が示されています" },
   { term: "memory DB更新", reason: "memory DB更新が示されています" },
-  { term: "MT5", reason: "MT5関連への接触が示されています" },
-  { term: "EA本体", reason: "EA本体への接触が示されています" },
+  { term: "MT5実接続", reason: "MT5実接続が示されています" },
+  { term: "MT5に接続", reason: "MT5実接続が示されています" },
+  { term: "リアル発注", reason: "リアル発注が示されています" },
+  { term: "実口座", reason: "実口座操作が示されています" },
+  { term: "EA本体デプロイ", reason: "EA本番デプロイが示されています" },
   { term: "外部通信", reason: "外部通信が示されています" },
   { term: "git push", reason: "git pushが示されています" },
   { term: "npm install", reason: "依存追加が示されています" },
@@ -75,8 +78,9 @@ const nextStepRiskTerms: ReviewTerm[] = [
   { term: "git実行", reason: "git実行は追加レビューが必要です" },
   { term: "外部通信", reason: "外部通信は追加レビューが必要です" },
   { term: "memory DB", reason: "memory DBは追加レビューが必要です" },
-  { term: "MT5", reason: "MT5関連は追加レビューが必要です" },
-  { term: "EA本体", reason: "EA本体は追加レビューが必要です" },
+  { term: "MT5実接続", reason: "MT5実接続は追加レビューが必要です" },
+  { term: "リアル発注", reason: "リアル発注は追加レビューが必要です" },
+  { term: "EA本番デプロイ", reason: "EA本番デプロイは追加レビューが必要です" },
 ];
 
 function includesTerm(text: string, term: string): boolean {

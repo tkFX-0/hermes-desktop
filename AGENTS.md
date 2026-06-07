@@ -27,14 +27,50 @@ node scripts/shikishima-process-preflight.mjs --clean --restart-dev
 Alternative: Discord `!tnt` (same preflight path). Report restart completion in
 the Japanese final report.
 
+## §7 Sealed Scope (absolute HOLD)
+
+§7 applies **only** to live / physical boundaries. These require explicit tk GO
+and remain HOLD by default:
+
+- MT5 **real connection** (terminal login, live bridge, live account wiring)
+- **Real orders** and live account operations (place, modify, close, lot sizing on
+  live/real accounts)
+- **StackChan physical control** (motion, camera, servo, real device actuation)
+
+**Not §7** — agents may proceed at L0-L2 without treating these as sealed:
+
+- MQL5 / EA **code authoring** (non-deploy)
+- Backtest and **simulation** only
+- Trade **research**, articles, templates, Skill creation
+- Referencing external EA code or docs (read/analyze/draft)
+
+Do not HOLD solely because the user message contains `MQL5`, `EA`, or `トレード`.
+Judge by **real connection / real order / physical control**.
+
+## Permission Ladder (L0–L5)
+
+| Band | tk approval | Examples |
+|------|-------------|----------|
+| **L0–L2** | No (auto) | Research, non-deploy code, docs, templates/Skills, git branch/commit, MQL5 draft, simulated backtest |
+| **L3+** | Yes | Production code change, git push, external send, SOUL/USER/STATE memory change |
+| **§7** | Yes (sealed) | MT5 live connect, real orders, StackChan physical control |
+
+Safety core unchanged: SOUL.md integrity, guardrails, pollution filter, and §7
+sealed boundaries above.
+
 ## Protected Areas
 
 Do not touch protected areas unless the task explicitly approves them:
 
-- Existing EA code or MT5-related files.
+- Live MT5 connection, real orders, and live account operations (§7).
+- StackChan physical control without human GO (§7).
 - `.env`, API keys, secrets, memory DB, production settings.
 - Git push, external sending, auto-trading, trade history, personal
   information.
+
+L0-L2 **draft** work on MQL5/EA/research/docs does not require HOLD by keyword
+alone. Editing **deployed / production EA binaries** or live terminals still
+requires explicit tk approval.
 
 If a task requires any protected area, stop and report.
 
