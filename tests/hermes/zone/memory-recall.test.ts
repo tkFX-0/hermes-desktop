@@ -105,8 +105,36 @@ describe("memory recall", () => {
     expect(block).toContain("Historical conversation snippets only");
     expect(block).toContain("Current state from SOUL/USER/current conversation has priority");
     expect(block).toContain("If historical recall conflicts with current state, use the current state");
+    expect(block).toContain("At that historical date it was described that way");
+    expect(block).toContain("current state may have changed");
     expect(block).toContain("historical 2026-06-01");
+    expect(block).toContain("[historical-status: verify-current-state-before-answering]");
     expect(block).toContain("Dreaming is not implemented yet");
+  });
+
+  it("deduplicates repeated recall snippets", () => {
+    const memoryDir = makeMemoryDir();
+    writeThread(memoryDir, "123", [
+      {
+        role: "assistant",
+        agentId: "shikishima",
+        content: "Dreaming is not implemented yet and should be designed later.",
+        at: "2026-06-01T10:00:00",
+      },
+      {
+        role: "assistant",
+        agentId: "shikishima",
+        content: "Dreaming is not implemented yet and should be designed later.",
+        at: "2026-06-01T10:00:00",
+      },
+    ]);
+
+    const block = buildRecallMemoryBlock({
+      memoryDir,
+      query: "remember Dreaming status",
+    });
+
+    expect(block.match(/Dreaming is not implemented yet/g)?.length).toBe(1);
   });
 
   it("does not recall poisoning instructions as executable context", () => {
