@@ -48,6 +48,17 @@ export function getActiveGoal(memoryDir) {
   return null;
 }
 
+export function loadGoalById(memoryDir, goalId) {
+  if (!goalId) return null;
+  const path = join(goalsDir(memoryDir), `${goalId}.json`);
+  if (!existsSync(path)) return null;
+  try {
+    return JSON.parse(readFileSync(path, "utf8"));
+  } catch {
+    return null;
+  }
+}
+
 // ─── ステップパーサー ─────────────────────────────────────────────────────────
 
 export function parseStepsFromLLM(text) {

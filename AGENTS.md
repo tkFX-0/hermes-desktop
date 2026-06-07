@@ -82,6 +82,18 @@ Authenticated by `DISCORD_OPERATOR_USER_ID`. Non-tk users are rejected.
 | `!restart` | `preflight --clean --restart-dev` |
 | `!status` | Branch, PID, check state, merge gate, pending proposals |
 | `!log [n]` | Last n lines of bot log (default 20) |
+| `!idea <title> — <criteria>` | Append pending idea to `.shikishima-memory/IDEAS.md` |
+
+### Autonomous product pipeline
+
+- **IDEAS.md** (`.shikishima-memory/IDEAS.md`, gitignored): tk writes ideas;
+  `!idea` appends `pending` entries. Initial seed includes five prioritized ideas.
+- **dev-scheduler** (`SHIKISHIMA_DEV_PIPELINE_ENABLED`, tick default 10 min):
+  picks `pending` by priority → auto `/goal` (はじめ→しるべ→つむぎ→しずめ→しるべ) →
+  しずめ GO + `npm run check` green → auto merge (feature branch) → **team quality review**
+  (all six agents PASS/NEEDS_WORK, max 3 rounds, 24h timeout, TokenTracker slowdown).
+- **Completion**: `outputs/<slug>/`, STATE.md update, Discord notify.
+- **HOLD**: しずめ HOLD/STOP, 3-round failure, or 24h → tk notify, pipeline idle.
 
 Safety core unchanged: SOUL.md integrity, guardrails, pollution filter, §7
 sealed boundaries, `.env` protection.

@@ -268,5 +268,8 @@ export function buildOperatorCommandsHelp() {
     "`!restart` — bot 再起動（preflight --clean --restart-dev）",
     "`!status` — branch / PID / check / merge gate / pending HOLD",
     "`!log [n]` — 直近 n 行の bot ログ（default 20）",
+    "",
+    "**自律開発**（司令部）",
+    "`!idea <タイトル> — <完成条件>` — IDEAS.md に pending 追記",
   ].join("\n");
 }

@@ -127,9 +127,23 @@ import {
 import { detectOperatorEngineSelection, isIdentityOrSafetyChangeRequest } from "./lib/operator-engine-select.mjs";
 import { buildCoreMemoryBlock } from "./lib/core-memory-context.mjs";
 import {
-  createGoal, saveGoal, getActiveGoal,
+  createGoal, saveGoal, getActiveGoal, loadGoalById,
   parseStepsFromLLM, formatGoalStatus, formatGoalPlanReady, L3_HOLD_PROMPT,
 } from "./lib/goal-engine.mjs";
+import {
+  appendIdea,
+  ensureIdeasFile,
+  parseIdeaCommand,
+} from "./lib/ideas-md.mjs";
+import {
+  buildGoalDescriptionFromIdea,
+  buildProductPipelineSteps,
+  resolveCurrentGitBranch,
+  resolveDevPipelineConfig,
+  runDevProductPipelineTick,
+  scanProductArtifacts,
+} from "./lib/dev-product-pipeline.mjs";
+import { isNpmCheckGreen } from "./lib/npm-check-state.mjs";
 import { buildGoalMobileReport } from "./lib/goal-mobile-report.mjs";
 import { isGoalSlashCommand, isCliCapacityError } from "./lib/goal-slash-routing.mjs";
 import {
@@ -1916,6 +1930,102 @@ function startDreamingSchedule(channelId, token, getEnv = readEnv) {
   }, config.tickMs);
 }
 
+// ─── 自律開発パイプライン (IDEAS.md → /goal → 全員レビュー) ─────────────────
+
+async function startProductGoalFromIdea(idea, options = {}) {
+  const feedback = options.feedback ?? [];
+  const existing = getActiveGoal(MEMORY_DIR);
+  if (existing && existing.status !== "completed" && existing.status !== "cancelled") {
+    return { ok: false, error: "active_goal_exists" };
+  }
+  const desc = buildGoalDescriptionFromIdea(idea, feedback);
+  const goal = createGoal(MEMORY_DIR, desc);
+  goal.steps = buildProductPipelineSteps({ idea, feedback });
+  goal.currentStep = 0;
+  goal.meta = {
+    productPipeline: true,
+    ideaTitle: idea.title,
+    round: options.round ?? 1,
+  };
+  saveGoal(MEMORY_DIR, goal);
+  const channelId = options.channelId ?? "";
+  const authToken = options.token ?? "";
+  if (channelId && authToken) {
+    await sendReply(
+      channelId,
+      authToken,
+      "shikishima",
+      `🎯 **自律開発 goal 起動**: ${idea.title}\n${formatGoalPlanReady(goal)}`
+    );
+    runGoalSteps(goal, channelId, authToken).catch((e) =>
+      console.warn("[DevPipeline] goal step error:", e?.message ?? e)
+    );
+  }
+  return { ok: true, goalId: goal.id };
+}
+
+function buildDevPipelineDeps(channelId, token) {
+  const mergedEnv = { ...readEnv(), ...process.env };
+  const roomCfg = readDiscordChannelEnv(mergedEnv);
+  return {
+    getActiveGoal: () => getActiveGoal(MEMORY_DIR),
+    getGoal: (id) => loadGoalById(MEMORY_DIR, id),
+    startGoalFromIdea: (idea, opts = {}) =>
+      startProductGoalFromIdea(idea, { ...opts, channelId, token }),
+    isCheckGreen: () => isNpmCheckGreen(MEMORY_DIR),
+    scanArtifacts: (idea) =>
+      scanProductArtifacts(BASE, idea, { checkGreen: isNpmCheckGreen(MEMORY_DIR) }),
+    autoMerge: async () => {
+      const branch = resolveCurrentGitBranch(BASE);
+      if (!branch || branch === "main") {
+        return { ok: true, text: "main 上 — merge スキップ" };
+      }
+      const result = executeOperatorDevCommand(
+        { type: "merge", branch },
+        {
+          root: BASE,
+          memoryDir: MEMORY_DIR,
+          authorId: roomCfg.operatorUserId,
+          operatorUserId: roomCfg.operatorUserId,
+          mergeTestMode: true,
+        }
+      );
+      return { ok: result.ok, text: result.text };
+    },
+    notify: async (text, agentId = "shikishima") => {
+      await sendReply(channelId, token, agentId, text);
+    },
+    operatorUserId: roomCfg.operatorUserId,
+    testMode: true,
+    env: mergedEnv,
+  };
+}
+
+function startDevProductPipeline(channelId, token, getEnv = readEnv) {
+  const config = resolveDevPipelineConfig((key) => getEnv()[key] ?? process.env[key]);
+  if (!config.enabled) {
+    console.log("[DevPipeline] disabled (SHIKISHIMA_DEV_PIPELINE_ENABLED=0)");
+    return;
+  }
+  ensureIdeasFile(MEMORY_DIR);
+  console.log(
+    `[DevPipeline] schedule ON — tick every ${config.tickMs / 60_000}min, IDEAS.md pending → /goal`
+  );
+  setInterval(async () => {
+    try {
+      const result = await runDevProductPipelineTick(MEMORY_DIR, BASE, {
+        ...buildDevPipelineDeps(channelId, token),
+        config,
+      });
+      if (result.action && result.action !== "idle_no_pending" && result.action !== "goal_running") {
+        console.log(`[DevPipeline] tick: ${result.action}`);
+      }
+    } catch (e) {
+      console.error("[DevPipeline]", e?.message ?? e);
+    }
+  }, config.tickMs);
+}
+
 function startSessionLogger() {
   let savedToday = "";
   setInterval(() => {
@@ -2465,6 +2575,7 @@ function isExclusiveSlashCommand(content) {
   if (isMemorySlashCommand(t)) return true;
   if (parseDevSlashCommand(t)) return true;
   if (parseOperatorDevCommand(t)) return true;
+  if (parseIdeaCommand(t)) return true;
   return Boolean(matchOpsCommand(t)) || /^dev-pipeline$/i.test(t);
 }
 
@@ -2741,6 +2852,29 @@ async function handleExclusiveSlashCommands(content, channelId, token, authorId 
         threadMemory: true
       })
     );
+    if (out?.id) lastMessageId = out.id;
+    return true;
+  }
+
+  const ideaCmd = parseIdeaCommand(t);
+  if (ideaCmd) {
+    const cfg = readDiscordChannelEnv({ ...readEnv(), ...process.env });
+    if (resolveChannelRole(channelId, cfg) !== "command") {
+      const out = await sendOpsReply(
+        channelId,
+        token,
+        "shikishima",
+        "💡 `!idea` は **司令部**（`DISCORD_COMMAND_CHANNEL_ID`）でのみ受け付けます。"
+      );
+      if (out?.id) lastMessageId = out.id;
+      return true;
+    }
+    ensureIdeasFile(MEMORY_DIR);
+    const appended = appendIdea(MEMORY_DIR, ideaCmd);
+    const msg = appended.ok
+      ? `💡 **アイデア登録**: ${ideaCmd.title}\n完成条件: ${ideaCmd.completionCriteria}\n状態: \`pending\` — dev-scheduler が次のスキャンで拾います`
+      : `⚠️ アイデア登録失敗: ${appended.error ?? "unknown"}${appended.title ? ` (${appended.title})` : ""}`;
+    const out = await sendOpsReply(channelId, token, "shikishima", msg);
     if (out?.id) lastMessageId = out.id;
     return true;
   }
@@ -4390,6 +4524,7 @@ async function main() {
   }
   startSessionLogger();                                       // Lv3-C しるべ記録
   startDreamingSchedule(channelId, token);                    // Dreaming propose-only 定期レビュー
+  startDevProductPipeline(channelId, token);                  // IDEAS.md → 自律開発パイプライン
   scheduleMorningAudit(channelId, token);                     // 毎朝9:00 リポジトリ監査
 
   // 起動時セルフ診断 → Discordに送信
