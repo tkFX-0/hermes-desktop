@@ -86,6 +86,29 @@ describe("memory recall", () => {
     expect(block).not.toContain("example.test");
   });
 
+  it("labels snippets as historical and prioritizes current state over stale recall", () => {
+    const memoryDir = makeMemoryDir();
+    writeThread(memoryDir, "123", [
+      {
+        role: "user",
+        authorLabel: "tk",
+        content: "Dreaming is not implemented yet and should be designed later.",
+        at: "2026-06-01T10:00:00",
+      },
+    ]);
+
+    const block = buildRecallMemoryBlock({
+      memoryDir,
+      query: "remember Dreaming status",
+    });
+
+    expect(block).toContain("Historical conversation snippets only");
+    expect(block).toContain("Current state from SOUL/USER/current conversation has priority");
+    expect(block).toContain("If historical recall conflicts with current state, use the current state");
+    expect(block).toContain("historical 2026-06-01");
+    expect(block).toContain("Dreaming is not implemented yet");
+  });
+
   it("does not recall poisoning instructions as executable context", () => {
     const memoryDir = makeMemoryDir();
     writeThread(memoryDir, "123", [
