@@ -187,6 +187,12 @@ import {
   rejectMemoryProposal,
   reviewMemoryTurns,
 } from "./lib/memory-dreaming.mjs";
+import {
+  markMemoryDreamingReviewCompleted,
+  recordDreamingUserMessage,
+  resolveDreamingScheduleConfig,
+  runScheduledMemoryDreamingReview,
+} from "./lib/memory-dreaming-schedule.mjs";
 import { buildRecallMemoryBlock } from "./lib/memory-recall.mjs";
 import { buildRuntimeSkillsContextForPrompt } from "./lib/shikishima-runtime-skills.mjs";
 import { ensurePerAgentWebhooks } from "./lib/discord-agent-avatars.mjs";
@@ -1862,6 +1868,31 @@ async function flushSessionLog() {
 }
 
 // 毎晩21:00 JSTにその日のログを保存
+function startDreamingSchedule(channelId, token, getEnv = readEnv) {
+  const config = resolveDreamingScheduleConfig((key) => getEnv()[key] ?? process.env[key]);
+  if (!config.enabled) {
+    console.log("[Dreaming] schedule disabled (SHIKISHIMA_DREAMING_SCHEDULE_ENABLED=0)");
+    return;
+  }
+  console.log(
+    `[Dreaming] schedule ON — every ${config.intervalMs / 3_600_000}h or ${config.messageThreshold} user msgs (propose-only)`
+  );
+  setInterval(async () => {
+    try {
+      const result = runScheduledMemoryDreamingReview(MEMORY_DIR, channelId, { config });
+      if (!result.ran) return;
+      if (result.notifyText) {
+        await sendReply(channelId, token, "shikishima", result.notifyText);
+        console.log(`[Dreaming] notify ${result.created.length} proposal(s) (${result.reason})`);
+      } else {
+        console.log(`[Dreaming] scheduled review (${result.reason}) — no new candidates`);
+      }
+    } catch (e) {
+      console.error("[Dreaming]", e?.message ?? e);
+    }
+  }, config.tickMs);
+}
+
 function startSessionLogger() {
   let savedToday = "";
   setInterval(() => {
@@ -2926,7 +2957,7 @@ async function handleMemoryCommand(text, channelId, token) {
         "`/memory approve <id>` — tk承認として USER.md に反映",
         "`/memory reject <id>` — 候補を却下",
         "`/memory list` — pending候補を表示",
-        "SOUL.md は自動変更しません。Dreamingの自動抽出もまだ定期実行しません。",
+        "SOUL.md は自動変更しません。Dreaming は定期実行も propose-only（承認まで USER/SOUL 不変）。",
       ].join("\n")
     );
     return;
@@ -2938,6 +2969,10 @@ async function handleMemoryCommand(text, channelId, token) {
       .filter((row) => row?.role === "user")
       .slice(-30);
     const result = reviewMemoryTurns(MEMORY_DIR, turns);
+    markMemoryDreamingReviewCompleted(MEMORY_DIR, {
+      reason: "manual",
+      createdCount: result.created.length,
+    });
     const lines = result.created.length
       ? [
           `🧠 **memory review** — ${result.created.length} 件の候補を proposals/ に作成しました。`,
@@ -3451,6 +3486,9 @@ async function poll(channelId, token) {
             authorLabel: msg.author?.username ?? "user",
             threadAgentId: inboundRoute?.agentId
           });
+          if (!isMemorySlashCommand(effectiveContent)) {
+            recordDreamingUserMessage(MEMORY_DIR, { channelId });
+          }
         }
       }
 
@@ -4274,6 +4312,7 @@ async function main() {
     startWeeklyBacklog(channelId, token);               // Lv5-D 月曜積み残し
   }
   startSessionLogger();                                       // Lv3-C しるべ記録
+  startDreamingSchedule(channelId, token);                    // Dreaming propose-only 定期レビュー
   scheduleMorningAudit(channelId, token);                     // 毎朝9:00 リポジトリ監査
 
   // 起動時セルフ診断 → Discordに送信
